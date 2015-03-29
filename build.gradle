@@ -68,8 +68,8 @@ uploadArchives {
       pom.project {
         name 'Gdx Lml'
         packaging 'jar'
-        description 'HTML-like templates for LibGDX Scene2D UI.'
-        url 'http://www.example.com/example-application'
+        description 'Templates for LibGDX Scene2D UI with HTML-like syntax and FreeMarker-inspired macros.'
+        url 'http://github.com/czyzby/gdx-lml'
 
         licenses {
           license {
