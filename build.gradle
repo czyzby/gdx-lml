@@ -38,7 +38,7 @@ signing {
     sign configurations.archives
 }
 
-group = "com.konfigurats.lml"
+group = "com.github.czyzby"
 archivesBaseName = "gdx-lml"
 version = "0.1.155"
 
