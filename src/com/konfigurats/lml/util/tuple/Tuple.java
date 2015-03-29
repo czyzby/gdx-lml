@@ -49,4 +49,11 @@ public interface Tuple extends Iterable<Object>, Serializable {
 
 	/** @return tuple values stored in the passed array. */
 	public <Type> Type[] toArray(Type[] array);
+
+	/** @return false if tuple cannot be mutated. */
+	public boolean isMutable();
+
+	/** @param value will be set as the value with the given index. Might be unsupported if tuple is not
+	 *            mutable. */
+	public void set(int index, Object value);
 }

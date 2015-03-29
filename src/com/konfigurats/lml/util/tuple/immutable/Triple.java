@@ -105,9 +105,9 @@ public class Triple<First, Second, Third> implements TripleTuple<First, Second, 
 
 	@Override
 	@Deprecated
-	/** @throws AssertionError on each call. Triplet is immutable. */
+	/** @throws UnsupportedOperationException on each call. Triple is immutable. */
 	public Second setValue(final Second value) {
-		throw new AssertionError("Triplet is immutable. Setting value is not supported.");
+		throw new UnsupportedOperationException("Triple cannot be modified.");
 	}
 
 	@Override
@@ -249,6 +249,18 @@ public class Triple<First, Second, Third> implements TripleTuple<First, Second, 
 	public int indexOf(final Object value) {
 		return Nullables.areEqual(value, first) ? 0 : Nullables.areEqual(value, second) ? 1 : Nullables
 				.areEqual(value, third) ? 2 : INVALID_INDEX;
+	}
+
+	@Override
+	public boolean isMutable() {
+		return false;
+	}
+
+	@Override
+	@Deprecated
+	/** @throws UnsupportedOperationException on each call. Triple is immutable. */
+	public void set(final int index, final Object value) {
+		throw new UnsupportedOperationException("Triple cannot be modified.");
 	}
 
 	@Override

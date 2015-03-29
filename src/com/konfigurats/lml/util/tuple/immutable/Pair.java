@@ -89,9 +89,9 @@ public class Pair<First, Second> implements DoubleTuple<First, Second> {
 
 	@Override
 	@Deprecated
-	/** @throws AssertionError on each call. Pair is immutable. */
+	/** @throws UnsupportedOperationException on each call. Pair is immutable. */
 	public Second setValue(final Second value) {
-		throw new AssertionError("Pair is immutable. Setting value is not supported.");
+		throw new UnsupportedOperationException("Pair cannot be modified.");
 	}
 
 	@Override
@@ -217,6 +217,18 @@ public class Pair<First, Second> implements DoubleTuple<First, Second> {
 	@Override
 	public int indexOf(final Object value) {
 		return Nullables.areEqual(value, first) ? 0 : Nullables.areEqual(value, second) ? 1 : INVALID_INDEX;
+	}
+
+	@Override
+	public boolean isMutable() {
+		return false;
+	}
+
+	@Override
+	@Deprecated
+	/** @throws UnsupportedOperationException on each call. Pair is immutable. */
+	public void set(final int index, final Object value) {
+		throw new UnsupportedOperationException("Pair cannot be modified.");
 	}
 
 	@Override

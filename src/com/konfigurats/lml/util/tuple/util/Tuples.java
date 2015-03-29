@@ -27,6 +27,13 @@ public class Tuples {
 			public Type next() {
 				return (Type) tuple.get(currentIndex++);
 			}
+
+			@Override
+			public void remove() {
+				if (tuple.isMutable()) {
+					tuple.set(currentIndex, null);
+				}
+			}
 		};
 	}
 }

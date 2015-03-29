@@ -269,6 +269,25 @@ public class MutableTriple<First, Second, Third> implements TripleTuple<First, S
 	}
 
 	@Override
+	public boolean isMutable() {
+		return true;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public void set(final int index, final Object value) {
+		if (index == 0) {
+			first = (First) value;
+		} else if (index == 1) {
+			second = (Second) value;
+		} else if (index == 2) {
+			third = (Third) value;
+		} else {
+			throw new IndexOutOfBoundsException("Invalid index passed to triple: " + index + ".");
+		}
+	}
+
+	@Override
 	public Object[] toArray() {
 		return new Object[] { first, second, third };
 	}

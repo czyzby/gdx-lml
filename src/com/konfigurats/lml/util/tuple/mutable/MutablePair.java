@@ -228,6 +228,23 @@ public class MutablePair<First, Second> implements DoubleTuple<First, Second> {
 	}
 
 	@Override
+	public boolean isMutable() {
+		return true;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public void set(final int index, final Object value) {
+		if (index == 0) {
+			first = (First) value;
+		} else if (index == 1) {
+			second = (Second) value;
+		} else {
+			throw new IndexOutOfBoundsException("Invalid index passed to pair: " + index + ".");
+		}
+	}
+
+	@Override
 	public Object[] toArray() {
 		return new Object[] { first, second };
 	}

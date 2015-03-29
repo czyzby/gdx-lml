@@ -1,6 +1,5 @@
 package com.konfigurats.lml.parser.impl;
 
-import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -35,14 +34,15 @@ import com.konfigurats.lml.util.gdx.collection.GdxMaps;
  *
  * @author MJ */
 public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
-	protected final Deque<Queue<Character>> buffer = new LinkedList<Queue<Character>>();
+	// Originally used Deque for these two, but it doesn't seem to be supported by GWT (at least 2.6.0).
+	protected final LinkedList<Queue<Character>> buffer = new LinkedList<Queue<Character>>();
+	protected final LinkedList<LmlParent<?>> widgetsHierarchy = new LinkedList<LmlParent<?>>();
 	protected final ObjectMap<String, LmlTagDataParser<?>> tagParsers = GdxMaps.newObjectMap();
 	protected final ObjectMap<String, LmlMacroParser> macroParsers = GdxMaps.newObjectMap();
 	protected final ObjectMap<String, ActionContainer> actionContainers = GdxMaps.newObjectMap();
 	protected final ObjectMap<String, ActorConsumer<?, ?>> actions = GdxMaps.newObjectMap();
 	protected final ObjectMap<String, Actor> actorsByIds = GdxMaps.newObjectMap();
 	protected final ObjectMap<String, String> arguments = GdxMaps.newObjectMap();
-	protected final Deque<LmlParent<?>> widgetsHierarchy = new LinkedList<LmlParent<?>>();
 	private boolean strict = true;
 
 	protected Skin skin;

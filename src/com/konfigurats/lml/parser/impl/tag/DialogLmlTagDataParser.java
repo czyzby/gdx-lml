@@ -3,8 +3,8 @@ package com.konfigurats.lml.parser.impl.tag;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.konfigurats.lml.gdx.widget.reflected.ReflectedLmlDialog;
 import com.konfigurats.lml.parser.LmlParser;
-import com.konfigurats.lml.parser.impl.dto.ActorConsumer;
 import com.konfigurats.lml.parser.impl.dto.LmlParent;
 import com.konfigurats.lml.parser.impl.dto.LmlTagData;
 import com.konfigurats.lml.parser.impl.tag.parent.DialogLmlParent;
@@ -14,18 +14,8 @@ public class DialogLmlTagDataParser extends WindowLmlTagDataParser<Dialog> {
 
 	@Override
 	protected Dialog prepareNewTable(final LmlTagData lmlTagData, final LmlParser parser) {
-		final Dialog dialog = new Dialog(EMPTY_STRING, parser.getSkin(), getStyleName(lmlTagData, parser)) {
-			@Override
-			protected void result(final Object object) {
-				if (object instanceof ActorConsumer<?, ?>) {
-					@SuppressWarnings("unchecked")
-					final Object result = ((ActorConsumer<?, Object>) object).consume(this);
-					if (result instanceof Boolean && ((Boolean) result).booleanValue()) {
-						cancel();
-					}
-				}
-			}
-		};
+		final Dialog dialog =
+				new ReflectedLmlDialog(EMPTY_STRING, parser.getSkin(), getStyleName(lmlTagData, parser));
 		return dialog;
 	}
 
