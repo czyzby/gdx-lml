@@ -1,0 +1,36 @@
+package com.konfigurats.lml.parser.impl.tag.parent;
+
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.konfigurats.lml.parser.LmlParser;
+import com.konfigurats.lml.parser.impl.dto.LmlParent;
+import com.konfigurats.lml.parser.impl.dto.LmlTagData;
+import com.konfigurats.lml.util.gdx.Alignment;
+
+public class WindowLmlParent<WindowWidget extends Window> extends TableLmlParent<WindowWidget> {
+	public static final String TO_TITLE_TABLE_ATTRIBUTE = "TOTITLETABLE";
+	private boolean wasTitleTableConverted;
+
+	public WindowLmlParent(final LmlTagData tagData, final WindowWidget actor, final LmlParent<?> parent,
+			final LmlParser parser) {
+		super(tagData, actor, parent, parser);
+	}
+
+	@Override
+	public void handleValidChild(final Actor child, final LmlTagData childTagData, final LmlParser parser) {
+		if (parseBoolean(childTagData, TO_TITLE_TABLE_ATTRIBUTE, parser)) {
+			validateTitleTable();
+			appendCellFromTable(actor.getButtonTable(), child, childTagData, parser);
+		} else {
+			appendCellFromTable(actor, child, childTagData, parser);
+		}
+	}
+
+	private void validateTitleTable() {
+		if (!wasTitleTableConverted) {
+			wasTitleTableConverted = true;
+			actor.getButtonTable().setFillParent(true);
+			actor.getButtonTable().align(Alignment.TOP.getAlignment());
+		}
+	}
+}
