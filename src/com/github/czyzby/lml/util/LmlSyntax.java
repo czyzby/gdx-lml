@@ -22,7 +22,7 @@ public interface LmlSyntax {
 	char PREFERENCE_SIGN = '#';
 
 	char BUNDLE_LINE_OPENING = '@';
-	String BUNDLE_LINE_ARGUMENT_SEPARATOR = "|";
+	String BUNDLE_LINE_ARGUMENT_SEPARATOR = "[|]";
 
 	String ARRAY_SEPARATOR_REGEX = ";";
 	char RANGE_ARGUMENT_OPENING = '[';

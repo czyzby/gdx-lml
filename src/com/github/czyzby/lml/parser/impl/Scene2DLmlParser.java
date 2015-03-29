@@ -100,7 +100,7 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 				}
 				if (parser.isNewLine(character)) {
 					// New line character. If a tag was opened, it's probably broken.
-					handleNewLine();
+					handleNewLine(currentRawTagData);
 					continue;
 				}
 				if (parsingWidget) {
@@ -245,14 +245,16 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 			ignoredBufferChanges += 2;
 		}
 
-		private void handleNewLine() {
-			if (parsingWidget) {
-				throw new LmlParsingException("Unexpected line end while parsing tag: " + currentRawTagData
-						+ ".", parser);
-			}
+		private void handleNewLine(final StringBuilder rawTagData) {
 			startOfLine = true;
-			// Every line of texts is passed to widgets separately to allow multiline labels, text areas etc.
-			handleDataBetweenTags(dataBetweenTags);
+			if (!parsingWidget) {
+				// Every line of texts is passed to widgets separately to allow multiline labels, text areas
+				// etc. It's up to parent how to interpret multiple appended strings.
+				handleDataBetweenTags(dataBetweenTags);
+			} else {
+				// Ensuring that unclosed tags are properly parsed:
+				rawTagData.append(SPACE);
+			}
 		}
 
 		private void handleWidgetTagParsing(final char character) {
@@ -296,6 +298,10 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 		}
 
 		private void handleTag(final Array<Actor> parsedActors, final StringBuilder rawTagData) {
+			if (rawTagData.length() == 0) {
+				parser.throwErrorIfStrict("Empty tag.");
+				return;
+			}
 			if (parser.isMacro(rawTagData)) {
 				// Tag with @ appended. Parsing marco.
 				handleMacro(rawTagData);

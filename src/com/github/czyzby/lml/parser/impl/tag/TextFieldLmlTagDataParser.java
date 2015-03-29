@@ -25,7 +25,9 @@ public class TextFieldLmlTagDataParser extends AbstractLmlTagDataParser<TextFiel
 	@Override
 	protected TextField parseChildWithValidTag(final LmlTagData lmlTagData, final LmlParser parser) {
 		final TextField textField = getNewInstance(lmlTagData, parser);
-		textField.setMessageText(lmlTagData.getAttribute(MESSAGE_ATTRIBUTE));
+		if (lmlTagData.containsAttribute(MESSAGE_ATTRIBUTE)) {
+			textField.setMessageText(parseString(lmlTagData, MESSAGE_ATTRIBUTE, parser, textField));
+		}
 		setFieldData(lmlTagData, parser, textField);
 		setSelection(lmlTagData, parser, textField);
 		setPasswordMode(lmlTagData, parser, textField);

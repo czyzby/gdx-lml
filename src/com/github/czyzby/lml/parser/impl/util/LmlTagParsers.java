@@ -5,11 +5,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.github.czyzby.lml.parser.LmlParser;
+import com.github.czyzby.lml.parser.impl.macro.AbsoluteImportLmlMacroParser;
 import com.github.czyzby.lml.parser.impl.macro.AssignLmlMacroParser;
+import com.github.czyzby.lml.parser.impl.macro.ClasspathImportLmlMacroParser;
 import com.github.czyzby.lml.parser.impl.macro.ConditionLmlMacroParser;
+import com.github.czyzby.lml.parser.impl.macro.ExternalImportLmlMacroParser;
 import com.github.czyzby.lml.parser.impl.macro.ForEachLoopLmlMacroParser;
 import com.github.czyzby.lml.parser.impl.macro.InternalImportLmlMacroParser;
 import com.github.czyzby.lml.parser.impl.macro.LmlMetaMacroParser;
+import com.github.czyzby.lml.parser.impl.macro.LocalImportLmlMacroParser;
 import com.github.czyzby.lml.parser.impl.macro.LoopLmlMacroParser;
 import com.github.czyzby.lml.parser.impl.macro.NestedForEachLoopLmlMacroParser;
 import com.github.czyzby.lml.parser.impl.tag.ButtonLmlTagDataParser;
@@ -44,7 +48,15 @@ public class LmlTagParsers {
 	public static void registerDefaultMacroSyntax(final LmlParser lmlParser) {
 		lmlParser.registerMacroParser(new LmlMetaMacroParser(), "macro");
 		lmlParser.registerMacroParser(new InternalImportLmlMacroParser(), "import", "include", "require",
-				"template");
+				"template", "internalImport", "internalInclude", "internalRequire", "internalTemplate");
+		lmlParser.registerMacroParser(new ExternalImportLmlMacroParser(), "externalImport",
+				"externalInclude", "externalRequire", "externalTemplate");
+		lmlParser.registerMacroParser(new LocalImportLmlMacroParser(), "localImport", "localInclude",
+				"localRequire", "localTemplate");
+		lmlParser.registerMacroParser(new AbsoluteImportLmlMacroParser(), "absoluteImport",
+				"absoluteInclude", "absoluteRequire", "absoluteTemplate");
+		lmlParser.registerMacroParser(new ClasspathImportLmlMacroParser(), "classpathImport",
+				"classpathInclude", "classpathRequire", "classpathTemplate");
 		lmlParser.registerMacroParser(new ForEachLoopLmlMacroParser(), "forEach", "for", "each");
 		lmlParser.registerMacroParser(new NestedForEachLoopLmlMacroParser(), "forEachNested", "nested",
 				"nestedForEach", "eachNested");

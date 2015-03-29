@@ -41,23 +41,20 @@ public class ConditionLmlMacroParent extends AbstractLmlMacroParent {
 	private boolean checkCondition(final LmlParser parser) {
 		if (arguments.size == 1) {
 			return doSingleArgumentCheck(arguments.get(0), parser);
-		} else if (arguments.size == 2) {
-			throwErrorIfStrict(parser, "Invalid arguments amount in condition.");
-		} else {
-			final String unparsedOperator = arguments.get(Operator.FIRST_OPERATOR_INDEX);
-			final Operator operator = Operator.getOperator(unparsedOperator);
-			if (operator == null) {
-				if (unparsedOperator.charAt(0) == ACTION_OPERATOR) {
-					return (Boolean) parser.findAction(unparsedOperator.substring(1), Array.class).consume(
-							arguments);
-				} else {
-					return (Boolean) parser.findAction(unparsedOperator, Array.class).consume(arguments);
-				}
-			} else {
-				return operator.checkCondition(arguments, parser, getParentActor());
-			}
 		}
-		return false;
+		final String unparsedOperator = arguments.get(Operator.FIRST_OPERATOR_INDEX);
+		final Operator operator = Operator.getOperator(unparsedOperator);
+		if (operator == null) {
+			if (unparsedOperator.charAt(0) == ACTION_OPERATOR) {
+				return (Boolean) parser.findAction(unparsedOperator.substring(1), Array.class).consume(
+						arguments);
+			}
+			// Assuming it was a null check and it received multiple arguments separated by whitespaces.
+			// It will probably be the most commonly used feature of this macro. Ignoring.
+			return true;
+		}
+		return operator.hasEnoughParameters(arguments) ? operator.checkCondition(arguments, parser,
+				getParentActor()) : true;
 	}
 
 	private boolean doSingleArgumentCheck(final String conditionArgument, final LmlParser parser) {
@@ -75,7 +72,7 @@ public class ConditionLmlMacroParent extends AbstractLmlMacroParent {
 	}
 
 	private static enum Operator {
-		EQUALS("=", "==", "===", "eq", "equals", "equal") {
+		EQUALS("=", "==", "===", "eq") {
 			@Override
 			public boolean checkCondition(final Array<String> conditionArguments, final LmlParser parser,
 					final Actor parent) throws LmlParsingException {
@@ -152,7 +149,7 @@ public class ConditionLmlMacroParent extends AbstractLmlMacroParent {
 				return secondArgument.contains(firstArgument, false);
 			}
 		},
-		MODULO("%", "mod", "md", "modulo") {
+		MODULO("%", "mod", "md") {
 			@Override
 			public boolean checkCondition(final Array<String> conditionArguments, final LmlParser parser,
 					final Actor parent) {
@@ -173,7 +170,19 @@ public class ConditionLmlMacroParent extends AbstractLmlMacroParent {
 				return modulo == 0;
 			}
 		},
-		MATCHES("mt", "rx", "mtch", "rgx", "matches", "regex") {
+		IS_LAST_IN_MODULO("!%", "lastInMod", "lastInModulo") {
+			@Override
+			public boolean checkCondition(final Array<String> conditionArguments, final LmlParser parser,
+					final Actor parent) {
+				final int firstArgument =
+						Integer.parseInt(parseFirstArgument(conditionArguments, parser, parent));
+				final int secondArgument =
+						Integer.parseInt(parseSecondArgument(conditionArguments, parser, parent));
+				final int modulo = firstArgument % secondArgument;
+				return modulo == secondArgument - 1;
+			}
+		},
+		MATCHES("mt", "rx", "mtch", "rgx", "regex") {
 			@Override
 			public boolean checkCondition(final Array<String> conditionArguments, final LmlParser parser,
 					final Actor parent) throws LmlParsingException {
@@ -228,6 +237,10 @@ public class ConditionLmlMacroParent extends AbstractLmlMacroParent {
 				}
 			}
 			return true;
+		}
+
+		public boolean hasEnoughParameters(final Array<String> arguments) {
+			return arguments.size > 2;
 		}
 
 		public static Operator getOperator(final String alias) {

@@ -151,10 +151,24 @@ public class TableLmlParent<TableWidget extends Table> extends AbstractLmlParent
 			cell.uniform(uniform, uniform);
 		}
 		if (lmlTagData.containsAttribute(UNIFORM_X_ATTRIBUTE)) {
-			cell.uniform(parseBoolean(lmlTagData, UNIFORM_X_ATTRIBUTE, parser), cell.getUniformY());
+			boolean uniformY = false;
+			try {
+				uniformY = cell.getUniformY();
+			} catch (final Exception exception) {
+				// Ugly, ugly API. Table throws NullPointerException if uniform is unset - values are stored
+				// in wrapped Booleans.
+			}
+			cell.uniform(parseBoolean(lmlTagData, UNIFORM_X_ATTRIBUTE, parser), uniformY);
 		}
 		if (lmlTagData.containsAttribute(UNIFORM_Y_ATTRIBUTE)) {
-			cell.uniform(cell.getUniformX(), parseBoolean(lmlTagData, UNIFORM_Y_ATTRIBUTE, parser));
+			boolean uniformX = false;
+			try {
+				uniformX = cell.getUniformX();
+			} catch (final Exception exception) {
+				// Ugly, ugly API. Table throws NullPointerException if uniform is unset - values are stored
+				// in wrapped Booleans.
+			}
+			cell.uniform(uniformX, parseBoolean(lmlTagData, UNIFORM_Y_ATTRIBUTE, parser));
 		}
 	}
 
