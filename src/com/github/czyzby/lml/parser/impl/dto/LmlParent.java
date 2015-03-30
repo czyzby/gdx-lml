@@ -29,7 +29,7 @@ public interface LmlParent<Widget extends Actor> {
 	/** @return actor created by the tag. */
 	Widget getActor();
 
-	/** @param actor child of the widget stored in this object. Generally appended to the widget one way or
+	/** @param child child of the widget stored in this object. Generally appended to the widget one way or
 	 *            another.
 	 * @param childTagData tag data used to create child widget. May contain attributes relevant to the
 	 *            parent. */

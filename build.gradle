@@ -16,6 +16,8 @@ repositories {
 }
 
 jar {
+    from project.sourceSets.main.allSource
+    from project.sourceSets.main.output
     baseName = 'gdx-lml'
     version =  '0.1.155'
 }
@@ -76,6 +78,12 @@ uploadArchives {
             name 'The Apache License, Version 2.0'
             url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
           }
+        }
+        
+        scm {
+          connection 'scm:git:git@github.com:czyzby/gdx-lml.git'
+          developerConnection 'scm:git:git@github.com:czyzby/gdx-lml.git'
+          url 'http://github.com/czyzby/gdx-lml/'
         }
 
         developers {

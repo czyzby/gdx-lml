@@ -86,7 +86,7 @@ public class MutableTriple<First, Second, Third> implements TripleTuple<First, S
 		return second;
 	}
 
-	/** @param first will become second value in the triple. Equivalent of setValue. */
+	/** @param second will become second value in the triple. Equivalent of setValue. */
 	public void setSecond(final Second second) {
 		this.second = second;
 	}
@@ -101,7 +101,7 @@ public class MutableTriple<First, Second, Third> implements TripleTuple<First, S
 		return third;
 	}
 
-	/** @param first will become third value in the triple. */
+	/** @param third will become third value in the triple. */
 	public void setThird(final Third third) {
 		this.third = third;
 	}

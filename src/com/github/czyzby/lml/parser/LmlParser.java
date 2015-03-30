@@ -26,7 +26,7 @@ public interface LmlParser {
 	Array<Actor> parse(String lmlDocument) throws LmlParsingException;
 
 	/** @param lmlFile file handle of a LML file.
-	 * @stage will contain all parsed actors. */
+	 * @param stage will contain all parsed actors. */
 	void fill(Stage stage, FileHandle lmlFile) throws LmlParsingException;
 
 	/** @param lmlDocument has to use LML syntax.
@@ -170,17 +170,17 @@ public interface LmlParser {
 	/** Registers all given arguments. Arguments can be referenced with ${key} in .lml. */
 	void addArguments(ObjectMap<String, String> arguments);
 
-	/** Registers actionKey proceeded with & to the argument key. Note that actions in tag attributes (like
-	 * onClick=someAction) can, but do not have to be proceeded with & - method invocation arguments are meant
-	 * for macros that will parse them to the method return results. */
+	/** Registers actionKey proceeded with &amp; to the argument key. Note that actions in tag attributes (like
+	 * onClick=someAction) can, but do not have to be proceeded with &amp; - method invocation arguments are
+	 * meant for macros that will parse them to the method return results. */
 	void addMethodInvocationArgument(String key, String actionKey);
 
-	/** Registers joined actionContainerKey and methodName, proceeded with & to the argument key. Note that
-	 * actions in tag attributes (like onClick=someAction) can, but do not have to be proceeded with & -
+	/** Registers joined actionContainerKey and methodName, proceeded with &amp; to the argument key. Note that
+	 * actions in tag attributes (like onClick=someAction) can, but do not have to be proceeded with &amp; -
 	 * method invocation arguments are meant for macros that will parse them to the method return results. */
 	void addMethodInvocationArgument(String key, String actionContainerKey, String methodName);
 
-	/** Replaces current arguments with passed values. Arguments can be referenced with ${key} in .lml. */
+	/** Replaces current arguments with passed values. Arguments can be referenced with &amp;{key} in .lml. */
 	void setArguments(ObjectMap<String, String> arguments);
 
 	/** @param actor will be mapped by its name (ID) in the parser. Note that it's done internally when parsing

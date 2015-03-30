@@ -108,7 +108,7 @@ public class Lml implements LmlSyntax {
 	}
 
 	/** @param argumentBase will be converted into a range argument (from 0 to rangeEnd). Internally, when
-	 *            marcos expect arrays, ranges are converted into arrays using this schema: tag[0-2] ->
+	 *            marcos expect arrays, ranges are converted into arrays using this schema: tag[0-2] =
 	 *            tag0,tag1,tag2. Range values cannot be negative. Ranges can be put in arrays (with other
 	 *            arguments, including other ranges). */
 	public static String toRangeArgument(final String argumentBase, final int rangeEnd) {
@@ -116,7 +116,7 @@ public class Lml implements LmlSyntax {
 	}
 
 	/** @param argumentBase will be converted into a range argument (from rangeStart to rangeEnd). Internally,
-	 *            when marcos expect arrays, ranges are converted into arrays using this schema: tag[0-2] ->
+	 *            when marcos expect arrays, ranges are converted into arrays using this schema: tag[0-2] =
 	 *            tag0,tag1,tag2. Range values cannot be negative. Start can be greater than end. Ranges can
 	 *            be put in arrays (with other arguments, including other ranges). */
 	public static String toRangeArgument(final String argumentBase, final int rangeStart, final int rangeEnd) {
@@ -126,7 +126,7 @@ public class Lml implements LmlSyntax {
 	/** @return a method invocation constructed with the method key. Note that actions can be referenced with
 	 *         simple strings in tags (for example, onClick=clickOnLabel will properly look for clickOnLabel
 	 *         action), but macros that consume arrays or other parseable arguments need a special operator to
-	 *         invoke methods: &. Method invocations can be stored in arrays and will be properly parsed
+	 *         invoke methods: &amp;. Method invocations can be stored in arrays and will be properly parsed
 	 *         (method return result will be converted into a string or an array of strings, if the result is
 	 *         iterable). */
 	public static String toMethodInvocationArgument(final String methodKey) {
@@ -138,7 +138,7 @@ public class Lml implements LmlSyntax {
 	 * @return a method invocation constructed with the method key. Note that actions can be referenced with
 	 *         simple strings in tags (for example, onClick=clickOnLabel will properly look for clickOnLabel
 	 *         action), but macros that consume arrays or other parseable arguments need a special operator to
-	 *         invoke methods: &. Method invocations can be stored in arrays and will be properly parsed
+	 *         invoke methods: &amp;. Method invocations can be stored in arrays and will be properly parsed
 	 *         (method return result will be converted into a string or an array of strings, if the result is
 	 *         iterable). */
 	public static String toMethodInvocationArgument(final String actionContainerKey, final String methodName) {

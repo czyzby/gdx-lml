@@ -98,7 +98,7 @@ public abstract class AbstractLmlMacroParent implements LmlParent<Actor>, LmlSyn
 	}
 
 	/** Parses passed argument into an array. Honors ranges, "native" arrays (; separated) and method
-	 * invocations (&). Looks for methods consuming Object when using reflection. Passes null to method
+	 * invocations (&amp;). Looks for methods consuming Object when using reflection. Passes null to method
 	 * invocations.
 	 *
 	 * @return parser array of strings. */
@@ -107,7 +107,7 @@ public abstract class AbstractLmlMacroParent implements LmlParent<Actor>, LmlSyn
 	}
 
 	/** Parses passed argument into an array. Honors ranges, "native" arrays (; separated) and method
-	 * invocations (&). Passes parent to method invocations.
+	 * invocations (&amp;). Passes parent to method invocations.
 	 *
 	 * @return parser array of strings. */
 	public static Array<String> toArgumentArray(final String argumentValue, final LmlParser parser,
