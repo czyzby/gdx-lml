@@ -10,7 +10,7 @@ public class LoopLmlMacroParser extends AbstractLmlMacroParser {
 	@Override
 	public LmlParent<Actor> parseMacroParent(final LmlParser parser, final LmlMacroData lmlMacroData,
 			final LmlParent<?> parent) {
-		return new LoopLmlMacroParent(lmlMacroData.getMacroName(), parent, lmlMacroData.getArguments());
+		return new LoopLmlMacroParent(lmlMacroData, parent, parser);
 	}
 
 	@Override

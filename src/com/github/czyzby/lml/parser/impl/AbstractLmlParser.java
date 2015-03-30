@@ -21,7 +21,6 @@ import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.LmlTagDataParser;
 import com.github.czyzby.lml.parser.impl.dto.ActionContainer;
 import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
-import com.github.czyzby.lml.parser.impl.dto.LmlMacroData;
 import com.github.czyzby.lml.parser.impl.dto.LmlParent;
 import com.github.czyzby.lml.parser.impl.dto.StageAttacher;
 import com.github.czyzby.lml.util.LmlSyntax;
@@ -133,7 +132,7 @@ public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
 	}
 
 	protected boolean isMacro(final CharSequence rawTagData) {
-		return rawTagData.charAt(0) == LmlMacroData.LML_MACRO_OPENING;
+		return rawTagData.charAt(0) == MACRO_SIGN;
 	}
 
 	protected void clearData(final StringBuilder stringBuilder) {

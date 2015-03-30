@@ -9,6 +9,8 @@ import com.github.czyzby.lml.parser.impl.dto.LmlTagData;
 import com.github.czyzby.lml.parser.impl.util.RowActor;
 
 public class TableLmlParent<TableWidget extends Table> extends AbstractLmlParent<TableWidget> {
+	public static final String ONE_COLUMN_ATTRIBUTE = "ONECOLUMN";
+
 	public static final String ALIGN_ATTRIBUTE = "ALIGN";
 	public static final String COLSPAN_ATTRIBUTE = "COLSPAN";
 	public static final String EXPAND_ATTRIBUTE = "EXPAND";
@@ -40,23 +42,29 @@ public class TableLmlParent<TableWidget extends Table> extends AbstractLmlParent
 	public static final String MAX_WIDTH_ATTRIBUTE = "MAXWIDTH";
 	public static final String ROW_ATTRIBUTE = "ROW";
 
+	private final boolean isOneColumn;
+
 	public TableLmlParent(final LmlTagData tagData, final TableWidget actor, final LmlParent<?> parent,
 			final LmlParser parser) {
 		super(tagData, actor, parent, parser);
+		isOneColumn = parseBoolean(tagData, ONE_COLUMN_ATTRIBUTE, parser);
 	}
 
 	@Override
 	public void handleValidChild(final Actor child, final LmlTagData childTagData, final LmlParser parser) {
-		appendCellFromTable(actor, child, childTagData, parser);
+		appendCellToTable(actor, child, childTagData, parser);
 	}
 
-	protected void appendCellFromTable(final Table table, final Actor child, final LmlTagData childTagData,
+	protected void appendCellToTable(final Table table, final Actor child, final LmlTagData childTagData,
 			final LmlParser parser) {
 		Cell<?> cell;
 		if (child == RowActor.ROW) {
 			cell = table.row();
 		} else {
 			cell = table.add(child);
+			if (isOneColumn) {
+				table.row();
+			}
 		}
 		setCellAttributes(childTagData, cell, parser);
 	}
@@ -80,7 +88,8 @@ public class TableLmlParent<TableWidget extends Table> extends AbstractLmlParent
 	}
 
 	private void addRow(final LmlTagData lmlTagData, final Cell<?> cell, final LmlParser parser) {
-		if (lmlTagData.containsAttribute(ROW_ATTRIBUTE) && parseBoolean(lmlTagData, ROW_ATTRIBUTE, parser)) {
+		if (!isOneColumn && lmlTagData.containsAttribute(ROW_ATTRIBUTE)
+				&& parseBoolean(lmlTagData, ROW_ATTRIBUTE, parser)) {
 			cell.row();
 		}
 	}
@@ -216,6 +225,9 @@ public class TableLmlParent<TableWidget extends Table> extends AbstractLmlParent
 	@Override
 	protected void handleValidDataBetweenTags(final String data, final LmlParser parser) {
 		actor.add(parser.parseStringData(data, actor));
+		if (isOneColumn) {
+			actor.row();
+		}
 	}
 
 }

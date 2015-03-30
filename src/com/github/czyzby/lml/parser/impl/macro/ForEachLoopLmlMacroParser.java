@@ -10,7 +10,7 @@ public class ForEachLoopLmlMacroParser extends AbstractLmlMacroParser {
 	@Override
 	public LmlParent<Actor> parseMacroParent(final LmlParser parser, final LmlMacroData lmlMacroData,
 			final LmlParent<?> parent) {
-		return new ForEachLoopLmlMacroParent(lmlMacroData.getMacroName(), parent, lmlMacroData.getArguments());
+		return new ForEachLoopLmlMacroParent(lmlMacroData, parent, parser);
 	}
 
 	@Override

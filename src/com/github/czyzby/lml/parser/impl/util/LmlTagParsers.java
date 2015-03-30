@@ -16,6 +16,7 @@ import com.github.czyzby.lml.parser.impl.macro.LmlMetaMacroParser;
 import com.github.czyzby.lml.parser.impl.macro.LocalImportLmlMacroParser;
 import com.github.czyzby.lml.parser.impl.macro.LoopLmlMacroParser;
 import com.github.czyzby.lml.parser.impl.macro.NestedForEachLoopLmlMacroParser;
+import com.github.czyzby.lml.parser.impl.macro.NullCheckLmlMacroParser;
 import com.github.czyzby.lml.parser.impl.tag.ButtonLmlTagDataParser;
 import com.github.czyzby.lml.parser.impl.tag.CheckBoxLmlTagDataParser;
 import com.github.czyzby.lml.parser.impl.tag.DialogLmlTagDataParser;
@@ -63,6 +64,8 @@ public class LmlTagParsers {
 		lmlParser.registerMacroParser(new LoopLmlMacroParser(), "loop", "while", "times");
 		lmlParser.registerMacroParser(new ConditionLmlMacroParser(), "if", "test", "check", "try", "verify",
 				"inspect", "validate", "onCondition", "condition", "conditional");
+		lmlParser.registerMacroParser(new NullCheckLmlMacroParser(), "ifNotNull", "ifPresent", "notNull",
+				"exists", "ifExists", "nullCheck");
 		lmlParser.registerMacroParser(new AssignLmlMacroParser(), "assign", "var", "val");
 		// Add other default macros here.
 	}

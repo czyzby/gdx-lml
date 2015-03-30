@@ -17,6 +17,6 @@ public class LmlMetaMacroParser implements LmlMacroParser {
 	@Override
 	public LmlParent<Actor> parseMacroParent(final LmlParser parser, final LmlMacroData lmlMacroData,
 			final LmlParent<?> parent) {
-		return new LmlMetaMacroParent(lmlMacroData.getMacroName(), parent, lmlMacroData.getArguments());
+		return new LmlMetaMacroParent(lmlMacroData, parent, parser);
 	}
 }

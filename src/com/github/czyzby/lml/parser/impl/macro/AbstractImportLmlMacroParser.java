@@ -1,7 +1,6 @@
 package com.github.czyzby.lml.parser.impl.macro;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.utils.Array;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.dto.LmlMacroData;
 import com.github.czyzby.lml.parser.impl.dto.LmlParent;
@@ -10,16 +9,15 @@ import com.github.czyzby.lml.parser.impl.macro.parent.AbstractImportLmlMacroPare
 public abstract class AbstractImportLmlMacroParser extends AbstractLmlMacroParser {
 	@Override
 	protected CharSequence parseTextToAppend(final LmlParser parser, final LmlMacroData lmlMacroData) {
-		return getImportMacro(lmlMacroData.getMacroName(), null, lmlMacroData.getArguments())
-				.getTextToAppend(parser);
+		return getImportMacro(lmlMacroData, null, parser).getTextToAppend(parser);
 	}
 
-	protected abstract AbstractImportLmlMacroParent getImportMacro(String tagName, LmlParent<?> parent,
-			Array<String> arguments);
+	protected abstract AbstractImportLmlMacroParent getImportMacro(LmlMacroData lmlMacroData,
+			LmlParent<?> parent, LmlParser parser);
 
 	@Override
 	public LmlParent<Actor> parseMacroParent(final LmlParser parser, final LmlMacroData lmlMacroData,
 			final LmlParent<?> parent) {
-		return getImportMacro(lmlMacroData.getMacroName(), parent, lmlMacroData.getArguments());
+		return getImportMacro(lmlMacroData, parent, parser);
 	}
 }

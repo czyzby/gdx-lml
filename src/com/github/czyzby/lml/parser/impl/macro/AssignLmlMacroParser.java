@@ -11,7 +11,7 @@ public class AssignLmlMacroParser extends AbstractLmlMacroParser {
 	@Override
 	public LmlParent<Actor> parseMacroParent(final LmlParser parser, final LmlMacroData lmlMacroData,
 			final LmlParent<?> parent) {
-		return new AssignLmlMacroParent(lmlMacroData.getMacroName(), parent, lmlMacroData.getArguments());
+		return new AssignLmlMacroParent(lmlMacroData, parent, parser);
 	}
 
 	@Override

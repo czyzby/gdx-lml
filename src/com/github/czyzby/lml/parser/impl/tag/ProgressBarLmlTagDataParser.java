@@ -61,13 +61,25 @@ public class ProgressBarLmlTagDataParser extends AbstractLmlTagDataParser<Progre
 
 	protected float getStepSize(final LmlTagData lmlTagData, final LmlParser parser, final float min,
 			final float max) {
-		final float stepSize =
-				lmlTagData.containsAttribute(STEP_SIZE_ATTRIBUTE) ? parseFloat(lmlTagData,
-						STEP_SIZE_ATTRIBUTE, parser, null) : (max - min) / DEFAULT_STEP_SIZE;
+		final float stepSize;
+		if (lmlTagData.containsAttribute(STEP_SIZE_ATTRIBUTE)) {
+			final String stepSizeAttribute = parseString(lmlTagData, STEP_SIZE_ATTRIBUTE, parser, null);
+			if (stepSizeAttribute.charAt(stepSizeAttribute.length() - 1) == '%') {
+				stepSize = getStepSizeFromPercent(min, max, stepSizeAttribute);
+			} else {
+				stepSize = Float.parseFloat(stepSizeAttribute);
+			}
+		} else {
+			stepSize = (max - min) / DEFAULT_STEP_SIZE;
+		}
 		if (stepSize > max - min) {
 			throw new LmlParsingException("Progress bar step size cannot be greater than range size.", parser);
 		}
 		return stepSize;
+	}
+
+	private float getStepSizeFromPercent(final float min, final float max, final String stepSizeAttribute) {
+		return (max - min) * Float.parseFloat(stepSizeAttribute.substring(0, stepSizeAttribute.length() - 1));
 	}
 
 	@Override

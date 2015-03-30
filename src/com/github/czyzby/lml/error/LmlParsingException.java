@@ -24,8 +24,16 @@ public class LmlParsingException extends RuntimeException {
 		super(prepareMessage(message, parser));
 	}
 
+	public LmlParsingException(final String message, final int errorLine) {
+		super(prepareMessage(message, errorLine));
+	}
+
 	private static String prepareMessage(final String message, final LmlParser parser) {
-		return message + LINE_MARKER_MESSAGE + parser.getCurrentlyParsedLine() + LINE_MARKER_MESSAGE_ERROR;
+		return prepareMessage(message, parser.getCurrentlyParsedLine());
+	}
+
+	private static String prepareMessage(final String message, final int line) {
+		return message + LINE_MARKER_MESSAGE + line + LINE_MARKER_MESSAGE_ERROR;
 	}
 
 	public LmlParsingException(final LmlParser parser, final Throwable cause) {

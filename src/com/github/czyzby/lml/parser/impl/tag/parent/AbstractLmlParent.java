@@ -16,6 +16,7 @@ public abstract class AbstractLmlParent<Widget extends Actor> extends AbstractLm
 		LmlParent<Widget>, LmlSyntax {
 	private final String tagName;
 	private final String id;
+	private final int lineNumber;
 	protected final Widget actor;
 	protected final LmlParent<?> parent;
 	protected final boolean isTreeNode;
@@ -27,6 +28,7 @@ public abstract class AbstractLmlParent<Widget extends Actor> extends AbstractLm
 		id = tagData.getId();
 		this.actor = actor;
 		this.parent = parent;
+		lineNumber = parser.getCurrentlyParsedLine();
 		isTreeNode = getTreeNodeProperty(tagData, actor, parser, parent);
 		node = prepareNode(actor, isTreeNode);
 	}
@@ -62,6 +64,11 @@ public abstract class AbstractLmlParent<Widget extends Actor> extends AbstractLm
 	@Override
 	public String getId() {
 		return id;
+	}
+
+	@Override
+	public int getLineNumber() {
+		return lineNumber;
 	}
 
 	@Override

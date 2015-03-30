@@ -44,6 +44,7 @@ public interface LmlSyntax {
 	char NEW_LINE = '\n';
 	char CARRIAGE_RETURN = '\r';
 
+	String SPACE_SEPARATOR = " ";
 	String WHITESPACE_REGEX = "\\s+";
 
 	char QUOTATION_CHAR = '\'';

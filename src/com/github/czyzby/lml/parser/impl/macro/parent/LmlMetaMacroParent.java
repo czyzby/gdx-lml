@@ -12,8 +12,9 @@ import com.github.czyzby.lml.util.gdx.collection.GdxArrays;
 public class LmlMetaMacroParent extends AbstractLmlMacroParent {
 	public static final String DEFAULT_CONTENT_ATTRIBUTE = "${MACRO}";
 
-	public LmlMetaMacroParent(final String tagName, final LmlParent<?> parent, final Array<String> arguments) {
-		super(tagName, parent, arguments);
+	public LmlMetaMacroParent(final LmlMacroData lmlMacroData, final LmlParent<?> parent,
+			final LmlParser parser) {
+		super(lmlMacroData, parent, parser);
 	}
 
 	@Override
@@ -39,8 +40,7 @@ public class LmlMetaMacroParent extends AbstractLmlMacroParent {
 			@Override
 			public LmlParent<Actor> parseMacroParent(final LmlParser parser, final LmlMacroData lmlMacroData,
 					final LmlParent<?> parent) {
-				return new AbstractLmlMacroParent(lmlMacroData.getMacroName(), parent, lmlMacroData
-						.getArguments()) {
+				return new AbstractLmlMacroParent(lmlMacroData, parent, parser) {
 					@Override
 					public void closeTag(final LmlParser parser) {
 						String content = extractContent(arguments);

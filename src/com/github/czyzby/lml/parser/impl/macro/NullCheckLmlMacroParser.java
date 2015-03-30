@@ -5,8 +5,10 @@ import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.dto.LmlMacroData;
 import com.github.czyzby.lml.parser.impl.dto.LmlParent;
 import com.github.czyzby.lml.parser.impl.macro.parent.ConditionLmlMacroParent;
+import com.github.czyzby.lml.parser.impl.macro.parent.NullCheckLmlMacroParent;
 
-public class ConditionLmlMacroParser extends AbstractLmlMacroParser {
+public class NullCheckLmlMacroParser extends AbstractLmlMacroParser {
+
 	@Override
 	public LmlParent<Actor> parseMacroParent(final LmlParser parser, final LmlMacroData lmlMacroData,
 			final LmlParent<?> parent) {
@@ -15,6 +17,12 @@ public class ConditionLmlMacroParser extends AbstractLmlMacroParser {
 
 	@Override
 	protected CharSequence parseTextToAppend(final LmlParser parser, final LmlMacroData lmlMacroData) {
-		return null;
+		if (lmlMacroData.getArguments().size == 0
+				|| lmlMacroData.getArguments().size == 1
+				&& !new NullCheckLmlMacroParent(lmlMacroData, null, parser).doSingleArgumentCheck(
+						lmlMacroData.getArguments().first(), parser)) {
+			return EMPTY_STRING;
+		}
+		return lmlMacroData.getArguments().toString(SPACE_SEPARATOR);
 	}
 }

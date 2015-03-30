@@ -14,6 +14,9 @@ public interface LmlParent<Widget extends Actor> {
 	/** @return value appended with ID attribute in tag. Optional, can be null. */
 	String getId();
 
+	/** @return line number on which the tag was opened. */
+	int getLineNumber();
+
 	/** When the parent is current processed tag, it can receive and handle all read characters before
 	 * pre-parsing. While most parent ignore this input by default, it can be used to build complex macros.
 	 *

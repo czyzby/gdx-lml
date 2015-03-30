@@ -20,9 +20,9 @@ public class WindowLmlParent<WindowWidget extends Window> extends TableLmlParent
 	public void handleValidChild(final Actor child, final LmlTagData childTagData, final LmlParser parser) {
 		if (parseBoolean(childTagData, TO_TITLE_TABLE_ATTRIBUTE, parser)) {
 			validateTitleTable();
-			appendCellFromTable(actor.getButtonTable(), child, childTagData, parser);
+			appendCellToTable(actor.getButtonTable(), child, childTagData, parser);
 		} else {
-			appendCellFromTable(actor, child, childTagData, parser);
+			appendCellToTable(actor, child, childTagData, parser);
 		}
 	}
 

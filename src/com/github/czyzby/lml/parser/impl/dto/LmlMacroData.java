@@ -4,8 +4,6 @@ import com.badlogic.gdx.utils.Array;
 import com.github.czyzby.lml.error.LmlParsingException;
 
 public class LmlMacroData extends AbstractLmlDto {
-	public static final char LML_MACRO_OPENING = '@';
-
 	private final String macroName;
 	private final Array<String> arguments;
 	private final boolean closed;
@@ -38,7 +36,7 @@ public class LmlMacroData extends AbstractLmlDto {
 	}
 
 	private static void validateMacroRawData(final CharSequence rawData) {
-		if (rawData.charAt(0) != LML_MACRO_OPENING) {
+		if (rawData.charAt(0) != MACRO_SIGN) {
 			throw new LmlParsingException("Invalid parser implementation. Raw data is not a macro: "
 					+ rawData + ".");
 		}

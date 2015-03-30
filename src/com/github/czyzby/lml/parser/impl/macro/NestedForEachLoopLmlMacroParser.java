@@ -10,7 +10,6 @@ public class NestedForEachLoopLmlMacroParser extends ForEachLoopLmlMacroParser {
 	@Override
 	public LmlParent<Actor> parseMacroParent(final LmlParser parser, final LmlMacroData lmlMacroData,
 			final LmlParent<?> parent) {
-		return new NestedForEachLoopLmlMacroParent(lmlMacroData.getMacroName(), parent,
-				lmlMacroData.getArguments());
+		return new NestedForEachLoopLmlMacroParent(lmlMacroData, parent, parser);
 	}
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import com.github.czyzby.lml.error.LmlParsingException;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
+import com.github.czyzby.lml.parser.impl.dto.LmlMacroData;
 import com.github.czyzby.lml.parser.impl.dto.LmlParent;
 import com.github.czyzby.lml.parser.impl.dto.LmlTagData;
 import com.github.czyzby.lml.util.LmlSyntax;
@@ -17,15 +18,17 @@ public abstract class AbstractLmlMacroParent implements LmlParent<Actor>, LmlSyn
 
 	private final String tagName;
 	private final LmlParent<?> parent;
+	private final int lineNumber;
 	protected final Array<String> arguments;
 	/** Use with caution - contains macro ending tag. */
 	protected final StringBuilder rawTextBetweenTags = new StringBuilder();
 
-	public AbstractLmlMacroParent(final String tagName, final LmlParent<?> parent,
-			final Array<String> arguments) {
-		this.tagName = tagName;
+	public AbstractLmlMacroParent(final LmlMacroData lmlMacroData, final LmlParent<?> parent,
+			final LmlParser parser) {
 		this.parent = parent;
-		this.arguments = arguments;
+		tagName = lmlMacroData.getMacroName();
+		arguments = lmlMacroData.getArguments();
+		lineNumber = parser.getCurrentlyParsedLine();
 	}
 
 	@Override
@@ -58,6 +61,11 @@ public abstract class AbstractLmlMacroParent implements LmlParent<Actor>, LmlSyn
 	 *         necessary null check. */
 	public Actor getParentActor() {
 		return parent == null ? null : parent.getActor();
+	}
+
+	@Override
+	public int getLineNumber() {
+		return lineNumber;
 	}
 
 	@Override
@@ -176,7 +184,8 @@ public abstract class AbstractLmlMacroParent implements LmlParent<Actor>, LmlSyn
 	protected String getTagNameIgnoringCaseRegex() {
 		final StringBuilder regex = new StringBuilder();
 		for (final char character : getTagName().toCharArray()) { // Uppercase.
-			regex.append("[" + Character.toLowerCase(character) + Character.toUpperCase(character) + "]");
+			regex.append('[').append(Character.toLowerCase(character))
+					.append(Character.toUpperCase(character)).append(']');
 		}
 		return regex.toString();
 	}

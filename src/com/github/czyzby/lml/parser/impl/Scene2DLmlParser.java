@@ -130,7 +130,8 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 		private void validateHierarchy() {
 			if (!parser.widgetsHierarchy.isEmpty()) {
 				throw new LmlParsingException("Unclosed parent tag: "
-						+ parser.widgetsHierarchy.getFirst().getTagName() + ".", parser);
+						+ parser.widgetsHierarchy.getFirst().getTagName() + ".", parser.getCurrentParent()
+						.getLineNumber());
 			}
 		}
 

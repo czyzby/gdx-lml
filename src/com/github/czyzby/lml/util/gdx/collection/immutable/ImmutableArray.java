@@ -63,6 +63,18 @@ public class ImmutableArray<Type> extends Array<Type> {
 		return new ImmutableArray<Type>(array);
 	}
 
+	/** @return a new ImmutableArray containing the sorted passed objects. */
+	public static <Type extends Comparable<?>> ImmutableArray<Type> ofSorted(final Type... values) {
+		return copyOfSorted(new Array<Type>(values));
+	}
+
+	/** @return a new ImmutableArray created using the sorted passed array. */
+	public static <Type extends Comparable<?>> ImmutableArray<Type> copyOfSorted(
+			final Array<? extends Type> array) {
+		array.sort();
+		return new ImmutableArray<Type>(array);
+	}
+
 	@Override
 	@Deprecated
 	public void add(final Type value) {
