@@ -270,6 +270,11 @@ public class ImmutableArray<Type> extends Array<Type> {
 		public Iterator<Type> iterator() {
 			return this;
 		}
+
+		@Override
+		public void remove() {
+			throw new UnsupportedOperationException("Array is immutable.");
+		}
 	}
 
 	// Based on Array.ArrayIterable.
