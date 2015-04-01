@@ -20,7 +20,8 @@ Ever wanted to refactor and split a method, but you *needed* to return at least 
 - **DoupleTuple**, **TripleTuple**: these two extend the basic interface, providing additional access methods.
 - **Pair**, **Triple**: immutable tuples. Use where possible.
 - **MutablePair**, **MutableTriple**: as you can guess, mutable tuples. Use when necessary.
-All tuple implementation classes contain static factory method to avoid awkward Java 6 generics syntax.
+
+All tuple implementation classes contain static factory methods to avoid awkward Java 6 generics syntax.
 
 ##GDX
 These packages depend on LibGDX and are the core of this library.
@@ -33,41 +34,45 @@ These packages depend on LibGDX and are the core of this library.
 - **Asset**: a utility interface for an enum containing multiple assets. A sample implementation is provided - AbstractInternalAsset (although it is advised to be copied and used by an enum, since they cannot extend).
 
 ####Lazy
-Hate null check while creating lazy variables? Good, so do I. This call might be much easier to
-- **Lazy**: basic class of a lazy variable wrapper. Allows to create a final reference to a wrapped, lazy object that will be initiated (or assigned) on the first get() call thanks to the passed provider object. This class also contains static utility factory methods.
+Hate null check while creating lazy variables? Good, so do I. While such objects might be much easier to use with Java 8 (where you can create a provider/supplier with a simple lambda), I think it's still much more acceptable than having a bunch of ifs and non-final variables, where they actually _could be_ final.
+- **Lazy**: basic class of a lazy variable wrapper. Allows to create a final reference to a wrapped, lazy object that will be initiated (or assigned) on the first get() call thanks to the passed provider object. This class also contains static utility factory methods. If you really don't want to use providers, but do need a base implementation, extend this class (giving it a type you need), pass null to super constructor and override getObjectInstance() method to provide your own object creation implementation.
 - **DisposableLazy**: extends Lazy; wraps around a disposable object and implements Disposable interface for additional utility.
 - **ConcurrentLazy**: extends Lazy; safe to use by multiple threads.
 - **DisposableConcurrentLazy**: extends DisposableLazy; safe to use by multiple threads.
+- **ReflectionObjectProvider**: an implementation of ObjectProvider that constructs a new instance of object of the passed type with reflection. Works on GWT, but you do have to include used classes for reflection.
 
 ###Collections
 LibGDX collections utilities. To avoid collisions with Guava and Java API, these classes start with Gdx.
 - **GdxArrays**: utilities for LibGDX arrays. Includes array type conversions, common operations, null-safe checks and factory methods.
 - **GdxMaps**: utilities for LibGDX maps. Conversions are limited since there is no map interface in LibGDX, but it should be enough for most needs.
 - **GdxSets**: utilities for LibGDX sets. Not as powerful as Guava, but you do get union and intersect.
-Since disposable and immutable collections provide all static factory methods (TODO), these are not included in GdxCollections utilities.
+
+Since disposable and immutable collections provide all static factory methods, these are not included in GdxCollections utilities.
 
 ####Disposable
-Utilities for holding multiple assets.
+Utilities for holding multiple assets. On dispose() call, these collections dispose of all their children that are not null.
 - **DisposableArray**: Array extension implementing Disposable interface.
 - **DisposableObjectMap**: ObjectMap extension implementing Disposable interface.
 - **DisposableObjectSet**: ObjectSet extension implementing Disposable interface.
+
 All classes come with static factory methods.
 
 ####Immutable
-Semi-immutable collections extending most common LibGDX containers. Due to original API, full immutability was not possible.
-- **ImmutableArray**: Array extension with overshadowed public variables, iterators with blocked remove method and overridden modifying operations. Still mutable when casted to an array and accessing public variables (items, size), but as long as only methods are used, you're safe.
-- **ImmutableObjectMap**: ObjectMap extension with overshadowed public variables and overridden modifying operations. Mutable through iterators (which accessed not visible variables and could not have been easily reproduced) or casting to ObjectMap and accessing size variable. As long as you use public methods and standard for-each loops, you're safe.
-- **ImmutableObjectSet**: ObjectSet extension with overshadowed public variables and overridden modifying operations. Mutable through iterators (which accessed not visible variables and could not have been easily reproduced) or casting to ObjectSet and accessing size variable. As long as you used public methods and standard for-each loops, you're safe.
+Semi-immutable collections extending most common LibGDX containers. Due to original API, true immutability was not fully possible.
+- **ImmutableArray**: Array extension with overshadowed public variables, iterators with blocked remove() method and overridden modifying operations. Still mutable when casted to an Array and accessing public variables (items, size) - but as long as only methods are used, you're safe.
+- **ImmutableObjectMap**: ObjectMap extension with overshadowed public variables and overridden modifying operations. Mutable through iterators (which accessed private variables and could not have been easily reproduced) or casting to ObjectMap and accessing size variable. As long as you use public methods and standard for-each loops, you're safe.
+- **ImmutableObjectSet**: ObjectSet extension with overshadowed public variables and overridden modifying operations. Mutable through iterators (which accessed private variables and could not have been easily reproduced) or casting to ObjectSet and accessing size variable. As long as you used public methods and standard for-each loops, you're safe.
+
 All classes come with static factory methods.
 
 ### Preferences
-- **Preference**: utility interface for common preference operations. Advised to be implemented by an enum to provide static access to application's preferences. Comes with an example implementation - PreferenceWrapper.
-- **ApplicationPreferences**: utility container for application's preferences. Manages a map of cached preferences to avoid reading preferences multiple times and ensure that the return Preferences object for the given path is always the same and in sync.
+- **Preference**: utility interface for common preference operations. Advised to be implemented by an enum to provide static access to each of application's preferences. Comes with an example implementation - PreferenceWrapper.
+- **ApplicationPreferences**: utility container for application's preferences. Manages a map of cached preferences to avoid reading preferences multiple times and ensure that the returned Preferences object for the given path is always the same and in sync.
 
 ### Scene2D
-- **Actors**: common utility methods for Scene2D actors.
+- **Actors**: simply, common utility methods for Scene2D actors.
 - **Alignment**: wraps around Align class to provide human-(instantly-)readable alignment checking methods.
-- **Padding**: utility container for paddings and spacings. Makes it easier to keep static padding settings.
+- **Padding**: utility container for paddings and spacings. Makes it easier to keep static padding settings, without having to create multiple variables.
 - **InterfaceSkin**: utility container that provides static access to UI skin.
 
 #### Ranges
