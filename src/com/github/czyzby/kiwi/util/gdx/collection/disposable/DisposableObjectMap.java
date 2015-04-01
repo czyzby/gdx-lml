@@ -73,7 +73,6 @@ public class DisposableObjectMap<Key, Value extends Disposable> extends ObjectMa
 	@Override
 	public void dispose() {
 		for (final Disposable disposable : values()) {
-
 			if (disposable != null) {
 				disposable.dispose();
 			}

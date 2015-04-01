@@ -33,7 +33,7 @@ public class ApplicationPreferences {
 		setDefaultPreferences(preferenceAsset.getPath());
 	}
 
-	/** @param preference will be set as the default preferences file path. Preferences connected with this
+	/** @param preferencePath will be set as the default preferences file path. Preferences connected with this
 	 *            asset will be returned by the no parameter method. */
 	public static void setDefaultPreferences(final String preferencePath) {
 		defaultPreferences = preferencePath;

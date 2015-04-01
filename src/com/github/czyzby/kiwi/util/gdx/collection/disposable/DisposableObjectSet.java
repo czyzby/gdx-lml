@@ -69,7 +69,6 @@ public class DisposableObjectSet<Type extends Disposable> extends ObjectSet<Type
 	@Override
 	public void dispose() {
 		for (final Disposable disposable : this) {
-
 			if (disposable != null) {
 				disposable.dispose();
 			}

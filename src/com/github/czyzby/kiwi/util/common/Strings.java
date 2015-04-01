@@ -66,6 +66,26 @@ public class Strings {
 				&& character != '\f';
 	}
 
+	/** @return true if passed character is a new line. */
+	public static boolean isNewLine(final char character) {
+		return character == '\n' || character == '\r';
+	}
+
+	/** @return true if passed character is not a new line. */
+	public static boolean isNotNewLine(final char character) {
+		return character != '\n' && character != '\r';
+	}
+
+	/** @return true if the passed sequence starts with the given character. */
+	public static boolean startsWith(final CharSequence charSequence, final char character) {
+		return charSequence.length() > 0 && charSequence.charAt(0) == character;
+	}
+
+	/** @return true if the passed sequence ends with the given character. */
+	public static boolean endsWith(final CharSequence charSequence, final char character) {
+		return charSequence.length() > 0 && charSequence.charAt(charSequence.length() - 1) == character;
+	}
+
 	/** @param stringBuilder will have its length set as 0. */
 	public static void clearBuilder(final com.badlogic.gdx.utils.StringBuilder stringBuilder) {
 		stringBuilder.setLength(0);
