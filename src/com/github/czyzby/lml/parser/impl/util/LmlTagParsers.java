@@ -1,9 +1,5 @@
 package com.github.czyzby.lml.parser.impl.util;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.macro.AbsoluteImportLmlMacroParser;
 import com.github.czyzby.lml.parser.impl.macro.AssignLmlMacroParser;
@@ -72,11 +68,11 @@ public class LmlTagParsers {
 
 	public static void registerDefaultTagSyntax(final LmlParser lmlParser) {
 		lmlParser.registerParser(new EmptyLmlTagDataParser(), "empty", "blank", "null", "placeholder");
-		lmlParser.registerParser(new TableLmlTagDataParser<Table>(), "table", "div", "td", "th");
+		lmlParser.registerParser(new TableLmlTagDataParser(), "table", "div", "td", "th");
 		lmlParser.registerParser(new RowLmlTagDataParser(), "row", "tr", "br");
 		lmlParser.registerParser(new LabelLmlTagDataParser(), "label", "text", "li");
-		lmlParser.registerParser(new ButtonLmlTagDataParser<Button>(), "button");
-		lmlParser.registerParser(new TextButtonLmlTagDataParser<TextButton>(), "textButton", "a");
+		lmlParser.registerParser(new ButtonLmlTagDataParser(), "button");
+		lmlParser.registerParser(new TextButtonLmlTagDataParser(), "textButton", "a");
 		lmlParser.registerParser(new CheckBoxLmlTagDataParser(), "checkBox", "check");
 		lmlParser.registerParser(new ScrollPaneLmlTagDataParser(), "scrollPane", "scrollable", "scroll");
 		lmlParser.registerParser(new SplitPaneLmlTagDataParser(), "splitPane", "splitable", "split");
@@ -91,7 +87,7 @@ public class LmlTagParsers {
 		lmlParser.registerParser(new SliderLmlTagDataParser(), "slider");
 		lmlParser.registerParser(new ListLmlTagDataParser(), "list", "ul");
 		lmlParser.registerParser(new TreeLmlTagDataParser(), "tree", "root");
-		lmlParser.registerParser(new WindowLmlTagDataParser<Window>(), "window");
+		lmlParser.registerParser(new WindowLmlTagDataParser(), "window");
 		lmlParser.registerParser(new DialogLmlTagDataParser(), "dialog", "popup");
 		// Add other default tags here.
 	}

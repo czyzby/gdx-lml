@@ -1,10 +1,10 @@
 package com.github.czyzby.lml.parser.impl.macro.parent;
 
 import com.badlogic.gdx.utils.Array;
+import com.github.czyzby.kiwi.util.common.Nullables;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.dto.LmlMacroData;
 import com.github.czyzby.lml.parser.impl.dto.LmlParent;
-import com.github.czyzby.lml.util.common.Nullables;
 
 public abstract class AbstractConditionalLmlMacroParent extends AbstractLmlMacroParent {
 	protected static final String ELSE_OPENING = "<@";

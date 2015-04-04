@@ -5,7 +5,6 @@ import com.github.czyzby.lml.error.LmlParsingException;
 
 public class LmlTagData extends AbstractLmlDto {
 	private final String tagName;
-	private final String id;
 	private final ObjectMap<String, String> attributes;
 	private final boolean closed;
 
@@ -13,7 +12,6 @@ public class LmlTagData extends AbstractLmlDto {
 		this.tagName = tagName;
 		this.attributes = attributes;
 		this.closed = closed;
-		id = attributes.get(ID_ATTRIBUTE);
 	}
 
 	/** @param rawData data in standard LML format - for example, "tagName id=ID attribute=value /".
@@ -73,11 +71,6 @@ public class LmlTagData extends AbstractLmlDto {
 	/** @return name used to open the tag. */
 	public String getTagName() {
 		return tagName;
-	}
-
-	/** @return widget's unique ID appended by ID attribute. Might be null. */
-	public String getId() {
-		return id;
 	}
 
 	/** @return additional attributes appended to the tag. */

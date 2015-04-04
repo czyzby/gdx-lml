@@ -15,18 +15,20 @@ import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Method;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
+import com.github.czyzby.kiwi.util.common.Nullables;
+import com.github.czyzby.kiwi.util.common.Strings;
+import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
+import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.lml.error.LmlParsingException;
 import com.github.czyzby.lml.parser.LmlMacroParser;
 import com.github.czyzby.lml.parser.LmlParser;
+import com.github.czyzby.lml.parser.LmlTagAttributeParser;
 import com.github.czyzby.lml.parser.LmlTagDataParser;
 import com.github.czyzby.lml.parser.impl.dto.ActionContainer;
 import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
 import com.github.czyzby.lml.parser.impl.dto.LmlParent;
 import com.github.czyzby.lml.parser.impl.dto.StageAttacher;
 import com.github.czyzby.lml.util.LmlSyntax;
-import com.github.czyzby.lml.util.common.Nullables;
-import com.github.czyzby.lml.util.gdx.collection.GdxArrays;
-import com.github.czyzby.lml.util.gdx.collection.GdxMaps;
 
 /** Provides utility methods, variables and default method implementations, allowing to create a LmlParser
  * easier.
@@ -44,9 +46,9 @@ public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
 	protected final ObjectMap<String, String> arguments = GdxMaps.newObjectMap();
 	private boolean strict = true;
 
+	protected final ObjectMap<String, I18NBundle> i18nBundles = GdxMaps.newObjectMap();
+	protected final ObjectMap<String, Preferences> preferences = GdxMaps.newObjectMap();
 	protected Skin skin;
-	protected I18NBundle i18nBundle;
-	protected Preferences preferences;
 
 	public AbstractLmlParser(final Skin skin) {
 		this.skin = skin;
@@ -54,13 +56,24 @@ public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
 
 	public AbstractLmlParser(final Skin skin, final I18NBundle i18nBundle) {
 		this.skin = skin;
-		this.i18nBundle = i18nBundle;
+		i18nBundles.put(DEFAULT_VALUE_NAME, i18nBundle);
 	}
 
 	public AbstractLmlParser(final Skin skin, final I18NBundle i18nBundle, final Preferences preferences) {
 		this.skin = skin;
-		this.i18nBundle = i18nBundle;
-		this.preferences = preferences;
+		i18nBundles.put(DEFAULT_VALUE_NAME, i18nBundle);
+		this.preferences.put(DEFAULT_VALUE_NAME, preferences);
+	}
+
+	public AbstractLmlParser(final AbstractLmlParser parser) {
+		tagParsers.putAll(parser.tagParsers);
+		macroParsers.putAll(parser.macroParsers);
+		actionContainers.putAll(parser.actionContainers);
+		actions.putAll(parser.actions);
+		arguments.putAll(parser.arguments);
+		i18nBundles.putAll(parser.i18nBundles);
+		preferences.putAll(parser.preferences);
+		strict = parser.strict;
 	}
 
 	@Override
@@ -94,37 +107,59 @@ public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
 	}
 
 	@Override
-	public I18NBundle getI18nBundle() {
-		return i18nBundle;
+	public I18NBundle getDefaultI18nBundle() {
+		return i18nBundles.get(DEFAULT_VALUE_NAME);
 	}
 
 	@Override
-	public void setI18nBundle(final I18NBundle i18nBundle) {
-		this.i18nBundle = i18nBundle;
+	public void setDefaultI18nBundle(final I18NBundle i18nBundle) {
+		i18nBundles.put(DEFAULT_VALUE_NAME, i18nBundle);
 	}
 
 	@Override
-	public Preferences getPreferences() {
-		return preferences;
+	public I18NBundle getI18nBundle(final String forName) {
+		return i18nBundles.get(forName);
 	}
 
 	@Override
-	public void setPreferences(final Preferences preferences) {
-		this.preferences = preferences;
+	public void setI18nBundle(final String bundleName, final I18NBundle i18nBundle) {
+		i18nBundles.put(bundleName, i18nBundle);
 	}
 
 	@Override
-	public String getPreference(final String preferenceKey) {
+	public Preferences getDefaultPreferences() {
+		return preferences.get(DEFAULT_VALUE_NAME);
+	}
+
+	@Override
+	public void setDefaultPreferences(final Preferences preferences) {
+		this.preferences.put(DEFAULT_VALUE_NAME, preferences);
+	}
+
+	@Override
+	public Preferences getPreferences(final String forName) {
+		return preferences.get(forName);
+	}
+
+	@Override
+	public void setPreferences(final String preferencesName, final Preferences preferences) {
+		this.preferences.put(preferencesName, preferences);
+	}
+
+	@Override
+	public String getPreference(final String rawData) {
+		final String preferenceData = rawData.substring(1); // Omitting #.
+		final Preferences preferences;
+		final String preferenceKey;
+		if (Strings.contains(preferenceData, PREFERENCE_SIGN)) {
+			final String[] preference = preferenceData.split(PREFERENCE_SEPARATOR);
+			preferences = this.preferences.get(preference[0]);
+			preferenceKey = preference[1];
+		} else {
+			preferences = getDefaultPreferences();
+			preferenceKey = preferenceData;
+		}
 		return preferences == null ? NULL_ARGUMENT : preferences.getString(preferenceKey, NULL_ARGUMENT);
-	}
-
-	protected boolean isDataEmpty(final StringBuilder data) {
-		return data.length() == 0;
-	}
-
-	protected boolean isWhitespace(final char character) {
-		// Character.isWhitespace seems to be unavailable on GWT.
-		return SPACE == character || TAB == character || isNewLine(character);
 	}
 
 	protected boolean isNewLine(final char character) {
@@ -135,20 +170,16 @@ public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
 		return rawTagData.charAt(0) == MACRO_SIGN;
 	}
 
-	protected void clearData(final StringBuilder stringBuilder) {
-		stringBuilder.setLength(0);
-	}
-
 	@Override
 	public String parseStringData(final String rawData, final Actor forActor) {
 		if (rawData == null || rawData.length() == 0) {
 			return "";
 		}
-		if (i18nBundle != null && rawData.charAt(0) == BUNDLE_LINE_OPENING) {
+		if (GdxMaps.isNotEmpty(i18nBundles) && rawData.charAt(0) == BUNDLE_LINE_SIGN) {
 			return parseStringDataFromBundle(rawData);
 		}
-		if (preferences != null && rawData.charAt(0) == PREFERENCE_SIGN) {
-			return getPreference(rawData.substring(1));
+		if (GdxMaps.isNotEmpty(preferences) && rawData.charAt(0) == PREFERENCE_SIGN) {
+			return getPreference(rawData);
 		}
 		if (rawData.charAt(0) == ACTION_OPERATOR) {
 			final ActorConsumer<Object, Object> action = findAction(rawData.substring(1), forActor);
@@ -160,7 +191,19 @@ public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
 	}
 
 	private String parseStringDataFromBundle(final String rawData) {
-		final String[] bundleLine = rawData.substring(1).split(BUNDLE_LINE_ARGUMENT_SEPARATOR);
+		final String bundleData = rawData.substring(1); // Ommiting @.
+		String bundleKey;
+		I18NBundle i18nBundle;
+		if (Strings.contains(bundleData, BUNDLE_LINE_SIGN)) {
+			final String[] bundleDescriptor = bundleData.split(BUNDLE_LINE_SEPARATOR);
+			i18nBundle = i18nBundles.get(bundleDescriptor[0]);
+			bundleKey = bundleDescriptor[1];
+		} else {
+			i18nBundle = getDefaultI18nBundle();
+			bundleKey = bundleData;
+		}
+
+		final String[] bundleLine = bundleKey.split(BUNDLE_LINE_ARGUMENT_SEPARATOR);
 		if (bundleLine.length == 0) {
 			throw new LmlParsingException("Invalid bundle line invocation: " + rawData + ".", this);
 		} else if (bundleLine.length == 1) {
@@ -488,5 +531,24 @@ public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
 	@Override
 	public void clearActorsMappedById() {
 		actorsByIds.clear();
+	}
+
+	@Override
+	public void registerAttributeParser(String tagName, final LmlTagAttributeParser parser) {
+		tagName = tagName.toUpperCase();
+		if (!tagParsers.containsKey(tagName)) {
+			throw new IllegalArgumentException("Unknown tag: " + tagName
+					+ ". Cannot register attribute parser.");
+		}
+		tagParsers.get(tagName).registerAttributeParser(parser);
+	}
+
+	@Override
+	public void unregisterAttributeParser(final String tagName, final String attributeName) {
+		if (!tagParsers.containsKey(tagName)) {
+			throw new IllegalArgumentException("Unknown tag: " + tagName
+					+ ". Cannot unregister attribute parser.");
+		}
+		tagParsers.get(tagName).unregisterAttributeParser(attributeName);
 	}
 }

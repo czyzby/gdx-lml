@@ -2,12 +2,12 @@ package com.github.czyzby.lml.parser.impl.macro.parent;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
+import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.lml.error.LmlParsingException;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.dto.LmlMacroData;
 import com.github.czyzby.lml.parser.impl.dto.LmlParent;
 import com.github.czyzby.lml.parser.impl.macro.AbstractLmlMacroParser;
-import com.github.czyzby.lml.util.gdx.collection.GdxArrays;
 
 public class LmlMetaMacroParent extends AbstractLmlMacroParent {
 	public static final String DEFAULT_CONTENT_ATTRIBUTE = "${MACRO}";

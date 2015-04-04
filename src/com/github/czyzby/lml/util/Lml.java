@@ -4,12 +4,13 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.github.czyzby.kiwi.util.common.Nullables;
 import com.github.czyzby.lml.parser.LmlParser;
+import com.github.czyzby.lml.parser.LmlTagAttributeParser;
 import com.github.czyzby.lml.parser.impl.AbstractLmlParser;
 import com.github.czyzby.lml.parser.impl.Scene2DLmlParser;
 import com.github.czyzby.lml.parser.impl.dto.ActionContainer;
 import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
-import com.github.czyzby.lml.util.common.Nullables;
 
 /** Allows to (hopefully) easily prepare LML document parsers.
  *
@@ -30,9 +31,9 @@ public class Lml implements LmlSyntax {
 	 *
 	 * After building, use parse() or fill() methods to parse .lml files.
 	 *
-	 * @return a new LmlParserBuilder instance; */
+	 * @return a new LmlParserBuilder instance. */
 	public static LmlParserBuilder parser() {
-		return new LmlParserBuilder(null);
+		return new LmlParserBuilder((Skin) null);
 	}
 
 	/** Allows to build an LmlParser with the default implementation. Each builder instance should be used
@@ -42,9 +43,33 @@ public class Lml implements LmlSyntax {
 	 *
 	 * After building, use parse() or fill() methods to parse .lml files.
 	 *
-	 * @return a new LmlParserBuilder instance; */
+	 * @return a new LmlParserBuilder instance. */
 	public static LmlParserBuilder parser(final Skin skin) {
 		return new LmlParserBuilder(skin);
+	}
+
+	/** Allows to build an LmlParser with the default implementation. Each builder instance should be used
+	 * once. Basically, it creates an instance of default LmlParser implementation and wraps around its
+	 * methods to make them chainable. Uncommon settings - like default parsers - are omitted on purpose and
+	 * have to be set after the building is complete.
+	 *
+	 * After building, use parse() or fill() methods to parse .lml files.
+	 *
+	 * @return a new LmlParserBuilder instance with settings copied from the passed builder. */
+	public static LmlParserBuilder parser(final LmlParserBuilder fromBuilder) {
+		return new LmlParserBuilder(fromBuilder.build());
+	}
+
+	/** Allows to build an LmlParser with the default implementation. Each builder instance should be used
+	 * once. Basically, it creates an instance of default LmlParser implementation and wraps around its
+	 * methods to make them chainable. Uncommon settings - like default parsers - are omitted on purpose and
+	 * have to be set after the building is complete.
+	 *
+	 * After building, use parse() or fill() methods to parse .lml files.
+	 *
+	 * @return a new LmlParserBuilder instance with settings copied from the passed parser. */
+	public static LmlParserBuilder parser(final LmlParser fromParser) {
+		return new LmlParserBuilder(fromParser);
 	}
 
 	/** Allows to build an LmlParser with the default implementation. Each builder instance should be used
@@ -152,7 +177,7 @@ public class Lml implements LmlSyntax {
 
 	/** @param bundleLineKey will be proceeded with @, making it extract text from i18n bundle. */
 	public static String toBundleLine(final String bundleLineKey) {
-		return BUNDLE_LINE_OPENING + bundleLineKey;
+		return BUNDLE_LINE_SIGN + bundleLineKey;
 	}
 
 	/** Used to create customize LmlParsers.
@@ -165,8 +190,16 @@ public class Lml implements LmlSyntax {
 			lmlParser = getNewInstance(skin);
 		}
 
-		protected Scene2DLmlParser getNewInstance(final Skin skin) {
+		public LmlParserBuilder(final LmlParser lmlParser) {
+			this.lmlParser = getNewInstance(lmlParser);
+		}
+
+		protected LmlParser getNewInstance(final Skin skin) {
 			return new Scene2DLmlParser(skin);
+		}
+
+		protected LmlParser getNewInstance(final LmlParser parser) {
+			return new Scene2DLmlParser((AbstractLmlParser) parser);
 		}
 
 		/** @param skin has to store referenced widget styles. */
@@ -177,13 +210,25 @@ public class Lml implements LmlSyntax {
 
 		/** @param i18nBundle has to store texts referenced with proceeding @ in .lml files. */
 		public LmlParserBuilder i18nBundle(final I18NBundle i18nBundle) {
-			lmlParser.setI18nBundle(i18nBundle);
+			lmlParser.setDefaultI18nBundle(i18nBundle);
 			return this;
 		}
 
 		/** @param preferences can store attributes referenced with proceeding # in .lml files. */
 		public LmlParserBuilder preferences(final Preferences preferences) {
-			lmlParser.setPreferences(preferences);
+			lmlParser.setDefaultPreferences(preferences);
+			return this;
+		}
+
+		/** @param i18nBundle has to store texts referenced with proceeding @ + bundleName + @ in .lml files. */
+		public LmlParserBuilder i18nBundle(final String bundleName, final I18NBundle i18nBundle) {
+			lmlParser.setI18nBundle(bundleName, i18nBundle);
+			return this;
+		}
+
+		/** @param preferences can store attributes referenced with proceeding #preferencesName# in .lml files. */
+		public LmlParserBuilder preferences(final String preferencesName, final Preferences preferences) {
+			lmlParser.setPreferences(preferencesName, preferences);
 			return this;
 		}
 
@@ -273,6 +318,13 @@ public class Lml implements LmlSyntax {
 		 *            (doubtfully) continued. Default is true. */
 		public LmlParserBuilder strict(final boolean strict) {
 			lmlParser.setStrict(strict);
+			return this;
+		}
+
+		/** @param forTag one of the tags handled by the selected tag parser.
+		 * @param parser allows to customize attribute parsing with selected keys. */
+		public LmlParserBuilder attributeParser(final String forTag, final LmlTagAttributeParser parser) {
+			lmlParser.registerAttributeParser(forTag, parser);
 			return this;
 		}
 

@@ -1,65 +1,70 @@
 package com.github.czyzby.lml.parser.impl.tag;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectMap.Entry;
+import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.lml.parser.LmlParser;
+import com.github.czyzby.lml.parser.LmlTagAttributeParser;
 import com.github.czyzby.lml.parser.impl.dto.LmlParent;
 import com.github.czyzby.lml.parser.impl.dto.LmlTagData;
+import com.github.czyzby.lml.parser.impl.tag.attribute.VerticalGroupLmlTagAttributeParser;
 import com.github.czyzby.lml.parser.impl.tag.parent.VerticalGroupLmlParent;
 
-public class VerticalGroupLmlTagDataParser extends AbstractGroupLmlTagDataParser<VerticalGroup> {
-	public static final String ALIGNMENT_ATTRIBUTE = "GROUPALIGN";
-	public static final String PAD_ATTRIBUTE = "GROUPPAD";
-	public static final String PAD_TOP_ATTRIBUTE = "GROUPPADTOP";
-	public static final String PAD_BOTTOM_ATTRIBUTE = "GROUPPADBOTTOM";
-	public static final String PAD_LEFT_ATTRIBUTE = "GROUPPADLEFT";
-	public static final String PAD_RIGHT_ATTRIBUTE = "GROUPPADRIGHT";
-	public static final String FILL_ATTRIBUTE = "GROUPFILL";
-	public static final String SPACING_ATTRIBUTE = "GROUPSPACE";
-	public static final String REVERSE_ATTRIBUTE = "REVERSE";
+public class VerticalGroupLmlTagDataParser extends AbstractLmlTagDataParser<VerticalGroup> {
+	private static final ObjectMap<String, LmlTagAttributeParser> ATTRIBUTE_PARSERS;
+
+	private final ObjectMap<String, LmlTagAttributeParser> attributeParsers =
+			new ObjectMap<String, LmlTagAttributeParser>(ATTRIBUTE_PARSERS);
+
+	static {
+		ATTRIBUTE_PARSERS = GdxMaps.newObjectMap();
+		for (final LmlTagAttributeParser parser : VerticalGroupLmlTagAttributeParser.values()) {
+			registerParser(parser);
+		}
+	}
+
+	public static void registerParser(final LmlTagAttributeParser parser) {
+		for (final String alias : parser.getAttributeNames()) {
+			ATTRIBUTE_PARSERS.put(alias.toUpperCase(), parser);
+		}
+	}
+
+	public static void unregisterParser(final String withAlias) {
+		ATTRIBUTE_PARSERS.remove(withAlias);
+	}
+
+	@Override
+	protected void parseAttributes(final LmlTagData lmlTagData, final LmlParser parser, final Actor actor) {
+		super.parseAttributes(lmlTagData, parser, actor);
+		for (final Entry<String, String> attribute : lmlTagData.getAttributes()) {
+			if (attributeParsers.containsKey(attribute.key)) {
+				attributeParsers.get(attribute.key).apply(actor, parser, attribute.value, lmlTagData);
+			}
+		}
+	}
+
+	@Override
+	public void registerAttributeParser(final LmlTagAttributeParser parser) {
+		for (final String alias : parser.getAttributeNames()) {
+			attributeParsers.put(alias.toUpperCase(), parser);
+		}
+	}
+
+	@Override
+	public void unregisterAttributeParser(final String attributeName) {
+		attributeParsers.remove(attributeName);
+	}
 
 	@Override
 	protected VerticalGroup parseChildWithValidTag(final LmlTagData lmlTagData, final LmlParser parser) {
-		final VerticalGroup group = new VerticalGroup();
-		setFillParent(group, lmlTagData, parser);
-		if (lmlTagData.containsAttribute(ALIGNMENT_ATTRIBUTE)) {
-			group.align(parseAlignment(lmlTagData, ALIGNMENT_ATTRIBUTE, parser, group));
-		}
-		if (lmlTagData.containsAttribute(FILL_ATTRIBUTE)) {
-			group.fill(parseFloat(lmlTagData, FILL_ATTRIBUTE, parser, group));
-		}
-		if (lmlTagData.containsAttribute(REVERSE_ATTRIBUTE)) {
-			group.reverse(parseBoolean(lmlTagData, REVERSE_ATTRIBUTE, parser, group));
-		}
-		setPadding(lmlTagData, parser, group);
-		return group;
-	}
-
-	private void setPadding(final LmlTagData lmlTagData, final LmlParser parser, final VerticalGroup group) {
-		if (lmlTagData.containsAttribute(PAD_ATTRIBUTE)) {
-			group.pad(parseFloat(lmlTagData, PAD_ATTRIBUTE, parser, group));
-		}
-		if (lmlTagData.containsAttribute(PAD_TOP_ATTRIBUTE)) {
-			group.padTop(parseFloat(lmlTagData, PAD_TOP_ATTRIBUTE, parser, group));
-		}
-		if (lmlTagData.containsAttribute(PAD_BOTTOM_ATTRIBUTE)) {
-			group.padBottom(parseFloat(lmlTagData, PAD_BOTTOM_ATTRIBUTE, parser, group));
-		}
-		if (lmlTagData.containsAttribute(PAD_LEFT_ATTRIBUTE)) {
-			group.padLeft(parseFloat(lmlTagData, PAD_LEFT_ATTRIBUTE, parser, group));
-		}
-		if (lmlTagData.containsAttribute(PAD_RIGHT_ATTRIBUTE)) {
-			group.padRight(parseFloat(lmlTagData, PAD_RIGHT_ATTRIBUTE, parser, group));
-		}
-		if (lmlTagData.containsAttribute(SPACING_ATTRIBUTE)) {
-			group.space(parseFloat(lmlTagData, SPACING_ATTRIBUTE, parser, group));
-		}
+		return new VerticalGroup();
 	}
 
 	@Override
 	protected LmlParent<VerticalGroup> parseParentWithValidTag(final LmlTagData lmlTagData,
 			final LmlParser parser, final LmlParent<?> parent) {
-		return new VerticalGroupLmlParent(lmlTagData, parseChildWithValidTag(lmlTagData, parser), parent,
-				parser);
+		return new VerticalGroupLmlParent(lmlTagData, parseChild(lmlTagData, parser), parent, parser);
 	}
-
 }

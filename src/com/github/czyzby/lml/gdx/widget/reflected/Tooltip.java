@@ -15,8 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.github.czyzby.lml.gdx.widget.FloatRange;
-import com.github.czyzby.lml.util.gdx.Alignment;
+import com.github.czyzby.kiwi.util.gdx.scene2d.Alignment;
+import com.github.czyzby.kiwi.util.gdx.scene2d.range.FloatRange;
 
 /** A simple component representing a tooltip. Can contain any actor, including complex component tables. Has
  * to be manually called to show and hide, although the logic is already done when using default Listener.

@@ -1,10 +1,17 @@
 package com.github.czyzby.lml.parser.impl.tag;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectMap.Entry;
+import com.github.czyzby.kiwi.util.common.Strings;
+import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.lml.parser.LmlParser;
+import com.github.czyzby.lml.parser.LmlTagAttributeParser;
 import com.github.czyzby.lml.parser.impl.dto.LmlParent;
 import com.github.czyzby.lml.parser.impl.dto.LmlTagData;
+import com.github.czyzby.lml.parser.impl.tag.attribute.TextButtonLmlTagAttributeParser;
 import com.github.czyzby.lml.parser.impl.tag.parent.TextButtonLmlParent;
 
 /** Additionally to button and table tags, text button supports: <ul> <li>text - button's label text.</li>
@@ -12,45 +19,60 @@ import com.github.czyzby.lml.parser.impl.tag.parent.TextButtonLmlParent;
  * caution. true/false.</li> <li>textEllipsis - button's label ellipsis setting. true/false.</li> </ul>
  *
  * @author MJ */
-public class TextButtonLmlTagDataParser<TextButtonWidget extends TextButton> extends
-		ButtonLmlTagDataParser<TextButtonWidget> {
-	public static final String LINK_ATTRIBUTE = "HREF";
-	public static final String TEXT_ATTRIBUTE = "TEXT";
-	public static final String TEXT_ALIGN_ATTRIBUTE = "TEXTALIGN";
-	public static final String TEXT_WRAP_ATTRIBUTE = "TEXTWRAP";
-	public static final String TEXT_ELLIPSIS_ATTRIBUTE = "TEXTELLIPSIS";
+public class TextButtonLmlTagDataParser extends ButtonLmlTagDataParser {
+	private static final ObjectMap<String, LmlTagAttributeParser> ATTRIBUTE_PARSERS;
 
-	@Override
-	protected TextButtonWidget parseChildWithValidTag(final LmlTagData lmlTagData, final LmlParser parser) {
-		final TextButtonWidget textButton = super.parseChildWithValidTag(lmlTagData, parser);
-		final Label buttonLabel = textButton.getLabel();
-		if (lmlTagData.containsAttribute(LINK_ATTRIBUTE)) {
-			addOnClickAction(parser, textButton, lmlTagData.getAttribute(LINK_ATTRIBUTE));
-		}
-		if (lmlTagData.containsAttribute(TEXT_ALIGN_ATTRIBUTE)) {
-			buttonLabel.setAlignment(parseAlignment(lmlTagData, TEXT_ALIGN_ATTRIBUTE, parser, textButton));
-		}
-		buttonLabel.setWrap(parseBoolean(lmlTagData, TEXT_WRAP_ATTRIBUTE, parser, textButton));
-		buttonLabel.setEllipsis(parseBoolean(lmlTagData, TEXT_ELLIPSIS_ATTRIBUTE, parser, textButton));
+	private final ObjectMap<String, LmlTagAttributeParser> attributeParsers =
+			new ObjectMap<String, LmlTagAttributeParser>(ATTRIBUTE_PARSERS);
 
-		return textButton;
+	static {
+		ATTRIBUTE_PARSERS = GdxMaps.newObjectMap();
+		for (final LmlTagAttributeParser parser : TextButtonLmlTagAttributeParser.values()) {
+			registerParser(parser);
+		}
+	}
+
+	public static void registerParser(final LmlTagAttributeParser parser) {
+		for (final String alias : parser.getAttributeNames()) {
+			ATTRIBUTE_PARSERS.put(alias.toUpperCase(), parser);
+		}
+	}
+
+	public static void unregisterParser(final String withAlias) {
+		ATTRIBUTE_PARSERS.remove(withAlias);
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	protected TextButtonWidget prepareNewTable(final LmlTagData lmlTagData, final LmlParser parser) {
-		final TextButtonWidget textButton =
-				(TextButtonWidget) new TextButton(EMPTY_STRING, parser.getSkin(), getStyleName(lmlTagData,
-						parser));
-		textButton.setText(parseString(lmlTagData, TEXT_ATTRIBUTE, parser, textButton));
-		return textButton;
-	};
+	protected void parseAttributes(final LmlTagData lmlTagData, final LmlParser parser, final Actor actor) {
+		super.parseAttributes(lmlTagData, parser, actor);
+		for (final Entry<String, String> attribute : lmlTagData.getAttributes()) {
+			if (attributeParsers.containsKey(attribute.key)) {
+				attributeParsers.get(attribute.key).apply(actor, parser, attribute.value, lmlTagData);
+			}
+		}
+	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	protected LmlParent<TextButtonWidget> parseParentWithValidTag(final LmlTagData lmlTagData,
-			final LmlParser parser, final LmlParent<?> parent) {
-		return (LmlParent<TextButtonWidget>) new TextButtonLmlParent<TextButton>(lmlTagData,
-				parseChildWithValidTag(lmlTagData, parser), parent, parser);
+	public void registerAttributeParser(final LmlTagAttributeParser parser) {
+		for (final String alias : parser.getAttributeNames()) {
+			attributeParsers.put(alias.toUpperCase(), parser);
+		}
+	}
+
+	@Override
+	public void unregisterAttributeParser(final String attributeName) {
+		attributeParsers.remove(attributeName);
+	}
+
+	@Override
+	protected TextButton parseChildWithValidTag(final LmlTagData lmlTagData, final LmlParser parser) {
+		return new TextButton(Strings.EMPTY_STRING, parser.getSkin(), getStyleName(lmlTagData, parser));
+	}
+
+	@Override
+	protected LmlParent<Table> parseParentWithValidTag(final LmlTagData lmlTagData, final LmlParser parser,
+			final LmlParent<?> parent) {
+		return new TextButtonLmlParent(lmlTagData, (TextButton) parseChild(lmlTagData, parser), parent,
+				parser);
 	}
 }

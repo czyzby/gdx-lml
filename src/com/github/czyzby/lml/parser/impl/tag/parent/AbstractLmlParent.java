@@ -3,19 +3,19 @@ package com.github.czyzby.lml.parser.impl.tag.parent;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Tree;
+import com.github.czyzby.lml.error.LmlParsingException;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.dto.LmlParent;
 import com.github.czyzby.lml.parser.impl.dto.LmlTagData;
-import com.github.czyzby.lml.parser.impl.tag.AbstractLmlAttributeParser;
+import com.github.czyzby.lml.parser.impl.util.LmlAttributes;
 import com.github.czyzby.lml.util.LmlSyntax;
 
 /** Provides core method implementations for LmlParents.
  *
  * @author MJ */
-public abstract class AbstractLmlParent<Widget extends Actor> extends AbstractLmlAttributeParser implements
-		LmlParent<Widget>, LmlSyntax {
+public abstract class AbstractLmlParent<Widget extends Actor> implements LmlParent<Widget>, LmlSyntax {
+	public static final String TREE_NODE_ATTRIBUTE = "TREENODE";
 	private final String tagName;
-	private final String id;
 	private final int lineNumber;
 	protected final Widget actor;
 	protected final LmlParent<?> parent;
@@ -25,7 +25,6 @@ public abstract class AbstractLmlParent<Widget extends Actor> extends AbstractLm
 	public AbstractLmlParent(final LmlTagData tagData, final Widget actor, final LmlParent<?> parent,
 			final LmlParser parser) {
 		this.tagName = tagData.getTagName();
-		id = tagData.getId();
 		this.actor = actor;
 		this.parent = parent;
 		lineNumber = parser.getCurrentlyParsedLine();
@@ -35,7 +34,8 @@ public abstract class AbstractLmlParent<Widget extends Actor> extends AbstractLm
 
 	private boolean getTreeNodeProperty(final LmlTagData tagData, final Widget actor, final LmlParser parser,
 			LmlParent<?> parent) {
-		final boolean treeNode = parseBoolean(tagData, TREE_NODE_ATTRIBUTE, parser, actor);
+		final boolean treeNode =
+				LmlAttributes.parseBoolean(actor, parser, tagData.getAttribute(TREE_NODE_ATTRIBUTE));
 		if (treeNode) {
 			while (!(parent instanceof TreeLmlParent)) {
 				parent = parent.getParent();
@@ -59,11 +59,6 @@ public abstract class AbstractLmlParent<Widget extends Actor> extends AbstractLm
 	@Override
 	public String getTagName() {
 		return tagName;
-	}
-
-	@Override
-	public String getId() {
-		return id;
 	}
 
 	@Override
@@ -142,26 +137,9 @@ public abstract class AbstractLmlParent<Widget extends Actor> extends AbstractLm
 		return new Label(parser.parseStringData(data, actor), parser.getSkin());
 	}
 
-	protected int parseAlignment(final LmlTagData lmlTagData, final String attributeName,
-			final LmlParser parser) {
-		return super.parseAlignment(lmlTagData, attributeName, parser, actor);
-	}
-
-	protected boolean parseBoolean(final LmlTagData lmlTagData, final String attributeName,
-			final LmlParser parser) {
-		return super.parseBoolean(lmlTagData, attributeName, parser, actor);
-	}
-
-	protected float parseFloat(final LmlTagData lmlTagData, final String attributeName, final LmlParser parser) {
-		return super.parseFloat(lmlTagData, attributeName, parser, actor);
-	}
-
-	protected int parseInt(final LmlTagData lmlTagData, final String attributeName, final LmlParser parser) {
-		return super.parseInt(lmlTagData, attributeName, parser, actor);
-	}
-
-	protected String parseString(final LmlTagData lmlTagData, final String attributeName,
-			final LmlParser parser) {
-		return super.parseString(lmlTagData, attributeName, parser, actor);
+	protected void throwErrorIfStrict(final LmlParser parser, final String message) {
+		if (parser.isStrict()) {
+			throw new LmlParsingException(message, parser);
+		}
 	}
 }

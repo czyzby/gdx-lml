@@ -1,6 +1,7 @@
 package com.github.czyzby.lml.parser.impl.macro;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.dto.LmlMacroData;
 import com.github.czyzby.lml.parser.impl.dto.LmlParent;
@@ -21,7 +22,7 @@ public class NullCheckLmlMacroParser extends AbstractLmlMacroParser {
 				|| lmlMacroData.getArguments().size == 1
 				&& !new NullCheckLmlMacroParent(lmlMacroData, null, parser).doSingleArgumentCheck(
 						lmlMacroData.getArguments().first(), parser)) {
-			return EMPTY_STRING;
+			return Strings.EMPTY_STRING;
 		}
 		return lmlMacroData.getArguments().toString(SPACE_SEPARATOR);
 	}

@@ -1,103 +1,71 @@
 package com.github.czyzby.lml.parser.impl.tag;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectMap.Entry;
+import com.github.czyzby.kiwi.util.common.Strings;
+import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.lml.parser.LmlParser;
+import com.github.czyzby.lml.parser.LmlTagAttributeParser;
 import com.github.czyzby.lml.parser.impl.dto.LmlParent;
 import com.github.czyzby.lml.parser.impl.dto.LmlTagData;
+import com.github.czyzby.lml.parser.impl.tag.attribute.TextFieldLmlTagAttributeParser;
 import com.github.czyzby.lml.parser.impl.tag.parent.TextFieldLmlParent;
 
-public class TextFieldLmlTagDataParser extends AbstractLmlTagDataParser<TextField> {
-	public static final String TEXT_ATTRIBUTE = "TEXT";
-	public static final String VALUE_ATTRIBUTE = "VALUE";
-	public static final String CURSOR_POSITION_ATTRIBUTE = "CURSORPOSITION";
-	public static final String PASSWORD_MODE_ATTRIBUTE = "PASSWORD";
-	public static final String PASSWORD_CHARACTER_ATTRIBUTE = "PASSWORDCHAR";
-	public static final String ONLY_FONT_CHARS_ATTRIBUTE = "ONLYFONTCHARS";
-	public static final String FILL_PARENT_ATTRIBUTE = "FILLPARENT";
-	public static final String FOCUS_TRAVERSAL_ATTRIBUTE = "FOCUSTRAVERSAL";
-	public static final String SELECT_ALL_ATTRIBUTE = "SELECTALL";
-	public static final String SELECTION_START_ATTRIBUTE = "SELECTIONSTART";
-	public static final String SELECTION_END_ATTRIBUTE = "SELECTIONEND";
-	public static final String TEXT_ALIGNMENT_ATTRIBUTE = "TEXTALIGN";
-	public static final String BLINK_TIME_ATTRIBUTE = "BLINKTIME";
-	public static final String MESSAGE_ATTRIBUTE = "MESSAGE";
+public class TextFieldLmlTagDataParser extends AbstractWidgetLmlTagDataParser<TextField> {
+	private static final ObjectMap<String, LmlTagAttributeParser> ATTRIBUTE_PARSERS;
+
+	private final ObjectMap<String, LmlTagAttributeParser> attributeParsers =
+			new ObjectMap<String, LmlTagAttributeParser>(ATTRIBUTE_PARSERS);
+
+	static {
+		ATTRIBUTE_PARSERS = GdxMaps.newObjectMap();
+		for (final LmlTagAttributeParser parser : TextFieldLmlTagAttributeParser.values()) {
+			registerParser(parser);
+		}
+	}
+
+	public static void registerParser(final LmlTagAttributeParser parser) {
+		for (final String alias : parser.getAttributeNames()) {
+			ATTRIBUTE_PARSERS.put(alias.toUpperCase(), parser);
+		}
+	}
+
+	public static void unregisterParser(final String withAlias) {
+		ATTRIBUTE_PARSERS.remove(withAlias);
+	}
+
+	@Override
+	protected void parseAttributes(final LmlTagData lmlTagData, final LmlParser parser, final Actor actor) {
+		super.parseAttributes(lmlTagData, parser, actor);
+		for (final Entry<String, String> attribute : lmlTagData.getAttributes()) {
+			if (attributeParsers.containsKey(attribute.key)) {
+				attributeParsers.get(attribute.key).apply(actor, parser, attribute.value, lmlTagData);
+			}
+		}
+	}
+
+	@Override
+	public void registerAttributeParser(final LmlTagAttributeParser parser) {
+		for (final String alias : parser.getAttributeNames()) {
+			attributeParsers.put(alias.toUpperCase(), parser);
+		}
+	}
+
+	@Override
+	public void unregisterAttributeParser(final String attributeName) {
+		attributeParsers.remove(attributeName);
+	}
 
 	@Override
 	protected TextField parseChildWithValidTag(final LmlTagData lmlTagData, final LmlParser parser) {
-		final TextField textField = getNewInstance(lmlTagData, parser);
-		if (lmlTagData.containsAttribute(MESSAGE_ATTRIBUTE)) {
-			textField.setMessageText(parseString(lmlTagData, MESSAGE_ATTRIBUTE, parser, textField));
-		}
-		setFieldData(lmlTagData, parser, textField);
-		setSelection(lmlTagData, parser, textField);
-		setPasswordMode(lmlTagData, parser, textField);
-		return textField;
-	}
-
-	protected TextField getNewInstance(final LmlTagData lmlTagData, final LmlParser parser) {
-		return new TextField(getInitialText(lmlTagData, parser), parser.getSkin(), getStyleName(lmlTagData,
-				parser));
-	}
-
-	protected String getInitialText(final LmlTagData lmlTagData, final LmlParser parser) {
-		if (lmlTagData.containsAttribute(TEXT_ATTRIBUTE)) {
-			return parseString(lmlTagData, TEXT_ATTRIBUTE, parser, null);
-		}
-		return lmlTagData.containsAttribute(VALUE_ATTRIBUTE) ? parseString(lmlTagData, VALUE_ATTRIBUTE,
-				parser, null) : EMPTY_STRING;
-	}
-
-	private void setFieldData(final LmlTagData lmlTagData, final LmlParser parser, final TextField textField) {
-		if (lmlTagData.containsAttribute(FILL_PARENT_ATTRIBUTE)) {
-			textField.setFillParent(parseBoolean(lmlTagData, FILL_PARENT_ATTRIBUTE, parser, textField));
-		}
-		if (lmlTagData.containsAttribute(BLINK_TIME_ATTRIBUTE)) {
-			textField.setBlinkTime(parseFloat(lmlTagData, BLINK_TIME_ATTRIBUTE, parser, textField));
-		}
-		if (lmlTagData.containsAttribute(TEXT_ALIGNMENT_ATTRIBUTE)) {
-			textField.setAlignment(parseAlignment(lmlTagData, TEXT_ALIGNMENT_ATTRIBUTE, parser, textField));
-		}
-	}
-
-	private void setSelection(final LmlTagData lmlTagData, final LmlParser parser, final TextField textField) {
-		if (lmlTagData.containsAttribute(CURSOR_POSITION_ATTRIBUTE)) {
-			textField.setCursorPosition(parseInt(lmlTagData, CURSOR_POSITION_ATTRIBUTE, parser, textField));
-		}
-		if (lmlTagData.containsAttribute(FOCUS_TRAVERSAL_ATTRIBUTE)) {
-			textField
-					.setFocusTraversal(parseBoolean(lmlTagData, FOCUS_TRAVERSAL_ATTRIBUTE, parser, textField));
-		}
-		if (parseBoolean(lmlTagData, SELECT_ALL_ATTRIBUTE, parser, textField)) {
-			textField.selectAll();
-		}
-		if (lmlTagData.containsAttribute(SELECTION_START_ATTRIBUTE)) {
-			if (lmlTagData.containsAttribute(SELECTION_END_ATTRIBUTE)) {
-				textField.setSelection(parseInt(lmlTagData, SELECTION_START_ATTRIBUTE, parser, textField),
-						parseInt(lmlTagData, SELECTION_END_ATTRIBUTE, parser, textField));
-			}
-			textField.setSelection(parseInt(lmlTagData, SELECTION_START_ATTRIBUTE, parser, textField),
-					textField.getText().length());
-		} else if (lmlTagData.containsAttribute(SELECTION_END_ATTRIBUTE)) {
-			textField.setSelection(0, parseInt(lmlTagData, SELECTION_END_ATTRIBUTE, parser, textField));
-		}
-	}
-
-	private void setPasswordMode(final LmlTagData lmlTagData, final LmlParser parser,
-			final TextField textField) {
-		textField.setPasswordMode(parseBoolean(lmlTagData, PASSWORD_MODE_ATTRIBUTE, parser, textField));
-		if (lmlTagData.containsAttribute(PASSWORD_CHARACTER_ATTRIBUTE)) {
-			textField.setPasswordCharacter(lmlTagData.getAttribute(PASSWORD_CHARACTER_ATTRIBUTE).charAt(0));
-		}
-		if (lmlTagData.containsAttribute(ONLY_FONT_CHARS_ATTRIBUTE)) {
-			textField
-					.setOnlyFontChars(parseBoolean(lmlTagData, ONLY_FONT_CHARS_ATTRIBUTE, parser, textField));
-		}
+		return new TextField(Strings.EMPTY_STRING, parser.getSkin(), getStyleName(lmlTagData, parser));
 	}
 
 	@Override
 	protected LmlParent<TextField> parseParentWithValidTag(final LmlTagData lmlTagData,
 			final LmlParser parser, final LmlParent<?> parent) {
-		return new TextFieldLmlParent(lmlTagData, parseChildWithValidTag(lmlTagData, parser), parent, parser);
+		return new TextFieldLmlParent(lmlTagData, parseChild(lmlTagData, parser), parent, parser);
 	}
-
 }

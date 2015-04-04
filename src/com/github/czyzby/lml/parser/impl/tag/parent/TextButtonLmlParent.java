@@ -5,14 +5,17 @@ import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.dto.LmlParent;
 import com.github.czyzby.lml.parser.impl.dto.LmlTagData;
 
-public class TextButtonLmlParent<TextButtonWidget extends TextButton> extends
-		TableLmlParent<TextButtonWidget> {
+public class TextButtonLmlParent extends TableLmlParent {
 	private final StringBuilder text;
 
-	public TextButtonLmlParent(final LmlTagData tagData, final TextButtonWidget actor,
-			final LmlParent<?> parent, final LmlParser parser) {
+	public TextButtonLmlParent(final LmlTagData tagData, final TextButton actor, final LmlParent<?> parent,
+			final LmlParser parser) {
 		super(tagData, actor, parent, parser);
 		text = new StringBuilder(actor.getText());
+	}
+
+	protected TextButton getActorAsTextButton() {
+		return (TextButton) actor;
 	}
 
 	@Override
@@ -23,6 +26,6 @@ public class TextButtonLmlParent<TextButtonWidget extends TextButton> extends
 	@Override
 	public void doOnTagClose(final LmlParser parser) {
 		super.doOnTagClose(parser);
-		actor.setText(text.toString());
+		getActorAsTextButton().setText(text.toString());
 	}
 }

@@ -17,4 +17,12 @@ public interface LmlTagDataParser<Widget extends Actor> {
 	 * @param parent of currently added parent. Can be null.
 	 * @return widget created with tag data, storing additional information about behavior as a parent. */
 	LmlParent<Widget> parseParent(LmlTagData lmlTagData, LmlParser parser, LmlParent<?> parent);
+
+	/** @param parser will be added to the parsed attributes list. Default attributes can be also set globally
+	 *            by accessing static methods of tag parsers. */
+	void registerAttributeParser(LmlTagAttributeParser parser);
+
+	/** @param attributeName parser connected with the attribute name will be removed, if exists. Default
+	 *            attributes can be also unset globally by accessing static methods of tag parsers. */
+	void unregisterAttributeParser(String attributeName);
 }

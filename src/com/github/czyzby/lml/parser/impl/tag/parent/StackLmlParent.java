@@ -21,6 +21,7 @@ public class StackLmlParent extends AbstractLmlParent<Stack> {
 
 	@Override
 	public void doOnTagClose(final LmlParser parser) {
+		actor.pack();
 	}
 
 	@Override

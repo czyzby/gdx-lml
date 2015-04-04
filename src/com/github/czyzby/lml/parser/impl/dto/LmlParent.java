@@ -11,9 +11,6 @@ public interface LmlParent<Widget extends Actor> {
 	/** @return tag used to create the parental widget. */
 	String getTagName();
 
-	/** @return value appended with ID attribute in tag. Optional, can be null. */
-	String getId();
-
 	/** @return line number on which the tag was opened. */
 	int getLineNumber();
 

@@ -9,7 +9,7 @@ import com.github.czyzby.lml.parser.impl.util.RowActor;
 public class RowLmlParent extends AbstractLmlParent<RowActor> {
 	public RowLmlParent(final LmlTagData tagData, final LmlParent<?> parent, final LmlParser parser) {
 		super(tagData, RowActor.ROW, parent, parser);
-		if (parent == null || !(parent instanceof TableLmlParent<?>) && !(parent instanceof RowLmlParent)) {
+		if (parent == null || !(parent instanceof TableLmlParent) && !(parent instanceof RowLmlParent)) {
 			throwErrorIfStrict(parser, "Row cannot be used without a table parent.");
 		}
 	}
@@ -22,10 +22,10 @@ public class RowLmlParent extends AbstractLmlParent<RowActor> {
 	@Override
 	public void doOnTagClose(final LmlParser parser) {
 		LmlParent<?> parent = this.parent;
-		while (!(parent instanceof TableLmlParent<?>)) {
+		while (!(parent instanceof TableLmlParent)) {
 			parent = parent.getParent();
 		}
-		((TableLmlParent<?>) parent).getActor().row();
+		((TableLmlParent) parent).getActor().row();
 	}
 
 	@Override

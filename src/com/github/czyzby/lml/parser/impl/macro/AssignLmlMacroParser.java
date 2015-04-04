@@ -2,6 +2,7 @@ package com.github.czyzby.lml.parser.impl.macro;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
+import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.dto.LmlMacroData;
 import com.github.czyzby.lml.parser.impl.dto.LmlParent;
@@ -24,6 +25,6 @@ public class AssignLmlMacroParser extends AbstractLmlMacroParser {
 		} else {
 			parser.addArgument(arguments.first(), arguments.get(1));
 		}
-		return EMPTY_STRING;
+		return Strings.EMPTY_STRING;
 	}
 }

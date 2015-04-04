@@ -1,74 +1,91 @@
 package com.github.czyzby.lml.parser.impl.tag;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectMap.Entry;
+import com.github.czyzby.kiwi.util.common.Strings;
+import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.lml.parser.LmlParser;
+import com.github.czyzby.lml.parser.LmlTagAttributeParser;
 import com.github.czyzby.lml.parser.impl.dto.LmlParent;
 import com.github.czyzby.lml.parser.impl.dto.LmlTagData;
 import com.github.czyzby.lml.parser.impl.dto.StageAttacher;
+import com.github.czyzby.lml.parser.impl.tag.attribute.WindowLmlTagAttributeParser;
 import com.github.czyzby.lml.parser.impl.tag.parent.WindowLmlParent;
+import com.github.czyzby.lml.parser.impl.util.LmlAttributes;
 
-public class WindowLmlTagDataParser<WindowWidget extends Window> extends TableLmlTagDataParser<WindowWidget> {
-	private static final char POSITION_PERCENT = '%';
-	public static final String TITLE_ATTRIBUTE = "TITLE";
-	public static final String TITLE_ALIGNMENT = "TITLE_ALIGNMENT";
-	public static final String KEEP_WITHIN_STAGE_ATTRIBUTE = "KEEPWITHINSTAGE";
-	public static final String MODAL_ATTRIBUTE = "MODAL";
-	public static final String MOVABLE_ATTRIBUTE = "MOVABLE";
-	public static final String RESIZABLE_ATTRIBUTE = "RESIZABLE";
-	public static final String RESIZE_BORDER_ATTRIBUTE = "RESIZEBORDER";
+public class WindowLmlTagDataParser extends TableLmlTagDataParser {
+	// Unique attributes, have to be parsed in a specific way.
 	public static final String POSITION_X_ATTRIBUTE = "POSITIONX";
 	public static final String POSITION_Y_ATTRIBUTE = "POSITIONY";
 
+	private static final ObjectMap<String, LmlTagAttributeParser> ATTRIBUTE_PARSERS;
+
+	private final ObjectMap<String, LmlTagAttributeParser> attributeParsers =
+			new ObjectMap<String, LmlTagAttributeParser>(ATTRIBUTE_PARSERS);
+
+	static {
+		ATTRIBUTE_PARSERS = GdxMaps.newObjectMap();
+		for (final LmlTagAttributeParser parser : WindowLmlTagAttributeParser.values()) {
+			registerParser(parser);
+		}
+	}
+
+	public static void registerParser(final LmlTagAttributeParser parser) {
+		for (final String alias : parser.getAttributeNames()) {
+			ATTRIBUTE_PARSERS.put(alias.toUpperCase(), parser);
+		}
+	}
+
+	public static void unregisterParser(final String withAlias) {
+		ATTRIBUTE_PARSERS.remove(withAlias);
+	}
+
 	@Override
-	protected WindowWidget parseChildWithValidTag(final LmlTagData lmlTagData, final LmlParser parser) {
-		final WindowWidget window = super.parseChildWithValidTag(lmlTagData, parser);
-		setTitle(lmlTagData, parser, window);
-		setMoveable(lmlTagData, parser, window);
-		setResizable(lmlTagData, parser, window);
+	protected void parseAttributes(final LmlTagData lmlTagData, final LmlParser parser, final Actor actor) {
+		super.parseAttributes(lmlTagData, parser, actor);
+		for (final Entry<String, String> attribute : lmlTagData.getAttributes()) {
+			if (attributeParsers.containsKey(attribute.key)) {
+				attributeParsers.get(attribute.key).apply(actor, parser, attribute.value, lmlTagData);
+			}
+		}
+	}
+
+	@Override
+	public void registerAttributeParser(final LmlTagAttributeParser parser) {
+		for (final String alias : parser.getAttributeNames()) {
+			attributeParsers.put(alias.toUpperCase(), parser);
+		}
+	}
+
+	@Override
+	public void unregisterAttributeParser(final String attributeName) {
+		attributeParsers.remove(attributeName);
+	}
+
+	@Override
+	protected Window parseChildWithValidTag(final LmlTagData lmlTagData, final LmlParser parser) {
+		final Window window = getNewInstanceOfWindow(lmlTagData, parser);
 		addStageAttacher(lmlTagData, parser, window);
 		return window;
 	}
 
-	private void setTitle(final LmlTagData lmlTagData, final LmlParser parser, final WindowWidget window) {
-		if (lmlTagData.containsAttribute(TITLE_ATTRIBUTE)) {
-			window.setTitle(parseString(lmlTagData, TITLE_ATTRIBUTE, parser, window));
-		}
-		if (lmlTagData.containsAttribute(TITLE_ALIGNMENT)) {
-			window.setTitleAlignment(parseAlignment(lmlTagData, TITLE_ALIGNMENT, parser, window));
-		}
+	protected Window getNewInstanceOfWindow(final LmlTagData lmlTagData, final LmlParser parser) {
+		return new Window(Strings.EMPTY_STRING, parser.getSkin(), getStyleName(lmlTagData, parser));
 	}
 
-	private void setMoveable(final LmlTagData lmlTagData, final LmlParser parser, final WindowWidget window) {
-		if (lmlTagData.containsAttribute(KEEP_WITHIN_STAGE_ATTRIBUTE)) {
-			window.setKeepWithinStage(parseBoolean(lmlTagData, KEEP_WITHIN_STAGE_ATTRIBUTE, parser, window));
-		}
-		if (lmlTagData.containsAttribute(MOVABLE_ATTRIBUTE)) {
-			window.setMovable(parseBoolean(lmlTagData, MOVABLE_ATTRIBUTE, parser, window));
-		}
-		if (lmlTagData.containsAttribute(MODAL_ATTRIBUTE)) {
-			window.setModal(parseBoolean(lmlTagData, MODAL_ATTRIBUTE, parser, window));
-		}
-	}
-
-	private void setResizable(final LmlTagData lmlTagData, final LmlParser parser, final WindowWidget window) {
-		if (lmlTagData.containsAttribute(RESIZABLE_ATTRIBUTE)) {
-			window.setResizable(parseBoolean(lmlTagData, RESIZABLE_ATTRIBUTE, parser, window));
-		}
-		if (lmlTagData.containsAttribute(RESIZE_BORDER_ATTRIBUTE)) {
-			window.setResizeBorder(parseInt(lmlTagData, RESIZE_BORDER_ATTRIBUTE, parser, window));
-		}
-	}
-
-	private void addStageAttacher(final LmlTagData lmlTagData, final LmlParser parser,
-			final WindowWidget window) {
+	private void addStageAttacher(final LmlTagData lmlTagData, final LmlParser parser, final Window window) {
 		final float x;
 		final float y;
 		final PositionConverter xConverter;
 		final PositionConverter yConverter;
 		if (lmlTagData.containsAttribute(POSITION_X_ATTRIBUTE)) {
-			final String xAttribute = parseString(lmlTagData, POSITION_X_ATTRIBUTE, parser, window);
-			if (xAttribute.charAt(xAttribute.length() - 1) == '%') {
+			final String xAttribute =
+					LmlAttributes.parseString(window, parser, lmlTagData.getAttribute(POSITION_X_ATTRIBUTE));
+			if (xAttribute.charAt(xAttribute.length() - 1) == PERCENT_OPERATOR) {
 				x = Float.parseFloat(xAttribute.substring(0, xAttribute.length() - 1));
 				xConverter = PositionConverter.PERCENT;
 			} else {
@@ -81,8 +98,9 @@ public class WindowLmlTagDataParser<WindowWidget extends Window> extends TableLm
 		}
 
 		if (lmlTagData.containsAttribute(POSITION_Y_ATTRIBUTE)) {
-			final String yAttribute = parseString(lmlTagData, POSITION_Y_ATTRIBUTE, parser, window);
-			if (yAttribute.charAt(yAttribute.length() - 1) == POSITION_PERCENT) {
+			final String yAttribute =
+					LmlAttributes.parseString(window, parser, lmlTagData.getAttribute(POSITION_Y_ATTRIBUTE));
+			if (yAttribute.charAt(yAttribute.length() - 1) == PERCENT_OPERATOR) {
 				y = Float.parseFloat(yAttribute.substring(0, yAttribute.length() - 1));
 				yConverter = PositionConverter.PERCENT;
 			} else {
@@ -97,24 +115,16 @@ public class WindowLmlTagDataParser<WindowWidget extends Window> extends TableLm
 		window.setUserObject(getWindowStageAttacher(window, parser, lmlTagData, x, y, xConverter, yConverter));
 	}
 
-	protected WindowStageAttacher getWindowStageAttacher(final WindowWidget window, final LmlParser parser,
+	protected WindowStageAttacher getWindowStageAttacher(final Window window, final LmlParser parser,
 			final LmlTagData lmlTagData, final float x, final float y, final PositionConverter xConverter,
 			final PositionConverter yConverter) {
 		return new WindowStageAttacher(window, x, y, xConverter, yConverter);
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	protected WindowWidget prepareNewTable(final LmlTagData lmlTagData, final LmlParser parser) {
-		final Window window = new Window(EMPTY_STRING, parser.getSkin(), getStyleName(lmlTagData, parser));
-		return (WindowWidget) window;
-	}
-
-	@Override
-	protected LmlParent<WindowWidget> parseParentWithValidTag(final LmlTagData lmlTagData,
-			final LmlParser parser, final LmlParent<?> parent) {
-		return new WindowLmlParent<WindowWidget>(lmlTagData, parseChildWithValidTag(lmlTagData, parser),
-				parent, parser);
+	protected LmlParent<Table> parseParentWithValidTag(final LmlTagData lmlTagData, final LmlParser parser,
+			final LmlParent<?> parent) {
+		return new WindowLmlParent(lmlTagData, (Window) parseChild(lmlTagData, parser), parent, parser);
 	}
 
 	public static enum PositionConverter {

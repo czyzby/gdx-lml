@@ -2,11 +2,11 @@ package com.github.czyzby.lml.parser.impl.tag.parent;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.dto.LmlParent;
 import com.github.czyzby.lml.parser.impl.dto.LmlTagData;
-import com.github.czyzby.lml.parser.impl.tag.LabelLmlTagDataParser;
-import com.github.czyzby.lml.util.gdx.collection.GdxArrays;
+import com.github.czyzby.lml.parser.impl.tag.attribute.LabelLmlTagAttributeParser;
 
 /** Allows to create a label with text passed between tags instead of an attribute.
  *
@@ -32,7 +32,7 @@ public class LabelLmlParent extends AbstractLmlParent<Label> {
 	@Override
 	public void doOnTagClose(final LmlParser parser) {
 		actor.setText(text);
-		if (LabelLmlTagDataParser.MULTILINE_ATTRIBUTE.equals(actor.getUserObject())) {
+		if (LabelLmlTagAttributeParser.MULTILINE_ATTRIBUTE.equals(actor.getUserObject())) {
 			actor.setUserObject(null);
 		}
 		if (parent != null && parent instanceof ListLmlParent) {
@@ -48,7 +48,7 @@ public class LabelLmlParent extends AbstractLmlParent<Label> {
 
 	@Override
 	protected void handleValidDataBetweenTags(final String data, final LmlParser parser) {
-		if (LabelLmlTagDataParser.MULTILINE_ATTRIBUTE.equals(actor.getUserObject()) && text.length() > 0) {
+		if (LabelLmlTagAttributeParser.MULTILINE_ATTRIBUTE.equals(actor.getUserObject()) && text.length() > 0) {
 			text.append(NEW_LINE);
 		}
 		text.append(parser.parseStringData(data, actor));

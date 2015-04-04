@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.I18NBundle;
+import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.lml.error.LmlParsingException;
 import com.github.czyzby.lml.parser.impl.dto.AbstractLmlDto;
 import com.github.czyzby.lml.parser.impl.dto.LmlMacroData;
@@ -21,17 +22,26 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 
 	public Scene2DLmlParser(final Skin skin) {
 		super(skin);
+		registerDefaultTagsSyntax();
 	}
 
 	public Scene2DLmlParser(final Skin skin, final I18NBundle i18nBundle) {
 		super(skin, i18nBundle);
+		registerDefaultTagsSyntax();
 	}
 
 	public Scene2DLmlParser(final Skin skin, final I18NBundle i18nBundle, final Preferences preferences) {
 		super(skin, i18nBundle, preferences);
+		registerDefaultTagsSyntax();
 	}
 
-	{
+	public Scene2DLmlParser(final AbstractLmlParser parser) {
+		super(parser);
+	}
+
+	/** Override to use customized tag syntax. Note that this method is not called if constructor consuming
+	 * AbstractLmlParser is used. */
+	protected void registerDefaultTagsSyntax() {
 		LmlTagParsers.registerDefaultMacroSyntax(this);
 		LmlTagParsers.registerDefaultTagSyntax(this);
 	}
@@ -43,10 +53,21 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 
 	@Override
 	public Array<Actor> parse(final String lmlDocument) throws LmlParsingException {
-		return new ParserAlgorithm(this).parse(lmlDocument);
+		try {
+			return getParserAlgorithm().parse(lmlDocument);
+		} catch (final LmlParsingException exception) {
+			throw exception;
+		} catch (final Exception exception) {
+			throw new LmlParsingException("Unexpected exception occured while parsing.", this, exception);
+		}
 	}
 
-	private static class ParserAlgorithm implements LmlSyntax {
+	/** Override to use customized parsing algorithm. */
+	protected ParserAlgorithm getParserAlgorithm() {
+		return new ParserAlgorithm(this);
+	}
+
+	public static class ParserAlgorithm implements LmlSyntax {
 		private final Scene2DLmlParser parser;
 		private final Array<Actor> parsedActors = new Array<Actor>();
 		private final StringBuilder currentRawTagData = new StringBuilder();
@@ -87,7 +108,7 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 					handleCharacterRejection(character);
 					continue;
 				}
-				if (parser.isWhitespace(character) && startOfLine) {
+				if (Strings.isWhitespace(character) && startOfLine) {
 					// Whitespace at the start of a line. Ignoring.
 					continue;
 				} else {
@@ -176,7 +197,7 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 		}
 
 		private void handleIgnoredClosingTag(final Array<Actor> parsedActors, final StringBuilder rawTagData) {
-			if (!parser.isDataEmpty(rawTagData)) {
+			if (Strings.isNotEmpty(rawTagData)) {
 				if (isClosingTag(rawTagData)) {
 					// Even though the tag told us to ignore parsed data, we just noticed that it ends.
 					handleIgnoredTagClosing(parsedActors, extractTagNameFromClosedTag(rawTagData));
@@ -185,7 +206,7 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 					matchingIgnoredTagsAmount++;
 				}
 			}
-			parser.clearData(rawTagData);
+			Strings.clearBuilder(rawTagData);
 		}
 
 		private boolean isTagNameMatchingCurrentParent(final StringBuilder rawTagData) {
@@ -213,7 +234,6 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 					if (parser.widgetsHierarchy.isEmpty()) {
 						parsedActors.add(parent.getActor());
 					}
-					attachActorId(parent.getId(), parent.getActor());
 				}
 			}
 		}
@@ -306,7 +326,7 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 			if (parser.isMacro(rawTagData)) {
 				// Tag with @ appended. Parsing marco.
 				handleMacro(rawTagData);
-			} else if (!parser.isDataEmpty(rawTagData)) {
+			} else if (Strings.isNotEmpty(rawTagData)) {
 				// Tag was not empty.
 				if (isClosingTag(rawTagData)) {
 					// Tag was not parental (it ended with /). Parsing tag at once.
@@ -316,7 +336,7 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 					handleTagOpening(parsedActors, LmlTagData.parse(rawTagData));
 				}
 			}
-			parser.clearData(rawTagData);
+			Strings.clearBuilder(rawTagData);
 		}
 
 		private String extractTagNameFromClosedTag(final StringBuilder rawTagData) {
@@ -347,14 +367,6 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 			return wigdetData.charAt(0) == CLOSED_TAG_SIGN;
 		}
 
-		private void attachActorId(final String id, final Actor actor) {
-			if (id != null) {
-				// Actor contains an ID attribute. Mapping it to the ID, so it can be retrieved later.
-				actor.setName(id);
-				parser.actorsByIds.put(id, actor);
-			}
-		}
-
 		private void handleTagOpening(final Array<Actor> parsedActors, final LmlTagData tagData) {
 			if (!parser.tagParsers.containsKey(tagData.getTagName())) {
 				parser.throwErrorIfStrict("Unknown tag: " + tagData.getTagName() + ".");
@@ -378,7 +390,6 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 				// Parents like to know about their children.
 				parser.widgetsHierarchy.getFirst().handleChild(actor, tagData, parser);
 			}
-			attachActorId(tagData.getId(), actor);
 		}
 
 		private void handleParentTagOpening(final LmlTagData tagData) {
@@ -394,7 +405,7 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 
 		private void handleTagClosing(final Array<Actor> parsedActors, final String tag) {
 			if (parser.widgetsHierarchy.isEmpty()) {
-				parser.throwErrorIfStrict("Closed unopened tag.");
+				parser.throwErrorIfStrict("Closed tag that was not opened before: " + tag + ".");
 				return;
 			}
 			if (!tag.equalsIgnoreCase(parser.widgetsHierarchy.getFirst().getTagName())) {
@@ -409,16 +420,15 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 				if (parser.widgetsHierarchy.isEmpty()) {
 					parsedActors.add(parent.getActor());
 				}
-				attachActorId(parent.getId(), parent.getActor());
 			}
 		}
 
 		private void handleDataBetweenTags(final StringBuilder dataBetweenTags) {
 			// Some non-tag text can be written between tags. It's OK, some parents can read these stuff.
-			if (!parser.isDataEmpty(dataBetweenTags) && !parser.widgetsHierarchy.isEmpty()) {
+			if (Strings.isNotEmpty(dataBetweenTags) && !parser.widgetsHierarchy.isEmpty()) {
 				parser.widgetsHierarchy.getFirst().handleDataBetweenTags(dataBetweenTags.toString(), parser);
 			}
-			parser.clearData(dataBetweenTags);
+			Strings.clearBuilder(dataBetweenTags);
 		}
 	}
 }

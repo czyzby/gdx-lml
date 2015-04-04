@@ -19,7 +19,7 @@ jar {
     from project.sourceSets.main.allSource
     from project.sourceSets.main.output
     baseName = 'gdx-lml'
-    version =  '0.2.1.5.5'
+    version =  '0.4.1.5.5'
 }
 
 task javadocJar(type: Jar) {
@@ -42,7 +42,7 @@ signing {
 
 group = "com.github.czyzby"
 archivesBaseName = "gdx-lml"
-version = "0.2.1.5.5"
+version = "0.4.1.5.5"
 
 ext {
     gdxVersion = '1.5.5'
@@ -50,6 +50,7 @@ ext {
 
 dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    compile "com.github.czyzby:gdx-kiwi:0.4.$gdxVersion"
     deployerJars "org.apache.maven.wagon:wagon-ssh:2.2"
     deployerJars "org.apache.maven.wagon:wagon-http:2.2"
 }

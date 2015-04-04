@@ -1,12 +1,12 @@
 package com.github.czyzby.lml.parser.impl.macro.parent;
 
 import com.badlogic.gdx.utils.Array;
+import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
+import com.github.czyzby.kiwi.util.tuple.immutable.Pair;
 import com.github.czyzby.lml.error.LmlParsingException;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.dto.LmlMacroData;
 import com.github.czyzby.lml.parser.impl.dto.LmlParent;
-import com.github.czyzby.lml.util.gdx.collection.GdxArrays;
-import com.github.czyzby.lml.util.tuple.immutable.Pair;
 
 public class ForEachLoopLmlMacroParent extends AbstractLoopLmlMacroParent {
 	public static final String ARGUMENT_DECLARATION_SEPARATOR = ":";

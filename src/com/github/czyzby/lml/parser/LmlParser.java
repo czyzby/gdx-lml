@@ -40,21 +40,34 @@ public interface LmlParser {
 	void setSkin(Skin skin);
 
 	/** @return bundle used to parse text proceeded with @. */
-	I18NBundle getI18nBundle();
+	I18NBundle getDefaultI18nBundle();
 
 	/** @param i18nBundle used to parse text proceeded with @. */
-	void setI18nBundle(I18NBundle i18nBundle);
+	void setDefaultI18nBundle(I18NBundle i18nBundle);
+
+	/** @return bundle used to parse text proceeded with @, i18n bundle name and another @. */
+	I18NBundle getI18nBundle(String forName);
+
+	/** @param i18nBundle used to parse text proceeded with @, i18n bundle name and another @. */
+	void setI18nBundle(String bundleName, I18NBundle i18nBundle);
 
 	/** @return preferences which values can be referenced with #. */
-	Preferences getPreferences();
+	Preferences getDefaultPreferences();
 
 	/** @param preferences its values can be referenced with #. */
-	void setPreferences(Preferences preferences);
+	void setDefaultPreferences(Preferences preferences);
 
-	/** For internal use. Extracts value from preferences.
+	/** @return preferences which values can be referenced with #name#. */
+	Preferences getPreferences(String forName);
+
+	/** @param preferences its values can be referenced with #name#. */
+	void setPreferences(String preferencesName, Preferences preferences);
+
+	/** Mostly for internal use.
 	 *
-	 * @return value from preferences or "NULL" string if preference is unavailable. */
-	String getPreference(String preferenceKey);
+	 * @param rawData starts with # or #preferencesKey#; the rest is the actual preference name.
+	 * @return preference value or NULL. */
+	String getPreference(final String rawData);
 
 	/** For internal use only. Extracts bundle line from i18n bundle or attributes, provided it follows the
 	 * syntax.
@@ -201,4 +214,15 @@ public interface LmlParser {
 	 *
 	 * @return currently parsed line of the original file. */
 	int getCurrentlyParsedLine();
+
+	/** @param tagName one of the tags handled by the selected tag parser.
+	 * @param parser will be registered as one of attribute parsers for the selected tag parser. Note that you
+	 *            can also register attributes globally by accessing tag parsers' static methods. */
+	void registerAttributeParser(String tagName, LmlTagAttributeParser parser);
+
+	/** @param tagName one of the tags handled by the selected tag parser.
+	 * @param attributeName attribute parser connected with this name will be unregistered for tag parser with
+	 *            the passed tag name. Note that you can also unregister attributes globally by accessing tag
+	 *            parsers' static methods. */
+	void unregisterAttributeParser(String tagName, String attributeName);
 }

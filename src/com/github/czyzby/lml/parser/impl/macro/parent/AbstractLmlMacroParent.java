@@ -3,6 +3,8 @@ package com.github.czyzby.lml.parser.impl.macro.parent;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Tree.Node;
 import com.badlogic.gdx.utils.Array;
+import com.github.czyzby.kiwi.util.common.Nullables;
+import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.lml.error.LmlParsingException;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
@@ -10,8 +12,6 @@ import com.github.czyzby.lml.parser.impl.dto.LmlMacroData;
 import com.github.czyzby.lml.parser.impl.dto.LmlParent;
 import com.github.czyzby.lml.parser.impl.dto.LmlTagData;
 import com.github.czyzby.lml.util.LmlSyntax;
-import com.github.czyzby.lml.util.common.Nullables;
-import com.github.czyzby.lml.util.gdx.collection.GdxArrays;
 
 public abstract class AbstractLmlMacroParent implements LmlParent<Actor>, LmlSyntax {
 	private static final int META_CHARS_AMOUNT = 4; // </@ ... >
@@ -37,11 +37,6 @@ public abstract class AbstractLmlMacroParent implements LmlParent<Actor>, LmlSyn
 	}
 
 	@Override
-	public String getId() {
-		return null;
-	}
-
-	@Override
 	public boolean acceptCharacter(final char character) {
 		appendCharacter(character);
 		// Not accepting to parse the character, macro does it's internal parsing.
@@ -60,7 +55,8 @@ public abstract class AbstractLmlMacroParent implements LmlParent<Actor>, LmlSyn
 	/** @return return parent's actor. Can be null. Utility method - parent can be null and this method does the
 	 *         necessary null check. */
 	public Actor getParentActor() {
-		return parent == null ? null : parent.getActor();
+		return parent == null ? null : parent instanceof AbstractLmlMacroParent
+				? ((AbstractLmlMacroParent) parent).getParentActor() : parent.getActor();
 	}
 
 	@Override
@@ -120,7 +116,7 @@ public abstract class AbstractLmlMacroParent implements LmlParent<Actor>, LmlSyn
 			} else if (element.charAt(0) == ACTION_OPERATOR) {
 				arguments.addAll(extractMethodInvocation(parser, parent, element.substring(1)));
 			} else if (element.charAt(0) == PREFERENCE_SIGN) {
-				arguments.add(parser.getPreference(element.substring(1)));
+				arguments.add(parser.getPreference(element));
 			} else {
 				arguments.add(element);
 			}
