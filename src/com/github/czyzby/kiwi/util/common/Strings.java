@@ -81,9 +81,91 @@ public class Strings {
 		return charSequence.length() > 0 && charSequence.charAt(0) == character;
 	}
 
+	/** @return true if the passed sequence starts with the given characters. */
+	public static boolean startsWith(final CharSequence charSequence, final char character0,
+			final char character1) {
+		return charSequence.length() > 1 && charSequence.charAt(0) == character0
+				&& charSequence.charAt(1) == character1;
+	}
+
+	/** @return true if the passed sequence starts with the given characters. */
+	public static boolean startsWith(final CharSequence charSequence, final char character0,
+			final char character1, final char character2) {
+		return charSequence.length() > 2 && charSequence.charAt(0) == character0
+				&& charSequence.charAt(1) == character1 && charSequence.charAt(2) == character2;
+	}
+
+	/** @return true if the passed sequence starts with the given characters. */
+	public static boolean startsWith(final CharSequence charSequence, final char character0,
+			final char character1, final char character2, final char character3) {
+		return charSequence.length() > 3 && charSequence.charAt(0) == character0
+				&& charSequence.charAt(1) == character1 && charSequence.charAt(2) == character2
+				&& charSequence.charAt(3) == character3;
+	}
+
+	/** @return true if the passed sequence starts with the given characters. */
+	public static boolean startsWith(final CharSequence charSequence, final char... characters) {
+		if (charSequence.length() >= characters.length) {
+			for (int index = 0; index < characters.length; index++) {
+				if (charSequence.charAt(index) != characters[index]) {
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
 	/** @return true if the passed sequence ends with the given character. */
 	public static boolean endsWith(final CharSequence charSequence, final char character) {
 		return charSequence.length() > 0 && charSequence.charAt(charSequence.length() - 1) == character;
+	}
+
+	/** @return true if the passed sequence ends with the given characters. */
+	public static boolean endsWith(final CharSequence charSequence, final char character0,
+			final char character1) {
+		return charSequence.length() > 1 && charSequence.charAt(charSequence.length() - 1) == character1
+				&& charSequence.charAt(charSequence.length() - 2) == character0;
+	}
+
+	/** @return true if the passed sequence ends with the given characters. */
+	public static boolean endsWith(final CharSequence charSequence, final char character0,
+			final char character1, final char character2) {
+		return charSequence.length() > 2 && charSequence.charAt(charSequence.length() - 1) == character2
+				&& charSequence.charAt(charSequence.length() - 2) == character1
+				&& charSequence.charAt(charSequence.length() - 3) == character0;
+	}
+
+	/** @return true if the passed sequence ends with the given characters. */
+	public static boolean endsWith(final CharSequence charSequence, final char character0,
+			final char character1, final char character2, final char character3) {
+		return charSequence.length() > 3 && charSequence.charAt(charSequence.length() - 1) == character3
+				&& charSequence.charAt(charSequence.length() - 2) == character2
+				&& charSequence.charAt(charSequence.length() - 3) == character1
+				&& charSequence.charAt(charSequence.length() - 4) == character0;
+	}
+
+	/** @return true if the passed sequence ends with the given characters. */
+	public static boolean endsWith(final CharSequence charSequence, final char... characters) {
+		if (charSequence.length() >= characters.length) {
+			for (int index = 0, modifier = charSequence.length() - characters.length; index < characters.length; index++) {
+				if (charSequence.charAt(index + modifier) != characters[index]) {
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
+	/** @return true if the given sequence contains selected character. */
+	public static boolean contains(final CharSequence charSequence, final char character) {
+		for (int index = 0; index < charSequence.length(); index++) {
+			if (charSequence.charAt(index) == character) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/** @param stringBuilder will have its length set as 0. */
@@ -197,5 +279,62 @@ public class Strings {
 	/** @return nullable object converted to string. If first parameter is null, onNull parameter is returned. */
 	public static String toString(final Object nullable, final String onNull) {
 		return nullable == null ? onNull : nullable.toString();
+	}
+
+	/** @return true if the passed charSequence contains legal characters for an int. Note that the value of int
+	 *         is not validated and can be too big or small. */
+	public static boolean isInt(final CharSequence charSequence) {
+		if (isEmpty(charSequence)) {
+			return false;
+		}
+		int index = 0;
+		if (charSequence.charAt(0) == '-') {
+			if (charSequence.length() > 1) {
+				index++;
+			} else {
+				return false;
+			}
+		}
+		for (; index < charSequence.length(); index++) {
+			final char character = charSequence.charAt(index);
+			if (character < '0' || character > '9') {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/** @return true if the passed charSequence contains legal characters for a float. Note that the value of
+	 *         float is not validated and can be too big or small. */
+	public static boolean isFloat(final CharSequence charSequence) {
+		if (Strings.isEmpty(charSequence)) {
+			return false;
+		}
+		boolean receivedDot = false;
+		for (int index = 0; index < charSequence.length(); index++) {
+			final char character = charSequence.charAt(index);
+			if (character < '0' || character > '9') {
+				if (charSequence.length() > 1) {
+					if (index == 0 && character == '-') {
+						continue;
+					} else if (!receivedDot && character == '.') {
+						receivedDot = true;
+						continue;
+					} else if (character == 'f' && index + 1 == charSequence.length()) {
+						return true;
+					}
+				}
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/** @return a new array with the passed values. Can be empty, but is never null. */
+	public static String[] newArray(final String... values) {
+		if (values == null) {
+			return new String[0];
+		}
+		return values;
 	}
 }

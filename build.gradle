@@ -19,7 +19,7 @@ jar {
     from project.sourceSets.main.allSource
     from project.sourceSets.main.output
     baseName = 'gdx-kiwi'
-    version =  '0.3.1.5.5'
+    version =  '0.4.1.5.5'
 }
 
 task javadocJar(type: Jar) {
@@ -42,7 +42,7 @@ signing {
 
 group = "com.github.czyzby"
 archivesBaseName = "gdx-kiwi"
-version = "0.3.1.5.5"
+version = "0.4.1.5.5"
 
 ext {
     gdxVersion = '1.5.5'

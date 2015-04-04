@@ -41,6 +41,12 @@ Hate null check while creating lazy variables? Good, so do I. While such objects
 - **DisposableConcurrentLazy**: extends DisposableLazy; safe to use by multiple threads.
 - **ReflectionObjectProvider**: an implementation of ObjectProvider that constructs a new instance of object of the passed type with reflection. Works on GWT, but you do have to include used classes for reflection.
 
+#####Providers
+Utility classes for lazy objects. Create - or give access to, depending on implementation - an instance of a object on each call.
+- **ObjectProvider**: functional interface with one, no-parameter method - provide. Implementation of this interface is often required by lazy objects and allows to initiate an object as soon as its needed, rather than at once.
+- **ReflectionObjectProvider**: an implementation of ObjectProvider that uses reflection to construct objects with public, no-argument constructors. Note that the objects have to be reflected and this implementation might not be the best choice if the provider is used very often (for example, when it comes to lazy collections).
+- **ArrayObjectProvider**: an implementation of ObjectProvider that does not use reflection. Allows to create regular and typed Array objects.
+
 ###Collections
 LibGDX collections utilities. To avoid collisions with Guava and Java API, these classes start with Gdx.
 - **GdxArrays**: utilities for LibGDX arrays. Includes array type conversions, common operations, null-safe checks and factory methods.
@@ -65,12 +71,17 @@ Semi-immutable collections extending most common LibGDX containers. Due to origi
 
 All classes come with static factory methods.
 
+####Lazy
+Similarly to Lazy utility containers, lazy collections create objects as soon as they are needed using ObjectProviders. Especially useful for collections of collections.
+- **LazyArray**: creates objects on get(index) if the value associated with the index is null. Never throws out of bounds exception for reasonable indexes (non-negative).
+- **LazyObjectMap**: creates objects on get(key) if the key is not present in the map.
+
 ### Preferences
 - **Preference**: utility interface for common preference operations. Advised to be implemented by an enum to provide static access to each of application's preferences. Comes with an example implementation - PreferenceWrapper.
 - **ApplicationPreferences**: utility container for application's preferences. Manages a map of cached preferences to avoid reading preferences multiple times and ensure that the returned Preferences object for the given path is always the same and in sync.
 
 ### Scene2D
-- **Actors**: simply, common utility methods for Scene2D actors.
+- **Actors**: simple, common utility methods for Scene2D actors.
 - **Alignment**: wraps around Align class to provide human-(instantly-)readable alignment checking methods.
 - **Padding**: utility container for paddings and spacings. Makes it easier to keep static padding settings, without having to create multiple variables.
 - **InterfaceSkin**: utility container that provides static access to UI skin.
@@ -78,3 +89,13 @@ All classes come with static factory methods.
 #### Ranges
 - **ColorRange**: utility for simple color transitions.
 - **FloatRange**: utility for simple float transitions.
+
+##Dependency
+Core project Gradle dependency:
+```
+    compile "com.github.czyzby:gdx-kiwi:0.4.$gdxVersion"
+```
+GWT module:
+```
+	<inherits name="com.github.czyzby.kiwi.GdxKiwi" />
+```

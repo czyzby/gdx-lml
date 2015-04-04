@@ -6,8 +6,10 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.PooledLinkedList;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.badlogic.gdx.utils.SortedIntList;
+import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
 import com.github.czyzby.kiwi.util.gdx.collection.disposable.DisposableArray;
 import com.github.czyzby.kiwi.util.gdx.collection.immutable.ImmutableArray;
+import com.github.czyzby.kiwi.util.gdx.collection.lazy.LazyArray;
 
 /** Simple Array utilities, somewhat inspired by Guava.
  *
@@ -149,6 +151,13 @@ public class GdxArrays {
 		return new DelayedRemovalArray<Type>(array);
 	}
 
+	/** @param provider creates new object on get(index) calls if the value on the selected index is null.
+	 * @return a new lazy array created with the passed array values. */
+	public static <Type> LazyArray<Type> toLazy(final ObjectProvider<? extends Type> provider,
+			final Array<? extends Type> array) {
+		return new LazyArray<Type>(provider, array);
+	}
+
 	/** @return a new pooled linked list the the passes iterable's values. */
 	public static <Type> PooledLinkedList<Type> toPooledLinkedList(final int maxPoolSize,
 			final Iterable<? extends Type> iterable) {
@@ -200,6 +209,11 @@ public class GdxArrays {
 	/** @return true if the given index is last in the passed array. */
 	public static boolean isIndexLast(final Array<?> array, final int index) {
 		return array.size - 1 == index;
+	}
+
+	/** @return true if the given index is valid for the passed array. */
+	public static boolean isIndexValid(final Array<?> array, final int index) {
+		return index >= 0 && index < array.size;
 	}
 
 	/** @param array can be null.

@@ -5,8 +5,10 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.IdentityMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.OrderedMap;
+import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
 import com.github.czyzby.kiwi.util.gdx.collection.disposable.DisposableObjectMap;
 import com.github.czyzby.kiwi.util.gdx.collection.immutable.ImmutableObjectMap;
+import com.github.czyzby.kiwi.util.gdx.collection.lazy.LazyObjectMap;
 
 /** Simple ObjectMap utilities, somewhat inspired by Guava.
  *
@@ -18,6 +20,12 @@ public class GdxMaps {
 	/** @return an empty, new object map. */
 	public static <Key, Value> ObjectMap<Key, Value> newObjectMap() {
 		return new ObjectMap<Key, Value>();
+	}
+
+	/** @return a new object map with the passed values. */
+	public static <Key, Value> ObjectMap<Key, Value> newObjectMap(
+			final ObjectMap<? extends Key, ? extends Value> map) {
+		return new ObjectMap<Key, Value>(map);
 	}
 
 	/** @param keyAndValues pairs of keys and values. Each value has to be proceeded by a key.
@@ -40,6 +48,12 @@ public class GdxMaps {
 		return new OrderedMap<Key, Value>();
 	}
 
+	/** @return a new ordered map with the passed values. */
+	public static <Key, Value> OrderedMap<Key, Value> newOrderedMap(
+			final ObjectMap<? extends Key, ? extends Value> map) {
+		return new OrderedMap<Key, Value>(map);
+	}
+
 	/** @param keyAndValues pairs of keys and values. Each value has to be proceeded by a key.
 	 * @return a new ordered map with the given values. Not fail-fast - be careful when passing arguments, or
 	 *         it might result in unexpected map values. */
@@ -60,6 +74,12 @@ public class GdxMaps {
 		return new IdentityMap<Key, Value>();
 	}
 
+	/** @return a new identity map with the passed values. */
+	public static <Key, Value> IdentityMap<Key, Value> newIdentityMap(
+			final IdentityMap<? extends Key, ? extends Value> map) {
+		return new IdentityMap<Key, Value>(map);
+	}
+
 	/** @param keyAndValues pairs of keys and values. Each value has to be proceeded by a key.
 	 * @return a new identity map with the given values. Not fail-fast - be careful when passing arguments, or
 	 *         it might result in unexpected map values. */
@@ -78,6 +98,12 @@ public class GdxMaps {
 	/** @return an empty, new array map. */
 	public static <Key, Value> ArrayMap<Key, Value> newArrayMap() {
 		return new ArrayMap<Key, Value>();
+	}
+
+	/** @return a new array map with the passed values. */
+	public static <Key, Value> ArrayMap<Key, Value> newArrayMap(
+			final ArrayMap<? extends Key, ? extends Value> map) {
+		return new ArrayMap<Key, Value>(map);
 	}
 
 	/** @return an empty, new array map. */
@@ -140,6 +166,14 @@ public class GdxMaps {
 		return new OrderedMap<Key, Value>(map);
 	}
 
+	/** @param provider creates new object on get(key) calls if the key is not present in the map.
+	 * @return a new ordered map with the passed values. */
+	public static <Key, Value> LazyObjectMap<Key, Value> toLazy(
+			final ObjectMap<? extends Key, ? extends Value> map,
+			final ObjectProvider<? extends Value> provider) {
+		return new LazyObjectMap<Key, Value>(provider, map);
+	}
+
 	/** @return true if map is null or has no elements. */
 	public static boolean isEmpty(final ObjectMap<?, ?> map) {
 		return map == null || map.size == 0;
@@ -148,5 +182,21 @@ public class GdxMaps {
 	/** @return true if map is not null and has at least one element. */
 	public static boolean isNotEmpty(final ObjectMap<?, ?> map) {
 		return map != null && map.size > 0;
+	}
+
+	/** Puts a value with the given key in the passed map, provided that the passed key isn't already present
+	 * in the map.
+	 *
+	 * @param map may contain a value associated with the key.
+	 * @param key map key.
+	 * @param value map value to add.
+	 * @return value associated with the key in the map (recently added or the previous one). */
+	public static <Key, Value> Value putIfAbsent(final ObjectMap<Key, Value> map, final Key key,
+			final Value value) {
+		if (!map.containsKey(key)) {
+			map.put(key, value);
+			return value;
+		}
+		return map.get(key);
 	}
 }
