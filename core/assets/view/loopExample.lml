@@ -1,0 +1,6 @@
+<!-- Index can be accessed with ${openingTagAlias:index}. -->
+<div>
+    <@loop 5>
+        <label row=true>This label was created on ${loop:index} run.</label>
+    </@loop>
+</div>

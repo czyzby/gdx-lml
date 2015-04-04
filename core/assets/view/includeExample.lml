@@ -1,0 +1,14 @@
+<table>
+    <@include view/macro/include.lml />
+    <row/>
+    <@include view/macro/include.lml includedContent>This will be sent to the include macro.</@include>
+</table>
+
+<!-- include.lml:
+<@if ${includedContent}> 
+    <textButton>${includedContent}</textButton>
+<@if:else/>
+    <label>There was no content in include macro call.</label>
+</@if>
+See the file for more comments.
+-->

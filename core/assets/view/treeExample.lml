@@ -1,0 +1,20 @@
+<!-- Every widget with treeNode="true" attribute
+  -- becomes a tree node parent. -->
+<tree>
+    <label text="Node" treeNode=true>
+        This changes label behavior.
+        Normally this would be label's text.
+        Since it's a node, widget will append
+        children rather than parse text.
+    </label>
+    <textButton text=Button\ node treeNode=true>
+        Any widget can become a parent.
+        <slider min=0 max=1 treeNode=true>
+            Any.
+            Truly.
+        </slider>
+        <label text="Nested" treeNode=true>
+            Nesting is supported.
+        </label>
+    </textButton>
+</tree>

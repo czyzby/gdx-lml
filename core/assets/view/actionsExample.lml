@@ -1,0 +1,8 @@
+<table oneColumn=true>
+    <label onCreate=onLabelCreate/>
+    <div>
+        <slider min=1 max=100 stepSize=1 value=20 onChange=onSliderChange/>
+        <label id=sliderValue>20</label>
+    </div>
+    <textButton onClick=onButtonClick>I was clicked 0 times.</textButton>
+</table>

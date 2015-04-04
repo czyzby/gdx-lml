@@ -1,0 +1,14 @@
+<table>
+<@ifNotNull ${someAbsentParameter}/>
+<@ifNotNull ${validParameter}/><row/>
+<@ifNotNull NULL>
+    <label>Should not be shown.</label>
+<@ifNotNull:else/>
+    <label row=true>Should be shown.</label>
+</@ifNotNull>
+<@ifNotNull notempty>
+    <label row=true>Should also be shown.</label>
+<@ifNotNull:else/>
+    <label>Hopefully hidden.</label>
+</@ifNotNull>
+</table>

@@ -1,0 +1,23 @@
+<@macro myMacro;myMacroAlias>
+    <label row=true>This one simply shows a label.</label>
+</macro>
+<@macro myMacroExpectingContent contentArg>
+    <label row=true>Got this between tags: ${contentArg}!</label>
+</macro>
+<@macro myMacroWithParams content arg1 arg2>
+    <label row=${arg1}>Got argument: ${arg1}!</label>
+    <@if ${arg2}>
+        <label row=${arg1}>Also got: 
+            ${arg2}</label>
+    </@if>
+</@macro>
+
+<table>
+    <@myMacro/>
+    <@myMacroAlias/>
+    <@myMacroExpectingContent>
+        some content
+    </@myMacroExpectingContent>
+    <@myMacroWithParams true/>
+    <@myMacroWithParams true @fromBundle/>
+</table>

@@ -1,0 +1,7 @@
+<table>
+    <!-- This is a comment. It can contain any tags.
+    <label>Will not be shown.</label>
+    <@macro any>Not parsed</@macro> -->
+    <label>Outside of comment.</label>
+    <? This is also a comment. ?>
+</table>

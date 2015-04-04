@@ -1,0 +1,16 @@
+<table>
+    Hover over buttons to see tooltips.<row/>
+    Note that they will get away from the edges.<row/>
+    <textButton expand=true fill=true text=@simpleTooltipButton tooltip=@simpleTooltip row=true/>
+    <textButton expand=true fill=true text=@customTooltipButton tooltip=&createCustomTooltip tooltipStyle=custom/>
+</table>
+
+<!-- Tooltip LML data:
+<table>
+    I'm a custom tooltip,<tr/>
+    also created with LML.<tr/>
+    <textButton>I contain some</textButton><tr/>
+    <checkBox checked=true>fancy widgets.</checkBox><tr/>
+    And a different style.
+</table>
+-->

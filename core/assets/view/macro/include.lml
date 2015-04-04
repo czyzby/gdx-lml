@@ -1,0 +1,8 @@
+<@if ${includedContent}> <!-- One parameter condition - null check. -->
+<!-- Shown only if file is included with between-tags content with includedContent 
+	argument or includedContent argument was added in general. -->
+	<textButton>${includedContent}</textButton>
+<@if:else/>
+	<!-- Shown only if includedContent argument is absent or null. -->
+	<label>There was no content in include macro call.</label>
+</@if>

@@ -1,0 +1,8 @@
+<table>
+    <@assign someParam Some\ parameter/>
+    <@assign myButton><textButton>This button is actually my parameter</textButton></@assign>
+
+    ${someParam}
+    <row/>
+    ${myButton}
+</table>

@@ -1,0 +1,7 @@
+<table>
+    <!-- onHover is a custom attribute, added in Main class.
+      -- It parses the first argument and sets it as label's
+      -- text on mouse enter, while setting second parsed
+      -- argument on exit. -->
+    <label onHover="@fromI18n;#fromPreferences">Hover on me.</label>
+</table>

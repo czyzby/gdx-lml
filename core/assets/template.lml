@@ -1,0 +1,21 @@
+<window fillParent="true" title="@templateTitle">
+    <label toTitleTable="true" align="right" expandX="true" padRight="5"
+        padTop="-2">@templateSubtitle</label>
+    <td expand="true" fill="true" uniformX="true">
+        <textArea id="templateInput" message="@textAreaPrompt" row="true"
+            expand="true" fill="true" class="technical" />
+        <textButton onClick="parseLml" expandX="true" fillX="true">@parsingButton|LML</textButton> 
+    </td>
+    <td expand="true" fill="true" uniformX="true">
+        <div>
+            <@for lml:${documents} prompt:${documentButtons}>
+                <textButton id="${lml}" uniformX="true" onClick="switchLml"
+                    expandX="true" fillX="true">${prompt}</textButton>
+                <@if ${for:index} !% #buttonRowSize> <!-- !% - "last in modulo" operator. -->
+                    <row />
+                </@if>
+            </@for>
+        </div>
+        <div id="playground" fill="true" expand="true"/>
+    </td>
+</window>
