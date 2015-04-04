@@ -44,7 +44,8 @@ public class LmlAttributes implements LmlSyntax {
 						+ ".", parser);
 	}
 
-	/** @param attributeName its value cannot be null. Has to represent a value from Alignment utility enum.
+	/** @param attributeValue has to represent a value from Alignment utility enum. Can also be an action,
+	 *            bundle or preference, as long as after parsing it will be the name of Alignment constant.
 	 * @return attribute converted into LibGDX alignment. */
 	public static int parseAlignment(final Actor actor, final LmlParser parser, final String attributeValue) {
 		return Alignment.valueOf(parseString(actor, parser, attributeValue).toUpperCase()).getAlignment();
@@ -65,7 +66,7 @@ public class LmlAttributes implements LmlSyntax {
 		return parser.parseStringData(attributeValue, actor);
 	}
 
-	/** @param attributeValue expected action name. May (but does not have to) start with &, which will be
+	/** @param attributeValue expected action name. May (but does not have to) start with &amp;, which will be
 	 *            ignored when extracting action.
 	 * @return action connected with the action key mapped by the parser. */
 	public static ActorConsumer<Object, Object> parseAction(final Actor actor, final LmlParser parser,

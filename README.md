@@ -7,7 +7,7 @@ See [gdx-lml-tests](http://github.com/czyzby/gdx-lml-tests).
 ##Maven artifact
 To import LML with Gradle, add this dependency to your core:
 ```
-    compile "com.github.czyzby:gdx-lml:0.2.$gdxVersion"
+    compile "com.github.czyzby:gdx-lml:0.4.$gdxVersion"
 ```
 `$gdxVersion` can be replaced with 1.5.5.
 
