@@ -22,6 +22,10 @@ jar {
     version =  '0.4.1.5.5'
 }
 
+javadoc {
+    options.addStringOption("sourcepath", "")
+}
+
 task javadocJar(type: Jar) {
     classifier = 'javadoc'
     from javadoc
