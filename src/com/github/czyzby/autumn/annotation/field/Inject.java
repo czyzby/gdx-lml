@@ -17,9 +17,10 @@ public @interface Inject {
 	 * this setting is unnecessary. Ignored if lazy class is given. */
 	Class<?> value() default void.class;
 
-	/** If chosen, Lazy<ChosenClass> will be constructed instead of ChosenClass instance. The contained Lazy
-	 * object will be provided (or even constructed) by the context manager on the first get() call, including
-	 * components referenced by the lazy object that were not initiated before. */
+	/** If chosen, Lazy providing wrapped instance of chosen class will be injected instead of directly
+	 * injecting the component's instance. The wrapped object will be provided (or even constructed) by the
+	 * context manager on the first get() call - including components referenced by the lazy object that were
+	 * not initiated before. */
 	Class<?> lazy() default void.class;
 
 	/** If true and lazy class is chosen, the constructed Lazy object will be concurrent. */

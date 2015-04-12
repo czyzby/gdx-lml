@@ -4,7 +4,7 @@ package com.github.czyzby.autumn.context.processor.method.message;
  *
  * @author MJ */
 public interface ComponentMessageListener {
-	/** Statics for code clarity in {@link #processMessage(Object)} method. */
+	/** Statics for code clarity in {@link #processMessage()} method. */
 	boolean REMOVE_AFTER_INVOCATION = true, KEEP_AFTER_INVOCATION = false;
 
 	/** @return content of the message that the listener is listening for. */
