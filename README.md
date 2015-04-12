@@ -1,5 +1,5 @@
 #LibGDX Autumn GWT
-GWT natives for LibGDX Autumn - dependency injection with component scan mechanism.
+GWT natives for [LibGDX Autumn](https://github.com/czyzby/gdx-autumn) - dependency injection with component scan mechanism.
 
 ##Reflection
 Autumn GWT provides its own (limited) reflection implementation, that is far from the complete mechanism, but it does have some functionalities that the LibGDX reflection lacks. It's mostly for internal use - all you have to worry about is registration of your classes in GWT definition with:
