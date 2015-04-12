@@ -20,6 +20,12 @@ public class Triple<First, Second, Third> implements TripleTuple<First, Second, 
 	private final Second second;
 	private final Third third;
 
+	protected Triple(final First first, final Second second, final Third third) {
+		this.first = first;
+		this.second = second;
+		this.third = third;
+	}
+
 	/** @return a new triplet with the passed variables. Accepts nulls. */
 	public static <First, Second, Third> Triple<First, Second, Third> of(final First first,
 			final Second second, final Third third) {
@@ -55,12 +61,6 @@ public class Triple<First, Second, Third> implements TripleTuple<First, Second, 
 	public static <First, Second, Third> Triple<Third, First, Second> shiftRight(
 			final Triple<First, Second, Third> triplet) {
 		return new Triple<Third, First, Second>(triplet.getThird(), triplet.getFirst(), triplet.getSecond());
-	}
-
-	private Triple(final First first, final Second second, final Third third) {
-		this.first = first;
-		this.second = second;
-		this.third = third;
 	}
 
 	@Override

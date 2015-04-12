@@ -12,6 +12,11 @@ import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
  *
  * @author MJ */
 public class DisposableLazy<Type extends Disposable> extends Lazy<Type> implements Disposable {
+	/** Constructs an empty lazy object with no provider. Stored variable has to be set manually. */
+	public DisposableLazy() {
+		super();
+	}
+
 	/** @param provider will provide wrapped object on first call. */
 	public DisposableLazy(final ObjectProvider<? extends Type> provider) {
 		super(provider);

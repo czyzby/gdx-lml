@@ -1,7 +1,12 @@
 package com.github.czyzby.kiwi.util.gdx.collection.lazy;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectSet;
+import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ArrayObjectProvider;
+import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.MapObjectProvider;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
+import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.SetObjectProvider;
 
 /** A resizable, ordered or unordered array of objects. If unordered, this class avoids a memory copy when
  * removing elements (the last element is moved to the removed element's position). Thanks to the provider, if
@@ -104,6 +109,24 @@ public class LazyArray<Type> extends Array<Type> {
 	 * @return a new instance of lazy array. */
 	public static <Type> LazyArray<Type> newArray(final ObjectProvider<? extends Type> provider) {
 		return new LazyArray<Type>(provider);
+	}
+
+	/** @return a new lazy array that provides empty, non-typed arrays. */
+	public static <Type> LazyArray<Array<Type>> newArrayOfArrays() {
+		final ObjectProvider<Array<Type>> provider = ArrayObjectProvider.getProvider();
+		return newArray(provider);
+	}
+
+	/** @return a new lazy array that provides empty object sets. */
+	public static <Type> LazyArray<ObjectSet<Type>> newArrayOfSets() {
+		final ObjectProvider<ObjectSet<Type>> provider = SetObjectProvider.getProvider();
+		return newArray(provider);
+	}
+
+	/** @return a new lazy array that provides empty object maps. */
+	public static <Key, Value> LazyArray<ObjectMap<Key, Value>> newArrayOfMaps() {
+		final ObjectProvider<ObjectMap<Key, Value>> provider = MapObjectProvider.getProvider();
+		return newArray(provider);
 	}
 
 	/** @param provider creates new object on get(index) calls if the value on the selected index is null.

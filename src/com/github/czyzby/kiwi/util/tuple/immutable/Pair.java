@@ -21,6 +21,11 @@ public class Pair<First, Second> implements DoubleTuple<First, Second> {
 	private final First first;
 	private final Second second;
 
+	protected Pair(final First first, final Second second) {
+		this.first = first;
+		this.second = second;
+	}
+
 	/** @return a new pair with the passed variables. Accepts nulls. */
 	public static <First, Second> Pair<First, Second> of(final First first, final Second second) {
 		return new Pair<First, Second>(first, second);
@@ -40,11 +45,6 @@ public class Pair<First, Second> implements DoubleTuple<First, Second> {
 	 * @return a new pair with inverted values. */
 	public static <First, Second> Pair<Second, First> invert(final Pair<First, Second> pair) {
 		return new Pair<Second, First>(pair.getSecond(), pair.getFirst());
-	}
-
-	protected Pair(final First first, final Second second) {
-		this.first = first;
-		this.second = second;
 	}
 
 	@Override

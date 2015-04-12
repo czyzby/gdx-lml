@@ -9,6 +9,11 @@ import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
  *
  * @author MJ */
 public class ConcurrentLazy<Type> extends Lazy<Type> {
+	/** Constructs an empty lazy object with no provider. Stored variable has to be set manually. */
+	public ConcurrentLazy() {
+		super();
+	}
+
 	/** @param provider will provide wrapped object on first call. */
 	public ConcurrentLazy(final ObjectProvider<? extends Type> provider) {
 		super(provider);
@@ -18,10 +23,22 @@ public class ConcurrentLazy<Type> extends Lazy<Type> {
 	protected Type getObjectInstance() {
 		synchronized (this) {
 			if (getObject() == null) {
+				validateProvider();
 				return getProvider().provide();
 			}
 			return getObject();
 		}
+	}
+
+	@Override
+	public void set(final Type object) throws IllegalStateException {
+		if (getObject() == null) {
+			synchronized (this) {
+				super.set(object);
+				return;
+			}
+		}
+		throw new IllegalStateException("Cannot set lazy variable - already initiated.");
 	}
 
 	@Override

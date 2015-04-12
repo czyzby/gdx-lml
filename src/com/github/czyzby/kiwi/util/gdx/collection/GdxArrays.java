@@ -246,4 +246,31 @@ public class GdxArrays {
 		}
 		return array;
 	}
+
+	/** @param arrays will all be cleared, with an additional null-check before the clearing. */
+	public static void clearAll(final Array<?>... arrays) {
+		for (final Array<?> array : arrays) {
+			if (array != null) {
+				array.clear();
+			}
+		}
+	}
+
+	/** @param arrays all contained arrays will all be cleared, with an additional null-check before the
+	 *            clearing. */
+	public static void clearAll(final Iterable<Array<?>> arrays) {
+		for (final Array<?> array : arrays) {
+			if (array != null) {
+				array.clear();
+			}
+		}
+	}
+
+	/** Static utility for those that prefer methods over public variables.
+	 *
+	 * @param array its size will be checked.
+	 * @return current size of the passed array. */
+	public static int sizeOf(final Array<?> array) {
+		return array.size;
+	}
 }

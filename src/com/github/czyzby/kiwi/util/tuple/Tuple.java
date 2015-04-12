@@ -6,7 +6,7 @@ import java.util.Iterator;
 /** Interface shared by all tuples. Ensures that they are serializable and iterable.
  *
  * @author MJ */
-public interface Tuple extends Iterable<Object>, Serializable {
+public interface Tuple extends Serializable {
 	int INVALID_INDEX = -1;
 	String COMMA_WITH_SPACE_SEPARATOR = ", ";
 

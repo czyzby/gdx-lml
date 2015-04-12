@@ -20,6 +20,8 @@ Ever wanted to refactor and split a method, but you *needed* to return at least 
 - **DoupleTuple**, **TripleTuple**: these two extend the basic interface, providing additional access methods.
 - **Pair**, **Triple**: immutable tuples. Use where possible.
 - **MutablePair**, **MutableTriple**: as you can guess, mutable tuples. Use when necessary.
+- **SingleTuple**: interface for a tuple wrapping around a single object.
+- **Single**, **MutableSingle**: immutable and mutable single object wrappers. Useful when you need to pass a single object as an iterable.
 
 All tuple implementation classes contain static factory methods to avoid awkward Java 6 generics syntax.
 
@@ -39,13 +41,13 @@ Hate null check while creating lazy variables? Good, so do I. While such objects
 - **DisposableLazy**: extends Lazy; wraps around a disposable object and implements Disposable interface for additional utility.
 - **ConcurrentLazy**: extends Lazy; safe to use by multiple threads.
 - **DisposableConcurrentLazy**: extends DisposableLazy; safe to use by multiple threads.
-- **ReflectionObjectProvider**: an implementation of ObjectProvider that constructs a new instance of object of the passed type with reflection. Works on GWT, but you do have to include used classes for reflection.
+
 
 #####Providers
 Utility classes for lazy objects. Create - or give access to, depending on implementation - an instance of a object on each call.
 - **ObjectProvider**: functional interface with one, no-parameter method - provide. Implementation of this interface is often required by lazy objects and allows to initiate an object as soon as its needed, rather than at once.
-- **ReflectionObjectProvider**: an implementation of ObjectProvider that uses reflection to construct objects with public, no-argument constructors. Note that the objects have to be reflected and this implementation might not be the best choice if the provider is used very often (for example, when it comes to lazy collections).
-- **ArrayObjectProvider**: an implementation of ObjectProvider that does not use reflection. Allows to create regular and typed Array objects.
+- **ReflectionObjectProvider**: an implementation of ObjectProvider that uses reflection to construct objects with public, no-argument constructors. Note that the objects have to be reflected and this implementation might not be the best choice if the provider is used very often (for example, when it comes to lazy collections). Works on GWT, but you do have to include used classes for reflection.
+- **ArrayObjectProvider**, **MapObjectProvider**, **SetObjectProvider**: stateless implementations of ObjectProvider interface that do not use reflection. They allow to create LibGDX collections.
 
 ###Collections
 LibGDX collections utilities. To avoid collisions with Guava and Java API, these classes start with Gdx.
@@ -88,12 +90,12 @@ Similarly to Lazy utility containers, lazy collections create objects as soon as
 
 #### Ranges
 - **ColorRange**: utility for simple color transitions.
-- **FloatRange**: utility for simple float transitions.
+- **FloatRange**: utility for simple float number transitions. Might be useful for alpha.
 
 ##Dependency
 Core project Gradle dependency:
 ```
-    compile "com.github.czyzby:gdx-kiwi:0.4.$gdxVersion"
+    compile "com.github.czyzby:gdx-kiwi:0.5.$gdxVersion"
 ```
 GWT module:
 ```

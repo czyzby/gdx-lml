@@ -31,6 +31,14 @@ public class Nullables {
 		return first == second || first != null && first.equals(second);
 	}
 
+	/** @return true if objects are not equal (using equals method) or one of them is null and the other is not. */
+	public static boolean areNotEqual(final Object first, final Object second) {
+		if (first == null) {
+			return second != null;
+		}
+		return !first.equals(second);
+	}
+
 	/** @param nullables nullable objects.
 	 * @return true if any of the objects is null. */
 	public static boolean isAnyNull(final Object... nullables) {

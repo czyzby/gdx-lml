@@ -199,4 +199,30 @@ public class GdxMaps {
 		}
 		return map.get(key);
 	}
+
+	/** @param maps will all be cleared, with an additional null-check before the clearing. */
+	public static void clearAll(final ObjectMap<?, ?>... maps) {
+		for (final ObjectMap<?, ?> map : maps) {
+			if (map != null) {
+				map.clear();
+			}
+		}
+	}
+
+	/** @param maps all contained maps will all be cleared, with an additional null-check before the clearing. */
+	public static void clearAll(final Iterable<ObjectMap<?, ?>> maps) {
+		for (final ObjectMap<?, ?> map : maps) {
+			if (map != null) {
+				map.clear();
+			}
+		}
+	}
+
+	/** Static utility for those that prefer methods over public variables.
+	 *
+	 * @param map its size will be checked.
+	 * @return current size of the passed map. */
+	public static int sizeOf(final ObjectMap<?, ?> map) {
+		return map.size;
+	}
 }

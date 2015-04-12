@@ -6,7 +6,7 @@ import java.util.Map;
  * allow to obtain stored values.
  *
  * @author MJ */
-public interface DoubleTuple<First, Second> extends Map.Entry<First, Second>, Tuple {
+public interface DoubleTuple<First, Second> extends Iterable<Object>, Map.Entry<First, Second>, Tuple {
 	int SIZE = 2;
 
 	/** @return first value stored in pair. Equivalent of getKey. */

@@ -130,4 +130,30 @@ public class GdxSets {
 	public static <Type> ObjectSet<Type> union(final ObjectSet<Type>... sets) {
 		return unionTo(new ObjectSet<Type>(), sets);
 	}
+
+	/** @param sets will all be cleared, with an additional null-check before the clearing. */
+	public static void clearAll(final ObjectSet<?>... sets) {
+		for (final ObjectSet<?> set : sets) {
+			if (set != null) {
+				set.clear();
+			}
+		}
+	}
+
+	/** @param sets all contained sets will all be cleared, with an additional null-check before the clearing. */
+	public static void clearAll(final Iterable<ObjectSet<?>> sets) {
+		for (final ObjectSet<?> set : sets) {
+			if (set != null) {
+				set.clear();
+			}
+		}
+	}
+
+	/** Static utility for those that prefer methods over public variables.
+	 *
+	 * @param set its size will be checked.
+	 * @return current size of the passed set. */
+	public static int sizeOf(final ObjectSet<?> set) {
+		return set.size;
+	}
 }

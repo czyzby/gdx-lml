@@ -20,6 +20,12 @@ public class MutableTriple<First, Second, Third> implements TripleTuple<First, S
 	private Second second;
 	private Third third;
 
+	protected MutableTriple(final First first, final Second second, final Third third) {
+		this.first = first;
+		this.second = second;
+		this.third = third;
+	}
+
 	/** @return a new triple with the passed variables. Accepts nulls. */
 	public static <First, Second, Third> MutableTriple<First, Second, Third> of(final First first,
 			final Second second, final Third third) {
@@ -58,12 +64,6 @@ public class MutableTriple<First, Second, Third> implements TripleTuple<First, S
 			final MutableTriple<First, Second, Third> triple) {
 		return new MutableTriple<Third, First, Second>(triple.getThird(), triple.getFirst(),
 				triple.getSecond());
-	}
-
-	private MutableTriple(final First first, final Second second, final Third third) {
-		this.first = first;
-		this.second = second;
-		this.third = third;
 	}
 
 	@Override

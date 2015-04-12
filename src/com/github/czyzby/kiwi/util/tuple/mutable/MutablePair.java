@@ -20,6 +20,11 @@ public class MutablePair<First, Second> implements DoubleTuple<First, Second> {
 	private First first;
 	private Second second;
 
+	protected MutablePair(final First first, final Second second) {
+		this.first = first;
+		this.second = second;
+	}
+
 	/** @return a new pair with the passed variables. Accepts nulls. */
 	public static <First, Second> MutablePair<First, Second> of(final First first, final Second second) {
 		return new MutablePair<First, Second>(first, second);
@@ -39,11 +44,6 @@ public class MutablePair<First, Second> implements DoubleTuple<First, Second> {
 	 * @return a new pair with inverted values. */
 	public static <First, Second> MutablePair<Second, First> invert(final MutablePair<First, Second> pair) {
 		return new MutablePair<Second, First>(pair.getSecond(), pair.getFirst());
-	}
-
-	private MutablePair(final First first, final Second second) {
-		this.first = first;
-		this.second = second;
 	}
 
 	@Override

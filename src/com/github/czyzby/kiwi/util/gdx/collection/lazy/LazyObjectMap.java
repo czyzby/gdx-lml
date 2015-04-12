@@ -1,7 +1,12 @@
 package com.github.czyzby.kiwi.util.gdx.collection.lazy;
 
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectSet;
+import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ArrayObjectProvider;
+import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.MapObjectProvider;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
+import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.SetObjectProvider;
 
 /** An unordered map. This implementation is a cuckoo hash map using 3 hashes, random walking, and a small
  * stash for problematic keys. Null keys are not allowed. Null values are allowed. No allocation is done
@@ -65,6 +70,24 @@ public class LazyObjectMap<Key, Value> extends ObjectMap<Key, Value> {
 	 * @return new lazy map instance. */
 	public static <Key, Value> LazyObjectMap<Key, Value> newMap(final ObjectProvider<? extends Value> provider) {
 		return new LazyObjectMap<Key, Value>(provider);
+	}
+
+	/** @return a new lazy map that provides empty, non-typed arrays. */
+	public static <Key, Value> LazyObjectMap<Key, Array<Value>> newMapOfArrays() {
+		final ObjectProvider<Array<Value>> provider = ArrayObjectProvider.getProvider();
+		return newMap(provider);
+	}
+
+	/** @return a new lazy map that provides empty object sets. */
+	public static <Key, Value> LazyObjectMap<Key, ObjectSet<Value>> newMapOfSets() {
+		final ObjectProvider<ObjectSet<Value>> provider = SetObjectProvider.getProvider();
+		return newMap(provider);
+	}
+
+	/** @return a new lazy map that provides empty object maps. */
+	public static <Key, MapKey, MapValue> LazyObjectMap<Key, ObjectMap<MapKey, MapValue>> newMapOfMaps() {
+		final ObjectProvider<ObjectMap<MapKey, MapValue>> provider = MapObjectProvider.getProvider();
+		return newMap(provider);
 	}
 
 	/** @param keysAndValues pairs of keys and values.

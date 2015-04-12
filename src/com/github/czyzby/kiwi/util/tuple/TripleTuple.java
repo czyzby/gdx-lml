@@ -6,7 +6,7 @@ import java.util.Map;
  * allow to obtain stored values.
  *
  * @author MJ */
-public interface TripleTuple<First, Second, Third> extends Map.Entry<First, Second>, Tuple {
+public interface TripleTuple<First, Second, Third> extends Iterable<Object>, Map.Entry<First, Second>, Tuple {
 	int SIZE = 3;
 
 	/** @return first value stored in triple. Equivalent of getKey. */
