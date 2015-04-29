@@ -1,6 +1,7 @@
 package com.github.czyzby.lml.parser.impl.tag.attribute;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.Scaling;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.LmlTagAttributeParser;
 import com.github.czyzby.lml.parser.impl.dto.LmlTagData;
@@ -12,6 +13,13 @@ public enum ImageLmlTagAttributeParser implements LmlTagAttributeParser {
 		protected void apply(final Image image, final LmlParser parser, final String attributeValue,
 				final LmlTagData lmlTagData) {
 			image.setAlign(LmlAttributes.parseAlignment(image, parser, attributeValue));
+		}
+	},
+	SCALING("scaling") {
+		@Override
+		protected void apply(final Image image, final LmlParser parser, final String attributeValue,
+				final LmlTagData lmlTagData) {
+			image.setScaling(Scaling.valueOf(LmlAttributes.parseString(image, parser, attributeValue)));
 		}
 	};
 

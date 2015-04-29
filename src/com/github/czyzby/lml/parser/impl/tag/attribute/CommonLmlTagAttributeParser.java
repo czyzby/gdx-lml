@@ -76,6 +76,27 @@ public enum CommonLmlTagAttributeParser implements LmlTagAttributeParser, LmlSyn
 			actor.setTouchable(Touchable.valueOf(LmlAttributes.parseString(actor, parser, attributeValue)));
 		}
 	},
+	SCALE("scale") {
+		@Override
+		protected void apply(final Actor actor, final LmlParser parser, final String attributeValue,
+				final LmlTagData lmlTagData) {
+			actor.setScale(LmlAttributes.parseFloat(actor, parser, attributeValue));
+		}
+	},
+	SCALE_X("scaleX") {
+		@Override
+		protected void apply(final Actor actor, final LmlParser parser, final String attributeValue,
+				final LmlTagData lmlTagData) {
+			actor.setScaleX(LmlAttributes.parseFloat(actor, parser, attributeValue));
+		}
+	},
+	SCALE_Y("scaleY") {
+		@Override
+		protected void apply(final Actor actor, final LmlParser parser, final String attributeValue,
+				final LmlTagData lmlTagData) {
+			actor.setScaleY(LmlAttributes.parseFloat(actor, parser, attributeValue));
+		}
+	},
 	TOOLTIP("tooltip") {
 		public static final String TOOLTIP_ID = "TOOLTIPID";
 		public static final String TOOLTIP_STYLE = "TOOLTIPSTYLE";
