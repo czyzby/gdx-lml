@@ -1,0 +1,299 @@
+package com.github.czyzby.autumn.mvc.component.sfx;
+
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Music.OnCompletionListener;
+import com.badlogic.gdx.audio.Sound;
+import com.github.czyzby.autumn.annotation.field.Inject;
+import com.github.czyzby.autumn.annotation.method.Destroy;
+import com.github.czyzby.autumn.annotation.stereotype.Component;
+import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
+import com.github.czyzby.autumn.mvc.config.AutumnActionPriority;
+import com.github.czyzby.kiwi.util.common.Strings;
+import com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy;
+import com.github.czyzby.kiwi.util.gdx.preference.ApplicationPreferences;
+
+/** Manages currently played UI theme and sound settings.
+ *
+ * @author MJ */
+@Component
+public class MusicService {
+	/** Time that has to pass before the theme reaches its full volume or is fully turned off. */
+	public static float DEFAULT_THEME_FADING_TIME = 0.5f;
+
+	private static final float MIN_VOLUME = 0f;
+	private static final float MAX_VOLUME = 1f;
+
+	private String musicPreferences;
+	private String musicVolumePreferenceName;
+	private String soundVolumePreferenceName;
+	private String musicEnabledPreferenceName;
+	private String soundEnabledPreferenceName;
+
+	private float musicVolume = MAX_VOLUME;
+	private float soundVolume = MAX_VOLUME;
+	private boolean musicEnabled = true;
+	private boolean soundEnabled = true;
+
+	private Music currentTheme;
+
+	@Inject(lazy = InterfaceService.class)
+	private Lazy<InterfaceService> interfaceService;
+
+	private final OnCompletionListener musicCompletionListener = new OnCompletionListener() {
+		@Override
+		public void onCompletion(final Music music) {
+			playCurrentTheme(interfaceService.get().getCurrentController().getNextTheme());
+		}
+	};
+
+	/** @return current volume of music, [0, 1]. */
+	public float getMusicVolume() {
+		return musicVolume;
+	}
+
+	/** @param musicVolume will become current volume of music. If a registered theme is currently playing, it's
+	 *            volume will be adjusted. */
+	public void setMusicVolume(final float musicVolume) {
+		this.musicVolume = normalizeVolume(musicVolume);
+		if (currentTheme != null) {
+			currentTheme.setVolume(musicVolume);
+		}
+	}
+
+	/** @param musicEnabled true to enable, false to disable. If a current theme is registered, it will stopped
+	 *            or started according to this setting. */
+	public void setMusicEnabled(final boolean musicEnabled) {
+		this.musicEnabled = musicEnabled;
+		if (currentTheme != null) {
+			if (musicEnabled) {
+				if (!currentTheme.isPlaying()) {
+					currentTheme.play();
+				}
+			} else if (currentTheme.isPlaying()) {
+				currentTheme.stop();
+			}
+		}
+	}
+
+	/** @return true if music is currently enabled. */
+	public boolean isMusicEnabled() {
+		return musicEnabled;
+	}
+
+	/** @param volume should be normalized.
+	 * @return float value in range of [0, 1]. */
+	public static float normalizeVolume(final float volume) {
+		return Math.max(MIN_VOLUME, Math.min(MAX_VOLUME, volume));
+	}
+
+	/** Sets the current music volume according to the values stored in preferences. Mostly for internal use.
+	 *
+	 * @param preferences path to the preferences. Will be set as global music preferences path.
+	 * @param preferenceName name of the volume preference.
+	 * @param defaultValue used if preference is not set. */
+	public void setMusicVolumeFromPreferences(final String preferences, final String preferenceName,
+			final float defaultValue) {
+		musicPreferences = preferences;
+		musicVolumePreferenceName = preferenceName;
+		setMusicVolume(readFromPreferences(preferences, preferenceName, defaultValue));
+	}
+
+	/** Sets the current music state according to the value stored in preferences. Mostly for internal use.
+	 *
+	 * @param preferences path to the preferences. Will be set as global music preferences path.
+	 * @param preferenceName name of the state preference.
+	 * @param defaultValue used if preference is not set. */
+	public void setMusicEnabledFromPreferences(final String preferences, final String preferenceName,
+			final boolean defaultValue) {
+		musicPreferences = preferences;
+		musicEnabledPreferenceName = preferenceName;
+		setMusicEnabled(readFromPreferences(preferences, preferenceName, defaultValue));
+	}
+
+	/** @return current volume of sound effects. */
+	public float getSoundVolume() {
+		return soundVolume;
+	}
+
+	/** @param soundVolume will become current volume of sound effects. Note that currently played sounds will
+	 *            not be affected. */
+	public void setSoundVolume(final float soundVolume) {
+		this.soundVolume = normalizeVolume(soundVolume);
+	}
+
+	/** @param soundEnabled true to enable, false to disable. Note that currently played sounds will not be
+	 *            turned off. */
+	public void setSoundEnabled(final boolean soundEnabled) {
+		this.soundEnabled = soundEnabled;
+	}
+
+	/** Sets the current sound state according to the value stored in preferences. Mostly for internal use.
+	 *
+	 * @param preferences path to the preferences. Will be set as global music preferences path.
+	 * @param preferenceName name of the state preference.
+	 * @param defaultValue used if preference is not set. */
+	public void setSoundEnabledFromPreferences(final String preferences, final String preferenceName,
+			final boolean defaultValue) {
+		musicPreferences = preferences;
+		soundEnabledPreferenceName = preferenceName;
+		setSoundEnabled(readFromPreferences(preferences, preferenceName, defaultValue));
+	}
+
+	/** @return true if sounds are currently enabled. */
+	public boolean isSoundEnabled() {
+		return soundEnabled;
+	}
+
+	/** Sets the current sound volume according to the values stored in preferences. Mostly for internal use.
+	 *
+	 * @param preferences path to the preferences. Will be set as global music preferences path.
+	 * @param preferenceName name of the volume preference.
+	 * @param defaultValue used if preference is not set. */
+	public void setSoundVolumeFromPreferences(final String preferences, final String preferenceName,
+			final float defaultValue) {
+		musicPreferences = preferences;
+		soundVolumePreferenceName = preferenceName;
+		setSoundVolume(readFromPreferences(preferences, preferenceName, defaultValue));
+	}
+
+	/** Saves music and sound preferences.
+	 *
+	 * @param flush if true, preferences will be truly saved - otherwise it just sets them in the preferences
+	 *            map. */
+	public void savePreferences(final boolean flush) {
+		saveMusicPreferences(flush);
+		saveSoundPreferences(flush);
+	}
+
+	/** Saves music volume and state in preferences.
+	 *
+	 * @param flush if true, preferences will be truly saved - otherwise it just sets them in the preferences
+	 *            map. */
+	public void saveMusicPreferences(final boolean flush) {
+		if (Strings.isNotEmpty(musicPreferences)) {
+			if (Strings.isNotEmpty(musicVolumePreferenceName)) {
+				saveInPreferences(musicPreferences, musicVolumePreferenceName, musicVolume);
+			}
+			if (Strings.isNotEmpty(musicEnabledPreferenceName)) {
+				saveInPreferences(musicPreferences, musicEnabledPreferenceName, musicEnabled);
+			}
+			if (flush) {
+				flushPreferences();
+			}
+		}
+	}
+
+	/** Saves sound volume and state in preferences.
+	 *
+	 * @param flush if true, preferences will be truly saved - otherwise it just sets them in the preferences
+	 *            map. */
+	public void saveSoundPreferences(final boolean flush) {
+		if (Strings.isNotEmpty(musicPreferences)) {
+			if (Strings.isNotEmpty(soundVolumePreferenceName)) {
+				saveInPreferences(musicPreferences, soundVolumePreferenceName, soundVolume);
+			}
+			if (Strings.isNotEmpty(soundEnabledPreferenceName)) {
+				saveInPreferences(musicPreferences, soundEnabledPreferenceName, soundEnabled);
+			}
+			if (flush) {
+				flushPreferences();
+			}
+		}
+	}
+
+	private void flushPreferences() {
+		ApplicationPreferences.getPreferences(musicPreferences).flush();
+	}
+
+	private void saveInPreferences(final String preferences, final String preferenceName, final float value) {
+		// GWT is not a huge fan of non-string preferences.
+		ApplicationPreferences.getPreferences(preferences).putString(preferenceName, String.valueOf(value));
+	}
+
+	private void saveInPreferences(final String preferences, final String preferenceName, final boolean value) {
+		// GWT is not a huge fan of non-string preferences.
+		ApplicationPreferences.getPreferences(preferences).putString(preferenceName, String.valueOf(value));
+	}
+
+	private float readFromPreferences(final String preferences, final String preferenceName,
+			final float defaultValue) {
+		return Float.parseFloat(ApplicationPreferences.getPreferences(preferences).getString(preferenceName,
+				String.valueOf(defaultValue)));
+	}
+
+	private boolean readFromPreferences(final String preferences, final String preferenceName,
+			final boolean defaultValue) {
+		return Boolean.parseBoolean(ApplicationPreferences.getPreferences(preferences).getString(
+				preferenceName, String.valueOf(defaultValue)));
+	}
+
+	/** Restores music and sound settings to the values stored in preferences. Music preferences have to be
+	 * properly annotated with {@link com.github.czyzby.autumn.mvc.stereotype.preference.sfx.MusicVolume},
+	 * {@link com.github.czyzby.autumn.mvc.stereotype.preference.sfx.MusicEnabled},
+	 * {@link com.github.czyzby.autumn.mvc.stereotype.preference.sfx.SoundVolume} and
+	 * {@link com.github.czyzby.autumn.mvc.stereotype.preference.sfx.SoundEnabled} for each setting to work. */
+	public void restoreSettingsFromPreferences() {
+		if (Strings.isNotEmpty(musicPreferences)) {
+			if (Strings.isNotEmpty(musicVolumePreferenceName)) {
+				setMusicVolume(readFromPreferences(musicPreferences, musicVolumePreferenceName, musicVolume));
+			}
+			if (Strings.isNotEmpty(soundVolumePreferenceName)) {
+				setSoundVolume(readFromPreferences(musicPreferences, soundVolumePreferenceName, soundVolume));
+			}
+			if (Strings.isNotEmpty(musicEnabledPreferenceName)) {
+				setMusicEnabled(readFromPreferences(musicPreferences, musicEnabledPreferenceName,
+						musicEnabled));
+			}
+			if (Strings.isNotEmpty(soundEnabledPreferenceName)) {
+				setSoundEnabled(readFromPreferences(musicPreferences, soundEnabledPreferenceName,
+						soundEnabled));
+			}
+		}
+	}
+
+	/** @param sound will be played with the currently set sound volume, provided that sounds are turned on. */
+	public void play(final Sound sound) {
+		if (soundEnabled) {
+			sound.play(soundVolume);
+		}
+	}
+
+	/** @return currently played music theme, provided that it was properly registered. */
+	public Music getCurrentTheme() {
+		return currentTheme;
+	}
+
+	/** @param currentTheme will be set as the current theme and have its volume changed. If music is enabled,
+	 *            will be played. */
+	public void playCurrentTheme(final Music currentTheme) {
+		playCurrentTheme(currentTheme, true);
+	}
+
+	/** @param currentTheme will be set as the current theme. If music is enabled, will be played.
+	 * @param forceVolume if true, music volume will be set to stored preference. */
+	public void playCurrentTheme(final Music currentTheme, final boolean forceVolume) {
+		this.currentTheme = currentTheme;
+		currentTheme.setOnCompletionListener(musicCompletionListener);
+		if (forceVolume) {
+			currentTheme.setVolume(musicVolume);
+		}
+		if (musicEnabled) {
+			currentTheme.play();
+		}
+	}
+
+	/** Clears current theme, stopping it from playing. */
+	public void clearCurrentTheme() {
+		if (currentTheme != null) {
+			if (currentTheme.isPlaying()) {
+				currentTheme.stop();
+			}
+			currentTheme = null;
+		}
+	}
+
+	@Destroy(priority = AutumnActionPriority.VERY_LOW_PRIORITY)
+	private void destroy() {
+		savePreferences(true);
+	}
+}

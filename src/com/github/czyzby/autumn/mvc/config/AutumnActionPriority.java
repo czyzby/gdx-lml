@@ -1,0 +1,26 @@
+package com.github.czyzby.autumn.mvc.config;
+
+/** Contains priorities used by initiation and destruction methods in Autumn MVC.
+ *
+ * @author MJ */
+public class AutumnActionPriority {
+	/** 3. Executes first. Used by: {@link com.github.czyzby.autumn.mvc.component.ui.InterfaceService} (skin,
+	 * bundles and preferences assignment, LML parser creation). */
+	public static final int TOP_PRIORITY = 3;
+	/** 2. */
+	public static final int VERY_HIGH_PRIORITY = 2;
+	/** 1. */
+	public static final int HIGH_PRIORITY = 1;
+	/** 0. */
+	public static final int DEFAULT_PRIORITY = 0;
+	/** -1. Used by: {@link com.github.czyzby.autumn.mvc.component.ui.InterfaceService} (controllers
+	 * destruction, batch and skin disposing, parser destruction). */
+	public static final int LOW_PRIORITY = -1;
+	/** -2. Used by: {@link com.github.czyzby.autumn.mvc.component.sfx.MusicService} (settings saving upon
+	 * destruction). */
+	public static final int VERY_LOW_PRIORITY = -2;
+	/** -3. Executes last. Used by: {@link com.github.czyzby.autumn.mvc.component.ui.InterfaceService} (first
+	 * view initiation and showing); {@link com.github.czyzby.autumn.mvc.component.asset.AssetService} (assets
+	 * disposing). */
+	public static final int MIN_PRIORITY = -3;
+}
