@@ -15,6 +15,7 @@ public class ContextComponent {
 	private final int hashCode;
 
 	private boolean initiated;
+	private boolean mapped;
 
 	public ContextComponent(final ReflectedClass componentClass, final Object component) {
 		this(componentClass, component, false, true, false);
@@ -75,6 +76,16 @@ public class ContextComponent {
 	 *         added to the context. Annotated. */
 	public boolean isKeptInContext() {
 		return keptInContext;
+	}
+
+	/** @return true if component is already mapped and available for extraction. */
+	public boolean isMapped() {
+		return mapped;
+	}
+
+	/** @param mapped true if component is already mapped and available for extraction. */
+	public void setMapped(final boolean mapped) {
+		this.mapped = mapped;
 	}
 
 	@Override

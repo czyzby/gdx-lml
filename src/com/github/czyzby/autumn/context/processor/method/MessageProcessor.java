@@ -22,6 +22,9 @@ import com.github.czyzby.kiwi.util.gdx.collection.lazy.LazyObjectMap;
  *
  * @author MJ */
 public class MessageProcessor extends ComponentMethodAnnotationProcessor {
+	/** Statics for code clarity in message listening methods. */
+	public static final boolean REMOVE_AFTER_INVOCATION = true, KEEP_AFTER_INVOCATION = false;
+
 	private final ObjectMap<String, ObjectSet<ComponentMessageListener>> messageListeners = LazyObjectMap
 			.newMapOfSets();
 	/** Kept in class to avoid creating multiple instances for each message. */

@@ -41,6 +41,11 @@ public class StandardReflectedMethod implements ReflectedMethod {
 	}
 
 	@Override
+	public Annotation[] getAnnotations() {
+		return method.getAnnotations();
+	}
+
+	@Override
 	public Object invoke(final Object owner, final Object... parameters) throws ReflectionException {
 		try {
 			return method.invoke(owner, parameters);

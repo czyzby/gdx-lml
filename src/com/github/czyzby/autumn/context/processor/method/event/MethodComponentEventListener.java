@@ -39,7 +39,9 @@ public class MethodComponentEventListener implements ComponentEventListener {
 	@Override
 	public boolean processEvent(final Object event) {
 		try {
-			listenerMethod.invoke(listenerComponent, prepareMethodParameters(event));
+			final Object result = listenerMethod.invoke(listenerComponent, prepareMethodParameters(event));
+			return result instanceof Boolean ? ((Boolean) result).booleanValue() || removeAfterInvocation
+					: removeAfterInvocation;
 		} catch (final Throwable exception) {
 			if (strict) {
 				throw new AutumnRuntimeException("Unable to execute event: " + event + " for method: "
@@ -49,6 +51,7 @@ public class MethodComponentEventListener implements ComponentEventListener {
 		return removeAfterInvocation;
 	}
 
+	/** Custom method parameters preparation. Allows to pass event objects to the invoked methods. */
 	private Object[] prepareMethodParameters(final Object event) {
 		final Class<?>[] parameterTypes = listenerMethod.getParameterTypes();
 		if (parameterTypes.length == 0) {

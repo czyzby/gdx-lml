@@ -41,12 +41,17 @@ public class StandardReflectedField implements ReflectedField {
 	}
 
 	@Override
+	public Annotation[] getAnnotations() {
+		return field.getAnnotations();
+	}
+
+	@Override
 	public void set(final Object owner, final Object fieldValue) throws ReflectionException {
 		try {
 			field.set(owner, fieldValue);
 		} catch (final Throwable exception) {
-			throw new ReflectionException("Unable to set value:" + fieldValue + " for field: " + field + ".",
-					exception);
+			throw new ReflectionException(
+					"Unable to set value: " + fieldValue + " for field: " + field + ".", exception);
 		}
 	}
 

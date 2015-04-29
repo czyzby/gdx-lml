@@ -32,6 +32,12 @@ public class InitiateAnnotationProcessor extends ComponentMethodAnnotationProces
 	public <Type> void processMethod(final ContextContainer context, final ContextComponent component,
 			final ReflectedMethod method) {
 		final Initiate initiationData = method.getAnnotation(Initiate.class);
+		for (final Class<?> parameterType : method.getParameterTypes()) {
+			final ContextComponent requestedComponent = context.extractFromContext(parameterType);
+			if (requestedComponent.isLazy() && !requestedComponent.isInitiated()) {
+				context.requestToWakeLazyComponent(requestedComponent);
+			}
+		}
 		scheduledInvocations.add(new ComponentMethodInvocation(initiationData.priority(), method, context,
 				component));
 	}

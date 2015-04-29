@@ -15,7 +15,9 @@ public abstract class ComponentFieldAnnotationProcessor extends AbstractComponen
 		return ComponentAnnotationType.FIELD;
 	}
 
-	/** @param context contains the component.
+	/** Field annotation processing method. For internal Autumn use.
+	 *
+	 * @param context contains the component.
 	 * @param component contains the annotated field.
 	 * @param field contains processed annotation type. */
 	public abstract <Type> void processField(ContextContainer context, ContextComponent component,

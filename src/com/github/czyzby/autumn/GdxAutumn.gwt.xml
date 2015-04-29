@@ -8,7 +8,4 @@
 	<define-configuration-property name="gdx.autumn.exclude" is-multi-valued="true" />
 
 	<extend-configuration-property name="gdx.autumn.include" value="com.github.czyzby.autumn.context" />
-	<extend-configuration-property name="gdx.autumn.include" value="com.github.czyzby.autumn.annotation.field" />
-	<extend-configuration-property name="gdx.autumn.include" value="com.github.czyzby.autumn.annotation.method" />
-	<extend-configuration-property name="gdx.autumn.include" value="com.github.czyzby.autumn.annotation.stereotype" />
 </module>

@@ -22,6 +22,9 @@ import com.github.czyzby.kiwi.util.gdx.collection.lazy.LazyObjectMap;
  *
  * @author MJ */
 public class EventProcessor extends ComponentMethodAnnotationProcessor {
+	/** Statics for code clarity in event listening methods. */
+	public static final boolean REMOVE_AFTER_INVOCATION = true, KEEP_AFTER_INVOCATION = false;
+
 	private final ObjectMap<Class<?>, ObjectSet<ComponentEventListener>> eventListeners = LazyObjectMap
 			.newMapOfSets();
 	/** Kept in class to avoid creating multiple instances for each event. */

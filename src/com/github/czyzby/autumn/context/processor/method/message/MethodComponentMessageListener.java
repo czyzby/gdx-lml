@@ -38,7 +38,10 @@ public class MethodComponentMessageListener implements ComponentMessageListener 
 	@Override
 	public boolean processMessage() {
 		try {
-			listenerMethod.invoke(listenerComponent, context.prepareMethodParameters(listenerMethod));
+			final Object result =
+					listenerMethod.invoke(listenerComponent, context.prepareMethodParameters(listenerMethod));
+			return result instanceof Boolean ? ((Boolean) result).booleanValue() || removeAfterInvocation
+					: removeAfterInvocation;
 		} catch (final Throwable exception) {
 			if (strict) {
 				throw new AutumnRuntimeException("Unable to execute method: " + listenerMethod

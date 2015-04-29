@@ -22,6 +22,9 @@ public interface ReflectedField {
 	 * @return annotation instance of the selected type or null. */
 	<Type extends Annotation> Type getAnnotation(Class<Type> annotationType);
 
+	/** @return all annotations on the selected field. */
+	Annotation[] getAnnotations();
+
 	/** @param owner an object of the type that has this kind of field.
 	 * @param fieldValue value that will be assigned to the selected field in owner object.
 	 * @throws ReflectionException if unable to assign field. */

@@ -79,6 +79,7 @@ public class ContextContainer implements Disposable {
 	public ContextContainer(final Class<?> scanningRootClass, final ClassScanner classScanner) {
 		this();
 		registerComponents(scanningRootClass, classScanner);
+		initiateRegisteredComponents();
 	}
 
 	private void registerDefaultAnnotationProcessors() {
@@ -203,7 +204,10 @@ public class ContextContainer implements Disposable {
 		processors.clear();
 	}
 
-	/** @param scanningRootClass class in the root folder that determines where are the annotated classes taken
+	/** Looks for components to add to the context. Use {@link #initiateRegisteredComponents()} to init scanned
+	 * components.
+	 *
+	 * @param scanningRootClass class in the root folder that determines where are the annotated classes taken
 	 *            from. Root package is referenced by one of its classes instead of name to allow easy
 	 *            structure refactors.
 	 * @param classScanner used to scan for component classes. */
@@ -215,10 +219,16 @@ public class ContextContainer implements Disposable {
 		// Regular components processing:
 		registerScannedContextComponents(classScanner.findClassesAnnotatedWith(scanningRootClass,
 				getComponentTypeAnnotationClasses()));
-		managedComponents.addAll(componentsToRegister);
 		for (final ContextComponent component : componentsToRegister) {
-			addComponentToContextClassHierarchyRecursively(component);
+			if (!component.isMapped()) {
+				addComponentToContextClassHierarchyRecursively(component);
+			}
 		}
+	}
+
+	/** Initiates scanned components that should be added to the context. */
+	public void initiateRegisteredComponents() {
+		managedComponents.addAll(componentsToRegister);
 		initiateComponents(componentsToRegister, false);
 		componentsToRegister.clear();
 	}
@@ -274,6 +284,7 @@ public class ContextContainer implements Disposable {
 	 *            injected as implementation of requested interface or extension of required class. */
 	private void addComponentToContextClassHierarchyRecursively(final ContextComponent component) {
 		ReflectedClass componentClass = component.getComponentClass();
+		component.setMapped(true);
 		final ObjectSet<Class<?>> componentInterfaces = GdxSets.newSet();
 		while (componentClass != null && !componentClass.getReflectedClass().equals(Object.class)) {
 			componentInterfaces.addAll(componentClass.getInterfaces());
@@ -289,6 +300,7 @@ public class ContextContainer implements Disposable {
 	 *            context. */
 	private void removeComponentFromContextClassHierarchyRecursively(final ContextComponent component) {
 		ReflectedClass componentClass = component.getComponentClass();
+		component.setMapped(false);
 		final ObjectSet<Class<?>> componentInterfaces = GdxSets.newSet();
 		while (componentClass != null && !componentClass.getReflectedClass().equals(Object.class)) {
 			componentInterfaces.addAll(componentClass.getInterfaces());
@@ -317,7 +329,15 @@ public class ContextContainer implements Disposable {
 		return componentsForClass.first();
 	}
 
-	/** Default method for manual component extraction from the context.
+	/** @return true if there is only one component for the given class. */
+	public boolean contains(final Class<?> singleComponentForClass) {
+		return context.containsKey(singleComponentForClass)
+				&& GdxSets.sizeOf(context.get(singleComponentForClass)) == 1;
+	}
+
+	/** Default method for manual component extraction from the context. As a rule of thumb, if you can extract
+	 * a component from the context through a injected field or method parameter, you should do that instead
+	 * of calling this method.
 	 *
 	 * @param componentClass class of the desired component.
 	 * @return a fully initiated context component of the selected class. */
@@ -514,9 +534,10 @@ public class ContextContainer implements Disposable {
 	// No, I'm not proud of a triple loop.
 	private void processInitiatedComponentFields(final ContextComponent component) {
 		for (final ReflectedField field : component.getComponentClass().getFields()) {
-			for (final Entry<Class<? extends Annotation>, ObjectSet<ComponentFieldAnnotationProcessor>> fieldAnnotationData : fieldAnnotationProcessors) {
-				if (field.isAnnotatedWith(fieldAnnotationData.key)) {
-					for (final ComponentFieldAnnotationProcessor processor : fieldAnnotationData.value) {
+			for (final Annotation annotation : field.getAnnotations()) {
+				if (fieldAnnotationProcessors.containsKey(annotation.annotationType())) {
+					for (final ComponentFieldAnnotationProcessor processor : fieldAnnotationProcessors
+							.get(annotation.annotationType())) {
 						processor.processField(this, component, field);
 					}
 				}
@@ -526,9 +547,10 @@ public class ContextContainer implements Disposable {
 
 	private void processInitiatedComponentMethods(final ContextComponent component) {
 		for (final ReflectedMethod method : component.getComponentClass().getMethods()) {
-			for (final Entry<Class<? extends Annotation>, ObjectSet<ComponentMethodAnnotationProcessor>> methodAnnotationData : methodAnnotationProcessors) {
-				if (method.isAnnotatedWith(methodAnnotationData.key)) {
-					for (final ComponentMethodAnnotationProcessor processor : methodAnnotationData.value) {
+			for (final Annotation annotation : method.getAnnotations()) {
+				if (methodAnnotationProcessors.containsKey(annotation.annotationType())) {
+					for (final ComponentMethodAnnotationProcessor processor : methodAnnotationProcessors
+							.get(annotation.annotationType())) {
 						processor.processMethod(this, component, method);
 					}
 				}

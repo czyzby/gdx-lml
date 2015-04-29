@@ -26,7 +26,7 @@ import com.github.czyzby.kiwi.util.gdx.collection.lazy.LazyObjectMap;
 import com.github.czyzby.kiwi.util.tuple.immutable.Pair;
 import com.github.czyzby.nongwt.autumn.reflection.StandardReflectionProvider;
 
-/** Tries to scan class path resources if running from binaries (IDE) or Jar files.
+/** Tries to scan class path resources if running from binaries (IDE) or .jar files otherwise.
  *
  * @author MJ */
 public class DesktopClassScanner implements ClassScanner {
@@ -52,7 +52,11 @@ public class DesktopClassScanner implements ClassScanner {
 			final Enumeration<URL> resources = classLoader.getResources(classPathRoot);
 			final Queue<Pair<File, Integer>> filesWithDepthsToProcess = new LinkedList<Pair<File, Integer>>();
 			while (resources.hasMoreElements()) {
-				filesWithDepthsToProcess.add(Pair.of(toFile(resources.nextElement()), 0));
+				try {
+					filesWithDepthsToProcess.add(Pair.of(toFile(resources.nextElement()), 0));
+				} catch (final URISyntaxException uriSyntaxException) {
+					// Will throw an exception for non-hierarchical files. Somewhat expected.
+				}
 			}
 			if (filesWithDepthsToProcess.isEmpty()) {
 				return extractFromJar(annotations, classPathRoot, classLoader);
