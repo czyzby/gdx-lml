@@ -12,9 +12,10 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.Method;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
+import com.github.czyzby.autumn.reflection.wrapper.ReflectedMethod;
 import com.github.czyzby.kiwi.util.common.Nullables;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
@@ -25,9 +26,11 @@ import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.LmlTagAttributeParser;
 import com.github.czyzby.lml.parser.LmlTagDataParser;
 import com.github.czyzby.lml.parser.impl.dto.ActionContainer;
+import com.github.czyzby.lml.parser.impl.dto.ActionContainerWrapper;
 import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
 import com.github.czyzby.lml.parser.impl.dto.LmlParent;
 import com.github.czyzby.lml.parser.impl.dto.StageAttacher;
+import com.github.czyzby.lml.util.Lml;
 import com.github.czyzby.lml.util.LmlSyntax;
 
 /** Provides utility methods, variables and default method implementations, allowing to create a LmlParser
@@ -40,15 +43,17 @@ public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
 	protected final LinkedList<LmlParent<?>> widgetsHierarchy = new LinkedList<LmlParent<?>>();
 	protected final ObjectMap<String, LmlTagDataParser<?>> tagParsers = GdxMaps.newObjectMap();
 	protected final ObjectMap<String, LmlMacroParser> macroParsers = GdxMaps.newObjectMap();
-	protected final ObjectMap<String, ActionContainer> actionContainers = GdxMaps.newObjectMap();
+	protected final ObjectMap<String, ActionContainerWrapper> actionContainers = GdxMaps.newObjectMap();
 	protected final ObjectMap<String, ActorConsumer<?, ?>> actions = GdxMaps.newObjectMap();
 	protected final ObjectMap<String, Actor> actorsByIds = GdxMaps.newObjectMap();
 	protected final ObjectMap<String, String> arguments = GdxMaps.newObjectMap();
-	private boolean strict = true;
 
 	protected final ObjectMap<String, I18NBundle> i18nBundles = GdxMaps.newObjectMap();
 	protected final ObjectMap<String, Preferences> preferences = GdxMaps.newObjectMap();
 	protected Skin skin;
+
+	private boolean strict = true;
+	private String lastFile;
 
 	public AbstractLmlParser(final Skin skin) {
 		this.skin = skin;
@@ -78,11 +83,13 @@ public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
 
 	@Override
 	public Array<Actor> parse(final FileHandle lmlFile) throws LmlParsingException {
+		lastFile = lmlFile.name();
 		return parse(lmlFile.readString());
 	}
 
 	@Override
 	public void fill(final Stage stage, final FileHandle lmlFile) throws LmlParsingException {
+		lastFile = lmlFile.name();
 		fill(stage, lmlFile.readString());
 	}
 
@@ -220,24 +227,26 @@ public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
 	}
 
 	@Override
-	public ObjectMap<String, ActionContainer> getActionContainers() {
-		return actionContainers;
-	}
-
-	@Override
 	public void setActionContainers(final ObjectMap<String, ActionContainer> actionContainers) {
 		this.actionContainers.clear();
-		this.actionContainers.putAll(actionContainers);
+		addActionContainers(actionContainers);
 	}
 
 	@Override
 	public void addActionContainer(final String containerId, final ActionContainer actionContainer) {
-		actionContainers.put(containerId, actionContainer);
+		actionContainers.put(containerId, new ActionContainerWrapper(actionContainer));
+	}
+
+	@Override
+	public void removeActionContainer(final String containerId) {
+		actionContainers.remove(containerId);
 	}
 
 	@Override
 	public void addActionContainers(final ObjectMap<String, ActionContainer> actionContainers) {
-		this.actionContainers.putAll(actionContainers);
+		for (final Entry<String, ActionContainer> actionContainer : actionContainers) {
+			this.actionContainers.put(actionContainer.key, new ActionContainerWrapper(actionContainer.value));
+		}
 	}
 
 	@Override
@@ -254,6 +263,11 @@ public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
 	@Override
 	public void addAction(final String actionId, final ActorConsumer<?, ?> action) {
 		actions.put(actionId, action);
+	}
+
+	@Override
+	public void removeAction(final String actionId) {
+		actions.remove(actionId);
 	}
 
 	@Override
@@ -462,7 +476,7 @@ public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
 
 	private ActorConsumer<Object, Object> findMethod(final String actionId, final Class<?> parameterClass) {
 		ActorConsumer<Object, Object> actorConsumer = null;
-		for (final ActionContainer actionContainer : actionContainers.values()) {
+		for (final ActionContainerWrapper actionContainer : actionContainers.values()) {
 			actorConsumer = getActorConsumerForContainer(actionId, actionContainer, parameterClass);
 			if (actorConsumer != null) {
 				break;
@@ -480,7 +494,7 @@ public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
 		}
 		final String actionContainerId = actionData[0];
 		final String actionName = actionData[1];
-		final ActionContainer actionContainer = actionContainers.get(actionContainerId);
+		final ActionContainerWrapper actionContainer = actionContainers.get(actionContainerId);
 		if (actionContainer == null) {
 			throwErrorIfStrict("Referenced unregistered action container: " + actionContainerId + ".");
 			return null;
@@ -489,21 +503,37 @@ public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
 	}
 
 	private ActorConsumer<Object, Object> getActorConsumerForContainer(final String actionName,
-			final ActionContainer actionContainer, final Class<?> parameterClass) {
+			final ActionContainerWrapper actionContainer, final Class<?> parameterClass) {
+		final ReflectedMethod namedMethod = actionContainer.getNamedMethod(actionName);
+		if (namedMethod != null) {
+			return prepareActorConsumerForReflectedMethod(actionContainer.getActionContainer(), namedMethod);
+		}
 		final Method method = getMethod(actionName, parameterClass, actionContainer);
 		if (method == null) {
+			if (Lml.EXTRACT_FIELDS_AS_METHODS) {
+				return getContainerFieldAsAction(actionName, actionContainer);
+			}
 			return null;
 		}
-		return prepareActorConsumerForMethod(actionContainer, method);
+		return prepareActorConsumerForMethod(actionContainer.getActionContainer(), method);
+	}
+
+	private ActorConsumer<Object, Object> getContainerFieldAsAction(final String actionName,
+			final ActionContainerWrapper actionContainer) {
+		final Field field = actionContainer.getField(actionName);
+		if (field != null) {
+			return prepareActorConsumerForField(actionContainer.getActionContainer(), field);
+		}
+		return null;
 	}
 
 	private Method getMethod(final String methodName, final Class<?> parameterClass,
-			final ActionContainer actionContainer) {
+			final ActionContainerWrapper actionContainer) {
 		if (parameterClass == null) {
 			return null;
 		}
 		try {
-			return ClassReflection.getMethod(actionContainer.getClass(), methodName, parameterClass);
+			return actionContainer.getMethod(methodName, parameterClass);
 		} catch (final ReflectionException exception) {
 			return getMethod(methodName, parameterClass.getSuperclass(), actionContainer);
 		}
@@ -511,11 +541,57 @@ public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
 
 	private ActorConsumer<Object, Object> prepareActorConsumerForMethod(
 			final ActionContainer actionContainer, final Method method) {
+		method.setAccessible(true);
+		final boolean invokeWithoutParameters = method.getParameterTypes().length == 0;
 		return new ActorConsumer<Object, Object>() {
 			@Override
 			public Object consume(final Object actor) {
 				try {
-					return method.invoke(actionContainer, actor);
+					if (invokeWithoutParameters) {
+						return method.invoke(actionContainer);
+					} else {
+						return method.invoke(actionContainer, actor);
+					}
+				} catch (final ReflectionException exception) {
+					throw new RuntimeException("An error occured while executing action.", exception);
+				}
+			}
+		};
+	}
+
+	private ActorConsumer<Object, Object> prepareActorConsumerForReflectedMethod(
+			final ActionContainer actionContainer, final ReflectedMethod method) {
+		final int parametersAmount = method.getParameterTypes().length;
+		if (parametersAmount > 1) {
+			throw new LmlParsingException(
+					"Invalid amount of parameters in @ViewAction-annotated method of action container: "
+							+ actionContainer + ". 0 or 1 expected, received: " + parametersAmount + ".");
+		}
+		final boolean invokeWithoutParameters = parametersAmount == 0;
+		return new ActorConsumer<Object, Object>() {
+			@Override
+			public Object consume(final Object actor) {
+				try {
+					if (invokeWithoutParameters) {
+						return method.invoke(actionContainer);
+					} else {
+						return method.invoke(actionContainer, actor);
+					}
+				} catch (final ReflectionException exception) {
+					throw new RuntimeException("An error occured while executing action.", exception);
+				}
+			}
+		};
+	}
+
+	private ActorConsumer<Object, Object> prepareActorConsumerForField(final ActionContainer actionContainer,
+			final Field field) {
+		field.setAccessible(true);
+		return new ActorConsumer<Object, Object>() {
+			@Override
+			public Object consume(final Object actor) {
+				try {
+					return Strings.toString(field.get(actionContainer));
 				} catch (final ReflectionException exception) {
 					throw new RuntimeException("An error occured while executing action.", exception);
 				}
@@ -550,5 +626,14 @@ public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
 					+ ". Cannot unregister attribute parser.");
 		}
 		tagParsers.get(tagName).unregisterAttributeParser(attributeName);
+	}
+
+	protected void clearLastParsedDocumentName() {
+		lastFile = null;
+	}
+
+	@Override
+	public String getLastParsedDocumentName() {
+		return lastFile;
 	}
 }

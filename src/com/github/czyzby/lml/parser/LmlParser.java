@@ -76,12 +76,12 @@ public interface LmlParser {
 	 * @return rawData if the text is not considered a bundle line or preference. Converted line otherwise. */
 	String parseStringData(String rawData, Actor forActor);
 
-	/** @return action containers mapped by IDs. */
-	ObjectMap<String, ActionContainer> getActionContainers();
-
 	/** Registers an action container with the given ID. ID can be referenced with onClick and onChange
 	 * attributes before the method. */
 	void addActionContainer(String containerId, ActionContainer actionContainer);
+
+	/** Unregisters action container with the selected ID. */
+	void removeActionContainer(String containerId);
 
 	/** Registers action containers with the given IDs. IDs can be referenced with onClick and onChange
 	 * attributes before the method. */
@@ -96,6 +96,9 @@ public interface LmlParser {
 
 	/** Registers an action with the given ID. ID can be referenced with onClick and onChange attributes. */
 	void addAction(String actionId, ActorConsumer<?, ?> action);
+
+	/** Removes action referenced by the selected ID. */
+	void removeAction(String actionId);
 
 	/** Registers actions with the given IDs. IDs can be referenced with onClick and onChange attributes. */
 	void addActions(ObjectMap<String, ActorConsumer<?, ?>> actions);
@@ -225,4 +228,7 @@ public interface LmlParser {
 	 *            the passed tag name. Note that you can also unregister attributes globally by accessing tag
 	 *            parsers' static methods. */
 	void unregisterAttributeParser(String tagName, String attributeName);
+
+	/** @return name of the last document parsed from a file. Internal utility. */
+	String getLastParsedDocumentName();
 }

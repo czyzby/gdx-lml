@@ -22,5 +22,4 @@ public class AbstractLmlDto implements LmlSyntax {
 	public static boolean isStartingAndEndingWith(final String attribute, final char character) {
 		return attribute.charAt(0) == character && attribute.charAt(attribute.length() - 1) == character;
 	}
-
 }

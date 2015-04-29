@@ -16,6 +16,13 @@ import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
  *
  * @author MJ */
 public class Lml implements LmlSyntax {
+	/** When action is referenced in LML template, it parser looks for ActorConsumers with the selected key -
+	 * then it looks for action containers containing the referenced action. When none of action container's
+	 * methods match the key, normally container's field with the given name is returned, provided it exists.
+	 * However, this causes problems on GWT (probably due to LibGDX reflection implementation), so this
+	 * functionality can be globally turned off by setting this variable to false. */
+	public static boolean EXTRACT_FIELDS_AS_METHODS = true;
+
 	/** When an action is attached to a dialog tag with "onResult" attribute, it will be fired upon clicking
 	 * one of the widgets in button table. If it returns true (boolean), dialog will not be hidden. If it
 	 * returns false, dialog will hide. */

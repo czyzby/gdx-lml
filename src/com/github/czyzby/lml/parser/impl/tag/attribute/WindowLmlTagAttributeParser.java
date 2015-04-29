@@ -11,14 +11,28 @@ public enum WindowLmlTagAttributeParser implements LmlTagAttributeParser {
 		@Override
 		protected void apply(final Window window, final LmlParser parser, final String attributeValue,
 				final LmlTagData lmlTagData) {
-			window.setTitle(LmlAttributes.parseString(window, parser, attributeValue));
+			window.getTitleLabel().setText(LmlAttributes.parseString(window, parser, attributeValue));
 		}
 	},
 	TITLE_ALIGNMENT("titleAlign", "titleAlignment") {
 		@Override
 		protected void apply(final Window window, final LmlParser parser, final String attributeValue,
 				final LmlTagData lmlTagData) {
-			window.setTitleAlignment(LmlAttributes.parseAlignment(window, parser, attributeValue));
+			window.getTitleLabel().setAlignment(LmlAttributes.parseAlignment(window, parser, attributeValue));
+		}
+	},
+	TITLE_WRAP("titleWrap") {
+		@Override
+		protected void apply(final Window window, final LmlParser parser, final String attributeValue,
+				final LmlTagData lmlTagData) {
+			window.getTitleLabel().setWrap(LmlAttributes.parseBoolean(window, parser, attributeValue));
+		}
+	},
+	TITLE_ELLIPSIS("titleEllipsis") {
+		@Override
+		protected void apply(final Window window, final LmlParser parser, final String attributeValue,
+				final LmlTagData lmlTagData) {
+			window.getTitleLabel().setEllipsis(LmlAttributes.parseBoolean(window, parser, attributeValue));
 		}
 	},
 	KEEP_WITHIN_STAGE("keepWithin", "keepWithinStage") {

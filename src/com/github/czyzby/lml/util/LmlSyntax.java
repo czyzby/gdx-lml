@@ -53,5 +53,6 @@ public interface LmlSyntax {
 	char QUOTATION_CHAR = '\'';
 	char DOUBLE_QUOTATION_CHAR = '"';
 
+	char MACRO_ARGUMENT_SEPARATOR = '=';
 	String ATTRIBUTE_SEPARATOR = "=";
 }

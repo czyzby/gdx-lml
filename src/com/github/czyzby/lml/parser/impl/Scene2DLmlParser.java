@@ -145,6 +145,7 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 				}
 			}
 			validateHierarchy();
+			parser.clearLastParsedDocumentName();
 			return parsedActors;
 		}
 

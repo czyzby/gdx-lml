@@ -69,6 +69,13 @@ public enum TableLmlTagAttributeParser implements LmlTagAttributeParser {
 				final LmlTagData lmlTagData) {
 			table.setDebug(LmlAttributes.parseBoolean(table, parser, attributeValue), true);
 		}
+	},
+	BACKGROUND("background") {
+		@Override
+		protected void apply(final Table table, final LmlParser parser, final String attributeValue,
+				final LmlTagData lmlTagData) {
+			table.setBackground(LmlAttributes.parseString(table, parser, attributeValue));
+		}
 	};
 
 	private final String[] aliases;

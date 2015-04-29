@@ -9,8 +9,9 @@ public class LmlParsingException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 	private static final String DEFAULT_ERROR_MESSAGE = "Unable to parse LML file. Look for syntax errors.";
 	private static final String LINE_MARKER_MESSAGE = " Error occured near line ";
-	private static final String LINE_MARKER_MESSAGE_ERROR =
-			" of the original file.\n\tNote that if a macro was called or ended in this line (even one of the default ones), the real problematic line may vary a bit from the given value due to how parser works. If the given line appears to be valid, recheck the called macro and its content between tags.";
+	private static final String FILE_MARKER_MESSAGE = " of the original file: ";
+	private static final String ERROR_PROMPT =
+			".\n\tNote that if a macro was called or ended in this line (even one of the default ones), the real problematic line may vary a bit from the given value due to how parser works. If the given line appears to be valid, recheck the called macro and its content between tags.";
 
 	public LmlParsingException(final String message) {
 		super(message == null ? DEFAULT_ERROR_MESSAGE : message);
@@ -25,15 +26,15 @@ public class LmlParsingException extends RuntimeException {
 	}
 
 	public LmlParsingException(final String message, final int errorLine) {
-		super(prepareMessage(message, errorLine));
+		super(prepareMessage(message, "unknown", errorLine));
 	}
 
 	private static String prepareMessage(final String message, final LmlParser parser) {
-		return prepareMessage(message, parser.getCurrentlyParsedLine());
+		return prepareMessage(message, parser.getLastParsedDocumentName(), parser.getCurrentlyParsedLine());
 	}
 
-	private static String prepareMessage(final String message, final int line) {
-		return message + LINE_MARKER_MESSAGE + line + LINE_MARKER_MESSAGE_ERROR;
+	private static String prepareMessage(final String message, final String documentName, final int line) {
+		return message + LINE_MARKER_MESSAGE + line + FILE_MARKER_MESSAGE + documentName + ERROR_PROMPT;
 	}
 
 	public LmlParsingException(final LmlParser parser, final Throwable cause) {
