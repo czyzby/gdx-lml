@@ -16,7 +16,7 @@ public class MutableSingle<Type> implements SingleTuple<Type> {
 
 	private Type value;
 
-	protected MutableSingle(final Type value) {
+	public MutableSingle(final Type value) {
 		this.value = value;
 	}
 
@@ -171,6 +171,11 @@ public class MutableSingle<Type> implements SingleTuple<Type> {
 
 	@Override
 	public boolean isFirstPresent() {
+		return value != null;
+	}
+
+	@Override
+	public boolean isPresent() {
 		return value != null;
 	}
 

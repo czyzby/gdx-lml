@@ -13,13 +13,14 @@ configurations {
 repositories {
     mavenCentral()
     jcenter()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
 
 jar {
     from project.sourceSets.main.allSource
     from project.sourceSets.main.output
     baseName = 'gdx-kiwi'
-    version =  '0.5.1.5.5'
+    version =  '0.5.1.5.6-SNAPSHOT'
 }
 
 task javadocJar(type: Jar) {
@@ -42,10 +43,10 @@ signing {
 
 group = "com.github.czyzby"
 archivesBaseName = "gdx-kiwi"
-version = "0.5.1.5.5"
+version = "0.5.1.5.6-SNAPSHOT"
 
 ext {
-    gdxVersion = '1.5.5'
+    gdxVersion = '1.5.6'
 }
 
 dependencies {

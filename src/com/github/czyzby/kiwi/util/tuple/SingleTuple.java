@@ -12,6 +12,9 @@ public interface SingleTuple<Type> extends Tuple, Iterable<Type> {
 	/** @return value stored in tuple. */
 	public Type get();
 
-	/** @return true if value stored in tuple is not null.. */
+	/** @return true if value stored in tuple is not null. */
 	public boolean isFirstPresent();
+
+	/** @return true if value stored in tuple is not null. */
+	public boolean isPresent();
 }

@@ -20,7 +20,7 @@ public class Triple<First, Second, Third> implements TripleTuple<First, Second, 
 	private final Second second;
 	private final Third third;
 
-	protected Triple(final First first, final Second second, final Third third) {
+	public Triple(final First first, final Second second, final Third third) {
 		this.first = first;
 		this.second = second;
 		this.third = third;

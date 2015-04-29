@@ -21,7 +21,7 @@ public class Pair<First, Second> implements DoubleTuple<First, Second> {
 	private final First first;
 	private final Second second;
 
-	protected Pair(final First first, final Second second) {
+	public Pair(final First first, final Second second) {
 		this.first = first;
 		this.second = second;
 	}

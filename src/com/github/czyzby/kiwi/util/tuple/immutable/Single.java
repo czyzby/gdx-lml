@@ -16,7 +16,7 @@ public class Single<Type> implements SingleTuple<Type> {
 
 	private final Type value;
 
-	protected Single(final Type value) {
+	public Single(final Type value) {
 		this.value = value;
 	}
 
@@ -157,6 +157,11 @@ public class Single<Type> implements SingleTuple<Type> {
 
 	@Override
 	public boolean isFirstPresent() {
+		return value != null;
+	}
+
+	@Override
+	public boolean isPresent() {
 		return value != null;
 	}
 

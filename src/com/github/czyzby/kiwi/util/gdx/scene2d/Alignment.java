@@ -1,8 +1,7 @@
 package com.github.czyzby.kiwi.util.gdx.scene2d;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont.HAlignment;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.utils.Align;
 
 /** LibGDX alignments are simple integers and it's rather easy to make a mistake while using the align methods.
  * This enums wraps all default alignments, allowing to validate if the alignment value is actually correct.
@@ -59,16 +58,6 @@ public enum Alignment {
 	/** @return true for CENTER. */
 	public boolean isCentered() {
 		return alignment == Align.center;
-	}
-
-	/** @return alignment converted to bitmap font utility HAlignment. */
-	public HAlignment toHorizontalAlignment() {
-		if (isAlignedWithLeft()) {
-			return HAlignment.LEFT;
-		} else if (isAlignedWithRight()) {
-			return HAlignment.RIGHT;
-		}
-		return HAlignment.CENTER;
 	}
 
 	/** @param index ordinal of an enum constant.

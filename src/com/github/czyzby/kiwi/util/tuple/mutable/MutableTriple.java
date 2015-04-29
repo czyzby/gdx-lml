@@ -20,7 +20,7 @@ public class MutableTriple<First, Second, Third> implements TripleTuple<First, S
 	private Second second;
 	private Third third;
 
-	protected MutableTriple(final First first, final Second second, final Third third) {
+	public MutableTriple(final First first, final Second second, final Third third) {
 		this.first = first;
 		this.second = second;
 		this.third = third;

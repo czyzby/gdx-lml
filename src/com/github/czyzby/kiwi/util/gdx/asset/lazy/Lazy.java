@@ -24,6 +24,11 @@ public class Lazy<Type> {
 		this.provider = provider;
 	}
 
+	/** @return a new instance of empty provider which can be managed manually. */
+	public static <Type> Lazy<Type> empty() {
+		return new Lazy<Type>();
+	}
+
 	/** @param provider will provide wrapped object on first call. */
 	public static <Type> Lazy<Type> providedBy(final ObjectProvider<? extends Type> provider) {
 		return new Lazy<Type>(provider);

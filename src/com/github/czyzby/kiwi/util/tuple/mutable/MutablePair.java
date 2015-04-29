@@ -20,7 +20,7 @@ public class MutablePair<First, Second> implements DoubleTuple<First, Second> {
 	private First first;
 	private Second second;
 
-	protected MutablePair(final First first, final Second second) {
+	public MutablePair(final First first, final Second second) {
 		this.first = first;
 		this.second = second;
 	}
