@@ -1,8 +1,10 @@
 package com.github.czyzby.autumn.gwt.reflection.wrapper;
 
 import java.lang.annotation.Annotation;
+import java.util.Collection;
 import java.util.Map;
 
+import com.github.czyzby.autumn.gwt.reflection.GwtReflection;
 import com.github.czyzby.autumn.reflection.wrapper.ReflectedClass;
 import com.github.czyzby.autumn.reflection.wrapper.ReflectedField;
 
@@ -14,6 +16,7 @@ public abstract class GwtReflectedField implements ReflectedField {
 	private final Class<?> fieldType;
 	private ReflectedClass reflectedClass;
 	private final Map<Class<? extends Annotation>, Annotation> annotations;
+	private final Annotation[] annotationList;
 
 	/** @param fieldId has to be unique among all fields of all classes. */
 	public GwtReflectedField(final int fieldId, final Class<?> fieldType,
@@ -21,6 +24,12 @@ public abstract class GwtReflectedField implements ReflectedField {
 		this.fieldId = fieldId;
 		this.fieldType = fieldType;
 		this.annotations = annotations;
+		if (annotations != null && !annotations.isEmpty()) {
+			final Collection<Annotation> annotationValues = annotations.values();
+			annotationList = annotationValues.toArray(new Annotation[annotationValues.size()]);
+		} else {
+			annotationList = GwtReflection.EMPTY_ANNOTATIONS_ARRAY;
+		}
 	}
 
 	@Override
@@ -46,6 +55,11 @@ public abstract class GwtReflectedField implements ReflectedField {
 	@SuppressWarnings("unchecked")
 	public <Type extends Annotation> Type getAnnotation(final Class<Type> annotationType) {
 		return (Type) annotations.get(annotationType);
+	}
+
+	@Override
+	public Annotation[] getAnnotations() {
+		return annotationList;
 	}
 
 	@Override

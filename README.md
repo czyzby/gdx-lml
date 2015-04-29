@@ -19,7 +19,7 @@ The default class scanner is `com.github.czyzby.autumn.gwt.scanner.GwtClassScann
 Gradle dependency (for GWT project):
 
 ```
-    compile "com.github.czyzby:gdx-autumn-gwt:0.4.$gdxVersion"
+    compile "com.github.czyzby:gdx-autumn-gwt:0.5.$gdxVersion"
 ```
 
 GWT module:
@@ -28,4 +28,10 @@ GWT module:
     <inherits name='com.github.czyzby.autumn.gwt.GdxAutumnGwt' />
 ```
 
-There is a small bug in 0.4.1.5.5 version, however. *GdxAutumn* module originally inherited *GdxLml* (which is another of my libraries) and I forgot to change it to *GdxKiwi* dependency. If you want to use Autumn without LML, you have to create package `com.github.czyzby.lml` with an empty module: `GdxLml.gwt.xml`, otherwise GWT will be unable to resolve core Autumn dependency. Sorry for that - naturally, it will be fixed in the next versions.
+If you are using Autumn in GWT just for the reflection pool (without context or components - with [LML](http://github.com/czyzby/gdx-lml), for example), make sure to make this call:
+
+```
+    Reflection.setReflectionProvider(GwtReflection.getReflectionProvider());
+```
+
+This allows to call commonly used Autumn `Reflection`'s methods with the correct provider. Note that this is done internally by `GwtClassScanner`'s constructor, so the call is not necessary if you're using the default scanner.

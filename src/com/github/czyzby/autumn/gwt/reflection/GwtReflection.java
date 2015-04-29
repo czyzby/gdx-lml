@@ -1,5 +1,7 @@
 package com.github.czyzby.autumn.gwt.reflection;
 
+import java.lang.annotation.Annotation;
+
 import com.github.czyzby.autumn.reflection.wrapper.ReflectedClass;
 import com.google.gwt.core.client.GWT;
 
@@ -9,6 +11,7 @@ import com.google.gwt.core.client.GWT;
 public class GwtReflection {
 	private static final ExtendedReflectionProvider REFLECTION_PROVIDER = GWT
 			.create(ExtendedReflectionProvider.class);
+	public static final Annotation[] EMPTY_ANNOTATIONS_ARRAY = new Annotation[] {};
 
 	private GwtReflection() {
 	}
