@@ -12,11 +12,18 @@ import java.lang.annotation.Target;
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Asset {
-	/** @return internal path to the asset. */
-	String value();
+	/** @return internal paths to the asset. Cannot be empty. If multiple assets are given, field type has to be
+	 *         {@link com.badlogic.gdx.utils.ObjectMap}, {@link com.badlogic.gdx.utils.Array} or
+	 *         {@link com.badlogic.gdx.utils.ObjectSet}. */
+	String[] value();
+
+	/** @return asset IDs. Used only if the assets are stored in a {@link com.badlogic.gdx.utils.ObjectMap}. If
+	 *         used, keys array size has to match {@link #value()} array size. If not specified, paths will be
+	 *         used as map keys instead. */
+	String[] keys() default {};
 
 	/** @return class of the asset. Ignored and taken from the variable type if asset is not wrapped in
-	 *         {@link com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy} container. */
+	 *         {@link com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy} or LibGDX collection container. */
 	Class<?> type() default void.class;
 
 	/** Determines the behavior of asset loading. 4 states are possible:

@@ -14,6 +14,7 @@ import com.github.czyzby.autumn.mvc.component.sfx.processor.SoundEnabledAnnotati
 import com.github.czyzby.autumn.mvc.component.sfx.processor.SoundVolumeAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
 import com.github.czyzby.autumn.mvc.component.ui.processor.I18nBundleAnnotationProcessor;
+import com.github.czyzby.autumn.mvc.component.ui.processor.LmlMacroAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.component.ui.processor.PreferenceAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.component.ui.processor.SkinAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.component.ui.processor.StageViewportAnnotationProcessor;
@@ -77,7 +78,7 @@ public class AutumnApplication implements ApplicationListener {
 				// Interface:
 				InterfaceService.class, ViewAnnotationProcessor.class, ViewDialogAnnotationProcessor.class,
 				ViewActionContainerAnnotationProcessor.class, ViewActorAnnotationProcessor.class,
-				ViewStageAnnotationProcessor.class);
+				ViewStageAnnotationProcessor.class, LmlMacroAnnotationProcessor.class);
 	}
 
 	@Override

@@ -1,36 +1,21 @@
 package com.github.czyzby.autumn.mvc.component.asset.processor.dto;
 
-import com.badlogic.gdx.utils.reflect.ReflectionException;
-import com.github.czyzby.autumn.error.AutumnRuntimeException;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.github.czyzby.autumn.mvc.component.asset.AssetService;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedField;
 
-/** Delayed asset injection container.
+/** Allows for delayed injection.
  *
  * @author MJ */
-public class AssetInjection {
-	protected final ReflectedField field;
-	protected final String assetPath;
-	protected final Object component;
-
-	public AssetInjection(final ReflectedField field, final String assetPath, final Object component) {
-		this.field = field;
-		this.assetPath = assetPath;
-		this.component = component;
-	}
-
+public interface AssetInjection {
 	/** Injects the value of annotated field.
 	 *
-	 * @param assetService provides the asset. */
-	public void inject(final AssetService assetService) {
-		try {
-			injectAsset(assetService);
-		} catch (final ReflectionException exception) {
-			throw new AutumnRuntimeException("Unable to inject asset.", exception);
-		}
-	}
+	 * @param assetService provides the asset.
+	 * @return true if asset was injected. */
+	public boolean inject(AssetService assetService);
 
-	protected void injectAsset(final AssetService assetService) throws ReflectionException {
-		field.set(component, assetService.get(assetPath, field.getFieldType()));
-	}
+	/** @param scheduledAssets will contain handled asset paths. */
+	public void fillScheduledAssets(ObjectSet<String> scheduledAssets);
+
+	/** @param scheduledAssets will have handled asset paths removed. */
+	public void removeScheduledAssets(ObjectSet<String> scheduledAssets);
 }

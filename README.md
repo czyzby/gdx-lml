@@ -59,12 +59,12 @@ To register views you can use:
   - Note - default renderers, resizers (and so on) can be specified globally with `InterfaceService` static variables.
 - TODO: @ViewDialog, @ViewActionContainer
 
-In views you can also use these annotations:
+In views you can also use these utility annotations:
 
 - @Asset - allows to load and inject assets with AssetService. The most important setting that determines the way injection works is `loadOnDemand`:
   - when true: asset is loaded as soon as the component is constructed and injected into the field. There is no possibility of a fully constructed object to have null variable's value with this setting, but it does make application start-up slower and does not allow to load assets asynchronously with the loading screen - this setting should be used only for crucial assets that has to be loaded before showing the first screen or for delayed asset loading (see note below).
   - when false: asset loading is scheduled and injected when the loading is complete. Fully constructed objects' fields can be null with this setting, this might be problematic for initial screen. Note that either AssetService.update() (returning true) or AssetService.finishLoading() has to be called for injection to take place - you can @Inject AssetService variable and update it on the initial screens (or, for example, transition dialogs, if you plan on using delayed asset loading).
-You can also wrap the asset with a Lazy<AssetClass> variable. This changes injection behavior according to loadOnDemand setting:
+- You can also wrap the @Asset annotated field with a Lazy<AssetClass> variable. This changes injection behavior according to loadOnDemand setting:
   - when true: asset is scheduled and immediately loaded on the first Lazy.get() call. This is useful for light, rarely used assets.
   - when false: asset is scheduled for loading when the component is being processed and is injected into the lazy field as soon as loading is done. This is similar to non-wrapped lazy variable with loadOnDemand set to false with one significant difference - if Lazy.get() is called and asset is not loaded, it will be loaded synchronously, never returning null. This is a safer variant (especially on initial screens or views with delayed asset loading) at a cost of a small overhead.
 Note that assets injection are processed when the components are constructed, so you can delay asset loading by storing asset references in classes annotated with `@Component(lazy = true)` and injecting these components into Lazy<ComponentClass> fields.

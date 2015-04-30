@@ -8,7 +8,7 @@ import com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy;
 /** Delayed injection for assets wrapped with a lazy container.
  *
  * @author MJ */
-public class LazyAssetInjection extends AssetInjection {
+public class LazyAssetInjection extends StandardAssetInjection {
 	private final Class<?> assetClass;
 
 	public LazyAssetInjection(final ReflectedField field, final String assetPath, final Object component,
