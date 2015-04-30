@@ -50,7 +50,8 @@ public class StandardReflectedMethod implements ReflectedMethod {
 		try {
 			return method.invoke(owner, parameters);
 		} catch (final Throwable exception) {
-			throw new ReflectionException("Unable to invoke method: " + method + ".", exception);
+			throw new ReflectionException("Unable to invoke method: " + method + " with owner: " + owner,
+					exception);
 		}
 	}
 

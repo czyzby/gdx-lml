@@ -50,8 +50,8 @@ public class StandardReflectedField implements ReflectedField {
 		try {
 			field.set(owner, fieldValue);
 		} catch (final Throwable exception) {
-			throw new ReflectionException(
-					"Unable to set value: " + fieldValue + " for field: " + field + ".", exception);
+			throw new ReflectionException("Unable to set value: " + fieldValue + " for field: " + field
+					+ " in owner: " + owner, exception);
 		}
 	}
 
@@ -60,7 +60,8 @@ public class StandardReflectedField implements ReflectedField {
 		try {
 			return field.get(owner);
 		} catch (final Throwable exception) {
-			throw new ReflectionException("Unable to get value of field: " + field + ".", exception);
+			throw new ReflectionException("Unable to get value of field: " + field + " with owner: " + owner,
+					exception);
 		}
 	}
 
