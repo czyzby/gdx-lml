@@ -11,7 +11,7 @@ import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
  *
  * @author MJ */
 public class Lazy<Type> {
-	private final ObjectProvider<? extends Type> provider;
+	private ObjectProvider<? extends Type> provider;
 	private Type object;
 
 	/** Constructs an empty lazy object with no provider. Stored variable has to be set manually. */
@@ -53,9 +53,10 @@ public class Lazy<Type> {
 	}
 
 	/** @return wrapped object instance. Is never null, as long as the provider is properly created. */
-	public Type get() {
+	public final Type get() {
 		if (object == null) {
 			object = getObjectInstance();
+			provider = null;
 		}
 		return object;
 	}
