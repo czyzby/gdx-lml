@@ -5,6 +5,7 @@ import com.github.czyzby.lml.parser.impl.macro.AbsoluteImportLmlMacroParser;
 import com.github.czyzby.lml.parser.impl.macro.AssignLmlMacroParser;
 import com.github.czyzby.lml.parser.impl.macro.ClasspathImportLmlMacroParser;
 import com.github.czyzby.lml.parser.impl.macro.ConditionLmlMacroParser;
+import com.github.czyzby.lml.parser.impl.macro.EvaluateLmlMacroParser;
 import com.github.czyzby.lml.parser.impl.macro.ExternalImportLmlMacroParser;
 import com.github.czyzby.lml.parser.impl.macro.ForEachLoopLmlMacroParser;
 import com.github.czyzby.lml.parser.impl.macro.InternalImportLmlMacroParser;
@@ -63,6 +64,7 @@ public class LmlTagParsers {
 		lmlParser.registerMacroParser(new NullCheckLmlMacroParser(), "ifNotNull", "ifPresent", "notNull",
 				"exists", "ifExists", "nullCheck");
 		lmlParser.registerMacroParser(new AssignLmlMacroParser(), "assign", "var", "val");
+		lmlParser.registerMacroParser(new EvaluateLmlMacroParser(), "eval", "evaluate", "invoke");
 		// Add other default macros here.
 	}
 

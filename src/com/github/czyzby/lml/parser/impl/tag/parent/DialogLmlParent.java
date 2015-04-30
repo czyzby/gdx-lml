@@ -1,6 +1,7 @@
 package com.github.czyzby.lml.parser.impl.tag.parent;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.lml.parser.LmlParser;
@@ -17,6 +18,12 @@ public class DialogLmlParent extends TableLmlParent {
 	public DialogLmlParent(final LmlTagData tagData, final Dialog actor, final LmlParent<?> parent,
 			final LmlParser parser) {
 		super(tagData, actor, parent, parser);
+		final Cell<?> contentCell = actor.getCell(actor.getContentTable());
+		contentCell.fill();
+		contentCell.expand();
+		final Cell<?> buttonCell = actor.getCell(actor.getButtonTable());
+		buttonCell.fillX();
+		buttonCell.expandX();
 	}
 
 	protected Dialog getActorAsDialog() {

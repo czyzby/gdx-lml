@@ -455,7 +455,7 @@ public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
 
 	@Override
 	public ActorConsumer<Object, Object> findAction(final String actionId, final Actor forActor) {
-		return findAction(actionId, forActor.getClass());
+		return findAction(actionId, forActor == null ? Object.class : forActor.getClass());
 	}
 
 	@Override
