@@ -26,6 +26,7 @@ import com.github.czyzby.autumn.annotation.stereotype.Component;
 import com.github.czyzby.autumn.error.AutumnRuntimeException;
 import com.github.czyzby.autumn.mvc.component.asset.AssetService;
 import com.github.czyzby.autumn.mvc.component.i18n.LocaleService;
+import com.github.czyzby.autumn.mvc.component.i18n.processor.I18nBundleAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.component.sfx.MusicService;
 import com.github.czyzby.autumn.mvc.component.ui.action.ActionProvider;
 import com.github.czyzby.autumn.mvc.component.ui.action.ApplicationExitAction;
@@ -47,7 +48,6 @@ import com.github.czyzby.autumn.mvc.component.ui.controller.impl.StandardViewRen
 import com.github.czyzby.autumn.mvc.component.ui.controller.impl.StandardViewShower;
 import com.github.czyzby.autumn.mvc.component.ui.dto.SkinData;
 import com.github.czyzby.autumn.mvc.component.ui.dto.ViewActionProvider;
-import com.github.czyzby.autumn.mvc.component.ui.processor.I18nBundleAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.component.ui.processor.SkinAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.component.ui.processor.ViewActionContainerAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.config.AutumnActionPriority;
@@ -95,6 +95,10 @@ public class InterfaceService {
 	 * or {@link #setShowingActionProvider(ActionProvider)}. Retrieved each time a screen is shown or hidden
 	 * using default actions. */
 	public static float DEFAULT_FADING_TIME = 0.25f;
+	/** Upon initiation and each time locale is changed, it is parsed to string (separating values with -) and
+	 * assigned as a LML view argument which can be referenced with ${thisVariableValue} in templates.
+	 * Changing this variable (ideally - before building first screen) allows to choose argument's name. */
+	private static String CURRENT_LOCALE = "currentLocale";
 
 	private final ObjectMap<Class<?>, ViewController> controllers = GdxMaps.newObjectMap();
 	private final ObjectMap<Class<?>, ViewDialogController> dialogControllers = GdxMaps.newObjectMap();
@@ -190,10 +194,15 @@ public class InterfaceService {
 
 	private void buildParser() {
 		addDefaultViewActions();
-		lastLocale = localeService.getCurrentLocale();
+		saveLastLocale(localeService.getCurrentLocale());
 		for (final Entry<String, FileHandle> bundleData : i18nBundleFiles) {
 			parser.setI18nBundle(bundleData.key, I18NBundle.createBundle(bundleData.value, lastLocale));
 		}
+	}
+
+	private void saveLastLocale(final Locale currentLocale) {
+		lastLocale = currentLocale;
+		parser.addArgument(CURRENT_LOCALE, LocaleService.fromLocale(lastLocale));
 	}
 
 	private void addDefaultViewActions() {
@@ -274,7 +283,7 @@ public class InterfaceService {
 	private void validateLocale() {
 		final Locale currentLocale = localeService.getCurrentLocale();
 		if (!lastLocale.equals(currentLocale)) {
-			lastLocale = currentLocale;
+			saveLastLocale(currentLocale);
 			for (final Entry<String, FileHandle> bundleData : i18nBundleFiles) {
 				parser.setI18nBundle(bundleData.key, I18NBundle.createBundle(bundleData.value, currentLocale));
 			}

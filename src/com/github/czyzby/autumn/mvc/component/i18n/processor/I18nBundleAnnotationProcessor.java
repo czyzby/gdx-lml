@@ -1,4 +1,4 @@
-package com.github.czyzby.autumn.mvc.component.ui.processor;
+package com.github.czyzby.autumn.mvc.component.i18n.processor;
 
 import java.lang.annotation.Annotation;
 
