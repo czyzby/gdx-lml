@@ -34,7 +34,7 @@ import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
 
 public class GwtReflectionProviderCreator {
-	private static final boolean DEBUG_ENABLED = false;
+	private static final boolean DEBUG_ENABLED = true;
 
 	private static final String AUTUMN_REFLECTION_INCLUDE_PROPERTY = "gdx.autumn.include";
 	private static final String AUTUMN_REFLECTION_EXCLUDE_PROPERTY = "gdx.autumn.exclude";
@@ -536,9 +536,10 @@ public class GwtReflectionProviderCreator {
 			final int methodId, final JType[] parameterTypes) {
 		append("private native ")
 				.append(method.getReturnType().getErasedType().getQualifiedSourceName()
-						.equalsIgnoreCase("void") ? "Object" : method.getReturnType().getErasedType())
-				.append(" ").append(METHOD_INVOCATION_METHOD_NAME).append(methodId).append("(")
-				.append(classToReflect.getQualifiedSourceName()).append(" owner");
+						.equalsIgnoreCase("void") ? "Object" : method.getReturnType().getErasedType()
+						.getQualifiedSourceName()).append(" ").append(METHOD_INVOCATION_METHOD_NAME)
+				.append(methodId).append("(").append(classToReflect.getQualifiedSourceName())
+				.append(" owner");
 		if (parameterTypes.length > 0) {
 			append(", ");
 		}
