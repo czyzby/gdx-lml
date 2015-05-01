@@ -47,7 +47,7 @@ import com.github.czyzby.autumn.mvc.component.ui.controller.impl.StandardCameraC
 import com.github.czyzby.autumn.mvc.component.ui.controller.impl.StandardViewRenderer;
 import com.github.czyzby.autumn.mvc.component.ui.controller.impl.StandardViewShower;
 import com.github.czyzby.autumn.mvc.component.ui.dto.SkinData;
-import com.github.czyzby.autumn.mvc.component.ui.dto.ViewActionProvider;
+import com.github.czyzby.autumn.mvc.component.ui.dto.provider.ViewActionProvider;
 import com.github.czyzby.autumn.mvc.component.ui.processor.SkinAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.component.ui.processor.ViewActionContainerAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.config.AutumnActionPriority;

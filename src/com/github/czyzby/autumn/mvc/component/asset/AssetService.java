@@ -9,23 +9,28 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.ObjectSet.ObjectSetIterator;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
+import com.github.czyzby.autumn.annotation.ComponentAnnotations;
 import com.github.czyzby.autumn.annotation.method.Destroy;
 import com.github.czyzby.autumn.annotation.stereotype.MetaComponent;
 import com.github.czyzby.autumn.context.ContextComponent;
 import com.github.czyzby.autumn.context.ContextContainer;
 import com.github.czyzby.autumn.context.processor.field.ComponentFieldAnnotationProcessor;
 import com.github.czyzby.autumn.error.AutumnRuntimeException;
-import com.github.czyzby.autumn.mvc.component.asset.processor.dto.ArrayAssetInjection;
-import com.github.czyzby.autumn.mvc.component.asset.processor.dto.AssetInjection;
-import com.github.czyzby.autumn.mvc.component.asset.processor.dto.AssetProvider;
-import com.github.czyzby.autumn.mvc.component.asset.processor.dto.ObjectMapAssetInjection;
-import com.github.czyzby.autumn.mvc.component.asset.processor.dto.ObjectSetAssetInjection;
-import com.github.czyzby.autumn.mvc.component.asset.processor.dto.StandardAssetInjection;
+import com.github.czyzby.autumn.mvc.component.asset.processor.dto.injection.ArrayAssetInjection;
+import com.github.czyzby.autumn.mvc.component.asset.processor.dto.injection.AssetInjection;
+import com.github.czyzby.autumn.mvc.component.asset.processor.dto.injection.ObjectMapAssetInjection;
+import com.github.czyzby.autumn.mvc.component.asset.processor.dto.injection.ObjectSetAssetInjection;
+import com.github.czyzby.autumn.mvc.component.asset.processor.dto.injection.StandardAssetInjection;
+import com.github.czyzby.autumn.mvc.component.asset.processor.dto.provider.ArrayAssetProvider;
+import com.github.czyzby.autumn.mvc.component.asset.processor.dto.provider.AssetProvider;
+import com.github.czyzby.autumn.mvc.component.asset.processor.dto.provider.ObjectMapAssetProvider;
+import com.github.czyzby.autumn.mvc.component.asset.processor.dto.provider.ObjectSetAssetProvider;
 import com.github.czyzby.autumn.mvc.config.AutumnActionPriority;
 import com.github.czyzby.autumn.mvc.stereotype.Asset;
 import com.github.czyzby.autumn.reflection.wrapper.ReflectedField;
 import com.github.czyzby.kiwi.util.gdx.asset.Disposables;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy;
+import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxSets;
@@ -191,9 +196,12 @@ public class AssetService extends ComponentFieldAnnotationProcessor {
 
 	private void handleLazyAssetInjection(final ContextComponent component, final ReflectedField field,
 			final Asset assetData) {
-		if (assetData.value().length != 1) {
+		if (ComponentAnnotations.isClassSet(assetData.lazyCollection())) {
+			handleLazyAssetCollectionInjection(component, field, assetData);
+			return;
+		} else if (assetData.value().length != 1) {
 			throw new AutumnRuntimeException(
-					"Lazy wrapper can currently contain only one asset. Found multiple assets in field: "
+					"Lazy wrapper can contain only one asset if lazy collection type is not provided. Found multiple assets in field: "
 							+ field + " of component: " + component.getComponent());
 		}
 		final String assetPath = assetData.value()[0];
@@ -205,6 +213,37 @@ public class AssetService extends ComponentFieldAnnotationProcessor {
 					Lazy.providedBy(new AssetProvider(this, assetPath, assetData.type())));
 		} catch (final ReflectionException exception) {
 			throw new AutumnRuntimeException("Unable to inject lazy asset.", exception);
+		}
+	}
+
+	private void handleLazyAssetCollectionInjection(final ContextComponent component,
+			final ReflectedField field, final Asset assetData) {
+		final String[] assetPaths = assetData.value();
+		final Class<?> assetType = assetData.type();
+		if (!assetData.loadOnDemand()) {
+			for (final String assetPath : assetPaths) {
+				load(assetPath, assetType);
+			}
+		}
+		try {
+			ObjectProvider<?> provider;
+			final Class<?> collectionClass = assetData.lazyCollection();
+			if (collectionClass.equals(Array.class)) {
+				provider = new ArrayAssetProvider(this, assetPaths, assetType);
+			} else if (collectionClass.equals(ObjectSet.class)) {
+				provider = new ObjectSetAssetProvider(this, assetPaths, assetType);
+			} else if (collectionClass.equals(ObjectMap.class)) {
+				provider = new ObjectMapAssetProvider(this, assetPaths, assetData.keys(), assetType);
+			} else {
+				throw new AutumnRuntimeException(
+						"Unsupported collection type in annotated class of component: "
+								+ component.getComponent()
+								+ ". Expected Array, ObjectSet or ObjectMap, received: " + collectionClass
+								+ ".");
+			}
+			field.set(component.getComponent(), Lazy.providedBy(provider));
+		} catch (final ReflectionException exception) {
+			throw new AutumnRuntimeException("Unable to inject lazy asset collection.", exception);
 		}
 	}
 

@@ -1,4 +1,4 @@
-package com.github.czyzby.autumn.mvc.component.ui.dto;
+package com.github.czyzby.autumn.mvc.component.ui.dto.provider;
 
 import com.github.czyzby.lml.parser.LmlParser;
 

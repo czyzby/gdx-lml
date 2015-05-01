@@ -1,4 +1,4 @@
-package com.github.czyzby.autumn.mvc.component.asset.processor.dto;
+package com.github.czyzby.autumn.mvc.component.asset.processor.dto.injection;
 
 import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.reflect.ReflectionException;

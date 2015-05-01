@@ -1,11 +1,10 @@
 package com.github.czyzby.autumn.mvc.component.ui.dto.provider;
 
 import com.badlogic.gdx.utils.ObjectSet;
-import com.github.czyzby.autumn.mvc.component.ui.dto.ViewActionProvider;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxSets;
 import com.github.czyzby.lml.parser.LmlParser;
 
-/** Base implementation for {@link com.github.czyzby.autumn.mvc.component.ui.dto.ViewActionProvider} that
+/** Base implementation for {@link com.github.czyzby.autumn.mvc.component.ui.dto.provider.ViewActionProvider} that
  * manages handled view types.
  *
  * @author MJ */

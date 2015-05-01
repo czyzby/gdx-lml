@@ -43,7 +43,7 @@ public @interface Asset {
 	 * {@link com.github.czyzby.autumn.mvc.component.asset.AssetService}. This is a safer variant of the first
 	 * option.</li>
 	 *
-	 * <li>true, asset wrapped in {{@link com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy}: asset will be
+	 * <li>true, asset wrapped in {@link com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy}: asset will be
 	 * loaded immediately after the first {@link com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy#get()} call.
 	 * Should be avoided for heavy assets that might block the thread for too long.</li> </ul>
 	 *
@@ -52,4 +52,10 @@ public @interface Asset {
 	 *
 	 * @return defaults to false. */
 	boolean loadOnDemand() default false;
+
+	/** @return type of collection stored in a {@link com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy} wrapper.
+	 *         This setting is needed only if the annotated field is a Lazy that stores a LibGDX collection of
+	 *         assets. Only {@link com.badlogic.gdx.utils.ObjectMap}, {@link com.badlogic.gdx.utils.Array} or
+	 *         {@link com.badlogic.gdx.utils.ObjectSet} are accepted. */
+	Class<?> lazyCollection() default void.class;
 }

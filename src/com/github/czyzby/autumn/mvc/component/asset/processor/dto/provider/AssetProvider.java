@@ -1,4 +1,4 @@
-package com.github.czyzby.autumn.mvc.component.asset.processor.dto;
+package com.github.czyzby.autumn.mvc.component.asset.processor.dto.provider;
 
 import com.github.czyzby.autumn.mvc.component.asset.AssetService;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;

@@ -24,8 +24,8 @@ import com.github.czyzby.lml.parser.LmlParser;
 public class AvailableLocalesAnnotationProcessor extends ComponentFieldAnnotationProcessor {
 	@Inject(lazy = InterfaceService.class)
 	private Lazy<InterfaceService> interfaceService;
-	@Inject
-	private LocaleService localeService;
+	@Inject(lazy = LocaleService.class)
+	private Lazy<LocaleService> localeService;
 
 	@Override
 	public Class<? extends Annotation> getProcessedAnnotationClass() {
@@ -45,7 +45,7 @@ public class AvailableLocalesAnnotationProcessor extends ComponentFieldAnnotatio
 				parser.addArgument(localesData.viewArgumentName(), availableLocales);
 				for (final String locale : availableLocales) {
 					parser.addAction(localesData.localeChangeMethodPrefix() + locale,
-							new LocaleChangingAction(localeService, LocaleService.toLocale(locale)));
+							new LocaleChangingAction(localeService.get(), LocaleService.toLocale(locale)));
 				}
 			}
 			throw new AutumnRuntimeException("Invalid field annotated with @AvailableLocales in component "
