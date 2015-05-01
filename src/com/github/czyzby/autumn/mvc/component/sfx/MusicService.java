@@ -5,18 +5,33 @@ import com.badlogic.gdx.audio.Music.OnCompletionListener;
 import com.badlogic.gdx.audio.Sound;
 import com.github.czyzby.autumn.annotation.field.Inject;
 import com.github.czyzby.autumn.annotation.method.Destroy;
+import com.github.czyzby.autumn.annotation.method.Initiate;
 import com.github.czyzby.autumn.annotation.stereotype.Component;
+import com.github.czyzby.autumn.mvc.component.sfx.dto.MusicVolumeChangeAction;
+import com.github.czyzby.autumn.mvc.component.sfx.dto.SoundVolumeChangeAction;
+import com.github.czyzby.autumn.mvc.component.sfx.dto.ToggleMusicAction;
+import com.github.czyzby.autumn.mvc.component.sfx.dto.ToggleSoundAction;
 import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
 import com.github.czyzby.autumn.mvc.config.AutumnActionPriority;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy;
 import com.github.czyzby.kiwi.util.gdx.preference.ApplicationPreferences;
+import com.github.czyzby.lml.parser.LmlParser;
 
 /** Manages currently played UI theme and sound settings.
  *
  * @author MJ */
 @Component
 public class MusicService {
+	/** Name of the action that changes music volume as it appears in LML views. Defaults to "musicVolume". */
+	private static String MUSIC_VOLUME_ACTION_ID = "musicVolume";
+	/** Name of the action that changes sound volume as it appears in LML views. Defaults to "soundVolume". */
+	private static String SOUND_VOLUME_ACTION_ID = "soundVolume";
+	/** Name of the action that turns music on and off as it appears in LML views. Defaults to "toggleMusic". */
+	private static String TOGGLE_MUSIC_ACTION_ID = "toggleMusic";
+	/** Name of the action that turns sound on and off as it appears in LML views. Defaults to "toggleSound". */
+	private static String TOGGLE_SOUND_ACTION_ID = "toggleSound";
+
 	/** Time that has to pass before the theme reaches its full volume or is fully turned off. */
 	public static float DEFAULT_THEME_FADING_TIME = 0.5f;
 
@@ -45,6 +60,15 @@ public class MusicService {
 			playCurrentTheme(interfaceService.get().getCurrentController().getNextTheme());
 		}
 	};
+
+	@Initiate
+	private void initiate() {
+		final LmlParser parser = interfaceService.get().getParser();
+		parser.addAction(TOGGLE_SOUND_ACTION_ID, new ToggleSoundAction(this));
+		parser.addAction(TOGGLE_MUSIC_ACTION_ID, new ToggleMusicAction(this));
+		parser.addAction(SOUND_VOLUME_ACTION_ID, new SoundVolumeChangeAction(this));
+		parser.addAction(MUSIC_VOLUME_ACTION_ID, new MusicVolumeChangeAction(this));
+	}
 
 	/** @return current volume of music, [0, 1]. */
 	public float getMusicVolume() {

@@ -47,6 +47,7 @@ public class AvailableLocalesAnnotationProcessor extends ComponentFieldAnnotatio
 					parser.addAction(localesData.localeChangeMethodPrefix() + locale,
 							new LocaleChangingAction(localeService.get(), LocaleService.toLocale(locale)));
 				}
+				return;
 			}
 			throw new AutumnRuntimeException("Invalid field annotated with @AvailableLocales in component "
 					+ component.getComponent() + ". Expected String[], received: " + locales + ".");
