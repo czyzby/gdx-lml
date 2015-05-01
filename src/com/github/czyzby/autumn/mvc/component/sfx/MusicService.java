@@ -7,6 +7,10 @@ import com.github.czyzby.autumn.annotation.field.Inject;
 import com.github.czyzby.autumn.annotation.method.Destroy;
 import com.github.czyzby.autumn.annotation.method.Initiate;
 import com.github.czyzby.autumn.annotation.stereotype.Component;
+import com.github.czyzby.autumn.mvc.component.sfx.dto.CurrentMusicStateAction;
+import com.github.czyzby.autumn.mvc.component.sfx.dto.CurrentMusicVolumeAction;
+import com.github.czyzby.autumn.mvc.component.sfx.dto.CurrentSoundStateAction;
+import com.github.czyzby.autumn.mvc.component.sfx.dto.CurrentSoundVolumeAction;
 import com.github.czyzby.autumn.mvc.component.sfx.dto.MusicVolumeChangeAction;
 import com.github.czyzby.autumn.mvc.component.sfx.dto.SoundVolumeChangeAction;
 import com.github.czyzby.autumn.mvc.component.sfx.dto.ToggleMusicAction;
@@ -23,10 +27,19 @@ import com.github.czyzby.lml.parser.LmlParser;
  * @author MJ */
 @Component
 public class MusicService {
-	/** Name of the action that changes music volume as it appears in LML views. Defaults to "musicVolume". */
-	private static String MUSIC_VOLUME_ACTION_ID = "musicVolume";
-	/** Name of the action that changes sound volume as it appears in LML views. Defaults to "soundVolume". */
-	private static String SOUND_VOLUME_ACTION_ID = "soundVolume";
+	/** Name of the action that returns music volume as it appears in LML views. Defaults to "getMusicVolume". */
+	private static String GET_MUSIC_VOLUME_ACTION_ID = "getMusicVolume";
+	/** Name of the action that returns sound volume as it appears in LML views. Defaults to "getSoundVolume". */
+	private static String GET_SOUND_VOLUME_ACTION_ID = "getSoundVolume";
+	/** Name of the action that return if music is on as it appears in LML views. Defaults to "musicOn". */
+	private static String GET_MUSIC_STATE_ACTION_ID = "musicOn";
+	/** Name of the action that return if music is on as it appears in LML views. Defaults to "soundOn". */
+	private static String GET_SOUND_STATE_ACTION_ID = "soundOn";
+
+	/** Name of the action that changes music volume as it appears in LML views. Defaults to "setMusicVolume". */
+	private static String SET_MUSIC_VOLUME_ACTION_ID = "setMusicVolume";
+	/** Name of the action that changes sound volume as it appears in LML views. Defaults to "setSoundVolume". */
+	private static String SET_SOUND_VOLUME_ACTION_ID = "setSoundVolume";
 	/** Name of the action that turns music on and off as it appears in LML views. Defaults to "toggleMusic". */
 	private static String TOGGLE_MUSIC_ACTION_ID = "toggleMusic";
 	/** Name of the action that turns sound on and off as it appears in LML views. Defaults to "toggleSound". */
@@ -66,8 +79,13 @@ public class MusicService {
 		final LmlParser parser = interfaceService.get().getParser();
 		parser.addAction(TOGGLE_SOUND_ACTION_ID, new ToggleSoundAction(this));
 		parser.addAction(TOGGLE_MUSIC_ACTION_ID, new ToggleMusicAction(this));
-		parser.addAction(SOUND_VOLUME_ACTION_ID, new SoundVolumeChangeAction(this));
-		parser.addAction(MUSIC_VOLUME_ACTION_ID, new MusicVolumeChangeAction(this));
+		parser.addAction(SET_SOUND_VOLUME_ACTION_ID, new SoundVolumeChangeAction(this));
+		parser.addAction(SET_MUSIC_VOLUME_ACTION_ID, new MusicVolumeChangeAction(this));
+
+		parser.addAction(GET_SOUND_VOLUME_ACTION_ID, new CurrentSoundVolumeAction(this));
+		parser.addAction(GET_MUSIC_VOLUME_ACTION_ID, new CurrentMusicVolumeAction(this));
+		parser.addAction(GET_SOUND_STATE_ACTION_ID, new CurrentSoundStateAction(this));
+		parser.addAction(GET_MUSIC_STATE_ACTION_ID, new CurrentMusicStateAction(this));
 	}
 
 	/** @return current volume of music, [0, 1]. */

@@ -87,7 +87,7 @@ These are the services that you might want or have to inject from time to time:
 - `InterfaceService` - manages screen transitions, contains LML parser. Contains mutable static fields with some defaults that are used when constructing views (and making separate annotations for these settings seemed like an overkill).
 - `LocaleService` - manages I18N.
 - `AssetService` - manages an AssetManager, loads, provides and injects assets.
-- `MusicService` - manages sounds and sound preferences. This service also registers LML actions that allow to easily modify sound settings: toggleSound and toggleMusic turns sounds/music on and off and soundVolume/musicVolume can be attached to a Scene2D Slider to modify current volume.
+- `MusicService` - manages sounds and sound preferences. This service also registers LML actions that allow to easily modify sound settings: toggleSound and toggleMusic turns sounds/music on and off and setSoundVolume/setMusicVolume can be attached to a Scene2D Slider to modify current volume. You can get current sound settings with musicOn, soundOn, getMusicVolume, getSoundVolume in LML templates; default actions names can be changed by setting MusicService static variables (with higher priority than @Initiate(priority=0)).
 
 All classes (and annotations) have nearly full javadocs of public API, so everything should be clear. If it isn't, don't hesitate to ask.
 
