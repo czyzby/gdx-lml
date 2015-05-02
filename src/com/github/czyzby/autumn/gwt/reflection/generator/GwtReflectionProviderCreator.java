@@ -34,7 +34,7 @@ import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
 
 public class GwtReflectionProviderCreator {
-	private static final boolean DEBUG_ENABLED = true;
+	private static final boolean DEBUG_ENABLED = false;
 
 	private static final String AUTUMN_REFLECTION_INCLUDE_PROPERTY = "gdx.autumn.include";
 	private static final String AUTUMN_REFLECTION_EXCLUDE_PROPERTY = "gdx.autumn.exclude";
