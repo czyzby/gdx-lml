@@ -13,26 +13,31 @@ public class ObjectMapAssetProvider implements ObjectProvider<ObjectMap<String, 
 	private final String[] assetPaths;
 	private final String[] assetKeys;
 	private final Class<?> assetClass;
+	private final boolean loadOnDemand;
 
 	public ObjectMapAssetProvider(final AssetService assetService, final String assetPaths[],
-			final String assetKeys[], final Class<?> assetClass) {
+			final String assetKeys[], final Class<?> assetClass, final boolean loadOnDemand) {
 		this.assetService = assetService;
 		this.assetPaths = assetPaths;
 		this.assetKeys = assetKeys.length == 0 ? assetPaths : assetKeys;
 		this.assetClass = assetClass;
+		this.loadOnDemand = loadOnDemand;
 	}
 
 	@Override
 	public ObjectMap<String, Object> provide() {
 		final ObjectMap<String, Object> assets = GdxMaps.newObjectMap();
 		for (int assetIndex = 0; assetIndex < assetPaths.length; assetIndex++) {
-			if (!assetService.isLoaded(assetPaths[assetIndex])) {
-				// This will also schedule loading of the asset if it was previously unloaded.
+			if (loadOnDemand) {
 				assets.put(assetKeys[assetIndex],
 						assetService.finishLoading(assetPaths[assetIndex], assetClass));
-			} else {
-				assets.put(assetKeys[assetIndex], assetService.get(assetPaths[assetIndex], assetClass));
+				continue;
 			}
+			if (!assetService.isLoaded(assetPaths[assetIndex])) {
+				// LibGDX method that should load a specific asset immediately does pretty much the same.
+				assetService.finishLoading();
+			}
+			assets.put(assetKeys[assetIndex], assetService.get(assetPaths[assetIndex], assetClass));
 		}
 		return assets;
 	}

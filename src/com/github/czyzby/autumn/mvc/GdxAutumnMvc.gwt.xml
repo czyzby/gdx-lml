@@ -7,6 +7,7 @@
     <inherits name='com.github.czyzby.kiwi.GdxKiwi' />
 
 	<extend-configuration-property name="gdx.autumn.include" value="com.github.czyzby.autumn.mvc.component" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.mvc.component" />
 
 	<!-- Don't even get me started... -->
 	<extend-configuration-property name="gdx.reflect.include" value="java.lang.Class" />

@@ -47,16 +47,4 @@ public class StandardAssetInjection implements AssetInjection {
 	public void removeScheduledAssets(final ObjectSet<String> scheduledAssets) {
 		scheduledAssets.remove(assetPath);
 	}
-
-	@Override
-	public boolean equals(final Object object) {
-		return object instanceof StandardAssetInjection
-				&& ((StandardAssetInjection) object).assetPath.equals(assetPath)
-				&& ((StandardAssetInjection) object).field.equals(field);
-	}
-
-	@Override
-	public int hashCode() {
-		return assetPath.hashCode() ^ field.hashCode();
-	}
 }

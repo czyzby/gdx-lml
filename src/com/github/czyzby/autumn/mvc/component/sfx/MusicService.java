@@ -76,6 +76,8 @@ public class MusicService {
 
 	@Initiate
 	private void initiate() {
+		savePreferences(true);
+
 		final LmlParser parser = interfaceService.get().getParser();
 		parser.addAction(TOGGLE_SOUND_ACTION_ID, new ToggleSoundAction(this));
 		parser.addAction(TOGGLE_MUSIC_ACTION_ID, new ToggleMusicAction(this));

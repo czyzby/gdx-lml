@@ -10,11 +10,13 @@ import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.ObjectSet.ObjectSetIterator;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.github.czyzby.autumn.annotation.ComponentAnnotations;
+import com.github.czyzby.autumn.annotation.field.Inject;
 import com.github.czyzby.autumn.annotation.method.Destroy;
 import com.github.czyzby.autumn.annotation.stereotype.MetaComponent;
 import com.github.czyzby.autumn.context.ContextComponent;
 import com.github.czyzby.autumn.context.ContextContainer;
 import com.github.czyzby.autumn.context.processor.field.ComponentFieldAnnotationProcessor;
+import com.github.czyzby.autumn.context.processor.method.MessageProcessor;
 import com.github.czyzby.autumn.error.AutumnRuntimeException;
 import com.github.czyzby.autumn.mvc.component.asset.processor.dto.injection.ArrayAssetInjection;
 import com.github.czyzby.autumn.mvc.component.asset.processor.dto.injection.AssetInjection;
@@ -35,31 +37,40 @@ import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxSets;
 
-/** Wraps around an internal {@link com.badlogic.gdx.assets.AssetManager}, providing utilities for asset
- * loading. Note that some wrapped methods provide additional utility, so direct access to the manager is not
- * advised.
+/** Wraps around two internal {@link com.badlogic.gdx.assets.AssetManager}s, providing utilities for asset
+ * loading. Allows to load assets both eagerly and by constant updating, without forcing loading of "lazy"
+ * assets upon "eager" request, like AssetManager does (see
+ * {@link com.badlogic.gdx.assets.AssetManager#finishLoadingAsset(String)} implementation - it basically loads
+ * everything, waiting for a specific asset to get loaded). Note that some wrapped methods provide additional
+ * utility, so direct access to the manager is not advised.
  *
  * @author MJ */
 @MetaComponent
 public class AssetService extends ComponentFieldAnnotationProcessor {
+	/** This message is posted when SOME of the normally scheduled assets are loaded. This is not posted if
+	 * assets where loaded on demand with {@link #finishLoading(String, Class)} or
+	 * {@link #finishLoading(String, Class, AssetLoaderParameters)} methods. */
+	public static final String ASSETS_LOADED_MESSAGE = "AutumnMVC_assetsLoaded";
+
 	private final AssetManager assetManager = new AssetManager();
+	/** There is no reliable way of keeping both eagerly and normally loaded assets together, while preserving
+	 * a way to both load assets by constant updating and load SOME assets at once. That's why this service
+	 * uses two managers. */
+	private final AssetManager eagerAssetManager = new AssetManager();
 
 	private final ObjectSet<AssetInjection> assetInjections = GdxSets.newSet();
 	private final ObjectSet<String> scheduledAssets = GdxSets.newSet();
 	private final Array<Runnable> onLoadActions = GdxArrays.newArray();
+
+	@Inject
+	private MessageProcessor messageProcessor;
 
 	/** Schedules loading of the selected asset, if it was not scheduled already.
 	 *
 	 * @param assetPath internal path to the asset.
 	 * @param assetClass class of the asset. */
 	public void load(final String assetPath, final Class<?> assetClass) {
-		if (isAssetNotScheduled(assetPath)) {
-			assetManager.load(assetPath, assetClass);
-		}
-	}
-
-	private boolean isAssetNotScheduled(final String assetPath) {
-		return !assetManager.isLoaded(assetPath) && !scheduledAssets.contains(assetPath);
+		load(assetPath, assetClass, null);
 	}
 
 	/** Schedules loading of the selected asset, if it was not scheduled already.
@@ -74,24 +85,31 @@ public class AssetService extends ComponentFieldAnnotationProcessor {
 		}
 	}
 
+	private boolean isAssetNotScheduled(final String assetPath) {
+		return !isLoaded(assetPath) && !scheduledAssets.contains(assetPath);
+	}
+
 	/** @param assetPath internal path to the asset.
 	 * @return true if the asset is fully loaded. */
 	public boolean isLoaded(final String assetPath) {
-		return assetManager.isLoaded(assetPath);
+		return assetManager.isLoaded(assetPath) || eagerAssetManager.isLoaded(assetPath);
 	}
 
 	/** Schedules disposing of the selected asset.
 	 *
 	 * @param assetPath internal path to the asset. */
 	public void unload(final String assetPath) {
-		assetManager.unload(assetPath);
+		if (assetManager.isLoaded(assetPath) || scheduledAssets.contains(assetPath)) {
+			assetManager.unload(assetPath);
+		} else if (eagerAssetManager.isLoaded(assetPath)) {
+			eagerAssetManager.unload(assetPath);
+		}
 	}
 
 	/** Immediately loads all scheduled assets. */
 	public void finishLoading() {
 		assetManager.finishLoading();
-		injectRequestedAssets();
-		invokeOnLoadActions();
+		doOnLoadingFinish();
 	}
 
 	private void invokeOnLoadActions() {
@@ -103,18 +121,33 @@ public class AssetService extends ComponentFieldAnnotationProcessor {
 		onLoadActions.clear();
 	}
 
-	/** Immediately loads the chosen assets. Schedules loading of the asset if it wasn't selected to be loaded
+	/** Immediately loads the chosen asset. Schedules loading of the asset if it wasn't selected to be loaded
 	 * already.
 	 *
 	 * @param assetPath internal path to the asset.
 	 * @param assetClass class of the loaded asset.
 	 * @return instance of the loaded asset. */
 	public <Type> Type finishLoading(final String assetPath, final Class<Type> assetClass) {
-		// Ensuring that the asset was actually scheduled to load:
-		load(assetPath, assetClass);
-		assetManager.finishLoadingAsset(assetPath);
-		injectRequestedAssets();
-		return get(assetPath, assetClass);
+		return finishLoading(assetPath, assetClass, null);
+	}
+
+	/** Immediately loads the chosen asset. Schedules loading of the asset if it wasn't selected to be loaded
+	 * already.
+	 *
+	 * @param assetPath internal path to the asset.
+	 * @param assetClass class of the loaded asset.
+	 * @param loadingParameters used if asset is not already loaded.
+	 * @return instance of the loaded asset. */
+	public <Type> Type finishLoading(final String assetPath, final Class<Type> assetClass,
+			final AssetLoaderParameters<Type> loadingParameters) {
+		if (assetManager.isLoaded(assetPath)) {
+			return assetManager.get(assetPath, assetClass);
+		}
+		if (!eagerAssetManager.isLoaded(assetPath)) {
+			eagerAssetManager.load(assetPath, assetClass, loadingParameters);
+			eagerAssetManager.finishLoadingAsset(assetPath);
+		}
+		return eagerAssetManager.get(assetPath, assetClass);
 	}
 
 	private void injectRequestedAssets() {
@@ -134,13 +167,18 @@ public class AssetService extends ComponentFieldAnnotationProcessor {
 	public boolean update() {
 		final boolean isLoaded = assetManager.update();
 		if (isLoaded) {
-			injectRequestedAssets();
-			invokeOnLoadActions();
+			doOnLoadingFinish();
 		}
 		return isLoaded;
 	}
 
-	/** @return progress of asset loading. */
+	private void doOnLoadingFinish() {
+		injectRequestedAssets();
+		invokeOnLoadActions();
+		messageProcessor.postMessage(ASSETS_LOADED_MESSAGE);
+	}
+
+	/** @return progress of asset loading. Does not include eagerly loaded assets. */
 	public float getLoadingProgress() {
 		return assetManager.getProgress();
 	}
@@ -149,12 +187,15 @@ public class AssetService extends ComponentFieldAnnotationProcessor {
 	 * @param assetClass class of the asset.
 	 * @return an instance of the loaded asset, if available. */
 	public <Type> Type get(final String assetPath, final Class<Type> assetClass) {
-		return assetManager.get(assetPath, assetClass);
+		if (assetManager.isLoaded(assetPath)) {
+			return assetManager.get(assetPath, assetClass);
+		}
+		return eagerAssetManager.get(assetPath, assetClass);
 	}
 
 	@Destroy(priority = AutumnActionPriority.MIN_PRIORITY)
 	private void destroy() {
-		Disposables.disposeOf(assetManager);
+		Disposables.disposeOf(assetManager, eagerAssetManager);
 	}
 
 	@Override
@@ -209,8 +250,8 @@ public class AssetService extends ComponentFieldAnnotationProcessor {
 			load(assetPath, assetData.type());
 		}
 		try {
-			field.set(component.getComponent(),
-					Lazy.providedBy(new AssetProvider(this, assetPath, assetData.type())));
+			field.set(component.getComponent(), Lazy.providedBy(new AssetProvider(this, assetPath, assetData
+					.type(), assetData.loadOnDemand())));
 		} catch (final ReflectionException exception) {
 			throw new AutumnRuntimeException("Unable to inject lazy asset.", exception);
 		}
@@ -229,11 +270,13 @@ public class AssetService extends ComponentFieldAnnotationProcessor {
 			ObjectProvider<?> provider;
 			final Class<?> collectionClass = assetData.lazyCollection();
 			if (collectionClass.equals(Array.class)) {
-				provider = new ArrayAssetProvider(this, assetPaths, assetType);
+				provider = new ArrayAssetProvider(this, assetPaths, assetType, assetData.loadOnDemand());
 			} else if (collectionClass.equals(ObjectSet.class)) {
-				provider = new ObjectSetAssetProvider(this, assetPaths, assetType);
+				provider = new ObjectSetAssetProvider(this, assetPaths, assetType, assetData.loadOnDemand());
 			} else if (collectionClass.equals(ObjectMap.class)) {
-				provider = new ObjectMapAssetProvider(this, assetPaths, assetData.keys(), assetType);
+				provider =
+						new ObjectMapAssetProvider(this, assetPaths, assetData.keys(), assetType,
+								assetData.loadOnDemand());
 			} else {
 				throw new AutumnRuntimeException(
 						"Unsupported collection type in annotated class of component: "
@@ -255,7 +298,6 @@ public class AssetService extends ComponentFieldAnnotationProcessor {
 							+ field + " of component: " + component.getComponent());
 		}
 		final String assetPath = assetData.value()[0];
-		load(assetPath, field.getFieldType());
 		if (assetData.loadOnDemand()) {
 			// Loaded immediately.
 			final Object asset = finishLoading(assetPath, field.getFieldType());
@@ -265,6 +307,7 @@ public class AssetService extends ComponentFieldAnnotationProcessor {
 				throw new AutumnRuntimeException("Unable to inject asset loaded on demand.", exception);
 			}
 		} else {
+			load(assetPath, field.getFieldType());
 			// Scheduled to be loaded, delayed injection.
 			assetInjections.add(new StandardAssetInjection(field, assetPath, component.getComponent()));
 		}

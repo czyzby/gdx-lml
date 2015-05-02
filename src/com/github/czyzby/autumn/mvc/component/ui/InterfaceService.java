@@ -176,9 +176,8 @@ public class InterfaceService {
 			final BitmapFontParameter loadingParameters = new BitmapFontParameter();
 			loadingParameters.atlasName = atlasPath;
 			for (final String fontPath : fontPaths) {
-				assetService.load(fontPath, BitmapFont.class, loadingParameters);
+				assetService.finishLoading(fontPath, BitmapFont.class, loadingParameters);
 			}
-			assetService.finishLoading();
 		}
 	}
 
