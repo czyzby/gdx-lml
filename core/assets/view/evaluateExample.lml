@@ -1,0 +1,8 @@
+<table>
+    <!-- Executing a method, ignoring result: -->
+    <@evaluate actionToEvaluate/>
+    <!-- Executing a method, assigning result to argument: -->
+    <@evaluate actionToEvaluate actionResult/>
+    <!-- Printing returned argument: -->
+    ${actionResult}
+</table>

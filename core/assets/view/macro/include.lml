@@ -4,5 +4,5 @@
 	<textButton>${includedContent}</textButton>
 <@if:else/>
 	<!-- Shown only if includedContent argument is absent or null. -->
-	<label>There was no content in include macro call.</label>
+	<label>There was no content.</label>
 </@if>

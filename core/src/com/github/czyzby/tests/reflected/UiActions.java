@@ -8,9 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
-import com.github.czyzby.tests.Main;
+import com.github.czyzby.lml.parser.impl.annotation.ViewAction;
 import com.github.czyzby.lml.parser.impl.dto.ActionContainer;
 import com.github.czyzby.lml.util.Lml;
+import com.github.czyzby.tests.Main;
 
 public class UiActions implements ActionContainer {
 	private final Main main;
@@ -70,7 +71,7 @@ public class UiActions implements ActionContainer {
 
 	// bundleExample.lml
 	public String thisInvokesAction(final Actor actor) {
-		return "This is result of thisInvokesAction method.";
+		return "This is result of a method.";
 	}
 
 	// tableExample.lml
@@ -93,6 +94,10 @@ public class UiActions implements ActionContainer {
 	}
 
 	// actionsExample.lml
+
+	// Note: GWT might have problems with some visibilities, private fields are - unfortunately - not advised.
+	public final String referencedField = "This was extracted from a field.";
+
 	public void onLabelCreate(final Label label) {
 		// Invoked upon label creation; the exact invocation time is A) if widget is closed (<tag/>): after
 		// fully creating widget, B) if widget is parental (<tag>...</tag>): after widget is initiated and the
@@ -105,5 +110,18 @@ public class UiActions implements ActionContainer {
 			((Label) main.getParser().getActorsMappedById().get("sliderValue")).setText(String
 					.valueOf((int) slider.getValue()));
 		}
+	}
+
+	// This, while it might seem redundant and awkward compared to invoking actions by method names, allows to
+	// refactor (or obfuscate) action containers without breaking templates. @ViewAction uses Autumn for
+	// reflection on GWT, as LibGDX reflection does not provide methods' annotations.
+	@ViewAction("namedAction")
+	public void changeButtonText(final TextButton button) {
+		button.setText("I was clicked and invoked named action.");
+	}
+
+	// evaluateExample.lml
+	public String actionToEvaluate() {
+		return "This was returned from method.";
 	}
 }

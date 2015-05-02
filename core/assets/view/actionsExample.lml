@@ -5,4 +5,11 @@
         <label id=sliderValue>20</label>
     </div>
     <textButton onClick=onButtonClick>I was clicked 0 times.</textButton>
+    <textButton onClick=namedAction>I should change after clicking.</textButton>
+    <!-- Fields can be also referenced. -->
+    <label style=red>&referencedField</label>
+    <!-- & is the action operator, but some attributes
+         expect an action name, so it becomes optional.
+         It is still necessary when referenced for
+         texts, titles, outside of tags etc. -->
 </table>
