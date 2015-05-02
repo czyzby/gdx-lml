@@ -25,10 +25,6 @@ public class LmlParsingException extends RuntimeException {
 		super(prepareMessage(message, parser, null));
 	}
 
-	public LmlParsingException(final String message, final int errorLine) {
-		super(prepareMessage(message, "unknown", errorLine, null));
-	}
-
 	private static String prepareMessage(final String message, final LmlParser parser, final Throwable cause) {
 		return prepareMessage(message, parser == null ? "unknown" : parser.getLastParsedDocumentName(),
 				parser == null ? -1 : parser.getCurrentlyParsedLine(), cause);
