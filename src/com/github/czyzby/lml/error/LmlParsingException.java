@@ -11,37 +11,47 @@ public class LmlParsingException extends RuntimeException {
 	private static final String LINE_MARKER_MESSAGE = " Error occured near line ";
 	private static final String FILE_MARKER_MESSAGE = " of the original file: ";
 	private static final String ERROR_PROMPT =
-			".\n\tNote that if a macro was called or ended in this line (even one of the default ones), the real problematic line may vary a bit from the given value due to how parser works. If the given line appears to be valid, recheck the called macro and its content between tags.";
+			".\n\tNote that if a macro was called or ended in this line (even one of the default ones), the real problematic line may vary a bit from the given value due to how parser works. If the given line appears to be valid, recheck the called macro and its content between tags. Original exception class and message: ";
 
 	public LmlParsingException(final String message) {
-		super(message == null ? DEFAULT_ERROR_MESSAGE : message);
+		super(prepareMessage(message == null ? DEFAULT_ERROR_MESSAGE : message, null, null));
 	}
 
 	public LmlParsingException(final LmlParser parser) {
-		super(prepareMessage(DEFAULT_ERROR_MESSAGE, parser));
+		super(prepareMessage(DEFAULT_ERROR_MESSAGE, parser, null));
 	}
 
 	public LmlParsingException(final String message, final LmlParser parser) {
-		super(prepareMessage(message, parser));
+		super(prepareMessage(message, parser, null));
 	}
 
 	public LmlParsingException(final String message, final int errorLine) {
-		super(prepareMessage(message, "unknown", errorLine));
+		super(prepareMessage(message, "unknown", errorLine, null));
 	}
 
-	private static String prepareMessage(final String message, final LmlParser parser) {
-		return prepareMessage(message, parser.getLastParsedDocumentName(), parser.getCurrentlyParsedLine());
+	private static String prepareMessage(final String message, final LmlParser parser, final Throwable cause) {
+		return prepareMessage(message, parser == null ? "unknown" : parser.getLastParsedDocumentName(),
+				parser == null ? -1 : parser.getCurrentlyParsedLine(), cause);
 	}
 
-	private static String prepareMessage(final String message, final String documentName, final int line) {
-		return message + LINE_MARKER_MESSAGE + line + FILE_MARKER_MESSAGE + documentName + ERROR_PROMPT;
+	private static String prepareMessage(final String message, final String documentName, final int line,
+			final Throwable cause) {
+		return message + LINE_MARKER_MESSAGE + line + FILE_MARKER_MESSAGE + documentName + ERROR_PROMPT
+				+ getCauseMessage(cause);
+	}
+
+	private static String getCauseMessage(final Throwable cause) {
+		if (cause == null) {
+			return "none";
+		}
+		return cause.getClass() + ", " + cause.getMessage();
 	}
 
 	public LmlParsingException(final LmlParser parser, final Throwable cause) {
-		super(prepareMessage(DEFAULT_ERROR_MESSAGE, parser), cause);
+		super(prepareMessage(DEFAULT_ERROR_MESSAGE, parser, cause), cause);
 	}
 
 	public LmlParsingException(final String message, final LmlParser parser, final Throwable cause) {
-		super(prepareMessage(message, parser), cause);
+		super(prepareMessage(message, parser, cause), cause);
 	}
 }

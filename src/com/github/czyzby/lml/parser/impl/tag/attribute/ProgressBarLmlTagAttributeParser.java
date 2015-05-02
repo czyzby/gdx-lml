@@ -25,7 +25,7 @@ public enum ProgressBarLmlTagAttributeParser implements LmlTagAttributeParser {
 		@Override
 		protected void apply(final ProgressBar progressBar, final LmlParser parser,
 				final String attributeValue, final LmlTagData lmlTagData) {
-			progressBar.setAnimateDuration(LmlAttributes.parseInt(progressBar, parser, attributeValue));
+			progressBar.setAnimateDuration(LmlAttributes.parseFloat(progressBar, parser, attributeValue));
 		}
 	};
 	private final String[] aliases;
