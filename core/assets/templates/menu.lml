@@ -1,0 +1,16 @@
+<@background/>
+<@settings/>
+
+<window style="tan" defaultPad=2>
+	<tr><image colspan=2 style="title" padBottom=8/></tr>
+	<tr>
+		<textButton onClick="goto:game" style="brown" expandX=true fillX=true colspan=2>@play</textButton>
+	</tr>
+	<tr>
+		<textButton onClick="show:settings" style="brown" expandX=true fillX=true>@settings</textButton>
+		<textButton onClick="show:credits" style="brown" expandX=true fillX=true>@credits</textButton>
+	</tr>
+	<@if &isNotGwt>
+		<tr><textButton onClick="show:exit" style="brown" expandX=true fillX=true colspan=2>@exit</textButton></tr>
+	</@if>
+</window>
