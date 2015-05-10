@@ -15,7 +15,6 @@ import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.Method;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedMethod;
 import com.github.czyzby.kiwi.util.common.Nullables;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
@@ -504,11 +503,10 @@ public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
 
 	private ActorConsumer<Object, Object> getActorConsumerForContainer(final String actionName,
 			final ActionContainerWrapper actionContainer, final Class<?> parameterClass) {
-		final ReflectedMethod namedMethod = actionContainer.getNamedMethod(actionName);
-		if (namedMethod != null) {
-			return prepareActorConsumerForReflectedMethod(actionContainer.getActionContainer(), namedMethod);
+		Method method = actionContainer.getNamedMethod(actionName);
+		if (method == null) {
+			method = getMethod(actionName, parameterClass, actionContainer);
 		}
-		final Method method = getMethod(actionName, parameterClass, actionContainer);
 		if (method == null) {
 			if (Lml.EXTRACT_FIELDS_AS_METHODS) {
 				return getContainerFieldAsAction(actionName, actionContainer);
@@ -543,31 +541,6 @@ public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
 			final ActionContainer actionContainer, final Method method) {
 		method.setAccessible(true);
 		final boolean invokeWithoutParameters = method.getParameterTypes().length == 0;
-		return new ActorConsumer<Object, Object>() {
-			@Override
-			public Object consume(final Object actor) {
-				try {
-					if (invokeWithoutParameters) {
-						return method.invoke(actionContainer);
-					} else {
-						return method.invoke(actionContainer, actor);
-					}
-				} catch (final ReflectionException exception) {
-					throw new RuntimeException("An error occured while executing action.", exception);
-				}
-			}
-		};
-	}
-
-	private ActorConsumer<Object, Object> prepareActorConsumerForReflectedMethod(
-			final ActionContainer actionContainer, final ReflectedMethod method) {
-		final int parametersAmount = method.getParameterTypes().length;
-		if (parametersAmount > 1) {
-			throw new LmlParsingException(
-					"Invalid amount of parameters in @ViewAction-annotated method of action container: "
-							+ actionContainer + ". 0 or 1 expected, received: " + parametersAmount + ".");
-		}
-		final boolean invokeWithoutParameters = parametersAmount == 0;
 		return new ActorConsumer<Object, Object>() {
 			@Override
 			public Object consume(final Object actor) {

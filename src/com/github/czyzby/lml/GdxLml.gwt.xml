@@ -3,7 +3,6 @@
 <module>
 	<source path="" />
 	<inherits name="com.github.czyzby.kiwi.GdxKiwi" />
-	<inherits name="com.github.czyzby.autumn.GdxAutumn" />
 
 	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.lml.gdx.widget.reflected" />
 </module>

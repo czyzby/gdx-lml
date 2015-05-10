@@ -24,6 +24,10 @@ Since LML is using some functionalities of Autumn, make sure to include Autumn m
 See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&t=18843) and [example project](http://github.com/czyzby/gdx-lml-tests).
 
 ## What's new
+0.5 -> 0.6:
+
+- LML drops Autumn dependency thanks to method annotation API in LibGDX 1.6.0.
+
 0.4 -> 0.5:
 
 - Changed window tags according to the new, refactored API in LibGDX 1.5.6. Now dialogs can also add children to the title table - see `DialogLmlParent` (`toTitleTable` will append tag children to the title table rather than the content).

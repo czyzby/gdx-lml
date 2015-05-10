@@ -5,10 +5,8 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.Method;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
-import com.github.czyzby.autumn.reflection.Reflection;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedClass;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedMethod;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
+import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 import com.github.czyzby.lml.parser.impl.annotation.ViewAction;
 
 /** Wraps around an {@link com.github.czyzby.lml.parser.impl.dto.ActionContainer}, providing access to its
@@ -17,7 +15,7 @@ import com.github.czyzby.lml.parser.impl.annotation.ViewAction;
  * @author MJ */
 public class ActionContainerWrapper {
 	private final ActionContainer actionContainer;
-	private final ObjectMap<String, ReflectedMethod> annotatedMethods = GdxMaps.newObjectMap();
+	private final ObjectMap<String, Method> annotatedMethods = GdxMaps.newObjectMap();
 
 	public ActionContainerWrapper(final ActionContainer actionContainer) {
 		this.actionContainer = actionContainer;
@@ -26,14 +24,14 @@ public class ActionContainerWrapper {
 
 	private void mapAnnotatedMethods() {
 		try {
-			final ReflectedClass containerClass = Reflection.getWrapperForClass(actionContainer.getClass());
-			for (final ReflectedMethod method : containerClass.getMethods()) {
-				if (method.isAnnotatedWith(ViewAction.class)) {
-					annotatedMethods.put(method.getAnnotation(ViewAction.class).value(), method);
+			for (final Method method : ClassReflection.getMethods(actionContainer.getClass())) {
+				final ViewAction actionData = Reflection.getAnnotation(method, ViewAction.class);
+				if (actionData != null) {
+					annotatedMethods.put(actionData.value(), method);
 				}
 			}
 		} catch (final Throwable exception) {
-			// Somewhat expected. Autumn is not properly initiated or the class is unavailable.
+			// Somewhat expected. Class might be not reflected.
 		}
 	}
 
@@ -45,7 +43,7 @@ public class ActionContainerWrapper {
 	/** @param methodId ID of the referenced method.
 	 * @return Autumn-reflected method annotated with
 	 *         {@link com.github.czyzby.lml.parser.impl.annotation.ViewAction}. */
-	public ReflectedMethod getNamedMethod(final String methodId) {
+	public Method getNamedMethod(final String methodId) {
 		return annotatedMethods.get(methodId);
 	}
 
