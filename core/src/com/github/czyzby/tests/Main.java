@@ -18,7 +18,6 @@ import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.czyzby.kiwi.util.gdx.AbstractApplicationListener;
-import com.github.czyzby.kiwi.util.gdx.GdxUtilities;
 import com.github.czyzby.kiwi.util.gdx.asset.Disposables;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
@@ -60,8 +59,7 @@ public class Main extends AbstractApplicationListener {
 						.action("onButtonClick", getOnButtonClickActorConsumer())
 						.arguments(getExamplesArguments()).i18nBundle("custom", customBundle)
 						.preferences("custom", customPreferences)
-						.attributeParser("label", getCustomLabelAttributeParser())
-						.argument("isNotGwt", String.valueOf(!GdxUtilities.isRunningOnGwt())).build();
+						.attributeParser("label", getCustomLabelAttributeParser()).build();
 		parser.fill(stage, Gdx.files.internal("template.lml"));
 
 		final ObjectMap<String, Actor> actorsByIds = parser.getActorsMappedById();

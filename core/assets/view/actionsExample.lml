@@ -6,10 +6,10 @@
     </div>
     <textButton onClick=onButtonClick>I was clicked 0 times.</textButton>
     <textButton onClick=namedAction>I should change after clicking.</textButton>
-    <!-- Fields can be also referenced, although problematic on GWT. -->
-    <@if isNotGwt>
-        <label style=red>&referencedField</label>
-    </@if>
+    <!-- Fields can be also referenced, although problematic
+         on GWT when there are multiple action containers
+         due to LibGDX implementation. -->
+    <label style=red>&referencedField</label>
     <!-- & is the action operator, but some attributes
          expect an action name, so it becomes optional.
          It is still necessary when referenced for
