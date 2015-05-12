@@ -6,9 +6,15 @@
     <inherits name='com.github.czyzby.lml.GdxLml' />
     <inherits name='com.github.czyzby.kiwi.GdxKiwi' />
 
-	<extend-configuration-property name="gdx.autumn.include" value="com.github.czyzby.autumn.mvc.component" />
-	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.mvc.component" />
-
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.mvc.component.asset.AssetService" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.mvc.component.i18n.LocaleService" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.mvc.component.i18n.processor" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.mvc.component.sfx.MusicService" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.mvc.component.sfx.processor" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.mvc.component.ui.InterfaceService" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.mvc.component.ui.processor" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.mvc.component.ui.action.MusicFadingAction" />
+	
 	<!-- Don't even get me started... -->
 	<extend-configuration-property name="gdx.reflect.include" value="java.lang.Class" />
 </module>

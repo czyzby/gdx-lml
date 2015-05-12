@@ -2,6 +2,7 @@ package com.github.czyzby.autumn.mvc.component.i18n.processor;
 
 import java.lang.annotation.Annotation;
 
+import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.github.czyzby.autumn.annotation.field.Inject;
 import com.github.czyzby.autumn.annotation.stereotype.MetaComponent;
@@ -13,8 +14,8 @@ import com.github.czyzby.autumn.mvc.component.i18n.LocaleService;
 import com.github.czyzby.autumn.mvc.component.i18n.dto.LocaleChangingAction;
 import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
 import com.github.czyzby.autumn.mvc.stereotype.preference.AvailableLocales;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedField;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy;
+import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 import com.github.czyzby.lml.parser.LmlParser;
 
 /** Used to scan for annotated preferences' data.
@@ -34,13 +35,13 @@ public class AvailableLocalesAnnotationProcessor extends ComponentFieldAnnotatio
 
 	@Override
 	public <Type> void processField(final ContextContainer context, final ContextComponent component,
-			final ReflectedField field) {
+			final Field field) {
 		try {
-			final Object locales = field.get(component.getComponent());
+			final Object locales = Reflection.getFieldValue(field, component.getComponent());
 			if (locales instanceof String[]) {
 				final String[] availableLocales = (String[]) locales;
 				final LmlParser parser = interfaceService.get().getParser();
-				final AvailableLocales localesData = field.getAnnotation(AvailableLocales.class);
+				final AvailableLocales localesData = Reflection.getAnnotation(field, AvailableLocales.class);
 
 				parser.addArgument(localesData.viewArgumentName(), availableLocales);
 				for (final String locale : availableLocales) {

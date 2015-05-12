@@ -18,10 +18,10 @@ import com.github.czyzby.autumn.mvc.component.ui.controller.ViewResizer;
 import com.github.czyzby.autumn.mvc.component.ui.controller.ViewShower;
 import com.github.czyzby.autumn.mvc.component.ui.dto.ThemesAssignmentAction;
 import com.github.czyzby.autumn.mvc.stereotype.View;
-import com.github.czyzby.autumn.reflection.Reflection;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.asset.Disposables;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
+import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 import com.github.czyzby.lml.parser.impl.dto.ActionContainer;
 
 /** Default controller wrapper for an object that isn't an implementation of

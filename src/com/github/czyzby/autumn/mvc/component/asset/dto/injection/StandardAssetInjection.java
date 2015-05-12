@@ -1,20 +1,21 @@
-package com.github.czyzby.autumn.mvc.component.asset.processor.dto.injection;
+package com.github.czyzby.autumn.mvc.component.asset.dto.injection;
 
 import com.badlogic.gdx.utils.ObjectSet;
+import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.github.czyzby.autumn.error.AutumnRuntimeException;
 import com.github.czyzby.autumn.mvc.component.asset.AssetService;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedField;
+import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 
 /** Delayed asset injection container.
  *
  * @author MJ */
 public class StandardAssetInjection implements AssetInjection {
-	protected final ReflectedField field;
+	protected final Field field;
 	protected final String assetPath;
 	protected final Object component;
 
-	public StandardAssetInjection(final ReflectedField field, final String assetPath, final Object component) {
+	public StandardAssetInjection(final Field field, final String assetPath, final Object component) {
 		this.field = field;
 		this.assetPath = assetPath;
 		this.component = component;
@@ -34,8 +35,9 @@ public class StandardAssetInjection implements AssetInjection {
 		return false;
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void injectAsset(final AssetService assetService) throws ReflectionException {
-		field.set(component, assetService.get(assetPath, field.getFieldType()));
+		Reflection.setFieldValue(field, component, assetService.get(assetPath, field.getType()));
 	}
 
 	@Override

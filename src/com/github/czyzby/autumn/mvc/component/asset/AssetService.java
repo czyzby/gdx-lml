@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.ObjectSet.ObjectSetIterator;
+import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.github.czyzby.autumn.annotation.ComponentAnnotations;
 import com.github.czyzby.autumn.annotation.field.Inject;
@@ -18,24 +19,24 @@ import com.github.czyzby.autumn.context.ContextContainer;
 import com.github.czyzby.autumn.context.processor.field.ComponentFieldAnnotationProcessor;
 import com.github.czyzby.autumn.context.processor.method.MessageProcessor;
 import com.github.czyzby.autumn.error.AutumnRuntimeException;
-import com.github.czyzby.autumn.mvc.component.asset.processor.dto.injection.ArrayAssetInjection;
-import com.github.czyzby.autumn.mvc.component.asset.processor.dto.injection.AssetInjection;
-import com.github.czyzby.autumn.mvc.component.asset.processor.dto.injection.ObjectMapAssetInjection;
-import com.github.czyzby.autumn.mvc.component.asset.processor.dto.injection.ObjectSetAssetInjection;
-import com.github.czyzby.autumn.mvc.component.asset.processor.dto.injection.StandardAssetInjection;
-import com.github.czyzby.autumn.mvc.component.asset.processor.dto.provider.ArrayAssetProvider;
-import com.github.czyzby.autumn.mvc.component.asset.processor.dto.provider.AssetProvider;
-import com.github.czyzby.autumn.mvc.component.asset.processor.dto.provider.ObjectMapAssetProvider;
-import com.github.czyzby.autumn.mvc.component.asset.processor.dto.provider.ObjectSetAssetProvider;
+import com.github.czyzby.autumn.mvc.component.asset.dto.injection.ArrayAssetInjection;
+import com.github.czyzby.autumn.mvc.component.asset.dto.injection.AssetInjection;
+import com.github.czyzby.autumn.mvc.component.asset.dto.injection.ObjectMapAssetInjection;
+import com.github.czyzby.autumn.mvc.component.asset.dto.injection.ObjectSetAssetInjection;
+import com.github.czyzby.autumn.mvc.component.asset.dto.injection.StandardAssetInjection;
+import com.github.czyzby.autumn.mvc.component.asset.dto.provider.ArrayAssetProvider;
+import com.github.czyzby.autumn.mvc.component.asset.dto.provider.AssetProvider;
+import com.github.czyzby.autumn.mvc.component.asset.dto.provider.ObjectMapAssetProvider;
+import com.github.czyzby.autumn.mvc.component.asset.dto.provider.ObjectSetAssetProvider;
 import com.github.czyzby.autumn.mvc.config.AutumnActionPriority;
 import com.github.czyzby.autumn.mvc.stereotype.Asset;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedField;
 import com.github.czyzby.kiwi.util.gdx.asset.Disposables;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxSets;
+import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 
 /** Wraps around two internal {@link com.badlogic.gdx.assets.AssetManager}s, providing utilities for asset
  * loading. Allows to load assets both eagerly and by constant updating, without forcing loading of "lazy"
@@ -205,24 +206,23 @@ public class AssetService extends ComponentFieldAnnotationProcessor {
 
 	@Override
 	public <Type> void processField(final ContextContainer context, final ContextComponent component,
-			final ReflectedField field) {
-		final Asset assetData = field.getAnnotation(Asset.class);
+			final Field field) {
+		final Asset assetData = Reflection.getAnnotation(field, Asset.class);
 		validateAssetData(component, field, assetData);
-		if (field.getFieldType().equals(Lazy.class)) {
+		if (field.getType().equals(Lazy.class)) {
 			handleLazyAssetInjection(component, field, assetData);
-		} else if (field.getFieldType().equals(Array.class)) {
+		} else if (field.getType().equals(Array.class)) {
 			handleArrayInjection(component, field, assetData);
-		} else if (field.getFieldType().equals(ObjectSet.class)) {
+		} else if (field.getType().equals(ObjectSet.class)) {
 			handleSetInjection(component, field, assetData);
-		} else if (field.getFieldType().equals(ObjectMap.class)) {
+		} else if (field.getType().equals(ObjectMap.class)) {
 			handleMapInjection(component, field, assetData);
 		} else {
 			handleRegularAssetInjection(component, field, assetData);
 		}
 	}
 
-	private void validateAssetData(final ContextComponent component, final ReflectedField field,
-			final Asset assetData) {
+	private void validateAssetData(final ContextComponent component, final Field field, final Asset assetData) {
 		if (assetData.value().length == 0) {
 			throw new AutumnRuntimeException(
 					"Asset paths array cannot be empty. Found empty array in field: " + field
@@ -235,7 +235,7 @@ public class AssetService extends ComponentFieldAnnotationProcessor {
 		}
 	}
 
-	private void handleLazyAssetInjection(final ContextComponent component, final ReflectedField field,
+	private void handleLazyAssetInjection(final ContextComponent component, final Field field,
 			final Asset assetData) {
 		if (ComponentAnnotations.isClassSet(assetData.lazyCollection())) {
 			handleLazyAssetCollectionInjection(component, field, assetData);
@@ -250,15 +250,15 @@ public class AssetService extends ComponentFieldAnnotationProcessor {
 			load(assetPath, assetData.type());
 		}
 		try {
-			field.set(component.getComponent(), Lazy.providedBy(new AssetProvider(this, assetPath, assetData
-					.type(), assetData.loadOnDemand())));
+			Reflection.setFieldValue(field, component.getComponent(), Lazy.providedBy(new AssetProvider(this,
+					assetPath, assetData.type(), assetData.loadOnDemand())));
 		} catch (final ReflectionException exception) {
 			throw new AutumnRuntimeException("Unable to inject lazy asset.", exception);
 		}
 	}
 
-	private void handleLazyAssetCollectionInjection(final ContextComponent component,
-			final ReflectedField field, final Asset assetData) {
+	private void handleLazyAssetCollectionInjection(final ContextComponent component, final Field field,
+			final Asset assetData) {
 		final String[] assetPaths = assetData.value();
 		final Class<?> assetType = assetData.type();
 		if (!assetData.loadOnDemand()) {
@@ -284,13 +284,13 @@ public class AssetService extends ComponentFieldAnnotationProcessor {
 								+ ". Expected Array, ObjectSet or ObjectMap, received: " + collectionClass
 								+ ".");
 			}
-			field.set(component.getComponent(), Lazy.providedBy(provider));
+			Reflection.setFieldValue(field, component.getComponent(), Lazy.providedBy(provider));
 		} catch (final ReflectionException exception) {
 			throw new AutumnRuntimeException("Unable to inject lazy asset collection.", exception);
 		}
 	}
 
-	private void handleRegularAssetInjection(final ContextComponent component, final ReflectedField field,
+	private void handleRegularAssetInjection(final ContextComponent component, final Field field,
 			final Asset assetData) {
 		if (assetData.value().length != 1) {
 			throw new AutumnRuntimeException(
@@ -300,32 +300,33 @@ public class AssetService extends ComponentFieldAnnotationProcessor {
 		final String assetPath = assetData.value()[0];
 		if (assetData.loadOnDemand()) {
 			// Loaded immediately.
-			final Object asset = finishLoading(assetPath, field.getFieldType());
+			@SuppressWarnings("unchecked")
+			final Object asset = finishLoading(assetPath, field.getType());
 			try {
-				field.set(component.getComponent(), asset);
+				Reflection.setFieldValue(field, component.getComponent(), asset);
 			} catch (final ReflectionException exception) {
 				throw new AutumnRuntimeException("Unable to inject asset loaded on demand.", exception);
 			}
 		} else {
-			load(assetPath, field.getFieldType());
+			load(assetPath, field.getType());
 			// Scheduled to be loaded, delayed injection.
 			assetInjections.add(new StandardAssetInjection(field, assetPath, component.getComponent()));
 		}
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void handleArrayInjection(final ContextComponent component, final ReflectedField field,
+	private void handleArrayInjection(final ContextComponent component, final Field field,
 			final Asset assetData) {
 		if (assetData.loadOnDemand()) {
 			try {
-				Array assets = (Array) field.get(component.getComponent());
+				Array assets = (Array) Reflection.getFieldValue(field, component.getComponent());
 				if (assets == null) {
 					assets = GdxArrays.newArray();
 				}
 				for (final String assetPath : assetData.value()) {
 					assets.add(finishLoading(assetPath, assetData.type()));
 				}
-				field.set(component.getComponent(), assets);
+				Reflection.setFieldValue(field, component.getComponent(), assets);
 			} catch (final ReflectionException exception) {
 				throw new AutumnRuntimeException("Unable to inject array of assets into: "
 						+ component.getComponent(), exception);
@@ -341,18 +342,17 @@ public class AssetService extends ComponentFieldAnnotationProcessor {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void handleSetInjection(final ContextComponent component, final ReflectedField field,
-			final Asset assetData) {
+	private void handleSetInjection(final ContextComponent component, final Field field, final Asset assetData) {
 		if (assetData.loadOnDemand()) {
 			try {
-				ObjectSet assets = (ObjectSet) field.get(component.getComponent());
+				ObjectSet assets = (ObjectSet) Reflection.getFieldValue(field, component.getComponent());
 				if (assets == null) {
 					assets = GdxSets.newSet();
 				}
 				for (final String assetPath : assetData.value()) {
 					assets.add(finishLoading(assetPath, assetData.type()));
 				}
-				field.set(component.getComponent(), assets);
+				Reflection.setFieldValue(field, component.getComponent(), assets);
 			} catch (final ReflectionException exception) {
 				throw new AutumnRuntimeException("Unable to inject set of assets into: "
 						+ component.getComponent(), exception);
@@ -368,20 +368,19 @@ public class AssetService extends ComponentFieldAnnotationProcessor {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void handleMapInjection(final ContextComponent component, final ReflectedField field,
-			final Asset assetData) {
+	private void handleMapInjection(final ContextComponent component, final Field field, final Asset assetData) {
 		if (assetData.loadOnDemand()) {
 			final String[] assetPaths = assetData.value();
 			final String[] assetKeys = assetData.keys().length == 0 ? assetData.value() : assetData.keys();
 			try {
-				ObjectMap assets = (ObjectMap) field.get(component.getComponent());
+				ObjectMap assets = (ObjectMap) Reflection.getFieldValue(field, component.getComponent());
 				if (assets == null) {
 					assets = GdxMaps.newObjectMap();
 				}
 				for (int assetIndex = 0; assetIndex < assetPaths.length; assetIndex++) {
 					assets.put(assetKeys[assetIndex], finishLoading(assetPaths[assetIndex], assetData.type()));
 				}
-				field.set(component.getComponent(), assets);
+				Reflection.setFieldValue(field, component.getComponent(), assets);
 			} catch (final ReflectionException exception) {
 				throw new AutumnRuntimeException("Unable to inject array of assets into: "
 						+ component.getComponent(), exception);

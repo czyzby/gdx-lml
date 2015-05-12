@@ -3,6 +3,7 @@ package com.github.czyzby.autumn.mvc.component.ui.processor;
 import java.lang.annotation.Annotation;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.github.czyzby.autumn.annotation.field.Inject;
 import com.github.czyzby.autumn.annotation.stereotype.Component;
 import com.github.czyzby.autumn.annotation.stereotype.MetaComponent;
@@ -15,9 +16,9 @@ import com.github.czyzby.autumn.mvc.component.ui.dto.provider.ActionContainerVie
 import com.github.czyzby.autumn.mvc.component.ui.dto.provider.ActorConsumerViewActionProvider;
 import com.github.czyzby.autumn.mvc.component.ui.dto.provider.ViewActionProvider;
 import com.github.czyzby.autumn.mvc.stereotype.ViewActionContainer;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedClass;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
+import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 import com.github.czyzby.lml.parser.impl.dto.ActionContainer;
 import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
 
@@ -34,13 +35,14 @@ public class ViewActionContainerAnnotationProcessor extends ComponentTypeAnnotat
 	}
 
 	@Override
-	public void processClass(final ContextContainer context, final ReflectedClass componentClass) {
-		final boolean isInContext = context.contains(componentClass.getReflectedClass());
+	public void processClass(final ContextContainer context, final Class<?> componentClass) {
+		final boolean isInContext = context.contains(componentClass);
 		final ContextComponent component =
-				isInContext ? context.extractFromContext(componentClass.getReflectedClass())
-						: prepareComponent(context, componentClass);
+				isInContext ? context.extractFromContext(componentClass) : prepareComponent(context,
+						componentClass);
 		final Object actionContainer = component.getComponent();
-		final ViewActionContainer actionData = componentClass.getAnnotation(ViewActionContainer.class);
+		final ViewActionContainer actionData =
+				Reflection.getAnnotation(componentClass, ViewActionContainer.class);
 		if (isGlobal(actionData)) {
 			registerGlobalAction(actionData.value(), actionContainer);
 		} else {
@@ -81,10 +83,9 @@ public class ViewActionContainerAnnotationProcessor extends ComponentTypeAnnotat
 	}
 
 	@Override
-	public ContextComponent prepareComponent(final ContextContainer context,
-			final ReflectedClass componentClass) {
-		if (componentClass.isAnnotatedWith(Component.class)) {
-			final Component componentData = componentClass.getAnnotation(Component.class);
+	public ContextComponent prepareComponent(final ContextContainer context, final Class<?> componentClass) {
+		if (ClassReflection.isAnnotationPresent(componentClass, Component.class)) {
+			final Component componentData = Reflection.getAnnotation(componentClass, Component.class);
 			return new ContextComponent(componentClass, getNewInstanceOf(componentClass),
 					componentData.lazy(), componentData.keepInContext());
 		}

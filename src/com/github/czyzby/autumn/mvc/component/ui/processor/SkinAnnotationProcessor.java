@@ -2,6 +2,7 @@ package com.github.czyzby.autumn.mvc.component.ui.processor;
 
 import java.lang.annotation.Annotation;
 
+import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.github.czyzby.autumn.annotation.stereotype.MetaComponent;
 import com.github.czyzby.autumn.context.ContextComponent;
@@ -10,8 +11,8 @@ import com.github.czyzby.autumn.context.processor.field.ComponentFieldAnnotation
 import com.github.czyzby.autumn.error.AutumnRuntimeException;
 import com.github.czyzby.autumn.mvc.component.ui.dto.SkinData;
 import com.github.czyzby.autumn.mvc.stereotype.preference.Skin;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedField;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy;
+import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 
 /** Used to process annotated skin data.
  *
@@ -27,13 +28,13 @@ public class SkinAnnotationProcessor extends ComponentFieldAnnotationProcessor {
 
 	@Override
 	public <Type> void processField(final ContextContainer context, final ContextComponent component,
-			final ReflectedField field) {
+			final Field field) {
 		validateCurrentSkinData();
-		final Skin annotationData = field.getAnnotation(Skin.class);
+		final Skin annotationData = Reflection.getAnnotation(field, Skin.class);
 		validateFontsData(annotationData);
 		try {
-			skinData.set(new SkinData(field.get(component.getComponent()).toString(), annotationData.fonts(),
-					annotationData.fontNames()));
+			skinData.set(new SkinData(Reflection.getFieldValue(field, component.getComponent()).toString(),
+					annotationData.fonts(), annotationData.fontNames()));
 		} catch (final ReflectionException exception) {
 			throw new AutumnRuntimeException("Unable to read skin data.", exception);
 		}

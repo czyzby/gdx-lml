@@ -2,6 +2,7 @@ package com.github.czyzby.autumn.mvc.component.sfx.processor;
 
 import java.lang.annotation.Annotation;
 
+import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.github.czyzby.autumn.annotation.field.Inject;
 import com.github.czyzby.autumn.annotation.stereotype.MetaComponent;
@@ -11,8 +12,8 @@ import com.github.czyzby.autumn.context.processor.field.ComponentFieldAnnotation
 import com.github.czyzby.autumn.error.AutumnRuntimeException;
 import com.github.czyzby.autumn.mvc.component.sfx.MusicService;
 import com.github.czyzby.autumn.mvc.stereotype.preference.sfx.MusicEnabled;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedField;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy;
+import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 
 /** Allows to set initial music state and assign music preferences.
  *
@@ -29,14 +30,16 @@ public class MusicEnabledAnnotationProcessor extends ComponentFieldAnnotationPro
 
 	@Override
 	public <Type> void processField(final ContextContainer context, final ContextComponent component,
-			final ReflectedField field) {
+			final Field field) {
 		try {
-			if (field.getFieldType().equals(boolean.class)) {
-				musicService.get().setMusicEnabled((Boolean) field.get(component.getComponent()));
+			if (field.getType().equals(boolean.class) || field.getType().equals(Boolean.class)) {
+				musicService.get().setMusicEnabled(
+						(Boolean) Reflection.getFieldValue(field, component.getComponent()));
 			} else {
-				final MusicEnabled musicData = field.getAnnotation(MusicEnabled.class);
+				final MusicEnabled musicData = Reflection.getAnnotation(field, MusicEnabled.class);
 				musicService.get().setMusicEnabledFromPreferences(musicData.preferences(),
-						field.get(component.getComponent()).toString(), musicData.defaultSetting());
+						Reflection.getFieldValue(field, component.getComponent()).toString(),
+						musicData.defaultSetting());
 			}
 		} catch (final ReflectionException exception) {
 			throw new AutumnRuntimeException("Unable to extract music state.", exception);

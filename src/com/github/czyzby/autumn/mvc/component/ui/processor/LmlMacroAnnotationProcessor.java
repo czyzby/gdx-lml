@@ -4,6 +4,7 @@ import java.lang.annotation.Annotation;
 
 import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.github.czyzby.autumn.annotation.field.Inject;
 import com.github.czyzby.autumn.annotation.stereotype.MetaComponent;
@@ -13,8 +14,8 @@ import com.github.czyzby.autumn.context.processor.field.ComponentFieldAnnotation
 import com.github.czyzby.autumn.error.AutumnRuntimeException;
 import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
 import com.github.czyzby.autumn.mvc.stereotype.preference.LmlMacro;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedField;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy;
+import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 import com.github.czyzby.lml.parser.LmlParser;
 
 /** Used to scan for paths with LML macro files.
@@ -32,11 +33,11 @@ public class LmlMacroAnnotationProcessor extends ComponentFieldAnnotationProcess
 
 	@Override
 	public <Type> void processField(final ContextContainer context, final ContextComponent component,
-			final ReflectedField field) {
+			final Field field) {
 		try {
-			final Object macroData = field.get(component.getComponent());
+			final Object macroData = Reflection.getFieldValue(field, component.getComponent());
 			final LmlParser parser = interfaceService.get().getParser();
-			final FileType fileType = field.getAnnotation(LmlMacro.class).fileType();
+			final FileType fileType = Reflection.getAnnotation(field, LmlMacro.class).fileType();
 			if (macroData instanceof String) {
 				parser.parse(Gdx.files.getFileHandle((String) macroData, fileType));
 			} else if (macroData instanceof String[]) {

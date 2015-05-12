@@ -1,4 +1,4 @@
-package com.github.czyzby.autumn.mvc.component.asset.processor.dto.provider;
+package com.github.czyzby.autumn.mvc.component.asset.dto.provider;
 
 import com.badlogic.gdx.utils.ObjectMap;
 import com.github.czyzby.autumn.mvc.component.asset.AssetService;

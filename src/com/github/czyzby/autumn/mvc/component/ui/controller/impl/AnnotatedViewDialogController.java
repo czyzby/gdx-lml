@@ -75,6 +75,16 @@ public class AnnotatedViewDialogController extends AbstractAnnotatedController i
 	}
 
 	@Override
+	public void destroyDialog() {
+		if (dialog != null) {
+			if (dialog.getStage() != null) {
+				dialog.hide();
+			}
+			dialog = null;
+		}
+	}
+
+	@Override
 	public String getId() {
 		return id;
 	}

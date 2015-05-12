@@ -1,11 +1,12 @@
-package com.github.czyzby.autumn.mvc.component.asset.processor.dto.injection;
+package com.github.czyzby.autumn.mvc.component.asset.dto.injection;
 
 import com.badlogic.gdx.utils.ObjectSet;
+import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.github.czyzby.autumn.error.AutumnRuntimeException;
 import com.github.czyzby.autumn.mvc.component.asset.AssetService;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedField;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxSets;
+import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 
 /** Handles delayed asset injection into {@link com.badlogic.gdx.utils.ObjectSet} field.
  *
@@ -13,11 +14,11 @@ import com.github.czyzby.kiwi.util.gdx.collection.GdxSets;
 public class ObjectSetAssetInjection implements AssetInjection {
 	private final String[] assetPaths;
 	private final Class<?> assetType;
-	private final ReflectedField field;
+	private final Field field;
 	private final Object component;
 
-	public ObjectSetAssetInjection(final String[] assetPaths, final Class<?> assetType,
-			final ReflectedField field, final Object component) {
+	public ObjectSetAssetInjection(final String[] assetPaths, final Class<?> assetType, final Field field,
+			final Object component) {
 		this.assetPaths = assetPaths;
 		this.assetType = assetType;
 		this.field = field;
@@ -38,14 +39,14 @@ public class ObjectSetAssetInjection implements AssetInjection {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void injectAssets(final AssetService assetService) {
 		try {
-			ObjectSet set = (ObjectSet) field.get(component);
+			ObjectSet set = (ObjectSet) Reflection.getFieldValue(field, component);
 			if (set == null) {
 				set = GdxSets.newSet();
 			}
 			for (final String assetPath : assetPaths) {
 				set.add(assetService.get(assetPath, assetType));
 			}
-			field.set(component, set);
+			Reflection.setFieldValue(field, component, set);
 		} catch (final ReflectionException exception) {
 			throw new AutumnRuntimeException("Unable to inject set of assets into component: " + component
 					+ ".", exception);

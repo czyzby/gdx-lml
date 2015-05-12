@@ -2,6 +2,7 @@ package com.github.czyzby.autumn.mvc.component.ui.processor;
 
 import java.lang.annotation.Annotation;
 
+import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.github.czyzby.autumn.annotation.field.Inject;
 import com.github.czyzby.autumn.annotation.stereotype.Component;
 import com.github.czyzby.autumn.annotation.stereotype.MetaComponent;
@@ -12,8 +13,8 @@ import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
 import com.github.czyzby.autumn.mvc.component.ui.controller.ViewDialogController;
 import com.github.czyzby.autumn.mvc.component.ui.controller.impl.AnnotatedViewDialogController;
 import com.github.czyzby.autumn.mvc.stereotype.ViewDialog;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedClass;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy;
+import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 
 /** Processes {@link com.github.czyzby.autumn.mvc.stereotype.ViewDialog} components. Initiates dialog
  * controllers.
@@ -30,13 +31,13 @@ public class ViewDialogAnnotationProcessor extends ComponentTypeAnnotationProces
 	}
 
 	@Override
-	public void processClass(final ContextContainer context, final ReflectedClass componentClass) {
-		final boolean isInContext = context.contains(componentClass.getReflectedClass());
+	public void processClass(final ContextContainer context, final Class<?> componentClass) {
+		final boolean isInContext = context.contains(componentClass);
 		final ContextComponent component =
-				isInContext ? context.extractFromContext(componentClass.getReflectedClass())
-						: prepareComponent(context, componentClass);
+				isInContext ? context.extractFromContext(componentClass) : prepareComponent(context,
+						componentClass);
 		final Object controller = component.getComponent();
-		final ViewDialog dialogData = componentClass.getAnnotation(ViewDialog.class);
+		final ViewDialog dialogData = Reflection.getAnnotation(componentClass, ViewDialog.class);
 		if (controller instanceof ViewDialogController) {
 			interfaceService.get().registerDialogController(controller.getClass(),
 					(ViewDialogController) controller);
@@ -50,10 +51,9 @@ public class ViewDialogAnnotationProcessor extends ComponentTypeAnnotationProces
 	}
 
 	@Override
-	public ContextComponent prepareComponent(final ContextContainer context,
-			final ReflectedClass componentClass) {
-		if (componentClass.isAnnotatedWith(Component.class)) {
-			final Component componentData = componentClass.getAnnotation(Component.class);
+	public ContextComponent prepareComponent(final ContextContainer context, final Class<?> componentClass) {
+		if (ClassReflection.isAnnotationPresent(componentClass, Component.class)) {
+			final Component componentData = Reflection.getAnnotation(componentClass, Component.class);
 			return new ContextComponent(componentClass, getNewInstanceOf(componentClass),
 					componentData.lazy(), componentData.keepInContext());
 		}

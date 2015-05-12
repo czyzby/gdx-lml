@@ -1,20 +1,20 @@
-package com.github.czyzby.autumn.mvc.component.asset.processor.dto.provider;
+package com.github.czyzby.autumn.mvc.component.asset.dto.provider;
 
-import com.badlogic.gdx.utils.ObjectSet;
+import com.badlogic.gdx.utils.Array;
 import com.github.czyzby.autumn.mvc.component.asset.AssetService;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
-import com.github.czyzby.kiwi.util.gdx.collection.GdxSets;
+import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 
-/** Asset provider for set injections.
+/** Asset provider for array injections.
  *
  * @author MJ */
-public class ObjectSetAssetProvider implements ObjectProvider<ObjectSet<Object>> {
+public class ArrayAssetProvider implements ObjectProvider<Array<Object>> {
 	private final AssetService assetService;
 	private final String[] assetPaths;
 	private final Class<?> assetClass;
 	private final boolean loadOnDemand;
 
-	public ObjectSetAssetProvider(final AssetService assetService, final String assetPaths[],
+	public ArrayAssetProvider(final AssetService assetService, final String assetPaths[],
 			final Class<?> assetClass, final boolean loadOnDemand) {
 		this.assetService = assetService;
 		this.assetPaths = assetPaths;
@@ -23,8 +23,8 @@ public class ObjectSetAssetProvider implements ObjectProvider<ObjectSet<Object>>
 	}
 
 	@Override
-	public ObjectSet<Object> provide() {
-		final ObjectSet<Object> assets = GdxSets.newSet();
+	public Array<Object> provide() {
+		final Array<Object> assets = GdxArrays.newArray();
 		for (final String assetPath : assetPaths) {
 			if (loadOnDemand) {
 				assets.add(assetService.finishLoading(assetPath, assetClass));

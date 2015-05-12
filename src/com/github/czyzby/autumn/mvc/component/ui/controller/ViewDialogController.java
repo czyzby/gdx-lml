@@ -11,4 +11,7 @@ public interface ViewDialogController {
 
 	/** @return ID of the dialog as it appears in LML views. */
 	public String getId();
+
+	/** Destroys the dialog instance, if present. */
+	public void destroyDialog();
 }

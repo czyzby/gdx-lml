@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.utils.I18NBundle;
+import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.github.czyzby.autumn.annotation.field.Inject;
 import com.github.czyzby.autumn.annotation.stereotype.MetaComponent;
@@ -14,11 +15,11 @@ import com.github.czyzby.autumn.context.processor.field.ComponentFieldAnnotation
 import com.github.czyzby.autumn.error.AutumnRuntimeException;
 import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
 import com.github.czyzby.autumn.mvc.stereotype.preference.I18nLocale;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedField;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
 import com.github.czyzby.kiwi.util.gdx.preference.ApplicationPreferences;
+import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 import com.github.czyzby.kiwi.util.tuple.mutable.MutableSingle;
 
 /** Manages i18n. Reads locale from preferences and allows to easily save it. Provides informations about
@@ -128,10 +129,10 @@ public class LocaleService extends ComponentFieldAnnotationProcessor {
 
 	@Override
 	public <Type> void processField(final ContextContainer context, final ContextComponent component,
-			final ReflectedField field) {
+			final Field field) {
 		try {
-			final I18nLocale localeData = field.getAnnotation(I18nLocale.class);
-			final Object locale = field.get(component.getComponent());
+			final I18nLocale localeData = Reflection.getAnnotation(field, I18nLocale.class);
+			final Object locale = Reflection.getFieldValue(field, component.getComponent());
 			if (locale instanceof Locale) {
 				currentLocale.set((Locale) locale);
 			} else if (locale instanceof String) {

@@ -404,6 +404,7 @@ public class InterfaceService {
 
 	private void reloadViews() {
 		destroyViews();
+		destroyDialogs();
 		final ViewController viewToShow = currentController;
 		currentController = null;
 		show(viewToShow);
@@ -466,6 +467,7 @@ public class InterfaceService {
 	@Destroy(priority = AutumnActionPriority.LOW_PRIORITY)
 	private void dispose() {
 		destroyViews();
+		destroyDialogs();
 		controllers.clear();
 		batch.dispose();
 		skin.dispose();
@@ -474,6 +476,12 @@ public class InterfaceService {
 	private void destroyViews() {
 		for (final ViewController controller : controllers.values()) {
 			controller.destroyView();
+		}
+	}
+
+	private void destroyDialogs() {
+		for (final ViewDialogController dialogController : dialogControllers.values()) {
+			dialogController.destroyDialog();
 		}
 	}
 

@@ -2,6 +2,7 @@ package com.github.czyzby.autumn.mvc.component.ui.processor;
 
 import java.lang.annotation.Annotation;
 
+import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.github.czyzby.autumn.annotation.field.Inject;
@@ -12,9 +13,9 @@ import com.github.czyzby.autumn.context.processor.field.ComponentFieldAnnotation
 import com.github.czyzby.autumn.error.AutumnRuntimeException;
 import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
 import com.github.czyzby.autumn.mvc.stereotype.preference.StageViewport;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedField;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
+import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 
 /** Used to scan for viewport provider.
  *
@@ -32,9 +33,9 @@ public class StageViewportAnnotationProcessor extends ComponentFieldAnnotationPr
 	@Override
 	@SuppressWarnings("unchecked")
 	public <Type> void processField(final ContextContainer context, final ContextComponent component,
-			final ReflectedField field) {
+			final Field field) {
 		try {
-			final Object bundleField = field.get(component.getComponent());
+			final Object bundleField = Reflection.getFieldValue(field, component.getComponent());
 			if (bundleField instanceof ObjectProvider<?>) {
 				interfaceService.get().setViewportProvider((ObjectProvider<Viewport>) bundleField);
 				return;

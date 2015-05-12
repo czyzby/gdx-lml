@@ -1,4 +1,4 @@
-package com.github.czyzby.autumn.mvc.component.asset.processor.dto.injection;
+package com.github.czyzby.autumn.mvc.component.asset.dto.injection;
 
 import com.badlogic.gdx.utils.ObjectSet;
 import com.github.czyzby.autumn.mvc.component.asset.AssetService;

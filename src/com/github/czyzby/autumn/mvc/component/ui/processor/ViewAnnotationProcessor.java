@@ -2,6 +2,7 @@ package com.github.czyzby.autumn.mvc.component.ui.processor;
 
 import java.lang.annotation.Annotation;
 
+import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.github.czyzby.autumn.annotation.field.Inject;
 import com.github.czyzby.autumn.annotation.stereotype.Component;
 import com.github.czyzby.autumn.annotation.stereotype.MetaComponent;
@@ -12,8 +13,8 @@ import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
 import com.github.czyzby.autumn.mvc.component.ui.controller.ViewController;
 import com.github.czyzby.autumn.mvc.component.ui.controller.impl.AnnotatedViewController;
 import com.github.czyzby.autumn.mvc.stereotype.View;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedClass;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy;
+import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 
 /** Processes {@link com.github.czyzby.autumn.mvc.stereotype.View} components. Initiates controllers.
  *
@@ -29,13 +30,13 @@ public class ViewAnnotationProcessor extends ComponentTypeAnnotationProcessor {
 	}
 
 	@Override
-	public void processClass(final ContextContainer context, final ReflectedClass componentClass) {
-		final boolean isInContext = context.contains(componentClass.getReflectedClass());
+	public void processClass(final ContextContainer context, final Class<?> componentClass) {
+		final boolean isInContext = context.contains(componentClass);
 		final ContextComponent component =
-				isInContext ? context.extractFromContext(componentClass.getReflectedClass())
-						: prepareComponent(context, componentClass);
+				isInContext ? context.extractFromContext(componentClass) : prepareComponent(context,
+						componentClass);
 		final Object controller = component.getComponent();
-		final View viewData = componentClass.getAnnotation(View.class);
+		final View viewData = Reflection.getAnnotation(componentClass, View.class);
 		if (controller instanceof ViewController) {
 			interfaceService.get().registerController(controller.getClass(), (ViewController) controller);
 		} else {
@@ -48,10 +49,9 @@ public class ViewAnnotationProcessor extends ComponentTypeAnnotationProcessor {
 	}
 
 	@Override
-	public ContextComponent prepareComponent(final ContextContainer context,
-			final ReflectedClass componentClass) {
-		if (componentClass.isAnnotatedWith(Component.class)) {
-			final Component componentData = componentClass.getAnnotation(Component.class);
+	public ContextComponent prepareComponent(final ContextContainer context, final Class<?> componentClass) {
+		if (ClassReflection.isAnnotationPresent(componentClass, Component.class)) {
+			final Component componentData = Reflection.getAnnotation(componentClass, Component.class);
 			return new ContextComponent(componentClass, getNewInstanceOf(componentClass),
 					componentData.lazy(), componentData.keepInContext());
 		}

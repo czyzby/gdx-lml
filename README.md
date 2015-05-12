@@ -5,7 +5,7 @@ If you're used to Spring MVC, you may feel like home. Dependency injection, comp
 
 The original idea was to make my first LibGDX utilities public, but after I realized how much effort it takes to actually set up all of my managers, I decided that I *need* to make it simpler to use for everyone - including myself. This is the result.
 
-Autumn MVC tries to be as flexible as possible, but it does force a specific project structure and approach. If you want only some parts of the "framework", that's completely fine: [Kiwi](https://github.com/czyzby/gdx-kiwi) is a set of Guava-inspired utilities for general use (in LibGDX applications), [LML](https://github.com/czyzby/gdx-lml) is a pretty powerful HTML-like markup language that allows to easily build complex Scene2D UIs, and [Autumn](https://github.com/czyzby/gdx-autumn) provides annotation-processing mechanism that allows for dependency injection with component scan out of the box. You can use each and every of them in any combination (knowing that both LML and Autumn use Kiwi internally and LML uses Autumn for GWT method reflection, that is). However, excluding some of Autumn MVC components is usually not an option, as most of them depend on each other.
+Autumn MVC tries to be as flexible as possible, but it does force a specific project structure and approach. If you want only some parts of the "framework", that's completely fine: [Kiwi](https://github.com/czyzby/gdx-kiwi) is a set of Guava-inspired utilities for general use (in LibGDX applications), [LML](https://github.com/czyzby/gdx-lml) is a pretty powerful HTML-like markup language that allows to easily build complex Scene2D UIs, and [Autumn](https://github.com/czyzby/gdx-autumn) provides annotation-processing mechanism that allows for dependency injection with component scan out of the box. You can use each and every of them in any combination (knowing that both LML and Autumn use Kiwi internally). However, excluding some of Autumn MVC components is usually not an option, as most of them depend on each other.
 
 ##Why should you use Autumn MVC
 Simply put - to save your time. While a pure Java application without reflection might start or even work slightly faster, it requires you to handle a lot of stuff... stuff that usually LibGDX makes pretty easy to implement, to be honest, but sometimes awkward to use or not fully supported out of the box. Autumn support goes a step further in - hopefully - the right direction. Autumn takes care of:
@@ -24,7 +24,7 @@ Simply put - to save your time. While a pure Java application without reflection
 Normally, you would have to implement some kind of system that manages screens, internationalization, asset management, overall application initiation, and possibly a UI builder too. With Autumn MVC, all you care about is creating a configuration file with basic assets paths (bundles, skin) and a few classes annotated with `@View` that reference LML files.
 
 ### But I don't like LML...
-I can understand that not everyone might be a fan of HTML-like syntax and tedious refactoring. Personally, I find UIs created in Java less readable and too verbose, but if for some reason that's the way you want to go, take the hard way by making your `@View` implement `ViewController` and you will have full control over the screen, without losing SOME features, like the asset management, component injection and so on. There's even an abstract base for views without LML: `AbstractViewController`. However, screen transition mechanism relies on actions, so dropping Scene2D is a no-go.
+I can understand that not everyone might be a fan of HTML-like syntax and tedious refactoring. Personally, I find UIs created in Java less readable and too verbose, but if for some reason that's the way you want to go, take the hard way by making your `@View` implement `ViewController` and you will have full control over the screen, without losing SOME features, like the asset management, component injection and so on. There's even an abstract base for views without LML: `AbstractViewController`. However, screen transition mechanism relies on actions, so dropping Scene2D for another UI system is a no-go. You don't have to - or even are encouraged to - use Scene2D for your game logic though.
 
 ### Why not...
 Why should you use Autumn MVC instead of a professional, mature dependency injection library? Well, if you already have some of your own utilities and not a huge fan of view templates, you will probably do just fine with Dagger or whatever it is you want to use. In the end, it comes down to what saves your time.
@@ -40,11 +40,12 @@ Read on [LML](https://github.com/czyzby/gdx-lml) to see how the views are create
 Gradle:
 
 ```
-    compile "com.github.czyzby:gdx-autumn-mvc:0.5.$gdxVersion"
+    compile "com.github.czyzby:gdx-autumn-mvc:0.6.$gdxVersion"
 ```
+Currently supported LibGDX version is **1.6.0**.
 
 ### Application
-Instead of implementing `ApplicationListener` or extending `ApplicationAdapter`, extend `AutumnApplication` - or even use pass it to application initiation methods without extending, this is not an abstract class. Initiating this object requires you to pass a root scanning class (which will usually be the class in the bottom of your package hierarchy) and a class scanner, which is (usually) platform-specific. You also have to register your components' classes/packages for custom Autumn GWT reflection - see [Autumn](https://github.com/czyzby/gdx-autumn) documentation.
+Instead of implementing `ApplicationListener` or extending `ApplicationAdapter`, extend `AutumnApplication` - or even use pass it to application initiation methods without extending, this is not an abstract class. Initiating this object requires you to pass a root scanning class (which will usually be the class in the bottom of your package hierarchy) and a class scanner, which is (usually) platform-specific.
 
 After that, you might want to create a single `@Configuration` class that will be initiated and destroyed when the context is being built. By annotating its fields, you can choose skin, i18n bundles, preferences (and so on) that will be used by LML parser. Available configurations:
 
@@ -100,3 +101,10 @@ See [GdxIdle](https://github.com/czyzby/gdx-autumn-mvc-tests).
 Automatic component scan on Android and iOS is not implemented and it might take me some time before I finally force myself to do it. It will probably be in a separate library that depends on Autumn, so no changes in MVC itself are required. If someone already implemented this functionality and is willing to share, I won't mind integrating it into Autumn.
 
 Your opinions, comments and testing can help as well. Don't be afraid to inform me about bugs and functionalities that are missing or the ones you are not a huge fan of.
+
+## What's new
+0.5 -> 0.6:
+
+- Since Autumn no longer uses custom reflection wrappers, API was refactored to use "native" LibGDX reflection.
+- Now only absolutely necessary classes are registered for GWT reflection - less meta-data in JS.
+- Fixed a bug (?) where dialogs with cached instances where not destroyed on views reload. Now views reload also triggers dialogs destruction.
