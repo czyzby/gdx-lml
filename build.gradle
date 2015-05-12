@@ -13,7 +13,7 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    version = '1.6.0-SNAPSHOT'
+    version = '0.6.1.6.0'
     ext {
         appName = 'gdx-lml-tests'
         gdxVersion = '1.6.0'
@@ -47,7 +47,7 @@ project(":html") {
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
-        compile "com.github.czyzby:gdx-lml:0.6.$gdxVersion-SNAPSHOT:sources"
+        compile "com.github.czyzby:gdx-lml:0.6.$gdxVersion:sources"
     }
 }
 
@@ -56,7 +56,7 @@ project(":core") {
 
 
     dependencies {
-        compile "com.github.czyzby:gdx-lml:0.6.$gdxVersion-SNAPSHOT"
+        compile "com.github.czyzby:gdx-lml:0.6.$gdxVersion"
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     }
 }
