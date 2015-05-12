@@ -82,6 +82,9 @@ Similarly to Lazy utility containers, lazy collections create objects as soon as
 - **Preference**: utility interface for common preference operations. Advised to be implemented by an enum to provide static access to each of application's preferences. Comes with an example implementation - PreferenceWrapper.
 - **ApplicationPreferences**: utility container for application's preferences. Manages a map of cached preferences to avoid reading preferences multiple times and ensure that the returned Preferences object for the given path is always the same and in sync.
 
+### Reflection
+- **Reflection**: class with static utilities that make LibGDX reflection a bit less awkward to use (and temporarily work around GWT method annotation bug which should be fixed in the next version).
+
 ### Scene2D
 - **Actors**: simple, common utility methods for Scene2D actors.
 - **Alignment**: wraps around Align class to provide human-(instantly-)readable alignment checking methods.

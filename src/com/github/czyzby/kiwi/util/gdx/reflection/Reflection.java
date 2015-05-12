@@ -2,6 +2,8 @@ package com.github.czyzby.kiwi.util.gdx.reflection;
 
 import java.lang.annotation.Annotation;
 
+import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.Method;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
@@ -10,12 +12,93 @@ import com.badlogic.gdx.utils.reflect.ReflectionException;
  *
  * @author MJ */
 public class Reflection {
-	/** Utility method that allows to extract annotation with one method. Returns null if annotation is not
-	 * present.
+	/** Object array with 0 length that contains no values. Might be useful for no-arg methods. */
+	public static final Object[] EMPTY_OBJECT_ARRAY = new Object[0];
+
+	/** Allows to gracefully create a new instance of class, without having to try-catch exceptions.
+	 *
+	 * @param ofClass instance of this class will be constructed using reflection.
+	 * @return a new instance of passed class.
+	 * @throws GdxRuntimeException when unable to create a new instance. */
+	public static <Type> Type newInstance(final Class<Type> ofClass) {
+		try {
+			return ClassReflection.newInstance(ofClass);
+		} catch (final Throwable exception) {
+			throw new GdxRuntimeException("Unable to create a new instance of class: " + ofClass, exception);
+		}
+	}
+
+	/** Allows to gracefully create a new instance of class, without having to try-catch exceptions.
+	 *
+	 * @param ofClass instance of this class will be constructed using reflection.
+	 * @return a new instance of passed class or null if unable to construct new instance. */
+	public static <Type> Type newInstanceOrNull(final Class<Type> ofClass) {
+		return newInstance(ofClass, null);
+	}
+
+	/** Allows to gracefully create a new instance of class, without having to try-catch exceptions.
+	 *
+	 * @param ofClass instance of this class will be constructed using reflection.
+	 * @param defaultValue will be returned if unable to construct new instance.
+	 * @return a new instance of passed class or default value. */
+	public static <Type> Type newInstance(final Class<Type> ofClass, final Type defaultValue) {
+		try {
+			return ClassReflection.newInstance(ofClass);
+		} catch (final Throwable exception) {
+			return defaultValue;
+		}
+	}
+
+	/** Utility method that allows to extract actual annotation from field, bypassing LibGDX annotation
+	 * wrapper. Returns null if annotation is not present.
+	 *
+	 * @param field might be annotated.
+	 * @param annotationType class of the annotation.
+	 * @return an instance of the annotation if the field is annotated or null if not. */
+	public static <Type extends Annotation> Type getAnnotation(final Field field,
+			final Class<Type> annotationType) {
+		if (isAnnotationPresent(field, annotationType)) {
+			return field.getDeclaredAnnotation(annotationType).getAnnotation(annotationType);
+		}
+		return null;
+	}
+
+	/** Utility method, changes unexpected exceptions on GWT. Better safe than sorry.
+	 *
+	 * @param field might be annotated.
+	 * @param annotationType class of the annotation that the field is checked against.
+	 * @return true if field is annotated with the specified annotation. */
+	public static boolean isAnnotationPresent(final Field field,
+			final Class<? extends Annotation> annotationType) {
+		try {
+			return field.isAnnotationPresent(annotationType);
+		} catch (final Throwable exception) {
+			// Expected (?) on GWT.
+			return false;
+		}
+	}
+
+	/** Utility method that allows to extract actual annotation from class, bypassing LibGDX annotation
+	 * wrapper. Returns null if annotation is not present.
+	 *
+	 * @param fromClass class that might be annotated.
+	 * @param annotationType class of the annotation.
+	 * @return an instance of the annotation if the class is annotated or null if not. */
+	public static <Type extends Annotation> Type getAnnotation(final Class<?> fromClass,
+			final Class<Type> annotationType) {
+		if (ClassReflection.isAnnotationPresent(fromClass, annotationType)) {
+			return ClassReflection.getDeclaredAnnotation(fromClass, annotationType).getAnnotation(
+					annotationType);
+		}
+		return null;
+	}
+
+	/** Utility method that allows to extract actual annotation from method, bypassing LibGDX annotation
+	 * wrapper. Returns null if annotation is not present.
 	 *
 	 * @param method method that might be annotated.
 	 * @param annotationType class of the annotation.
-	 * @return an instance of the annotation if the method is annotated or null. */
+	 * @return an instance of the annotation if the method is annotated or null if not. */
 	public static <Type extends Annotation> Type getAnnotation(final Method method,
 			final Class<Type> annotationType) {
 		if (isAnnotationPresent(method, annotationType)) {
