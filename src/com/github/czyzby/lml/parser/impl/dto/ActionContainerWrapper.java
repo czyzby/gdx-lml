@@ -24,7 +24,7 @@ public class ActionContainerWrapper {
 
 	private void mapAnnotatedMethods() {
 		try {
-			for (final Method method : ClassReflection.getMethods(actionContainer.getClass())) {
+			for (final Method method : ClassReflection.getDeclaredMethods(actionContainer.getClass())) {
 				final ViewAction actionData = Reflection.getAnnotation(method, ViewAction.class);
 				if (actionData != null) {
 					annotatedMethods.put(actionData.value(), method);
