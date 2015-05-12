@@ -4,7 +4,6 @@ import java.lang.annotation.Annotation;
 
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedClass;
 
 /** Used to scan classes to look for annotated types.
  *
@@ -15,6 +14,6 @@ public interface ClassScanner {
 	 * @param annotations will find classes that have one of these annotations.
 	 * @return all classes in the root package that have an annotation of the selected type mapped by scanned
 	 *         annotations. */
-	public ObjectMap<Class<? extends Annotation>, ObjectSet<ReflectedClass>> findClassesAnnotatedWith(
+	public ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> findClassesAnnotatedWith(
 			Class<?> root, Iterable<Class<? extends Annotation>> annotations);
 }

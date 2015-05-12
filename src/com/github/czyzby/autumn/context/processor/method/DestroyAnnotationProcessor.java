@@ -4,15 +4,16 @@ import java.lang.annotation.Annotation;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.reflect.Method;
 import com.github.czyzby.autumn.annotation.method.Destroy;
 import com.github.czyzby.autumn.context.ContextComponent;
 import com.github.czyzby.autumn.context.ContextContainer;
 import com.github.czyzby.autumn.context.processor.method.event.ComponentEventListener;
 import com.github.czyzby.autumn.context.processor.method.event.common.ComponentDestructionEvent;
 import com.github.czyzby.autumn.context.processor.method.invocation.ComponentMethodInvocation;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedMethod;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.collection.lazy.LazyObjectMap;
+import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 
 /** Handles invocation of methods annotated with Destroy upon components' destruction.
  *
@@ -35,8 +36,8 @@ public class DestroyAnnotationProcessor extends ComponentMethodAnnotationProcess
 
 	@Override
 	public <Type> void processMethod(final ContextContainer context, final ContextComponent component,
-			final ReflectedMethod method) {
-		final Destroy destructionData = method.getAnnotation(Destroy.class);
+			final Method method) {
+		final Destroy destructionData = Reflection.getAnnotation(method, Destroy.class);
 		scheduledInvocations.get(component).add(
 				new ComponentMethodInvocation(destructionData.priority(), method, context, component));
 	}

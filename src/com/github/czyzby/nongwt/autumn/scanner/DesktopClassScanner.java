@@ -17,14 +17,11 @@ import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.github.czyzby.autumn.error.AutumnRuntimeException;
-import com.github.czyzby.autumn.reflection.Reflection;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedClass;
 import com.github.czyzby.autumn.scanner.ClassScanner;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.collection.lazy.LazyObjectMap;
 import com.github.czyzby.kiwi.util.tuple.immutable.Pair;
-import com.github.czyzby.nongwt.autumn.reflection.StandardReflectionProvider;
 
 /** Tries to scan class path resources if running from binaries (IDE) or .jar files otherwise.
  *
@@ -37,12 +34,8 @@ public class DesktopClassScanner implements ClassScanner {
 	private static final String CLASS_FILE_EXTENSION = ".class";
 	private static final String JAR_FILE_EXTENSION = ".jar";
 
-	static {
-		Reflection.setReflectionProvider(new StandardReflectionProvider());
-	}
-
 	@Override
-	public ObjectMap<Class<? extends Annotation>, ObjectSet<ReflectedClass>> findClassesAnnotatedWith(
+	public ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> findClassesAnnotatedWith(
 			final Class<?> root, final Iterable<Class<? extends Annotation>> annotations) {
 		final String mainPackageName = root.getPackage().getName();
 		final String classPathRoot = getClassPathRoot(mainPackageName);
@@ -68,10 +61,10 @@ public class DesktopClassScanner implements ClassScanner {
 		}
 	}
 
-	private ObjectMap<Class<? extends Annotation>, ObjectSet<ReflectedClass>> extractFromBinaries(
+	private ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> extractFromBinaries(
 			final Iterable<Class<? extends Annotation>> annotations, final String mainPackageName,
 			final Queue<Pair<File, Integer>> filesWithDepthsToProcess) throws ReflectionException {
-		final ObjectMap<Class<? extends Annotation>, ObjectSet<ReflectedClass>> result =
+		final ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> result =
 				LazyObjectMap.newMapOfSets();
 		while (!filesWithDepthsToProcess.isEmpty()) {
 			final Pair<File, Integer> classPathFileWithDepth = filesWithDepthsToProcess.poll();
@@ -118,11 +111,11 @@ public class DesktopClassScanner implements ClassScanner {
 		return mainPackageName.replace(DOT_SEPARATOR, FILE_SEPARATOR);
 	}
 
-	private ObjectMap<Class<? extends Annotation>, ObjectSet<ReflectedClass>> extractFromJar(
+	private ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> extractFromJar(
 			final Iterable<Class<? extends Annotation>> annotations, final String classPathRoot,
 			final ClassLoader classLoader) throws URISyntaxException, IOException, ReflectionException {
 		final Array<JarFile> filesToProcess = getJarFilesToProcess();
-		final ObjectMap<Class<? extends Annotation>, ObjectSet<ReflectedClass>> result =
+		final ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> result =
 				LazyObjectMap.newMapOfSets();
 		for (final JarFile jarFile : filesToProcess) {
 			final Enumeration<JarEntry> entries = jarFile.entries();
@@ -147,8 +140,8 @@ public class DesktopClassScanner implements ClassScanner {
 
 	private void processEntry(final Iterable<Class<? extends Annotation>> annotations,
 			final String classPathRoot,
-			final ObjectMap<Class<? extends Annotation>, ObjectSet<ReflectedClass>> result,
-			final JarEntry entry) throws ReflectionException {
+			final ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> result, final JarEntry entry)
+			throws ReflectionException {
 		if (!entry.isDirectory()) {
 			final String entryName = entry.getName();
 			if (!Strings.contains(entryName, INNER_CLASS_SIGN) && entryName.startsWith(classPathRoot)) {
@@ -160,11 +153,11 @@ public class DesktopClassScanner implements ClassScanner {
 	}
 
 	private void mapClassByAnnotations(final Iterable<Class<? extends Annotation>> annotations,
-			final ObjectMap<Class<? extends Annotation>, ObjectSet<ReflectedClass>> result,
+			final ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> result,
 			final Class<?> classToProcess) {
 		for (final Class<? extends Annotation> annotation : annotations) {
 			if (ClassReflection.isAnnotationPresent(classToProcess, annotation)) {
-				result.get(annotation).add(Reflection.getWrapperForClass(classToProcess));
+				result.get(annotation).add(classToProcess);
 			}
 		}
 	}

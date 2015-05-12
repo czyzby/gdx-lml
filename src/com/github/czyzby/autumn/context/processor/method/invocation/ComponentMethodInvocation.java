@@ -1,18 +1,19 @@
 package com.github.czyzby.autumn.context.processor.method.invocation;
 
+import com.badlogic.gdx.utils.reflect.Method;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.github.czyzby.autumn.context.ContextComponent;
 import com.github.czyzby.autumn.context.ContextContainer;
 import com.github.czyzby.autumn.error.AutumnRuntimeException;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedMethod;
 import com.github.czyzby.kiwi.util.common.Comparables;
+import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 
 /** Holds information about a single method that should be invoked upon met conditions.
  *
  * @author MJ */
 public class ComponentMethodInvocation implements Comparable<ComponentMethodInvocation> {
 	private final int priority;
-	private final ReflectedMethod method;
+	private final Method method;
 	private final ContextContainer context;
 	private final ContextComponent component;
 
@@ -21,8 +22,8 @@ public class ComponentMethodInvocation implements Comparable<ComponentMethodInvo
 	 * @param method a reference to the original annotated method.
 	 * @param context contains the component.
 	 * @param component contains the method. */
-	public ComponentMethodInvocation(final int priority, final ReflectedMethod method,
-			final ContextContainer context, final ContextComponent component) {
+	public ComponentMethodInvocation(final int priority, final Method method, final ContextContainer context,
+			final ContextComponent component) {
 		this.priority = priority;
 		this.method = method;
 		this.context = context;
@@ -35,7 +36,8 @@ public class ComponentMethodInvocation implements Comparable<ComponentMethodInvo
 	/** Invokes the wrapped method, extracting method parameters from context. */
 	public void invoke() {
 		try {
-			method.invoke(component.getComponent(), context.prepareMethodParameters(method));
+			Reflection
+					.invokeMethod(method, component.getComponent(), context.prepareMethodParameters(method));
 		} catch (final ReflectionException exception) {
 			throw new AutumnRuntimeException("Unable to invoke method: " + method + ".", exception);
 		}

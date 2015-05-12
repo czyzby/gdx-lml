@@ -5,8 +5,7 @@ import java.lang.annotation.Annotation;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
-import com.github.czyzby.autumn.reflection.Reflection;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedClass;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.collection.lazy.LazyObjectMap;
 
@@ -30,18 +29,17 @@ public class FixedClassScanner implements ClassScanner {
 	}
 
 	@Override
-	public ObjectMap<Class<? extends Annotation>, ObjectSet<ReflectedClass>> findClassesAnnotatedWith(
+	public ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> findClassesAnnotatedWith(
 			final Class<?> root, final Iterable<Class<? extends Annotation>> annotations) {
 		final String packageName =
 				root.getName().substring(0, root.getName().length() - root.getSimpleName().length() - 1);
-		final ObjectMap<Class<? extends Annotation>, ObjectSet<ReflectedClass>> result =
+		final ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> result =
 				LazyObjectMap.newMapOfSets();
 		for (final Class<?> classToProcess : availableClasses) {
-			final ReflectedClass reflectedClass = Reflection.getWrapperForClass(classToProcess);
 			if (classToProcess.getName().startsWith(packageName)) {
 				for (final Class<? extends Annotation> annotation : annotations) {
-					if (reflectedClass.isAnnotatedWith(annotation)) {
-						result.get(annotation).add(reflectedClass);
+					if (ClassReflection.isAnnotationPresent(classToProcess, annotation)) {
+						result.get(annotation).add(classToProcess);
 					}
 				}
 			}

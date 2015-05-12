@@ -7,6 +7,9 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.badlogic.gdx.utils.ObjectSet;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.badlogic.gdx.utils.reflect.Field;
+import com.badlogic.gdx.utils.reflect.Method;
 import com.github.czyzby.autumn.context.processor.ComponentAnnotationProcessor;
 import com.github.czyzby.autumn.context.processor.field.ComponentFieldAnnotationProcessor;
 import com.github.czyzby.autumn.context.processor.field.DisposeAnnotationProcessor;
@@ -24,16 +27,13 @@ import com.github.czyzby.autumn.context.processor.type.ComponentTypeAnnotationPr
 import com.github.czyzby.autumn.context.processor.type.ConfigurationAnnotationProcessor;
 import com.github.czyzby.autumn.context.processor.type.ContextComponentAnnotationProcessor;
 import com.github.czyzby.autumn.error.AutumnRuntimeException;
-import com.github.czyzby.autumn.reflection.Reflection;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedClass;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedField;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedMethod;
 import com.github.czyzby.autumn.scanner.ClassScanner;
 import com.github.czyzby.autumn.scanner.FixedClassScanner;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxSets;
 import com.github.czyzby.kiwi.util.gdx.collection.lazy.LazyObjectMap;
+import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 
 /** Context manager. Keeps track of components and annotation processors.
  *
@@ -234,11 +234,11 @@ public class ContextContainer implements Disposable {
 	}
 
 	private void registerScannedContextComponents(
-			final ObjectMap<Class<? extends Annotation>, ObjectSet<ReflectedClass>> componentClasses) {
-		for (final Entry<Class<? extends Annotation>, ObjectSet<ReflectedClass>> componentClassesForAnnotation : componentClasses) {
+			final ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> componentClasses) {
+		for (final Entry<Class<? extends Annotation>, ObjectSet<Class<?>>> componentClassesForAnnotation : componentClasses) {
 			for (final ComponentTypeAnnotationProcessor typeProcessor : typeAnnotationProcessors
 					.get(componentClassesForAnnotation.key)) {
-				for (final ReflectedClass componentClass : componentClassesForAnnotation.value) {
+				for (final Class<?> componentClass : componentClassesForAnnotation.value) {
 					typeProcessor.processClass(this, componentClass);
 				}
 			}
@@ -255,8 +255,8 @@ public class ContextContainer implements Disposable {
 
 	private void registerDefaultComponents() {
 		// Registering itself, allowing context to be injected:
-		addComponentToContextClassHierarchyRecursively(new ContextComponent(
-				Reflection.getWrapperForClass(getClass()), this, false, true, true));
+		addComponentToContextClassHierarchyRecursively(new ContextComponent(getClass(), this, false, true,
+				true));
 	}
 
 	private Iterable<Class<? extends Annotation>> getComponentMetaAnnotationClasses() {
@@ -268,11 +268,11 @@ public class ContextContainer implements Disposable {
 	}
 
 	private void registerMetaComponents(
-			final ObjectMap<Class<? extends Annotation>, ObjectSet<ReflectedClass>> metaComponentClasses) {
-		for (final Entry<Class<? extends Annotation>, ObjectSet<ReflectedClass>> classesToProcess : metaComponentClasses) {
+			final ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> metaComponentClasses) {
+		for (final Entry<Class<? extends Annotation>, ObjectSet<Class<?>>> classesToProcess : metaComponentClasses) {
 			final ObjectSet<ComponentMetaAnnotationProcessor> metaComponentProcessors =
 					metaAnnotationProcessors.get(classesToProcess.key);
-			for (final ReflectedClass componentClass : classesToProcess.value) {
+			for (final Class<?> componentClass : classesToProcess.value) {
 				for (final ComponentMetaAnnotationProcessor metaProcessor : metaComponentProcessors) {
 					metaProcessor.processClass(this, componentClass);
 				}
@@ -280,35 +280,24 @@ public class ContextContainer implements Disposable {
 		}
 	}
 
-	/** @param component will be assigned to all its super classes and interfaces in context, allowing it to be
-	 *            injected as implementation of requested interface or extension of required class. */
+	/** @param component will be assigned to all its super classes in context, allowing it to be injected as
+	 *            implementation of requested interface or extension of required class. */
 	private void addComponentToContextClassHierarchyRecursively(final ContextComponent component) {
-		ReflectedClass componentClass = component.getComponentClass();
+		Class<?> componentClass = component.getComponentClass();
 		component.setMapped(true);
-		final ObjectSet<Class<?>> componentInterfaces = GdxSets.newSet();
-		while (componentClass != null && !componentClass.getReflectedClass().equals(Object.class)) {
-			componentInterfaces.addAll(componentClass.getInterfaces());
-			context.get(componentClass.getReflectedClass()).add(component);
+		while (componentClass != null && !componentClass.equals(Object.class)) {
+			context.get(componentClass).add(component);
 			componentClass = componentClass.getSuperclass();
-		}
-		for (final Class<?> componentInterface : componentInterfaces) {
-			context.get(componentInterface).add(component);
 		}
 	}
 
-	/** @param component will be removed from collections mapped to all its super classes and interfaces in
-	 *            context. */
+	/** @param component will be removed from collections mapped to all its super classes in context. */
 	private void removeComponentFromContextClassHierarchyRecursively(final ContextComponent component) {
-		ReflectedClass componentClass = component.getComponentClass();
+		Class<?> componentClass = component.getComponentClass();
 		component.setMapped(false);
-		final ObjectSet<Class<?>> componentInterfaces = GdxSets.newSet();
-		while (componentClass != null && !componentClass.getReflectedClass().equals(Object.class)) {
-			componentInterfaces.addAll(componentClass.getInterfaces());
-			context.get(componentClass.getReflectedClass()).remove(component);
+		while (componentClass != null && !componentClass.equals(Object.class)) {
+			context.get(componentClass).remove(component);
 			componentClass = componentClass.getSuperclass();
-		}
-		for (final Class<?> componentInterface : componentInterfaces) {
-			context.get(componentInterface).remove(component);
 		}
 	}
 
@@ -368,10 +357,10 @@ public class ContextContainer implements Disposable {
 
 	/** @param method about to be invoked. Requires parameters from context.
 	 * @return components from context matching method's required parameter types. */
-	public Object[] prepareMethodParameters(final ReflectedMethod method) {
+	public Object[] prepareMethodParameters(final Method method) {
 		final Class<?>[] parameterTypes = method.getParameterTypes();
 		if (parameterTypes.length == 0) {
-			return Reflection.EMPTY_ARRAY;
+			return Reflection.EMPTY_OBJECT_ARRAY;
 		}
 		final Object[] parameters = new Object[parameterTypes.length];
 		for (int parameterIndex = 0; parameterIndex < parameters.length; parameterIndex++) {
@@ -390,36 +379,20 @@ public class ContextContainer implements Disposable {
 	 * @return a new instance of the component outside of main context container. */
 	@SuppressWarnings("unchecked")
 	public <Type> Type createWithContext(final Class<Type> componentClass) {
-		final ReflectedClass componentReflectedClass = convertToReflectedClass(componentClass);
-		final ContextComponent component = constructRequestedComponent(componentReflectedClass);
+		final ContextComponent component = constructRequestedComponent(componentClass);
 		initiateComponent(component);
 		return (Type) component.getComponent();
 	}
 
-	/** @param componentClass will be converted to a reflected class wrapper.
-	 * @return class wrapper or exception if unavailable. */
-	public <Type> ReflectedClass convertToReflectedClass(final Class<Type> componentClass) {
-		final ReflectedClass componentReflectedClass;
-		try {
-			componentReflectedClass = Reflection.getWrapperForClass(componentClass);
-		} catch (final Throwable exception) {
-			throw new AutumnRuntimeException("Class: " + componentClass + " is not properly reflected.",
-					exception);
-		}
-		if (componentReflectedClass == null) {
-			throw new AutumnRuntimeException("Class: " + componentClass + " is not properly reflected.");
-		}
-		return componentReflectedClass;
-	}
-
 	/** Constructs a context component of the selected class. For internal use only. */
-	public ContextComponent constructRequestedComponent(final ReflectedClass componentClass) {
+	public ContextComponent constructRequestedComponent(final Class<?> componentClass) {
 		ContextComponent component = null;
 		for (final ObjectSet<ComponentTypeAnnotationProcessor> typeProcessors : typeAnnotationProcessors
 				.values()) {
 			for (final ComponentTypeAnnotationProcessor processor : typeProcessors) {
 				// Naive approach - asking the first applicable type processor to create the object.
-				if (componentClass.isAnnotatedWith(processor.getProcessedAnnotationClass())) {
+				if (ClassReflection.isAnnotationPresent(componentClass,
+						processor.getProcessedAnnotationClass())) {
 					component = processor.prepareComponent(this, componentClass);
 					if (component != null) {
 						break;
@@ -429,7 +402,7 @@ public class ContextContainer implements Disposable {
 		}
 		if (component == null) {
 			try {
-				component = new ContextComponent(componentClass, componentClass.newInstance());
+				component = new ContextComponent(componentClass, ClassReflection.newInstance(componentClass));
 			} catch (final Throwable exception) {
 				throw new AutumnRuntimeException("Unable to prepare a new instance of: " + componentClass
 						+ ". Does it have a public no-arg constructor?", exception);
@@ -443,8 +416,7 @@ public class ContextContainer implements Disposable {
 	 *            all of its super class and interfaces. This class has to be GWT-reflected in order to work
 	 *            properly. */
 	public <Type> void putInContext(final Class<Type> componentClass) {
-		final ReflectedClass componentReflectedClass = convertToReflectedClass(componentClass);
-		final ContextComponent component = constructRequestedComponent(componentReflectedClass);
+		final ContextComponent component = constructRequestedComponent(componentClass);
 		initiateComponent(component);
 		if (component.isKeptInContext()) {
 			addComponentToContextClassHierarchyRecursively(component);
@@ -533,11 +505,11 @@ public class ContextContainer implements Disposable {
 
 	// No, I'm not proud of a triple loop.
 	private void processInitiatedComponentFields(final ContextComponent component) {
-		for (final ReflectedField field : component.getComponentClass().getFields()) {
-			for (final Annotation annotation : field.getAnnotations()) {
-				if (fieldAnnotationProcessors.containsKey(annotation.annotationType())) {
+		for (final Field field : ClassReflection.getDeclaredFields(component.getComponentClass())) {
+			for (final com.badlogic.gdx.utils.reflect.Annotation annotation : field.getDeclaredAnnotations()) {
+				if (fieldAnnotationProcessors.containsKey(annotation.getAnnotationType())) {
 					for (final ComponentFieldAnnotationProcessor processor : fieldAnnotationProcessors
-							.get(annotation.annotationType())) {
+							.get(annotation.getAnnotationType())) {
 						processor.processField(this, component, field);
 					}
 				}
@@ -546,14 +518,19 @@ public class ContextContainer implements Disposable {
 	}
 
 	private void processInitiatedComponentMethods(final ContextComponent component) {
-		for (final ReflectedMethod method : component.getComponentClass().getMethods()) {
-			for (final Annotation annotation : method.getAnnotations()) {
-				if (methodAnnotationProcessors.containsKey(annotation.annotationType())) {
-					for (final ComponentMethodAnnotationProcessor processor : methodAnnotationProcessors
-							.get(annotation.annotationType())) {
-						processor.processMethod(this, component, method);
+		for (final Method method : ClassReflection.getDeclaredMethods(component.getComponentClass())) {
+			try {
+				for (final com.badlogic.gdx.utils.reflect.Annotation annotation : method
+						.getDeclaredAnnotations()) {
+					if (methodAnnotationProcessors.containsKey(annotation.getAnnotationType())) {
+						for (final ComponentMethodAnnotationProcessor processor : methodAnnotationProcessors
+								.get(annotation.getAnnotationType())) {
+							processor.processMethod(this, component, method);
+						}
 					}
 				}
+			} catch (final Throwable exception) {
+				// Somewhat expected on GWT.
 			}
 		}
 	}

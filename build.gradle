@@ -20,7 +20,7 @@ jar {
     from project.sourceSets.main.allSource
     from project.sourceSets.main.output
     baseName = 'gdx-autumn'
-    version =  '0.5.1.5.6-SNAPSHOT'
+    version =  '0.6.1.6.0'
 }
 
 task javadocJar(type: Jar) {
@@ -43,15 +43,15 @@ signing {
 
 group = "com.github.czyzby"
 archivesBaseName = "gdx-autumn"
-version = "0.5.1.5.6-SNAPSHOT"
+version = "0.6.1.6.0"
 
 ext {
-    gdxVersion = '1.5.6'
+    gdxVersion = '1.6.0'
 }
 
 dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-    compile "com.github.czyzby:gdx-kiwi:0.5.$gdxVersion-SNAPSHOT"
+    compile "com.github.czyzby:gdx-kiwi:0.6.$gdxVersion"
     deployerJars "org.apache.maven.wagon:wagon-ssh:2.2"
     deployerJars "org.apache.maven.wagon:wagon-http:2.2"
 }

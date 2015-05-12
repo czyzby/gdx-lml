@@ -1,11 +1,11 @@
 package com.github.czyzby.autumn.context.processor.method.event;
 
+import com.badlogic.gdx.utils.reflect.Method;
 import com.github.czyzby.autumn.annotation.method.OnEvent;
 import com.github.czyzby.autumn.context.ContextComponent;
 import com.github.czyzby.autumn.context.ContextContainer;
 import com.github.czyzby.autumn.error.AutumnRuntimeException;
-import com.github.czyzby.autumn.reflection.Reflection;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedMethod;
+import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 
 /** Default implementation of a listener created with a method annotated by OnEvent.
  *
@@ -13,15 +13,14 @@ import com.github.czyzby.autumn.reflection.wrapper.ReflectedMethod;
 public class MethodComponentEventListener implements ComponentEventListener {
 	private final ContextContainer context;
 	private final Object listenerComponent;
-	private final ReflectedMethod listenerMethod;
+	private final Method listenerMethod;
 	private final Class<?> eventType;
 	private final boolean removeAfterInvocation;
 	private final boolean forcesMainThread;
 	private final boolean strict;
 
-	public MethodComponentEventListener(final OnEvent eventListenerData,
-			final ReflectedMethod listenerMethod, final ContextComponent listenerComponent,
-			final ContextContainer context) {
+	public MethodComponentEventListener(final OnEvent eventListenerData, final Method listenerMethod,
+			final ContextComponent listenerComponent, final ContextContainer context) {
 		this.context = context;
 		this.listenerComponent = listenerComponent.getComponent();
 		this.listenerMethod = listenerMethod;
@@ -39,7 +38,9 @@ public class MethodComponentEventListener implements ComponentEventListener {
 	@Override
 	public boolean processEvent(final Object event) {
 		try {
-			final Object result = listenerMethod.invoke(listenerComponent, prepareMethodParameters(event));
+			final Object result =
+					Reflection
+							.invokeMethod(listenerMethod, listenerComponent, prepareMethodParameters(event));
 			return result instanceof Boolean ? ((Boolean) result).booleanValue() || removeAfterInvocation
 					: removeAfterInvocation;
 		} catch (final Throwable exception) {
@@ -55,7 +56,7 @@ public class MethodComponentEventListener implements ComponentEventListener {
 	private Object[] prepareMethodParameters(final Object event) {
 		final Class<?>[] parameterTypes = listenerMethod.getParameterTypes();
 		if (parameterTypes.length == 0) {
-			return Reflection.EMPTY_ARRAY;
+			return Reflection.EMPTY_OBJECT_ARRAY;
 		}
 		final Object[] parameters = new Object[parameterTypes.length];
 		for (int parameterIndex = 0; parameterIndex < parameterTypes.length; parameterIndex++) {

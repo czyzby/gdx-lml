@@ -6,15 +6,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.SnapshotArray;
+import com.badlogic.gdx.utils.reflect.Method;
 import com.github.czyzby.autumn.annotation.method.OnEvent;
 import com.github.czyzby.autumn.context.ContextComponent;
 import com.github.czyzby.autumn.context.ContextContainer;
 import com.github.czyzby.autumn.context.processor.method.event.ComponentEventListener;
 import com.github.czyzby.autumn.context.processor.method.event.EventRunnable;
 import com.github.czyzby.autumn.context.processor.method.event.MethodComponentEventListener;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedMethod;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.collection.lazy.LazyObjectMap;
+import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 
 /** OnEvent annotation processor and one of core, default components. Most processors use this one for
  * conditional actions invocations. Do NOT remove from context, unless you want to replace all other default
@@ -37,8 +38,8 @@ public class EventProcessor extends ComponentMethodAnnotationProcessor {
 
 	@Override
 	public <Type> void processMethod(final ContextContainer context, final ContextComponent component,
-			final ReflectedMethod method) {
-		final OnEvent eventListenerData = method.getAnnotation(OnEvent.class);
+			final Method method) {
+		final OnEvent eventListenerData = Reflection.getAnnotation(method, OnEvent.class);
 		registerListener(new MethodComponentEventListener(eventListenerData, method, component, context));
 	}
 

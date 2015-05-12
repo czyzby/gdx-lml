@@ -6,15 +6,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.SnapshotArray;
+import com.badlogic.gdx.utils.reflect.Method;
 import com.github.czyzby.autumn.annotation.method.OnMessage;
 import com.github.czyzby.autumn.context.ContextComponent;
 import com.github.czyzby.autumn.context.ContextContainer;
 import com.github.czyzby.autumn.context.processor.method.message.ComponentMessageListener;
 import com.github.czyzby.autumn.context.processor.method.message.MessageRunnable;
 import com.github.czyzby.autumn.context.processor.method.message.MethodComponentMessageListener;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedMethod;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.collection.lazy.LazyObjectMap;
+import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 
 /** OnMessage annotation processor and one of core, default components. Some processors use this one for
  * specific actions invocations. Do NOT remove from context, unless you want to replace all other default
@@ -37,8 +38,8 @@ public class MessageProcessor extends ComponentMethodAnnotationProcessor {
 
 	@Override
 	public <Type> void processMethod(final ContextContainer context, final ContextComponent component,
-			final ReflectedMethod method) {
-		final OnMessage eventListenerData = method.getAnnotation(OnMessage.class);
+			final Method method) {
+		final OnMessage eventListenerData = Reflection.getAnnotation(method, OnMessage.class);
 		registerListener(new MethodComponentMessageListener(eventListenerData, method, component, context));
 	}
 

@@ -4,7 +4,6 @@ import com.github.czyzby.autumn.context.ContextComponent;
 import com.github.czyzby.autumn.context.ContextContainer;
 import com.github.czyzby.autumn.context.processor.AbstractComponentAnnotationProcessor;
 import com.github.czyzby.autumn.context.processor.ComponentAnnotationType;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedClass;
 
 /** The base class for processors that handle type (class) annotations.
  *
@@ -17,11 +16,11 @@ public abstract class ComponentTypeAnnotationProcessor extends AbstractComponent
 
 	/** @param context executes the processing of the given class.
 	 * @param componentClass class annotated with the processed type of annotation. */
-	public abstract void processClass(ContextContainer context, ReflectedClass componentClass);
+	public abstract void processClass(ContextContainer context, Class<?> componentClass);
 
 	/** @param context executes the processing of the given class.
 	 * @param componentClass class annotated with the processed type of annotation.
 	 * @return a new instance of context component, created on demand. Can be null if the processor does not
 	 *         create new components based on the type annotation. */
-	public abstract ContextComponent prepareComponent(ContextContainer context, ReflectedClass componentClass);
+	public abstract ContextComponent prepareComponent(ContextContainer context, Class<?> componentClass);
 }

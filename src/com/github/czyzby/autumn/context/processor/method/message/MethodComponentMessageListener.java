@@ -1,10 +1,11 @@
 package com.github.czyzby.autumn.context.processor.method.message;
 
+import com.badlogic.gdx.utils.reflect.Method;
 import com.github.czyzby.autumn.annotation.method.OnMessage;
 import com.github.czyzby.autumn.context.ContextComponent;
 import com.github.czyzby.autumn.context.ContextContainer;
 import com.github.czyzby.autumn.error.AutumnRuntimeException;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedMethod;
+import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 
 /** Default implementation of a listener created with a method annotated by OnMessage.
  *
@@ -12,15 +13,14 @@ import com.github.czyzby.autumn.reflection.wrapper.ReflectedMethod;
 public class MethodComponentMessageListener implements ComponentMessageListener {
 	private final ContextContainer context;
 	private final Object listenerComponent;
-	private final ReflectedMethod listenerMethod;
+	private final Method listenerMethod;
 	private final String messageContent;
 	private final boolean removeAfterInvocation;
 	private final boolean forcesMainThread;
 	private final boolean strict;
 
-	public MethodComponentMessageListener(final OnMessage messageListenerData,
-			final ReflectedMethod listenerMethod, final ContextComponent listenerComponent,
-			final ContextContainer context) {
+	public MethodComponentMessageListener(final OnMessage messageListenerData, final Method listenerMethod,
+			final ContextComponent listenerComponent, final ContextContainer context) {
 		this.context = context;
 		this.listenerComponent = listenerComponent.getComponent();
 		this.listenerMethod = listenerMethod;
@@ -39,7 +39,8 @@ public class MethodComponentMessageListener implements ComponentMessageListener 
 	public boolean processMessage() {
 		try {
 			final Object result =
-					listenerMethod.invoke(listenerComponent, context.prepareMethodParameters(listenerMethod));
+					Reflection.invokeMethod(listenerMethod, listenerComponent,
+							context.prepareMethodParameters(listenerMethod));
 			return result instanceof Boolean ? ((Boolean) result).booleanValue() || removeAfterInvocation
 					: removeAfterInvocation;
 		} catch (final Throwable exception) {

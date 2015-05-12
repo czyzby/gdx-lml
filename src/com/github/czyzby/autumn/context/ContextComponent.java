@@ -1,12 +1,10 @@
 package com.github.czyzby.autumn.context;
 
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedClass;
-
 /** Container object. Wraps around an object in context, containing its annotated data.
  *
  * @author MJ */
 public class ContextComponent {
-	private final ReflectedClass componentClass;
+	private final Class<?> componentClass;
 	private final Object component;
 
 	private final boolean lazy;
@@ -17,16 +15,16 @@ public class ContextComponent {
 	private boolean initiated;
 	private boolean mapped;
 
-	public ContextComponent(final ReflectedClass componentClass, final Object component) {
+	public ContextComponent(final Class<?> componentClass, final Object component) {
 		this(componentClass, component, false, true, false);
 	}
 
-	public ContextComponent(final ReflectedClass componentClass, final Object component, final boolean lazy,
+	public ContextComponent(final Class<?> componentClass, final Object component, final boolean lazy,
 			final boolean keptInContext) {
 		this(componentClass, component, lazy, keptInContext, false);
 	}
 
-	public ContextComponent(final ReflectedClass componentClass, final Object component, final boolean lazy,
+	public ContextComponent(final Class<?> componentClass, final Object component, final boolean lazy,
 			final boolean keptInContext, final boolean initiated) {
 		this.componentClass = componentClass;
 		this.component = component;
@@ -52,8 +50,8 @@ public class ContextComponent {
 		return component;
 	}
 
-	/** @return class of the actual component wrapped by this object. */
-	public ReflectedClass getComponentClass() {
+	/** @return class of the actual component. */
+	public Class<?> getComponentClass() {
 		return componentClass;
 	}
 

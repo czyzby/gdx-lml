@@ -25,7 +25,7 @@ Everything comes down to a few annotations and classes that might make your life
 ###Field annotations
 
 - **@Inject**: again, this is one of the annotations you'll use the most. Allows to inject a component from the context to the variable upon object initiation. Injected fields can - and should - be private (or even final, equal to null; although it isn't advised since I'm not sure if it will always work on GWT or other platforms). Circular references (A injects B, B injects A) are allowed.
-  * *value* - class of the injected component. Context components are generally mapped by their whole class tree (every implemented interface, every extended class), so this setting will be - hopefully - rarely used. It allows to resolve conflicts when you want or need the field's type to be a interface or abstract class that have multiple component implementations and the context doesn't know which one to inject. 
+  * *value* - class of the injected component. Context components are generally mapped by their whole class tree (every extended class), so this setting will be - hopefully - rarely used. It allows to resolve conflicts when you want or need the field's type to be a interface or abstract class that have multiple component implementations and the context doesn't know which one to inject. 
   * *lazy* - class of the component that should be injected wrapped in a Lazy container (see [Kiwi library](http://github.com/czyzby/gdx-kiwi) for Lazy docs). Allows to keep lazy components truly lazy, by injecting a wrapper that will ask the context to fully initiate the injected component on first use (first get() call). Otherwise, lazy components would be injected and initiated at once, losing their status.
   * *concurrentLazy* - if set to true and a *lazy* class is chosen, ConcurrentLazy will be injected instead of Lazy wrapper.
   * *newInstance* - OK, be careful with this one. It does not extract the component from the context, but instead it will ask the context to fully initiate an instance of the chosen component without actually mapping it in the context. The injected instance will be unique to the variable (unless passed to another object, of course). Note that while the instance is not mapped in context - so it cannot be extracted or injected in another component - it is still managed (as in initiated and destroyed) by the context, so this hopefully does not lead to memory leaks. This allows to have multiple instances of the same class injected to multiple components, without sharing resources. *lazy* setting is honored - *lazy* with  *newInstance* set to true will create an instance of the object with the context on the first get() call.
@@ -69,29 +69,30 @@ As you might guess, they are used to scan for annotated classes. Each platform r
 
 - **FixedClassScanner** - well, it *can* be used on any platform, but you have to manually select the classes it has access to, so it basically removes the concept of true component scan.
 - **DesktopClassScanner** - scans binary classes (run from IDE) or jars in the class loader base location (run from a jar). Should be enough for both testing and most regular desktop applications.
-- **GwtClassScanner** - uses custom GWT reflection pool to scan through all classes selected for reflection.
+- **GwtClassScanner** - registers LibGDX GWT reflection pool to scan through all classes registered for reflection.
 
 Unfortunately, class scanners for Android and iOS are not implemented yet. I didn't have much time to do it yet (nor do I normally target these platforms); I will most likely look into it before releasing the next version, but for now - any help is appreciated. Use *FixedClassScanner*, sorry.
-
-##GWT
-Don't even get me started. Due to lack of GWT reflection - and limited LibGDX reflection (no method annotations) - Autumn uses it's own, custom pool of reflected classes. While this reflection implementation is not complete (and not even close to the full functionality), it's hopefully lightweight and, well, enough to make Autumn work. This, however, requires you to register packages with components in a separate setting, just like you would with *gdx.reflect.include* and *.exclude*.
-
-More on GWT in [Autumn GWT](http://github.com/czyzby/gdx-autumn-gwt).
 
 ##Downsides
 Autumn makes heavy use of reflection. While it doesn't rely on direct calls to class names that might get refactored, and while most of reflection-based invocations are made on start-up, Autumn application can be still somewhat slower than a regular one. (Not noticeably, I hope.) You can speed up the context building by giving the ContextContainer direct access to all Component-annotated classes, but you do have to sacrifice class path component scanning for that; it's much more sensible to keep all reflected classes in one package tree to limit the search.
 
-Also, all components have to be added to a separate GWT reflection cache (fortunately - just like with LibGDX cache - you can register whole packages).
-
 ##Dependency
 Gradle dependency:
-`
-    compile "com.github.czyzby:gdx-autumn:0.5.$gdxVersion"
-`
+
+```
+    compile "com.github.czyzby:gdx-autumn:0.6.$gdxVersion"
+```
+Currently supported LibGDX version is **1.6.0**.
 
 To include Autumn in GWT, see [Autumn GWT](http://github.com/czyzby/gdx-autumn-gwt).
 
 ##What's new
+0.5 -> 0.6:
+
+- Since LibGDX introduced method annotations in reflection API, custom reflection wrappers (and separate GWT reflection pool, on which I spent quite some time) are no longer needed. Whole reflection API was removed and "native" LibGDX solutions are now used. Sorry for breaking your code - before LibGDX reflection expansion most of Autumn wouldn't be possible to implement without custom reflection.
+- Components are no longer mapped by their interfaces as LibGDX reflection API does not provide method that returns implemented interfaces of a class. You can still inject components by their abstract classes (as long as there is only one concrete implementation of the abstract in the context).
+- Now only absolutely necessary classes are registered for GWT reflection - less meta-data in JS.
+
 0.4 -> 0.5:
 
 - `OnEvent`- and `OnMessage`-annotated method can now decide whether their listeners should be kept or removed after method invocation at runtime by returning a boolean. *true* stands for removing after invocation, *false* - keeps the listeners for the next upcoming events/messages (just like in the annotation parameter: `removeAfterInvocation`). These values can be accessed statically for code clarity - see `EventProcessor` and `MessageProcessor` static fields.

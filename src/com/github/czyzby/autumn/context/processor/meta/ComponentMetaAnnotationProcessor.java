@@ -3,7 +3,6 @@ package com.github.czyzby.autumn.context.processor.meta;
 import com.github.czyzby.autumn.context.ContextContainer;
 import com.github.czyzby.autumn.context.processor.AbstractComponentAnnotationProcessor;
 import com.github.czyzby.autumn.context.processor.ComponentAnnotationType;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedClass;
 
 /** The base class for processors that handle class annotations.
  *
@@ -16,5 +15,5 @@ public abstract class ComponentMetaAnnotationProcessor extends AbstractComponent
 
 	/** @param context schedules processing of the meta component.
 	 * @param componentClass class annotated with the processed type of annotation. */
-	public abstract void processClass(ContextContainer context, ReflectedClass componentClass);
+	public abstract void processClass(ContextContainer context, Class<?> componentClass);
 }

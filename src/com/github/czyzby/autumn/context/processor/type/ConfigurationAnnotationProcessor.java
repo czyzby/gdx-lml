@@ -5,7 +5,6 @@ import java.lang.annotation.Annotation;
 import com.github.czyzby.autumn.annotation.stereotype.Configuration;
 import com.github.czyzby.autumn.context.ContextComponent;
 import com.github.czyzby.autumn.context.ContextContainer;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedClass;
 
 /** Finds actual configuration context components, which are destroyed immediately after initiation.
  *
@@ -17,13 +16,12 @@ public class ConfigurationAnnotationProcessor extends ComponentTypeAnnotationPro
 	}
 
 	@Override
-	public void processClass(final ContextContainer context, final ReflectedClass componentClass) {
+	public void processClass(final ContextContainer context, final Class<?> componentClass) {
 		context.registerComponent(prepareComponent(context, componentClass));
 	}
 
 	@Override
-	public ContextComponent prepareComponent(final ContextContainer context,
-			final ReflectedClass componentClass) {
+	public ContextComponent prepareComponent(final ContextContainer context, final Class<?> componentClass) {
 		// No need for annotation data, settings are static.
 		return new ContextComponent(componentClass, getNewInstanceOf(componentClass), false, false);
 	}

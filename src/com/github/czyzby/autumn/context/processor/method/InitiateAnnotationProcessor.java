@@ -3,14 +3,15 @@ package com.github.czyzby.autumn.context.processor.method;
 import java.lang.annotation.Annotation;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.reflect.Method;
 import com.github.czyzby.autumn.annotation.method.Initiate;
 import com.github.czyzby.autumn.context.ContextComponent;
 import com.github.czyzby.autumn.context.ContextContainer;
 import com.github.czyzby.autumn.context.processor.method.invocation.ComponentMethodInvocation;
 import com.github.czyzby.autumn.context.processor.method.message.ComponentMessageListener;
 import com.github.czyzby.autumn.context.processor.method.message.common.AutumnRestrictedMessages;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedMethod;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
+import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 
 /** Handles invocation of methods annotated with Initiate.
  *
@@ -30,8 +31,8 @@ public class InitiateAnnotationProcessor extends ComponentMethodAnnotationProces
 
 	@Override
 	public <Type> void processMethod(final ContextContainer context, final ContextComponent component,
-			final ReflectedMethod method) {
-		final Initiate initiationData = method.getAnnotation(Initiate.class);
+			final Method method) {
+		final Initiate initiationData = Reflection.getAnnotation(method, Initiate.class);
 		for (final Class<?> parameterType : method.getParameterTypes()) {
 			final ContextComponent requestedComponent = context.extractFromContext(parameterType);
 			if (requestedComponent.isLazy() && !requestedComponent.isInitiated()) {

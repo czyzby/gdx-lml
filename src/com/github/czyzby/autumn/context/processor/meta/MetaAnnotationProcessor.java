@@ -2,6 +2,8 @@ package com.github.czyzby.autumn.context.processor.meta;
 
 import java.lang.annotation.Annotation;
 
+import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.github.czyzby.autumn.annotation.ComponentAnnotations;
 import com.github.czyzby.autumn.annotation.field.Inject;
@@ -9,10 +11,9 @@ import com.github.czyzby.autumn.annotation.stereotype.MetaComponent;
 import com.github.czyzby.autumn.context.ContextContainer;
 import com.github.czyzby.autumn.context.processor.ComponentAnnotationProcessor;
 import com.github.czyzby.autumn.error.AutumnRuntimeException;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedClass;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedField;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
+import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 
 /** Default meta component processor. Registers custom processors annotated with MetaComponent.
  *
@@ -24,7 +25,7 @@ public class MetaAnnotationProcessor extends ComponentMetaAnnotationProcessor {
 	}
 
 	@Override
-	public void processClass(final ContextContainer context, final ReflectedClass componentClass) {
+	public void processClass(final ContextContainer context, final Class<?> componentClass) {
 		final Object metaComponent = getNewInstanceOf(componentClass);
 		if (metaComponent instanceof ComponentAnnotationProcessor) {
 			final ComponentAnnotationProcessor processor = (ComponentAnnotationProcessor) metaComponent;
@@ -38,10 +39,10 @@ public class MetaAnnotationProcessor extends ComponentMetaAnnotationProcessor {
 		}
 	}
 
-	private void injectFields(final ContextContainer context, final ReflectedClass componentClass,
+	private void injectFields(final ContextContainer context, final Class<?> componentClass,
 			final ComponentAnnotationProcessor processor) {
 		try {
-			for (final ReflectedField field : componentClass.getFields()) {
+			for (final Field field : ClassReflection.getDeclaredFields(componentClass)) {
 				injectField(context, processor, field);
 			}
 		} catch (final ReflectionException exception) {
@@ -52,13 +53,14 @@ public class MetaAnnotationProcessor extends ComponentMetaAnnotationProcessor {
 	}
 
 	private void injectField(final ContextContainer context, final ComponentAnnotationProcessor processor,
-			final ReflectedField field) throws ReflectionException {
-		if (field.isAnnotatedWith(Inject.class)) {
-			final Inject injectionData = field.getAnnotation(Inject.class);
+			final Field field) throws ReflectionException {
+		if (field.isAnnotationPresent(Inject.class)) {
+			final Inject injectionData = Reflection.getAnnotation(field, Inject.class);
 			if (ComponentAnnotations.isClassSet(injectionData.lazy())) {
-				field.set(processor, prepareLazyInjectedField(context, injectionData));
+				Reflection.setFieldValue(field, processor, prepareLazyInjectedField(context, injectionData));
 			} else {
-				field.set(processor, context.extractFromContext(field.getFieldType()).getComponent());
+				Reflection.setFieldValue(field, processor, context.extractFromContext(field.getType())
+						.getComponent());
 			}
 		}
 	}
