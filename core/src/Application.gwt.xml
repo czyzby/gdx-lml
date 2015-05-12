@@ -5,7 +5,7 @@
 	<inherits name='com.github.czyzby.autumn.mvc.GdxAutumnMvc' />
 	<inherits name='com.github.czyzby.autumn.gwt.GdxAutumnGwt' />
 
-	<extend-configuration-property name="gdx.autumn.include" value="com.github.czyzby.gdx.idle" />
 	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.gdx.idle" />
-	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.mvc" />
+	<!-- GWT needed this after I switched to LibGDX reflection (probably due to asset injection): -->
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.graphics.g2d.TextureAtlas" />
 </module>
