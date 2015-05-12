@@ -2,36 +2,29 @@
 GWT natives for [LibGDX Autumn](https://github.com/czyzby/gdx-autumn) - dependency injection with component scan mechanism.
 
 ##Reflection
-Autumn GWT provides its own (limited) reflection implementation, that is far from the complete mechanism, but it does have some functionalities that the LibGDX reflection lacks. It's mostly for internal use - all you have to worry about is registration of your classes in GWT definition with:
+Autumn GWT generates an object aware of all reflected classes, registered with standard `gdx.reflect.include` (and omitted with `.exclude`). `GwtClassScanner` is the default Autumn's `ClassScanner` for GWT - it will detect all annotated classes that were included for LibGDX reflection.
+
+### Troubleshooting
+Sometimes upon application initiation you might see an error like this:
 
 ```
-    <extend-configuration-property name="gdx.autumn.include" value="your.included.package.name" />
-    <extend-configuration-property name="gdx.autumn.exclude" value="your.excluded.package.name" />
+	(...) Couldn't find Type for class (...)
 ```
 
-As you can see, it's very similar to `gdx.reflect.include` and `.exclude`.
-
-Note that LibGDX looks for all referenced classes and reflects them all, while Autumn reflection reflects the classes that you include (plus the ones included by default) and nothing else. This is usually enough for Autumn needs.
-
-The default class scanner is `com.github.czyzby.autumn.gwt.scanner.GwtClassScanner`.
+This means that the class was referenced by some reflection methods, but was not properly reflected. This might be thrown for types that you commonly inject as assets in Autumn MVC, like Sound or TextureAtlas, for example. Adding these classes to reflection pool solves the problem most of the times (if it doesn't - don't hesitate to contact me).
 
 ##Dependency
 Gradle dependency (for GWT project):
 
 ```
-    compile "com.github.czyzby:gdx-autumn-gwt:0.5.$gdxVersion"
+    compile "com.github.czyzby:gdx-autumn-gwt:0.6.$gdxVersion"
+    compile "com.github.czyzby:gdx-autumn-gwt:0.6.$gdxVersion:sources"
 ```
+
+Currently supported LibGDX version is **1.6.0**.
 
 GWT module:
 
 ```
     <inherits name='com.github.czyzby.autumn.gwt.GdxAutumnGwt' />
 ```
-
-If you are using Autumn in GWT just for the reflection pool (without context or components - with [LML](http://github.com/czyzby/gdx-lml), for example), make sure to make this call:
-
-```
-    Reflection.setReflectionProvider(GwtReflection.getReflectionProvider());
-```
-
-This allows to call commonly used Autumn `Reflection`'s methods with the correct provider. Note that this is done internally by `GwtClassScanner`'s constructor, so the call is not necessary if you're using the default scanner.

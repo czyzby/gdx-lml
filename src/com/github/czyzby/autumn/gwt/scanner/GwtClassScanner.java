@@ -4,32 +4,30 @@ import java.lang.annotation.Annotation;
 
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
-import com.github.czyzby.autumn.gwt.reflection.GwtReflection;
-import com.github.czyzby.autumn.reflection.Reflection;
-import com.github.czyzby.autumn.reflection.wrapper.ReflectedClass;
+import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.github.czyzby.autumn.gwt.reflection.ReflectionPool;
 import com.github.czyzby.autumn.scanner.ClassScanner;
 import com.github.czyzby.kiwi.util.gdx.collection.lazy.LazyObjectMap;
+import com.google.gwt.core.client.GWT;
 
-/** Scans the whole GWT Autumn reflection pool.
+/** Scans the whole GWT reflection pool.
  *
  * @author MJ */
 public class GwtClassScanner implements ClassScanner {
-	public GwtClassScanner() {
-		Reflection.setReflectionProvider(GwtReflection.getReflectionProvider());
-	}
+	private static final ReflectionPool REFLECTION_POOL = GWT.create(ReflectionPool.class);
 
 	@Override
-	public ObjectMap<Class<? extends Annotation>, ObjectSet<ReflectedClass>> findClassesAnnotatedWith(
+	public ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> findClassesAnnotatedWith(
 			final Class<?> root, final Iterable<Class<? extends Annotation>> annotations) {
-		final ObjectMap<Class<? extends Annotation>, ObjectSet<ReflectedClass>> reflectedClasses =
+		final ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> reflectedClasses =
 				LazyObjectMap.newMapOfSets();
 		final String packageName = getPackageName(root);
-		for (final ReflectedClass reflectedClass : GwtReflection.getAllReflectedClasses()) {
+		for (final Class<?> reflectedClass : REFLECTION_POOL.getReflectedClasses()) {
 			if (!isFromPackage(packageName, reflectedClass)) {
 				continue;
 			}
 			for (final Class<? extends Annotation> annotation : annotations) {
-				if (reflectedClass.isAnnotatedWith(annotation)) {
+				if (ClassReflection.isAnnotationPresent(reflectedClass, annotation)) {
 					reflectedClasses.get(annotation).add(reflectedClass);
 				}
 			}
@@ -41,7 +39,7 @@ public class GwtClassScanner implements ClassScanner {
 		return ofClass.getName().substring(0, ofClass.getName().length() - ofClass.getSimpleName().length());
 	}
 
-	private boolean isFromPackage(final String packageName, final ReflectedClass reflectedClass) {
-		return reflectedClass.getReflectedClass().getName().startsWith(packageName);
+	private boolean isFromPackage(final String packageName, final Class<?> reflectedClass) {
+		return reflectedClass.getName().startsWith(packageName);
 	}
 }

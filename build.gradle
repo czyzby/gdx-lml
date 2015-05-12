@@ -20,7 +20,7 @@ jar {
     from project.sourceSets.main.allSource
     from project.sourceSets.main.output
     baseName = 'gdx-autumn-gwt'
-    version =  '0.5.1.5.6-SNAPSHOT'
+    version =  '0.6.1.6.0'
 }
 
 javadoc {
@@ -47,11 +47,11 @@ signing {
 
 group = "com.github.czyzby"
 archivesBaseName = "gdx-autumn-gwt"
-version = "0.5.1.5.6-SNAPSHOT"
+version = "0.6.1.6.0"
 
 ext {
-    gdxVersion = '1.5.6'
-    gwtVersion = '2.6.1'
+    gdxVersion = '1.6.0'
+    gwtVersion = '2.6.0'
 }
 
 dependencies {
@@ -59,7 +59,10 @@ dependencies {
     compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
     compile "com.google.gwt:gwt-user:$gwtVersion"
     compile "com.google.gwt:gwt-dev:$gwtVersion"
-    compile "com.github.czyzby:gdx-autumn:0.5.$gdxVersion-SNAPSHOT"
+    compile "com.google.gwt:gwt-user:$gwtVersion:sources"
+    compile "com.google.gwt:gwt-dev:$gwtVersion:sources"
+    compile "com.github.czyzby:gdx-autumn:0.6.$gdxVersion"
+    compile "com.github.czyzby:gdx-autumn:0.6.$gdxVersion:sources"
     deployerJars "org.apache.maven.wagon:wagon-ssh:2.2"
     deployerJars "org.apache.maven.wagon:wagon-http:2.2"
 }
