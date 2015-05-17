@@ -6,6 +6,16 @@ apply plugin: 'signing'
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceCompatibility = 1.6
 
+ext {
+	libVersion = '0.7'
+    gdxVersion = '1.6.0'
+    isSnapshot = '-SNAPSHOT'
+}
+
+group = "com.github.czyzby"
+archivesBaseName = "gdx-autumn"
+version = "$libVersion.$gdxVersion$isSnapshot"
+
 configurations {
     deployerJars
 }
@@ -20,7 +30,6 @@ jar {
     from project.sourceSets.main.allSource
     from project.sourceSets.main.output
     baseName = 'gdx-autumn'
-    version =  '0.6.1.6.0'
 }
 
 task javadocJar(type: Jar) {
@@ -41,17 +50,9 @@ signing {
     sign configurations.archives
 }
 
-group = "com.github.czyzby"
-archivesBaseName = "gdx-autumn"
-version = "0.6.1.6.0"
-
-ext {
-    gdxVersion = '1.6.0'
-}
-
 dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-    compile "com.github.czyzby:gdx-kiwi:0.6.$gdxVersion"
+    compile "com.github.czyzby:gdx-kiwi:$libVersion.$gdxVersion$isSnapshot"
     deployerJars "org.apache.maven.wagon:wagon-ssh:2.2"
     deployerJars "org.apache.maven.wagon:wagon-http:2.2"
 }
