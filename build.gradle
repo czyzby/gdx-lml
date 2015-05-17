@@ -6,6 +6,17 @@ apply plugin: 'signing'
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceCompatibility = 1.6
 
+ext {
+	libVersion = '0.7'
+    gdxVersion = '1.6.0'
+    gwtVersion = '2.6.0'
+    isSnapshot = '-SNAPSHOT'
+}
+
+group = "com.github.czyzby"
+archivesBaseName = "gdx-autumn-gwt"
+version = "$libVersion.$gdxVersion$isSnapshot"
+
 configurations {
     deployerJars
 }
@@ -20,7 +31,6 @@ jar {
     from project.sourceSets.main.allSource
     from project.sourceSets.main.output
     baseName = 'gdx-autumn-gwt'
-    version =  '0.6.1.6.0'
 }
 
 javadoc {
@@ -45,24 +55,16 @@ signing {
     sign configurations.archives
 }
 
-group = "com.github.czyzby"
-archivesBaseName = "gdx-autumn-gwt"
-version = "0.6.1.6.0"
-
-ext {
-    gdxVersion = '1.6.0'
-    gwtVersion = '2.6.0'
-}
-
 dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
     compile "com.google.gwt:gwt-user:$gwtVersion"
-    compile "com.google.gwt:gwt-dev:$gwtVersion"
     compile "com.google.gwt:gwt-user:$gwtVersion:sources"
+    compile "com.google.gwt:gwt-dev:$gwtVersion"
     compile "com.google.gwt:gwt-dev:$gwtVersion:sources"
-    compile "com.github.czyzby:gdx-autumn:0.6.$gdxVersion"
-    compile "com.github.czyzby:gdx-autumn:0.6.$gdxVersion:sources"
+    compile "com.github.czyzby:gdx-autumn:$libVersion.$gdxVersion$isSnapshot"
+    compile "com.github.czyzby:gdx-autumn:$libVersion.$gdxVersion$isSnapshot:sources"
+    compile "com.github.czyzby:gdx-kiwi:$libVersion.$gdxVersion$isSnapshot:sources"
     deployerJars "org.apache.maven.wagon:wagon-ssh:2.2"
     deployerJars "org.apache.maven.wagon:wagon-http:2.2"
 }
