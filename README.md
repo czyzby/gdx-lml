@@ -103,6 +103,11 @@ Automatic component scan on Android and iOS is not implemented and it might take
 Your opinions, comments and testing can help as well. Don't be afraid to inform me about bugs and functionalities that are missing or the ones you are not a huge fan of.
 
 ## What's new
+0.6 -> 0.7:
+
+- Default view shower will remove all tooltips and dialogs before the screen is shown, making sure that previously opened "helper" widgets will not be present on the view on the next showing.
+- reload(Runnable) method added to InterfaceService, now you can request reloading of all screen and execute a custom action after the current screen is hidden. Useful for custom actions that require reloading of all screens (like viewport ratio change).
+
 0.5 -> 0.6:
 
 - Since Autumn no longer uses custom reflection wrappers, API was refactored to use "native" LibGDX reflection.

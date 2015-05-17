@@ -112,6 +112,7 @@ public class InterfaceService {
 	private ViewController currentController;
 	private Locale lastLocale;
 	boolean isControllerHiding;
+	private Runnable actionOnReload;
 
 	@Inject
 	private AssetService assetService;
@@ -363,10 +364,15 @@ public class InterfaceService {
 		this.viewportProvider = viewportProvider;
 	}
 
-	/** @param hidingActionProvider used to provide default actions that hide views. Connected view of the
+	/** @param hidingActionProvider used to provide default actions that hide the views. Connected view of the
 	 *            provider will be the next view shown after this one and might be null. */
 	public void setHidingActionProvider(final ActionProvider hidingActionProvider) {
 		this.hidingActionProvider = hidingActionProvider;
+	}
+
+	/** @return provider used to retrieve default actions that hide the views. */
+	public ActionProvider getHidingActionProvider() {
+		return hidingActionProvider;
 	}
 
 	/** @param showingActionProvider used to provide default actions that show views. Should set input
@@ -374,6 +380,11 @@ public class InterfaceService {
 	 *            and might be null. */
 	public void setShowingActionProvider(final ActionProvider showingActionProvider) {
 		this.showingActionProvider = showingActionProvider;
+	}
+
+	/** @return provider used to retrieve default actions that show the views. */
+	public ActionProvider getShowingActionProvider() {
+		return showingActionProvider;
 	}
 
 	/** Hides current view, destroys all screens and shows the recreated current view. Note that it won't
@@ -386,7 +397,18 @@ public class InterfaceService {
 				Actions.run(CommonActionRunnables.getActionPosterRunnable(getViewReloadingRunnable()))));
 	}
 
-	/** Forces destruction of the selected view. It should not be currently shown.
+	/** Hides current view, destroys all screens and shows the recreated current view. Note that it won't
+	 * recreate all views that were previously initiated, as views are constructed on demand.
+	 *
+	 * @param actionOnReload will be executed after the current screen is hidden.
+	 * @see #initiateAllControllers() */
+	public void reload(final Runnable actionOnReload) {
+		this.actionOnReload = actionOnReload;
+		reload();
+	}
+
+	/** Forces destruction of the selected view. The view should not be currently shown, as it still might get
+	 * a render call if next screen was not set.
 	 *
 	 * @param viewController will be destroyed. */
 	public void destroy(final Class<?> viewController) {
@@ -397,9 +419,17 @@ public class InterfaceService {
 		return new Runnable() {
 			@Override
 			public void run() {
+				executeActionOnReload();
 				reloadViews();
 			}
 		};
+	}
+
+	private void executeActionOnReload() {
+		if (actionOnReload != null) {
+			actionOnReload.run();
+			actionOnReload = null;
+		}
 	}
 
 	private void reloadViews() {
