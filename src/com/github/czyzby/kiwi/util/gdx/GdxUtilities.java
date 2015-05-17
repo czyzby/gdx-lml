@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 /** Provides generic utilities for pretty much any LibGDX application.
  *
@@ -38,6 +39,28 @@ public class GdxUtilities {
 	/** @return the passed vector2 storing windows' width and height as x and y. */
 	public static Vector2 getScreenSize(final Vector2 result) {
 		return result.set(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+	}
+
+	/** @return a new vector2 storing current cursor position. */
+	public static Vector2 getCursorPosition() {
+		return new Vector2(Gdx.input.getX(), Gdx.input.getY());
+	}
+
+	/** @return the passed vector2 storing current cursor position. */
+	public static Vector2 getCursorPosition(final Vector2 result) {
+		return result.set(Gdx.input.getX(), Gdx.input.getY());
+	}
+
+	/** @return a new vector3 storing current accelerometer data. */
+	public static Vector3 getAccelerometerData() {
+		return new Vector3(Gdx.input.getAccelerometerX(), Gdx.input.getAccelerometerY(),
+				Gdx.input.getAccelerometerZ());
+	}
+
+	/** @return the passed vector3 storing current accelerometer data. */
+	public static Vector3 getAccelerometerData(final Vector3 result) {
+		return result.set(Gdx.input.getAccelerometerX(), Gdx.input.getAccelerometerY(),
+				Gdx.input.getAccelerometerZ());
 	}
 
 	public static boolean isRunningOnApplet() {

@@ -6,6 +6,16 @@ apply plugin: 'signing'
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceCompatibility = 1.6
 
+ext {
+	libVersion = '0.7'
+    gdxVersion = '1.6.0'
+    isSnapshot = '-SNAPSHOT'
+}
+
+group = "com.github.czyzby"
+archivesBaseName = "gdx-kiwi"
+version = "$libVersion.$gdxVersion$isSnapshot"
+
 configurations {
     deployerJars
 }
@@ -20,7 +30,6 @@ jar {
     from project.sourceSets.main.allSource
     from project.sourceSets.main.output
     baseName = 'gdx-kiwi'
-    version =  '0.6.1.6.0'
 }
 
 task javadocJar(type: Jar) {
@@ -39,14 +48,6 @@ artifacts {
 
 signing {
     sign configurations.archives
-}
-
-group = "com.github.czyzby"
-archivesBaseName = "gdx-kiwi"
-version = "0.6.1.6.0"
-
-ext {
-    gdxVersion = '1.6.0'
 }
 
 dependencies {

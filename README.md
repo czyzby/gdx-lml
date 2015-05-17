@@ -27,7 +27,7 @@ All tuple implementation classes contain static factory methods to avoid awkward
 
 ##GDX
 These packages depend on LibGDX and are the core of this library.
-- **GdxUtilities**: generic application utilities that were hard to classify. If you're sick of manually glClearing, putting screen width and height into vector or checking if application has the correct type, you will like this class.
+- **GdxUtilities**: generic application utilities that were hard to classify. If you're sick of manually glClearing, putting screen width and height/input data into vector or checking if application has the correct type, you will like this class.
 - **AbstractApplicationListener**: ApplicationAdapter replacement with render implementation that will clear the screen with black color and call abstract `render(float deltaTime)` method that you're forced to override (which any sensible graphical application should override anyway). Aims to reduce boilerplate code a little and let you focus on the game logic rather than OpenGL calls.
 
 ###Assets
