@@ -111,8 +111,9 @@ public class InterfaceService {
 	private final ScreenSwitchingRunnable screenSwitchingRunnable = new ScreenSwitchingRunnable(this);
 	private ViewController currentController;
 	private Locale lastLocale;
-	boolean isControllerHiding;
+	private boolean isControllerHiding;
 	private Runnable actionOnReload;
+	private Runnable actionOnShow;
 
 	@Inject
 	private AssetService assetService;
@@ -312,6 +313,15 @@ public class InterfaceService {
 		show(controllers.get(controller));
 	}
 
+	/** Hides current view (if present) and shows the view managed by the passed controller.
+	 *
+	 * @param controller class of the controller managing the view.
+	 * @param actionOnShow will be executed after the current screen is hidden. */
+	public void show(final Class<?> controller, final Runnable actionOnShow) {
+		this.actionOnShow = actionOnShow;
+		show(controller);
+	}
+
 	/** Hides current view (if present) and shows the view managed by the chosen controller
 	 *
 	 * @param viewController will be set as the current view and shown. */
@@ -432,6 +442,13 @@ public class InterfaceService {
 		}
 	}
 
+	private void executeActionOnShow() {
+		if (actionOnShow != null) {
+			actionOnShow.run();
+			actionOnShow = null;
+		}
+	}
+
 	private void reloadViews() {
 		destroyViews();
 		destroyDialogs();
@@ -527,6 +544,18 @@ public class InterfaceService {
 		}
 	}
 
+	/** @return an array containing all managed controllers. Note that this is not used by the service
+	 *         internally and can be safely modified. */
+	public Array<ViewController> getControllers() {
+		return GdxArrays.newArray(controllers.values());
+	}
+
+	/** @return an array containing all managed dialog controllers. Note that this is not used by the service
+	 *         internally and can be safely modified. */
+	public Array<ViewDialogController> getDialogControllers() {
+		return GdxArrays.newArray(dialogControllers.values());
+	}
+
 	private ActionProvider getDefaultViewShowingActionProvider() {
 		return new ActionProvider() {
 			@Override
@@ -595,6 +624,7 @@ public class InterfaceService {
 		}
 
 		public Runnable switchToView(final ViewController controllerToShow) {
+			interfaceService.executeActionOnShow();
 			this.controllerToShow = controllerToShow;
 			return this;
 		}
