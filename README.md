@@ -17,9 +17,14 @@ If you want to use LML with GWT, you have to add this module to your GdxDefiniti
 ```
 
 ##Documentation
-See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&t=18843) and [example project](http://github.com/czyzby/gdx-lml-tests).
+See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&t=18843), [example project](http://github.com/czyzby/gdx-lml-tests) and [Wiki syntax page (work in progress)](https://github.com/czyzby/gdx-lml/wiki/Syntax).
+
 
 ## What's new
+0.6 -> 0.7:
+
+- Wiki page with all tags and attributes is being created. Stay tuned.
+
 0.5 -> 0.6:
 
 - LML drops Autumn dependency thanks to method annotation API in LibGDX 1.6.0. Now ActionContainers using @ViewAction annotation need to be GWT-reflected in a standard LibGDX way and Autumn is no longer needed.
