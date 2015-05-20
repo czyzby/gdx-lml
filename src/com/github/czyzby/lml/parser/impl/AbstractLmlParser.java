@@ -375,6 +375,16 @@ public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
 	}
 
 	@Override
+	public void addArgument(final String key, final float value) {
+		addArgument(key, String.valueOf(value));
+	}
+
+	@Override
+	public void addArgument(final String key, final int value) {
+		addArgument(key, String.valueOf(value));
+	}
+
+	@Override
 	public void addArgument(final String key, final String value) {
 		if (value != null) {
 			arguments.put(key, value);

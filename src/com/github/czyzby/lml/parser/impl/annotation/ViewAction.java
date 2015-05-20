@@ -12,6 +12,6 @@ import java.lang.annotation.Target;
 @Target({ ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ViewAction {
-	/** @return ID of the method, as it should be referenced in the LML views. */
-	String value();
+	/** @return IDs of the method, as it should be referenced in the LML views. */
+	String[] value();
 }

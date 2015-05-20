@@ -25,6 +25,8 @@ See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&
 
 - Wiki page with all tags and attributes is being created. Stay tuned.
 - Added "disabled" attribute to ProgressBar.
+- @ViewAction now takes an array of strings as action IDs. This won't break existing code, while allowing to map the selected method by multiple IDs.
+- New common tag attribute: userObject. Allows to assign a custom object to the actor by using Actor#setUserObject method. If action operator is used (&), method will be found and executed - its result will be assigned as the user object; in other cases, string value of the attribute is set. Be careful - some widgets (Dialogs, Windows) use the same mechanism to store stage attachment data; however, this attribute should be safe to use for actors that are not roots (as in not directly added to stage). 
 
 0.5 -> 0.6:
 

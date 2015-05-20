@@ -27,7 +27,9 @@ public class ActionContainerWrapper {
 			for (final Method method : ClassReflection.getDeclaredMethods(actionContainer.getClass())) {
 				final ViewAction actionData = Reflection.getAnnotation(method, ViewAction.class);
 				if (actionData != null) {
-					annotatedMethods.put(actionData.value(), method);
+					for (final String actionId : actionData.value()) {
+						annotatedMethods.put(actionId, method);
+					}
 				}
 			}
 		} catch (final Throwable exception) {

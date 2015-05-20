@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.github.czyzby.kiwi.util.common.Nullables;
+import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.lml.gdx.widget.reflected.Tooltip;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.LmlTagAttributeParser;
@@ -25,6 +26,17 @@ public enum CommonLmlTagAttributeParser implements LmlTagAttributeParser, LmlSyn
 				final LmlTagData lmlTagData) {
 			actor.setName(LmlAttributes.parseString(actor, parser, attributeValue));
 			parser.mapActorById(actor);
+		}
+	},
+	USER_OBJECT("userObject") {
+		@Override
+		protected void apply(final Actor actor, final LmlParser parser, final String attributeValue,
+				final LmlTagData lmlTagData) {
+			if (Strings.startsWith(attributeValue, ACTION_OPERATOR)) {
+				actor.setUserObject(parser.findAction(attributeValue.substring(1), actor).consume(actor));
+			} else {
+				actor.setUserObject(attributeValue);
+			}
 		}
 	},
 	ON_CLICK("onClick", "click") {

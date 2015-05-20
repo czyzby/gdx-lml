@@ -169,6 +169,12 @@ public interface LmlParser {
 	void appendToBuffer(CharSequence lmlTextToParse);
 
 	/** Associates given argument with the key. Arguments can be referenced with ${key} in .lml. */
+	void addArgument(String key, int value);
+
+	/** Associates given argument with the key. Arguments can be referenced with ${key} in .lml. */
+	void addArgument(String key, float value);
+
+	/** Associates given argument with the key. Arguments can be referenced with ${key} in .lml. */
 	void addArgument(String key, String value);
 
 	/** Converts the argument to a range array and associates it with the key. Arguments can be referenced with
