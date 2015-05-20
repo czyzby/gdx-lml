@@ -77,7 +77,7 @@ public class ProgressBarLmlTagDataParser extends AbstractLmlTagDataParser<Progre
 		final boolean vertical =
 				LmlAttributes.parseBoolean(null, parser, lmlTagData.getAttribute(VERTICAL_ATTRIBUTE));
 		if (containsStyleAttribute(lmlTagData)) {
-			getNewInstanceWithStyle(lmlTagData, parser, min, max, stepSize, vertical);
+			return getNewInstanceWithStyle(lmlTagData, parser, min, max, stepSize, vertical);
 		}
 		// Default style name is not "default", using no-style-name constructor.
 		return getNewInstanceWithoutStyle(parser, min, max, stepSize, vertical);

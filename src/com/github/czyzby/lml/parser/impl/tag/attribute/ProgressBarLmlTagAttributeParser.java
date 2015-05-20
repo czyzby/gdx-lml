@@ -17,6 +17,13 @@ public enum ProgressBarLmlTagAttributeParser implements LmlTagAttributeParser {
 			progressBar.setFillParent(LmlAttributes.parseBoolean(progressBar, parser, attributeValue));
 		}
 	},
+	DISABLED("disabled") {
+		@Override
+		public void apply(final ProgressBar progressBar, final LmlParser parser, final String attributeValue,
+				final LmlTagData lmlTagData) {
+			progressBar.setDisabled(LmlAttributes.parseBoolean(progressBar, parser, attributeValue));
+		}
+	},
 	VALUE("value") {
 		@Override
 		protected void apply(final ProgressBar progressBar, final LmlParser parser,
