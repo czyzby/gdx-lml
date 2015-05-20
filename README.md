@@ -24,6 +24,7 @@ See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&
 0.6 -> 0.7:
 
 - Wiki page with all tags and attributes is being created. Stay tuned.
+- Added "disabled" attribute to ProgressBar.
 
 0.5 -> 0.6:
 
