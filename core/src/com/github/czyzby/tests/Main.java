@@ -33,7 +33,8 @@ import com.github.czyzby.tests.reflected.UiActions;
 public class Main extends AbstractApplicationListener {
 	private static final Array<String> TEMPLATES = ImmutableArray.ofSorted("assign", "bundle", "comment",
 			"condition", "forEach", "include", "loop", "nullCheck", "tooltip", "macro", "label", "table",
-			"tree", "groups", "actions", "dialog", "customAttribute", "namedParameters", "evaluate");
+			"tree", "groups", "actions", "dialog", "customAttribute", "namedParameters", "evaluate",
+			"complexTooltip");
 
 	private LmlParser parser;
 	private Stage stage;

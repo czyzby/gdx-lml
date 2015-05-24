@@ -11,7 +11,7 @@ public class DesktopLauncher {
 
 	private static LwjglApplicationConfiguration getDefaultConfiguration() {
 		final LwjglApplicationConfiguration configuration = new LwjglApplicationConfiguration();
-		configuration.title = "LML 0.6.1.6.0 tests";
+		configuration.title = "LML 0.7.1.6.1 tests";
 		configuration.width = 1024;
 		configuration.height = 512;
 		return configuration;
