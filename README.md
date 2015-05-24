@@ -69,7 +69,7 @@ As you might guess, they are used to scan for annotated classes. Each platform r
 
 - **FixedClassScanner** - well, it *can* be used on any platform, but you have to manually select the classes it has access to, so it basically removes the concept of true component scan.
 - **DesktopClassScanner** - scans binary classes (run from IDE) or jars in the class loader base location (run from a jar). Should be enough for both testing and most regular desktop applications.
-- **GwtClassScanner** - registers LibGDX GWT reflection pool to scan through all classes registered for reflection.
+- **GwtClassScanner** - scans through all classes registered for LibGDX reflection.
 
 Unfortunately, class scanners for Android and iOS are not implemented yet. I didn't have much time to do it yet (nor do I normally target these platforms); I will most likely look into it before releasing the next version, but for now - any help is appreciated. Use *FixedClassScanner*, sorry.
 
@@ -80,13 +80,17 @@ Autumn makes heavy use of reflection. While it doesn't rely on direct calls to c
 Gradle dependency:
 
 ```
-    compile "com.github.czyzby:gdx-autumn:0.6.$gdxVersion"
+    compile "com.github.czyzby:gdx-autumn:0.7.$gdxVersion"
 ```
-Currently supported LibGDX version is **1.6.0**.
+Currently supported LibGDX version is **1.6.1**.
 
 To include Autumn in GWT, see [Autumn GWT](http://github.com/czyzby/gdx-autumn-gwt).
 
 ##What's new
+0.6 -> 0.7
+
+- Just a version bump to match the other libs. Sorry.
+
 0.5 -> 0.6:
 
 - Since LibGDX introduced method annotations in reflection API, custom reflection wrappers (and separate GWT reflection pool, on which I spent quite some time) are no longer needed. Whole reflection API was removed and "native" LibGDX solutions are now used. Sorry for breaking your code - before LibGDX reflection expansion most of Autumn wouldn't be possible to implement without custom reflection.
