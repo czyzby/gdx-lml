@@ -63,19 +63,14 @@ public class Reflection {
 		return null;
 	}
 
-	/** Utility method, changes unexpected exceptions on GWT. Better safe than sorry.
+	/** Utility method kept for backwards compatibility. Annotation checking used to be problematic on GWT.
 	 *
 	 * @param field might be annotated.
 	 * @param annotationType class of the annotation that the field is checked against.
 	 * @return true if field is annotated with the specified annotation. */
 	public static boolean isAnnotationPresent(final Field field,
 			final Class<? extends Annotation> annotationType) {
-		try {
-			return field.isAnnotationPresent(annotationType);
-		} catch (final Throwable exception) {
-			// Expected (?) on GWT.
-			return false;
-		}
+		return field.isAnnotationPresent(annotationType);
 	}
 
 	/** Utility method that allows to extract actual annotation from class, bypassing LibGDX annotation
@@ -107,23 +102,17 @@ public class Reflection {
 		return null;
 	}
 
-	/** Utility method, workaround for LibGDX 1.6.0 bug where unannotated methods throw exceptions on GWT when
-	 * {@link com.badlogic.gdx.utils.reflect.Method#isAnnotationPresent(Class)} is used.
+	/** Utility method kept for backwards compatibility. Annotation checking used to be problematic on GWT.
 	 *
 	 * @param method might contain the specified annotation.
 	 * @param annotationType class of the annotation that the method is checked against.
 	 * @return true if method is annotated with the specified annotation. */
 	public static boolean isAnnotationPresent(final Method method,
 			final Class<? extends Annotation> annotationType) {
-		try {
-			return method.isAnnotationPresent(annotationType);
-		} catch (final Throwable exception) {
-			// Expected on GWT.
-			return false;
-		}
+		return method.isAnnotationPresent(annotationType);
 	}
 
-	/** @param method will be set accessible and invoked.
+	/** @param method will be set as accessible and invoked.
 	 * @param methodOwner instance of class with the method. Will have the method invoked. Can be null (static
 	 *            methods).
 	 * @param arguments method arguments.

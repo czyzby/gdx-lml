@@ -83,7 +83,7 @@ Similarly to Lazy utility containers, lazy collections create objects as soon as
 - **ApplicationPreferences**: utility container for application's preferences. Manages a map of cached preferences to avoid reading preferences multiple times and ensure that the returned Preferences object for the given path is always the same and in sync.
 
 ### Reflection
-- **Reflection**: class with static utilities that make LibGDX reflection a bit less awkward to use (and temporarily works around GWT method annotation bug which should be fixed in the next version).
+- **Reflection**: class with static utilities that make LibGDX reflection a bit less awkward to use.
 
 ### Scene2D
 - **Actors**: simple, common utility methods for Scene2D actors.
@@ -98,9 +98,9 @@ Similarly to Lazy utility containers, lazy collections create objects as soon as
 ##Dependency
 Core project Gradle dependency:
 ```
-    compile "com.github.czyzby:gdx-kiwi:0.6.$gdxVersion"
+    compile "com.github.czyzby:gdx-kiwi:0.7.$gdxVersion"
 ```
-Currently supported LibGDX version is **1.6.0**.
+Currently supported LibGDX version is **1.6.1**.
 
 GWT module:
 ```

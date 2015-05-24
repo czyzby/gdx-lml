@@ -12,7 +12,7 @@ public class Strings {
 	private Strings() {
 	}
 
-	/** @return true if passed char sequence is not or has no characters. */
+	/** @return true if passed char sequence is null or has no characters. */
 	public static boolean isEmpty(final CharSequence charSequence) {
 		return charSequence == null || charSequence.length() == 0;
 	}
@@ -22,7 +22,7 @@ public class Strings {
 		return charSequence != null && charSequence.length() > 0;
 	}
 
-	/** @return true if the passes sequence is null or contains only whitespace characters. */
+	/** @return true if the passed sequence is null or contains only whitespace characters. */
 	public static boolean isWhitespace(final CharSequence charSequence) {
 		if (isEmpty(charSequence)) {
 			return true;
