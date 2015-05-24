@@ -71,10 +71,12 @@ public abstract class AbstractLmlMacroParent implements LmlParent<Actor>, LmlSyn
 
 	@Override
 	public void handleChild(final Actor child, final LmlTagData childTagData, final LmlParser parser) {
+		// Macros generally do not have actor children, they parse text between tags "manually".
 	}
 
 	@Override
 	public void handleDataBetweenTags(final String data, final LmlParser parser) {
+		// Macros parse text between tags "manually".
 	}
 
 	protected String getAppenedTextWithStrippedEndTag() {
@@ -188,6 +190,7 @@ public abstract class AbstractLmlMacroParent implements LmlParent<Actor>, LmlSyn
 
 	@Override
 	public Node getNode() {
+		// Macros are never tree nodes.
 		return null;
 	}
 }

@@ -36,7 +36,7 @@ public class TableLmlParent extends AbstractLmlParent<Table> {
 		ATTRIBUTE_PARSERS.remove(withAlias);
 	}
 
-	private final boolean isOneColumn;
+	protected boolean isOneColumn;
 
 	public TableLmlParent(final LmlTagData tagData, final Table actor, final LmlParent<?> parent,
 			final LmlParser parser) {

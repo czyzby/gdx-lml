@@ -14,9 +14,7 @@ public class StackLmlParent extends AbstractLmlParent<Stack> {
 
 	@Override
 	public void handleValidChild(final Actor child, final LmlTagData childTagData, final LmlParser parser) {
-		if (child != null) {
-			actor.add(child);
-		}
+		actor.add(child);
 	}
 
 	@Override
@@ -26,8 +24,6 @@ public class StackLmlParent extends AbstractLmlParent<Stack> {
 
 	@Override
 	protected void handleValidDataBetweenTags(final String data, final LmlParser parser) {
-		if (isDataNotEmpty(data)) {
-			handleChild(getLabelFromRawDataBetweenTags(data, parser), null, parser);
-		}
+		handleChild(getLabelFromRawDataBetweenTags(data, parser), null, parser);
 	}
 }

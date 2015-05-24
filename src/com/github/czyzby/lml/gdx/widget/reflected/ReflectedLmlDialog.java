@@ -4,8 +4,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
 
-/** If this dialog receives an ActorConsumer in result method, it will invoke it; if a boolean is return by the
- * method and it's true, dialog hiding will be ignored.
+/** If this dialog receives an ActorConsumer in result method, it will invoke it; if a boolean (primitive or
+ * wrapped) is returned by the method and it's true, dialog hiding will be cancelled.
  *
  * Made as GWT utility for LML. Anonymous class was, obviously, not available for GWT's reflection mechanism.
  *

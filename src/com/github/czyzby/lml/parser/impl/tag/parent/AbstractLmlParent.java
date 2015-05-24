@@ -103,10 +103,13 @@ public abstract class AbstractLmlParent<Widget extends Actor> implements LmlPare
 				node.add(new Tree.Node(child));
 			}
 		} else {
-			handleValidChild(child, childTagData, parser);
+			if (child != null) {
+				handleValidChild(child, childTagData, parser);
+			}
 		}
 	}
 
+	/** @param child is not null. */
 	protected abstract void handleValidChild(Actor child, LmlTagData childTagData, LmlParser parser);
 
 	@Override

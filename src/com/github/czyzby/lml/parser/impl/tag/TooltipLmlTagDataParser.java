@@ -1,20 +1,19 @@
 package com.github.czyzby.lml.parser.impl.tag;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
+import com.github.czyzby.lml.gdx.widget.reflected.Tooltip;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.LmlTagAttributeParser;
+import com.github.czyzby.lml.parser.impl.dto.LmlParent;
 import com.github.czyzby.lml.parser.impl.dto.LmlTagData;
-import com.github.czyzby.lml.parser.impl.tag.attribute.ButtonLmlTagAttributeParser;
+import com.github.czyzby.lml.parser.impl.tag.attribute.TooltipLmlTagAttributeParser;
+import com.github.czyzby.lml.parser.impl.tag.parent.TooltipLmlParent;
 
-/** Additionally to Table tags, button supports: <ul> <li>isChecked: if true, button will be set to checked
- * status.</li> <li>isDisables: if true, button will be disabled.</li> </ul>
- *
- * @author MJ */
-public class ButtonLmlTagDataParser extends TableLmlTagDataParser {
+public class TooltipLmlTagDataParser extends TableLmlTagDataParser {
 	private static final ObjectMap<String, LmlTagAttributeParser> ATTRIBUTE_PARSERS;
 
 	private final ObjectMap<String, LmlTagAttributeParser> attributeParsers =
@@ -22,7 +21,7 @@ public class ButtonLmlTagDataParser extends TableLmlTagDataParser {
 
 	static {
 		ATTRIBUTE_PARSERS = GdxMaps.newObjectMap();
-		for (final LmlTagAttributeParser parser : ButtonLmlTagAttributeParser.values()) {
+		for (final LmlTagAttributeParser parser : TooltipLmlTagAttributeParser.values()) {
 			registerParser(parser);
 		}
 	}
@@ -60,7 +59,22 @@ public class ButtonLmlTagDataParser extends TableLmlTagDataParser {
 	}
 
 	@Override
-	protected Button parseChildWithValidTag(final LmlTagData lmlTagData, final LmlParser parser) {
-		return new Button(parser.getSkin(), getStyleName(lmlTagData, parser));
+	protected Table parseChildWithValidTag(final LmlTagData lmlTagData, final LmlParser parser) {
+		final Tooltip tooltip = prepareTooltip(lmlTagData, parser);
+		return tooltip.getContent();
+	}
+
+	private Tooltip prepareTooltip(final LmlTagData lmlTagData, final LmlParser parser) {
+		final Tooltip tooltip =
+				new Tooltip(new Table(parser.getSkin()), parser.getSkin(), getStyleName(lmlTagData, parser));
+		tooltip.getContent().setUserObject(tooltip);
+		return tooltip;
+	}
+
+	@Override
+	protected LmlParent<Table> parseParentWithValidTag(final LmlTagData lmlTagData, final LmlParser parser,
+			final LmlParent<?> parent) {
+		return new TooltipLmlParent(lmlTagData, (Tooltip) parseChild(lmlTagData, parser).getUserObject(),
+				parent, parser);
 	}
 }

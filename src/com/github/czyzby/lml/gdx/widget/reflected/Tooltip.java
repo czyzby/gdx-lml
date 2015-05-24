@@ -35,7 +35,8 @@ public class Tooltip extends Widget implements Disableable {
 	private final FloatRange xOffset = new FloatRange(X_OFFSET, DEFAULT_TOOLTIP_MOVING_TIME),
 			yOffset = new FloatRange(INITIAL_OFFSET, DEFAULT_TOOLTIP_MOVING_TIME);
 	/** Positions without offsets. */
-	private float unmodifiedX, unmodifiedY, fadingTime = DEFAULT_TOOLTIP_FADING_TIME;
+	private float unmodifiedX, unmodifiedY, showingDelay = DEFAULT_TOOLTIP_SHOWING_DELAY,
+			fadingTime = DEFAULT_TOOLTIP_FADING_TIME;
 	private boolean disabled;
 	private final Vector2 tempVector2 = new Vector2();
 
@@ -104,6 +105,7 @@ public class Tooltip extends Widget implements Disableable {
 		yOffset.setCurrentValue(-getPrefHeight());
 	}
 
+	/** @return true if the tooltip is currently assigned to a stage. */
 	public boolean isShown() {
 		return getStage() != null;
 	}
@@ -113,10 +115,12 @@ public class Tooltip extends Widget implements Disableable {
 		this.disabled = disabled;
 	}
 
+	@Override
 	public boolean isDisabled() {
 		return disabled;
 	}
 
+	/** @return table used by the tooltip to display its content. */
 	public Table getContent() {
 		return content;
 	}
@@ -168,7 +172,12 @@ public class Tooltip extends Widget implements Disableable {
 		yOffset.setTransitionLength(movingTime);
 	}
 
-	/** Has to be called manually. */
+	/** @param showingDelay time of cursor hovering before the tooltip is shown (in seconds). */
+	public void setShowingDelay(final float showingDelay) {
+		this.showingDelay = showingDelay;
+	}
+
+	/** Has to be called manually if . */
 	public void hide() {
 		hide(fadingTime);
 	}
@@ -246,10 +255,15 @@ public class Tooltip extends Widget implements Disableable {
 		content.draw(batch, getColor().a * parentAlpha);
 	}
 
+	/** @param actor will have the tooltip attach with a specialized input listener that displays the tooltip
+	 *            after the cursor is over that actor for a specified amount of time. */
 	public void attachTo(final Actor actor) {
-		attachTo(actor, DEFAULT_TOOLTIP_SHOWING_DELAY);
+		attachTo(actor, showingDelay);
 	}
 
+	/** @param actor will have the tooltip attach with a specialized input listener that displays the tooltip
+	 *            after the cursor is over that actor for a specified amount of time.
+	 * @param showingDelay time of cursor hovering before the tooltip is shown (in seconds). */
 	public void attachTo(final Actor actor, final float showingDelay) {
 		if (actor != null) {
 			actor.addListener(prepareTooltipListener(actor, showingDelay));

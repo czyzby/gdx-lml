@@ -32,6 +32,7 @@ import com.github.czyzby.lml.parser.impl.tag.TableLmlTagDataParser;
 import com.github.czyzby.lml.parser.impl.tag.TextAreaLmlTagDataParser;
 import com.github.czyzby.lml.parser.impl.tag.TextButtonLmlTagDataParser;
 import com.github.czyzby.lml.parser.impl.tag.TextFieldLmlTagDataParser;
+import com.github.czyzby.lml.parser.impl.tag.TooltipLmlTagDataParser;
 import com.github.czyzby.lml.parser.impl.tag.TreeLmlTagDataParser;
 import com.github.czyzby.lml.parser.impl.tag.VerticalGroupLmlTagDataParser;
 import com.github.czyzby.lml.parser.impl.tag.WindowLmlTagDataParser;
@@ -65,7 +66,6 @@ public class LmlTagParsers {
 				"exists", "ifExists", "nullCheck");
 		lmlParser.registerMacroParser(new AssignLmlMacroParser(), "assign", "var", "val");
 		lmlParser.registerMacroParser(new EvaluateLmlMacroParser(), "eval", "evaluate", "invoke");
-		// Add other default macros here.
 	}
 
 	public static void registerDefaultTagSyntax(final LmlParser lmlParser) {
@@ -91,6 +91,6 @@ public class LmlTagParsers {
 		lmlParser.registerParser(new TreeLmlTagDataParser(), "tree", "root");
 		lmlParser.registerParser(new WindowLmlTagDataParser(), "window");
 		lmlParser.registerParser(new DialogLmlTagDataParser(), "dialog", "popup");
-		// Add other default tags here.
+		lmlParser.registerParser(new TooltipLmlTagDataParser(), "tooltip", "info", "onHover");
 	}
 }

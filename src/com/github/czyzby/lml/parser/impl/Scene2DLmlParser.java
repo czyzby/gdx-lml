@@ -397,7 +397,7 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 			final LmlParent<?> currentParent =
 					parser.tagParsers.get(tagData.getTagName()).parseParent(tagData, parser, oldParent);
 			if (oldParent != null) {
-				// The old parent still needs to know about its child, even if it's a parent itself.
+				// The old parent still needs to know about its child, even if they are parents themselves.
 				oldParent.handleChild(currentParent.getActor(), tagData, parser);
 			}
 			parser.widgetsHierarchy.addFirst(currentParent);
@@ -416,7 +416,7 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 			parent.closeTag(parser);
 			if (parent.getActor() != null) {
 				// Some parents are not actors - for example, macros can be parental, but create no actors by
-				// themselves.
+				// themselves; hence the null check.
 				if (parser.widgetsHierarchy.isEmpty()) {
 					parsedActors.add(parent.getActor());
 				}
