@@ -12,6 +12,7 @@ import com.github.czyzby.autumn.error.AutumnRuntimeException;
 import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
 import com.github.czyzby.autumn.mvc.component.ui.controller.impl.AbstractAnnotatedController;
 import com.github.czyzby.autumn.mvc.stereotype.ViewActor;
+import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy;
 import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 
@@ -36,15 +37,19 @@ public class ViewActorAnnotationProcessor extends ComponentFieldAnnotationProces
 			// If view controller not found, trying out dialog controllers:
 			if (!registerField(field, interfaceService.get().getDialogController(controllerClass))) {
 				throw new AutumnRuntimeException("Unable to assign injectable actor for field: " + field
-						+ " of component: " + component.getComponent() + ".");
+						+ " of component: " + component.getComponent()
+						+ ". Using custom controllers, which do not support actor injection.");
 			}
 		}
 	}
 
 	private boolean registerField(final Field field, final Object controller) {
 		if (controller instanceof AbstractAnnotatedController) {
-			((AbstractAnnotatedController) controller).registerActorField(
-					Reflection.getAnnotation(field, ViewActor.class).value(), field);
+			String actorId = Reflection.getAnnotation(field, ViewActor.class).value();
+			if (Strings.isEmpty(actorId)) {
+				actorId = field.getName();
+			}
+			((AbstractAnnotatedController) controller).registerActorField(actorId, field);
 			return true;
 		}
 		return false;

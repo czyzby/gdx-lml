@@ -40,9 +40,9 @@ Read on [LML](https://github.com/czyzby/gdx-lml) to see how the views are create
 Gradle:
 
 ```
-    compile "com.github.czyzby:gdx-autumn-mvc:0.6.$gdxVersion"
+    compile "com.github.czyzby:gdx-autumn-mvc:0.7.$gdxVersion"
 ```
-Currently supported LibGDX version is **1.6.0**.
+Currently supported LibGDX version is **1.6.1**.
 
 ### Application
 Instead of implementing `ApplicationListener` or extending `ApplicationAdapter`, extend `AutumnApplication` - or even use pass it to application initiation methods without extending, this is not an abstract class. Initiating this object requires you to pass a root scanning class (which will usually be the class in the bottom of your package hierarchy) and a class scanner, which is (usually) platform-specific.
@@ -83,7 +83,7 @@ In views you can also use these utility annotations:
 - `@Inject` - while not unique to Autumn MVC (this is actually a standard Autumn annotation), this is one of the annotations you will use the most. It allows to you inject any component - be it classes annotated with @Component or @View (among others), standard Autumn services, meta annotation processors or even the ContextContainer itself. See [Autumn](https://github.com/czyzby/gdx-autumn) docs for more info and more useful annotations.
 - `@Dispose` - again, this is Autumn annotation that allows to automate the disposal of heavy objects. Basically, when the annotated object is removed from context (which usually takes place when the application is being closed), it will be automatically disposed of. This does not have to annotate injected assets, as AssetService already takes care of asset disposing.
 - `@ViewStage` - when used in @View or @ViewDialog, injects current Stage object into the field. MIGHT be null or TURN null, as screens are sometimes reloaded and stages references might be cleared.
-- `@ViewActor` - when used in @View or @ViewDialog, injects actor with the given ID to the field after LML template parsing. ID can be specified in LML templates with "id" tag attribute.
+- `@ViewActor` - when used in @View or @ViewDialog, injects actor with the given ID to the field after LML template parsing. If actor ID is not given, field name is used. ID can be specified in LML templates with "id" tag attribute.
 
 These are the services that you might want or have to inject from time to time:
 
@@ -105,8 +105,11 @@ Your opinions, comments and testing can help as well. Don't be afraid to inform 
 ## What's new
 0.6 -> 0.7:
 
-- Default view shower will remove all tooltips and dialogs before the screen is shown, making sure that previously opened "helper" widgets will not be present on the view on the next showing.
+- Default view shower will remove all tooltips and dialogs before the screen is shown, making sure that previously opened "helper" widgets will not be present on the view on the next showing. Default view shower can be changed globally in InterfaceService static methods, so this behavior can be changed.
 - reload(Runnable) method added to InterfaceService, now you can request reloading of all screen and execute a custom action after the current screen is hidden. Useful for custom actions that require reloading of all screens (like viewport ratio change).
+- show(Class, Runnable) method added to InterfaceService. Now you can transfer to another screen with a custom action that will be executed after the current screen is hidden.
+- InterfaceService now has methods that return (defensive copies of) arrays that contain all managed views and dialogs controllers. These methods might be useful if you want to iterate over all created stages and manually change their viewports, for example (note: resizing is already handled for you, don't worry). This is not something you will probably do very often, but if you really have to - copy the content of the returned arrays to avoid creating multiple array objects. Managed controllers collections usually do not change over time anyway.
+- Now passing actor ID in @ViewActor is optional - if you don't specify actor ID in the annotation, field's name will be used as the ID (basically, it will look for an actor with "id" tag attribute equal to the field's name). If you want to obfuscate your code, you might want to stick with the annotation variable though.
 
 0.5 -> 0.6:
 

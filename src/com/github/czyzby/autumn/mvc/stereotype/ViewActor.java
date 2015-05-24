@@ -14,5 +14,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ViewActor {
 	/** @return ID of the actor that should be injected. Has to be specified with id tag attribute in LML view. */
-	String value();
+	String value() default "";
 }
