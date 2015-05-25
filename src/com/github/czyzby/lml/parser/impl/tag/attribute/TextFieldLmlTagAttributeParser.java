@@ -84,13 +84,16 @@ public enum TextFieldLmlTagAttributeParser implements LmlTagAttributeParser {
 		@Override
 		protected void apply(final TextField textField, final LmlParser parser, final String attributeValue,
 				final LmlTagData lmlTagData) {
+			final int selectionStart = LmlAttributes.parseInt(textField, parser, attributeValue);
 			if (lmlTagData.containsAttribute(SELECTION_END_ATTRIBUTE)) {
 				textField.setSelection(
-						LmlAttributes.parseInt(textField, parser, attributeValue),
+						selectionStart,
 						LmlAttributes.parseInt(textField, parser,
 								lmlTagData.getAttribute(SELECTION_END_ATTRIBUTE)));
 			} else {
-				textField.setSelection(0, LmlAttributes.parseInt(textField, parser, attributeValue));
+				if (textField.getText().length() != 0) {
+					textField.setSelection(selectionStart, textField.getText().length() - 1);
+				}
 			}
 		}
 	},
@@ -98,13 +101,13 @@ public enum TextFieldLmlTagAttributeParser implements LmlTagAttributeParser {
 		@Override
 		protected void apply(final TextField textField, final LmlParser parser, final String attributeValue,
 				final LmlTagData lmlTagData) {
+			final int selectionEnd = LmlAttributes.parseInt(textField, parser, attributeValue);
 			if (lmlTagData.containsAttribute(SELECTION_START_ATTRIBUTE)) {
 				textField.setSelection(
 						LmlAttributes.parseInt(textField, parser,
-								lmlTagData.getAttribute(SELECTION_START_ATTRIBUTE)),
-						LmlAttributes.parseInt(textField, parser, attributeValue));
+								lmlTagData.getAttribute(SELECTION_START_ATTRIBUTE)), selectionEnd);
 			} else {
-				textField.setSelection(0, LmlAttributes.parseInt(textField, parser, attributeValue));
+				textField.setSelection(0, selectionEnd);
 			}
 		}
 	};

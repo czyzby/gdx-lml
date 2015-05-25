@@ -14,21 +14,21 @@ public enum SplitPaneLmlTagAttributeParser implements LmlTagAttributeParser {
 			splitPane.setFillParent(LmlAttributes.parseBoolean(splitPane, parser, attributeValue));
 		}
 	},
-	SPLIT_AMOUNT("splitAmount") {
+	SPLIT_AMOUNT("splitAmount", "split") {
 		@Override
 		protected void apply(final SplitPane splitPane, final LmlParser parser, final String attributeValue,
 				final LmlTagData lmlTagData) {
 			splitPane.setSplitAmount(LmlAttributes.parseFloat(splitPane, parser, attributeValue));
 		}
 	},
-	MIN_SPLIT_AMOUNT {
+	MIN_SPLIT_AMOUNT("minSplitAmount", "minSplit") {
 		@Override
 		protected void apply(final SplitPane splitPane, final LmlParser parser, final String attributeValue,
 				final LmlTagData lmlTagData) {
 			splitPane.setMinSplitAmount(LmlAttributes.parseFloat(splitPane, parser, attributeValue));
 		}
 	},
-	MAX_SPLIT_AMOUNT {
+	MAX_SPLIT_AMOUNT("maxSplitAmount", "maxSplit") {
 		@Override
 		protected void apply(final SplitPane splitPane, final LmlParser parser, final String attributeValue,
 				final LmlTagData lmlTagData) {
