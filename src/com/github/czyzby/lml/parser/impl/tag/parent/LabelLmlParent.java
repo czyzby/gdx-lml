@@ -24,9 +24,7 @@ public class LabelLmlParent extends AbstractLmlParent<Label> {
 
 	@Override
 	public void handleValidChild(final Actor child, final LmlTagData childTagData, final LmlParser parser) {
-		if (child != null) {
-			throwErrorIfStrict(parser, "Labels cannot have children.");
-		}
+		throwErrorIfStrict(parser, "Labels cannot have children.");
 	}
 
 	@Override
