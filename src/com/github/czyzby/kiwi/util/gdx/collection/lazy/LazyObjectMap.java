@@ -14,9 +14,10 @@ import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.SetObjectProvider;
  * (typically O(1), worst case O(log(n))). Put may be a bit slower, depending on hash collisions. Load factors
  * greater than 0.91 greatly increase the chances the map will have to rehash to the next higher POT size.
  * <br> <br> Thanks to the passed ObjectProvider, this map can initiate object on every get(key) call if the
- * key is no present in the map. This implementation is especially useful for maps of other collections (like
+ * key is not present in the map. This implementation is especially useful for maps of other collections (like
  * arrays), where you usually keep a lot of similarly created object instances without the need of varying
- * constructor parameters.
+ * constructor parameters. Maps of common collections can be easily constructed with static helper methods of
+ * this class.
  *
  * @author Nathan Sweet
  * @author MJ */
