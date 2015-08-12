@@ -519,18 +519,25 @@ public class ContextContainer implements Disposable {
 
 	private void processInitiatedComponentMethods(final ContextComponent component) {
 		for (final Method method : ClassReflection.getDeclaredMethods(component.getComponentClass())) {
+			com.badlogic.gdx.utils.reflect.Annotation[] annotations;
 			try {
-				for (final com.badlogic.gdx.utils.reflect.Annotation annotation : method
-						.getDeclaredAnnotations()) {
-					if (methodAnnotationProcessors.containsKey(annotation.getAnnotationType())) {
-						for (final ComponentMethodAnnotationProcessor processor : methodAnnotationProcessors
-								.get(annotation.getAnnotationType())) {
-							processor.processMethod(this, component, method);
-						}
+				annotations = method.getDeclaredAnnotations();
+			} catch (final Throwable gwtException) {
+				// On GWT, might throw NPE, as the method implementation references "length" property of array
+				// that might be null.
+				annotations = null;
+			}
+			if (annotations == null || annotations.length == 0) {
+				// For GWT compatibility. Annotations array might be null.
+				continue;
+			}
+			for (final com.badlogic.gdx.utils.reflect.Annotation annotation : annotations) {
+				if (methodAnnotationProcessors.containsKey(annotation.getAnnotationType())) {
+					for (final ComponentMethodAnnotationProcessor processor : methodAnnotationProcessors
+							.get(annotation.getAnnotationType())) {
+						processor.processMethod(this, component, method);
 					}
 				}
-			} catch (final Throwable exception) {
-				// Somewhat expected on GWT.
 			}
 		}
 	}
