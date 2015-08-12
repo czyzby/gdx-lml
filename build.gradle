@@ -8,9 +8,9 @@ sourceCompatibility = 1.6
 
 ext {
 	libVersion = '0.7'
-    gdxVersion = '1.6.1'
-    gwtVersion = '2.6.0'
+    gdxVersion = '1.6.4'
     isSnapshot = ''
+    gwtVersion = '2.6.0'
 }
 
 group = "com.github.czyzby"

@@ -21,7 +21,7 @@ Gradle dependency (for GWT project):
     compile "com.github.czyzby:gdx-autumn-gwt:0.7.$gdxVersion:sources"
 ```
 
-Currently supported LibGDX version is **1.6.1**.
+Currently supported LibGDX version is **1.6.4**.
 
 GWT module:
 
