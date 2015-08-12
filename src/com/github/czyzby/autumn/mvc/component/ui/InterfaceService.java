@@ -3,13 +3,10 @@ package com.github.czyzby.autumn.mvc.component.ui;
 import java.util.Locale;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.loaders.BitmapFontLoader.BitmapFontParameter;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -23,6 +20,7 @@ import com.github.czyzby.autumn.annotation.field.Inject;
 import com.github.czyzby.autumn.annotation.method.Destroy;
 import com.github.czyzby.autumn.annotation.method.Initiate;
 import com.github.czyzby.autumn.annotation.stereotype.Component;
+import com.github.czyzby.autumn.context.processor.method.MessageProcessor;
 import com.github.czyzby.autumn.error.AutumnRuntimeException;
 import com.github.czyzby.autumn.mvc.component.asset.AssetService;
 import com.github.czyzby.autumn.mvc.component.i18n.LocaleService;
@@ -46,7 +44,6 @@ import com.github.czyzby.autumn.mvc.component.ui.controller.ViewShower;
 import com.github.czyzby.autumn.mvc.component.ui.controller.impl.StandardCameraCenteringViewResizer;
 import com.github.czyzby.autumn.mvc.component.ui.controller.impl.StandardViewRenderer;
 import com.github.czyzby.autumn.mvc.component.ui.controller.impl.StandardViewShower;
-import com.github.czyzby.autumn.mvc.component.ui.dto.SkinData;
 import com.github.czyzby.autumn.mvc.component.ui.dto.provider.ViewActionProvider;
 import com.github.czyzby.autumn.mvc.component.ui.processor.SkinAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.component.ui.processor.ViewActionContainerAnnotationProcessor;
@@ -55,7 +52,6 @@ import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
-import com.github.czyzby.kiwi.util.gdx.file.CommonFileExtension;
 import com.github.czyzby.kiwi.util.gdx.preference.ApplicationPreferences;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.dto.ActionContainer;
@@ -104,8 +100,7 @@ public class InterfaceService {
 	private final ObjectMap<Class<?>, ViewDialogController> dialogControllers = GdxMaps.newObjectMap();
 	private ObjectMap<String, FileHandle> i18nBundleFiles;
 
-	private final Skin skin = new Skin();
-	private final LmlParser parser = Lml.parser(skin).build();
+	private final LmlParser parser = Lml.parser().build();
 	private final Batch batch = new SpriteBatch();
 
 	private final ScreenSwitchingRunnable screenSwitchingRunnable = new ScreenSwitchingRunnable(this);
@@ -121,6 +116,8 @@ public class InterfaceService {
 	private LocaleService localeService;
 	@Inject
 	private MusicService musicService;
+	@Inject
+	private SkinService skinService;
 	@Inject
 	private ViewActionContainerAnnotationProcessor viewActionProcessor;
 
@@ -152,48 +149,15 @@ public class InterfaceService {
 		parser.addAction(actionId, action);
 	}
 
-	@Initiate(priority = AutumnActionPriority.TOP_PRIORITY)
+	@Initiate(priority = AutumnActionPriority.VERY_HIGH_PRIORITY)
 	private void assignViewResources(final SkinAnnotationProcessor skinProcessor,
-			final I18nBundleAnnotationProcessor bundleProcessor) {
-		initiateSkin(skinProcessor);
+			final I18nBundleAnnotationProcessor bundleProcessor, final MessageProcessor messageProcessor) {
 		i18nBundleFiles = bundleProcessor.getBundleFiles();
 		buildParser();
 	}
 
-	private void initiateSkin(final SkinAnnotationProcessor skinProcessor) {
-		final SkinData skinData = skinProcessor.getSkinData();
-		final String atlasPath = skinData.getPath() + CommonFileExtension.ATLAS;
-		assetService.load(atlasPath, TextureAtlas.class);
-		final TextureAtlas skinAtlas = assetService.finishLoading(atlasPath, TextureAtlas.class);
-
-		final String[] fontPaths = skinData.getFonts();
-		loadFonts(atlasPath, fontPaths);
-		skin.addRegions(skinAtlas);
-		assignFonts(skinData, fontPaths);
-		skin.load(Gdx.files.internal(skinData.getPath() + CommonFileExtension.JSON));
-	}
-
-	private void loadFonts(final String atlasPath, final String[] fontPaths) {
-		if (fontPaths.length != 0) {
-			final BitmapFontParameter loadingParameters = new BitmapFontParameter();
-			loadingParameters.atlasName = atlasPath;
-			for (final String fontPath : fontPaths) {
-				assetService.finishLoading(fontPath, BitmapFont.class, loadingParameters);
-			}
-		}
-	}
-
-	private void assignFonts(final SkinData skinData, final String[] fontPaths) {
-		if (fontPaths.length != 0) {
-			final String[] fontNames = skinData.getFontsNames();
-			for (int fontIndex = 0; fontIndex < fontPaths.length; fontIndex++) {
-				skin.add(fontNames[fontIndex], assetService.get(fontPaths[fontIndex], BitmapFont.class),
-						BitmapFont.class);
-			}
-		}
-	}
-
 	private void buildParser() {
+		parser.setSkin(getSkin());
 		addDefaultViewActions();
 		saveLastLocale(localeService.getCurrentLocale());
 		for (final Entry<String, FileHandle> bundleData : i18nBundleFiles) {
@@ -301,9 +265,9 @@ public class InterfaceService {
 		return batch;
 	}
 
-	/** @return skin used to build views. */
+	/** @return {@link com.badlogic.gdx.scenes.scene2d.ui.Skin} used to build views. */
 	public Skin getSkin() {
-		return skin;
+		return skinService.getSkin();
 	}
 
 	/** Hides current view (if present) and shows the view managed by the passed controller.
@@ -517,7 +481,6 @@ public class InterfaceService {
 		destroyDialogs();
 		controllers.clear();
 		batch.dispose();
-		skin.dispose();
 	}
 
 	private void destroyViews() {

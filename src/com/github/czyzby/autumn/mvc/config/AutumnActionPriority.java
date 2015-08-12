@@ -4,10 +4,15 @@ package com.github.czyzby.autumn.mvc.config;
  *
  * @author MJ */
 public class AutumnActionPriority {
-	/** 3. Executes first. Used by: {@link com.github.czyzby.autumn.mvc.component.ui.InterfaceService} (skin,
-	 * bundles and preferences assignment, LML parser creation). */
+	/** Can be extended to contain all application's priorities, but should not be initiated. */
+	protected AutumnActionPriority() {
+	}
+
+	/** 3. Executes first. Used by: {@link com.github.czyzby.autumn.mvc.component.ui.SkinService} (skin
+	 * initiation). */
 	public static final int TOP_PRIORITY = 3;
-	/** 2. */
+	/** 2. Used by: {@link com.github.czyzby.autumn.mvc.component.ui.InterfaceService} (skin, bundles and
+	 * preferences assignment, LML parser creation). */
 	public static final int VERY_HIGH_PRIORITY = 2;
 	/** 1. */
 	public static final int HIGH_PRIORITY = 1;
@@ -15,10 +20,10 @@ public class AutumnActionPriority {
 	 * actions to LML parser). */
 	public static final int DEFAULT_PRIORITY = 0;
 	/** -1. Used by: {@link com.github.czyzby.autumn.mvc.component.ui.InterfaceService} (controllers
-	 * destruction, batch and skin disposing, parser destruction). */
+	 * destruction, batch disposing, parser destruction). */
 	public static final int LOW_PRIORITY = -1;
 	/** -2. Used by: {@link com.github.czyzby.autumn.mvc.component.sfx.MusicService} (settings saving upon
-	 * destruction). */
+	 * destruction), {@link com.github.czyzby.autumn.mvc.component.ui.SkinService} (skin disposing). */
 	public static final int VERY_LOW_PRIORITY = -2;
 	/** -3. Executes last. Used by: {@link com.github.czyzby.autumn.mvc.component.ui.InterfaceService} (first
 	 * view initiation and showing); {@link com.github.czyzby.autumn.mvc.component.asset.AssetService} (assets

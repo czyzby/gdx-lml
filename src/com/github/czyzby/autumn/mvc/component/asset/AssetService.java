@@ -29,6 +29,7 @@ import com.github.czyzby.autumn.mvc.component.asset.dto.provider.AssetProvider;
 import com.github.czyzby.autumn.mvc.component.asset.dto.provider.ObjectMapAssetProvider;
 import com.github.czyzby.autumn.mvc.component.asset.dto.provider.ObjectSetAssetProvider;
 import com.github.czyzby.autumn.mvc.config.AutumnActionPriority;
+import com.github.czyzby.autumn.mvc.config.AutumnMessage;
 import com.github.czyzby.autumn.mvc.stereotype.Asset;
 import com.github.czyzby.kiwi.util.gdx.asset.Disposables;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy;
@@ -48,11 +49,6 @@ import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
  * @author MJ */
 @MetaComponent
 public class AssetService extends ComponentFieldAnnotationProcessor {
-	/** This message is posted when SOME of the normally scheduled assets are loaded. This is not posted if
-	 * assets where loaded on demand with {@link #finishLoading(String, Class)} or
-	 * {@link #finishLoading(String, Class, AssetLoaderParameters)} methods. */
-	public static final String ASSETS_LOADED_MESSAGE = "AutumnMVC_assetsLoaded";
-
 	private final AssetManager assetManager = new AssetManager();
 	/** There is no reliable way of keeping both eagerly and normally loaded assets together, while preserving
 	 * a way to both load assets by constant updating and load SOME assets at once. That's why this service
@@ -176,7 +172,7 @@ public class AssetService extends ComponentFieldAnnotationProcessor {
 	private void doOnLoadingFinish() {
 		injectRequestedAssets();
 		invokeOnLoadActions();
-		messageProcessor.postMessage(ASSETS_LOADED_MESSAGE);
+		messageProcessor.postMessage(AutumnMessage.ASSETS_LOADED);
 	}
 
 	/** @return progress of asset loading. Does not include eagerly loaded assets. */

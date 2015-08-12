@@ -12,6 +12,7 @@
 	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.mvc.component.sfx.MusicService" />
 	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.mvc.component.sfx.processor" />
 	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.mvc.component.ui.InterfaceService" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.mvc.component.ui.SkinService" />
 	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.mvc.component.ui.processor" />
 	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.mvc.component.ui.action.MusicFadingAction" />
 	

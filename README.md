@@ -42,10 +42,10 @@ Gradle:
 ```
     compile "com.github.czyzby:gdx-autumn-mvc:0.7.$gdxVersion"
 ```
-Currently supported LibGDX version is **1.6.1**.
+Currently supported LibGDX version is **1.6.4**.
 
 ### Application
-Instead of implementing `ApplicationListener` or extending `ApplicationAdapter`, extend `AutumnApplication` - or even use pass it to application initiation methods without extending, this is not an abstract class. Initiating this object requires you to pass a root scanning class (which will usually be the class in the bottom of your package hierarchy) and a class scanner, which is (usually) platform-specific.
+Instead of implementing `ApplicationListener` or extending `ApplicationAdapter`, extend `AutumnApplication`. Actually, you can even use pass it to application initiation methods without extending, this is not an abstract class. Initiating this object requires you to pass a root scanning class (which will usually be the class in the bottom of your package hierarchy) and a class scanner, which is (usually) platform-specific.
 
 After that, you might want to create a single `@Configuration` class that will be initiated and destroyed when the context is being built. By annotating its fields, you can choose skin, i18n bundles, preferences (and so on) that will be used by LML parser. Available configurations:
 
@@ -80,6 +80,7 @@ In views you can also use these utility annotations:
   - when true: asset is scheduled and immediately loaded on the first Lazy.get() call. This is useful for light, rarely used assets.
   - when false: asset is scheduled for loading when the component is being processed and is injected into the lazy field as soon as loading is done. This is similar to non-wrapped lazy variable with loadOnDemand set to false with one significant difference - if Lazy.get() is called and asset is not loaded, it will be loaded synchronously, never returning null. This is a safer variant (especially on initial screens or views with delayed asset loading) at a cost of a small overhead.
 - Note that assets injection are processed when the components are constructed, so you can delay asset loading by storing asset references in classes annotated with `@Component(lazy = true)` and injecting these components into Lazy<ComponentClass> fields. If you want to store a collection of assets in a lazy wrapper (it is supported), you have to specify lazyCollection type. For example, Lazy<Array<Texture>> would set type=Texture.class and lazyCollection=Array.class. Array, ObjectSet and ObjectMap are supported.
+- `@SkinAsset` - after application's Skin is fully loaded (as in: contains data specified with @Skin annotation), all fields annotated with @SkinAssets will have specific objects from the skin injected as their current values. Class of the annotated field has to match the Skin's mapped object class to be properly injected. You can specify asset key (String) in the Skin with value() annotation parameter - if you won't, it will default to "default".
 - `@Inject` - while not unique to Autumn MVC (this is actually a standard Autumn annotation), this is one of the annotations you will use the most. It allows to you inject any component - be it classes annotated with @Component or @View (among others), standard Autumn services, meta annotation processors or even the ContextContainer itself. See [Autumn](https://github.com/czyzby/gdx-autumn) docs for more info and more useful annotations.
 - `@Dispose` - again, this is Autumn annotation that allows to automate the disposal of heavy objects. Basically, when the annotated object is removed from context (which usually takes place when the application is being closed), it will be automatically disposed of. This does not have to annotate injected assets, as AssetService already takes care of asset disposing.
 - `@ViewStage` - when used in @View or @ViewDialog, injects current Stage object into the field. MIGHT be null or TURN null, as screens are sometimes reloaded and stages references might be cleared.
@@ -98,11 +99,18 @@ All classes (and annotations) have nearly full javadocs of public API, so everyt
 See [GdxIdle](https://github.com/czyzby/gdx-autumn-mvc-tests).
 
 ## Contributions
-Automatic component scan on Android and iOS is not implemented and it might take me some time before I finally force myself to do it. It will probably be in a separate library that depends on Autumn, so no changes in MVC itself are required. If someone already implemented this functionality and is willing to share, I won't mind integrating it into Autumn.
+Automatic component scan on Android and iOS is not implemented and it might take me some time before I finally force myself to do it, if ever. I do have an untested implementation, so if anyone needs it, I can share privately. It will probably be in a separate library that depends on Autumn, so no changes in MVC itself are required. If someone already implemented this functionality and is willing to share, I won't mind integrating it into Autumn.
 
 Your opinions, comments and testing can help as well. Don't be afraid to inform me about bugs and functionalities that are missing or the ones you are not a huge fan of.
 
 ## What's new
+0.7.1.6.1 -> 0.7.1.6.4:
+
+- @SkinAsset annotation. Injects objects mapped in the Skin after it is fully loaded.
+- Skin-related logic was moved from InterfaceService (which seems to, unfortunately, still do too much stuff) to SkinService. InterfaceService#getSkin method is still available though.
+- Action priorities slightly changed. InterfaceService now initiates with VERY_HIGH instead of TOP priority.
+- All Autumn MVC messages are now stored in AutumnMessage class. `AssetService.ASSETS_LOADED_MESSAGE` was moved to AutumnMessage.
+
 0.6 -> 0.7:
 
 - Default view shower will remove all tooltips and dialogs before the screen is shown, making sure that previously opened "helper" widgets will not be present on the view on the next showing. Default view shower can be changed globally in InterfaceService static methods, so this behavior can be changed.

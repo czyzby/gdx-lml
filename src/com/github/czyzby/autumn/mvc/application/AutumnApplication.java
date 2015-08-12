@@ -15,9 +15,11 @@ import com.github.czyzby.autumn.mvc.component.sfx.processor.MusicVolumeAnnotatio
 import com.github.czyzby.autumn.mvc.component.sfx.processor.SoundEnabledAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.component.sfx.processor.SoundVolumeAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
+import com.github.czyzby.autumn.mvc.component.ui.SkinService;
 import com.github.czyzby.autumn.mvc.component.ui.processor.LmlMacroAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.component.ui.processor.PreferenceAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.component.ui.processor.SkinAnnotationProcessor;
+import com.github.czyzby.autumn.mvc.component.ui.processor.SkinAssetAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.component.ui.processor.StageViewportAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.component.ui.processor.ViewActionContainerAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.component.ui.processor.ViewActorAnnotationProcessor;
@@ -64,6 +66,7 @@ public class AutumnApplication implements ApplicationListener {
 		return new FixedClassScanner(
 				// Assets:
 				AssetService.class,
+				SkinAssetAnnotationProcessor.class,
 				// Locale:
 				LocaleService.class,
 				// SFX:
@@ -78,10 +81,10 @@ public class AutumnApplication implements ApplicationListener {
 				SkinAnnotationProcessor.class,
 				StageViewportAnnotationProcessor.class,
 				// Interface:
-				InterfaceService.class, ViewAnnotationProcessor.class, ViewDialogAnnotationProcessor.class,
-				ViewActionContainerAnnotationProcessor.class, ViewActorAnnotationProcessor.class,
-				ViewStageAnnotationProcessor.class, LmlMacroAnnotationProcessor.class,
-				AvailableLocalesAnnotationProcessor.class);
+				InterfaceService.class, SkinService.class, ViewAnnotationProcessor.class,
+				ViewDialogAnnotationProcessor.class, ViewActionContainerAnnotationProcessor.class,
+				ViewActorAnnotationProcessor.class, ViewStageAnnotationProcessor.class,
+				LmlMacroAnnotationProcessor.class, AvailableLocalesAnnotationProcessor.class);
 	}
 
 	@Override
