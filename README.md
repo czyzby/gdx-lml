@@ -9,7 +9,7 @@ To import LML with Gradle, add this dependency to your core:
 ```
     compile "com.github.czyzby:gdx-lml:0.7.$gdxVersion"
 ```
-Currently supported LibGDX version is **1.6.1**.
+Currently supported LibGDX version is **1.6.4**.
 
 If you want to use LML with GWT, you have to add this module to your GdxDefinition:
 ```

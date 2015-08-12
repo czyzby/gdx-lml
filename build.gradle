@@ -7,9 +7,9 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 sourceCompatibility = 1.6
 
 ext {
-	libVersion = '0.8'
-    gdxVersion = '1.6.1'
-    isSnapshot = '-SNAPSHOT'
+    libVersion = '0.7'
+    gdxVersion = '1.6.4'
+    isSnapshot = ''
 }
 
 group = "com.github.czyzby"
@@ -49,7 +49,6 @@ artifacts {
 signing {
     sign configurations.archives
 }
-
 
 dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
