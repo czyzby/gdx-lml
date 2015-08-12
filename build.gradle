@@ -13,11 +13,12 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    version = '0.6.1.6.0'
+    version = '0.7.1.6.4'
     ext {
         appName = 'gdx-autumn-mvc-tests'
-        gdxVersion = '1.6.0'
-        autumnVersion = '0.6'
+        gdxVersion = '1.6.4'
+        autumnVersion = '0.7'
+        autumnSnapshot = ''
     }
 
     repositories {
@@ -48,9 +49,9 @@ project(":html") {
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
-        compile "com.github.czyzby:gdx-autumn-mvc:$autumnVersion.$gdxVersion:sources"
-        compile "com.github.czyzby:gdx-autumn-gwt:$autumnVersion.$gdxVersion"
-        compile "com.github.czyzby:gdx-autumn-gwt:$autumnVersion.$gdxVersion:sources"
+        compile "com.github.czyzby:gdx-autumn-mvc:$autumnVersion.$gdxVersion$autumnSnapshot:sources"
+        compile "com.github.czyzby:gdx-autumn-gwt:$autumnVersion.$gdxVersion$autumnSnapshot"
+        compile "com.github.czyzby:gdx-autumn-gwt:$autumnVersion.$gdxVersion$autumnSnapshot:sources"
     }
 }
 
@@ -60,7 +61,7 @@ project(":core") {
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-        compile "com.github.czyzby:gdx-autumn-mvc:$autumnVersion.$gdxVersion"
+        compile "com.github.czyzby:gdx-autumn-mvc:$autumnVersion.$gdxVersion$autumnSnapshot"
     }
 }
 

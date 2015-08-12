@@ -14,10 +14,10 @@ import com.github.czyzby.autumn.annotation.field.Inject;
 import com.github.czyzby.autumn.annotation.method.Initiate;
 import com.github.czyzby.autumn.annotation.method.OnMessage;
 import com.github.czyzby.autumn.annotation.stereotype.Component;
-import com.github.czyzby.autumn.mvc.component.asset.AssetService;
 import com.github.czyzby.autumn.mvc.component.i18n.LocaleService;
 import com.github.czyzby.autumn.mvc.component.sfx.MusicService;
 import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
+import com.github.czyzby.autumn.mvc.config.AutumnMessage;
 import com.github.czyzby.autumn.mvc.stereotype.Asset;
 import com.github.czyzby.gdx.idle.logic.data.LocationData;
 import com.github.czyzby.gdx.idle.logic.data.MonsterData;
@@ -63,13 +63,13 @@ public class GameManager {
 	private LocationData currentLocation;
 	private MonsterData currentMonster;
 
-	private ObjectSet<String> monstersKilled = GdxSets.newSet();
+	private final ObjectSet<String> monstersKilled = GdxSets.newSet();
 	private final StringBuilder labelBuilder = new StringBuilder();
 	private int currentPlayerHealthAmount;
 	private int currentMonsterHealthAmount;
 	private int monstersKilledOnLocation;
 
-	@OnMessage(AssetService.ASSETS_LOADED_MESSAGE)
+	@OnMessage(AutumnMessage.ASSETS_LOADED)
 	private void assignRegions() {
 		interfaceService.getSkin().addRegions(locationsAtlas);
 		interfaceService.getSkin().addRegions(monstersAtlas);
