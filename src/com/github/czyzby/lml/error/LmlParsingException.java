@@ -11,7 +11,7 @@ public class LmlParsingException extends RuntimeException {
 	private static final String LINE_MARKER_MESSAGE = " Error occured near line ";
 	private static final String FILE_MARKER_MESSAGE = " of the original file: ";
 	private static final String ERROR_PROMPT =
-			".\n\tNote that if a macro was called or ended in this line (even one of the default ones), the real problematic line may vary a bit from the given value due to how parser works. If the given line appears to be valid, recheck the called macro and its content between tags. Original exception class and message: ";
+			".\n\tNote that if a macro was called or has ended in this line (even one of the default ones), the real problematic line may not be exact due to how parser works. If the given line appears to be valid, please recheck the called macro and its content between tags.\n\tOriginal exception class and message: ";
 
 	public LmlParsingException(final String message) {
 		super(prepareMessage(message == null ? DEFAULT_ERROR_MESSAGE : message, null, null));

@@ -87,6 +87,9 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 			parser.currentlyParsedLine = 1;
 			parser.buffer.clear();
 			parser.appendToBuffer(lmlDocument);
+			if (isTemplateEmpty()) {
+				return parsedActors;
+			}
 			originalFileBuffer = parser.buffer.getFirst();
 
 			// No Pattern-Matcher in GWT. Meh.
@@ -147,6 +150,16 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 			validateHierarchy();
 			parser.clearLastParsedDocumentName();
 			return parsedActors;
+		}
+
+		private boolean isTemplateEmpty() {
+			if (parser.buffer.isEmpty()) {
+				if (parser.isStrict()) {
+					throw new LmlParsingException("Passed LML document is empty. Cannot parse.");
+				}
+				return true;
+			}
+			return false;
 		}
 
 		private void validateHierarchy() {

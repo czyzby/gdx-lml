@@ -35,6 +35,11 @@ public class ConditionLmlMacroParent extends AbstractConditionalLmlMacroParent {
 				getParentActor()) : true;
 	}
 
+	@Override
+	protected boolean needsArgument() {
+		return true;
+	}
+
 	private static enum Operator {
 		EQUALS("=", "==", "===", "eq") {
 			@Override

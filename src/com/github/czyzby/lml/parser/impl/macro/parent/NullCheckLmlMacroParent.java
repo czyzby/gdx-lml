@@ -12,7 +12,9 @@ public class NullCheckLmlMacroParent extends AbstractConditionalLmlMacroParent {
 
 	@Override
 	protected boolean checkCondition(final LmlParser parser) {
-		if (arguments.size == 1) {
+		if (arguments.size == 0) {
+			return false;
+		} else if (arguments.size == 1) {
 			return doSingleArgumentCheck(arguments.get(0), parser);
 		}
 		// More arguments received - assuming a parameter was passed and it consists of multiple parts
@@ -20,4 +22,8 @@ public class NullCheckLmlMacroParent extends AbstractConditionalLmlMacroParent {
 		return true;
 	}
 
+	@Override
+	protected boolean needsArgument() {
+		return false;
+	}
 }

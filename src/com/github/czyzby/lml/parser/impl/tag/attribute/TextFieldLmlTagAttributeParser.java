@@ -110,6 +110,13 @@ public enum TextFieldLmlTagAttributeParser implements LmlTagAttributeParser {
 				textField.setSelection(0, selectionEnd);
 			}
 		}
+	},
+	MAX_LENGTH("maxLength") {
+		@Override
+		protected void apply(final TextField textField, final LmlParser parser, final String attributeValue,
+				final LmlTagData lmlTagData) {
+			textField.setMaxLength(LmlAttributes.parseInt(textField, parser, attributeValue));
+		}
 	};
 	protected static final String SELECTION_START_ATTRIBUTE = "SELECTIONSTART";
 	protected static final String SELECTION_END_ATTRIBUTE = "SELECTIONEND";
