@@ -9,7 +9,7 @@ To import LML with Gradle, add this dependency to your core:
 ```
     compile "com.github.czyzby:gdx-lml:0.7.$gdxVersion"
 ```
-Currently supported LibGDX version is **1.6.4**.
+Currently supported LibGDX version is **1.6.5**.
 
 If you want to use LML with GWT, you have to add this module to your GdxDefinition:
 ```
@@ -20,13 +20,20 @@ If you want to use LML with GWT, you have to add this module to your GdxDefiniti
 See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&t=18843), [example project](http://github.com/czyzby/gdx-lml-tests) and [Wiki syntax page (work in progress)](https://github.com/czyzby/gdx-lml/wiki/Syntax).
 
 ## What's new
+0.7.1.6.4 -> 0.7.1.6.5:
+
+- Missing `maxLength` attribute for TextField and TextArea now supported.
+- Null check macro can now be invoked without attributes and will not throw exceptions; instead it works as if it would receive null or false (shows "else" variant).
+- Empty LML document will not throw exceptions on parsing; instead, it returns an empty array of actors, as you would expect.
+- Note that even though LibGDX now supports tooltips, for now the initial LML mechanism is still used. `<tooltip>` tag still works similarly to a table, which can be filled with any widgets and is shown after a short delay.
+ 
 0.6 -> 0.7:
 
 - Wiki page with all tags and attributes is being created. Stay tuned.
 - Added "disabled" attribute to ProgressBar.
 - @ViewAction now takes an array of strings as action IDs. This won't break existing code, while allowing to map the selected method by multiple IDs.
 - New common tag attribute: userObject. Allows to assign a custom object to the actor by using Actor#setUserObject method. If action operator is used (&), method will be found and executed - its result will be assigned as the user object; in other cases, string value of the attribute is set. Be careful - some widgets (Dialogs, Windows, Tooltips) use the same mechanism to store stage/actor attachment data; however, this attribute should be safe to use for actors that are not roots (as in not directly added to stage).
-- Extended tooltip support. Now you can attach tooltips to actors by adding a <tooltip> tag inside them. Tooltip works pretty much like table, so you can fully customize tooltips' look and layout. Tooltip tag has 3 extra settings (additionally to all table attributes): fadingTime, movingTime, showingDelay (all in seconds; see Tooltip docs). Child <tooltip/> tag is NOT advised (especially since there is no way to set its content) - tooltips should be added with parental tags (<tooltip>...</tooltip>).
+- Extended tooltip support. Now you can attach tooltips to actors by adding a `<tooltip>` tag inside them. Tooltip works pretty much like table, so you can fully customize tooltips' look and layout. Tooltip tag has 3 extra settings (additionally to all table attributes): fadingTime, movingTime, showingDelay (all in seconds; see Tooltip docs). Child `<tooltip/>` tag is NOT advised (especially since there is no way to set its content) - tooltips should be added with parental tags (`<tooltip>...</tooltip>`).
 
 0.5 -> 0.6:
 
