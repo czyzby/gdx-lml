@@ -27,8 +27,13 @@ public class GwtClassScanner implements ClassScanner {
 				continue;
 			}
 			for (final Class<? extends Annotation> annotation : annotations) {
-				if (ClassReflection.isAnnotationPresent(reflectedClass, annotation)) {
-					reflectedClasses.get(annotation).add(reflectedClass);
+				try {
+					if (ClassReflection.isAnnotationPresent(reflectedClass, annotation)) {
+						reflectedClasses.get(annotation).add(reflectedClass);
+					}
+				} catch (final Throwable exception) {
+					// It's GWT - everything can happen.
+					// TODO errors might occur here due to changes in LibGDX reflection. Fix generator.
 				}
 			}
 		}
