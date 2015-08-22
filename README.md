@@ -1,7 +1,7 @@
 #LibGDX Kiwi Utilities Library
 Kiwi is a small set of utilities inspired by Guava.
 
-Why the fruity name? Well, guava is a fruit after all... that, and I didn't want to create 100th gdx-util out there, to be honest.
+Why the fruity name? Well, I like kiwis and guava is a fruit after all... that, and I didn't want to create 100th gdx-util out there, to be honest.
 
 Since LibGDX is using its own collections - without implementation of standard Java interfaces, for better and for worse - most Java collection utilities are somewhat useless. That, or they are unavailable for GWT and/or contain a lot of unnecessary classes, which are pretty easy to mix up and import by mistake. Kiwi tries to change that, by having LibGDX-based utilities that could be at least partially useful in pretty much any GDX application.
 
@@ -100,7 +100,7 @@ Core project Gradle dependency:
 ```
     compile "com.github.czyzby:gdx-kiwi:0.7.$gdxVersion"
 ```
-Currently supported LibGDX version is **1.6.4**.
+Currently supported LibGDX version is **1.6.5**.
 
 GWT module:
 ```
