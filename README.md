@@ -26,6 +26,8 @@ Normally, you would have to implement some kind of system that manages screens, 
 ### But I don't like LML...
 I can understand that not everyone might be a fan of HTML-like syntax and tedious refactoring. Personally, I find UIs created in Java less readable and too verbose, but if for some reason that's the way you want to go, take the hard way by making your `@View` implement `ViewController` and you will have full control over the screen, without losing SOME features, like the asset management, component injection and so on. There's even an abstract base for views without LML: `AbstractViewController`. However, screen transition mechanism relies on actions, so dropping Scene2D for another UI system is a no-go. You don't have to - or even are encouraged to - use Scene2D for your game logic though.
 
+Anyway, here's an (unfinished) list of LML attributes: [LML syntax](https://github.com/czyzby/gdx-lml/wiki/Syntax). 
+
 ### Why not...
 Why should you use Autumn MVC instead of a professional, mature dependency injection library? Well, if you already have some of your own utilities and not a huge fan of view templates, you will probably do just fine with Dagger or whatever it is you want to use. In the end, it comes down to what saves your time.
 
@@ -42,7 +44,7 @@ Gradle:
 ```
     compile "com.github.czyzby:gdx-autumn-mvc:0.7.$gdxVersion"
 ```
-Currently supported LibGDX version is **1.6.4**.
+Currently supported LibGDX version is **1.6.5**.
 
 ### Application
 Instead of implementing `ApplicationListener` or extending `ApplicationAdapter`, extend `AutumnApplication`. Actually, you can even use pass it to application initiation methods without extending, this is not an abstract class. Initiating this object requires you to pass a root scanning class (which will usually be the class in the bottom of your package hierarchy) and a class scanner, which is (usually) platform-specific.
