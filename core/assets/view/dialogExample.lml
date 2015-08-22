@@ -1,6 +1,6 @@
 <!-- Actually, every template shows a dialog
   -- on error. Yes, I'm very lazy. -->
-</error>
+</errorOnPurpose>
 
 <!-- dialog.lml:
 <dialog title="@error" style="dialog">

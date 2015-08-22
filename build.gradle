@@ -13,10 +13,10 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    version = '0.7.1.6.4'
+    version = '0.7.1.6.5'
     ext {
         appName = 'gdx-lml-tests'
-        gdxVersion = '1.6.4'
+        gdxVersion = '1.6.5'
         libVersion = '0.7'
         isSnapshot = ''
     }
