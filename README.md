@@ -86,7 +86,7 @@ In views you can also use these utility annotations:
 - `@Inject` - while not unique to Autumn MVC (this is actually a standard Autumn annotation), this is one of the annotations you will use the most. It allows to you inject any component - be it classes annotated with @Component or @View (among others), standard Autumn services, meta annotation processors or even the ContextContainer itself. See [Autumn](https://github.com/czyzby/gdx-autumn) docs for more info and more useful annotations.
 - `@Dispose` - again, this is Autumn annotation that allows to automate the disposal of heavy objects. Basically, when the annotated object is removed from context (which usually takes place when the application is being closed), it will be automatically disposed of. This does not have to annotate injected assets, as AssetService already takes care of asset disposing.
 - `@ViewStage` - when used in @View or @ViewDialog, injects current Stage object into the field. MIGHT be null or TURN null, as screens are sometimes reloaded and stages references might be cleared.
-- `@ViewActor` - when used in @View or @ViewDialog, injects actor with the given ID to the field after LML template parsing. If actor ID is not given, field name is used. ID can be specified in LML templates with "id" tag attribute.
+- `@ViewActor` - when used in @View or @ViewDialog, injects actor with the given ID to the field after LML template parsing. If actor ID is not given, field name is used. ID can be specified in LML templates with "id" tag attribute. Note that you can pass an array of strings with multiple actor IDs - if the field is an Array, ObjectSet or ObjectMap, multiple actors will be stored in the collection and injected into one field. If you use an Array, the injected actors' order will match the order of actor IDs that you pass into the annotation. If you use an ObjectMap, it has to be a `<String,CommonActorSuperClass>` map - actors will be put into the map with the key matching their ID.
 
 These are the services that you might want or have to inject from time to time:
 
@@ -106,6 +106,10 @@ Automatic component scan on Android and iOS is not implemented and it might take
 Your opinions, comments and testing can help as well. Don't be afraid to inform me about bugs and functionalities that are missing or the ones you are not a huge fan of.
 
 ## What's new
+0.7 -> 0.8
+
+- @ViewActor annotation now takes an array of strings, making it possible to inject multiple actors into one field. Supported collection types are Array, ObjectSet and ObjectMap - standard LibGDX collections. If you use an Array, the injected actors' order will match the order of actor IDs that you pass into the annotation. If you use an ObjectMap, it has to be a `<String,CommonActorSuperClass>` map - actors will be put into the map with the key matching their ID. If you pass an empty array to the ViewActor annotation (default behavior), an array containing field's name will be used instead. Note that this does not break any existing code; if the annotated field is not a collection, actor mapped by the first ID in the annotation's string array (or mapped by field's name) will be injected directly into the field.
+
 0.7.1.6.1 -> 0.7.1.6.4:
 
 - @SkinAsset annotation. Injects objects mapped in the Skin after it is fully loaded.

@@ -2,19 +2,20 @@ package com.github.czyzby.autumn.mvc.component.ui.controller.impl;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.github.czyzby.autumn.error.AutumnRuntimeException;
-import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
+import com.github.czyzby.autumn.mvc.component.ui.dto.injection.ActorFieldInjection;
+import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 
 /** Base class for controller wrappers of annotated objects.
  *
  * @author MJ */
 public abstract class AbstractAnnotatedController {
-	private final ObjectMap<String, Field> actorsToInject = GdxMaps.newObjectMap();
+	private final Array<ActorFieldInjection> actorsToInject = GdxArrays.newArray();
 	protected final Object wrappedObject;
 	private Field stageField;
 
@@ -26,17 +27,8 @@ public abstract class AbstractAnnotatedController {
 	 *
 	 * @param actorsMappedById actors mapped by their IDs returned by LML parser. */
 	protected void injectReferencedActors(final ObjectMap<String, Actor> actorsMappedById) {
-		for (final Entry<String, Actor> actor : actorsMappedById) {
-			final Field actorField = actorsToInject.get(actor.key);
-			if (actorField != null) {
-				try {
-					Reflection.setFieldValue(actorField, wrappedObject, actor.value);
-				} catch (final ReflectionException exception) {
-					throw new AutumnRuntimeException("Unable to inject actor: " + actor.value
-							+ " mapped by ID: " + actor.key + " into controller: " + wrappedObject + ".",
-							exception);
-				}
-			}
+		for (final ActorFieldInjection injection : actorsToInject) {
+			injection.injectActors(wrappedObject, actorsMappedById);
 		}
 	}
 
@@ -58,12 +50,12 @@ public abstract class AbstractAnnotatedController {
 		injectStage(null);
 	}
 
-	/** Allows to specify a field that should have an actor injected each time the controlled object is built.
+	/** Allows to specify a field that should have an actor (or multiple actors) injected each time the
+	 * controlled object is built.
 	 *
-	 * @param actorId ID of the actor specified with id tag attribute.
-	 * @param field will hold the actor with the selected ID after parsing. */
-	public void registerActorField(final String actorId, final Field field) {
-		actorsToInject.put(actorId, field);
+	 * @param actorFieldInjection contains data about the field and reference actor IDs. */
+	public void registerActorField(final ActorFieldInjection actorFieldInjection) {
+		actorsToInject.add(actorFieldInjection);
 	}
 
 	/** Allows to specify a field holding reference to current managed
