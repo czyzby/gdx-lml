@@ -3,6 +3,7 @@ package com.github.czyzby.kiwi.util.gdx.scene2d;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 
 /** Contains common methods for Scene2D actors.
  *
@@ -50,5 +51,14 @@ public class Actors {
 	 * @return true if actor is not null and has a stage. */
 	public static boolean isShown(final Actor actor) {
 		return actor != null && actor.getStage() != null;
+	}
+
+	/** Null-safe method to hide dialogs.
+	 *
+	 * @param dialog will be hidden if exists. */
+	public static void hide(final Dialog dialog) {
+		if (dialog != null) {
+			dialog.hide();
+		}
 	}
 }
