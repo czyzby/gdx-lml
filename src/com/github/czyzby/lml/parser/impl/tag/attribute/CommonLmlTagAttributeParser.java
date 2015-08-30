@@ -1,5 +1,6 @@
 package com.github.czyzby.lml.parser.impl.tag.attribute;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -116,6 +117,7 @@ public enum CommonLmlTagAttributeParser implements LmlTagAttributeParser, LmlSyn
 		@Override
 		public void apply(final Actor actor, final LmlParser parser, final String attributeValue,
 				final LmlTagData lmlTagData) {
+			// TODO Convert to "native" LibGDX tooltips.
 			final Tooltip tooltip =
 					new Tooltip(getTooltipContent(parser, actor, attributeValue), parser.getSkin(),
 							getTooltipStyle(actor, parser, lmlTagData));
@@ -159,6 +161,66 @@ public enum CommonLmlTagAttributeParser implements LmlTagAttributeParser, LmlSyn
 		public void apply(final Actor actor, final LmlParser parser, final String attributeValue,
 				final LmlTagData lmlTagData) {
 			actor.setDebug(LmlAttributes.parseBoolean(actor, parser, attributeValue));
+		}
+	},
+	COLOR("color") {
+		@Override
+		protected void apply(final Actor actor, final LmlParser parser, final String attributeValue,
+				final LmlTagData lmlTagData) {
+			String colorName;
+			if (attributeValue.charAt(0) == ACTION_OPERATOR) {
+				final Object actionResult =
+						parser.findAction(attributeValue.substring(1), actor).consume(actor);
+				if (actionResult instanceof Color) {
+					actor.setColor((Color) actionResult);
+					return;
+				} else {
+					colorName = Strings.toString(actionResult);
+				}
+			} else {
+				colorName = LmlAttributes.parseString(actor, parser, attributeValue);
+			}
+			actor.setColor(parser.getSkin().getColor(colorName));
+		}
+	},
+	RED("r", "red") {
+		@Override
+		protected void apply(final Actor actor, final LmlParser parser, final String attributeValue,
+				final LmlTagData lmlTagData) {
+			final Color currentColor = actor.getColor();
+			// getColor() returns actor's Color instance, but just to be safe - setting with Actor's API:
+			actor.setColor(LmlAttributes.parseFloat(actor, parser, attributeValue), currentColor.g,
+					currentColor.b, currentColor.a);
+		}
+	},
+	GREEN("g", "green") {
+		@Override
+		protected void apply(final Actor actor, final LmlParser parser, final String attributeValue,
+				final LmlTagData lmlTagData) {
+			final Color currentColor = actor.getColor();
+			// getColor() returns actor's Color instance, but just to be safe - setting with Actor's API:
+			actor.setColor(currentColor.r, LmlAttributes.parseFloat(actor, parser, attributeValue),
+					currentColor.b, currentColor.a);
+		}
+	},
+	BLUE("b", "blue") {
+		@Override
+		protected void apply(final Actor actor, final LmlParser parser, final String attributeValue,
+				final LmlTagData lmlTagData) {
+			final Color currentColor = actor.getColor();
+			// getColor() returns actor's Color instance, but just to be safe - setting with Actor's API:
+			actor.setColor(currentColor.r, currentColor.g,
+					LmlAttributes.parseFloat(actor, parser, attributeValue), currentColor.a);
+		}
+	},
+	ALPHA("a", "alpha") {
+		@Override
+		protected void apply(final Actor actor, final LmlParser parser, final String attributeValue,
+				final LmlTagData lmlTagData) {
+			final Color currentColor = actor.getColor();
+			// getColor() returns actor's Color instance, but just to be safe - setting with Actor's API:
+			actor.setColor(currentColor.r, currentColor.g, currentColor.b,
+					LmlAttributes.parseFloat(actor, parser, attributeValue));
 		}
 	};
 

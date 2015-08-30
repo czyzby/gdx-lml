@@ -20,6 +20,10 @@ If you want to use LML with GWT, you have to add this module to your GdxDefiniti
 See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&t=18843), [example project](http://github.com/czyzby/gdx-lml-tests) and [Wiki syntax page (work in progress)](https://github.com/czyzby/gdx-lml/wiki/Syntax).
 
 ## What's new
+0.7 -> 0.8:
+
+- Color tag attributes. Now it is possible to set actor's color from within the LML templates. `color` attribute expects either a method (or field) name that returns a Color or a String, which is the name of a color present in .json Skin. You can also manually set each color value with `r`, `red`, `b`, `blue`, `g`, `green`, `a` and `alpha` attributes - these will expect a float. These attributes are available to all tags, as they use only the Actor's API.
+
 0.7.1.6.4 -> 0.7.1.6.5:
 
 - Missing `maxLength` attribute for TextField and TextArea now supported.
