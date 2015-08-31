@@ -3,6 +3,7 @@ package com.github.czyzby.kiwi.util.gdx.scene2d;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 
 /** Contains common methods for Scene2D actors.
@@ -59,6 +60,35 @@ public class Actors {
 	public static void hide(final Dialog dialog) {
 		if (dialog != null) {
 			dialog.hide();
+		}
+	}
+
+	/** Null-safe method for clearing keyboard focus.
+	 *
+	 * @param actor if is not null, will extract its stage. If stage is not null, will clear its keyboard
+	 *            focused actor, if one is present. */
+	public static void clearKeyboardFocus(final Actor actor) {
+		if (actor != null) {
+			clearKeyboardFocus(actor.getStage());
+		}
+	}
+
+	/** Null-safe method for clearing keyboard focus.
+	 *
+	 * @param stage will have its keyboard focused actor cleared, if one is present. */
+	public static void clearKeyboardFocus(final Stage stage) {
+		if (stage != null) {
+			stage.setKeyboardFocus(null);
+		}
+	}
+
+	/** Null-safe method that clears a Cell of a Table.
+	 *
+	 * @param tableCell can be null. Will have its actor removed and will be reset. */
+	public static void clearCell(final Cell<?> tableCell) {
+		if (tableCell != null) {
+			tableCell.clearActor();
+			tableCell.reset();
 		}
 	}
 }
