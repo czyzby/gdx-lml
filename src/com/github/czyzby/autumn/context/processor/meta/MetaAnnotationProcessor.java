@@ -39,7 +39,7 @@ public class MetaAnnotationProcessor extends ComponentMetaAnnotationProcessor {
 		}
 	}
 
-	private void injectFields(final ContextContainer context, final Class<?> componentClass,
+	private static void injectFields(final ContextContainer context, final Class<?> componentClass,
 			final ComponentAnnotationProcessor processor) {
 		try {
 			for (final Field field : ClassReflection.getDeclaredFields(componentClass)) {
@@ -52,8 +52,8 @@ public class MetaAnnotationProcessor extends ComponentMetaAnnotationProcessor {
 		}
 	}
 
-	private void injectField(final ContextContainer context, final ComponentAnnotationProcessor processor,
-			final Field field) throws ReflectionException {
+	private static void injectField(final ContextContainer context,
+			final ComponentAnnotationProcessor processor, final Field field) throws ReflectionException {
 		if (field.isAnnotationPresent(Inject.class)) {
 			final Inject injectionData = Reflection.getAnnotation(field, Inject.class);
 			if (ComponentAnnotations.isClassSet(injectionData.lazy())) {
@@ -65,7 +65,7 @@ public class MetaAnnotationProcessor extends ComponentMetaAnnotationProcessor {
 		}
 	}
 
-	private Lazy<?> prepareLazyInjectedField(final ContextContainer context, final Inject injectionData) {
+	private static Lazy<?> prepareLazyInjectedField(final ContextContainer context, final Inject injectionData) {
 		if (injectionData.concurrentLazy()) {
 			return Lazy.concurrentProvidedBy(MetaComponentProvider.with(context, injectionData.lazy()));
 		} else {

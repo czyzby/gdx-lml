@@ -35,7 +35,7 @@ public class InjectAnnotationProcessor extends ComponentFieldAnnotationProcessor
 		}
 	}
 
-	private void injectLazyVariable(final ContextContainer context, final ContextComponent component,
+	private static void injectLazyVariable(final ContextContainer context, final ContextComponent component,
 			final Field field, final Inject injectionData) {
 		Lazy<?> lazyComponent;
 		if (injectionData.concurrentLazy()) {
@@ -55,7 +55,7 @@ public class InjectAnnotationProcessor extends ComponentFieldAnnotationProcessor
 		}
 	}
 
-	private <Type> ObjectProvider<Type> getContextComponentProvider(final ContextContainer context,
+	private static <Type> ObjectProvider<Type> getContextComponentProvider(final ContextContainer context,
 			final Class<Type> componentClass, final boolean asNewInstance) {
 		if (asNewInstance) {
 			return new UniqueContextComponentProvider<Type>(context, componentClass);
@@ -63,8 +63,8 @@ public class InjectAnnotationProcessor extends ComponentFieldAnnotationProcessor
 		return new ContextComponentProvider<Type>(context, componentClass);
 	}
 
-	private void injectRegularVariable(final ContextContainer context, final ContextComponent component,
-			final Field field, final Inject injectionData) {
+	private static void injectRegularVariable(final ContextContainer context,
+			final ContextComponent component, final Field field, final Inject injectionData) {
 		try {
 			if (injectionData.newInstance()) {
 				injectNewInstance(context, component, field, injectionData);
@@ -77,7 +77,7 @@ public class InjectAnnotationProcessor extends ComponentFieldAnnotationProcessor
 		}
 	}
 
-	private void injectNewInstance(final ContextContainer context, final ContextComponent component,
+	private static void injectNewInstance(final ContextContainer context, final ContextComponent component,
 			final Field field, final Inject injectionData) throws ReflectionException {
 		final Class<?> componentClass =
 				ComponentAnnotations.isClassSet(injectionData.value()) ? injectionData.value() : field
@@ -87,8 +87,9 @@ public class InjectAnnotationProcessor extends ComponentFieldAnnotationProcessor
 		Reflection.setFieldValue(field, component.getComponent(), componentToInject.getComponent());
 	}
 
-	private void injectExtractedFromContext(final ContextContainer context, final ContextComponent component,
-			final Field field, final Inject injectionData) throws ReflectionException {
+	private static void injectExtractedFromContext(final ContextContainer context,
+			final ContextComponent component, final Field field, final Inject injectionData)
+			throws ReflectionException {
 		final ContextComponent componentToInject;
 		if (ComponentAnnotations.isClassSet(injectionData.value())) {
 			// Custom class:

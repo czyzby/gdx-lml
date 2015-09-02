@@ -7,9 +7,9 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 sourceCompatibility = 1.6
 
 ext {
-    libVersion = '0.7'
+    libVersion = '0.8'
     gdxVersion = '1.6.5'
-    isSnapshot = ''
+    isSnapshot = '-SNAPSHOT'
 }
 
 group = "com.github.czyzby"

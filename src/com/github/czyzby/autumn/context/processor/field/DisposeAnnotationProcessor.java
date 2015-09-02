@@ -56,7 +56,7 @@ public class DisposeAnnotationProcessor extends ComponentFieldAnnotationProcesso
 		return KEEP_AFTER_INVOCATION;
 	}
 
-	private void disposeOf(final Field field, final Object component) {
+	private static void disposeOf(final Field field, final Object component) {
 		try {
 			final Object fieldValue = Reflection.getFieldValue(field, component);
 			if (fieldValue instanceof Disposable) {

@@ -61,7 +61,7 @@ public class DesktopClassScanner implements ClassScanner {
 		}
 	}
 
-	private ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> extractFromBinaries(
+	private static ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> extractFromBinaries(
 			final Iterable<Class<? extends Annotation>> annotations, final String mainPackageName,
 			final Queue<Pair<File, Integer>> filesWithDepthsToProcess) throws ReflectionException {
 		final ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> result =
@@ -81,11 +81,11 @@ public class DesktopClassScanner implements ClassScanner {
 		return result;
 	}
 
-	private File toFile(final URL url) throws URISyntaxException {
+	private static File toFile(final URL url) throws URISyntaxException {
 		return new File(url.toURI()).getAbsoluteFile();
 	}
 
-	private void addAllChildren(final Queue<Pair<File, Integer>> rootFiles, final File classPathFile,
+	private static void addAllChildren(final Queue<Pair<File, Integer>> rootFiles, final File classPathFile,
 			int depth) {
 		depth++;
 		for (final File file : classPathFile.listFiles()) {
@@ -95,7 +95,8 @@ public class DesktopClassScanner implements ClassScanner {
 		}
 	}
 
-	private String getBinaryClassName(final String mainPackageName, final File classPathFile, final int depth) {
+	private static String getBinaryClassName(final String mainPackageName, final File classPathFile,
+			final int depth) {
 		final String[] classFolders = classPathFile.getPath().split(File.separator);
 		final StringBuilder builder = new StringBuilder(mainPackageName);
 		for (int folderIndex = classFolders.length - depth; folderIndex < classFolders.length - 1; folderIndex++) {
@@ -107,11 +108,11 @@ public class DesktopClassScanner implements ClassScanner {
 		return builder.toString();
 	}
 
-	private String getClassPathRoot(final String mainPackageName) {
+	private static String getClassPathRoot(final String mainPackageName) {
 		return mainPackageName.replace(DOT_SEPARATOR, FILE_SEPARATOR);
 	}
 
-	private ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> extractFromJar(
+	private static ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> extractFromJar(
 			final Iterable<Class<? extends Annotation>> annotations, final String classPathRoot,
 			final ClassLoader classLoader) throws URISyntaxException, IOException, ReflectionException {
 		final Array<JarFile> filesToProcess = getJarFilesToProcess();
@@ -127,7 +128,7 @@ public class DesktopClassScanner implements ClassScanner {
 		return result;
 	}
 
-	private Array<JarFile> getJarFilesToProcess() throws URISyntaxException, IOException {
+	private static Array<JarFile> getJarFilesToProcess() throws URISyntaxException, IOException {
 		final Array<JarFile> filesToProcess = GdxArrays.newArray();
 		final File jarDirectory = new File(ClassLoader.getSystemClassLoader().getResource(".").toURI());
 		for (final File file : jarDirectory.listFiles()) {
@@ -138,7 +139,7 @@ public class DesktopClassScanner implements ClassScanner {
 		return filesToProcess;
 	}
 
-	private void processEntry(final Iterable<Class<? extends Annotation>> annotations,
+	private static void processEntry(final Iterable<Class<? extends Annotation>> annotations,
 			final String classPathRoot,
 			final ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> result, final JarEntry entry)
 			throws ReflectionException {
@@ -152,7 +153,7 @@ public class DesktopClassScanner implements ClassScanner {
 		}
 	}
 
-	private void mapClassByAnnotations(final Iterable<Class<? extends Annotation>> annotations,
+	private static void mapClassByAnnotations(final Iterable<Class<? extends Annotation>> annotations,
 			final ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> result,
 			final Class<?> classToProcess) {
 		for (final Class<? extends Annotation> annotation : annotations) {
@@ -162,7 +163,7 @@ public class DesktopClassScanner implements ClassScanner {
 		}
 	}
 
-	private String jarEntryToClassName(final String entryName) {
+	private static String jarEntryToClassName(final String entryName) {
 		return entryName.substring(0, entryName.length() - CLASS_FILE_EXTENSION.length()).replace(
 				FILE_SEPARATOR, DOT_SEPARATOR);
 	}
