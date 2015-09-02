@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.ObjectSet;
  * @author Nathan Sweet
  * @author MJ */
 public class ImmutableObjectSet<Type> extends ObjectSet<Type> {
+	@SuppressWarnings("hiding")
 	private final int size;
 
 	/** Creates a new set identical to the specified set. */

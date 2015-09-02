@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
  *
  * @author Nathan Sweet
  * @author MJ */
+@SuppressWarnings("hiding")
 public class ImmutableArray<Type> extends Array<Type> {
 	// Hiding public Array variables, making it harder to manually modify array values.
 	private final int size;

@@ -2,7 +2,9 @@ package com.github.czyzby.kiwi.util.gdx.scene2d.range;
 
 import com.badlogic.gdx.graphics.Color;
 
-/** Utility object, meant to be used internally by components that change color over time.
+/** Utility object, meant to be used internally by components that change color over time. Uses simplified
+ * interpolation. Useful for specific cases (like custom widgets), for most actors - UI actions are usually
+ * less awkward to use.
  *
  * @author MJ */
 public class ColorRange {

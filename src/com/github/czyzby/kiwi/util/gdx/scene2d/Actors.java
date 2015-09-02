@@ -13,24 +13,28 @@ public class Actors {
 	private Actors() {
 	}
 
-	/** Centers passed actor's position on its assigned stage according to their sizes. */
+	/** Centers passed actor's position on its assigned stage according to their sizes. Null-safe. */
 	public static void centerActor(final Actor actor) {
 		centerActor(actor, actor.getStage());
 	}
 
-	/** Centers passed actor's position on the given stage according to their sizes. */
+	/** Centers passed actor's position on the given stage according to their sizes. Null-safe. */
 	public static void centerActor(final Actor actor, final Stage stage) {
-		actor.setPosition((int) (stage.getWidth() / 2f - actor.getWidth() / 2f),
-				(int) (stage.getHeight() / 2f - actor.getHeight() / 2f));
+		if (actor != null && stage != null) {
+			actor.setPosition((int) (stage.getWidth() / 2f - actor.getWidth() / 2f),
+					(int) (stage.getHeight() / 2f - actor.getHeight() / 2f));
+		}
 	}
 
 	/** When called BEFORE resizing the stage, moves the actor to match the same aspect ratio as before. Useful
 	 * for windows and dialogs in screen viewports.
 	 *
-	 * @param actor will be repositioned.
+	 * @param actor will be repositioned. Can be null, method invocation will be ignored.
 	 * @param newScreenSizeInStageCoords screen coords processed by stage. */
 	public static void updateActorPosition(final Actor actor, final Vector2 newScreenSizeInStageCoords) {
-		updateActorPosition(actor, actor.getStage(), newScreenSizeInStageCoords);
+		if (actor != null) {
+			updateActorPosition(actor, actor.getStage(), newScreenSizeInStageCoords);
+		}
 	}
 
 	/** When called BEFORE resizing the stage, moves the actor to match the same aspect ratio as before. Useful
@@ -41,10 +45,12 @@ public class Actors {
 	 * @param newScreenSizeInStageCoords screen coords processed by stage. */
 	public static void updateActorPosition(final Actor actor, final Stage stage,
 			final Vector2 newScreenSizeInStageCoords) {
-		actor.setPosition((int) ((actor.getX() + actor.getWidth() / 2f) / stage.getWidth()
-				* newScreenSizeInStageCoords.x - actor.getWidth() / 2f),
-				(int) ((actor.getY() + actor.getHeight() / 2f) / stage.getHeight()
-						* newScreenSizeInStageCoords.y - actor.getHeight() / 2f));
+		if (actor != null && stage != null) {
+			actor.setPosition((int) ((actor.getX() + actor.getWidth() / 2f) / stage.getWidth()
+					* newScreenSizeInStageCoords.x - actor.getWidth() / 2f),
+					(int) ((actor.getY() + actor.getHeight() / 2f) / stage.getHeight()
+							* newScreenSizeInStageCoords.y - actor.getHeight() / 2f));
+		}
 	}
 
 	/** Null-safe check if the actor has a stage. Especially useful for dialogs.
@@ -79,6 +85,15 @@ public class Actors {
 	public static void clearKeyboardFocus(final Stage stage) {
 		if (stage != null) {
 			stage.setKeyboardFocus(null);
+		}
+	}
+
+	/** Null-safe method for setting keyboard focus.
+	 *
+	 * @param actor if is not null and has a stage, will be set as stage's keyboard focused actor. */
+	public static void setKeyboardFocus(final Actor actor) {
+		if (actor != null && actor.getStage() != null) {
+			actor.getStage().setKeyboardFocus(actor);
 		}
 	}
 

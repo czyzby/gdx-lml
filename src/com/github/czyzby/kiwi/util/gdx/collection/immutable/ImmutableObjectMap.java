@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.ObjectMap;
  * @author Nathan Sweet
  * @author MJ */
 public class ImmutableObjectMap<Key, Value> extends ObjectMap<Key, Value> {
+	@SuppressWarnings("hiding")
 	private final int size;
 
 	/** Creates a new immutable map identical to the specified map. */

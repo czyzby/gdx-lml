@@ -108,6 +108,15 @@ public class Lazy<Type> {
 		return object instanceof Lazy<?> && Nullables.areEqual(this.object, ((Lazy<?>) object).object);
 	}
 
+	/** @return 0 if object was not initiated. Wrapped object's hash code if its present. */
+	@Override
+	public int hashCode() {
+		if (object == null) {
+			return 0;
+		}
+		return object.hashCode();
+	}
+
 	@Override
 	public String toString() {
 		return "Lazy [" + object + "]";

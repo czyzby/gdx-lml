@@ -31,6 +31,7 @@ public enum Alignment {
 		return alignment;
 	}
 
+	/** @param cell will have its alignment set. */
 	public void apply(final Cell<?> cell) {
 		cell.align(alignment);
 	}

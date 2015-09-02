@@ -1,7 +1,8 @@
 package com.github.czyzby.kiwi.util.gdx.scene2d.range;
 
 /** A utility class that contains transition data about a single float value. By holding an alpha value of a
- * color, allows to create fading effects without initiating unnecessary actions.
+ * color, allows to create fading effects without initiating unnecessary actions. Useful for specific cases
+ * (like custom widgets or game logic), for most actors - UI actions are usually less awkward to use.
  *
  * @author MJ */
 public class FloatRange {
