@@ -50,7 +50,7 @@ public class ForEachLoopLmlMacroParent extends AbstractLoopLmlMacroParent {
 		return textToAppend;
 	}
 
-	private int getBiggestArgumentsListSize(final Array<Pair<String, Array<String>>> argumentElements) {
+	private static int getBiggestArgumentsListSize(final Array<Pair<String, Array<String>>> argumentElements) {
 		int max = 0;
 		for (final Pair<String, Array<String>> argument : argumentElements) {
 			max = Math.max(max, argument.getSecond().size);

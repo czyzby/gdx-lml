@@ -227,7 +227,7 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 					parser.widgetsHierarchy.getFirst().getTagName());
 		}
 
-		private String extractTagNameFromRawData(final StringBuilder rawTagData) {
+		private static String extractTagNameFromRawData(final StringBuilder rawTagData) {
 			final String tagName = rawTagData.toString().split(AbstractLmlDto.WHITESPACE_REGEX)[0];
 			return tagName.charAt(0) == MACRO_SIGN ? tagName.substring(1) : tagName;
 		}
@@ -257,7 +257,7 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 					&& tag.substring(1).equalsIgnoreCase(parser.widgetsHierarchy.getFirst().getTagName());
 		}
 
-		private boolean isCharacterStartOfAnArgument(final Queue<Character> currentBuffer,
+		private static boolean isCharacterStartOfAnArgument(final Queue<Character> currentBuffer,
 				final char character) {
 			// ${...
 			return character == ARGUMENT_SIGN && currentBuffer.peek() != null
@@ -327,7 +327,7 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 			return false;
 		}
 
-		private boolean isCommentEndOperator(final char character) {
+		private static boolean isCommentEndOperator(final char character) {
 			return character == COMMENT_END_OPERATOR || character == SCHEMA_COMMENT_OPERATOR;
 		}
 
@@ -352,7 +352,7 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 			Strings.clearBuilder(rawTagData);
 		}
 
-		private String extractTagNameFromClosedTag(final StringBuilder rawTagData) {
+		private static String extractTagNameFromClosedTag(final StringBuilder rawTagData) {
 			// Omits / at the start of a closed tag.
 			return rawTagData.subSequence(1, rawTagData.length()).toString();
 		}
@@ -376,7 +376,7 @@ public class Scene2DLmlParser extends AbstractLmlParser {
 		}
 
 		/** @return true if tag starts with /. */
-		private boolean isClosingTag(final StringBuilder wigdetData) {
+		private static boolean isClosingTag(final StringBuilder wigdetData) {
 			return wigdetData.charAt(0) == CLOSED_TAG_SIGN;
 		}
 

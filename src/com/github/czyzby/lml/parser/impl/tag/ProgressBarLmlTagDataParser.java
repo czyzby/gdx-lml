@@ -124,7 +124,8 @@ public class ProgressBarLmlTagDataParser extends AbstractLmlTagDataParser<Progre
 		return stepSize;
 	}
 
-	private float getStepSizeFromPercent(final float min, final float max, final String stepSizeAttribute) {
+	private static float getStepSizeFromPercent(final float min, final float max,
+			final String stepSizeAttribute) {
 		return (max - min) * Float.parseFloat(stepSizeAttribute.substring(0, stepSizeAttribute.length() - 1));
 	}
 

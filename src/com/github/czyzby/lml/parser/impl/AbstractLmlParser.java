@@ -414,7 +414,7 @@ public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
 		addArgument(key, toArray(values));
 	}
 
-	private String[] toArray(final Iterable<String> values) {
+	private static String[] toArray(final Iterable<String> values) {
 		final Array<String> array = GdxArrays.newArray(String.class);
 		for (final String value : values) {
 			array.add(value);
@@ -526,7 +526,7 @@ public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
 		return prepareActorConsumerForMethod(actionContainer.getActionContainer(), method);
 	}
 
-	private ActorConsumer<Object, Object> getContainerFieldAsAction(final String actionName,
+	private static ActorConsumer<Object, Object> getContainerFieldAsAction(final String actionName,
 			final ActionContainerWrapper actionContainer) {
 		final Field field = actionContainer.getField(actionName);
 		if (field != null) {
@@ -547,7 +547,7 @@ public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
 		}
 	}
 
-	private ActorConsumer<Object, Object> prepareActorConsumerForMethod(
+	private static ActorConsumer<Object, Object> prepareActorConsumerForMethod(
 			final ActionContainer actionContainer, final Method method) {
 		method.setAccessible(true);
 		final boolean invokeWithoutParameters = method.getParameterTypes().length == 0;
@@ -567,8 +567,8 @@ public abstract class AbstractLmlParser implements LmlParser, LmlSyntax {
 		};
 	}
 
-	private ActorConsumer<Object, Object> prepareActorConsumerForField(final ActionContainer actionContainer,
-			final Field field) {
+	private static ActorConsumer<Object, Object> prepareActorConsumerForField(
+			final ActionContainer actionContainer, final Field field) {
 		field.setAccessible(true);
 		return new ActorConsumer<Object, Object>() {
 			@Override

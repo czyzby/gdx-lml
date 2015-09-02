@@ -31,7 +31,7 @@ public class EvaluateLmlMacroParser extends AbstractLmlMacroParser {
 		return Strings.EMPTY_STRING;
 	}
 
-	private String getMethodName(final String argument) {
+	private static String getMethodName(final String argument) {
 		return Strings.startsWith(argument, ACTION_OPERATOR) ? argument.substring(1) : argument;
 	}
 }
