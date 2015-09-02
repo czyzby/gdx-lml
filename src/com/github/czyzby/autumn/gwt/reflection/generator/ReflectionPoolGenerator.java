@@ -31,6 +31,7 @@ public class ReflectionPoolGenerator extends Generator {
 	private static final String GENERATED_CLASS_PREFIX = "Generated";
 
 	@Override
+	@SuppressWarnings("resource")
 	public String generate(final TreeLogger logger, final GeneratorContext context, final String typeName)
 			throws UnableToCompleteException {
 		final TypeOracle oracle = context.getTypeOracle();
@@ -60,11 +61,12 @@ public class ReflectionPoolGenerator extends Generator {
 		return getQualifiedGeneratedClassName(packageName, generatedClassName);
 	}
 
-	private String getQualifiedGeneratedClassName(final String packageName, final String generatedClassName) {
+	private static String getQualifiedGeneratedClassName(final String packageName,
+			final String generatedClassName) {
 		return packageName + "." + generatedClassName;
 	}
 
-	private void appendClassBody(final SourceWriter sourceWriter, final Set<JType> reflectedClasses) {
+	private static void appendClassBody(final SourceWriter sourceWriter, final Set<JType> reflectedClasses) {
 		sourceWriter.println("private static final Class<?>[] POOL = new Class<?>[] { ");
 		for (final JType reflectedClass : reflectedClasses) {
 			sourceWriter.print(reflectedClass.getQualifiedSourceName() + ".class, ");
@@ -198,7 +200,7 @@ public class ReflectionPoolGenerator extends Generator {
 		}
 	}
 
-	private boolean isVisible(final JType type) {
+	private static boolean isVisible(final JType type) {
 		if (type == null) {
 			return false;
 		}

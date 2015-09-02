@@ -33,18 +33,18 @@ public class GwtClassScanner implements ClassScanner {
 					}
 				} catch (final Throwable exception) {
 					// It's GWT - everything can happen.
-					// TODO errors might occur here due to changes in LibGDX reflection. Fix generator.
+					// TODO Errors might occur here due to changes in LibGDX reflection. Fix generator.
 				}
 			}
 		}
 		return reflectedClasses;
 	}
 
-	private String getPackageName(final Class<?> ofClass) {
+	private static String getPackageName(final Class<?> ofClass) {
 		return ofClass.getName().substring(0, ofClass.getName().length() - ofClass.getSimpleName().length());
 	}
 
-	private boolean isFromPackage(final String packageName, final Class<?> reflectedClass) {
+	private static boolean isFromPackage(final String packageName, final Class<?> reflectedClass) {
 		return reflectedClass.getName().startsWith(packageName);
 	}
 }
