@@ -53,7 +53,8 @@ public class ViewActionContainerAnnotationProcessor extends ComponentTypeAnnotat
 		}
 	}
 
-	private boolean isGlobal(final ViewActionContainer actionData) {
+	/** @return true if exclusive views amount equals 0. */
+	private static boolean isGlobal(final ViewActionContainer actionData) {
 		return actionData.views().length == 0;
 	}
 

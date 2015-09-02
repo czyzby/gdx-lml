@@ -160,8 +160,8 @@ public class LocaleService extends ComponentFieldAnnotationProcessor {
 				localeData.defaultLocale()));
 	}
 
-	private Locale getLocaleFromPreferences(final Preferences localePreferences, final String preferenceName,
-			final String defaultLocale) {
+	private static Locale getLocaleFromPreferences(final Preferences localePreferences,
+			final String preferenceName, final String defaultLocale) {
 		final String locale = localePreferences.getString(preferenceName, defaultLocale);
 		return toLocale(locale);
 	}

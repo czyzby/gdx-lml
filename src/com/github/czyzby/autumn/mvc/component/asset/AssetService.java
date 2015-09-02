@@ -218,7 +218,8 @@ public class AssetService extends ComponentFieldAnnotationProcessor {
 		}
 	}
 
-	private void validateAssetData(final ContextComponent component, final Field field, final Asset assetData) {
+	private static void validateAssetData(final ContextComponent component, final Field field,
+			final Asset assetData) {
 		if (assetData.value().length == 0) {
 			throw new AutumnRuntimeException(
 					"Asset paths array cannot be empty. Found empty array in field: " + field

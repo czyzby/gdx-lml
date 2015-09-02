@@ -50,7 +50,7 @@ public class ViewActorAnnotationProcessor extends ComponentFieldAnnotationProces
 		}
 	}
 
-	private boolean registerField(final Field field, final Object controller) {
+	private static boolean registerField(final Field field, final Object controller) {
 		if (controller instanceof AbstractAnnotatedController) {
 			final String[] actorIds = Reflection.getAnnotation(field, ViewActor.class).value();
 			ActorFieldInjection injection;
@@ -69,14 +69,14 @@ public class ViewActorAnnotationProcessor extends ComponentFieldAnnotationProces
 		return false;
 	}
 
-	private String[] getActorIds(final String[] annotatedActorIds, final Field field) {
+	private static String[] getActorIds(final String[] annotatedActorIds, final Field field) {
 		if (annotatedActorIds == null || annotatedActorIds.length == 0) {
 			return new String[] { field.getName() };
 		}
 		return annotatedActorIds;
 	}
 
-	private String getSingleActorId(final String[] actorIds, final Field field) {
+	private static String getSingleActorId(final String[] actorIds, final Field field) {
 		if (actorIds != null && actorIds.length > 0) {
 			return actorIds[0];
 		}

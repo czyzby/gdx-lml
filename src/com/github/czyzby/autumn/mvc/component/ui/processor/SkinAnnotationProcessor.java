@@ -46,7 +46,7 @@ public class SkinAnnotationProcessor extends ComponentFieldAnnotationProcessor {
 		}
 	}
 
-	private void validateFontsData(final Skin annotationData) {
+	private static void validateFontsData(final Skin annotationData) {
 		if (annotationData.fonts().length != annotationData.fontNames().length) {
 			throw new AutumnRuntimeException(
 					"Fonts amount specified with @Skin should match font names amount.");

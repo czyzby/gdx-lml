@@ -10,19 +10,19 @@ import com.github.czyzby.autumn.mvc.component.sfx.MusicService;
  * @author MJ */
 public class MusicFadingAction extends Action {
 	private Music music;
-	private float totalVolumeDifference, time, target;
+	private float totalVolumeDifference, time, targetValue;
 	private boolean gettingLouder;
 
 	@Override
 	public boolean act(final float delta) {
 		music.setVolume(MusicService.normalizeVolume(music.getVolume() + totalVolumeDifference * delta / time));
 		if (gettingLouder) {
-			if (music.getVolume() >= target) {
-				music.setVolume(target);
+			if (music.getVolume() >= targetValue) {
+				music.setVolume(targetValue);
 				return true;
 			}
-		} else if (music.getVolume() <= target) {
-			music.setVolume(target);
+		} else if (music.getVolume() <= targetValue) {
+			music.setVolume(targetValue);
 			return true;
 		}
 		return false;
@@ -31,7 +31,7 @@ public class MusicFadingAction extends Action {
 	private void setData(final Music music, final float time, final float target) {
 		this.music = music;
 		this.time = time;
-		this.target = target;
+		targetValue = target;
 		totalVolumeDifference = target - music.getVolume();
 		gettingLouder = music.getVolume() < target;
 	}

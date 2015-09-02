@@ -566,7 +566,7 @@ public class InterfaceService {
 		};
 	}
 
-	private ObjectProvider<Viewport> getDefaultViewportProvider() {
+	private static ObjectProvider<Viewport> getDefaultViewportProvider() {
 		return new ObjectProvider<Viewport>() {
 			@Override
 			public Viewport provide() {

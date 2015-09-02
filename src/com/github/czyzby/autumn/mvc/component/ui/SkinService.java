@@ -49,7 +49,8 @@ public class SkinService {
 		messageProcessor.postMessage(AutumnMessage.SKIN_LOADED);
 	}
 
-	private void loadFonts(final String atlasPath, final String[] fontPaths, final AssetService assetService) {
+	private static void loadFonts(final String atlasPath, final String[] fontPaths,
+			final AssetService assetService) {
 		if (fontPaths.length != 0) {
 			final BitmapFontParameter loadingParameters = new BitmapFontParameter();
 			loadingParameters.atlasName = atlasPath;

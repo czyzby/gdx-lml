@@ -40,7 +40,7 @@ public class I18nBundleAnnotationProcessor extends ComponentFieldAnnotationProce
 		}
 	}
 
-	private FileHandle extractBundleFile(final I18nBundle bundleData, final Object bundleField) {
+	private static FileHandle extractBundleFile(final I18nBundle bundleData, final Object bundleField) {
 		if (bundleField instanceof FileHandle) {
 			return (FileHandle) bundleField;
 		} else {

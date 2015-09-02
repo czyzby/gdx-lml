@@ -249,23 +249,25 @@ public class MusicService {
 		ApplicationPreferences.getPreferences(musicPreferences).flush();
 	}
 
-	private void saveInPreferences(final String preferences, final String preferenceName, final float value) {
+	private static void saveInPreferences(final String preferences, final String preferenceName,
+			final float value) {
 		// GWT is not a huge fan of non-string preferences.
 		ApplicationPreferences.getPreferences(preferences).putString(preferenceName, String.valueOf(value));
 	}
 
-	private void saveInPreferences(final String preferences, final String preferenceName, final boolean value) {
+	private static void saveInPreferences(final String preferences, final String preferenceName,
+			final boolean value) {
 		// GWT is not a huge fan of non-string preferences.
 		ApplicationPreferences.getPreferences(preferences).putString(preferenceName, String.valueOf(value));
 	}
 
-	private float readFromPreferences(final String preferences, final String preferenceName,
+	private static float readFromPreferences(final String preferences, final String preferenceName,
 			final float defaultValue) {
 		return Float.parseFloat(ApplicationPreferences.getPreferences(preferences).getString(preferenceName,
 				String.valueOf(defaultValue)));
 	}
 
-	private boolean readFromPreferences(final String preferences, final String preferenceName,
+	private static boolean readFromPreferences(final String preferences, final String preferenceName,
 			final boolean defaultValue) {
 		return Boolean.parseBoolean(ApplicationPreferences.getPreferences(preferences).getString(
 				preferenceName, String.valueOf(defaultValue)));

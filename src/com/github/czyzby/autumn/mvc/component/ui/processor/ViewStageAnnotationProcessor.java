@@ -46,7 +46,7 @@ public class ViewStageAnnotationProcessor extends ComponentFieldAnnotationProces
 		}
 	}
 
-	private boolean registerField(final Field field, final Object controller) {
+	private static boolean registerField(final Field field, final Object controller) {
 		if (controller instanceof AbstractAnnotatedController) {
 			((AbstractAnnotatedController) controller).registerStageField(field);
 			return true;
