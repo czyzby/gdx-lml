@@ -21,4 +21,19 @@ public class AutumnMessage {
 
 	/** Posted when application's {@link com.badlogic.gdx.scenes.scene2d.ui.Skin} is fully loaded. */
 	public static final String SKIN_LOADED = "AMVC_skinLoaded";
+
+	/** Posted when the game's window is resized. Posted AFTER
+	 * {@link com.github.czyzby.autumn.mvc.component.ui.InterfaceService} resizes current view (if any is
+	 * present). */
+	public static final String GAME_RESIZED = "AMVC_gameResized";
+
+	/** Posted when the game is paused. Posted AFTER
+	 * {@link com.github.czyzby.autumn.mvc.component.ui.InterfaceService} pauses current view (if any is
+	 * present). */
+	public static final String GAME_PAUSED = "AMVC_gamePaused";
+
+	/** Posted when the game is resumed. Posted AFTER
+	 * {@link com.github.czyzby.autumn.mvc.component.ui.InterfaceService} resumes current view (if any is
+	 * present). */
+	public static final String GAME_RESUMED = "AMVC_gameResumed";
 }

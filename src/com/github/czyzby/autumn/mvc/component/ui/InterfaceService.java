@@ -48,6 +48,7 @@ import com.github.czyzby.autumn.mvc.component.ui.dto.provider.ViewActionProvider
 import com.github.czyzby.autumn.mvc.component.ui.processor.SkinAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.component.ui.processor.ViewActionContainerAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.config.AutumnActionPriority;
+import com.github.czyzby.autumn.mvc.config.AutumnMessage;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
@@ -118,6 +119,8 @@ public class InterfaceService {
 	private MusicService musicService;
 	@Inject
 	private SkinService skinService;
+	@Inject
+	private MessageProcessor messageProcessor;
 	@Inject
 	private ViewActionContainerAnnotationProcessor viewActionProcessor;
 
@@ -438,6 +441,7 @@ public class InterfaceService {
 		if (currentController != null) {
 			currentController.resize(width, height);
 		}
+		messageProcessor.postMessage(AutumnMessage.GAME_RESIZED);
 	}
 
 	/** Pauses the current view, if present. */
@@ -445,6 +449,7 @@ public class InterfaceService {
 		if (currentController != null) {
 			currentController.pause();
 		}
+		messageProcessor.postMessage(AutumnMessage.GAME_PAUSED);
 	}
 
 	/** Resumes the current view, if present. */
@@ -452,6 +457,7 @@ public class InterfaceService {
 		if (currentController != null) {
 			currentController.resume();
 		}
+		messageProcessor.postMessage(AutumnMessage.GAME_RESUMED);
 	}
 
 	/** @return controller of currently shown view. Might be null. Mostly for internal use. */
