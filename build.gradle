@@ -8,8 +8,8 @@ sourceCompatibility = 1.6
 
 ext {
 	libVersion = '0.8'
-    gdxVersion = '1.6.5'
-    isSnapshot = '-SNAPSHOT'
+    gdxVersion = '1.7.0'
+    isSnapshot = ''
     gwtVersion = '2.6.0'
 }
 

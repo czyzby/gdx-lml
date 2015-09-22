@@ -17,11 +17,11 @@ This means that the class was referenced by some reflection-based methods, but w
 Gradle dependency (for GWT project):
 
 ```
-    compile "com.github.czyzby:gdx-autumn-gwt:0.7.$gdxVersion"
-    compile "com.github.czyzby:gdx-autumn-gwt:0.7.$gdxVersion:sources"
+    compile "com.github.czyzby:gdx-autumn-gwt:0.8.$gdxVersion"
+    compile "com.github.czyzby:gdx-autumn-gwt:0.8.$gdxVersion:sources"
 ```
 
-Currently supported LibGDX version is **1.6.5**.
+Currently supported LibGDX version is **1.7.0**.
 
 GWT module:
 
