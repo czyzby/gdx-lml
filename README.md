@@ -10,7 +10,7 @@ This library aims to provide what is missing, while **NOT** trying to replace wh
 ##Common
 The one package that kind of goes against what I've just said. Yeah.
 - **Comparables**: not as powerful as Guava, but it will save you some magic numbers in conditions.
-- **Nullables**: utilities for objects that might be null. Again, you will probably be better off using optionals, but sometimes we do have to deal with unpleasant external APIs.
+- **Nullables**: utilities for objects that might be null, since Java 6 is missing Objects utility. Again, you will probably be better off using optionals, but sometimes we do have to deal with unpleasant external APIs.
 - **Strings**: since Scene2D widgets often make use of custom StringBuilder and might actually expect or return CharSequences from time to time, this class provides static utilities (mostly) for CharSequences.
 - **TimeUtilities**: time conversion methods. Might be helpful for LibGDX timers and actions.
 
@@ -92,15 +92,16 @@ Similarly to Lazy utility containers, lazy collections create objects as soon as
 - **InterfaceSkin**: utility container that provides static access to UI skin.
 
 #### Ranges
+When you cannot or don't want to use actions or tweening utilities.
 - **ColorRange**: utility for simple color transitions.
 - **FloatRange**: utility for simple float number transitions. Might be useful for alpha.
 
 ##Dependency
 Core project Gradle dependency:
 ```
-    compile "com.github.czyzby:gdx-kiwi:0.7.$gdxVersion"
+    compile "com.github.czyzby:gdx-kiwi:0.8.$gdxVersion"
 ```
-Currently supported LibGDX version is **1.6.5**.
+Currently supported LibGDX version is **1.7.0**.
 
 GWT module:
 ```
