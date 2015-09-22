@@ -71,7 +71,7 @@ public class Main extends AbstractApplicationListener {
 		Gdx.input.setInputProcessor(stage);
 	}
 
-	private ObjectMap<String, String> getExamplesArguments() {
+	private static ObjectMap<String, String> getExamplesArguments() {
 		return GdxMaps.newObjectMap(
 				// nullCheckExample.lml:
 				"validParameter", Lml.toBundleLine("validParameter"),
@@ -84,7 +84,7 @@ public class Main extends AbstractApplicationListener {
 				"argumentFromParser", "Third", "thisIsAnArgument", "This is an argument's value.");
 	}
 
-	private Preferences preparePreferences() {
+	private static Preferences preparePreferences() {
 		final Preferences preferences = Gdx.app.getPreferences("lml.test.properties");
 		preferences.putString("buttonRowSize", "2"); // template.lml
 		preferences.putString("thisIsAPreference", "This is a text from preference."); // bundleExample.lml
@@ -93,7 +93,7 @@ public class Main extends AbstractApplicationListener {
 		return preferences;
 	}
 
-	private Preferences prepareCustomPreferences() {
+	private static Preferences prepareCustomPreferences() {
 		final Preferences preferences = Gdx.app.getPreferences("lml.test.custom.properties");
 		preferences.putString("thisIsAPreference",
 				"This text is from preferences\nreferenced with \"custom\" key."); // bundleExample.lml
@@ -101,7 +101,7 @@ public class Main extends AbstractApplicationListener {
 		return preferences;
 	}
 
-	private ObjectMap<String, String> getTemplateArguments() {
+	private static ObjectMap<String, String> getTemplateArguments() {
 		final FileHandle templatesDirectory = Gdx.files.internal("view");
 		final Array<String> templates = GdxArrays.newArray();
 		final Array<String> templateBundleNames = GdxArrays.newArray();
@@ -131,7 +131,7 @@ public class Main extends AbstractApplicationListener {
 	}
 
 	// customAttributeExample.lml - defining custom attribute:
-	private LmlTagAttributeParser getCustomLabelAttributeParser() {
+	private static LmlTagAttributeParser getCustomLabelAttributeParser() {
 		return new LmlTagAttributeParser() {
 			private final String[] attributeNames = new String[] { "onHover" };
 
@@ -174,7 +174,7 @@ public class Main extends AbstractApplicationListener {
 	}
 
 	// For reflection-based actions, see UiActions.
-	private ActorConsumer<Void, TextButton> getOnButtonClickActorConsumer() {
+	private static ActorConsumer<Void, TextButton> getOnButtonClickActorConsumer() {
 		// Action registered without reflection.
 		return new ActorConsumer<Void, TextButton>() {
 			@Override
