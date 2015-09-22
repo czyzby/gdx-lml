@@ -8,7 +8,11 @@ import com.github.czyzby.nongwt.autumn.scanner.DesktopClassScanner;
 
 public class DesktopLauncher {
 	public static void main(final String[] arg) {
-		new LwjglApplication(new AutumnApplication(new DesktopClassScanner(), Config.class),
+		createNewApplication();
+	}
+
+	private static LwjglApplication createNewApplication() {
+		return new LwjglApplication(new AutumnApplication(new DesktopClassScanner(), Config.class),
 				getDesktopConfiguration());
 	}
 

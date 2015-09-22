@@ -52,6 +52,7 @@ public class Config {
 	private String musicEnabledPreference = "musicOn";
 
 	@Initiate(priority = 5)
+	@SuppressWarnings("static-method")
 	private void initiate() {
 		Lml.EXTRACT_FIELDS_AS_METHODS = false; // Problematic on GWT, see LML docs.
 	}

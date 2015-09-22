@@ -13,11 +13,11 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    version = '0.7.1.6.5'
+    version = '0.8.1.7.0'
     ext {
         appName = 'gdx-autumn-mvc-tests'
-        gdxVersion = '1.6.5'
-        autumnVersion = '0.7'
+        gdxVersion = '1.7.0'
+        autumnVersion = '0.8'
         autumnSnapshot = ''
     }
 

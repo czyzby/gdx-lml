@@ -5,6 +5,7 @@ import com.github.czyzby.autumn.mvc.stereotype.ViewDialog;
 import com.github.czyzby.lml.parser.impl.annotation.ViewAction;
 import com.github.czyzby.lml.parser.impl.dto.ActionContainer;
 
+@SuppressWarnings("static-method")
 @ViewDialog(value = "templates/dialogs/credits.lml", id = "credits", cacheInstance = true)
 public class CreditsDialog implements ActionContainer {
 	@ViewAction("author0")

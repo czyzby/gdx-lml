@@ -17,7 +17,6 @@ import com.github.czyzby.lml.parser.impl.dto.ActionContainer;
 
 @View(value = "templates/game.lml", id = "game", themes = { "sfx/jupiter.ogg", "sfx/mars.ogg",
 		"sfx/uranus.ogg" })
-// TODO themes
 // View shower could be implemented instead of extending StandardViewShower, but we don't want to change the
 // functionality - just expand it.
 public class GameView extends StandardViewShower implements ActionContainer {
