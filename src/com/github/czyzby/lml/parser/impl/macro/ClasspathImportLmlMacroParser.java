@@ -7,9 +7,9 @@ import com.github.czyzby.lml.parser.impl.macro.parent.AbstractImportLmlMacroPare
 import com.github.czyzby.lml.parser.impl.macro.parent.ClasspathImportLmlMacroParent;
 
 public class ClasspathImportLmlMacroParser extends AbstractImportLmlMacroParser {
-	@Override
-	protected AbstractImportLmlMacroParent getImportMacro(final LmlMacroData lmlMacroData,
-			final LmlParent<?> parent, final LmlParser parser) {
-		return new ClasspathImportLmlMacroParent(lmlMacroData, parent, parser);
-	}
+    @Override
+    protected AbstractImportLmlMacroParent getImportMacro(final LmlMacroData lmlMacroData, final LmlParent<?> parent,
+            final LmlParser parser) {
+        return new ClasspathImportLmlMacroParent(lmlMacroData, parent, parser);
+    }
 }

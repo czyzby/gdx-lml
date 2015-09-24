@@ -8,23 +8,23 @@ import com.github.czyzby.lml.parser.impl.dto.LmlTagData;
 import com.github.czyzby.lml.parser.impl.util.LmlAttributes;
 
 public class WindowLmlParent extends TableLmlParent {
-	public static final String TO_TITLE_TABLE_ATTRIBUTE = "TOTITLETABLE";
+    public static final String TO_TITLE_TABLE_ATTRIBUTE = "TOTITLETABLE";
 
-	public WindowLmlParent(final LmlTagData tagData, final Window actor, final LmlParent<?> parent,
-			final LmlParser parser) {
-		super(tagData, actor, parent, parser);
-	}
+    public WindowLmlParent(final LmlTagData tagData, final Window actor, final LmlParent<?> parent,
+            final LmlParser parser) {
+        super(tagData, actor, parent, parser);
+    }
 
-	protected Window getActorAsWindow() {
-		return (Window) actor;
-	}
+    protected Window getActorAsWindow() {
+        return (Window) actor;
+    }
 
-	@Override
-	public void handleValidChild(final Actor child, final LmlTagData childTagData, final LmlParser parser) {
-		if (LmlAttributes.parseBoolean(child, parser, childTagData.getAttribute(TO_TITLE_TABLE_ATTRIBUTE))) {
-			appendCellToTable(getActorAsWindow().getTitleTable(), child, childTagData, parser);
-		} else {
-			appendCellToTable(actor, child, childTagData, parser);
-		}
-	}
+    @Override
+    public void handleValidChild(final Actor child, final LmlTagData childTagData, final LmlParser parser) {
+        if (LmlAttributes.parseBoolean(child, parser, childTagData.getAttribute(TO_TITLE_TABLE_ATTRIBUTE))) {
+            appendCellToTable(getActorAsWindow().getTitleTable(), child, childTagData, parser);
+        } else {
+            appendCellToTable(actor, child, childTagData, parser);
+        }
+    }
 }

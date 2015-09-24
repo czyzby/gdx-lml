@@ -4,6 +4,6 @@ package com.github.czyzby.lml.parser.impl.dto;
  *
  * @author MJ */
 public interface ActorConsumer<ReturnType, Widget> {
-	/** @param actor triggered when a specified action concerning this actor was fired. */
-	ReturnType consume(Widget actor);
+    /** @param actor triggered when a specified action concerning this actor was fired. */
+    ReturnType consume(Widget actor);
 }

@@ -14,135 +14,134 @@ import com.github.czyzby.lml.util.LmlSyntax;
  *
  * @author MJ */
 public abstract class AbstractLmlParent<Widget extends Actor> implements LmlParent<Widget>, LmlSyntax {
-	public static final String TREE_NODE_ATTRIBUTE = "TREENODE";
-	private final String tagName;
-	private final int lineNumber;
-	protected final Widget actor;
-	protected final LmlParent<?> parent;
-	protected final boolean isTreeNode;
-	protected final Tree.Node node;
+    public static final String TREE_NODE_ATTRIBUTE = "TREENODE";
+    private final String tagName;
+    private final int lineNumber;
+    protected final Widget actor;
+    protected final LmlParent<?> parent;
+    protected final boolean isTreeNode;
+    protected final Tree.Node node;
 
-	public AbstractLmlParent(final LmlTagData tagData, final Widget actor, final LmlParent<?> parent,
-			final LmlParser parser) {
-		this.tagName = tagData.getTagName();
-		this.actor = actor;
-		this.parent = parent;
-		lineNumber = parser.getCurrentlyParsedLine();
-		isTreeNode = getTreeNodeProperty(tagData, actor, parser, parent);
-		node = prepareNode(actor, isTreeNode);
-	}
+    public AbstractLmlParent(final LmlTagData tagData, final Widget actor, final LmlParent<?> parent,
+            final LmlParser parser) {
+        this.tagName = tagData.getTagName();
+        this.actor = actor;
+        this.parent = parent;
+        lineNumber = parser.getCurrentlyParsedLine();
+        isTreeNode = getTreeNodeProperty(tagData, actor, parser, parent);
+        node = prepareNode(actor, isTreeNode);
+    }
 
-	private boolean getTreeNodeProperty(final LmlTagData tagData, final Widget actor, final LmlParser parser,
-			LmlParent<?> parent) {
-		final boolean treeNode =
-				LmlAttributes.parseBoolean(actor, parser, tagData.getAttribute(TREE_NODE_ATTRIBUTE));
-		if (treeNode) {
-			while (!(parent instanceof TreeLmlParent)) {
-				parent = parent.getParent();
-				if (parent == null) {
-					throwErrorIfStrict(parser, "Received treeNode attribute outside of Tree widget in tag: "
-							+ tagData.getTagName() + ".");
-					return false;
-				}
-			}
-		}
-		return treeNode;
-	}
+    private boolean getTreeNodeProperty(final LmlTagData tagData, final Widget actor, final LmlParser parser,
+            LmlParent<?> parent) {
+        final boolean treeNode = LmlAttributes.parseBoolean(actor, parser, tagData.getAttribute(TREE_NODE_ATTRIBUTE));
+        if (treeNode) {
+            while (!(parent instanceof TreeLmlParent)) {
+                parent = parent.getParent();
+                if (parent == null) {
+                    throwErrorIfStrict(parser,
+                            "Received treeNode attribute outside of Tree widget in tag: " + tagData.getTagName() + ".");
+                    return false;
+                }
+            }
+        }
+        return treeNode;
+    }
 
-	private static Tree.Node prepareNode(final Actor actor, final boolean isTreeNode) {
-		if (isTreeNode) {
-			return new Tree.Node(actor);
-		}
-		return null;
-	}
+    private static Tree.Node prepareNode(final Actor actor, final boolean isTreeNode) {
+        if (isTreeNode) {
+            return new Tree.Node(actor);
+        }
+        return null;
+    }
 
-	@Override
-	public String getTagName() {
-		return tagName;
-	}
+    @Override
+    public String getTagName() {
+        return tagName;
+    }
 
-	@Override
-	public int getLineNumber() {
-		return lineNumber;
-	}
+    @Override
+    public int getLineNumber() {
+        return lineNumber;
+    }
 
-	@Override
-	public LmlParent<?> getParent() {
-		return parent;
-	}
+    @Override
+    public LmlParent<?> getParent() {
+        return parent;
+    }
 
-	@Override
-	public Widget getActor() {
-		return actor;
-	}
+    @Override
+    public Widget getActor() {
+        return actor;
+    }
 
-	@Override
-	public Tree.Node getNode() {
-		return node;
-	}
+    @Override
+    public Tree.Node getNode() {
+        return node;
+    }
 
-	@Override
-	public void closeTag(final LmlParser parser) {
-		if (isTreeNode) {
-			if (parent instanceof TreeLmlParent) {
-				((TreeLmlParent) parent).getActor().add(node);
-			} else {
-				parent.getNode().add(node);
-			}
-		}
-		doOnTagClose(parser);
-	}
+    @Override
+    public void closeTag(final LmlParser parser) {
+        if (isTreeNode) {
+            if (parent instanceof TreeLmlParent) {
+                ((TreeLmlParent) parent).getActor().add(node);
+            } else {
+                parent.getNode().add(node);
+            }
+        }
+        doOnTagClose(parser);
+    }
 
-	protected abstract void doOnTagClose(LmlParser parser);
+    protected abstract void doOnTagClose(LmlParser parser);
 
-	@Override
-	public void handleChild(final Actor child, final LmlTagData childTagData, final LmlParser parser) {
-		if (isTreeNode) {
-			if (child != null
-					&& (childTagData != null && !childTagData.containsAttribute(TREE_NODE_ATTRIBUTE) || childTagData == null)) {
-				node.add(new Tree.Node(child));
-			}
-		} else {
-			if (child != null) {
-				handleValidChild(child, childTagData, parser);
-			}
-		}
-	}
+    @Override
+    public void handleChild(final Actor child, final LmlTagData childTagData, final LmlParser parser) {
+        if (isTreeNode) {
+            if (child != null && (childTagData != null && !childTagData.containsAttribute(TREE_NODE_ATTRIBUTE)
+                    || childTagData == null)) {
+                node.add(new Tree.Node(child));
+            }
+        } else {
+            if (child != null) {
+                handleValidChild(child, childTagData, parser);
+            }
+        }
+    }
 
-	/** @param child is not null. */
-	protected abstract void handleValidChild(Actor child, LmlTagData childTagData, LmlParser parser);
+    /** @param child is not null. */
+    protected abstract void handleValidChild(Actor child, LmlTagData childTagData, LmlParser parser);
 
-	@Override
-	public void handleDataBetweenTags(final String data, final LmlParser parser) {
-		if (isDataNotEmpty(data)) {
-			if (isTreeNode) {
-				node.add(new Tree.Node(getLabelFromRawDataBetweenTags(data, parser)));
-			} else {
-				handleValidDataBetweenTags(data, parser);
-			}
-		}
-	}
+    @Override
+    public void handleDataBetweenTags(final String data, final LmlParser parser) {
+        if (isDataNotEmpty(data)) {
+            if (isTreeNode) {
+                node.add(new Tree.Node(getLabelFromRawDataBetweenTags(data, parser)));
+            } else {
+                handleValidDataBetweenTags(data, parser);
+            }
+        }
+    }
 
-	@Override
-	public boolean acceptCharacter(final char character) {
-		return true;
-	}
+    @Override
+    public boolean acceptCharacter(final char character) {
+        return true;
+    }
 
-	/** @param data is validated and not null. Can be appended to the widget. */
-	protected abstract void handleValidDataBetweenTags(String data, LmlParser parser);
+    /** @param data is validated and not null. Can be appended to the widget. */
+    protected abstract void handleValidDataBetweenTags(String data, LmlParser parser);
 
-	protected boolean isDataNotEmpty(final String data) {
-		return data != null && data.length() > 0;
-	}
+    protected boolean isDataNotEmpty(final String data) {
+        return data != null && data.length() > 0;
+    }
 
-	/** @param data will be converted to a label. */
-	protected Actor getLabelFromRawDataBetweenTags(final String data, final LmlParser parser) {
-		return new Label(parser.parseStringData(data, actor), parser.getSkin());
-	}
+    /** @param data will be converted to a label. */
+    protected Actor getLabelFromRawDataBetweenTags(final String data, final LmlParser parser) {
+        return new Label(parser.parseStringData(data, actor), parser.getSkin());
+    }
 
-	protected void throwErrorIfStrict(final LmlParser parser, final String message) {
-		if (parser.isStrict()) {
-			throw new LmlParsingException(message, parser);
-		}
-	}
+    protected void throwErrorIfStrict(final LmlParser parser, final String message) {
+        if (parser.isStrict()) {
+            throw new LmlParsingException(message, parser);
+        }
+    }
 }

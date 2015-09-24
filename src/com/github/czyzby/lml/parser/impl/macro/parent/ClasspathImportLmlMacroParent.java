@@ -7,13 +7,13 @@ import com.github.czyzby.lml.parser.impl.dto.LmlMacroData;
 import com.github.czyzby.lml.parser.impl.dto.LmlParent;
 
 public class ClasspathImportLmlMacroParent extends AbstractImportLmlMacroParent {
-	public ClasspathImportLmlMacroParent(final LmlMacroData lmlMacroData, final LmlParent<?> parent,
-			final LmlParser parser) {
-		super(lmlMacroData, parent, parser);
-	}
+    public ClasspathImportLmlMacroParent(final LmlMacroData lmlMacroData, final LmlParent<?> parent,
+            final LmlParser parser) {
+        super(lmlMacroData, parent, parser);
+    }
 
-	@Override
-	protected FileHandle getFileHandle(final String argument) {
-		return Gdx.files.classpath(argument);
-	}
+    @Override
+    protected FileHandle getFileHandle(final String argument) {
+        return Gdx.files.classpath(argument);
+    }
 }

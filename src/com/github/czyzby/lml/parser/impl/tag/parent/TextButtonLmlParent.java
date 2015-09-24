@@ -6,26 +6,26 @@ import com.github.czyzby.lml.parser.impl.dto.LmlParent;
 import com.github.czyzby.lml.parser.impl.dto.LmlTagData;
 
 public class TextButtonLmlParent extends TableLmlParent {
-	private final StringBuilder text;
+    private final StringBuilder text;
 
-	public TextButtonLmlParent(final LmlTagData tagData, final TextButton actor, final LmlParent<?> parent,
-			final LmlParser parser) {
-		super(tagData, actor, parent, parser);
-		text = new StringBuilder(actor.getText());
-	}
+    public TextButtonLmlParent(final LmlTagData tagData, final TextButton actor, final LmlParent<?> parent,
+            final LmlParser parser) {
+        super(tagData, actor, parent, parser);
+        text = new StringBuilder(actor.getText());
+    }
 
-	protected TextButton getActorAsTextButton() {
-		return (TextButton) actor;
-	}
+    protected TextButton getActorAsTextButton() {
+        return (TextButton) actor;
+    }
 
-	@Override
-	protected void handleValidDataBetweenTags(final String data, final LmlParser parser) {
-		text.append(parser.parseStringData(data, actor));
-	};
+    @Override
+    protected void handleValidDataBetweenTags(final String data, final LmlParser parser) {
+        text.append(parser.parseStringData(data, actor));
+    }
 
-	@Override
-	public void doOnTagClose(final LmlParser parser) {
-		super.doOnTagClose(parser);
-		getActorAsTextButton().setText(text.toString());
-	}
+    @Override
+    public void doOnTagClose(final LmlParser parser) {
+        super.doOnTagClose(parser);
+        getActorAsTextButton().setText(text.toString());
+    }
 }

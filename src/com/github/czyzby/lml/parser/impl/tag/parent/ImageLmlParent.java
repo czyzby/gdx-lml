@@ -6,8 +6,8 @@ import com.github.czyzby.lml.parser.impl.dto.LmlParent;
 import com.github.czyzby.lml.parser.impl.dto.LmlTagData;
 
 public class ImageLmlParent extends NonParentalLmlParent<Image> {
-	public ImageLmlParent(final LmlTagData tagData, final Image actor, final LmlParent<?> parent,
-			final LmlParser parser) {
-		super(tagData, actor, parent, parser);
-	}
+    public ImageLmlParent(final LmlTagData tagData, final Image actor, final LmlParent<?> parent,
+            final LmlParser parser) {
+        super(tagData, actor, parent, parser);
+    }
 }

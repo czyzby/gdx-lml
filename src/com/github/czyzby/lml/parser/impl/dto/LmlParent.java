@@ -8,36 +8,34 @@ import com.github.czyzby.lml.parser.LmlParser;
  *
  * @author MJ */
 public interface LmlParent<Widget extends Actor> {
-	/** @return tag used to create the parental widget. */
-	String getTagName();
+    /** @return tag used to create the parental widget. */
+    String getTagName();
 
-	/** @return line number on which the tag was opened. */
-	int getLineNumber();
+    /** @return line number on which the tag was opened. */
+    int getLineNumber();
 
-	/** When the parent is current processed tag, it can receive and handle all read characters before
-	 * pre-parsing. While most parent ignore this input by default, it can be used to build complex macros.
-	 *
-	 * @return if false, parser will ignore this character. */
-	boolean acceptCharacter(char character);
+    /** When the parent is current processed tag, it can receive and handle all read characters before pre-parsing.
+     * While most parent ignore this input by default, it can be used to build complex macros.
+     *
+     * @return if false, parser will ignore this character. */
+    boolean acceptCharacter(char character);
 
-	/** @return enclosing tag, if any. */
-	LmlParent<?> getParent();
+    /** @return enclosing tag, if any. */
+    LmlParent<?> getParent();
 
-	/** @return actor created by the tag. */
-	Widget getActor();
+    /** @return actor created by the tag. */
+    Widget getActor();
 
-	/** @param child child of the widget stored in this object. Generally appended to the widget one way or
-	 *            another.
-	 * @param childTagData tag data used to create child widget. May contain attributes relevant to the
-	 *            parent. */
-	void handleChild(Actor child, LmlTagData childTagData, LmlParser parser);
+    /** @param child child of the widget stored in this object. Generally appended to the widget one way or another.
+     * @param childTagData tag data used to create child widget. May contain attributes relevant to the parent. */
+    void handleChild(Actor child, LmlTagData childTagData, LmlParser parser);
 
-	/** @param data is between tag opening and ending. May or may not be appended to the actor. */
-	void handleDataBetweenTags(String data, LmlParser parser);
+    /** @param data is between tag opening and ending. May or may not be appended to the actor. */
+    void handleDataBetweenTags(String data, LmlParser parser);
 
-	/** Has to be triggered when this widget's tag is closed. */
-	void closeTag(LmlParser parser);
+    /** Has to be triggered when this widget's tag is closed. */
+    void closeTag(LmlParser parser);
 
-	/** @return node of the actor, if in a tree. */
-	Tree.Node getNode();
+    /** @return node of the actor, if in a tree. */
+    Tree.Node getNode();
 }

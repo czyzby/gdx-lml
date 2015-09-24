@@ -6,8 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  *
  * @author MJ */
 public class RowActor extends Actor {
-	public static final RowActor ROW = new RowActor();
+    public static final RowActor ROW = new RowActor();
 
-	private RowActor() {
-	}
+    private RowActor() {
+    }
 }

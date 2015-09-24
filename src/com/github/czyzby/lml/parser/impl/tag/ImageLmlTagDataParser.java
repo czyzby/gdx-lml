@@ -13,72 +13,72 @@ import com.github.czyzby.lml.parser.impl.tag.attribute.ImageLmlTagAttributeParse
 import com.github.czyzby.lml.parser.impl.tag.parent.ImageLmlParent;
 
 public class ImageLmlTagDataParser extends AbstractWidgetLmlTagDataParser<Image> {
-	public static final String SOURCE_ATTRIBUTE = "SRC";
-	private static final ObjectMap<String, LmlTagAttributeParser> ATTRIBUTE_PARSERS;
+    public static final String SOURCE_ATTRIBUTE = "SRC";
+    private static final ObjectMap<String, LmlTagAttributeParser> ATTRIBUTE_PARSERS;
 
-	private final ObjectMap<String, LmlTagAttributeParser> attributeParsers =
-			new ObjectMap<String, LmlTagAttributeParser>(ATTRIBUTE_PARSERS);
+    private final ObjectMap<String, LmlTagAttributeParser> attributeParsers = new ObjectMap<String, LmlTagAttributeParser>(
+            ATTRIBUTE_PARSERS);
 
-	static {
-		ATTRIBUTE_PARSERS = GdxMaps.newObjectMap();
-		for (final LmlTagAttributeParser parser : ImageLmlTagAttributeParser.values()) {
-			registerParser(parser);
-		}
-	}
+    static {
+        ATTRIBUTE_PARSERS = GdxMaps.newObjectMap();
+        for (final LmlTagAttributeParser parser : ImageLmlTagAttributeParser.values()) {
+            registerParser(parser);
+        }
+    }
 
-	public static void registerParser(final LmlTagAttributeParser parser) {
-		for (final String alias : parser.getAttributeNames()) {
-			ATTRIBUTE_PARSERS.put(alias.toUpperCase(), parser);
-		}
-	}
+    public static void registerParser(final LmlTagAttributeParser parser) {
+        for (final String alias : parser.getAttributeNames()) {
+            ATTRIBUTE_PARSERS.put(alias.toUpperCase(), parser);
+        }
+    }
 
-	public static void unregisterParser(final String withAlias) {
-		ATTRIBUTE_PARSERS.remove(withAlias);
-	}
+    public static void unregisterParser(final String withAlias) {
+        ATTRIBUTE_PARSERS.remove(withAlias);
+    }
 
-	@Override
-	protected void parseAttributes(final LmlTagData lmlTagData, final LmlParser parser, final Actor actor) {
-		super.parseAttributes(lmlTagData, parser, actor);
-		for (final Entry<String, String> attribute : lmlTagData.getAttributes()) {
-			if (attributeParsers.containsKey(attribute.key)) {
-				attributeParsers.get(attribute.key).apply(actor, parser, attribute.value, lmlTagData);
-			}
-		}
-	}
+    @Override
+    protected void parseAttributes(final LmlTagData lmlTagData, final LmlParser parser, final Actor actor) {
+        super.parseAttributes(lmlTagData, parser, actor);
+        for (final Entry<String, String> attribute : lmlTagData.getAttributes()) {
+            if (attributeParsers.containsKey(attribute.key)) {
+                attributeParsers.get(attribute.key).apply(actor, parser, attribute.value, lmlTagData);
+            }
+        }
+    }
 
-	@Override
-	public void registerAttributeParser(final LmlTagAttributeParser parser) {
-		for (final String alias : parser.getAttributeNames()) {
-			attributeParsers.put(alias.toUpperCase(), parser);
-		}
-	}
+    @Override
+    public void registerAttributeParser(final LmlTagAttributeParser parser) {
+        for (final String alias : parser.getAttributeNames()) {
+            attributeParsers.put(alias.toUpperCase(), parser);
+        }
+    }
 
-	@Override
-	public void unregisterAttributeParser(final String attributeName) {
-		attributeParsers.remove(attributeName);
-	}
+    @Override
+    public void unregisterAttributeParser(final String attributeName) {
+        attributeParsers.remove(attributeName);
+    }
 
-	@Override
-	protected Image parseChildWithValidTag(final LmlTagData lmlTagData, final LmlParser parser) {
-		return new Image(parser.getSkin(), getStyleName(lmlTagData, parser));
-	}
+    @Override
+    protected Image parseChildWithValidTag(final LmlTagData lmlTagData, final LmlParser parser) {
+        return new Image(parser.getSkin(), getStyleName(lmlTagData, parser));
+    }
 
-	@Override
-	protected boolean containsStyleAttribute(final LmlTagData lmlTagData) {
-		return lmlTagData.containsAttribute(SOURCE_ATTRIBUTE) || super.containsStyleAttribute(lmlTagData);
-	}
+    @Override
+    protected boolean containsStyleAttribute(final LmlTagData lmlTagData) {
+        return lmlTagData.containsAttribute(SOURCE_ATTRIBUTE) || super.containsStyleAttribute(lmlTagData);
+    }
 
-	@Override
-	protected String getStyleName(final LmlTagData lmlTagData, final LmlParser parser) {
-		if (lmlTagData.containsAttribute(SOURCE_ATTRIBUTE)) {
-			return parser.parseStringData(lmlTagData.getAttribute(SOURCE_ATTRIBUTE), null);
-		}
-		return super.getStyleName(lmlTagData, parser);
-	}
+    @Override
+    protected String getStyleName(final LmlTagData lmlTagData, final LmlParser parser) {
+        if (lmlTagData.containsAttribute(SOURCE_ATTRIBUTE)) {
+            return parser.parseStringData(lmlTagData.getAttribute(SOURCE_ATTRIBUTE), null);
+        }
+        return super.getStyleName(lmlTagData, parser);
+    }
 
-	@Override
-	protected LmlParent<Image> parseParentWithValidTag(final LmlTagData lmlTagData, final LmlParser parser,
-			final LmlParent<?> parent) {
-		return new ImageLmlParent(lmlTagData, parseChild(lmlTagData, parser), parent, parser);
-	}
+    @Override
+    protected LmlParent<Image> parseParentWithValidTag(final LmlTagData lmlTagData, final LmlParser parser,
+            final LmlParent<?> parent) {
+        return new ImageLmlParent(lmlTagData, parseChild(lmlTagData, parser), parent, parser);
+    }
 }

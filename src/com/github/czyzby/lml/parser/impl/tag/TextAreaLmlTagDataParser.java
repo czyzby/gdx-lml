@@ -14,57 +14,57 @@ import com.github.czyzby.lml.parser.impl.dto.LmlTagData;
 import com.github.czyzby.lml.parser.impl.tag.parent.TextAreaLmlParent;
 
 public class TextAreaLmlTagDataParser extends TextFieldLmlTagDataParser {
-	private static final ObjectMap<String, LmlTagAttributeParser> ATTRIBUTE_PARSERS;
+    private static final ObjectMap<String, LmlTagAttributeParser> ATTRIBUTE_PARSERS;
 
-	private final ObjectMap<String, LmlTagAttributeParser> attributeParsers =
-			new ObjectMap<String, LmlTagAttributeParser>(ATTRIBUTE_PARSERS);
+    private final ObjectMap<String, LmlTagAttributeParser> attributeParsers = new ObjectMap<String, LmlTagAttributeParser>(
+            ATTRIBUTE_PARSERS);
 
-	static {
-		ATTRIBUTE_PARSERS = GdxMaps.newObjectMap();
-	}
+    static {
+        ATTRIBUTE_PARSERS = GdxMaps.newObjectMap();
+    }
 
-	public static void registerParser(final LmlTagAttributeParser parser) {
-		for (final String alias : parser.getAttributeNames()) {
-			ATTRIBUTE_PARSERS.put(alias.toUpperCase(), parser);
-		}
-	}
+    public static void registerParser(final LmlTagAttributeParser parser) {
+        for (final String alias : parser.getAttributeNames()) {
+            ATTRIBUTE_PARSERS.put(alias.toUpperCase(), parser);
+        }
+    }
 
-	public static void unregisterParser(final String withAlias) {
-		ATTRIBUTE_PARSERS.remove(withAlias);
-	}
+    public static void unregisterParser(final String withAlias) {
+        ATTRIBUTE_PARSERS.remove(withAlias);
+    }
 
-	@Override
-	protected void parseAttributes(final LmlTagData lmlTagData, final LmlParser parser, final Actor actor) {
-		super.parseAttributes(lmlTagData, parser, actor);
-		if (GdxMaps.isNotEmpty(attributeParsers)) {
-			for (final Entry<String, String> attribute : lmlTagData.getAttributes()) {
-				if (attributeParsers.containsKey(attribute.key)) {
-					attributeParsers.get(attribute.key).apply(actor, parser, attribute.value, lmlTagData);
-				}
-			}
-		}
-	}
+    @Override
+    protected void parseAttributes(final LmlTagData lmlTagData, final LmlParser parser, final Actor actor) {
+        super.parseAttributes(lmlTagData, parser, actor);
+        if (GdxMaps.isNotEmpty(attributeParsers)) {
+            for (final Entry<String, String> attribute : lmlTagData.getAttributes()) {
+                if (attributeParsers.containsKey(attribute.key)) {
+                    attributeParsers.get(attribute.key).apply(actor, parser, attribute.value, lmlTagData);
+                }
+            }
+        }
+    }
 
-	@Override
-	public void registerAttributeParser(final LmlTagAttributeParser parser) {
-		for (final String alias : parser.getAttributeNames()) {
-			attributeParsers.put(alias.toUpperCase(), parser);
-		}
-	}
+    @Override
+    public void registerAttributeParser(final LmlTagAttributeParser parser) {
+        for (final String alias : parser.getAttributeNames()) {
+            attributeParsers.put(alias.toUpperCase(), parser);
+        }
+    }
 
-	@Override
-	public void unregisterAttributeParser(final String attributeName) {
-		attributeParsers.remove(attributeName);
-	}
+    @Override
+    public void unregisterAttributeParser(final String attributeName) {
+        attributeParsers.remove(attributeName);
+    }
 
-	@Override
-	protected TextArea parseChildWithValidTag(final LmlTagData lmlTagData, final LmlParser parser) {
-		return new TextArea(Strings.EMPTY_STRING, parser.getSkin(), getStyleName(lmlTagData, parser));
-	}
+    @Override
+    protected TextArea parseChildWithValidTag(final LmlTagData lmlTagData, final LmlParser parser) {
+        return new TextArea(Strings.EMPTY_STRING, parser.getSkin(), getStyleName(lmlTagData, parser));
+    }
 
-	@Override
-	protected LmlParent<TextField> parseParentWithValidTag(final LmlTagData lmlTagData,
-			final LmlParser parser, final LmlParent<?> parent) {
-		return new TextAreaLmlParent(lmlTagData, parseChild(lmlTagData, parser), parent, parser);
-	}
+    @Override
+    protected LmlParent<TextField> parseParentWithValidTag(final LmlTagData lmlTagData, final LmlParser parser,
+            final LmlParent<?> parent) {
+        return new TextAreaLmlParent(lmlTagData, parseChild(lmlTagData, parser), parent, parser);
+    }
 }

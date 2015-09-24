@@ -9,14 +9,14 @@ import com.github.czyzby.lml.parser.impl.dto.LmlParent;
 import com.github.czyzby.lml.parser.impl.macro.parent.LmlMetaMacroParent;
 
 public class LmlMetaMacroParser implements LmlMacroParser {
-	@Override
-	public void parseMacro(final LmlParser parser, final LmlMacroData lmlMacroData) {
-		throw new LmlParsingException("Marco has to have content.", parser);
-	}
+    @Override
+    public void parseMacro(final LmlParser parser, final LmlMacroData lmlMacroData) {
+        throw new LmlParsingException("Marco has to have content.", parser);
+    }
 
-	@Override
-	public LmlParent<Actor> parseMacroParent(final LmlParser parser, final LmlMacroData lmlMacroData,
-			final LmlParent<?> parent) {
-		return new LmlMetaMacroParent(lmlMacroData, parent, parser);
-	}
+    @Override
+    public LmlParent<Actor> parseMacroParent(final LmlParser parser, final LmlMacroData lmlMacroData,
+            final LmlParent<?> parent) {
+        return new LmlMetaMacroParent(lmlMacroData, parent, parser);
+    }
 }

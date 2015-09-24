@@ -14,47 +14,46 @@ import com.github.czyzby.lml.parser.impl.dto.LmlTagData;
 import com.github.czyzby.lml.parser.impl.tag.attribute.TextFieldLmlTagAttributeParser;
 
 public class TextFieldLmlParent extends AbstractLmlParent<TextField> {
-	private static final ObjectMap<String, LmlTagAttributeParser> ATTRIBUTE_PARSERS;
+    private static final ObjectMap<String, LmlTagAttributeParser> ATTRIBUTE_PARSERS;
 
-	static {
-		final ObjectMap<String, LmlTagAttributeParser> parsers = GdxMaps.newObjectMap();
-		final Array<TextFieldLmlTagAttributeParser> postConstructParsers =
-				GdxArrays.newArray(TextFieldLmlTagAttributeParser.CURSOR_POSITION,
-						TextFieldLmlTagAttributeParser.SELECT_ALL,
-						TextFieldLmlTagAttributeParser.SELECTION_END,
-						TextFieldLmlTagAttributeParser.SELECTION_START);
-		for (final LmlTagAttributeParser parser : postConstructParsers) {
-			for (final String alias : parser.getAttributeNames()) {
-				parsers.put(alias.toUpperCase(), parser);
-			}
-		}
-		ATTRIBUTE_PARSERS = GdxMaps.toImmutable(parsers);
-	}
-	private final LmlTagData tagData;
+    static {
+        final ObjectMap<String, LmlTagAttributeParser> parsers = GdxMaps.newObjectMap();
+        final Array<TextFieldLmlTagAttributeParser> postConstructParsers = GdxArrays.newArray(
+                TextFieldLmlTagAttributeParser.CURSOR_POSITION, TextFieldLmlTagAttributeParser.SELECT_ALL,
+                TextFieldLmlTagAttributeParser.SELECTION_END, TextFieldLmlTagAttributeParser.SELECTION_START);
+        for (final LmlTagAttributeParser parser : postConstructParsers) {
+            for (final String alias : parser.getAttributeNames()) {
+                parsers.put(alias.toUpperCase(), parser);
+            }
+        }
+        ATTRIBUTE_PARSERS = GdxMaps.toImmutable(parsers);
+    }
 
-	public TextFieldLmlParent(final LmlTagData tagData, final TextField actor, final LmlParent<?> parent,
-			final LmlParser parser) {
-		super(tagData, actor, parent, parser);
-		this.tagData = tagData;
-	}
+    private final LmlTagData tagData;
 
-	@Override
-	public void handleValidChild(final Actor child, final LmlTagData childTagData, final LmlParser parser) {
-		throwErrorIfStrict(parser, "TextFields cannot have children.");
-	}
+    public TextFieldLmlParent(final LmlTagData tagData, final TextField actor, final LmlParent<?> parent,
+            final LmlParser parser) {
+        super(tagData, actor, parent, parser);
+        this.tagData = tagData;
+    }
 
-	@Override
-	public void doOnTagClose(final LmlParser parser) {
-		actor.pack();
-		for (final Entry<String, String> attribute : tagData.getAttributes()) {
-			if (ATTRIBUTE_PARSERS.containsKey(attribute.key)) {
-				ATTRIBUTE_PARSERS.get(attribute.key).apply(actor, parser, attribute.value, tagData);
-			}
-		}
-	}
+    @Override
+    public void handleValidChild(final Actor child, final LmlTagData childTagData, final LmlParser parser) {
+        throwErrorIfStrict(parser, "TextFields cannot have children.");
+    }
 
-	@Override
-	protected void handleValidDataBetweenTags(final String data, final LmlParser parser) {
-		actor.appendText(parser.parseStringData(data, actor));
-	}
+    @Override
+    public void doOnTagClose(final LmlParser parser) {
+        actor.pack();
+        for (final Entry<String, String> attribute : tagData.getAttributes()) {
+            if (ATTRIBUTE_PARSERS.containsKey(attribute.key)) {
+                ATTRIBUTE_PARSERS.get(attribute.key).apply(actor, parser, attribute.value, tagData);
+            }
+        }
+    }
+
+    @Override
+    protected void handleValidDataBetweenTags(final String data, final LmlParser parser) {
+        actor.appendText(parser.parseStringData(data, actor));
+    }
 }

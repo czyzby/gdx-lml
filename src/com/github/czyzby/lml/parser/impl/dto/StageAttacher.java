@@ -6,5 +6,5 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
  *
  * @author MJ */
 public interface StageAttacher {
-	void attachToStage(Stage stage);
+    void attachToStage(Stage stage);
 }
