@@ -12,78 +12,76 @@ import com.badlogic.gdx.math.Vector3;
  *
  * @author MJ */
 public class GdxUtilities {
-	private GdxUtilities() {
-	}
+    private GdxUtilities() {
+    }
 
-	/** Clears the screen with black color. */
-	public static void clearScreen() {
-		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-	}
+    /** Clears the screen with black color. */
+    public static void clearScreen() {
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    }
 
-	/** Application's input processor will be set to null. */
-	public static void clearInputProcessor() {
-		Gdx.input.setInputProcessor(null);
-	}
+    /** Application's input processor will be set to null. */
+    public static void clearInputProcessor() {
+        Gdx.input.setInputProcessor(null);
+    }
 
-	/** Application's input processor will be set to a multiplexer with multiple passed processors. */
-	public static void setMultipleInputProcessors(final InputProcessor... processors) {
-		Gdx.input.setInputProcessor(new InputMultiplexer(processors));
-	}
+    /** Application's input processor will be set to a multiplexer with multiple passed processors. */
+    public static void setMultipleInputProcessors(final InputProcessor... processors) {
+        Gdx.input.setInputProcessor(new InputMultiplexer(processors));
+    }
 
-	/** @return a new vector2 storing windows' width and height as x and y. */
-	public static Vector2 getScreenSize() {
-		return new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-	}
+    /** @return a new vector2 storing windows' width and height as x and y. */
+    public static Vector2 getScreenSize() {
+        return new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    }
 
-	/** @return the passed vector2 storing windows' width and height as x and y. */
-	public static Vector2 getScreenSize(final Vector2 result) {
-		return result.set(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-	}
+    /** @return the passed vector2 storing windows' width and height as x and y. */
+    public static Vector2 getScreenSize(final Vector2 result) {
+        return result.set(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    }
 
-	/** @return a new vector2 storing current cursor position. */
-	public static Vector2 getCursorPosition() {
-		return new Vector2(Gdx.input.getX(), Gdx.input.getY());
-	}
+    /** @return a new vector2 storing current cursor position. */
+    public static Vector2 getCursorPosition() {
+        return new Vector2(Gdx.input.getX(), Gdx.input.getY());
+    }
 
-	/** @return the passed vector2 storing current cursor position. */
-	public static Vector2 getCursorPosition(final Vector2 result) {
-		return result.set(Gdx.input.getX(), Gdx.input.getY());
-	}
+    /** @return the passed vector2 storing current cursor position. */
+    public static Vector2 getCursorPosition(final Vector2 result) {
+        return result.set(Gdx.input.getX(), Gdx.input.getY());
+    }
 
-	/** @return a new vector3 storing current accelerometer data. */
-	public static Vector3 getAccelerometerData() {
-		return new Vector3(Gdx.input.getAccelerometerX(), Gdx.input.getAccelerometerY(),
-				Gdx.input.getAccelerometerZ());
-	}
+    /** @return a new vector3 storing current accelerometer data. */
+    public static Vector3 getAccelerometerData() {
+        return new Vector3(Gdx.input.getAccelerometerX(), Gdx.input.getAccelerometerY(), Gdx.input.getAccelerometerZ());
+    }
 
-	/** @return the passed vector3 storing current accelerometer data. */
-	public static Vector3 getAccelerometerData(final Vector3 result) {
-		return result.set(Gdx.input.getAccelerometerX(), Gdx.input.getAccelerometerY(),
-				Gdx.input.getAccelerometerZ());
-	}
+    /** @return the passed vector3 storing current accelerometer data. */
+    public static Vector3 getAccelerometerData(final Vector3 result) {
+        return result.set(Gdx.input.getAccelerometerX(), Gdx.input.getAccelerometerY(), Gdx.input.getAccelerometerZ());
+    }
 
-	public static boolean isRunningOnApplet() {
-		return Gdx.app.getType() == ApplicationType.Applet;
-	}
+    public static boolean isRunningOnApplet() {
+        return Gdx.app.getType() == ApplicationType.Applet;
+    }
 
-	public static boolean isRunningOnAndroid() {
-		return Gdx.app.getType() == ApplicationType.Android;
-	}
+    public static boolean isRunningOnAndroid() {
+        return Gdx.app.getType() == ApplicationType.Android;
+    }
 
-	public static boolean isRunningOnDesktop() {
-		return Gdx.app.getType() == ApplicationType.Desktop;
-	}
+    public static boolean isRunningOnDesktop() {
+        return Gdx.app.getType() == ApplicationType.Desktop;
+    }
 
-	public static boolean isRunningOnIOS() {
-		return Gdx.app.getType() == ApplicationType.iOS;
-	}
+    public static boolean isRunningOnIOS() {
+        return Gdx.app.getType() == ApplicationType.iOS;
+    }
 
-	public static boolean isRunningOnGwt() {
-		return Gdx.app.getType() == ApplicationType.WebGL;
-	}
+    public static boolean isRunningOnGwt() {
+        return Gdx.app.getType() == ApplicationType.WebGL;
+    }
 
-	public static boolean isHeadless() {
-		return Gdx.app.getType() == ApplicationType.HeadlessDesktop;
-	}
+    public static boolean isHeadless() {
+        return Gdx.app.getType() == ApplicationType.HeadlessDesktop;
+    }
 }

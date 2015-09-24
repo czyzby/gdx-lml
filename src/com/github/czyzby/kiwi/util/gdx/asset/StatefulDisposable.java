@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Disposable;
  *
  * @author MJ */
 public interface StatefulDisposable extends Disposable {
-	/** @return true if the resource was already disposed of. If returns true and dispose() is called, some
-	 *         resources might throw an exception. */
-	boolean isDisposed();
+    /** @return true if the resource was already disposed of. If returns true and dispose() is called, some resources
+     *         might throw an exception. */
+    boolean isDisposed();
 }

@@ -4,6 +4,6 @@ package com.github.czyzby.kiwi.util.gdx.asset.lazy.provider;
  *
  * @author MJ */
 public interface ObjectProvider<Type> {
-	/** @return an instance of an object with the selected type. */
-	Type provide();
+    /** @return an instance of an object with the selected type. */
+    Type provide();
 }
