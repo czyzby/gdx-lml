@@ -6,17 +6,17 @@ import com.github.czyzby.autumn.context.processor.method.MessageProcessor;
  *
  * @author MJ */
 public class MessageRunnable implements Runnable {
-	private final MessageProcessor messageProcessor;
-	private final ComponentMessageListener listener;
+    private final MessageProcessor messageProcessor;
+    private final ComponentMessageListener listener;
 
-	public MessageRunnable(final MessageProcessor messageProcessor, final ComponentMessageListener listener) {
-		this.messageProcessor = messageProcessor;
-		this.listener = listener;
-	}
+    public MessageRunnable(final MessageProcessor messageProcessor, final ComponentMessageListener listener) {
+        this.messageProcessor = messageProcessor;
+        this.listener = listener;
+    }
 
-	@Override
-	public void run() {
-		messageProcessor.notifyListener(listener);
-		messageProcessor.removeUnusedListeners();
-	}
+    @Override
+    public void run() {
+        messageProcessor.notifyListener(listener);
+        messageProcessor.removeUnusedListeners();
+    }
 }

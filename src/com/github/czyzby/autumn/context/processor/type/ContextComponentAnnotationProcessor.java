@@ -11,20 +11,20 @@ import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
  *
  * @author MJ */
 public class ContextComponentAnnotationProcessor extends ComponentTypeAnnotationProcessor {
-	@Override
-	public Class<? extends Annotation> getProcessedAnnotationClass() {
-		return Component.class;
-	}
+    @Override
+    public Class<? extends Annotation> getProcessedAnnotationClass() {
+        return Component.class;
+    }
 
-	@Override
-	public void processClass(final ContextContainer context, final Class<?> componentClass) {
-		context.registerComponent(prepareComponent(context, componentClass));
-	}
+    @Override
+    public void processClass(final ContextContainer context, final Class<?> componentClass) {
+        context.registerComponent(prepareComponent(context, componentClass));
+    }
 
-	@Override
-	public ContextComponent prepareComponent(final ContextContainer context, final Class<?> componentClass) {
-		final Component componentData = Reflection.getAnnotation(componentClass, Component.class);
-		return new ContextComponent(componentClass, getNewInstanceOf(componentClass), componentData.lazy(),
-				componentData.keepInContext());
-	}
+    @Override
+    public ContextComponent prepareComponent(final ContextContainer context, final Class<?> componentClass) {
+        final Component componentData = Reflection.getAnnotation(componentClass, Component.class);
+        return new ContextComponent(componentClass, getNewInstanceOf(componentClass), componentData.lazy(),
+                componentData.keepInContext());
+    }
 }

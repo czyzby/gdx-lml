@@ -8,12 +8,12 @@ import com.github.czyzby.autumn.context.processor.ComponentAnnotationType;
  *
  * @author MJ */
 public abstract class ComponentMetaAnnotationProcessor extends AbstractComponentAnnotationProcessor {
-	@Override
-	public ComponentAnnotationType getAnnotationType() {
-		return ComponentAnnotationType.META;
-	}
+    @Override
+    public ComponentAnnotationType getAnnotationType() {
+        return ComponentAnnotationType.META;
+    }
 
-	/** @param context schedules processing of the meta component.
-	 * @param componentClass class annotated with the processed type of annotation. */
-	public abstract void processClass(ContextContainer context, Class<?> componentClass);
+    /** @param context schedules processing of the meta component.
+     * @param componentClass class annotated with the processed type of annotation. */
+    public abstract void processClass(ContextContainer context, Class<?> componentClass);
 }

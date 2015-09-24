@@ -4,9 +4,9 @@ package com.github.czyzby.autumn.context.processor.method.message.common;
  *
  * @author MJ */
 public class AutumnRestrictedMessages {
-	private AutumnRestrictedMessages() {
-	}
+    private AutumnRestrictedMessages() {
+    }
 
-	/** Invoked after all fields are processed. By default, invokes Initiate processor. */
-	public static final String COMPONENT_INITIATION = "Autumn_initiateComponents";
+    /** Invoked after all fields are processed. By default, invokes Initiate processor. */
+    public static final String COMPONENT_INITIATION = "Autumn_initiateComponents";
 }

@@ -6,20 +6,20 @@ import com.github.czyzby.autumn.context.processor.method.EventProcessor;
  *
  * @author MJ */
 public class EventRunnable implements Runnable {
-	private final EventProcessor eventProcessor;
-	private final ComponentEventListener listener;
-	private final Object event;
+    private final EventProcessor eventProcessor;
+    private final ComponentEventListener listener;
+    private final Object event;
 
-	public EventRunnable(final EventProcessor eventProcessor, final ComponentEventListener listener,
-			final Object event) {
-		this.eventProcessor = eventProcessor;
-		this.listener = listener;
-		this.event = event;
-	}
+    public EventRunnable(final EventProcessor eventProcessor, final ComponentEventListener listener,
+            final Object event) {
+        this.eventProcessor = eventProcessor;
+        this.listener = listener;
+        this.event = event;
+    }
 
-	@Override
-	public void run() {
-		eventProcessor.postEventForListener(event, listener);
-		eventProcessor.removeUnusedListeners();
-	}
+    @Override
+    public void run() {
+        eventProcessor.postEventForListener(event, listener);
+        eventProcessor.removeUnusedListeners();
+    }
 }

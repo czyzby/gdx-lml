@@ -16,50 +16,48 @@ import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 /** Handles invocation of methods annotated with Initiate.
  *
  * @author MJ */
-public class InitiateAnnotationProcessor extends ComponentMethodAnnotationProcessor implements
-		ComponentMessageListener {
-	private final Array<ComponentMethodInvocation> scheduledInvocations = GdxArrays.newArray();
+public class InitiateAnnotationProcessor extends ComponentMethodAnnotationProcessor
+        implements ComponentMessageListener {
+    private final Array<ComponentMethodInvocation> scheduledInvocations = GdxArrays.newArray();
 
-	public InitiateAnnotationProcessor(final MessageProcessor messageProcessor) {
-		messageProcessor.registerListener(this);
-	}
+    public InitiateAnnotationProcessor(final MessageProcessor messageProcessor) {
+        messageProcessor.registerListener(this);
+    }
 
-	@Override
-	public Class<? extends Annotation> getProcessedAnnotationClass() {
-		return Initiate.class;
-	}
+    @Override
+    public Class<? extends Annotation> getProcessedAnnotationClass() {
+        return Initiate.class;
+    }
 
-	@Override
-	public <Type> void processMethod(final ContextContainer context, final ContextComponent component,
-			final Method method) {
-		final Initiate initiationData = Reflection.getAnnotation(method, Initiate.class);
-		for (final Class<?> parameterType : method.getParameterTypes()) {
-			final ContextComponent requestedComponent = context.extractFromContext(parameterType);
-			if (requestedComponent.isLazy() && !requestedComponent.isInitiated()) {
-				context.requestToWakeLazyComponent(requestedComponent);
-			}
-		}
-		scheduledInvocations.add(new ComponentMethodInvocation(initiationData.priority(), method, context,
-				component));
-	}
+    @Override
+    public void processMethod(final ContextContainer context, final ContextComponent component, final Method method) {
+        final Initiate initiationData = Reflection.getAnnotation(method, Initiate.class);
+        for (final Class<?> parameterType : method.getParameterTypes()) {
+            final ContextComponent requestedComponent = context.extractFromContext(parameterType);
+            if (requestedComponent.isLazy() && !requestedComponent.isInitiated()) {
+                context.requestToWakeLazyComponent(requestedComponent);
+            }
+        }
+        scheduledInvocations.add(new ComponentMethodInvocation(initiationData.priority(), method, context, component));
+    }
 
-	@Override
-	public String getMessageContent() {
-		return AutumnRestrictedMessages.COMPONENT_INITIATION;
-	}
+    @Override
+    public String getMessageContent() {
+        return AutumnRestrictedMessages.COMPONENT_INITIATION;
+    }
 
-	@Override
-	public boolean processMessage() {
-		scheduledInvocations.sort();
-		for (final ComponentMethodInvocation methodInvocation : scheduledInvocations) {
-			methodInvocation.invoke();
-		}
-		scheduledInvocations.clear();
-		return KEEP_AFTER_INVOCATION;
-	}
+    @Override
+    public boolean processMessage() {
+        scheduledInvocations.sort();
+        for (final ComponentMethodInvocation methodInvocation : scheduledInvocations) {
+            methodInvocation.invoke();
+        }
+        scheduledInvocations.clear();
+        return KEEP_AFTER_INVOCATION;
+    }
 
-	@Override
-	public boolean isForcingMainThread() {
-		return false;
-	}
+    @Override
+    public boolean isForcingMainThread() {
+        return false;
+    }
 }

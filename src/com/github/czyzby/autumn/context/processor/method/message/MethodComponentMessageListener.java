@@ -11,50 +11,48 @@ import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
  *
  * @author MJ */
 public class MethodComponentMessageListener implements ComponentMessageListener {
-	private final ContextContainer context;
-	private final Object listenerComponent;
-	private final Method listenerMethod;
-	private final String messageContent;
-	private final boolean removeAfterInvocation;
-	private final boolean forcesMainThread;
-	private final boolean strict;
+    private final ContextContainer context;
+    private final Object listenerComponent;
+    private final Method listenerMethod;
+    private final String messageContent;
+    private final boolean removeAfterInvocation;
+    private final boolean forcesMainThread;
+    private final boolean strict;
 
-	public MethodComponentMessageListener(final OnMessage messageListenerData, final Method listenerMethod,
-			final ContextComponent listenerComponent, final ContextContainer context) {
-		this.context = context;
-		this.listenerComponent = listenerComponent.getComponent();
-		this.listenerMethod = listenerMethod;
-		messageContent = messageListenerData.value();
-		removeAfterInvocation = messageListenerData.removeAfterInvocation();
-		forcesMainThread = messageListenerData.forceMainThread();
-		strict = messageListenerData.strict();
-	}
+    public MethodComponentMessageListener(final OnMessage messageListenerData, final Method listenerMethod,
+            final ContextComponent listenerComponent, final ContextContainer context) {
+        this.context = context;
+        this.listenerComponent = listenerComponent.getComponent();
+        this.listenerMethod = listenerMethod;
+        messageContent = messageListenerData.value();
+        removeAfterInvocation = messageListenerData.removeAfterInvocation();
+        forcesMainThread = messageListenerData.forceMainThread();
+        strict = messageListenerData.strict();
+    }
 
-	@Override
-	public String getMessageContent() {
-		return messageContent;
-	}
+    @Override
+    public String getMessageContent() {
+        return messageContent;
+    }
 
-	@Override
-	public boolean processMessage() {
-		try {
-			final Object result =
-					Reflection.invokeMethod(listenerMethod, listenerComponent,
-							context.prepareMethodParameters(listenerMethod));
-			return result instanceof Boolean ? ((Boolean) result).booleanValue() || removeAfterInvocation
-					: removeAfterInvocation;
-		} catch (final Throwable exception) {
-			if (strict) {
-				throw new AutumnRuntimeException("Unable to execute method: " + listenerMethod
-						+ " of component: " + listenerComponent + " on message: " + messageContent + ".",
-						exception);
-			}
-		}
-		return removeAfterInvocation;
-	}
+    @Override
+    public boolean processMessage() {
+        try {
+            final Object result = Reflection.invokeMethod(listenerMethod, listenerComponent,
+                    context.prepareMethodParameters(listenerMethod));
+            return result instanceof Boolean ? ((Boolean) result).booleanValue() || removeAfterInvocation
+                    : removeAfterInvocation;
+        } catch (final Throwable exception) {
+            if (strict) {
+                throw new AutumnRuntimeException("Unable to execute method: " + listenerMethod + " of component: "
+                        + listenerComponent + " on message: " + messageContent + ".", exception);
+            }
+        }
+        return removeAfterInvocation;
+    }
 
-	@Override
-	public boolean isForcingMainThread() {
-		return forcesMainThread;
-	}
+    @Override
+    public boolean isForcingMainThread() {
+        return forcesMainThread;
+    }
 }

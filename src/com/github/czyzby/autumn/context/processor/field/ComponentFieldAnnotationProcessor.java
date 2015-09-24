@@ -10,15 +10,15 @@ import com.github.czyzby.autumn.context.processor.ComponentAnnotationType;
  *
  * @author MJ */
 public abstract class ComponentFieldAnnotationProcessor extends AbstractComponentAnnotationProcessor {
-	@Override
-	public ComponentAnnotationType getAnnotationType() {
-		return ComponentAnnotationType.FIELD;
-	}
+    @Override
+    public ComponentAnnotationType getAnnotationType() {
+        return ComponentAnnotationType.FIELD;
+    }
 
-	/** Field annotation processing method. For internal Autumn use.
-	 *
-	 * @param context contains the component.
-	 * @param component contains the annotated field.
-	 * @param field contains processed annotation type. */
-	public abstract <Type> void processField(ContextContainer context, ContextComponent component, Field field);
+    /** Field annotation processing method. For internal Autumn use.
+     *
+     * @param context contains the component.
+     * @param component contains the annotated field.
+     * @param field contains processed annotation type. */
+    public abstract <Type> void processField(ContextContainer context, ContextComponent component, Field field);
 }

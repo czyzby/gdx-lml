@@ -10,19 +10,19 @@ import com.github.czyzby.autumn.context.ContextContainer;
  *
  * @author MJ */
 public class ConfigurationAnnotationProcessor extends ComponentTypeAnnotationProcessor {
-	@Override
-	public Class<? extends Annotation> getProcessedAnnotationClass() {
-		return Configuration.class;
-	}
+    @Override
+    public Class<? extends Annotation> getProcessedAnnotationClass() {
+        return Configuration.class;
+    }
 
-	@Override
-	public void processClass(final ContextContainer context, final Class<?> componentClass) {
-		context.registerComponent(prepareComponent(context, componentClass));
-	}
+    @Override
+    public void processClass(final ContextContainer context, final Class<?> componentClass) {
+        context.registerComponent(prepareComponent(context, componentClass));
+    }
 
-	@Override
-	public ContextComponent prepareComponent(final ContextContainer context, final Class<?> componentClass) {
-		// No need for annotation data, settings are static.
-		return new ContextComponent(componentClass, getNewInstanceOf(componentClass), false, false);
-	}
+    @Override
+    public ContextComponent prepareComponent(final ContextContainer context, final Class<?> componentClass) {
+        // No need for annotation data, settings are static.
+        return new ContextComponent(componentClass, getNewInstanceOf(componentClass), false, false);
+    }
 }

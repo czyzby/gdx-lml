@@ -10,14 +10,13 @@ import com.github.czyzby.autumn.context.processor.ComponentAnnotationType;
  *
  * @author MJ */
 public abstract class ComponentMethodAnnotationProcessor extends AbstractComponentAnnotationProcessor {
-	@Override
-	public ComponentAnnotationType getAnnotationType() {
-		return ComponentAnnotationType.METHOD;
-	}
+    @Override
+    public ComponentAnnotationType getAnnotationType() {
+        return ComponentAnnotationType.METHOD;
+    }
 
-	/** @param context contains the component.
-	 * @param component contains the annotated method.
-	 * @param method is annotated with the processed type. */
-	public abstract <Type> void processMethod(ContextContainer context, ContextComponent component,
-			Method method);
+    /** @param context contains the component.
+     * @param component contains the annotated method.
+     * @param method is annotated with the processed type. */
+    public abstract <Type> void processMethod(ContextContainer context, ContextComponent component, Method method);
 }

@@ -9,41 +9,40 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.collection.lazy.LazyObjectMap;
 
-/** Rather than scanning the whole application, this scanner uses a limited collection of classes that are
- * registered. This might be significantly faster than other scanning methods, but it also requires to
- * register all used components, which is rather redundant.
+/** Rather than scanning the whole application, this scanner uses a limited collection of classes that are registered.
+ * This might be significantly faster than other scanning methods, but it also requires to register all used components,
+ * which is rather redundant.
  *
  * @author MJ */
 public class FixedClassScanner implements ClassScanner {
-	private final Array<Class<?>> availableClasses;
+    private final Array<Class<?>> availableClasses;
 
-	/** @param availableClasses will be scanned upon method invoking. Note that this scanner does not have
-	 *            access to any other classes than the ones that are registered. */
-	public FixedClassScanner(final Class<?>... availableClasses) {
-		this.availableClasses = GdxArrays.newArray(availableClasses);
-	}
+    /** @param availableClasses will be scanned upon method invoking. Note that this scanner does not have access to any
+     *            other classes than the ones that are registered. */
+    public FixedClassScanner(final Class<?>... availableClasses) {
+        this.availableClasses = GdxArrays.newArray(availableClasses);
+    }
 
-	/** @param classes will become available for scanning. */
-	public void register(final Class<?>... classes) {
-		availableClasses.addAll(classes);
-	}
+    /** @param classes will become available for scanning. */
+    public void register(final Class<?>... classes) {
+        availableClasses.addAll(classes);
+    }
 
-	@Override
-	public ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> findClassesAnnotatedWith(
-			final Class<?> root, final Iterable<Class<? extends Annotation>> annotations) {
-		final String packageName =
-				root.getName().substring(0, root.getName().length() - root.getSimpleName().length() - 1);
-		final ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> result =
-				LazyObjectMap.newMapOfSets();
-		for (final Class<?> classToProcess : availableClasses) {
-			if (classToProcess.getName().startsWith(packageName)) {
-				for (final Class<? extends Annotation> annotation : annotations) {
-					if (ClassReflection.isAnnotationPresent(classToProcess, annotation)) {
-						result.get(annotation).add(classToProcess);
-					}
-				}
-			}
-		}
-		return result;
-	}
+    @Override
+    public ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> findClassesAnnotatedWith(final Class<?> root,
+            final Iterable<Class<? extends Annotation>> annotations) {
+        final String packageName = root.getName().substring(0,
+                root.getName().length() - root.getSimpleName().length() - 1);
+        final ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> result = LazyObjectMap.newMapOfSets();
+        for (final Class<?> classToProcess : availableClasses) {
+            if (classToProcess.getName().startsWith(packageName)) {
+                for (final Class<? extends Annotation> annotation : annotations) {
+                    if (ClassReflection.isAnnotationPresent(classToProcess, annotation)) {
+                        result.get(annotation).add(classToProcess);
+                    }
+                }
+            }
+        }
+        return result;
+    }
 }
