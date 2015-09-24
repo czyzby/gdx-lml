@@ -7,14 +7,14 @@ import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
  *
  * @author MJ */
 public class CurrentSoundVolumeAction implements ActorConsumer<Float, Object> {
-	private final MusicService musicService;
+    private final MusicService musicService;
 
-	public CurrentSoundVolumeAction(final MusicService musicService) {
-		this.musicService = musicService;
-	}
+    public CurrentSoundVolumeAction(final MusicService musicService) {
+        this.musicService = musicService;
+    }
 
-	@Override
-	public Float consume(final Object actor) {
-		return musicService.getSoundVolume();
-	}
+    @Override
+    public Float consume(final Object actor) {
+        return musicService.getSoundVolume();
+    }
 }

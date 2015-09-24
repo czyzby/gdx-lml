@@ -15,77 +15,74 @@ import com.github.czyzby.lml.parser.impl.dto.StageAttacher;
 /** Wraps around an object annotated with {@link com.github.czyzby.autumn.mvc.stereotype.ViewDialog}.
  *
  * @author MJ */
-public class AnnotatedViewDialogController extends AbstractAnnotatedController implements
-		ViewDialogController {
-	private final ViewDialog dialogData;
-	private final InterfaceService interfaceService;
-	private final ViewDialogShower shower;
-	private final ActionContainer actionContainer;
-	private final String id;
+public class AnnotatedViewDialogController extends AbstractAnnotatedController implements ViewDialogController {
+    private final ViewDialog dialogData;
+    private final InterfaceService interfaceService;
+    private final ViewDialogShower shower;
+    private final ActionContainer actionContainer;
+    private final String id;
 
-	private Dialog dialog;
+    private Dialog dialog;
 
-	public AnnotatedViewDialogController(final ViewDialog dialogData, final Object wrappedObject,
-			final InterfaceService interfaceService) {
-		super(wrappedObject);
-		this.dialogData = dialogData;
-		this.interfaceService = interfaceService;
+    public AnnotatedViewDialogController(final ViewDialog dialogData, final Object wrappedObject,
+            final InterfaceService interfaceService) {
+        super(wrappedObject);
+        this.dialogData = dialogData;
+        this.interfaceService = interfaceService;
 
-		shower = wrappedObject instanceof ViewDialogShower ? (ViewDialogShower) wrappedObject : null;
-		actionContainer = wrappedObject instanceof ActionContainer ? (ActionContainer) wrappedObject : null;
-		id =
-				Strings.isWhitespace(dialogData.id()) ? wrappedObject.getClass().getSimpleName() : dialogData
-						.id();
-	}
+        shower = wrappedObject instanceof ViewDialogShower ? (ViewDialogShower) wrappedObject : null;
+        actionContainer = wrappedObject instanceof ActionContainer ? (ActionContainer) wrappedObject : null;
+        id = Strings.isWhitespace(dialogData.id()) ? wrappedObject.getClass().getSimpleName() : dialogData.id();
+    }
 
-	@Override
-	public void show(final Stage stage) {
-		injectStage(stage);
-		if (dialog == null || !dialogData.cacheInstance()) {
-			prepareDialogInstance();
-		}
-		doBeforeShow();
-		showDialog(stage);
-	}
+    @Override
+    public void show(final Stage stage) {
+        injectStage(stage);
+        if (dialog == null || !dialogData.cacheInstance()) {
+            prepareDialogInstance();
+        }
+        doBeforeShow();
+        showDialog(stage);
+    }
 
-	private void showDialog(final Stage stage) {
-		if (dialog.getUserObject() instanceof StageAttacher) {
-			((StageAttacher) dialog.getUserObject()).attachToStage(stage);
-		} else {
-			dialog.show(stage);
-		}
-	}
+    private void showDialog(final Stage stage) {
+        if (dialog.getUserObject() instanceof StageAttacher) {
+            ((StageAttacher) dialog.getUserObject()).attachToStage(stage);
+        } else {
+            dialog.show(stage);
+        }
+    }
 
-	private void doBeforeShow() {
-		if (shower != null) {
-			shower.doBeforeShow(dialog);
-		}
-	}
+    private void doBeforeShow() {
+        if (shower != null) {
+            shower.doBeforeShow(dialog);
+        }
+    }
 
-	private void prepareDialogInstance() {
-		final LmlParser parser = interfaceService.getParser();
-		if (actionContainer != null) {
-			parser.addActionContainer(getId(), actionContainer);
-		}
-		dialog = (Dialog) parser.parse(Gdx.files.internal(dialogData.value())).first();
-		injectReferencedActors(parser.getActorsMappedById());
-		if (actionContainer != null) {
-			parser.removeActionContainer(getId());
-		}
-	}
+    private void prepareDialogInstance() {
+        final LmlParser parser = interfaceService.getParser();
+        if (actionContainer != null) {
+            parser.addActionContainer(getId(), actionContainer);
+        }
+        dialog = (Dialog) parser.parse(Gdx.files.internal(dialogData.value())).first();
+        injectReferencedActors(parser.getActorsMappedById());
+        if (actionContainer != null) {
+            parser.removeActionContainer(getId());
+        }
+    }
 
-	@Override
-	public void destroyDialog() {
-		if (dialog != null) {
-			if (dialog.getStage() != null) {
-				dialog.hide();
-			}
-			dialog = null;
-		}
-	}
+    @Override
+    public void destroyDialog() {
+        if (dialog != null) {
+            if (dialog.getStage() != null) {
+                dialog.hide();
+            }
+            dialog = null;
+        }
+    }
 
-	@Override
-	public String getId() {
-		return id;
-	}
+    @Override
+    public String getId() {
+        return id;
+    }
 }

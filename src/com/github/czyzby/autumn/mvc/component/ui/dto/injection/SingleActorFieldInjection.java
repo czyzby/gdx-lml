@@ -11,24 +11,24 @@ import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
  *
  * @author MJ */
 public class SingleActorFieldInjection implements ActorFieldInjection {
-	private final Field field;
-	private final String actorId;
+    private final Field field;
+    private final String actorId;
 
-	public SingleActorFieldInjection(final Field field, final String actorId) {
-		this.field = field;
-		this.actorId = actorId;
-	}
+    public SingleActorFieldInjection(final Field field, final String actorId) {
+        this.field = field;
+        this.actorId = actorId;
+    }
 
-	@Override
-	public void injectActors(final Object fieldOwner, final ObjectMap<String, Actor> actorsMappedById) {
-		final Actor actor = actorsMappedById.get(actorId);
-		if (actor != null) {
-			try {
-				Reflection.setFieldValue(field, fieldOwner, actor);
-			} catch (final ReflectionException exception) {
-				throw new AutumnRuntimeException("Unable to inject actor: " + actor + " mapped by ID: "
-						+ actorId + " into controller: " + fieldOwner + ".", exception);
-			}
-		}
-	}
+    @Override
+    public void injectActors(final Object fieldOwner, final ObjectMap<String, Actor> actorsMappedById) {
+        final Actor actor = actorsMappedById.get(actorId);
+        if (actor != null) {
+            try {
+                Reflection.setFieldValue(field, fieldOwner, actor);
+            } catch (final ReflectionException exception) {
+                throw new AutumnRuntimeException("Unable to inject actor: " + actor + " mapped by ID: " + actorId
+                        + " into controller: " + fieldOwner + ".", exception);
+            }
+        }
+    }
 }

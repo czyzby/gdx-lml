@@ -14,34 +14,32 @@ import com.github.czyzby.kiwi.util.gdx.collection.lazy.LazyObjectMap;
 import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 import com.github.czyzby.kiwi.util.tuple.immutable.Pair;
 
-/** Injects assets from application's {@link com.badlogic.gdx.scenes.scene2d.ui.Skin} (when it is fully loaded)
- * into fields annotated with {@link com.github.czyzby.autumn.mvc.stereotype.SkinAsset}.
+/** Injects assets from application's {@link com.badlogic.gdx.scenes.scene2d.ui.Skin} (when it is fully loaded) into
+ * fields annotated with {@link com.github.czyzby.autumn.mvc.stereotype.SkinAsset}.
  *
  * @author MJ */
 @MetaComponent
 public class SkinAssetAnnotationProcessor extends ComponentFieldAnnotationProcessor {
-	private final ObjectMap<String, Array<Pair<Field, Object>>> fieldsToInject = LazyObjectMap
-			.newMapOfArrays();
+    private final ObjectMap<String, Array<Pair<Field, Object>>> fieldsToInject = LazyObjectMap.newMapOfArrays();
 
-	@Override
-	public Class<? extends Annotation> getProcessedAnnotationClass() {
-		return SkinAsset.class;
-	}
+    @Override
+    public Class<? extends Annotation> getProcessedAnnotationClass() {
+        return SkinAsset.class;
+    }
 
-	@Override
-	public <Type> void processField(final ContextContainer context, final ContextComponent component,
-			final Field field) {
-		fieldsToInject.get(Reflection.getAnnotation(field, SkinAsset.class).value()).add(
-				Pair.of(field, component.getComponent()));
-	}
+    @Override
+    public void processField(final ContextContainer context, final ContextComponent component, final Field field) {
+        fieldsToInject.get(Reflection.getAnnotation(field, SkinAsset.class).value())
+                .add(Pair.of(field, component.getComponent()));
+    }
 
-	/** @return array of fields paired with their owners, mapped by the given asset name. */
-	public ObjectMap<String, Array<Pair<Field, Object>>> getFieldsToInject() {
-		return fieldsToInject;
-	}
+    /** @return array of fields paired with their owners, mapped by the given asset name. */
+    public ObjectMap<String, Array<Pair<Field, Object>>> getFieldsToInject() {
+        return fieldsToInject;
+    }
 
-	/** Clears all scanned injection data. */
-	public void clearFieldsToInject() {
-		fieldsToInject.clear();
-	}
+    /** Clears all scanned injection data. */
+    public void clearFieldsToInject() {
+        fieldsToInject.clear();
+    }
 }

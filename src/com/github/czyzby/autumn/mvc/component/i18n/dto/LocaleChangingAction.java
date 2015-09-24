@@ -9,17 +9,17 @@ import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
  *
  * @author MJ */
 public class LocaleChangingAction implements ActorConsumer<Void, Object> {
-	private final LocaleService localeService;
-	private final Locale locale;
+    private final LocaleService localeService;
+    private final Locale locale;
 
-	public LocaleChangingAction(final LocaleService localeService, final Locale locale) {
-		this.localeService = localeService;
-		this.locale = locale;
-	}
+    public LocaleChangingAction(final LocaleService localeService, final Locale locale) {
+        this.localeService = localeService;
+        this.locale = locale;
+    }
 
-	@Override
-	public Void consume(final Object actor) {
-		localeService.setCurrentLocale(locale);
-		return null;
-	}
+    @Override
+    public Void consume(final Object actor) {
+        localeService.setCurrentLocale(locale);
+        return null;
+    }
 }

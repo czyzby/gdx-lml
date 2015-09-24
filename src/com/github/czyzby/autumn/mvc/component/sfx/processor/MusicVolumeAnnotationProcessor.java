@@ -20,29 +20,26 @@ import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
  * @author MJ */
 @MetaComponent
 public class MusicVolumeAnnotationProcessor extends ComponentFieldAnnotationProcessor {
-	@Inject(lazy = MusicService.class)
-	private Lazy<MusicService> musicService;
+    @Inject(lazy = MusicService.class) private Lazy<MusicService> musicService;
 
-	@Override
-	public Class<? extends Annotation> getProcessedAnnotationClass() {
-		return MusicVolume.class;
-	}
+    @Override
+    public Class<? extends Annotation> getProcessedAnnotationClass() {
+        return MusicVolume.class;
+    }
 
-	@Override
-	public <Type> void processField(final ContextContainer context, final ContextComponent component,
-			final Field field) {
-		try {
-			if (field.getType().equals(float.class) || field.getType().equals(Float.class)) {
-				musicService.get().setMusicVolume(
-						(Float) Reflection.getFieldValue(field, component.getComponent()));
-			} else {
-				final MusicVolume volumeData = Reflection.getAnnotation(field, MusicVolume.class);
-				musicService.get().setMusicVolumeFromPreferences(volumeData.preferences(),
-						Reflection.getFieldValue(field, component.getComponent()).toString(),
-						volumeData.defaultVolume());
-			}
-		} catch (final ReflectionException exception) {
-			throw new AutumnRuntimeException("Unable to extract music volume.", exception);
-		}
-	}
+    @Override
+    public void processField(final ContextContainer context, final ContextComponent component, final Field field) {
+        try {
+            if (field.getType().equals(float.class) || field.getType().equals(Float.class)) {
+                musicService.get().setMusicVolume((Float) Reflection.getFieldValue(field, component.getComponent()));
+            } else {
+                final MusicVolume volumeData = Reflection.getAnnotation(field, MusicVolume.class);
+                musicService.get().setMusicVolumeFromPreferences(volumeData.preferences(),
+                        Reflection.getFieldValue(field, component.getComponent()).toString(),
+                        volumeData.defaultVolume());
+            }
+        } catch (final ReflectionException exception) {
+            throw new AutumnRuntimeException("Unable to extract music volume.", exception);
+        }
+    }
 }

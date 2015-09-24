@@ -9,22 +9,22 @@ import com.github.czyzby.autumn.mvc.component.ui.controller.impl.AnnotatedViewCo
  *
  * @author MJ */
 public class ThemesAssignmentAction implements Runnable {
-	private final String[] themes;
-	private final AnnotatedViewController viewConroller;
-	private final AssetService assetService;
+    private final String[] themes;
+    private final AnnotatedViewController viewConroller;
+    private final AssetService assetService;
 
-	public ThemesAssignmentAction(final String[] themes, final AnnotatedViewController viewConroller,
-			final AssetService assetService) {
-		this.themes = themes;
-		this.viewConroller = viewConroller;
-		this.assetService = assetService;
-	}
+    public ThemesAssignmentAction(final String[] themes, final AnnotatedViewController viewConroller,
+            final AssetService assetService) {
+        this.themes = themes;
+        this.viewConroller = viewConroller;
+        this.assetService = assetService;
+    }
 
-	@Override
-	public void run() {
-		final Array<Music> musicThemes = viewConroller.getThemes();
-		for (final String theme : themes) {
-			musicThemes.add(assetService.get(theme, Music.class));
-		}
-	}
+    @Override
+    public void run() {
+        final Array<Music> musicThemes = viewConroller.getThemes();
+        for (final String theme : themes) {
+            musicThemes.add(assetService.get(theme, Music.class));
+        }
+    }
 }

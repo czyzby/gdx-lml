@@ -7,9 +7,9 @@ import com.github.czyzby.autumn.mvc.component.ui.controller.ViewRenderer;
  *
  * @author MJ */
 public class StandardViewRenderer implements ViewRenderer {
-	@Override
-	public void render(final Stage stage, final float delta) {
-		stage.act(delta);
-		stage.draw();
-	}
+    @Override
+    public void render(final Stage stage, final float delta) {
+        stage.act(delta);
+        stage.draw();
+    }
 }

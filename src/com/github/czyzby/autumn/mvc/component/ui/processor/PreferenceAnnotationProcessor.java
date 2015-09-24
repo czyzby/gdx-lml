@@ -20,26 +20,23 @@ import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
  * @author MJ */
 @MetaComponent
 public class PreferenceAnnotationProcessor extends ComponentFieldAnnotationProcessor {
-	@Inject(lazy = InterfaceService.class)
-	private Lazy<InterfaceService> interfaceService;
+    @Inject(lazy = InterfaceService.class) private Lazy<InterfaceService> interfaceService;
 
-	@Override
-	public Class<? extends Annotation> getProcessedAnnotationClass() {
-		return Preference.class;
-	}
+    @Override
+    public Class<? extends Annotation> getProcessedAnnotationClass() {
+        return Preference.class;
+    }
 
-	@Override
-	public <Type> void processField(final ContextContainer context, final ContextComponent component,
-			final Field field) {
-		try {
-			final Preference preferenceData = Reflection.getAnnotation(field, Preference.class);
-			final String preferencesKey = preferenceData.value();
-			final String preferencesPath =
-					Reflection.getFieldValue(field, component.getComponent()).toString();
-			interfaceService.get().addPreferencesToParser(preferencesKey, preferencesPath);
-		} catch (final ReflectionException exception) {
-			throw new AutumnRuntimeException("Unable to read preference path from field: " + field
-					+ " of component: " + component.getComponent() + ".", exception);
-		}
-	}
+    @Override
+    public void processField(final ContextContainer context, final ContextComponent component, final Field field) {
+        try {
+            final Preference preferenceData = Reflection.getAnnotation(field, Preference.class);
+            final String preferencesKey = preferenceData.value();
+            final String preferencesPath = Reflection.getFieldValue(field, component.getComponent()).toString();
+            interfaceService.get().addPreferencesToParser(preferencesKey, preferencesPath);
+        } catch (final ReflectionException exception) {
+            throw new AutumnRuntimeException("Unable to read preference path from field: " + field + " of component: "
+                    + component.getComponent() + ".", exception);
+        }
+    }
 }

@@ -20,29 +20,26 @@ import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
  * @author MJ */
 @MetaComponent
 public class MusicEnabledAnnotationProcessor extends ComponentFieldAnnotationProcessor {
-	@Inject(lazy = MusicService.class)
-	private Lazy<MusicService> musicService;
+    @Inject(lazy = MusicService.class) private Lazy<MusicService> musicService;
 
-	@Override
-	public Class<? extends Annotation> getProcessedAnnotationClass() {
-		return MusicEnabled.class;
-	}
+    @Override
+    public Class<? extends Annotation> getProcessedAnnotationClass() {
+        return MusicEnabled.class;
+    }
 
-	@Override
-	public <Type> void processField(final ContextContainer context, final ContextComponent component,
-			final Field field) {
-		try {
-			if (field.getType().equals(boolean.class) || field.getType().equals(Boolean.class)) {
-				musicService.get().setMusicEnabled(
-						(Boolean) Reflection.getFieldValue(field, component.getComponent()));
-			} else {
-				final MusicEnabled musicData = Reflection.getAnnotation(field, MusicEnabled.class);
-				musicService.get().setMusicEnabledFromPreferences(musicData.preferences(),
-						Reflection.getFieldValue(field, component.getComponent()).toString(),
-						musicData.defaultSetting());
-			}
-		} catch (final ReflectionException exception) {
-			throw new AutumnRuntimeException("Unable to extract music state.", exception);
-		}
-	}
+    @Override
+    public void processField(final ContextContainer context, final ContextComponent component, final Field field) {
+        try {
+            if (field.getType().equals(boolean.class) || field.getType().equals(Boolean.class)) {
+                musicService.get().setMusicEnabled((Boolean) Reflection.getFieldValue(field, component.getComponent()));
+            } else {
+                final MusicEnabled musicData = Reflection.getAnnotation(field, MusicEnabled.class);
+                musicService.get().setMusicEnabledFromPreferences(musicData.preferences(),
+                        Reflection.getFieldValue(field, component.getComponent()).toString(),
+                        musicData.defaultSetting());
+            }
+        } catch (final ReflectionException exception) {
+            throw new AutumnRuntimeException("Unable to extract music state.", exception);
+        }
+    }
 }

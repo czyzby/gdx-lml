@@ -7,9 +7,9 @@ import com.github.czyzby.autumn.mvc.component.ui.controller.ViewController;
  *
  * @author MJ */
 public interface ActionProvider {
-	/** @param forController request an action instance.
-	 * @param connectedView next, previous or otherwise connected screen. Allows to determine which screen
-	 *            will be next, for example.
-	 * @return a new action for the selected controller. */
-	Action provideAction(ViewController forController, ViewController connectedView);
+    /** @param forController request an action instance.
+     * @param connectedView next, previous or otherwise connected screen. Allows to determine which screen will be next,
+     *            for example.
+     * @return a new action for the selected controller. */
+    Action provideAction(ViewController forController, ViewController connectedView);
 }

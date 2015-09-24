@@ -10,20 +10,20 @@ import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
  *
  * @author MJ */
 public class LazyAssetInjection extends StandardAssetInjection {
-	private final Class<?> assetClass;
+    private final Class<?> assetClass;
 
-	public LazyAssetInjection(final Field field, final String assetPath, final Object component,
-			final Class<?> assetClass) {
-		super(field, assetPath, component);
-		this.assetClass = assetClass;
-	}
+    public LazyAssetInjection(final Field field, final String assetPath, final Object component,
+            final Class<?> assetClass) {
+        super(field, assetPath, component);
+        this.assetClass = assetClass;
+    }
 
-	@Override
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	protected void injectAsset(final AssetService assetService) throws ReflectionException {
-		final Lazy lazyAsset = (Lazy) Reflection.getFieldValue(field, component);
-		if (!lazyAsset.isInitialized()) {
-			lazyAsset.set(assetService.get(assetPath, assetClass));
-		}
-	}
+    @Override
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    protected void injectAsset(final AssetService assetService) throws ReflectionException {
+        final Lazy lazyAsset = (Lazy) Reflection.getFieldValue(field, component);
+        if (!lazyAsset.isInitialized()) {
+            lazyAsset.set(assetService.get(assetPath, assetClass));
+        }
+    }
 }

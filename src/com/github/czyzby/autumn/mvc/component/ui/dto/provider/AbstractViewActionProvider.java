@@ -9,33 +9,33 @@ import com.github.czyzby.lml.parser.LmlParser;
  *
  * @author MJ */
 public abstract class AbstractViewActionProvider implements ViewActionProvider {
-	private final ObjectSet<String> viewIds;
+    private final ObjectSet<String> viewIds;
 
-	public AbstractViewActionProvider(final String[] viewIds) {
-		this.viewIds = GdxSets.newSet(viewIds);
-	}
+    public AbstractViewActionProvider(final String[] viewIds) {
+        this.viewIds = GdxSets.newSet(viewIds);
+    }
 
-	@Override
-	public void register(final LmlParser parser, final String viewId) {
-		if (viewIds.contains(viewId)) {
-			register(parser);
-		}
-	}
+    @Override
+    public void register(final LmlParser parser, final String viewId) {
+        if (viewIds.contains(viewId)) {
+            register(parser);
+        }
+    }
 
-	/** The view ID is valid.
-	 *
-	 * @param parser should have the action registered. */
-	protected abstract void register(LmlParser parser);
+    /** The view ID is valid.
+     *
+     * @param parser should have the action registered. */
+    protected abstract void register(LmlParser parser);
 
-	@Override
-	public void unregister(final LmlParser parser, final String viewId) {
-		if (viewIds.contains(viewId)) {
-			unregister(parser);
-		}
-	}
+    @Override
+    public void unregister(final LmlParser parser, final String viewId) {
+        if (viewIds.contains(viewId)) {
+            unregister(parser);
+        }
+    }
 
-	/** The view ID is valid.
-	 *
-	 * @param parser should have the action removed. */
-	protected abstract void unregister(LmlParser parser);
+    /** The view ID is valid.
+     *
+     * @param parser should have the action removed. */
+    protected abstract void unregister(LmlParser parser);
 }

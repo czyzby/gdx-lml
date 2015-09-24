@@ -23,38 +23,35 @@ import com.github.czyzby.lml.parser.LmlParser;
  * @author MJ */
 @MetaComponent
 public class AvailableLocalesAnnotationProcessor extends ComponentFieldAnnotationProcessor {
-	@Inject(lazy = InterfaceService.class)
-	private Lazy<InterfaceService> interfaceService;
-	@Inject(lazy = LocaleService.class)
-	private Lazy<LocaleService> localeService;
+    @Inject(lazy = InterfaceService.class) private Lazy<InterfaceService> interfaceService;
+    @Inject(lazy = LocaleService.class) private Lazy<LocaleService> localeService;
 
-	@Override
-	public Class<? extends Annotation> getProcessedAnnotationClass() {
-		return AvailableLocales.class;
-	}
+    @Override
+    public Class<? extends Annotation> getProcessedAnnotationClass() {
+        return AvailableLocales.class;
+    }
 
-	@Override
-	public <Type> void processField(final ContextContainer context, final ContextComponent component,
-			final Field field) {
-		try {
-			final Object locales = Reflection.getFieldValue(field, component.getComponent());
-			if (locales instanceof String[]) {
-				final String[] availableLocales = (String[]) locales;
-				final LmlParser parser = interfaceService.get().getParser();
-				final AvailableLocales localesData = Reflection.getAnnotation(field, AvailableLocales.class);
+    @Override
+    public void processField(final ContextContainer context, final ContextComponent component, final Field field) {
+        try {
+            final Object locales = Reflection.getFieldValue(field, component.getComponent());
+            if (locales instanceof String[]) {
+                final String[] availableLocales = (String[]) locales;
+                final LmlParser parser = interfaceService.get().getParser();
+                final AvailableLocales localesData = Reflection.getAnnotation(field, AvailableLocales.class);
 
-				parser.addArgument(localesData.viewArgumentName(), availableLocales);
-				for (final String locale : availableLocales) {
-					parser.addAction(localesData.localeChangeMethodPrefix() + locale,
-							new LocaleChangingAction(localeService.get(), LocaleService.toLocale(locale)));
-				}
-				return;
-			}
-			throw new AutumnRuntimeException("Invalid field annotated with @AvailableLocales in component "
-					+ component.getComponent() + ". Expected String[], received: " + locales + ".");
-		} catch (final ReflectionException exception) {
-			throw new AutumnRuntimeException("Unable to read available locales from field: " + field
-					+ " of component: " + component.getComponent() + ".", exception);
-		}
-	}
+                parser.addArgument(localesData.viewArgumentName(), availableLocales);
+                for (final String locale : availableLocales) {
+                    parser.addAction(localesData.localeChangeMethodPrefix() + locale,
+                            new LocaleChangingAction(localeService.get(), LocaleService.toLocale(locale)));
+                }
+                return;
+            }
+            throw new AutumnRuntimeException("Invalid field annotated with @AvailableLocales in component "
+                    + component.getComponent() + ". Expected String[], received: " + locales + ".");
+        } catch (final ReflectionException exception) {
+            throw new AutumnRuntimeException("Unable to read available locales from field: " + field + " of component: "
+                    + component.getComponent() + ".", exception);
+        }
+    }
 }

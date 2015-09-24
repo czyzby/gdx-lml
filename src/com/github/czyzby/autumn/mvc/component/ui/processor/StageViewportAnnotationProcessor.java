@@ -22,28 +22,25 @@ import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
  * @author MJ */
 @MetaComponent
 public class StageViewportAnnotationProcessor extends ComponentFieldAnnotationProcessor {
-	@Inject(lazy = InterfaceService.class)
-	private Lazy<InterfaceService> interfaceService;
+    @Inject(lazy = InterfaceService.class) private Lazy<InterfaceService> interfaceService;
 
-	@Override
-	public Class<? extends Annotation> getProcessedAnnotationClass() {
-		return StageViewport.class;
-	}
+    @Override
+    public Class<? extends Annotation> getProcessedAnnotationClass() {
+        return StageViewport.class;
+    }
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public <Type> void processField(final ContextContainer context, final ContextComponent component,
-			final Field field) {
-		try {
-			final Object bundleField = Reflection.getFieldValue(field, component.getComponent());
-			if (bundleField instanceof ObjectProvider<?>) {
-				interfaceService.get().setViewportProvider((ObjectProvider<Viewport>) bundleField);
-				return;
-			}
-			throw new AutumnRuntimeException(
-					"Invalid viewport provider: has to implement ObjectProvider<Viewport>.");
-		} catch (final ReflectionException exception) {
-			throw new AutumnRuntimeException("Unable to extract viewport provider.", exception);
-		}
-	}
+    @Override
+    @SuppressWarnings("unchecked")
+    public void processField(final ContextContainer context, final ContextComponent component, final Field field) {
+        try {
+            final Object bundleField = Reflection.getFieldValue(field, component.getComponent());
+            if (bundleField instanceof ObjectProvider<?>) {
+                interfaceService.get().setViewportProvider((ObjectProvider<Viewport>) bundleField);
+                return;
+            }
+            throw new AutumnRuntimeException("Invalid viewport provider: has to implement ObjectProvider<Viewport>.");
+        } catch (final ReflectionException exception) {
+            throw new AutumnRuntimeException("Unable to extract viewport provider.", exception);
+        }
+    }
 }

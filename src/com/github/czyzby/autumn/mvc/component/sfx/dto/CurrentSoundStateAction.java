@@ -7,14 +7,14 @@ import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
  *
  * @author MJ */
 public class CurrentSoundStateAction implements ActorConsumer<Boolean, Object> {
-	private final MusicService musicService;
+    private final MusicService musicService;
 
-	public CurrentSoundStateAction(final MusicService musicService) {
-		this.musicService = musicService;
-	}
+    public CurrentSoundStateAction(final MusicService musicService) {
+        this.musicService = musicService;
+    }
 
-	@Override
-	public Boolean consume(final Object actor) {
-		return musicService.isSoundEnabled();
-	}
+    @Override
+    public Boolean consume(final Object actor) {
+        return musicService.isSoundEnabled();
+    }
 }

@@ -24,78 +24,72 @@ import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
 
 @MetaComponent
 public class ViewActionContainerAnnotationProcessor extends ComponentTypeAnnotationProcessor {
-	@Inject(lazy = InterfaceService.class)
-	private Lazy<InterfaceService> interfaceService;
+    @Inject(lazy = InterfaceService.class) private Lazy<InterfaceService> interfaceService;
 
-	private final Array<ViewActionProvider> actionProviders = GdxArrays.newArray();
+    private final Array<ViewActionProvider> actionProviders = GdxArrays.newArray();
 
-	@Override
-	public Class<? extends Annotation> getProcessedAnnotationClass() {
-		return ViewActionContainer.class;
-	}
+    @Override
+    public Class<? extends Annotation> getProcessedAnnotationClass() {
+        return ViewActionContainer.class;
+    }
 
-	@Override
-	public void processClass(final ContextContainer context, final Class<?> componentClass) {
-		final boolean isInContext = context.contains(componentClass);
-		final ContextComponent component =
-				isInContext ? context.extractFromContext(componentClass) : prepareComponent(context,
-						componentClass);
-		final Object actionContainer = component.getComponent();
-		final ViewActionContainer actionData =
-				Reflection.getAnnotation(componentClass, ViewActionContainer.class);
-		if (isGlobal(actionData)) {
-			registerGlobalAction(actionData.value(), actionContainer);
-		} else {
-			registerLocalizedAction(actionData.value(), actionData.views(), actionContainer);
-		}
-		if (!isInContext) {
-			context.registerComponent(component);
-		}
-	}
+    @Override
+    public void processClass(final ContextContainer context, final Class<?> componentClass) {
+        final boolean isInContext = context.contains(componentClass);
+        final ContextComponent component = isInContext ? context.extractFromContext(componentClass)
+                : prepareComponent(context, componentClass);
+        final Object actionContainer = component.getComponent();
+        final ViewActionContainer actionData = Reflection.getAnnotation(componentClass, ViewActionContainer.class);
+        if (isGlobal(actionData)) {
+            registerGlobalAction(actionData.value(), actionContainer);
+        } else {
+            registerLocalizedAction(actionData.value(), actionData.views(), actionContainer);
+        }
+        if (!isInContext) {
+            context.registerComponent(component);
+        }
+    }
 
-	/** @return true if exclusive views amount equals 0. */
-	private static boolean isGlobal(final ViewActionContainer actionData) {
-		return actionData.views().length == 0;
-	}
+    /** @return true if exclusive views amount equals 0. */
+    private static boolean isGlobal(final ViewActionContainer actionData) {
+        return actionData.views().length == 0;
+    }
 
-	private void registerGlobalAction(final String id, final Object actionContainer) {
-		if (actionContainer instanceof ActionContainer) {
-			interfaceService.get().addViewActionContainer(id, (ActionContainer) actionContainer);
-		} else if (actionContainer instanceof ActorConsumer) {
-			interfaceService.get().addViewAction(id, (ActorConsumer<?, ?>) actionContainer);
-		} else {
-			throw new AutumnRuntimeException("Invalid type annotated with ViewActionContainer: "
-					+ actionContainer);
-		}
-	}
+    private void registerGlobalAction(final String id, final Object actionContainer) {
+        if (actionContainer instanceof ActionContainer) {
+            interfaceService.get().addViewActionContainer(id, (ActionContainer) actionContainer);
+        } else if (actionContainer instanceof ActorConsumer) {
+            interfaceService.get().addViewAction(id, (ActorConsumer<?, ?>) actionContainer);
+        } else {
+            throw new AutumnRuntimeException("Invalid type annotated with ViewActionContainer: " + actionContainer);
+        }
+    }
 
-	private void registerLocalizedAction(final String actionId, final String[] viewIds,
-			final Object actionContainer) {
-		if (actionContainer instanceof ActionContainer) {
-			actionProviders.add(new ActionContainerViewActionProvider(actionId,
-					(ActionContainer) actionContainer, viewIds));
-		} else if (actionContainer instanceof ActorConsumer) {
-			actionProviders.add(new ActorConsumerViewActionProvider(actionId,
-					(ActorConsumer<?, ?>) actionContainer, viewIds));
-		} else {
-			throw new AutumnRuntimeException("Invalid type annotated with ViewActionContainer: "
-					+ actionContainer);
-		}
-	}
+    private void registerLocalizedAction(final String actionId, final String[] viewIds, final Object actionContainer) {
+        if (actionContainer instanceof ActionContainer) {
+            actionProviders
+                    .add(new ActionContainerViewActionProvider(actionId, (ActionContainer) actionContainer, viewIds));
+        } else if (actionContainer instanceof ActorConsumer) {
+            actionProviders
+                    .add(new ActorConsumerViewActionProvider(actionId, (ActorConsumer<?, ?>) actionContainer, viewIds));
+        } else {
+            throw new AutumnRuntimeException("Invalid type annotated with ViewActionContainer: " + actionContainer);
+        }
+    }
 
-	@Override
-	public ContextComponent prepareComponent(final ContextContainer context, final Class<?> componentClass) {
-		if (ClassReflection.isAnnotationPresent(componentClass, Component.class)) {
-			final Component componentData = Reflection.getAnnotation(componentClass, Component.class);
-			return new ContextComponent(componentClass, getNewInstanceOf(componentClass),
-					componentData.lazy(), componentData.keepInContext());
-		}
-		// Not lazy and kept in context by default.
-		return new ContextComponent(componentClass, getNewInstanceOf(componentClass), false, true);
-	}
+    @Override
+    public ContextComponent prepareComponent(final ContextContainer context, final Class<?> componentClass) {
+        if (ClassReflection.isAnnotationPresent(componentClass, Component.class)) {
+            final Component componentData = Reflection.getAnnotation(componentClass, Component.class);
+            return new ContextComponent(componentClass, getNewInstanceOf(componentClass), componentData.lazy(),
+                    componentData.keepInContext());
+        }
+        // Not lazy and kept in context by default.
+        return new ContextComponent(componentClass, getNewInstanceOf(componentClass), false, true);
+    }
 
-	/** @return all registered actions that should be available only for specific views. */
-	public Array<ViewActionProvider> getActionProviders() {
-		return actionProviders;
-	}
+    /** @return all registered actions that should be available only for specific views. */
+    public Array<ViewActionProvider> getActionProviders() {
+        return actionProviders;
+    }
 }

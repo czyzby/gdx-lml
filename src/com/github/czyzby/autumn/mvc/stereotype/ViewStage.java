@@ -5,13 +5,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/** Allows to inject a {@link com.badlogic.gdx.scenes.scene2d.Stage} managed by the wrapping controller object.
- * Note that stage might be injected (or even cleared) multiple times, as views are reloaded on occasions
- * (locale change, on demand) and dialogs can be shown any number of times. Declared field has to be inside a
- * class annotated with {@link com.github.czyzby.autumn.mvc.stereotype.View} or
- * {@link com.github.czyzby.autumn.mvc.stereotype.ViewDialog}. Stages are NOT initiated upon controllers
- * creation - they are usually constructed after the first transition to the specified view - so be careful
- * with object initiations.
+/** Allows to inject a {@link com.badlogic.gdx.scenes.scene2d.Stage} managed by the wrapping controller object. Note
+ * that stage might be injected (or even cleared) multiple times, as views are reloaded on occasions (locale change, on
+ * demand) and dialogs can be shown any number of times. Declared field has to be inside a class annotated with
+ * {@link com.github.czyzby.autumn.mvc.stereotype.View} or {@link com.github.czyzby.autumn.mvc.stereotype.ViewDialog}.
+ * Stages are NOT initiated upon controllers creation - they are usually constructed after the first transition to the
+ * specified view - so be careful with object initiations.
  *
  * @author MJ */
 @Target({ ElementType.FIELD })

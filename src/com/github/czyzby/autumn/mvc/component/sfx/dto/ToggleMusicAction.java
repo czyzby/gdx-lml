@@ -7,15 +7,15 @@ import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
  *
  * @author MJ */
 public class ToggleMusicAction implements ActorConsumer<Void, Object> {
-	private final MusicService musicService;
+    private final MusicService musicService;
 
-	public ToggleMusicAction(final MusicService musicService) {
-		this.musicService = musicService;
-	}
+    public ToggleMusicAction(final MusicService musicService) {
+        this.musicService = musicService;
+    }
 
-	@Override
-	public Void consume(final Object actor) {
-		musicService.setMusicEnabled(!musicService.isMusicEnabled());
-		return null;
-	}
+    @Override
+    public Void consume(final Object actor) {
+        musicService.setMusicEnabled(!musicService.isMusicEnabled());
+        return null;
+    }
 }

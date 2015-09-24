@@ -7,18 +7,17 @@ import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
  *
  * @author MJ */
 public class DialogShowingAction implements ActorConsumer<Void, Object> {
-	private final InterfaceService interfaceService;
-	private final Class<?> viewDialogControllerClass;
+    private final InterfaceService interfaceService;
+    private final Class<?> viewDialogControllerClass;
 
-	public DialogShowingAction(final InterfaceService interfaceService,
-			final Class<?> viewDialogControllerClass) {
-		this.interfaceService = interfaceService;
-		this.viewDialogControllerClass = viewDialogControllerClass;
-	}
+    public DialogShowingAction(final InterfaceService interfaceService, final Class<?> viewDialogControllerClass) {
+        this.interfaceService = interfaceService;
+        this.viewDialogControllerClass = viewDialogControllerClass;
+    }
 
-	@Override
-	public Void consume(final Object actor) {
-		interfaceService.showDialog(viewDialogControllerClass);
-		return null;
-	}
+    @Override
+    public Void consume(final Object actor) {
+        interfaceService.showDialog(viewDialogControllerClass);
+        return null;
+    }
 }

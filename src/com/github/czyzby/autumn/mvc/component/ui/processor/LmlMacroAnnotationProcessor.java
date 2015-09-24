@@ -23,35 +23,32 @@ import com.github.czyzby.lml.parser.LmlParser;
  * @author MJ */
 @MetaComponent
 public class LmlMacroAnnotationProcessor extends ComponentFieldAnnotationProcessor {
-	@Inject(lazy = InterfaceService.class)
-	private Lazy<InterfaceService> interfaceService;
+    @Inject(lazy = InterfaceService.class) private Lazy<InterfaceService> interfaceService;
 
-	@Override
-	public Class<? extends Annotation> getProcessedAnnotationClass() {
-		return LmlMacro.class;
-	}
+    @Override
+    public Class<? extends Annotation> getProcessedAnnotationClass() {
+        return LmlMacro.class;
+    }
 
-	@Override
-	public <Type> void processField(final ContextContainer context, final ContextComponent component,
-			final Field field) {
-		try {
-			final Object macroData = Reflection.getFieldValue(field, component.getComponent());
-			final LmlParser parser = interfaceService.get().getParser();
-			final FileType fileType = Reflection.getAnnotation(field, LmlMacro.class).fileType();
-			if (macroData instanceof String) {
-				parser.parse(Gdx.files.getFileHandle((String) macroData, fileType));
-			} else if (macroData instanceof String[]) {
-				for (final String macroPath : (String[]) macroData) {
-					parser.parse(Gdx.files.getFileHandle(macroPath, fileType));
-				}
-			} else {
-				throw new AutumnRuntimeException("Invalid type of LML macro definition in component: "
-						+ component.getComponent() + ". String or String[] expected, received: " + macroData
-						+ ".");
-			}
-		} catch (final ReflectionException exception) {
-			throw new AutumnRuntimeException("Unable to extract macro paths from field: " + field
-					+ " of component: " + component.getComponent() + ".", exception);
-		}
-	}
+    @Override
+    public void processField(final ContextContainer context, final ContextComponent component, final Field field) {
+        try {
+            final Object macroData = Reflection.getFieldValue(field, component.getComponent());
+            final LmlParser parser = interfaceService.get().getParser();
+            final FileType fileType = Reflection.getAnnotation(field, LmlMacro.class).fileType();
+            if (macroData instanceof String) {
+                parser.parse(Gdx.files.getFileHandle((String) macroData, fileType));
+            } else if (macroData instanceof String[]) {
+                for (final String macroPath : (String[]) macroData) {
+                    parser.parse(Gdx.files.getFileHandle(macroPath, fileType));
+                }
+            } else {
+                throw new AutumnRuntimeException("Invalid type of LML macro definition in component: "
+                        + component.getComponent() + ". String or String[] expected, received: " + macroData + ".");
+            }
+        } catch (final ReflectionException exception) {
+            throw new AutumnRuntimeException("Unable to extract macro paths from field: " + field + " of component: "
+                    + component.getComponent() + ".", exception);
+        }
+    }
 }

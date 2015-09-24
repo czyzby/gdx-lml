@@ -20,37 +20,34 @@ import com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy;
  * @author MJ */
 @MetaComponent
 public class ViewStageAnnotationProcessor extends ComponentFieldAnnotationProcessor {
-	@Inject(lazy = InterfaceService.class)
-	private Lazy<InterfaceService> interfaceService;
+    @Inject(lazy = InterfaceService.class) private Lazy<InterfaceService> interfaceService;
 
-	@Override
-	public Class<? extends Annotation> getProcessedAnnotationClass() {
-		return ViewStage.class;
-	}
+    @Override
+    public Class<? extends Annotation> getProcessedAnnotationClass() {
+        return ViewStage.class;
+    }
 
-	@Override
-	public <Type> void processField(final ContextContainer context, final ContextComponent component,
-			final Field field) {
-		if (!Stage.class.equals(field.getType())) {
-			throw new AutumnRuntimeException(
-					"Only Scene2D stages can be annotated with @ViewStage. Found type:" + field.getType()
-							+ " in field: " + field + " of component: " + component.getComponent() + ".");
-		}
-		final Class<?> controllerClass = field.getDeclaringClass();
-		if (!registerField(field, interfaceService.get().getController(controllerClass))) {
-			// If view controller not found, trying out dialog controllers:
-			if (!registerField(field, interfaceService.get().getDialogController(controllerClass))) {
-				throw new AutumnRuntimeException("Unable to assign stage in field: " + field
-						+ " of component: " + component.getComponent() + ".");
-			}
-		}
-	}
+    @Override
+    public void processField(final ContextContainer context, final ContextComponent component, final Field field) {
+        if (!Stage.class.equals(field.getType())) {
+            throw new AutumnRuntimeException("Only Scene2D stages can be annotated with @ViewStage. Found type:"
+                    + field.getType() + " in field: " + field + " of component: " + component.getComponent() + ".");
+        }
+        final Class<?> controllerClass = field.getDeclaringClass();
+        if (!registerField(field, interfaceService.get().getController(controllerClass))) {
+            // If view controller not found, trying out dialog controllers:
+            if (!registerField(field, interfaceService.get().getDialogController(controllerClass))) {
+                throw new AutumnRuntimeException("Unable to assign stage in field: " + field + " of component: "
+                        + component.getComponent() + ".");
+            }
+        }
+    }
 
-	private static boolean registerField(final Field field, final Object controller) {
-		if (controller instanceof AbstractAnnotatedController) {
-			((AbstractAnnotatedController) controller).registerStageField(field);
-			return true;
-		}
-		return false;
-	}
+    private static boolean registerField(final Field field, final Object controller) {
+        if (controller instanceof AbstractAnnotatedController) {
+            ((AbstractAnnotatedController) controller).registerStageField(field);
+            return true;
+        }
+        return false;
+    }
 }

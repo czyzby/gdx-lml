@@ -4,6 +4,6 @@ package com.github.czyzby.autumn.mvc.component;
  *
  * @author MJ */
 public class AutumnScanningRoot {
-	private AutumnScanningRoot() {
-	}
+    private AutumnScanningRoot() {
+    }
 }

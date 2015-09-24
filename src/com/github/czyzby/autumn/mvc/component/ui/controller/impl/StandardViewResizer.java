@@ -7,8 +7,8 @@ import com.github.czyzby.autumn.mvc.component.ui.controller.ViewResizer;
  *
  * @author MJ */
 public class StandardViewResizer implements ViewResizer {
-	@Override
-	public void resize(final Stage stage, final int width, final int height) {
-		stage.getViewport().update(width, height, false);
-	}
+    @Override
+    public void resize(final Stage stage, final int width, final int height) {
+        stage.getViewport().update(width, height, false);
+    }
 }

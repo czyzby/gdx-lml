@@ -6,12 +6,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
  *
  * @author MJ */
 public interface ViewDialogController {
-	/** @param stage will have the managed dialog shown. */
-	public void show(Stage stage);
+    /** @param stage will have the managed dialog shown. */
+    public void show(Stage stage);
 
-	/** @return ID of the dialog as it appears in LML views. */
-	public String getId();
+    /** @return ID of the dialog as it appears in LML views. */
+    public String getId();
 
-	/** Destroys the dialog instance, if present. */
-	public void destroyDialog();
+    /** Destroys the dialog instance, if present. */
+    public void destroyDialog();
 }

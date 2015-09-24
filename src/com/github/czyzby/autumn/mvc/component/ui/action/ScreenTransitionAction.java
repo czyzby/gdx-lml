@@ -7,17 +7,17 @@ import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
  *
  * @author MJ */
 public class ScreenTransitionAction implements ActorConsumer<Void, Object> {
-	private final InterfaceService interfaceService;
-	private final Class<?> viewControllerClass;
+    private final InterfaceService interfaceService;
+    private final Class<?> viewControllerClass;
 
-	public ScreenTransitionAction(final InterfaceService interfaceService, final Class<?> viewControllerClass) {
-		this.interfaceService = interfaceService;
-		this.viewControllerClass = viewControllerClass;
-	}
+    public ScreenTransitionAction(final InterfaceService interfaceService, final Class<?> viewControllerClass) {
+        this.interfaceService = interfaceService;
+        this.viewControllerClass = viewControllerClass;
+    }
 
-	@Override
-	public Void consume(final Object actor) {
-		interfaceService.show(viewControllerClass);
-		return null;
-	}
+    @Override
+    public Void consume(final Object actor) {
+        interfaceService.show(viewControllerClass);
+        return null;
+    }
 }

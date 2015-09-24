@@ -8,15 +8,15 @@ import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
  *
  * @author MJ */
 public class SoundVolumeChangeAction implements ActorConsumer<Void, Slider> {
-	private final MusicService musicService;
+    private final MusicService musicService;
 
-	public SoundVolumeChangeAction(final MusicService musicService) {
-		this.musicService = musicService;
-	}
+    public SoundVolumeChangeAction(final MusicService musicService) {
+        this.musicService = musicService;
+    }
 
-	@Override
-	public Void consume(final Slider slider) {
-		musicService.setSoundVolume(slider.getValue());
-		return null;
-	}
+    @Override
+    public Void consume(final Slider slider) {
+        musicService.setSoundVolume(slider.getValue());
+        return null;
+    }
 }

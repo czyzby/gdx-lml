@@ -6,6 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
  *
  * @author MJ */
 public interface ViewDialogShower {
-	/** @param dialog is about to be shown. */
-	public void doBeforeShow(Dialog dialog);
+    /** @param dialog is about to be shown. */
+    public void doBeforeShow(Dialog dialog);
 }

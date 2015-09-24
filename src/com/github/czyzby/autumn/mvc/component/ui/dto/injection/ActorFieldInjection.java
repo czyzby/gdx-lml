@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.ObjectMap;
  *
  * @author MJ */
 public interface ActorFieldInjection {
-	/** @param fieldOwner instance of the class that contains the field.
-	 * @param actorsMappedById parsed actors, some (or one) of which will be injected. */
-	void injectActors(Object fieldOwner, ObjectMap<String, Actor> actorsMappedById);
+    /** @param fieldOwner instance of the class that contains the field.
+     * @param actorsMappedById parsed actors, some (or one) of which will be injected. */
+    void injectActors(Object fieldOwner, ObjectMap<String, Actor> actorsMappedById);
 }
