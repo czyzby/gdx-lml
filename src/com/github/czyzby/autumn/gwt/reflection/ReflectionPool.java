@@ -5,6 +5,6 @@ package com.github.czyzby.autumn.gwt.reflection;
  *
  * @author MJ */
 public interface ReflectionPool {
-	/** @return all classes available in GWT reflection pool. */
-	Class<?>[] getReflectedClasses();
+    /** @return all classes available in GWT reflection pool. */
+    Class<?>[] getReflectedClasses();
 }
