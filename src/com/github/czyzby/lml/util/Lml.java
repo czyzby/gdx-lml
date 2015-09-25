@@ -16,16 +16,18 @@ import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
  *
  * @author MJ */
 public class Lml implements LmlSyntax {
-    /** When action is referenced in LML template, it parser looks for ActorConsumers with the selected key - then it
-     * looks for action containers containing the referenced action. When none of action container's methods match the
-     * key, normally container's field with the given name is returned, provided it exists. However, this causes
-     * problems on GWT (probably due to LibGDX reflection implementation), so this functionality can be globally turned
-     * off by setting this variable to false. */
+    /** When action is referenced in LML template, its parser looks for registered ActorConsumers with the selected key
+     * (as they do not rely on reflection and are cheaper to invoke). If no {@link ActorConsumer} is found, then the
+     * parser looks for {@link ActionContainer}'s containing the referenced action. When none of action container's
+     * methods match the key, normally container's field with the given name is returned, provided it exists. However,
+     * this causes problems on GWT (probably due to LibGDX reflection implementation), so this functionality can be
+     * globally turned off by setting this variable to false. */
     public static boolean EXTRACT_FIELDS_AS_METHODS = true;
 
     /** When an action is attached to a dialog tag with "onResult" attribute, it will be fired upon clicking one of the
      * widgets in button table. If it returns true (boolean), dialog will not be hidden. If it returns false, dialog
-     * will hide. */
+     * will hide. This is a utility for clearer code - instead of returning cryptic true or false in dialog methods, you
+     * can return one of these values for code clarity. */
     public static final boolean APPROVE_DIALOG_HIDING = false, CANCEL_DIALOG_HIDING = true;
 
     private Lml() {

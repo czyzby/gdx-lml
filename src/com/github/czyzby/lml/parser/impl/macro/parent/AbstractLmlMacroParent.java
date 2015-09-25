@@ -72,6 +72,9 @@ public abstract class AbstractLmlMacroParent implements LmlParent<Actor>, LmlSyn
     @Override
     public void handleChild(final Actor child, final LmlTagData childTagData, final LmlParser parser) {
         // Macros generally do not have actor children, they parse text between tags "manually".
+        if (parent != null) {
+            parent.handleChild(child, childTagData, parser);
+        }
     }
 
     @Override

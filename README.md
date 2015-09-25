@@ -20,9 +20,14 @@ If you want to use LML with GWT, you have to add this module to your GdxDefiniti
 See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&t=18843), [example project](http://github.com/czyzby/gdx-lml-tests) and [Wiki syntax page (work in progress)](https://github.com/czyzby/gdx-lml/wiki/Syntax).
 
 ## What's new
+0.8 -> 0.9:
+
+- `@actor` macro. Looks for an action with the passed ID, invokes it (expecting an Actor) and adds the returned Actor to the current parent tag. For example, if you use `<@actor myMethodName />` tag inside `<table>...</table>` tags, your actor returned by `myMethodName` action will be added to the table. Useful if you want to create an actor from scratch without adding a new actor tag parser.
+
+
 0.7 -> 0.8:
 
-- Color tag attributes. Now it is possible to set actor's color from within the LML templates. `color` attribute expects either a method (or field) name that returns a Color or a String, which is the name of a color present in .json Skin. You can also manually set each color value with `r`, `red`, `b`, `blue`, `g`, `green`, `a` and `alpha` attributes - these will expect a float. These attributes are available to all tags, as they use only the Actor's API.
+- Color tag attributes. Now it is possible to set actor's color from within the LML templates. `color` attribute expects either a method (or field) name that returns a Color, or a String which is the name of a color present in .json Skin. You can also manually set each color value with `r`, `red`, `b`, `blue`, `g`, `green`, `a` and `alpha` attributes - these will expect a float. These attributes are available to all actor tags, as they use only the Actor's API.
 
 0.7.1.6.4 -> 0.7.1.6.5:
 

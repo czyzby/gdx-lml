@@ -2,6 +2,7 @@ package com.github.czyzby.lml.parser.impl.util;
 
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.macro.AbsoluteImportLmlMacroParser;
+import com.github.czyzby.lml.parser.impl.macro.ActorLmlMacroParser;
 import com.github.czyzby.lml.parser.impl.macro.AssignLmlMacroParser;
 import com.github.czyzby.lml.parser.impl.macro.ClasspathImportLmlMacroParser;
 import com.github.czyzby.lml.parser.impl.macro.ConditionLmlMacroParser;
@@ -66,6 +67,7 @@ public class LmlTagParsers {
                 "ifExists", "nullCheck");
         lmlParser.registerMacroParser(new AssignLmlMacroParser(), "assign", "var", "val");
         lmlParser.registerMacroParser(new EvaluateLmlMacroParser(), "eval", "evaluate", "invoke");
+        lmlParser.registerMacroParser(new ActorLmlMacroParser(), "actor", "widget");
     }
 
     public static void registerDefaultTagSyntax(final LmlParser lmlParser) {
