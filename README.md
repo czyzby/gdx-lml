@@ -23,6 +23,7 @@ See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&
 0.8 -> 0.9:
 
 - `@actor` macro. Looks for an action with the passed ID, invokes it (expecting an Actor) and adds the returned Actor to the current parent tag. For example, if you use `<@actor myMethodName />` tag inside `<table>...</table>` tags, your actor returned by `myMethodName` action will be added to the table. Useful if you want to create an actor from scratch without adding a new actor tag parser.
+- Array-parsing macros (forEach, nested, etc.) now support methods that return object arrays. Before you had to manually convert arrays to iterables to properly handle method invocations; now simple object arrays can be returned and each of its elements will be safely converted to string. Primitive arrays are not supported (yet?).
 
 
 0.7 -> 0.8:

@@ -116,9 +116,9 @@ public abstract class AbstractLmlMacroParent implements LmlParent<Actor>, LmlSyn
         final String[] argumentElements = argumentValue.split(ARRAY_SEPARATOR_REGEX);
         for (final String element : argumentElements) {
             if (containsAll(element, RANGE_ARGUMENT_OPENING, RANGE_ARGUMENT_SEPARATOR, RANGE_ARGUMENT_CLOSING)) {
-                arguments.addAll(extractRange(element));
+                extractRange(element, arguments);
             } else if (element.charAt(0) == ACTION_OPERATOR) {
-                arguments.addAll(extractMethodInvocation(parser, parent, element.substring(1)));
+                extractMethodInvocationResult(parser, parent, element.substring(1), arguments);
             } else if (element.charAt(0) == PREFERENCE_SIGN) {
                 arguments.add(parser.getPreference(element));
             } else {
@@ -128,40 +128,42 @@ public abstract class AbstractLmlMacroParent implements LmlParent<Actor>, LmlSyn
         return arguments;
     }
 
-    private static Array<? extends String> extractMethodInvocation(final LmlParser parser, final Actor parent,
-            final String methodInvocation) {
+    private static void extractMethodInvocationResult(final LmlParser parser, final Actor parent,
+            final String methodInvocation, final Array<String> arguments) {
         final ActorConsumer<Object, Object> action = parser.findAction(methodInvocation,
                 parent == null ? Object.class : parent.getClass());
         final Object result = action.consume(parent);
-        if (result instanceof Iterable<?>) {
-            final Array<String> arguments = GdxArrays.newArray();
+        if (result instanceof Object[]) {
+            for (final Object argument : (Object[]) result) {
+                arguments.add(Nullables.toString(argument, NULL_ARGUMENT));
+            }
+        } else if (result instanceof Iterable<?>) {
             for (final Object argument : (Iterable<?>) result) {
                 arguments.add(Nullables.toString(argument, NULL_ARGUMENT));
             }
-            return arguments;
         } else {
-            return GdxArrays.newArray(Nullables.toString(result, NULL_ARGUMENT));
+            arguments.add(Nullables.toString(result, NULL_ARGUMENT));
         }
     }
 
-    public static Array<? extends String> extractRange(final String element) {
-        final int rangeOpening = element.indexOf(RANGE_ARGUMENT_OPENING);
-        final String textBase = element.substring(0, rangeOpening);
-        final String[] range = element.substring(rangeOpening + 1, element.length() - 1)
+    /** @param lmlRangeToParse unparsed element with LML range syntax.
+     * @param arguments will store extracted range elements. */
+    public static void extractRange(final String lmlRangeToParse, final Array<String> arguments) {
+        final int rangeOpening = lmlRangeToParse.indexOf(RANGE_ARGUMENT_OPENING);
+        final String textBase = lmlRangeToParse.substring(0, rangeOpening);
+        final String[] range = lmlRangeToParse.substring(rangeOpening + 1, lmlRangeToParse.length() - 1)
                 .split(RANGE_ARGUMENT_SEPARATOR_REGEX);
         final int rangeStart = Integer.parseInt(range[0]);
         final int rangeEnd = Integer.parseInt(range[1]);
-        final Array<String> rangeArguments = GdxArrays.newArray();
         if (rangeStart <= rangeEnd) {
             for (int index = rangeStart; index <= rangeEnd; index++) {
-                rangeArguments.add(textBase + index);
+                arguments.add(textBase + index);
             }
         } else {
             for (int index = rangeStart; index >= rangeEnd; index--) {
-                rangeArguments.add(textBase + index);
+                arguments.add(textBase + index);
             }
         }
-        return rangeArguments;
     }
 
     public static boolean containsAll(final String string, final Object... sequences) {
