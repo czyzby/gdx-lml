@@ -2,10 +2,10 @@ package com.github.czyzby.lml.parser.impl.tag;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.Tooltip;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
-import com.github.czyzby.lml.gdx.widget.reflected.Tooltip;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.LmlTagAttributeParser;
 import com.github.czyzby.lml.parser.impl.dto.LmlParent;
@@ -60,21 +60,21 @@ public class TooltipLmlTagDataParser extends TableLmlTagDataParser {
 
     @Override
     protected Table parseChildWithValidTag(final LmlTagData lmlTagData, final LmlParser parser) {
-        final Tooltip tooltip = prepareTooltip(lmlTagData, parser);
-        return tooltip.getContent();
+        final Tooltip<Table> tooltip = prepareTooltip(lmlTagData, parser);
+        return tooltip.getActor();
     }
 
-    private Tooltip prepareTooltip(final LmlTagData lmlTagData, final LmlParser parser) {
-        final Tooltip tooltip = new Tooltip(new Table(parser.getSkin()), parser.getSkin(),
-                getStyleName(lmlTagData, parser));
-        tooltip.getContent().setUserObject(tooltip);
+    private static Tooltip<Table> prepareTooltip(final LmlTagData lmlTagData, final LmlParser parser) {
+        final Table table = new Table(parser.getSkin());
+        final Tooltip<Table> tooltip = new Tooltip<Table>(table);
+        table.setUserObject(tooltip);
         return tooltip;
     }
 
     @Override
     protected LmlParent<Table> parseParentWithValidTag(final LmlTagData lmlTagData, final LmlParser parser,
             final LmlParent<?> parent) {
-        return new TooltipLmlParent(lmlTagData, (Tooltip) parseChild(lmlTagData, parser).getUserObject(), parent,
+        return new TooltipLmlParent(lmlTagData, (Tooltip<?>) parseChild(lmlTagData, parser).getUserObject(), parent,
                 parser);
     }
 }

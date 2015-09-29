@@ -22,8 +22,12 @@ See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&
 ## What's new
 0.8 -> 0.9:
 
+Use snapshot for new features.
+
 - `@actor` macro. Looks for an action with the passed ID, invokes it (expecting an Actor) and adds the returned Actor to the current parent tag. For example, if you use `<@actor myMethodName />` tag inside `<table>...</table>` tags, your actor returned by `myMethodName` action will be added to the table. Useful if you want to create an actor from scratch without adding a new actor tag parser.
-- Array-parsing macros (forEach, nested, etc.) now support methods that return object arrays. Before you had to manually convert arrays to iterables to properly handle method invocations; now simple object arrays can be returned and each of its elements will be safely converted to string. Primitive arrays are not supported (yet?).
+- Array-parsing macros (*forEach*, *nested*, etc.) now support methods that return object arrays. Before you had to manually convert arrays to iterables to properly handle method invocations; now simple object arrays can be returned and each of its elements will be safely converted to string. Primitive arrays are not supported (yet?).
+- Now conditional macros (like *if*, *notNull*) evaluate to "false" if they receive no arguments, rather than throwing an exception. This might be especially useful when using nullable LML arguments (for example, `${someEmptyStringArgument}` would cause to print part after `<@if:else/>` when passed to *if* macro: `<@if ${someEmptyStringArgument}>`).
+- Removed custom tooltips (which were kinda cool with their moving along with the mouse and jumping when near an edge, but still - now there's "native" support). Since LibGDX tooltips are not actors, `tooltipId` attribute is no longer supported. Old tooltip tags still work: any actor can have a TextTooltip attached with a customized style by using `tooltip` (content) and `tooltipStyle` (name of TextTooltipStyle in skin) attributes; if `tooltip` is an action (`&proceededWithThat`) and the action returns an Actor, `Tooltip<Actor>` will be created instead. As a separate tag, `<tooltip>...</tooltip>` still works like a table - internally, `Tooltip<Table>` will be created and all new tags between the tooltip entities will be added to the table; all table attributes are supported, so you can specify `background`, `oneColumn`, `tablePad`, etc. Tooltip tag can have two additional attributes: `always` and `instant`, which trigger its setter methods (as you might expect).
 
 
 0.7 -> 0.8:

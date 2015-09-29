@@ -4,12 +4,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.TextTooltip;
+import com.badlogic.gdx.scenes.scene2d.ui.Tooltip;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.github.czyzby.kiwi.util.common.Nullables;
 import com.github.czyzby.kiwi.util.common.Strings;
-import com.github.czyzby.lml.gdx.widget.reflected.Tooltip;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.LmlTagAttributeParser;
 import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
@@ -109,24 +109,27 @@ public enum CommonLmlTagAttributeParser implements LmlTagAttributeParser,LmlSynt
         }
     },
     TOOLTIP("tooltip") {
-        public static final String TOOLTIP_ID = "TOOLTIPID";
         public static final String TOOLTIP_STYLE = "TOOLTIPSTYLE";
 
         @Override
         public void apply(final Actor actor, final LmlParser parser, final String attributeValue,
                 final LmlTagData lmlTagData) {
-            // TODO Convert to "native" LibGDX tooltips.
-            final Tooltip tooltip = new Tooltip(getTooltipContent(parser, actor, attributeValue), parser.getSkin(),
-                    getTooltipStyle(actor, parser, lmlTagData));
-            setTooltipId(lmlTagData, parser, tooltip);
-            tooltip.attachTo(actor);
+            final Object content = getTooltipContent(parser, actor, attributeValue);
+            Tooltip<?> tooltip;
+            if (content instanceof Actor) {
+                tooltip = new Tooltip<Actor>((Actor) content);
+            } else {
+                tooltip = new TextTooltip(content.toString(), parser.getSkin(),
+                        getTooltipStyle(actor, parser, lmlTagData));
+            }
+            actor.addListener(tooltip);
         }
 
-        private Actor getTooltipContent(final LmlParser parser, final Actor actor, final String attributeValue) {
+        private Object getTooltipContent(final LmlParser parser, final Actor actor, final String attributeValue) {
             if (attributeValue.charAt(0) == ACTION_OPERATOR) {
                 final Object actionResult = parser.findAction(attributeValue.substring(1), actor).consume(actor);
                 if (actionResult instanceof Actor) {
-                    return (Actor) actionResult;
+                    return actionResult;
                 } else {
                     return toLabel(actionResult, parser);
                 }
@@ -135,21 +138,14 @@ public enum CommonLmlTagAttributeParser implements LmlTagAttributeParser,LmlSynt
             }
         }
 
-        private Actor toLabel(final Object labelContent, final LmlParser parser) {
-            return new Label(Nullables.toString(labelContent, NULL_ARGUMENT), parser.getSkin());
+        private String toLabel(final Object labelContent, final LmlParser parser) {
+            return Nullables.toString(labelContent, NULL_ARGUMENT);
         }
 
         private String getTooltipStyle(final Actor actor, final LmlParser parser, final LmlTagData lmlTagData) {
             return lmlTagData.containsAttribute(TOOLTIP_STYLE)
                     ? LmlAttributes.parseString(actor, parser, lmlTagData.getAttribute(TOOLTIP_STYLE))
                     : DEFAULT_VALUE_NAME;
-        }
-
-        private void setTooltipId(final LmlTagData lmlTagData, final LmlParser parser, final Tooltip tooltip) {
-            if (lmlTagData.containsAttribute(TOOLTIP_ID)) {
-                tooltip.setName(LmlAttributes.parseString(tooltip, parser, lmlTagData.getAttribute(TOOLTIP_ID)));
-                parser.mapActorById(tooltip);
-            }
         }
     },
     DEBUG("debug") {

@@ -22,13 +22,9 @@ public abstract class AbstractConditionalLmlMacroParent extends AbstractLmlMacro
             throwErrorIfStrict(parser, "Conditional macro has to have a body.");
             return;
         }
-        if (needsArgument() && arguments.size == 0) {
-            throwErrorIfStrict(parser, "This conditional macro has to have an argument to check.");
-            return;
-        }
         final String[] textToAppend = textInTag.split(ELSE_OPENING + getTagNameIgnoringCaseRegex() + ELSE_CLOSING);
 
-        if (checkCondition(parser)) {
+        if (arguments.size > 0 && checkCondition(parser)) {
             parser.appendToBuffer(textToAppend[0]);
         } else if (textToAppend.length > 1) {
             parser.appendToBuffer(textToAppend[1]);
