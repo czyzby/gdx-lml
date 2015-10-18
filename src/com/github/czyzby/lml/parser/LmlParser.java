@@ -1,235 +1,237 @@
 package com.github.czyzby.lml.parser;
 
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.github.czyzby.lml.error.LmlParsingException;
-import com.github.czyzby.lml.parser.impl.dto.ActionContainer;
-import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
+import com.github.czyzby.lml.parser.action.ActorConsumer;
 
-/** Universal interface of LML parsers. Allows to implement a custom parser, using modified language version or
- * completely custom widgets. Scene2DLmlParser is the default implementation, creating Scene2D widgets.
+/** Common interface for all LML parsers. Provides methods allowing to configure template parsing. Note that
+ * implementations are consider NOT thread-safe and templates should be either handled by multiple parsers or one by
+ * one.
  *
- * @author MJ */
+ * @author MJ
+ * @see com.github.czyzby.lml.parser.impl.DefaultLmlParser */
 public interface LmlParser {
-    /** @param lmlFile file handle of a LML file.
-     * @return actors specified by the LML file. */
-    Array<Actor> parse(FileHandle lmlFile) throws LmlParsingException;
+    /** @param lmlData contains references to skins, bundles and preferences needed to parse LML templates. Cannot be
+     *            null. */
+    void setData(LmlData lmlData);
 
-    /** @param lmlDocument has to use LML syntax.
-     * @return actors specified by the LML document. */
-    Array<Actor> parse(String lmlDocument) throws LmlParsingException;
+    /** @return data container with references to skins, bundles and preferences needed to parse LML templates. */
+    LmlData getData();
 
-    /** @param lmlFile file handle of a LML file.
-     * @param stage will contain all parsed actors. */
-    void fill(Stage stage, FileHandle lmlFile) throws LmlParsingException;
+    /** @param templateReader will become parser's reader, used to process raw text data. Cannot be null. */
+    void setTemplateReader(LmlTemplateReader templateReader);
 
-    /** @param lmlDocument has to use LML syntax.
-     * @param stage will contain all parsed actors. */
-    void fill(Stage stage, String lmlDocument) throws LmlParsingException;
+    /** @return direct access to template reader used by the LML parser. Templates should not be appended directly to
+     *         the reader, especially during templates parsing - this object is mostly for internal parser's use. */
+    LmlTemplateReader getTemplateReader();
 
-    /** @return skin used to create widgets. */
-    Skin getSkin();
+    /** @param lmlSyntax will become current LML syntax, determining how templates are parsed. Cannot be null. */
+    void setSyntax(LmlSyntax lmlSyntax);
 
-    /** @param skin used to create widgets. */
-    void setSkin(Skin skin);
+    /** @return current used template syntax. Can be safely modified most of the time, but generally should be left
+     *         alone if template parsing is currently in progress. */
+    LmlSyntax getSyntax();
 
-    /** @return bundle used to parse text proceeded with @. */
-    I18NBundle getDefaultI18nBundle();
-
-    /** @param i18nBundle used to parse text proceeded with @. */
-    void setDefaultI18nBundle(I18NBundle i18nBundle);
-
-    /** @return bundle used to parse text proceeded with @, i18n bundle name and another @. */
-    I18NBundle getI18nBundle(String forName);
-
-    /** @param i18nBundle used to parse text proceeded with @, i18n bundle name and another @. */
-    void setI18nBundle(String bundleName, I18NBundle i18nBundle);
-
-    /** @return preferences which values can be referenced with #. */
-    Preferences getDefaultPreferences();
-
-    /** @param preferences its values can be referenced with #. */
-    void setDefaultPreferences(Preferences preferences);
-
-    /** @return preferences which values can be referenced with #name#. */
-    Preferences getPreferences(String forName);
-
-    /** @param preferences its values can be referenced with #name#. */
-    void setPreferences(String preferencesName, Preferences preferences);
-
-    /** Mostly for internal use.
-     *
-     * @param rawData starts with # or #preferencesKey#; the rest is the actual preference name.
-     * @return preference value or NULL. */
-    String getPreference(final String rawData);
-
-    /** For internal use only. Extracts bundle line from i18n bundle or attributes, provided it follows the syntax.
-     *
-     * @param rawData a possible bundle line or preference.
-     * @return rawData if the text is not considered a bundle line or preference. Converted line otherwise. */
-    String parseStringData(String rawData, Actor forActor);
-
-    /** Registers an action container with the given ID. ID can be referenced with onClick and onChange attributes
-     * before the method. */
-    void addActionContainer(String containerId, ActionContainer actionContainer);
-
-    /** Unregisters action container with the selected ID. */
-    void removeActionContainer(String containerId);
-
-    /** Registers action containers with the given IDs. IDs can be referenced with onClick and onChange attributes
-     * before the method. */
-    void addActionContainers(ObjectMap<String, ActionContainer> actionContainers);
-
-    /** Registers action containers with the given IDs. IDs can be referenced with onClick and onChange attributes
-     * before the method. */
-    void setActionContainers(ObjectMap<String, ActionContainer> actionContainers);
-
-    /** @return actions mapped by action IDs. */
-    ObjectMap<String, ActorConsumer<?, ?>> getActions();
-
-    /** Registers an action with the given ID. ID can be referenced with onClick and onChange attributes. */
-    void addAction(String actionId, ActorConsumer<?, ?> action);
-
-    /** Removes action referenced by the selected ID. */
-    void removeAction(String actionId);
-
-    /** Registers actions with the given IDs. IDs can be referenced with onClick and onChange attributes. */
-    void addActions(ObjectMap<String, ActorConsumer<?, ?>> actions);
-
-    /** Registers actions with the given IDs, replacing the old ones (if any). IDs can be referenced with onClick and
-     * onChange attributes. */
-    void setActions(ObjectMap<String, ActorConsumer<?, ?>> actions);
-
-    /** Mostly for internal use.
-     *
-     * @param actionId ID associated with the action. ActorConsumer name, ActionContainer method name or ActionContainer
-     *            ID followed by method name, separated by dot.
-     * @param forActor Actor that is expected to be consumed by the return consumer.
-     * @return ActorConsumer connected with the key or null. */
-    public ActorConsumer<Object, Object> findAction(final String actionId, final Actor forActor);
-
-    /** Mostly for internal use.
-     *
-     * @param actionId ID associated with the action. ActorConsumer name, ActionContainer method name or ActionContainer
-     *            ID followed by method name, separated by dot.
-     * @param parameterClass class of the parameter that is expected to be consumed by the ActorConsumer.
-     * @return ActorConsumer connected with the key or null. */
-    public ActorConsumer<Object, Object> findAction(final String actionId, final Class<?> parameterClass);
-
-    /** @param strict if true, parser will throw exceptions for actions that would be normally ignored, like trying to
-     *            append a child to a widget that is not considered an actor group and cannot have children. Defaults to
-     *            true. */
-    void setStrict(boolean strict);
-
-    /** @return if true, parser will throw exceptions for actions that would be normally ignored, like trying to append
-     *         a child to a widget that is not considered an actor group and cannot have children. Defaults to true. */
+    /** @return true if parser is strict and throws errors for unknown tags, attributes, etc. */
     boolean isStrict();
 
-    /** Associates chosen parser with the given tag name. Overrides previous settings if tag is already registered. */
-    void registerParser(String tagName, LmlTagDataParser<?> parser);
+    /** @param strict if true, parser throws errors for unknown tags, attributes, etc. Set to false for more HTML-like
+     *            feel of everything generally working even if something is terribly wrong. */
+    void setStrict(boolean strict);
 
-    /** Associates chosen parser with the given tag names. Overrides previous settings if tag is already registered. */
-    void registerParser(LmlTagDataParser<?> parser, String... tagNames);
+    /** @param nestedComments if true, comments are nested and NEED to be valid. In HTML, comments are not nested, so
+     *            commenting-out a whole file full of other comments is problematic; this is also the default behavior
+     *            of LML, since this way comments you don't need to validate all your tags (for example, you might open
+     *            a comment tag by mistake inside another comment). However, if you're sure you'll keep for comments
+     *            clean and need a way to quickly comment-out huge portions of templates, set this value to true. */
+    void setNestedComments(boolean nestedComments);
 
-    /** Associates chosen parsers with the given tag names. Overrides previous settings if tags are already
-     * registered. */
-    void registerParsers(ObjectMap<String, LmlTagDataParser<?>> parsersMappedByTagNames);
+    /** @param lmlTemplate will be parsed.
+     * @return parsed root actors, in the order that they appear in the template. */
+    Array<Actor> parseTemplate(String lmlTemplate);
 
-    /** Associates chosen parsers with the given tag names. Deletes and overrides previous settings. */
-    void setParsers(ObjectMap<String, LmlTagDataParser<?>> parsersMappedByTagNames);
+    /** @param lmlTemplateFile will be read and parsed.
+     * @return parsed root actors, in the order that they appear in the template. */
+    Array<Actor> parseTemplate(FileHandle lmlTemplateFile);
 
-    /** Associates chosen macro parser with the given tag name. Overrides previous settings if tag is already
-     * registered. */
-    void registerMacroParser(String tagName, LmlMacroParser parser);
+    /** @param stage will have the parsed actors appended.
+     * @param lmlTemplate will be parsed. Actors parsed from the template will be added directly into the stage. */
+    void fillStage(Stage stage, String lmlTemplate);
 
-    /** Associates chosen macro parser with the given tag names. Overrides previous settings if tag is already
-     * registered. */
-    void registerMacroParser(LmlMacroParser parser, String... tagNames);
+    /** @param stage will have the parsed actors appended.
+     * @param lmlTemplateFile will be read and parsed. Actors parsed from the template will be added directly into the
+     *            stage. */
+    void fillStage(Stage stage, FileHandle lmlTemplateFile);
 
-    /** Associates chosen macro parsers with the given tag names. Overrides previous settings if tags are already
-     * registered. */
-    void registerMacroParsers(ObjectMap<String, LmlMacroParser> parsersMappedByTagNames);
+    /** @param view an instance of view object, containing annotated fields and methods that need to be filled and
+     *            invoked. See LML annotations for more data.
+     * @param lmlTemplate will be parsed.
+     * @return array of actors parsed from the template.
+     * @see LmlView
+     * @param <View> class of the view to be initiated. */
+    <View> Array<Actor> createView(View view, String lmlTemplate);
 
-    /** Associates chosen macro parsers with the given tag names. Deletes and overrides previous settings. */
-    void setMacroParsers(ObjectMap<String, LmlMacroParser> parsersMappedByTagNames);
+    /** @param view an instance of view object, containing annotated fields and methods that need to be filled and
+     *            invoked. See LML annotations for more data.
+     * @param lmlTemplateFile will be read and parsed.
+     * @return array of actors parsed from the template.
+     * @see LmlView
+     * @param <View> class of the view to be initiated. */
+    <View> Array<Actor> createView(View view, FileHandle lmlTemplateFile);
 
-    /** @param lmlTextToParse if in the middle for parsing, this text will be appended to the place where the original
-     *            text is currently parsed. If before parsing, behavior is undetermined. Should be used for internal
-     *            parsing cases only. */
-    void appendToBuffer(CharSequence lmlTextToParse);
+    /** @param viewClass class of the view, containing annotated fields and methods that need to be filled and invoked.
+     *            See LML annotations for more data.
+     * @param lmlTemplate will be parsed.
+     * @return a new instance of the view, created with no-argument constructor and filled.
+     * @see LmlView
+     * @param <View> class of the view to be initiated. */
+    <View> View createView(Class<View> viewClass, String lmlTemplate);
 
-    /** Associates given argument with the key. Arguments can be referenced with ${key} in .lml. */
-    void addArgument(String key, int value);
+    /** @param viewClass class of the view, containing annotated fields and methods that need to be filled and invoked.
+     *            See LML annotations for more data.
+     * @param lmlTemplateFile will be read and parsed.
+     * @return a new instance of the view, created with no-argument constructor and filled.
+     * @see LmlView
+     * @param <View> class of the view to be initiated. */
+    <View> View createView(Class<View> viewClass, FileHandle lmlTemplateFile);
 
-    /** Associates given argument with the key. Arguments can be referenced with ${key} in .lml. */
-    void addArgument(String key, float value);
+    /** @param rawLmlData unparsed part of LML template that should be parsed to actual string value. Mostly for
+     *            internal use, although can be very useful for checking how each text part is parsed in your current
+     *            parser setup.
+     * @return parsed string value. */
+    String parseString(String rawLmlData);
 
-    /** Associates given argument with the key. Arguments can be referenced with ${key} in .lml. */
-    void addArgument(String key, String value);
+    /** @param rawLmlData unparsed part of LML template that should be parsed to actual string value. Mostly for
+     *            internal use, although can be very useful for checking how each text part is parsed in your current
+     *            parser setup.
+     * @return parsed float value. */
+    float parseFloat(String rawLmlData);
 
-    /** Converts the argument to a range array and associates it with the key. Arguments can be referenced with ${key}
-     * in .lml. */
-    void addArgument(String key, String baseValue, int rangeStart, int rangeEnd);
+    /** @param rawLmlData unparsed part of LML template that should be parsed to actual string value. Mostly for
+     *            internal use, although can be very useful for checking how each text part is parsed in your current
+     *            parser setup.
+     * @return parsed int value. */
+    int parseInt(String rawLmlData);
 
-    /** Converts the argument to an array and associates it with the key. Arguments can be referenced with ${key} in
-     * .lml. */
-    void addArgument(String key, String... values);
+    /** @param rawLmlData unparsed part of LML template that should be parsed to actual string value. Mostly for
+     *            internal use, although can be very useful for checking how each text part is parsed in your current
+     *            parser setup.
+     * @return parsed boolean value. */
+    boolean parseBoolean(String rawLmlData);
 
-    /** Converts the argument to an array and associates it with the key. Arguments can be referenced with ${key} in
-     * .lml. */
-    void addArgument(String key, Iterable<String> values);
+    /** @param rawLmlData unparsed part of LML template that should be parsed to actual string value. Mostly for
+     *            internal use, although can be very useful for checking how each text part is parsed in your current
+     *            parser setup.
+     * @return string value separated and parsed as an array of values according to syntax rules. Note that arrays do
+     *         NOT fully parse its elements: for example, an array of bundle texts will be split from a raw string to an
+     *         actual Java array of strings, but will not be immediately converted to formatted bundle lines. This is
+     *         because arrays are mostly either used by macros or processed further by tag or attribute parsers. Only
+     *         ranges and actions are parsed. */
+    String[] parseArray(String rawLmlData);
 
-    /** Registers all given arguments. Arguments can be referenced with ${key} in .lml. */
-    void addArguments(ObjectMap<String, String> arguments);
+    /** @param rawLmlData unparsed part of LML template that should be parsed to actual string value. Mostly for
+     *            internal use, although can be very useful for checking how each text part is parsed in your current
+     *            parser setup.
+     * @return action referenced with the raw data. Might be null. */
+    ActorConsumer<?, Object> parseAction(String rawLmlData);
 
-    /** Registers actionKey proceeded with &amp; to the argument key. Note that actions in tag attributes (like
-     * onClick=someAction) can, but do not have to be proceeded with &amp; - method invocation arguments are meant for
-     * macros that will parse them to the method return results. */
-    void addMethodInvocationArgument(String key, String actionKey);
+    /** @param rawLmlData unparsed part of LML template that should be parsed to actual string value. Mostly for
+     *            internal use, although can be very useful for checking how each text part is parsed in your current
+     *            parser setup.
+     * @param forActor some types of data (for example: method invocations) require a parameter to be properly
+     *            retrieved. Although for most types this object is optional, others might produce invalid results
+     *            without it or even will not work at all.
+     * @return parsed string value. */
+    String parseString(String rawLmlData, Object forActor);
 
-    /** Registers joined actionContainerKey and methodName, proceeded with &amp; to the argument key. Note that actions
-     * in tag attributes (like onClick=someAction) can, but do not have to be proceeded with &amp; - method invocation
-     * arguments are meant for macros that will parse them to the method return results. */
-    void addMethodInvocationArgument(String key, String actionContainerKey, String methodName);
+    /** @param rawLmlData unparsed part of LML template that should be parsed to actual string value. Mostly for
+     *            internal use, although can be very useful for checking how each text part is parsed in your current
+     *            parser setup.
+     * @param forActor some types of data (for example: method invocations) require a parameter to be properly
+     *            retrieved. Although for most types this object is optional, others might produce invalid results
+     *            without it or even will not work at all.
+     * @return parsed float value. */
+    float parseFloat(String rawLmlData, Object forActor);
 
-    /** Replaces current arguments with passed values. Arguments can be referenced with &amp;{key} in .lml. */
-    void setArguments(ObjectMap<String, String> arguments);
+    /** @param rawLmlData unparsed part of LML template that should be parsed to actual string value. Mostly for
+     *            internal use, although can be very useful for checking how each text part is parsed in your current
+     *            parser setup.
+     * @param forActor some types of data (for example: method invocations) require a parameter to be properly
+     *            retrieved. Although for most types this object is optional, others might produce invalid results
+     *            without it or even will not work at all.
+     * @return parsed int value. */
+    int parseInt(String rawLmlData, Object forActor);
 
-    /** @param actor will be mapped by its name (ID) in the parser. Note that it's done internally when parsing widgets,
-     *            but additional actors can be manually appended. */
-    void mapActorById(Actor actor);
+    /** @param rawLmlData unparsed part of LML template that should be parsed to actual string value. Mostly for
+     *            internal use, although can be very useful for checking how each text part is parsed in your current
+     *            parser setup.
+     * @param forActor some types of data (for example: method invocations) require a parameter to be properly
+     *            retrieved. Although for most types this object is optional, others might produce invalid results
+     *            without it or even will not work at all.
+     * @return parsed boolean value. */
+    boolean parseBoolean(String rawLmlData, Object forActor);
 
-    /** Available after parsing.
+    /** @param rawLmlData unparsed part of LML template that should be parsed to actual string value. Mostly for
+     *            internal use, although can be very useful for checking how each text part is parsed in your current
+     *            parser setup.
+     * @param forActor some types of data (for example: method invocations) require a parameter to be properly
+     *            retrieved. Although for most types this object is optional, others might produce invalid results
+     *            without it or even will not work at all.
+     * @return string value separated and parsed as an array of values according to syntax rules. Note that arrays do
+     *         NOT fully parse its elements: for example, an array of bundle texts will be split from a raw string to an
+     *         actual Java array of strings, but will not be immediately converted to formatted bundle lines. This is
+     *         because arrays are mostly either used by macros or processed further by tag or attribute parsers. Only
+     *         ranges and actions are parsed. */
+    String[] parseArray(String rawLmlData, Object forActor);
+
+    /** @param rawLmlData unparsed part of LML template that should be parsed to actual string value. Mostly for
+     *            internal use, although can be very useful for checking how each text part is parsed in your current
+     *            parser setup.
+     * @param forActor some types of data (for example: method invocations) require a parameter to be properly
+     *            retrieved. Although for most types this object is optional, others might produce invalid results
+     *            without it or even will not work at all.
+     * @return action referenced with the raw data. Might be null.
+     * @param <ActorType> type of actor that can be consumed by the action. Performs an unchecked cast, might not
+     *            actually match consumed actor type - the user should be reference correct actions that can actually
+     *            process the selected actor. */
+    <ActorType> ActorConsumer<?, ActorType> parseAction(String rawLmlData, ActorType forActor);
+
+    /** @return direct access to map containing all previously parsed actors that had their ID set with "id" tag
+     *         attribute. This map is filled during template parsing. Since the actual, internal map is returned with
+     *         this method, it can be used to clear the actors map if you no longer want to keep references to actors,
+     *         but need the parser itself for further use. */
+    ObjectMap<String, Actor> getActorsMappedByIds();
+
+    /** Constructs a complex and (hopefully) meaningful exception message with currently parsed line number.
      *
-     * @return all actors that were appended with ID attribute in their tags. */
-    ObjectMap<String, Actor> getActorsMappedById();
+     * @param message description of the error. */
+    void throwError(String message);
 
-    /** Resets map that keeps track of Actors mapped by their ID. Note that it's never done by the parser itself, so if
-     * a parser is used multiple times by documents that might have colliding IDs, it's a good idea to reset the map. */
-    void clearActorsMappedById();
-
-    /** For internal use and more informant exceptions.
+    /** Constructs a complex and (hopefully) meaningful exception message with currently parsed line number.
      *
-     * @return currently parsed line of the original file. */
-    int getCurrentlyParsedLine();
+     * @param message description of the error.
+     * @param optionalCause original cause of the message. */
+    void throwError(String message, Throwable optionalCause);
 
-    /** @param tagName one of the tags handled by the selected tag parser.
-     * @param parser will be registered as one of attribute parsers for the selected tag parser. Note that you can also
-     *            register attributes globally by accessing tag parsers' static methods. */
-    void registerAttributeParser(String tagName, LmlTagAttributeParser parser);
+    /** Constructs a complex and (hopefully) meaningful exception message with currently parsed line number. Exception
+     * is created and thrown only if the parser is strict.
+     *
+     * @param message description of the error. */
+    void throwErrorIfStrict(String message);
 
-    /** @param tagName one of the tags handled by the selected tag parser.
-     * @param attributeName attribute parser connected with this name will be unregistered for tag parser with the
-     *            passed tag name. Note that you can also unregister attributes globally by accessing tag parsers'
-     *            static methods. */
-    void unregisterAttributeParser(String tagName, String attributeName);
+    /** Constructs a complex and (hopefully) meaningful exception message with currently parsed line number. Exception
+     * is created and thrown only if the parser is strict.
+     *
+     * @param message description of the error.
+     * @param optionalCause original cause of the message. */
+    void throwErrorIfStrict(String message, Throwable optionalCause);
 
-    /** @return name of the last document parsed from a file. Internal utility. */
-    String getLastParsedDocumentName();
+    /** Utility internal method. If parsing is currently in progress, this method allows to append the actor to the
+     * result collection that will be eventually returned (or used to fill stage/view).
+     *
+     * @param actor will be added to the result collection and optionally mapped by its ID, if it has one. */
+    void addActor(Actor actor);
 }

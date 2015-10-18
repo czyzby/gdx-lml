@@ -4,5 +4,7 @@
 	<source path="" />
 	<inherits name="com.github.czyzby.kiwi.GdxKiwi" />
 
-	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.lml.gdx.widget.reflected" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.lml.scene2d.ui.reflected" />
+	<!-- These seem to cause problems when not reflected: -->
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.lml.parser.impl.AbstractLmlView" />
 </module>

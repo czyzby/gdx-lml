@@ -1,0 +1,95 @@
+package com.github.czyzby.lml.parser.impl.tag.macro;
+
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.github.czyzby.kiwi.util.common.Nullables;
+import com.github.czyzby.kiwi.util.common.Strings;
+import com.github.czyzby.kiwi.util.tuple.immutable.Pair;
+import com.github.czyzby.lml.parser.LmlParser;
+import com.github.czyzby.lml.parser.LmlSyntax;
+import com.github.czyzby.lml.parser.action.ActorConsumer;
+import com.github.czyzby.lml.parser.impl.tag.AbstractMacroLmlTag;
+import com.github.czyzby.lml.parser.tag.LmlTag;
+
+/** Abstract base for conditional macros. Conditional macros evaluate a condition stored in their attributes and append
+ * one part of the data stored between their tags. For example: <blockquote>
+ *
+ * <pre>
+ * &lt;@notNull {someArgument}&gt;
+ *      Added on true.
+ * &lt;@notNull:else/&gt;
+ *      Added on false.
+ * &lt;/@notNull&gt;
+ * </pre>
+ *
+ * </blockquote>This particular macro - as you might guess - checks if the {someArgument} value is not null. If it is
+ * present, "Added on true." will be processed by the parser, ignoring the rest of the macro's content. If argument
+ * happens to be null or boolean false, "Added on false." will be processed.
+ *
+ * <p>
+ * Else tag is optional: if else tag is not given, the whole macro content is appended only on "true" condition. Else
+ * tag follows this syntax: tagOpening (&lt;) + macroMarker ({@literal @}) + macroTagName (for example, "notNull") +
+ * ":else" (ignoring case) + closedTagMarker (/) + tagClosing (&gt;). Typos or whitespaces in else tags might result in
+ * invalid parsing.
+ *
+ * @author MJ */
+public abstract class AbstractConditionalLmlMacroTag extends AbstractMacroLmlTag {
+    public AbstractConditionalLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+        super(parser, parentTag, rawTagData);
+    }
+
+    @Override
+    public void handleDataBetweenTags(final String rawMacroContent) {
+        final Pair<String, String> content = splitInTwo(rawMacroContent, getSeparator());
+        if (checkCondition()) {
+            appendTextToParse(content.getFirst());
+        } else {
+            appendTextToParse(content.getSecond());
+        }
+    }
+
+    /** @return separator, used to split raw texts into two parts - value added on "true" and on "false". */
+    protected String getSeparator() {
+        final LmlSyntax syntax = getParser().getSyntax();
+        final StringBuilder builder = new StringBuilder();
+        builder.append(syntax.getTagOpening());
+        builder.append(syntax.getMacroMarker());
+        builder.append(getTagName());
+        builder.append(":else");
+        builder.append(syntax.getClosedTagMarker());
+        builder.append(syntax.getTagClosing());
+        return builder.toString();
+    }
+
+    /** @return evaluated condition result that will decide if the "true" or "false" content is appended. */
+    protected abstract boolean checkCondition();
+
+    /** @param attribute will be checked.
+     * @return true if the attribute is a method invocation. */
+    protected boolean isAction(final String attribute) {
+        return Strings.startsWith(attribute, getParser().getSyntax().getMethodInvocationMarker());
+    }
+
+    /** @param attribute is an action.
+     * @return result of the action invocation. */
+    protected Object invokeAction(final String attribute) {
+        final ActorConsumer<?, Actor> action = getParser().parseAction(attribute, getActor());
+        if (action != null) {
+            return action.consume(getActor());
+        }
+        getParser().throwError("Unable to evaluate conditional macro. Unknown action ID: " + attribute);
+        return null;
+    }
+
+    /** @param value can be null.
+     * @return true if value is mapped to null or boolean false. */
+    protected boolean isNullOrFalse(final Object value) {
+        return isNullOrFalse(Nullables.toNullableString(value));
+    }
+
+    /** @param value LML value.
+     * @return true if value is mapped to null or boolean false. */
+    protected boolean isNullOrFalse(final String value) {
+        return value == null || Strings.isWhitespace(value) || Nullables.DEFAULT_NULL_STRING.equalsIgnoreCase(value)
+                || Boolean.FALSE.toString().equalsIgnoreCase(value);
+    }
+}
