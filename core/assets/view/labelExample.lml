@@ -1,7 +1,0 @@
-<table oneColumn="true">
-    Most widgets convert plaintext to labels.
-    <label text="Text\ can\ be\ passed\ in\ attributes."/>
-    <label>Text can be passed between tags.</label>
-    <label style=red>Quotations in attributes are optional.</label>
-    <label>@labelFromBundle</label>
-</table>

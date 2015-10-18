@@ -1,7 +1,0 @@
-<table>
-	I'm a custom tooltip,<tr/>
-	also created with LML.<tr/>
-	<textButton>I contain some</textButton><tr/>
-	<checkBox checked=true>fancy widgets.</checkBox><tr/>
-	And a different style.
-</table>

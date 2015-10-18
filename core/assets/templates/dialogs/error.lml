@@ -1,0 +1,11 @@
+<dialog title="@error" style="dialog">
+    <@for line=@errorLine[0,3]>
+        <label row=true>{line}</label>
+    </@for>
+    <textButton onResult="onErrorApprove" growX=true>@ok</textButton>
+    <textButton onResult="onErrorDecline" growX=true>@no</textButton>
+    <!-- toDialogTable appends label to dialog itself,
+         not its content table. This might screw with
+         dialog's look if you add more than one column. -->
+    <label toDialogTable=true text="@errorPrompt" row="true" id="resultMessage"/>
+</dialog>

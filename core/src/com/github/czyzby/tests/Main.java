@@ -2,218 +2,266 @@ package com.github.czyzby.tests;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.I18NBundle;
-import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.AbstractApplicationListener;
 import com.github.czyzby.kiwi.util.gdx.asset.Disposables;
-import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
-import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.kiwi.util.gdx.collection.immutable.ImmutableArray;
 import com.github.czyzby.lml.parser.LmlParser;
-import com.github.czyzby.lml.parser.LmlTagAttributeParser;
-import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
-import com.github.czyzby.lml.parser.impl.dto.LmlTagData;
-import com.github.czyzby.lml.parser.impl.util.LmlAttributes;
+import com.github.czyzby.lml.parser.action.ActorConsumer;
+import com.github.czyzby.lml.parser.impl.tag.AbstractActorLmlTag;
+import com.github.czyzby.lml.parser.impl.tag.AbstractMacroLmlTag;
+import com.github.czyzby.lml.parser.impl.tag.builder.TextLmlActorBuilder;
+import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
+import com.github.czyzby.lml.parser.tag.LmlAttribute;
+import com.github.czyzby.lml.parser.tag.LmlTag;
+import com.github.czyzby.lml.parser.tag.LmlTagProvider;
 import com.github.czyzby.lml.util.Lml;
-import com.github.czyzby.tests.reflected.UiActions;
+import com.github.czyzby.tests.reflected.CustomActionContainer;
+import com.github.czyzby.tests.reflected.MainView;
+import com.github.czyzby.tests.reflected.widgets.BlinkingLabel;
 
+/** Main application's listener. Manages view.
+ *
+ * @author MJ */
 public class Main extends AbstractApplicationListener {
-	private static final Array<String> TEMPLATES = ImmutableArray.ofSorted("assign", "bundle", "comment",
-			"condition", "forEach", "include", "loop", "nullCheck", "tooltip", "macro", "label", "table",
-			"tree", "groups", "actions", "dialog", "customAttribute", "namedParameters", "evaluate",
-			"complexTooltip");
+    private static final Array<String> EXAMPLES = ImmutableArray.of(
+            // Tags:
+            "actor", "button", "checkBox", "container", "dialog", "horizontalGroup", "imageButton", "image",
+            "imageTextButton", "label", "list", "progressBar", "scrollPane", "selectBox", "slider", "splitPane",
+            "stack", "table", "textArea", "textButton", "textField", "tooltip", "touchpad", "tree", "verticalGroup",
+            "window",
+            // Syntax:
+            "i18n", "preferences", "arguments", "actions",
+            // Macros:
+            "actorMacro", "anyNotNull", "argumentReplace", "assign", "calculate", "comment", "conditional", "evaluate",
+            "exception", "forEach", "import", "loop", "meta", "nestedForEach", "newAttribute", "newTag", "nullCheck",
+            "tableColumn", "tableRow", "while",
+            // Custom elements:
+            "customAttribute", "customMacro", "customTag");
+    private static final String MAIN_VIEW_TEMPLATE = "templates/main.lml";
 
-	private LmlParser parser;
-	private Stage stage;
-	private Skin skin;
+    private static LmlParser parser;
+    private MainView view;
 
-	private Table playground;
-	private TextArea templateInput;
-	private Label errorMessage;
+    @Override
+    public void create() {
+        parser = constructParser();
+        // Thanks to using createView(Class, FileHandle) method, an instance of MainView will be created using no-arg
+        // constructor. Its stage - retrieved by getStage() method - will be filled with root actors in the template.
+        // Its annotated fields will be filled.
+        view = parser.createView(MainView.class, Gdx.files.internal(MAIN_VIEW_TEMPLATE));
+        // Focusing input on view's stage:
+        Gdx.input.setInputProcessor(view.getStage());
+    }
 
-	@Override
-	public void create() {
-		stage = new Stage(new ScreenViewport());
+    /** @return a new fully constructed instance of LML parser. */
+    private static LmlParser constructParser() {
+        return Lml.parser().skin(getDefaultSkin()).i18nBundle(getDefaultI18nBundle())
+                .preferences(getDefaultPreferences()).i18nBundle("custom", getCustomI18nBundle())
+                .preferences("custom", getCustomPreferences())
+                // {examples} argument will allow to iterate over Main#EXAMPLES array in LML templates:
+                .argument("examples", EXAMPLES)
+                // templates/examples/arguments.lml:
+                .argument("someArgument", "Extracted from argument.").argument("someNumber", 50)
+                .argument("lmlSnippet", "<label>Created with argument.</label>")
+                // templates/examples/actions.lml:
+                .action("labelConsumer", getActorConsumer()).actions("custom", CustomActionContainer.class)
+                // Custom tags, attributes and macros created in Java:
+                .attribute(getCustomAttribute(), "href", "showLink") // Custom attribute - opens a link.
+                .macro(getCustomMacroProvider(), "uppercase", "toUppercase") // Custom macro - converts to upper case.
+                .tag(getCustomTagProvider(), "blink", "blinkingLabel") // Custom tag - creates a blinking label.
+                .attribute(getCustomBlinkingLabelAttribute(), "blinkingTime") // Additional blinking label's attribute.
+                // Preparing the parser:
+                .build();
+    }
 
-		skin = new Skin(Gdx.files.internal("ui/ui.json"));
-		final I18NBundle i18nBundle = I18NBundle.createBundle(Gdx.files.internal("i18n/bundle"));
-		final I18NBundle customBundle = I18NBundle.createBundle(Gdx.files.internal("i18n/custom"));
-		final Preferences preferences = preparePreferences();
-		final Preferences customPreferences = prepareCustomPreferences();
+    // This skin will be available through "default" ID and used if no ID is specified.
+    private static Skin getDefaultSkin() {
+        return new Skin(Gdx.files.internal("ui/ui.json"));
+    }
 
-		parser =
-				Lml.parser().skin(skin).i18nBundle(i18nBundle).preferences(preferences)
-						.actionContainer("main", new UiActions(this)).arguments(getTemplateArguments())
-						.action("onButtonClick", getOnButtonClickActorConsumer())
-						.arguments(getExamplesArguments()).i18nBundle("custom", customBundle)
-						.preferences("custom", customPreferences)
-						.attributeParser("label", getCustomLabelAttributeParser()).build();
-		parser.fill(stage, Gdx.files.internal("template.lml"));
+    // This bundle will be available through "default" ID and used if no ID is specified.
+    private static I18NBundle getDefaultI18nBundle() {
+        return I18NBundle.createBundle(Gdx.files.internal("i18n/bundle"));
+    }
 
-		final ObjectMap<String, Actor> actorsByIds = parser.getActorsMappedById();
-		// Note: widgets could be also assigned with onCreate action.
-		templateInput = (TextArea) actorsByIds.get("templateInput");
-		playground = (Table) actorsByIds.get("playground");
+    // This bundle will be available through "custom" ID.
+    private static I18NBundle getCustomI18nBundle() {
+        return I18NBundle.createBundle(Gdx.files.internal("i18n/custom"));
+    }
 
-		Gdx.input.setInputProcessor(stage);
-	}
+    // These preferences will be available through "default" ID and used if no ID is specified.
+    private static Preferences getDefaultPreferences() {
+        final Preferences preferences = Gdx.app.getPreferences("lml.test.preferences");
+        preferences.putString("somePreference", "Extracted from default preferences.");
+        preferences.putString("someNumber", "200"); // Added as string, as other types are problematic on GWT.
+        return preferences;
+    }
 
-	private static ObjectMap<String, String> getExamplesArguments() {
-		return GdxMaps.newObjectMap(
-				// nullCheckExample.lml:
-				"validParameter", Lml.toBundleLine("validParameter"),
-				// conditionExample.lml:
-				"checkedArgument", "7.2",
-				// forEachExample.lml:
-				"arrayParameter", Lml.toArrayArgument("Param1", "Param2"), "anotherArray",
-				Lml.toArrayArgument("Another1", "Another2", "Another3"),
-				// bundleExample.lml:
-				"argumentFromParser", "Third", "thisIsAnArgument", "This is an argument's value.");
-	}
+    // These preferences will be available through "custom" ID.
+    private static Preferences getCustomPreferences() {
+        final Preferences preferences = Gdx.app.getPreferences("lml.test.custom.preferences");
+        preferences.putString("somePreference", "Extracted from custom preferences.");
+        return preferences;
+    }
 
-	private static Preferences preparePreferences() {
-		final Preferences preferences = Gdx.app.getPreferences("lml.test.properties");
-		preferences.putString("buttonRowSize", "2"); // template.lml
-		preferences.putString("thisIsAPreference", "This is a text from preference."); // bundleExample.lml
-		preferences.putString("fromPreferences", "Text from preference."); // customAttributeExample.lml
-		preferences.flush();
-		return preferences;
-	}
+    // Available as LML method through "labelConsumer" ID.
+    private static ActorConsumer<?, ?> getActorConsumer() {
+        return new ActorConsumer<String, Label>() {
+            @Override
+            public String consume(final Label actor) {
+                actor.setText("Customized with actor consumer.");
+                actor.setColor(Color.CYAN);
+                return Strings.EMPTY_STRING;
+            }
+        };
+    }
 
-	private static Preferences prepareCustomPreferences() {
-		final Preferences preferences = Gdx.app.getPreferences("lml.test.custom.properties");
-		preferences.putString("thisIsAPreference",
-				"This text is from preferences\nreferenced with \"custom\" key."); // bundleExample.lml
-		preferences.flush();
-		return preferences;
-	}
+    // Will be available as attribute for all tags under "href" and "showLink" names. Displays a link
+    private static LmlAttribute<Actor> getCustomAttribute() {
+        return new LmlAttribute<Actor>() {
+            @Override
+            public Class<Actor> getHandledType() {
+                return Actor.class;
+            }
 
-	private static ObjectMap<String, String> getTemplateArguments() {
-		final FileHandle templatesDirectory = Gdx.files.internal("view");
-		final Array<String> templates = GdxArrays.newArray();
-		final Array<String> templateBundleNames = GdxArrays.newArray();
-		for (final String template : TEMPLATES) {
-			templates.add(templatesDirectory.child(template + "Example.lml").path());
-			templateBundleNames.add(Lml.toBundleLine(template + "Example"));
-		}
-		return GdxMaps.newObjectMap("documents", Lml.toArrayArgument(templates), "documentButtons",
-				Lml.toArrayArgument(templateBundleNames));
-	}
+            @Override
+            public void process(final LmlParser parser, final LmlTag tag, final Actor actor,
+                    final String rawAttributeData) {
+                // By using LmlParser#parseString(String, Object) method rather than using rawAttributeData directly, we
+                // add i18n, preferences and methods support. So yeah, it's worth the extra code.
+                final String url = parser.parseString(rawAttributeData, actor);
+                actor.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(final InputEvent event, final float x, final float y) {
+                        // Opens browser with the selected URL:
+                        Gdx.net.openURI(url);
+                    }
+                });
+            }
+        };
+    }
 
-	@Override
-	public void resize(final int width, final int height) {
-		stage.getViewport().update(width, height, true);
-	}
+    // Provides tags of a custom macro available under "uppercase", "toUppercase" names.
+    private static LmlTagProvider getCustomMacroProvider() {
+        // LmlTagProvider is a simple functional interface that provides LmlTag instances.
+        return new LmlTagProvider() {
+            @Override
+            public LmlTag create(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+                return getCustomMacro(parser, parentTag, rawTagData);
+            }
+        };
+    }
 
-	@Override
-	public void render(final float deltaTime) {
-		stage.act(deltaTime);
-		stage.draw();
-	}
+    // Changes text between tags into upper case.
+    private static LmlTag getCustomMacro(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+        return new AbstractMacroLmlTag(parser, parentTag, rawTagData) {
+            @Override
+            public void handleDataBetweenTags(final String rawData) {
+                // appendTextToParse(String) method forces the template reader to parse passed text. This is the default
+                // method to add macro result. In this case, we want to change text that the macro received between tags
+                // to upper case.
+                appendTextToParse(rawData.toUpperCase());
+            }
+        };
+    }
 
-	@Override
-	public void dispose() {
-		parser.setDefaultPreferences(null);
-		Disposables.disposeOf(stage, skin);
-	}
+    // Provides tags of a custom actor: overridden label that blinks. Available under "blink", "blinkingLabel".
+    private static LmlTagProvider getCustomTagProvider() {
+        return new LmlTagProvider() {
+            @Override
+            public LmlTag create(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+                return getCustomTag(parser, parentTag, rawTagData);
+            }
+        };
+    }
 
-	// customAttributeExample.lml - defining custom attribute:
-	private static LmlTagAttributeParser getCustomLabelAttributeParser() {
-		return new LmlTagAttributeParser() {
-			private final String[] attributeNames = new String[] { "onHover" };
+    // Creates a custom Label that blinks.
+    private static LmlTag getCustomTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+        return new AbstractActorLmlTag(parser, parentTag, rawTagData) {
+            @Override
+            protected LmlActorBuilder getNewInstanceOfBuilder() {
+                // Normally you don't have to override this method, but we want to support String constructor, so we
+                // supply one of default, extended builders:
+                return new TextLmlActorBuilder();
+            }
 
-			@Override
-			public String[] getAttributeNames() {
-				return attributeNames;
-			}
+            @Override
+            protected Actor getNewInstanceOfActor(final LmlActorBuilder builder) {
+                // Safe to cast builder. Always the same object type as returned by getNewInstanceOfBuilder:
+                final TextLmlActorBuilder textBuilder = (TextLmlActorBuilder) builder;
+                return new BlinkingLabel(textBuilder.getText(), getSkin(builder), builder.getStyleName());
+            }
 
-			@Override
-			public void apply(final Object actor, final LmlParser parser, final String attributeValue,
-					final LmlTagData lmlTagData) {
-				// This attribute takes two strings separated by ; and adds a listener to label that changes
-				// its text on hover according to passed values.
-				final Label label = (Label) actor;
-				final String[] values = attributeValue.split(";");
-				// LmlAttributes contain utilities for attribute parsing. For example, using parseString gives
-				// you i18n bundle (@ prefix), preference (#) and actions (&) support.
-				label.addListener(getListener(label, LmlAttributes.parseString(label, parser, values[0]),
-						LmlAttributes.parseString(label, parser, values[1])));
-			}
+            @Override
+            protected Class<?> getActorType() {
+                return BlinkingLabel.class;
+            }
 
-			private EventListener getListener(final Label label, final String onHover, final String onExit) {
-				return new ClickListener() {
-					@Override
-					public void enter(final InputEvent event, final float x, final float y,
-							final int pointer, final Actor fromActor) {
-						super.enter(event, x, y, pointer, fromActor);
-						label.setText(onHover);
-					}
+            @Override
+            protected void handlePlainTextLine(final String plainTextLine) {
+                final BlinkingLabel label = (BlinkingLabel) getActor();
+                // By using LmlParser#parseString, we add i18n, preferences and methods support.
+                label.setText(label.getText() + getParser().parseString(plainTextLine, label));
+            }
 
-					@Override
-					public void exit(final InputEvent event, final float x, final float y, final int pointer,
-							final Actor toActor) {
-						super.exit(event, x, y, pointer, toActor);
-						label.setText(onExit);
-					}
-				};
-			}
-		};
-	}
+            @Override
+            protected void handleValidChild(final LmlTag childTag) {
+                getParser().throwErrorIfStrict("Labels cannot have children. Even the blinking ones.");
+                // Appending children is pretty easy. If label was a Group, you could just replace the exception with:
+                // ((Group) getActor()).addActor(childTag.getActor());
+            }
+        };
+    }
 
-	// For reflection-based actions, see UiActions.
-	private static ActorConsumer<Void, TextButton> getOnButtonClickActorConsumer() {
-		// Action registered without reflection.
-		return new ActorConsumer<Void, TextButton>() {
-			@Override
-			public Void consume(final TextButton actor) {
-				if (actor.getUserObject() == null || !(actor.getUserObject() instanceof Integer)) {
-					actor.setUserObject(0);
-				}
-				actor.setUserObject(((Integer) actor.getUserObject()).intValue() + 1);
-				actor.setText("I was clicked " + actor.getUserObject() + " times.");
-				return null;
-			}
-		};
-	}
+    // Allows to set blinking time of blinking labels - our custom widget. This attribute will be available only for
+    // widgets that extend BlinkingLabel class.
+    private static LmlAttribute<BlinkingLabel> getCustomBlinkingLabelAttribute() {
+        return new LmlAttribute<BlinkingLabel>() {
+            @Override
+            public Class<BlinkingLabel> getHandledType() {
+                return BlinkingLabel.class;
+            }
 
-	public Skin getSkin() {
-		return skin;
-	}
+            @Override
+            public void process(final LmlParser parser, final LmlTag tag, final BlinkingLabel actor,
+                    final String rawAttributeData) {
+                actor.setBlinkingTime(parser.parseFloat(rawAttributeData, actor));
+            }
+        };
+    }
 
-	public Stage getStage() {
-		return stage;
-	}
+    /** Utility method for quick parser reference. Do NOT do this at home, global variables are very ugly.
+     *
+     * @return current LML parser. */
+    public static LmlParser getParser() {
+        // Normally, we would pass the parser in constructor argument of MainView - or inject it - but I wanted to keep
+        // the class as simple as possible, so it could be constructed with reflection and don't contain much
+        // boilerplate code, unnecessary fields, etc.
+        return parser;
+    }
 
-	public LmlParser getParser() {
-		return parser;
-	}
+    @Override
+    protected void render(final float deltaTime) {
+        // This is a utility method from AbstractLmlView that updates and draws the stage:
+        view.render(deltaTime);
+    }
 
-	public Table getPlayground() {
-		return playground;
-	}
+    @Override
+    public void resize(final int width, final int height) {
+        view.resize(width, height, true); // Resizes stage (width, height) and centers camera ("true" argument).
+    }
 
-	public TextArea getTemplateInput() {
-		return templateInput;
-	}
-
-	public Label getErrorMessage() {
-		return errorMessage;
-	}
-
-	public void setErrorMessage(final Label errorMessage) {
-		this.errorMessage = errorMessage;
-	}
+    @Override
+    public void dispose() {
+        Disposables.disposeOf(view); // Null-safe disposing utility from gdx-kiwi.
+    }
 }

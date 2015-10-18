@@ -3,4 +3,5 @@
 <module>
 	<source path="com/github/czyzby/tests" />
 	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.tests.reflected" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.lml.parser.impl.AbstractLmlView" />
 </module>

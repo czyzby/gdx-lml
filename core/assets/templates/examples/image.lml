@@ -1,0 +1,12 @@
+<!-- Images can display any drawable
+    from the skin you choose. -->
+
+<image style="default-round-large"/>
+
+<!-- Images cannot be parents, as they
+    have no way of appending children. -->
+
+<container width=128 height=128>
+    <image skin="default" style="default-rect"
+        scaling="fill" />
+</container>

@@ -1,0 +1,15 @@
+<!-- Select boxes are drop-down menus
+    that allow to choose a single value.
+    Similarly to lists, they extract
+    text from their children and convert
+    them into menu items. -->
+    
+<selectBox selected=2>
+    Value.
+    <label>Accepts labels.</label>
+    I should be selected first.
+    <textButton>Extracts buttons' text.</textButton>
+</selectBox>
+
+<!-- Since they consist of a scroll pane and
+    list, they accept their attributes. -->
