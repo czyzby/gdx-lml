@@ -83,8 +83,8 @@ public class Nullables {
         return true;
     }
 
-    /** @return nullable object converted to string. If parameter is null, "null" is returned. As long as toString is
-     *         properly implemented in the object, this method never returns null. */
+    /** @return nullable object converted to string. If parameter is null, "null" string is returned. As long as
+     *         toString is properly implemented in the object, this method never returns null. */
     public static String toString(final Object nullable) {
         return nullable == null ? DEFAULT_NULL_STRING : nullable.toString();
     }
@@ -92,5 +92,11 @@ public class Nullables {
     /** @return nullable object converted to string. If first parameter is null, onNull parameter is returned. */
     public static String toString(final Object nullable, final String onNull) {
         return nullable == null ? onNull : nullable.toString();
+    }
+
+    /** @param nullable might be null.
+     * @return nullable object converted to string. If nullable was null, null is returned. */
+    public static String toNullableString(final Object nullable) {
+        return toString(nullable, null);
     }
 }

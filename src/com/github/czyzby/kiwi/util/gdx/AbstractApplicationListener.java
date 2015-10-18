@@ -3,8 +3,9 @@ package com.github.czyzby.kiwi.util.gdx;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 
-/** Works similarly to ApplicationAdapter, except it clears the screen with black color on render and calls abstract
- * render(float deltaTime) method that you have to override.
+/** Works similarly to {@link com.badlogic.gdx.ApplicationAdapter}, except it clears the screen with black color on
+ * render and calls abstract {@link #render(float)} method that you have to override. Except for {@link #render()}, all
+ * implemented {@link ApplicationListener} methods are empty and non-final.
  *
  * @author MJ */
 public abstract class AbstractApplicationListener implements ApplicationListener {
@@ -22,7 +23,7 @@ public abstract class AbstractApplicationListener implements ApplicationListener
         render(Gdx.graphics.getDeltaTime());
     }
 
-    /** Called after clearing the screen by default render() implementation with Gdx.graphics.getDeltaTime() as
+    /** Called after clearing the screen by default {@link #render()} implementation with Gdx.graphics.getDeltaTime() as
      * parameter.
      *
      * @param deltaTime time passed since the last render call. */

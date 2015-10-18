@@ -7,7 +7,9 @@ import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
 /** Wraps around an object, allowing to have a final reference to a lazy-initialized object. Adds a very small overhead,
  * without the usual boilerplate that lazy objects require. Should be used for objects that are expensive to create and
  * rarely (or - at least - not always) needed to ensure that they are created only when necessary. Concurrent use might
- * result in multiple provider method calls.
+ * result in multiple provider method calls if a non-concurrent lazy variant is used. Note that this wrapper should not
+ * be used for nullable objects - if the wrapped object is null, lazy considers that it was not initiated yet, so make
+ * sure that your providers never return null.
  *
  * @author MJ */
 public class Lazy<Type> {
@@ -51,13 +53,26 @@ public class Lazy<Type> {
         return new ConcurrentDisposableLazy<Type>(provider);
     }
 
-    /** @return wrapped object instance. Is never null, as long as the provider is properly created. */
+    /** @return lazy-initiated object instance. Is never null, as long as the provider is properly created. */
     public final Type get() {
         if (object == null) {
             object = getObjectInstance();
             provider = null;
         }
         return object;
+    }
+
+    /** @return lazy-initiated object instance or null if not initiated. Will never invoke lazy object creation: this
+     *         method avoids the null check and returns the current reference to the wrapped object as-is. */
+    public final Type getIfCreated() {
+        return object;
+    }
+
+    /** @param alternative will be returned if object is not initiated.
+     * @return lazy-initiated object instance if it was already created or the passed alternative. Will never invoke
+     *         lazy object initiation. */
+    public final Type getOrElse(final Type alternative) {
+        return object == null ? alternative : object;
     }
 
     /** Allows to manually set the object, not relying on a provider. Use with care - throws IllegalStateException if

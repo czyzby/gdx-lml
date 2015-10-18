@@ -19,7 +19,8 @@ public class InterfaceSkin {
         return INTERFACE_STYLE;
     }
 
-    /** @param interfaceStyle will become application's main interface style. Can be accessed with get() method. */
+    /** @param interfaceStyle will become application's main interface style. Can be accessed with {@link #get()}
+     *            method. */
     public static void set(final Skin interfaceStyle) {
         INTERFACE_STYLE = interfaceStyle;
     }

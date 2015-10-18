@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.ObjectSet;
 import com.github.czyzby.kiwi.util.gdx.collection.disposable.DisposableObjectSet;
 import com.github.czyzby.kiwi.util.gdx.collection.immutable.ImmutableObjectSet;
 
-/** Simple ObjectSet utilities, somewhat inspired by Guava.
+/** Common {@link ObjectSet} utilities, somewhat inspired by Guava.
  *
  * @author MJ */
 public class GdxSets {
@@ -149,11 +149,15 @@ public class GdxSets {
         }
     }
 
-    /** Static utility for those that prefer methods over public variables.
+    /** Static utility for accessing {@link ObjectSet#size} variable (which is kind of ugly, since it allows to easily
+     * modify and damage internal collection data). Performs null check.
      *
-     * @param set its size will be checked.
-     * @return current size of the passed set. */
+     * @param set its size will be checked. Can be null.
+     * @return current size of the passed set. 0 is set is empty or null. */
     public static int sizeOf(final ObjectSet<?> set) {
+        if (set == null) {
+            return 0;
+        }
         return set.size;
     }
 }

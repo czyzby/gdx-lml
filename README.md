@@ -90,6 +90,7 @@ Similarly to Lazy utility containers, lazy collections create objects as soon as
 - **Alignment**: wraps around Align class to provide human-(instantly-)readable alignment checking methods.
 - **Padding**: utility container for paddings and spacings. Makes it easier to keep static padding settings, without having to create multiple variables.
 - **InterfaceSkin**: utility container that provides static access to UI skin.
+- **Tooltips**: simple utilities for the new LibGDX official tooltips.
 
 #### Ranges
 When you cannot or don't want to use actions or tweening utilities.
@@ -99,7 +100,7 @@ When you cannot or don't want to use actions or tweening utilities.
 ##Dependency
 Core project Gradle dependency:
 ```
-    compile "com.github.czyzby:gdx-kiwi:0.8.$gdxVersion"
+    compile "com.github.czyzby:gdx-kiwi:1.0.$gdxVersion"
 ```
 Currently supported LibGDX version is **1.7.0**.
 

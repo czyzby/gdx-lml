@@ -3,6 +3,7 @@ package com.github.czyzby.kiwi.util.gdx.collection;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.PooledLinkedList;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.badlogic.gdx.utils.SortedIntList;
@@ -11,7 +12,7 @@ import com.github.czyzby.kiwi.util.gdx.collection.disposable.DisposableArray;
 import com.github.czyzby.kiwi.util.gdx.collection.immutable.ImmutableArray;
 import com.github.czyzby.kiwi.util.gdx.collection.lazy.LazyArray;
 
-/** Simple Array utilities, somewhat inspired by Guava.
+/** Common {@link Array} utilities, somewhat inspired by Guava.
  *
  * @author MJ */
 public class GdxArrays {
@@ -21,6 +22,12 @@ public class GdxArrays {
     /** @return a new, empty Array. */
     public static <Type> Array<Type> newArray() {
         return new Array<Type>();
+    }
+
+    /** @param initialCapacity initial capacity of the array. Will be resized if needed.
+     * @return a new, empty Array. */
+    public static <Type> Array<Type> newArray(final int initialCapacity) {
+        return new Array<Type>(initialCapacity);
     }
 
     /** @return a new, empty typed Array. */
@@ -222,6 +229,29 @@ public class GdxArrays {
         return array.removeIndex(array.size - 1);
     }
 
+    /** @param array can be null.
+     * @return last stored value in the array if it is not empty or null. */
+    public static <Type> Type getLast(final Array<? extends Type> array) {
+        if (isEmpty(array)) {
+            return null;
+        }
+        return array.get(array.size - 1);
+    }
+
+    /** @param intArray can be null.
+     * @return last stored int in the array if it is not empty or 0. */
+    public static int getLast(final IntArray intArray) {
+        if (isEmpty(intArray)) {
+            return 0;
+        }
+        return intArray.get(intArray.size - 1);
+    }
+
+    /** @return true if the passed array is empty. */
+    public static boolean isEmpty(final IntArray intArray) {
+        return intArray == null || intArray.size == 0;
+    }
+
     /** @return a new array with values from all passed arrays. Duplicates are added multiple times. */
     public static <Type> Array<Type> union(final Array<Type>... arrays) {
         return unionTo(new Array<Type>(), arrays);
@@ -261,11 +291,15 @@ public class GdxArrays {
         }
     }
 
-    /** Static utility for those that prefer methods over public variables.
+    /** Static utility for accessing {@link Array#size} variable (which is kind of ugly, since it allows to easily
+     * modify and damage internal collection data). Performs null check.
      *
-     * @param array its size will be checked.
-     * @return current size of the passed array. */
+     * @param array its size will be checked. Can be null.
+     * @return current size of the passed array. 0 if array is empty or null. */
     public static int sizeOf(final Array<?> array) {
+        if (array == null) {
+            return 0;
+        }
         return array.size;
     }
 }

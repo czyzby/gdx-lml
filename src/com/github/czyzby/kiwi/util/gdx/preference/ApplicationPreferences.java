@@ -45,11 +45,10 @@ public class ApplicationPreferences {
         }
         if (PREFERENCES.containsKey(preferencePath)) {
             return PREFERENCES.get(preferencePath);
-        } else {
-            final Preferences preferences = Gdx.app.getPreferences(preferencePath);
-            PREFERENCES.put(preferencePath, preferences);
-            return preferences;
         }
+        final Preferences preferences = Gdx.app.getPreferences(preferencePath);
+        PREFERENCES.put(preferencePath, preferences);
+        return preferences;
     }
 
     /** @return preferences with the selected path. Will be cached in map - the next access returns the same object. */

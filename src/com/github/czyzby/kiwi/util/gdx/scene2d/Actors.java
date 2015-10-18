@@ -10,6 +10,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
  *
  * @author MJ */
 public class Actors {
+    /** Name of default style, commonly used by widgets constructed with Skin, but without a specified style name. */
+    public static final String DEFAULT_STYLE = "default";
+    /** Name of default vertical style, commonly used by widgets that have separate horizontal and vertical styles,
+     * constructed with Skin, but without a specified style name. */
+    public static final String DEFAULT_VERTICAL_STYLE = "default-vertical";
+    /** Name of default horizontal style, commonly used by widgets that have separate horizontal and vertical styles,
+     * constructed with Skin, but without a specified style name. */
+    public static final String DEFAULT_HORIZONTAL_STYLE = "default-horizontal";
+
     private Actors() {
     }
 

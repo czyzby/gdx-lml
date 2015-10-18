@@ -161,4 +161,17 @@ public class Reflection {
         field.setAccessible(true);
         field.set(fieldOwner, fieldValue);
     }
+
+    /** @param classToCheck its superclass tree will be checked.
+     * @param baseClass class to look for.
+     * @return true if classToCheck or any of its superclasses is baseClass. */
+    public static boolean isExtending(Class<?> classToCheck, final Class<?> baseClass) {
+        while (classToCheck != null) {
+            if (classToCheck.equals(baseClass)) {
+                return true;
+            }
+            classToCheck = classToCheck.getSuperclass();
+        }
+        return false;
+    }
 }
