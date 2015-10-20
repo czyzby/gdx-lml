@@ -4,24 +4,8 @@
 	<source path="" />
 	<inherits name="com.github.czyzby.kiwi.GdxKiwi" />
 	
-	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.context.ContextContainer" />
-
-	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.context.processor.AbstractComponentAnnotationProcessor" />
-	
-	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.context.processor.method.ComponentMethodAnnotationProcessor" />
-	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.context.processor.method.MessageProcessor" />
-	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.context.processor.method.EventProcessor" />
-	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.context.processor.method.InitiateAnnotationProcessor" />
-	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.context.processor.method.DestroyAnnotationProcessor" />
-
-	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.context.processor.field.ComponentFieldAnnotationProcessor" />
-	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.context.processor.field.InjectAnnotationProcessor" />
-	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.context.processor.field.DisposeAnnotationProcessor" />
-
-	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.context.processor.meta.ComponentMetaAnnotationProcessor" />
-	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.context.processor.meta.MetaAnnotationProcessor" />
-
-	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.context.processor.type.ComponentTypeAnnotationProcessor" />
-	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.context.processor.type.ConfigurationAnnotationProcessor" />
-	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.context.processor.type.ContextComponentAnnotationProcessor" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.processor.AbstractAnnotationProcessor" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.processor.event.MessageDispatcher" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.processor.event.EventDispatcher" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.processor.impl" />
 </module>

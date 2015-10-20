@@ -1,105 +1,92 @@
 #LibGDX Autumn
-Dependency injection mechanism for LibGDX applications.
+Dependency injection mechanism with component scan for LibGDX applications.
 
-Actually, this library is the core of Autumn MVC for those who want to use the functionality without the overhead of additional components and forced application structure.
+Actually, this library is the core of Autumn MVC, extracted as a separate library for those who want to use the functionality without the overhead of additional components and forced application structure.
 
 ##Basics
 Get used to annotations. So-called stereotype annotations on classes allow the context manager to find your application components among other classes and store them in the context, so they can be used (and injected) later. Method annotations can cause the selected methods to be invoked under met conditions with parameters taken directly from the context. Field annotations are used to inject objects from context or invoke specific actions (like automatic destruction of disposable objects).
 
 Everything comes down to a few annotations and classes that might make your life much easier as soon as you get used to the structure.
 
-###Stereotypes
+### Getting started
 
-- **@Component**: basic component annotation. The stereotype you'll probably use vary often. Components are scanned for, constructed (see field and method annotations) and managed by the context. Components *have to* have a public, no-argument constructor and cannot be abstract or interfaces in order to work on all platforms.
-  * *lazy* - if component is lazy, it will be initiated on the first request (field injection, requested method parameter, manual retrieval from context) rather than on context initiation. Defaults to false.
-  * *keepInContext* - if false, component will be destroyed right after initiation. Useful for setting components. Such components cannot be extracted from the context and should not be injected. Default to true.
+Autumn's main goal is to let you quickly set up your application. It does that by creating a "context" in which every of your registered classes is a "component". To create a new context, you need an instance of `ContextInitializer` (you can get that with convenience factory methods: `Context.builder()` or `ContextInitializer.newContext`). After getting an initializer, you should:
 
-- **@Configuration**: a specialized Component which is not kept in context. Should be used for settings, configurations etc.
-
-- **@MetaComponent**: should be used to annotate custom processors. Meta components are scanned for before regular components, allowing to register custom stereotypes that will be scanned for like any others. Note that processors can be injected and retrieved like any other component, but they are not processed like other components; their initiation, destruction and event listening methods are not called and injection is limited, as they are processed before other classes. Every meta component has to implement one of these classes:
-  * *ComponentMetaAnnotationProcessor* - processes other meta components. Such processors generally should be registered before the proper, full scanning to ensure that all custom meta components are scanned. Mostly for internal use, custom meta components - hopefully - will not be needed.
-  * *ComponentTypeAnnotationProcessor* - processes classes (components). Allows to register custom stereotypes. Note that multiple processors for the same annotation type are allowed and generally only one should tell the context to prepare a component instance. Of a component is annotated with multiple annotations that are processed and register new components in the context, it might lead to multiple component initiations - be careful.
-  * *ComponentFieldAnnotationProcessor* - processes fields in components that are being initiated. 
-  * *ComponentMethodAnnotationProcessor* - processes methods in components that are being initiated. Methods are processed after fields.
-
-###Field annotations
-
-- **@Inject**: again, this is one of the annotations you'll use the most. Allows to inject a component from the context to the variable upon object initiation. Injected fields can - and should - be private (or even final, equal to null; although it isn't advised since I'm not sure if it will always work on GWT or other platforms). Circular references (A injects B, B injects A) are allowed.
-  * *value* - class of the injected component. Context components are generally mapped by their whole class tree (every extended class), so this setting will be - hopefully - rarely used. It allows to resolve conflicts when you want or need the field's type to be a interface or abstract class that have multiple component implementations and the context doesn't know which one to inject. 
-  * *lazy* - class of the component that should be injected wrapped in a Lazy container (see [Kiwi library](http://github.com/czyzby/gdx-kiwi) for Lazy docs). Allows to keep lazy components truly lazy, by injecting a wrapper that will ask the context to fully initiate the injected component on first use (first get() call). Otherwise, lazy components would be injected and initiated at once, losing their status.
-  * *concurrentLazy* - if set to true and a *lazy* class is chosen, ConcurrentLazy will be injected instead of Lazy wrapper.
-  * *newInstance* - OK, be careful with this one. It does not extract the component from the context, but instead it will ask the context to fully initiate an instance of the chosen component without actually mapping it in the context. The injected instance will be unique to the variable (unless passed to another object, of course). Note that while the instance is not mapped in context - so it cannot be extracted or injected in another component - it is still managed (as in initiated and destroyed) by the context, so this hopefully does not lead to memory leaks. This allows to have multiple instances of the same class injected to multiple components, without sharing resources. *lazy* setting is honored - *lazy* with  *newInstance* set to true will create an instance of the object with the context on the first get() call.
-
-- **@Dispose**: a simple utility annotation that will dispose of the chosen disposable variable when the component is destroyed. Note that this also works on Lazy wrappers and Iterables (LibGDX Arrays or ObjectSets) that hold disposable variables. Does not work (yet?) with regular Java arrays, but these are usually awkward to store assets anyway, so they are not a priority.
-
-###Methods annotations
-
-- **@Initiate**: invoked after components' fields are fully processed. Methods with this annotation can accept any number of components (lazy or not) which will be taken from the context.
-  * *priority* - number; allows to "sort" initiation method invocations. Priority is honored not only among methods in one component, but by *all* invocations in all components (that are initiated right now - not requested lazies will not be initiated on start-up) - this allows to truly manage the order of component initiations.
-
-- **@Destroy**: similarly to **@Initiate**, this annotation allows to destroy selected components. Destroying methods are invoked when the context is being disposed or when a component is requested to be destroyed by the context. These methods can also have any of the components injected as parameters, but keep in mind that some of the components might be already destroyed. 
-  * *priority* - order is honored among all currently destroyed objects.
-
-- **@OnEvent**: basically, this annotation turns a method into an event listener. To post an event, get EventProcessor from context (can be injected like any other component) and use postEvent method - after the event is posted, every method that listens to the selected event type will be invoked. Method arguments can consist of context components (will be extracted from context, can be lazy) and event object - in any combinations. If the event class has a registered component in the context with the same type, posted event object takes priority as a method argument, even if multiple arguments of the event class are requested (the same object will be injected multiple times). Since an event can be basically any type of object, this allows to pass complex data to the listener methods as events' fields.
-  * *value* - class of the listened event. Required.
-  * *removeAfterInvocation* - if set to true, event listener will be removed after first invocation.
-  * *forceMainThread* - if set to true, invocation will be posted on the main application thread using Gdx.app.postRunnable. Be careful with this one, as it might lead to weird concurrency bugs, especially if you need to remove the listener after invocation, but multiple events can occur almost instantly.
-  * *strict* - if false, exceptions are expected and will be ignored. Defaults to true.
-
-- **@OnMessage**: simplified event listener. Instead of event classes, selected methods will listen to a specific string message, that - once posted - will invoke the method with parameters extracted from context. This might be preferred for simple listeners that process much more events that do not have additional data to be invoked. To post a message, get MessageProcessor from context (can be injected) and use postMessage method.
-  * *value* - class of the listened event. Required.
-  * *removeAfterInvocation* - if set to true, event listener will be removed after first invocation.
-  * *forceMainThread* - if set to true, invocation will be posted on the main application thread using Gdx.app.postRunnable. Be careful with this one, as it might lead to weird concurrency bugs, especially if you need to remove the listener after invocation, but multiple events can occur almost instantly.
-  * *strict* - if false, exceptions are expected and will be ignored. Defaults to true.
-
-##Context
-**ContextContainer** is the class responsible for context management. It invokes component scanning (thanks to different ClassScanner implementations), uses annotations processors, and prepares, initiates, manages and destroys components. ContextContainer is itself a component, so it can be injected or passed in a annotated method. The most common methods you might need to use:
-
-- *ContextContainer()* - creates a context object with default processors registered.
-- *ContextContainer(Class, ClassScanner)* - creates a context object with default processors registered. Scans for components starting with the passed class package, using the passed scanner.
-- *registerComponents(Class, ClassScanner)* - manual invocation of what the constructor above does internally. Allows to scan for multiple components in multiple packages with different scanners.
-- *getFromContext(Class)* - retrieves component for the given class. Wakes up lazy components. If there are no or multiple components registered for the same class (for example - they share an interface), an exception will be thrown.
-- *getMultipleFromContext(Class)* - returns all components for the given class. Might return an empty array.
-- *removeFromContext(Class)* - extracts a single component for the given class, destroys it and removes from context. Throws exceptions if there are no or multiple components of the passed class.
-- *removeMultipleFromContext(Class)* - extracts all components that share this class, destroys them and removes from context.
-- *dispose()* - destroys all managed components, clears collections. ContextContainer should not be used after destruction.
+- Register your components (`addComponent`, `addComponents`). Autumn aims to remove context meta-data after initiation, which means that no references are kept to uninjected components and they are hopefully garbage-collected. This basically means that if you don't provide your own components that you want to keep, the context will be constructed and... immediately destroyed. Don't worry though - usually you need only one component (which will inject others, preserving their references) and all you need to do is invoke its constructor; its annotated fields and methods will still be processed.
+- Register your custom annotation processors (`addProcessor`, `addProcessors`) and custom annotations to scan for (`scanFor`). Processors are actually scanned for and initiated by the context, but you can also register them manually. You can skip this step if you don't need any extra annotation processed.
+- Add scanners (`scan`). Provide a scanning root (package to be scanned) and a platform-specific scanner.
+- Set up specific properties, if you need to (`createMissingDependencies`, `maxInitiationIterationsAmount`, `clearProcessors`).
+- Initiate context (`initiate`). Now your added packages will be scanned for annotated classes, instances of these classes will be created using reflection (with constructor dependency injection) and their fields and methods will be processed. `ContextDestroyer` instance will be returned - it is a `Disposable` object that invokes destruction methods, if you registered any.
 
 ###Scanners
 As you might guess, they are used to scan for annotated classes. Each platform requires a custom scanner, unfortunately. Available implementations:
 
 - **FixedClassScanner** - well, it *can* be used on any platform, but you have to manually select the classes it has access to, so it basically removes the concept of true component scan.
-- **DesktopClassScanner** - scans binary classes (run from IDE) or jars in the class loader base location (run from a jar). Should be enough for both testing and most regular desktop applications.
-- **GwtClassScanner** - scans through all classes registered for LibGDX reflection.
+- **FallbackDesktopClassScanner** - scans binary classes (run from IDE) or jars in the class loader base location (run from a jar). No external dependencies, but it relies on reflection and class loading to scan packages. Use when necessary.
+- **DesktopClassScanner** - uses `fast-classpath-scanner` library for non-reflection-based, efficient component scanning. Does not load tested classes. Works only on desktop. Available in `gdx-autumn-fcs` library.
+- **GwtClassScanner** - scans through all classes registered for GWT LibGDX reflection pool. Available in `gdx-autumn-gwt` library.
 
-Unfortunately, class scanners for Android and iOS are not implemented yet. I didn't have much time to do it yet (nor do I normally target these platforms); I will most likely look into it before releasing the next version, but for now - any help is appreciated. Use *FixedClassScanner*, sorry.
+Unfortunately, class scanners for Android and iOS are not implemented yet. I didn't have much time to do it yet (nor do I normally target these platforms); I do have an untested Android component scanner implementation, if anyone is interested. But, for now, use *FixedClassScanner*. Sorry.
+
+### Annotations
+
+By default, Autumn supports:
+
+- `@Component`: default annotation that marks the class to be scanned for.
+- `@Processor`: marks the class as annotation processor. Processors are initiated before other components and they are used to process annotated classes, fields and methods.
+- `@Provider`: turns the class into an object provider. If a requested dependency class is not a component in the context, providers can be used to get its instance - not necessarily using reflection. Like processors, providers are initiated before the rest of components, as they are often used to resolve dependencies.
+- `@Inject`: allows to inject field values. If field type matches a superclass of a component (and there is only ONE component mapped to this type - otherwise context doesn't know which one to inject), it will set field's value with the component instance. Otherwise it uses a provider for this type or creates a new instance of the object using no-arg constructor.
+- `@Initiate`, `@Destroy`: annotate methods. After components' fields are processed, `@Initiate`-annotated methods are invoked to finish component initiation. `@Destroy` methods are invoked by `ContextDestroyer#dispose()`. Both of these annotation contain a `priority` field which is honored among all components, allowing you to fully control the flow of initiation. These methods have their arguments injected from context (components, providers, new no-arg instances).
+- `@Dispose`: marks that the field or Disposable-implementing type should be disposed on `ContextDestroyer#dispose()`.
+- `@OnEvent`: turns the type or method into a listener of events of selected type. Each time the selected event object is posted on `EventDispatcher` (injectable component), the method is invoked with parameters injected from context. If event is one of the parameters, it will be also injected, effectively allowing to pass messages between components using this mechanism. Does not necessarily depend on reflection: if the annotated type implements `EventListener`, it will be invoked like any other POJO. `@OnEvent`-annotated classes are regular components that will be fully initiated, with their fields and methods processed.
+- `@OnMessage`: simplified event listener. Instead of a event class, these methods and types are listening to a specifing string message which can be posted on `MessageDispatcher`. Since they cannot pass actual messages between components, these are usually used to notify about some kind of typical event that have occurred (like "the assets are loaded" or "we've connected with the server). Again, these do not have to rely on reflection.
+
+See annotations' docs for more informations.
 
 ##Downsides
-Autumn makes heavy use of reflection. While it doesn't rely on direct calls to class names that might get refactored, and while most of reflection-based invocations are made on start-up, Autumn application can be still somewhat slower than a regular one. (Not noticeably, I hope.) You can speed up the context building by giving the ContextContainer direct access to all Component-annotated classes, but you do have to sacrifice class path component scanning for that; it's much more sensible to keep all reflected classes in one package tree to limit the search.
+Autumn makes heavy use of reflection. While it doesn't rely on direct calls to class names that might get refactored, and while most of reflection-based invocations are made on start-up, Autumn application can be still somewhat slower than regular ones. (Not noticeably, I hope.) It's sensible to keep all reflected and annotated classes in one package tree to limit the initial scan for components.
 
 ##Dependency
 Gradle dependency:
 
 ```
-    compile "com.github.czyzby:gdx-autumn:0.8.$gdxVersion"
+    compile "com.github.czyzby:gdx-autumn:1.1.$gdxVersion"
 ```
 Currently supported LibGDX version is **1.7.0**.
 
 To include Autumn in GWT, see [Autumn GWT](http://github.com/czyzby/gdx-autumn-gwt).
+For efficient class scanning on desktop, see [Autumn FCS](http://github.com/czyzby/gdx-autumn-fcs).
 
 ##What's new
-0.6 -> 0.8
 
-- Just a version update to match the other libs. Sorry.
+0 -> 1:
 
-0.5 -> 0.6:
+Autumn was rewritten from scratch, so many annotations changed their original methods and packages. Spring-inspired context, available through the whole life of application, turned out to be an overkill for games. After working on a few projects with Autumn MVC, I have never had the need to actually access context object and create any objects at runtime: usually initial dependency injection and component creation was more than enough. Not to mention that context meta-data was a lot of extra overhead for something as simple as initiating an application.
 
-- Since LibGDX introduced method annotations in reflection API, custom reflection wrappers (and separate GWT reflection pool, on which I spent quite some time) are no longer needed. Whole reflection API was removed and "native" LibGDX solutions are now used. Sorry for breaking your code - before LibGDX reflection expansion most of Autumn wouldn't be possible to implement without custom reflection.
-- Components are no longer mapped by their interfaces as LibGDX reflection API does not provide method that returns implemented interfaces of a class. You can still inject components by their abstract classes (as long as there is only one concrete implementation of the abstract in the context).
-- Now only absolutely necessary classes are registered for GWT reflection - less meta-data in JS.
+Autumn 1 has a different approach to context: you can keep context meta-data if you want to access certain classes by their type or initiate objects at runtime, but it is cleared after initiation by default. This is basically how Autumn 1 works:
 
-0.4 -> 0.5:
+- Scanning for meta-components.
+- Creating meta-components: annotation processors and dependency providers. Resolving constructor dependencies (unless circular, of course). Processing their fields and methods with existing processors (they can even process... themselves).
+- Scanning for regular components. After this, usually scanners are cleared.
+- Creating regular components. Resolving constructor dependencies.
+- Processing types annotations. Registering `@OnEvent` and `@OnMessage` listeners.
+- Processing fields. This is where main dependency injection happens thanks to `@Inject`. Scheduling disposal of `@Dispose`-annotated fields.
+- Processing methods. Registering `@OnEvent` and `@OnMessage` method listeners. Invoking `@Initiate` methods and scheduling `@Destroy` methods.
+- By default: clearing processors and context. Context is now unusable, initializer cannot process any other components. All unnecessary, initiation-only components are garbage collected - same goes for context meta-data overhead. Only injected dependencies with references from objects that you kept are truly available.
 
-- `OnEvent`- and `OnMessage`-annotated method can now decide whether their listeners should be kept or removed after method invocation at runtime by returning a boolean. *true* stands for removing after invocation, *false* - keeps the listeners for the next upcoming events/messages (just like in the annotation parameter: `removeAfterInvocation`). These values can be accessed statically for code clarity - see `EventProcessor` and `MessageProcessor` static fields.
-- Partial injection is implemented for `@MetaComponent`s - as they are usually used only internally, this should be enough. Basically, regular injection is processed after all components are initiated, so there is no possibility of a scanned component to be unavailable for injection - meta components are processed before all others (to allow scanning for new, just registered component types) and they can inject only instances of classes that were already processed... which usually means only other metas. You can, however, inject lazy fields without a problem, as long as you don't call them before they are actually registered in the context. New instance injection is not possible. Meta components' lazy injections, for various reasons, do not trigger full object initiations, so lazy injection of lazy components to metas might be dangerous.
-- Fixed GWT dependency bug, now correct modules are inherited.
-- Fixed field and method annotations processing, now it should be a little faster and never throw weird LibGDX ObjectMap's errors (happened while registering a lot of custom processors while processing components with nested injections... the strange thing is - it was thrown only like 20% of time and never in debug. I think there might be something wrong with ObjectMap iterators, but oh-well). Now wrapped reflected fields and methods provide a getter for an array containing all present annotations.
+This allows you to quickly initiate your application thanks to automatic component scanning and dependency injection through reflection, but as soon as the thing is ready, all extra data is cleared and the whole thing runs as plain-old-Java (unless you WANT to use reflection, of course). There is support for keeping the context running after initiation, but for most applications this isn't required or desired.
+
+Changes:
+
+- Package refactor. Annotations were moved, old processors got removed or refactored.
+- Added support for constructor dependencies. Unless dependencies are circular, you can use a single public constructor with any arguments that will be provided by the context.
+- `@Dispose` annotation can now be used on classes as well as on fields. Annotated classes have to implement `Disposable` interface.
+- `@OnEvent` and `@OnMessage` can now annotate classes as well as fields. Classes have to implement `EventListener` or `MessageListener` interfaces. `@OnEvent`- and `@OnMessage`-annotated classes are treated as components and fully initiated. Actually, since these listeners do not rely on reflection at runtime and can benefit from dependency injection as well as any other components, this is the advised way to register event and message listeners. At least those that are used very often.
+- `@Component` annotation got simplified. There are no lazy components (since context is destroyed after initiation) and removal after initiation option got removed, as this is the default behavior anyway: if you don't keep the reference to the component during initiation, it gets garbage-collected, just like `@Component(keepInContext=false)` did before.
+- `MessageProcessor` and `EventProcessor` got renamed to `MessageDispatcher` and `EventDispatcher`.
+- Previous `DesktopClassScanner` was renamed to `FallbackDesktopClassScanner`. Now default class scanner is in `gdx-autumn-fcs` library and is much faster than the fallback implementation (since it does not rely on reflection and does not load the scanned classes).
+- `AutumnRuntimeException` removed. Instead, `ContextInitiationException` is thrown if unable to initiate context due to common context errors; `GdxRuntimeException` is thrown if unable to invoke listeners, extract value from context, caught reflection exception or for generally unexpected errors.
+- `@Provider` added. Before, only components could be injected. Now, any type of requested object can be provided by customized providers. If `@Provider` annotates `DependencyProvider` implementation, it will use it without reflection to provide a certain type of objects. If `@Provider` annotates another object, ALL its non-void-returning methods will be turned into providers, with their arguments supplied from the context. Providers are considered meta-components, are they are often used for dependencies of regular components, including their constructors. While they are normally processed (as in: their fields will be injected, methods invoked, etc.), they are initiated BEFORE other components. Do not inject dependencies to providers unless they are other meta-components or you are 100% sure that their instances will be available in the context (for example: you can provide them manually).
+- `ContextInitializer` is builder-like object with chainable methods that should be used to initiate context in Autumn 1. Context container is now `Context`, but it generally should be accessed only by annotation processors and only during context initiation. It is injectable, but by default, it will be cleared after just full context initiation.
+- Annotation processors refactored, as they were a mess. A much more powerful interface and abstract implementation are now provided: `AnnotationProcessor` and `AbstractAnnotationProcessor`. Scanning for annotated components now requires invoking `scanFor` in `ContextInitializer` instead of creating a new processor. If you do need to handle a new functionality, extend `AbstractAnnotationProcessor` and register it in the initializer or just annotate it as `@Processor` and let the initializer do the work.
+- `@MetaComponent` removed. Use `@Processor` and `@Provider` instead.

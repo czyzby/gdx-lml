@@ -2,18 +2,16 @@ package com.github.czyzby.autumn.scanner;
 
 import java.lang.annotation.Annotation;
 
-import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.ObjectSet;
+import com.badlogic.gdx.utils.Array;
 
-/** Used to scan classes to look for annotated types.
+/** Common interface for class scanners. Used to find classes annotated with a chosen set of annotations in selected
+ * package.
  *
  * @author MJ */
 public interface ClassScanner {
-    /** @param root class in the root package. This is were the scanning begins. This setting may or may not be ignored,
-     *            depending on the scanner implementation.
-     * @param annotations will find classes that have one of these annotations.
-     * @return all classes in the root package that have an annotation of the selected type mapped by scanned
-     *         annotations. */
-    public ObjectMap<Class<? extends Annotation>, ObjectSet<Class<?>>> findClassesAnnotatedWith(Class<?> root,
-            Iterable<Class<? extends Annotation>> annotations);
+    /** @param root class scanning root. Found classes have to share its package.
+     * @param annotations collection of annotations to look for. If the scanned class is annotated with one (or more) of
+     *            these annotations, it should be returned in the result array.
+     * @return all classes in root's package annotated with at least one of the selected annotations. */
+    Array<Class<?>> findClassesAnnotatedWith(Class<?> root, Iterable<Class<? extends Annotation>> annotations);
 }
