@@ -5,3 +5,7 @@ bin/
 .gradle/
 build/
 gradle.properties
+
+#Idea
+.idea/
+*.iml
