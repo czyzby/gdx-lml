@@ -2,15 +2,11 @@
 <@settings/>
 
 <window style="tan" defaultPad=2>
-	<tr><image colspan=2 style="title" padBottom=8/></tr>
-	<tr>
-		<textButton onClick="goto:game" style="brown" expandX=true fillX=true colspan=2>@play</textButton>
-	</tr>
-	<tr>
-		<textButton onClick="show:settings" style="brown" expandX=true fillX=true>@settings</textButton>
-		<textButton onClick="show:credits" style="brown" expandX=true fillX=true>@credits</textButton>
-	</tr>
-	<@if &isNotGwt>
-		<tr><textButton onClick="show:exit" style="brown" expandX=true fillX=true colspan=2>@exit</textButton></tr>
+	<image style="title" colspan=2 padBottom=8 row=true/>
+	<textButton onClick="goto:game" style="brown" growX=true colspan=2 row=true>@play</textButton>
+	<textButton onClick="show:settings" style="brown" growX=true>@settings</textButton>
+	<textButton onClick="show:credits" style="brown" growX=true row=true>@credits</textButton>
+	<@if $isNotGwt>
+		<textButton onClick="show:exit" style="brown" growX=true colspan=2>@exit</textButton>
 	</@if>
 </window>

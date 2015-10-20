@@ -13,11 +13,11 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    version = '0.8.1.7.0'
+    version = '1.1.1.7.0'
     ext {
         appName = 'gdx-autumn-mvc-tests'
         gdxVersion = '1.7.0'
-        autumnVersion = '0.8'
+        autumnVersion = '1.1'
         autumnSnapshot = ''
     }
 
@@ -36,6 +36,7 @@ project(":desktop") {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        compile "com.github.czyzby:gdx-autumn-fcs:$autumnVersion.$gdxVersion$autumnSnapshot"
     }
 }
 

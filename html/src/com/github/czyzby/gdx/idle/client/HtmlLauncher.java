@@ -9,13 +9,13 @@ import com.github.czyzby.gdx.idle.Config;
 
 public class HtmlLauncher extends GwtApplication {
 
-	@Override
-	public GwtApplicationConfiguration getConfig() {
-		return new GwtApplicationConfiguration(512, 512);
-	}
+    @Override
+    public GwtApplicationConfiguration getConfig() {
+        return new GwtApplicationConfiguration(512, 512);
+    }
 
-	@Override
-	public ApplicationListener getApplicationListener() {
-		return new AutumnApplication(new GwtClassScanner(), Config.class);
-	}
+    @Override
+    public ApplicationListener getApplicationListener() {
+        return new AutumnApplication(new GwtClassScanner(), Config.class);
+    }
 }

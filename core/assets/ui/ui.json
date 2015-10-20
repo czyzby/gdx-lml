@@ -71,8 +71,5 @@
 	},
 	com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 		default: { fontColorUnselected: black, selection: semi-alpha, fontColorSelected: tan, font: default }
-	},
-	com.github.czyzby.lml.gdx.widget.reflected.Tooltip$TooltipStyle: {
-		default: { background: white_inlay }
 	}
 }

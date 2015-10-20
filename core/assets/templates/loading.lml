@@ -4,8 +4,9 @@
 	<image style="title" padBottom=8/>
 	@loadingPrompt0
 	@loadingPrompt1
-	<progressBar id="loadingBar" onComplete="goto:menu" stepSize="0.001%" value=0 expandX=true fillX=true animateDuration=0.1 padTop=20/>
-	<div expandX=true fillX=true pad=16>
+	<progressBar id="loadingBar" onComplete="goto:menu" stepSize="0.001" value=0
+			growX=true animateDuration=0.1 padTop=20/>
+	<div growX=true pad=16>
 		@loadingMessageStart
 		<label id="progressLabel" style="brown">0</label>
 		@loadingMessageEnd

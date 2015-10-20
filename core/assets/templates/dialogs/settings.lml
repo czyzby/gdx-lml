@@ -1,8 +1,8 @@
 <dialog class="dialog-tan" title="@settingsTitle" titleAlign="center" oneColumn=true>
 	@musicVolume
-	<slider value="&getMusicVolume" onChange="setMusicVolume"/>
+	<slider value="$getMusicVolume" onChange="setMusicVolume"/>
 	@soundVolume
-	<slider value="&getSoundVolume" onChange="setSoundVolume"/>
-	<textButton onResult="restoreSettings" expandX=true fillX=true>@cancel</textButton>
-	<textButton onResult="saveSettings" expandX=true fillX=true>@save</textButton>
+	<slider value="$getSoundVolume" onChange="setSoundVolume"/>
+	<textButton onResult="restoreSettings" growX=true>@cancel</textButton>
+	<textButton onResult="saveSettings" growX=true fillX=true>@save</textButton>
 </dialog>

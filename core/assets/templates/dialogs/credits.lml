@@ -1,16 +1,15 @@
-<dialog class="dialog-grey" title="@creditsTitle" titleAlign="center" oneColumn=true>
-	<scrollPane style="white" expand=true fill=true width=400 height=200 padTop=20>
+<dialog class="dialog-grey" title="@creditsTitle" titleAlign="center">
+	<scrollPane style="white" grow=true width=400 height=200 padTop=20>
 		<table fillParent=true tablePad=15>
-			<@each prompt:creditsPrompt[0-7]>
-				<label colspan=2 style="small-tan">@${prompt}</label><row/>
+			<@each prompt=creditsPrompt[0,7]>
+				<label colspan=2 style="small-tan" row=true>@{prompt}</label>
 			</@each>
 			<empty pad=4 row=true/>
-			<@each role:role[0-10] author:author[0-10]>
-				<label uniformX=true style="small-tan" expandX=true align="right">@${role}</label>
-				<textButton uniformX=true onClick="${author}" style="small" expandX=true align="left">@${author}</textButton>
-				<row/>
+			<@each role=role[0,10] author=author[0,10]>
+				<label uniformX=true style="small-tan" expandX=true align="right" padRight=10>@{role}</label>
+				<textButton uniformX=true onClick="{author}" style="small" expandX=true align="left" row=true>@{author}</textButton>
 			</@each>
 		</table>
 	</scrollPane>
-	<textButton expandX=true fillX=true onResult="close">@ok</textButton>
+	<textButton growX=true onResult="close">@ok</textButton>
 </dialog>

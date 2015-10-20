@@ -1,7 +1,7 @@
 <dialog class="dialog-tan" title="@lossTitle" titleAlign="center" oneColumn=true>
 	@lossPrompt0
-	&getKilledMonstersAmount
+	<label style=brown>$getKilledMonstersAmount</label>
 	@lossPrompt1
-	<textButton onResult="goto:game" expandX=true fillX=true>@playAgain</textButton>
-	<textButton onResult="goto:menu" expandX=true fillX=true>@back</textButton>
+	<textButton onResult="goto:game" growX=true>@playAgain</textButton>
+	<textButton onResult="goto:menu" growX=true>@back</textButton>
 </dialog>

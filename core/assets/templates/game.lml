@@ -19,9 +19,9 @@
 		<label pad=2 style="small-brown" align="right">@monstersKilled</label>
 		<label id="monstersKilled" pad=2 style="small-red" align="left">0</label>
 	</div>
-	<div oneColumn=true row=true padBottom=32>
-		<@each prompt:@gamePrompt[0-2]>
-			<label style="small-tan">${prompt}</label>
+	<div row=true padBottom=32>
+		<@each prompt=@gamePrompt[0,2]>
+			<label style="small-tan" row=true>{prompt}</label>
 		</@each>
 	</div>
 	<textButton style="tan" onClick="goto:menu" expandX=true fillX=true uniformX=true>@back</textButton>
