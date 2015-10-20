@@ -1,0 +1,108 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+sourceSets.main.java.srcDirs = [ "src/" ]
+sourceCompatibility = 1.6
+
+ext {
+    libVersion = '1.1'
+    gdxVersion = '1.7.0'
+    isSnapshot = ''
+    fcsVersion = '1.9.7'
+}
+
+group = "com.github.czyzby"
+archivesBaseName = "gdx-autumn-fcs"
+version = "$libVersion.$gdxVersion$isSnapshot"
+
+configurations {
+    deployerJars
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+jar {
+    from project.sourceSets.main.allSource
+    from project.sourceSets.main.output
+    baseName = 'gdx-autumn-fcs'
+}
+
+javadoc {
+    options.addStringOption("sourcepath", "")
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+dependencies {
+    compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    compile "com.github.czyzby:gdx-autumn:$libVersion.$gdxVersion$isSnapshot"
+    compile "io.github.lukehutch:fast-classpath-scanner:$fcsVersion"
+    deployerJars "org.apache.maven.wagon:wagon-ssh:2.2"
+    deployerJars "org.apache.maven.wagon:wagon-http:2.2"
+}
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+        authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+        authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      pom.project {
+        name 'Gdx Autumn FCS'
+        packaging 'jar'
+        description 'Autumn component scanner for desktop using fast-classpath-scanner.'
+        url 'http://github.com/czyzby/gdx-autumn-fcs'
+
+        licenses {
+          license {
+            name 'The Apache License, Version 2.0'
+            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+          }
+        }
+        
+        scm {
+          connection 'scm:git:git@github.com:czyzby/gdx-autumn-fcs.git'
+          developerConnection 'scm:git:git@github.com:czyzby/gdx-autumn-fcs.git'
+          url 'http://github.com/czyzby/gdx-autumn-fcs/'
+        }
+
+        developers {
+          developer {
+            id 'mj'
+            name 'MJ'
+            email 'john.hervicc@gmail.com'
+          }
+        }
+      }
+    }
+  }
+}
