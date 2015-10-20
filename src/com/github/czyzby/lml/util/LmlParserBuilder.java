@@ -13,6 +13,7 @@ import com.github.czyzby.lml.parser.LmlSyntax;
 import com.github.czyzby.lml.parser.LmlTemplateReader;
 import com.github.czyzby.lml.parser.action.ActionContainer;
 import com.github.czyzby.lml.parser.action.ActorConsumer;
+import com.github.czyzby.lml.parser.impl.AbstractLmlParser;
 import com.github.czyzby.lml.parser.impl.DefaultLmlData;
 import com.github.czyzby.lml.parser.impl.DefaultLmlParser;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
@@ -21,12 +22,12 @@ import com.github.czyzby.lml.parser.tag.LmlTagProvider;
 
 /** Simplifies construction of {@code LmlParser} by initiating an instance of {@link DefaultLmlParser}. Note that
  * {@link LmlParserBuilder#build()} method returns an instance of parser that is actually created in builder's
- * constructor - calling building method multiple times always returns the same parser instance. In a sence, this
+ * constructor - calling building method multiple times always returns the same parser instance. In a sense, this
  * builder is more of a "preference setter" rather than "complex object constructor".
  *
  * @author MJ */
 public class LmlParserBuilder {
-    private final DefaultLmlParser parser;
+    private final AbstractLmlParser parser;
 
     /** Constructs a new builder that wraps around an instance of {@link DefaultLmlParser}. */
     public LmlParserBuilder() {
@@ -37,7 +38,13 @@ public class LmlParserBuilder {
      *
      * @param lmlData stores data needed to properly parse LML templates. */
     public LmlParserBuilder(final LmlData lmlData) {
-        parser = new DefaultLmlParser(lmlData);
+        parser = getInstanceOfParser(lmlData);
+    }
+
+    /** @param lmlData contains LML parsing data.
+     * @return a new instance of an extension of {@link AbstractLmlParser}. */
+    protected AbstractLmlParser getInstanceOfParser(final LmlData lmlData) {
+        return new DefaultLmlParser(lmlData);
     }
 
     /** @param defaultSkin will be set as the default {@link Skin} instance used when no ID is specified.

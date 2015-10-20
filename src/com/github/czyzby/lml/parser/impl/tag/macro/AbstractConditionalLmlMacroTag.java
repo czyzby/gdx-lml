@@ -76,7 +76,8 @@ public abstract class AbstractConditionalLmlMacroTag extends AbstractMacroLmlTag
         if (action != null) {
             return action.consume(getActor());
         }
-        getParser().throwError("Unable to evaluate conditional macro. Unknown action ID: " + attribute);
+        getParser().throwError(
+                "Unable to evaluate conditional macro. Unknown action ID: " + attribute + " for actor: " + getActor());
         return null;
     }
 

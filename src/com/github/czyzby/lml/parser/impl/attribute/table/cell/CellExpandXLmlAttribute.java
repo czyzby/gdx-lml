@@ -2,6 +2,7 @@ package com.github.czyzby.lml.parser.impl.attribute.table.cell;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.github.czyzby.kiwi.util.common.Exceptions;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
@@ -21,6 +22,7 @@ public class CellExpandXLmlAttribute extends AbstractCellLmlAttribute {
         } catch (final Exception exception) {
             // LibGDX Scene2D method returns int, while the field is an Integer that might not have been initiated. This
             // causes a NPE - so when an exception is thrown, we assume that the expand was not set.
+            Exceptions.ignore(exception);
             return false;
         }
     }

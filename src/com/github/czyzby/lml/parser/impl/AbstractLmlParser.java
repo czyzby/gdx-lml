@@ -28,7 +28,6 @@ import com.github.czyzby.lml.parser.LmlView;
 import com.github.czyzby.lml.parser.action.ActionContainer;
 import com.github.czyzby.lml.parser.action.ActionContainerWrapper;
 import com.github.czyzby.lml.parser.action.ActorConsumer;
-import com.github.czyzby.lml.parser.action.StageAttacher;
 import com.github.czyzby.lml.parser.impl.action.FieldActorConsumer;
 import com.github.czyzby.lml.parser.impl.action.MethodActorConsumer;
 import com.github.czyzby.lml.util.Lml;
@@ -139,24 +138,12 @@ public abstract class AbstractLmlParser implements LmlParser {
 
     @Override
     public void fillStage(final Stage stage, final String lmlTemplate) {
-        final Array<Actor> actors = parseTemplate(lmlTemplate);
-        appendActorsToStage(stage, actors);
+        LmlUtilities.appendActorsToStage(stage, parseTemplate(lmlTemplate));
     }
 
     @Override
     public void fillStage(final Stage stage, final FileHandle lmlTemplateFile) {
-        final Array<Actor> actors = parseTemplate(lmlTemplateFile);
-        appendActorsToStage(stage, actors);
-    }
-
-    private static void appendActorsToStage(final Stage stage, final Array<Actor> actors) {
-        for (final Actor actor : actors) {
-            stage.addActor(actor);
-            final StageAttacher attacher = LmlUtilities.getStageAttacher(actor);
-            if (attacher != null) {
-                attacher.attachToStage(actor, stage);
-            }
-        }
+        LmlUtilities.appendActorsToStage(stage, parseTemplate(lmlTemplateFile));
     }
 
     @Override
@@ -211,7 +198,7 @@ public abstract class AbstractLmlParser implements LmlParser {
 
     protected <View> void fillView(final View view, final Array<Actor> actors) {
         if (view instanceof LmlView) {
-            appendActorsToStage(((LmlView) view).getStage(), actors);
+            LmlUtilities.appendActorsToStage(((LmlView) view).getStage(), actors);
         }
         Class<?> handledClass = view.getClass();
         while (handledClass != null) {
@@ -420,10 +407,15 @@ public abstract class AbstractLmlParser implements LmlParser {
         if (bundle == null) {
             throwError("I18N bundle not found for bundle line: " + rawLmlData);
         }
-        if (Strings.contains(rawLmlData, syntax.getBundleLineArgumentMarker())) {
-            return parseBundleLineWithArguments(bundle, bundleKey, actor);
+        try {
+            if (Strings.contains(rawLmlData, syntax.getBundleLineArgumentMarker())) {
+                return parseBundleLineWithArguments(bundle, bundleKey, actor);
+            }
+            return Nullables.toString(bundle.get(bundleKey));
+        } catch (final Exception exception) {
+            throwErrorIfStrict("Unable to find bundle line for data: " + rawLmlData, exception);
+            return Nullables.DEFAULT_NULL_STRING;
         }
-        return bundle.get(bundleKey);
     }
 
     /** @param bundle should contain the passed key.
@@ -438,7 +430,7 @@ public abstract class AbstractLmlParser implements LmlParser {
         for (int index = 1, length = keyAndArguments.length; index < length; index++) {
             arguments[index - 1] = parseString(keyAndArguments[index], actor);
         }
-        return bundle.format(key, (Object[]) arguments);
+        return Nullables.toString(bundle.format(key, (Object[]) arguments));
     }
 
     /** @param rawLmlData unparsed LML data that might or might not start with preference key (which will be stripped).

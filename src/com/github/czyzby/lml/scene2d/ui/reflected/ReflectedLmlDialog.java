@@ -19,6 +19,8 @@ public class ReflectedLmlDialog extends Dialog {
 
     public ReflectedLmlDialog(final String title, final Skin skin, final String windowStyleName) {
         super(title, skin, windowStyleName);
+        getContentTable().setSkin(skin);
+        getButtonTable().setSkin(skin);
         setDefaultCellPreferences();
     }
 

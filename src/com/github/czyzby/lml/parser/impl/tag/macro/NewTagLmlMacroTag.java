@@ -132,7 +132,7 @@ public class NewTagLmlMacroTag extends AbstractMacroLmlTag {
         }
         if (creator == null) { // No actor creation method - new tag cannot be created.
             getParser().throwError(
-                    "Cannot register a method consuming LmlActorBuilder, providing Actor. Method not found for attribute: "
+                    "Cannot register a method consuming LmlActorBuilder, providing Actor. Method consuming LmlActorBuilder and returning actor not found for attribute: "
                             + attributes.get(1));
 
         }

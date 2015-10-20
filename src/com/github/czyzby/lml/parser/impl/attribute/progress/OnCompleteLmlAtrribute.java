@@ -28,6 +28,11 @@ public class OnCompleteLmlAtrribute implements LmlAttribute<ProgressBar> {
     public void process(final LmlParser parser, final LmlTag tag, final ProgressBar actor,
             final String rawAttributeData) {
         final ActorConsumer<?, ProgressBar> action = parser.parseAction(rawAttributeData, actor);
+        if (action == null) {
+            parser.throwErrorIfStrict(
+                    "Unable to attach listener for " + actor + " with invalid action ID: " + rawAttributeData);
+            return;
+        }
         actor.addListener(new ChangeListener() {
             @Override
             public void changed(final ChangeEvent event, final Actor widget) {

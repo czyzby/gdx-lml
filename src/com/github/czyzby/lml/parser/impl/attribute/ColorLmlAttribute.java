@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.lml.parser.LmlParser;
+import com.github.czyzby.lml.parser.action.ActorConsumer;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
@@ -23,7 +24,11 @@ public class ColorLmlAttribute implements LmlAttribute<Actor> {
     public void process(final LmlParser parser, final LmlTag tag, final Actor actor, final String rawAttributeData) {
         String colorName;
         if (Strings.startsWith(rawAttributeData, parser.getSyntax().getMethodInvocationMarker())) {
-            final Object actionResult = parser.parseAction(rawAttributeData, actor).consume(actor);
+            final ActorConsumer<?, Actor> action = parser.parseAction(rawAttributeData, actor);
+            if (action == null) {
+                parser.throwError("Invalid action ID: " + rawAttributeData + " for actor: " + actor);
+            }
+            final Object actionResult = action.consume(actor);
             if (actionResult instanceof Color) {
                 actor.setColor((Color) actionResult);
                 return;

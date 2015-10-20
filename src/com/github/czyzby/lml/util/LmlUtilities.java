@@ -5,11 +5,13 @@ import java.util.Queue;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Tree;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.github.czyzby.kiwi.util.common.Exceptions;
 import com.github.czyzby.kiwi.util.common.Nullables;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
@@ -132,6 +134,34 @@ public class LmlUtilities {
         return null;
     }
 
+    /** @param actors clears attached {@link LmlUserObject}s with LML meta-data if any of the actors has one. */
+    public static void clearLmlUserObjects(final Iterable<Actor> actors) {
+        for (final Actor actor : actors) {
+            clearLmlUserObject(actor);
+        }
+    }
+
+    /** @param actor clears attached {@link LmlUserObject} with LML meta-data if it has one. */
+    public static void clearLmlUserObject(final Actor actor) {
+        if (actor.getUserObject() instanceof LmlUserObject) {
+            actor.setUserObject(null);
+        }
+        if (actor instanceof Group) {
+            final Queue<Group> groupsToSearch = new LinkedList<Group>();
+            groupsToSearch.add((Group) actor);
+            while (!groupsToSearch.isEmpty()) {
+                for (final Actor child : groupsToSearch.poll().getChildren()) {
+                    if (child.getUserObject() instanceof LmlUserObject) {
+                        child.setUserObject(null);
+                    }
+                    if (child instanceof Group) {
+                        groupsToSearch.offer((Group) child);
+                    }
+                }
+            }
+        }
+    }
+
     /** @param actor might be a tree node.
      * @return tree node containing the actor if it is a tree node or null. */
     public static Tree.Node getTreeNode(final Actor actor) {
@@ -177,6 +207,18 @@ public class LmlUtilities {
         return null;
     }
 
+    /** @param stage should contain the actors.
+     * @param actors will be added to the stage, honoring their {@link StageAttacher} settings. */
+    public static void appendActorsToStage(final Stage stage, final Iterable<Actor> actors) {
+        for (final Actor actor : actors) {
+            stage.addActor(actor);
+            final StageAttacher attacher = getStageAttacher(actor);
+            if (attacher != null) {
+                attacher.attachToStage(actor, stage);
+            }
+        }
+    }
+
     /** @param actor might have a stage attacher set using its internal "user object" mechanism.
      * @return actor's stage attacher or null if not set. */
     public static StageAttacher getStageAttacher(final Actor actor) {
@@ -215,8 +257,22 @@ public class LmlUtilities {
                 throw new IllegalArgumentException("Table cannot be null. Unable to add actor to cell.");
             }
             userObject.setCell(userObject.getTableTarget().add(table, actor));
+            final Table target = userObject.getTableTarget().extract(table);
+            if (isOneColumn(target)) {
+                target.row();
+            }
         }
         return userObject.getCell();
+    }
+
+    /** @param table might be set as one column table.
+     * @return true if the table is set as one column using user object mechanism */
+    public static boolean isOneColumn(final Table table) {
+        final LmlUserObject userObject = getOptionalLmlUserObject(table);
+        if (userObject != null && userObject.getData() instanceof Boolean) {
+            return ((Boolean) userObject.getData()).booleanValue();
+        }
+        return false;
     }
 
     /** @param parser parses an LML template.
@@ -237,7 +293,7 @@ public class LmlUtilities {
                 return alignment.getAlignment();
             }
         } catch (final Exception exception) {
-            // Somewhat expected if invalid name is passed.
+            Exceptions.ignore(exception); // Somewhat expected if invalid name is passed.
         }
         parser.throwErrorIfStrict("Unable to parser alignment from raw data: " + rawAttributeData
                 + "; no alignment value matching: " + parsedData);
@@ -330,7 +386,8 @@ public class LmlUtilities {
         if (Strings.startsWith(rawAttributeData, parser.getSyntax().getMethodInvocationMarker())) {
             final ActorConsumer<?, Actor> action = parser.parseAction(rawAttributeData, actor);
             if (action == null) {
-                parser.throwErrorIfStrict("Cannot determine Value object with invalid action ID: " + rawAttributeData);
+                parser.throwErrorIfStrict("Cannot determine Value object with invalid action ID: " + rawAttributeData
+                        + " for actor: " + actor);
             }
             return action.consume(actor);
         }

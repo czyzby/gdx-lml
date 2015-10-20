@@ -136,6 +136,7 @@ import com.github.czyzby.lml.parser.impl.attribute.select.SelectBoxSelectedLmlAt
 import com.github.czyzby.lml.parser.impl.attribute.split.MaxSplitLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.split.MinSplitLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.split.SplitAmountLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.table.OneColumnLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.TableAlignLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.TableBackgroundLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.TablePadBottomLmlAttribute;
@@ -595,6 +596,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
 
     /** Table widget attributes. */
     private void registerTableAttributes() {
+        addAttributeProcessor(new OneColumnLmlAttribute(), "oneColumn");
         addAttributeProcessor(new TableAlignLmlAttribute(), "tableAlign");
         addAttributeProcessor(new TableBackgroundLmlAttribute(), "bg", "background");
         addAttributeProcessor(new TablePadBottomLmlAttribute(), "tablePadBottom");

@@ -21,7 +21,7 @@ public class AlignedLmlActorBuilder extends LmlActorBuilder {
     public String getStyleName() {
         final String style = super.getStyleName();
         if (style == null) {
-            return vertical ? Actors.DEFAULT_HORIZONTAL_STYLE : Actors.DEFAULT_VERTICAL_STYLE;
+            return vertical ? Actors.DEFAULT_VERTICAL_STYLE : Actors.DEFAULT_HORIZONTAL_STYLE;
         }
         return style;
     }

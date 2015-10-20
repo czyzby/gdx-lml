@@ -49,7 +49,8 @@ public class TooltipLmlAttribute implements LmlAttribute<Actor> {
             final String rawAttributeData) {
         final ActorConsumer<?, Actor> action = parser.parseAction(rawAttributeData, actor);
         if (action == null) {
-            parser.throwErrorIfStrict("Cannot create tooltip with unknown action ID: " + rawAttributeData);
+            parser.throwErrorIfStrict(
+                    "Cannot create tooltip with unknown action ID: " + rawAttributeData + " for actor: " + action);
             return null;
         }
         final Object result = action.consume(actor);

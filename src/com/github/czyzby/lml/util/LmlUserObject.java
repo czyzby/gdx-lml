@@ -73,7 +73,9 @@ public class LmlUserObject {
         if (onCreateActions == null) {
             onCreateActions = GdxArrays.newArray();
         }
-        onCreateActions.add(onCreateAction);
+        if (onCreateAction != null) {
+            onCreateActions.add(onCreateAction);
+        }
     }
 
     /** @param onActor will invoke all currently stored on create actions on this actor and clear the actions queue. */
@@ -92,7 +94,9 @@ public class LmlUserObject {
         if (onCloseActions == null) {
             onCloseActions = GdxArrays.newArray();
         }
-        onCloseActions.add(onCloseAction);
+        if (onCloseAction != null) {
+            onCloseActions.add(onCloseAction);
+        }
     }
 
     /** @param onActor will invoke all currently stored on close actions on this actor and clear the actions queue. */

@@ -40,7 +40,11 @@ public class TableLmlTag extends AbstractActorLmlTag {
 
     @Override
     protected void handlePlainTextLine(final String plainTextLine) {
-        getTable().add(getParser().parseString(plainTextLine, getActor()));
+        final Table table = getTable();
+        table.add(getParser().parseString(plainTextLine, getActor()));
+        if (LmlUtilities.isOneColumn(table)) {
+            table.row();
+        }
     }
 
     /** @return casted actor. */

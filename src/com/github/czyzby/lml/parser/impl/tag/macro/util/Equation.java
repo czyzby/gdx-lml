@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.IntMap;
 import com.github.czyzby.kiwi.util.common.Nullables;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.lml.parser.LmlParser;
+import com.github.czyzby.lml.parser.action.ActorConsumer;
 
 /** Allows to evaluate string equations at runtime. Supports String, float, int and boolean times, determined upon
  * parsing. See {@link DefaultOperator} for supported operations.
@@ -140,7 +141,12 @@ public class Equation {
         final String value = valueBuilder.toString().trim();
         if (parser != null && Strings.startsWith(value, parser.getSyntax().getMethodInvocationMarker())) {
             // Equation element is a LML action. Invoking:
-            return Nullables.toString(parser.parseAction(value, actor).consume(actor));
+            final ActorConsumer<?, Actor> action = parser.parseAction(value, actor);
+            if (action == null) {
+                parser.throwErrorIfStrict("Unknown action ID in equation: " + value);
+                return value;
+            }
+            return Nullables.toString(action.consume(actor));
         }
         return value;
     }

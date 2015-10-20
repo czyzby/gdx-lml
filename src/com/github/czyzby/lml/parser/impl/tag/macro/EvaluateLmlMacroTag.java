@@ -77,8 +77,8 @@ public class EvaluateLmlMacroTag extends AbstractMacroLmlTag {
     protected <ArgumentType> Object executeMethod(final ArgumentType value) {
         final ActorConsumer<?, ArgumentType> action = getParser().parseAction(getMethodId(), value);
         if (action == null) {
-            getParser().throwErrorIfStrict(
-                    "Cannot process evaluate macro. Did not found method with ID: " + getMethodId());
+            getParser().throwErrorIfStrict("Cannot process evaluate macro. Did not found method with ID: "
+                    + getMethodId() + " for value: " + value);
             return null;
         }
         return action.consume(value);

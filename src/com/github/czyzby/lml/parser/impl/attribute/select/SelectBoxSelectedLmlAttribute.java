@@ -1,6 +1,7 @@
 package com.github.czyzby.lml.parser.impl.attribute.select;
 
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
+import com.github.czyzby.kiwi.util.common.Exceptions;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.action.ActorConsumer;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
@@ -31,7 +32,7 @@ public class SelectBoxSelectedLmlAttribute implements LmlAttribute<SelectBox<?>>
                 try {
                     actor.setSelectedIndex(parser.parseInt(rawAttributeData, actor));
                 } catch (final Exception exception) {
-                    // Possible number format exception. Trying to select string.
+                    Exceptions.ignore(exception); // Possible number format exception. Trying to select string.
                     ((SelectBox<String>) actor).setSelected(parser.parseString(rawAttributeData, actor));
                 }
                 return null;

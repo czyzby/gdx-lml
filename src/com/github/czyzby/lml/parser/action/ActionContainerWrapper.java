@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.Method;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
+import com.github.czyzby.kiwi.util.common.Exceptions;
 import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 import com.github.czyzby.lml.annotation.LmlAction;
 import com.github.czyzby.lml.util.Lml;
@@ -90,7 +91,7 @@ public class ActionContainerWrapper {
                 // If this does not throw an exception, the method is found. Null check is not needed.
                 return getDeclaredMethod(containerClass, methodName, parameterClass);
             } catch (final Exception exception) {
-                // Expected. Method unavailable.
+                Exceptions.ignore(exception); // Expected. Method unavailable.
             }
             containerClass = containerClass.getSuperclass();
         }
@@ -114,7 +115,7 @@ public class ActionContainerWrapper {
                 // If this does not throw an exception, the field is found. Null check is not needed.
                 return ClassReflection.getDeclaredField(actionContainer.getClass(), fieldName);
             } catch (final Exception exception) {
-                // Expected. Field unavailable.
+                Exceptions.ignore(exception); // Expected. Field unavailable.
             }
             containerClass = containerClass.getSuperclass();
         }

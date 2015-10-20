@@ -2,6 +2,7 @@ package com.github.czyzby.lml.parser.impl.attribute;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.github.czyzby.kiwi.util.common.Exceptions;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
@@ -28,7 +29,7 @@ public class TouchableLmlAttribute implements LmlAttribute<Actor> {
                 return touchable;
             }
         } catch (final Exception exception) {
-            // Somewhat expected. Might still match ignoring case.
+            Exceptions.ignore(exception); // Somewhat expected. Might still match ignoring case.
         }
         for (final Touchable touchable : Touchable.values()) {
             if (touchable.name().equalsIgnoreCase(touchableName)) {

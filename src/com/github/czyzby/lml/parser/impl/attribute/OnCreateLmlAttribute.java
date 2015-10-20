@@ -2,6 +2,7 @@ package com.github.czyzby.lml.parser.impl.attribute;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.github.czyzby.lml.parser.LmlParser;
+import com.github.czyzby.lml.parser.action.ActorConsumer;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.util.LmlUtilities;
@@ -22,6 +23,12 @@ public class OnCreateLmlAttribute implements LmlAttribute<Actor> {
 
     @Override
     public void process(final LmlParser parser, final LmlTag tag, final Actor actor, final String rawAttributeData) {
-        LmlUtilities.getLmlUserObject(actor).addOnCreateAction(parser.parseAction(rawAttributeData, (Object) actor));
+        final ActorConsumer<?, Object> action = parser.parseAction(rawAttributeData, (Object) actor);
+        if (action != null) {
+            LmlUtilities.getLmlUserObject(actor).addOnCreateAction(action);
+        } else {
+            parser.throwErrorIfStrict(
+                    "Unable to find on create action for actor: " + actor + " with action ID: " + rawAttributeData);
+        }
     }
 }

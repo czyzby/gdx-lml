@@ -2,6 +2,7 @@ package com.github.czyzby.lml.parser.impl.attribute.image;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Scaling;
+import com.github.czyzby.kiwi.util.common.Exceptions;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
@@ -29,7 +30,7 @@ public class ScalingLmlAttribute implements LmlAttribute<Image> {
                 return scaling;
             }
         } catch (final Exception exception) {
-            // Somewhat expected.
+            Exceptions.ignore(exception); // Somewhat expected. Invalid name.
         }
         for (final Scaling scaling : Scaling.values()) {
             if (parsedData.equalsIgnoreCase(scaling.name())) {

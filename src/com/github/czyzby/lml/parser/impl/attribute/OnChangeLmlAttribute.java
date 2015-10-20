@@ -21,7 +21,7 @@ public class OnChangeLmlAttribute implements LmlAttribute<Actor> {
     public void process(final LmlParser parser, final LmlTag tag, final Actor actor, final String rawAttributeData) {
         final ActorConsumer<?, Actor> action = parser.parseAction(rawAttributeData, actor);
         if (action == null) {
-            parser.throwError("Could not find action for: " + rawAttributeData);
+            parser.throwError("Could not find action for: " + rawAttributeData + " with actor: " + actor);
         }
         actor.addListener(new ChangeListener() {
             @Override

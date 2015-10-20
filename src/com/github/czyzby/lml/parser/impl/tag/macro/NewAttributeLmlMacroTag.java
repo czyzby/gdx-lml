@@ -83,7 +83,9 @@ public class NewAttributeLmlMacroTag extends AbstractMacroLmlTag {
         final ActorConsumer<?, AttributeParsingData> parser = getParser().parseAction(attributes.get(1),
                 new AttributeParsingData());
         if (parser == null) {
-            getParser().throwError("Unable to add new attribute. Action not found for name: " + attributes.get(1));
+            getParser().throwError(
+                    "Unable to add new attribute. Action consuming AttributeParsingData not found for name: "
+                            + attributes.get(1));
         }
         getParser().getSyntax().addAttributeProcessor(new CustomLmlAttribute(parser), tagNames);
     }

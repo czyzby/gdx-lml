@@ -2,12 +2,12 @@
 Templates for LibGDX Scene2D with HTML-like syntax and FreeMarker-inspired macros.
 
 ##Examples
-See [gdx-lml-tests](http://github.com/czyzby/gdx-lml-tests).
+See [gdx-lml-tests](http://github.com/czyzby/gdx-lml-tests) for example uses of all available tags and macros.
 
 ##Maven artifact
 To import LML with Gradle, add this dependency to your core:
 ```
-    compile "com.github.czyzby:gdx-lml:1.0.$gdxVersion"
+    compile "com.github.czyzby:gdx-lml:1.1.$gdxVersion"
 ```
 Currently supported LibGDX version is **1.7.0**.
 
@@ -17,9 +17,17 @@ If you want to use LML with GWT, you have to add this module to your GdxDefiniti
 ```
 
 ##Documentation
-See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&t=18843), [example project](http://github.com/czyzby/gdx-lml-tests), [tutorial](https://github.com/czyzby/gdx-lml/wiki/Tutorial) and [Wiki old syntax page (work in progress)](https://github.com/czyzby/gdx-lml/wiki/Syntax).
+See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&t=18843), [example project](http://github.com/czyzby/gdx-lml-tests), [tutorial](https://github.com/czyzby/gdx-lml/wiki/Tutorial) and [old syntax page (work in progress)](https://github.com/czyzby/gdx-lml/wiki/Syntax).
 
 ## What's new
+1.0 -> 1.1:
+
+- Dialog parents now add plain text to content table rather than themselves, which matches LML 0 behavior.
+- `oneColumn` attribute added to tables. If a table has `oneColumn=true` attribute, its main table will append row after each child. If the table is a dialog, its content table will append rows after each child.
+- `appendActorsToStage(Stage, Array<Actor>)` moved from `AbstractLmlParser` to `LmlUtilities`. Now you can easily append your actors result to a stage, honoring `StageAttacher` settings - even if you do not use to default `fillStage` or `createView` methods of `LmlParser`.
+- LML keeps some meta-data about the widgets using `Actor#setUserObject(Object)` method. Some of it might still be useful after LML parsing, like stage attachers (they specify how actors are added to the `Stage`). Still, you might want to remove the unnecessary user objects with little effort: and now that's possible using `LmlUtilities#clearLmlUserObjects(Iterable<Actor>)` and `LmlUtilities#clearLmlUserObject(Actor)`, both of which offer removing user objects of the passed actors and their children, if they happen to be actor groups. As a rule of thumb, if you have added your actors to the stage (or used one of automatic stage-filling parser methods) and don't plan to remove&add them again, it is safe to clear LML meta-data.
+- Fixed a bug where default horizontal and vertical styles were inverted.
+
 0 -> 1:
 
 This is the biggest update to LML yet. Actually, the whole parsing mechanism was rewritten from scratch (sic!), as it contained a lot of quick, dirty, uncommented code and wasn't very user-friendly when it came to expanding or modifying. Learning on my mistakes, the new LML is parsed much faster, allows to customize a lot more settings (including the syntax itself, which previously contained a lot of static final values) and makes creating custom attributes or tags from less painful to completely painless. If you used LML before, your templates will most likely break after this update, but the fixes are usually easy enough to endure. Core syntax and API changes:
@@ -35,6 +43,7 @@ This is the biggest update to LML yet. Actually, the whole parsing mechanism was
 - Completely changed tag and attribute parsers. If you had custom ones, they will not work anymore. The tag and attribute structure is much more pleasant to expand and manage, though, so I'm pretty sure it won't be very hard to update your custom classes.
 - `LmlParser` API was simply too big. Instead of just parsing templates, it had to manage a lot of extra data - like skin, i18n bundles, preferences, actions, etc. Some of its old functionalities are moved into several other interfaces (with their default implementations): `LmlData` manages arguments, skins, bundles and so on, `LmlSyntax` contains parsers of attributes, macros and tags and `LmlTemplateReader` takes care of efficient reading of parsed templates character by character.
 - `<row>` tag removed, as tags are supposed to create unique actors. `row=true` attribute is usually more convenient, but since row tag could be used to set row defaults, `<@row>` macro was added to support this functionality. Also, `<@column>` macro as added to support column defaults setting. See `TableColumnLmlMacroTag` and `TableRowLmlMacroTag` docs.
+- Missing action exceptions are now more meaningful and usually contain both missing action ID and the argument that the action was supposed to consume.
 
 LML 1.0 brings:
 
@@ -54,6 +63,16 @@ LML 1.0 brings:
 - Support for previously unavailable widgets: Container, Touchpad, SelectBox, ImageButton, ImageTextButton. This basically covers every notable non-meant-to-be-semi-abstract widget in Scene2D.
 - `onClose` tag attribute. As opposed to `onCreate` (which was available before), `onClose` actions are invoked after widget's tag is closed and all its children are appended, rather than invoking the action right after the widget instance is created. This is very convenient for complex tags with multiple children, like trees and tables. There are probably a few things missing, overlooked in the huge Scene2D, but remember that using  these two attributes you can always set pretty much anything that Scene2D allows to change - create a method that consumes an instance of the actor type you want to modify, do your stuff in Java and reference the method in the LML template.
 - Updated example project: now it has all tags and macros explained. Make sure to check it out!
+
+Quick LML 0-to-1 template conversion guide:
+
+- Replace `${` with `{` (`$` marker removed from arguments).
+- Replace `&` with `$` (action marker changed to `$`).
+- Replace `:` with `=` in loops (assignment markers unified).
+- Replace `-` with `,` in ranges (range separator changed to easily support negative ranges).
+- Replace `<row>` tags (and its old aliases) with `<@row>` macro.
+
+Unless you've used some weird hacks or unusual conditions in `if` macro (which now is a lot more powerful and doesn't support all of its old hacky operators), your old templates should work after these changes.
 
 0.8 -> 0.9.1.7.0-SNAPSHOT:
 

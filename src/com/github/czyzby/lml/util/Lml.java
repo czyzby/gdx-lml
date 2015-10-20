@@ -9,7 +9,7 @@ import com.github.czyzby.lml.parser.LmlParser;
  * @author MJ
  * @see LmlUtilities
  * @see LmlParserBuilder */
-public class Lml implements com.github.czyzby.lml.parser.action.ActionContainer {
+public class Lml {
     private Lml() {
     }
 
