@@ -15,16 +15,16 @@ public @interface Asset {
     /** @return internal paths to the asset. Cannot be empty. If multiple assets are given, field type has to be
      *         {@link com.badlogic.gdx.utils.ObjectMap}, {@link com.badlogic.gdx.utils.Array} or
      *         {@link com.badlogic.gdx.utils.ObjectSet}. */
-    String[]value();
+    String[] value();
 
     /** @return asset IDs. Used only if the assets are stored in a {@link com.badlogic.gdx.utils.ObjectMap}. If used,
      *         keys array size has to match {@link #value()} array size. If not specified, paths will be used as map
      *         keys instead. */
-    String[]keys() default {};
+    String[] keys() default {};
 
     /** @return class of the asset. Ignored and taken from the variable type if asset is not wrapped in
      *         {@link com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy} or LibGDX collection container. */
-    Class<?>type() default void.class;
+    Class<?> type() default void.class;
 
     /** Determines the behavior of asset loading. 4 states are possible:
      *
@@ -58,5 +58,5 @@ public @interface Asset {
      *         setting is needed only if the annotated field is a Lazy that stores a LibGDX collection of assets. Only
      *         {@link com.badlogic.gdx.utils.ObjectMap}, {@link com.badlogic.gdx.utils.Array} or
      *         {@link com.badlogic.gdx.utils.ObjectSet} are accepted. */
-    Class<?>lazyCollection() default void.class;
+    Class<?> lazyCollection() default void.class;
 }

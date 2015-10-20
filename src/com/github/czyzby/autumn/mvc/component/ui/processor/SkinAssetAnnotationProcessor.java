@@ -1,15 +1,20 @@
 package com.github.czyzby.autumn.mvc.component.ui.processor;
 
-import java.lang.annotation.Annotation;
-
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.badlogic.gdx.utils.reflect.Field;
-import com.github.czyzby.autumn.annotation.stereotype.MetaComponent;
-import com.github.czyzby.autumn.context.ContextComponent;
-import com.github.czyzby.autumn.context.ContextContainer;
-import com.github.czyzby.autumn.context.processor.field.ComponentFieldAnnotationProcessor;
+import com.badlogic.gdx.utils.reflect.ReflectionException;
+import com.github.czyzby.autumn.annotation.OnMessage;
+import com.github.czyzby.autumn.context.Context;
+import com.github.czyzby.autumn.context.ContextDestroyer;
+import com.github.czyzby.autumn.context.ContextInitializer;
+import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
+import com.github.czyzby.autumn.mvc.config.AutumnMessage;
 import com.github.czyzby.autumn.mvc.stereotype.SkinAsset;
+import com.github.czyzby.autumn.processor.AbstractAnnotationProcessor;
 import com.github.czyzby.kiwi.util.gdx.collection.lazy.LazyObjectMap;
 import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 import com.github.czyzby.kiwi.util.tuple.immutable.Pair;
@@ -18,28 +23,47 @@ import com.github.czyzby.kiwi.util.tuple.immutable.Pair;
  * fields annotated with {@link com.github.czyzby.autumn.mvc.stereotype.SkinAsset}.
  *
  * @author MJ */
-@MetaComponent
-public class SkinAssetAnnotationProcessor extends ComponentFieldAnnotationProcessor {
-    private final ObjectMap<String, Array<Pair<Field, Object>>> fieldsToInject = LazyObjectMap.newMapOfArrays();
+public class SkinAssetAnnotationProcessor extends AbstractAnnotationProcessor<SkinAsset> {
+    // <ID of object, ID of skin>, <field, fieldOwner>
+    private final ObjectMap<Pair<String, String>, Array<Pair<Field, Object>>> fieldsToInject = LazyObjectMap
+            .newMapOfArrays();
 
     @Override
-    public Class<? extends Annotation> getProcessedAnnotationClass() {
+    public Class<SkinAsset> getSupportedAnnotationType() {
         return SkinAsset.class;
     }
 
     @Override
-    public void processField(final ContextContainer context, final ContextComponent component, final Field field) {
-        fieldsToInject.get(Reflection.getAnnotation(field, SkinAsset.class).value())
-                .add(Pair.of(field, component.getComponent()));
+    public boolean isSupportingFields() {
+        return true;
     }
 
-    /** @return array of fields paired with their owners, mapped by the given asset name. */
-    public ObjectMap<String, Array<Pair<Field, Object>>> getFieldsToInject() {
-        return fieldsToInject;
+    @Override
+    public void processField(final Field field, final SkinAsset annotation, final Object component,
+            final Context context, final ContextInitializer initializer, final ContextDestroyer contextDestroyer) {
+        fieldsToInject.get(Pair.of(annotation.value(), annotation.skin())).add(Pair.of(field, component));
     }
 
-    /** Clears all scanned injection data. */
-    public void clearFieldsToInject() {
+    /** Invoked when all skins are loaded. Injects skin assets.
+     *
+     * @param interfaceService used to retrieve skins. */
+    @SuppressWarnings("unchecked")
+    @OnMessage(AutumnMessage.SKINS_LOADED)
+    public void injectFields(final InterfaceService interfaceService) {
+        for (final Entry<Pair<String, String>, Array<Pair<Field, Object>>> entry : fieldsToInject) {
+            final Skin skin = interfaceService.getParser().getData().getSkin(entry.key.getSecond());
+            final String assetId = entry.key.getFirst();
+            for (final Pair<Field, Object> injection : entry.value) {
+                try {
+                    Reflection.setFieldValue(injection.getFirst(), injection.getSecond(),
+                            skin.get(assetId, injection.getFirst().getType()));
+                } catch (final ReflectionException exception) {
+                    throw new GdxRuntimeException("Unable to inject skin asset: " + assetId + " from skin: " + skin
+                            + " to field: " + injection.getFirst() + " of component: " + injection.getSecond(),
+                            exception);
+                }
+            }
+        }
         fieldsToInject.clear();
     }
 }

@@ -14,4 +14,7 @@ import java.lang.annotation.Target;
 public @interface SkinAsset {
     /** @return name of the object as it appears in the skin. Defaults to "default". */
     String value() default "default";
+
+    /** @return name of the skin to extract asset from. Defaults to "default". */
+    String skin() default "default";
 }

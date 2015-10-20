@@ -8,9 +8,10 @@ public class AutumnActionPriority {
     protected AutumnActionPriority() {
     }
 
-    /** 3. Executes first. Used by: {@link com.github.czyzby.autumn.mvc.component.ui.SkinService} (skin initiation). */
+    /** 3. Executes first. Used by: {@link com.github.czyzby.autumn.mvc.component.ui.SkinService} (skins initiation and
+     * assignment). */
     public static final int TOP_PRIORITY = 3;
-    /** 2. Used by: {@link com.github.czyzby.autumn.mvc.component.ui.InterfaceService} (skin, bundles and preferences
+    /** 2. Used by: {@link com.github.czyzby.autumn.mvc.component.ui.InterfaceService} (bundles and preferences
      * assignment, LML parser creation). */
     public static final int VERY_HIGH_PRIORITY = 2;
     /** 1. */

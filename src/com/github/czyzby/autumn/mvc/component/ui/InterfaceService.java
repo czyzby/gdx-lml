@@ -11,20 +11,17 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.github.czyzby.autumn.annotation.field.Inject;
-import com.github.czyzby.autumn.annotation.method.Destroy;
-import com.github.czyzby.autumn.annotation.method.Initiate;
-import com.github.czyzby.autumn.annotation.stereotype.Component;
-import com.github.czyzby.autumn.context.processor.method.MessageProcessor;
-import com.github.czyzby.autumn.error.AutumnRuntimeException;
+import com.github.czyzby.autumn.annotation.Destroy;
+import com.github.czyzby.autumn.annotation.Initiate;
+import com.github.czyzby.autumn.annotation.Inject;
 import com.github.czyzby.autumn.mvc.component.asset.AssetService;
 import com.github.czyzby.autumn.mvc.component.i18n.LocaleService;
-import com.github.czyzby.autumn.mvc.component.i18n.processor.I18nBundleAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.component.sfx.MusicService;
 import com.github.czyzby.autumn.mvc.component.ui.action.ActionProvider;
 import com.github.czyzby.autumn.mvc.component.ui.action.ApplicationExitAction;
@@ -45,24 +42,23 @@ import com.github.czyzby.autumn.mvc.component.ui.controller.impl.StandardCameraC
 import com.github.czyzby.autumn.mvc.component.ui.controller.impl.StandardViewRenderer;
 import com.github.czyzby.autumn.mvc.component.ui.controller.impl.StandardViewShower;
 import com.github.czyzby.autumn.mvc.component.ui.dto.provider.ViewActionProvider;
-import com.github.czyzby.autumn.mvc.component.ui.processor.SkinAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.component.ui.processor.ViewActionContainerAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.config.AutumnActionPriority;
 import com.github.czyzby.autumn.mvc.config.AutumnMessage;
+import com.github.czyzby.autumn.processor.event.MessageDispatcher;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.kiwi.util.gdx.preference.ApplicationPreferences;
 import com.github.czyzby.lml.parser.LmlParser;
-import com.github.czyzby.lml.parser.impl.dto.ActionContainer;
-import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
+import com.github.czyzby.lml.parser.action.ActionContainer;
+import com.github.czyzby.lml.parser.action.ActorConsumer;
 import com.github.czyzby.lml.util.Lml;
 
 /** Manages view controllers and a LML parser.
  *
  * @author MJ */
-@Component
 public class InterfaceService {
     /** Defines default resizing behavior. Can be modified statically before context initiation to set default behavior
      * for controllers that do not implement this interface. */
@@ -98,7 +94,7 @@ public class InterfaceService {
 
     private final ObjectMap<Class<?>, ViewController> controllers = GdxMaps.newObjectMap();
     private final ObjectMap<Class<?>, ViewDialogController> dialogControllers = GdxMaps.newObjectMap();
-    private ObjectMap<String, FileHandle> i18nBundleFiles;
+    private final ObjectMap<String, FileHandle> i18nBundleFiles = GdxMaps.newObjectMap();
 
     private final LmlParser parser = Lml.parser().build();
     private final Batch batch = new SpriteBatch();
@@ -113,8 +109,7 @@ public class InterfaceService {
     @Inject private AssetService assetService;
     @Inject private LocaleService localeService;
     @Inject private MusicService musicService;
-    @Inject private SkinService skinService;
-    @Inject private MessageProcessor messageProcessor;
+    @Inject private MessageDispatcher messageDispatcher;
     @Inject private ViewActionContainerAnnotationProcessor viewActionProcessor;
 
     private ActionProvider showingActionProvider = getDefaultViewShowingActionProvider();
@@ -126,7 +121,7 @@ public class InterfaceService {
      * @param preferencesKey key of the preferences as it appears in LML views.
      * @param preferencesPath path to the preferences. */
     public void addPreferencesToParser(final String preferencesKey, final String preferencesPath) {
-        parser.setPreferences(preferencesKey, ApplicationPreferences.getPreferences(preferencesPath));
+        parser.getData().addPreferences(preferencesKey, ApplicationPreferences.getPreferences(preferencesPath));
     }
 
     /** Registers an action container globally for all views.
@@ -134,7 +129,7 @@ public class InterfaceService {
      * @param actionContainerId ID of the action container as it appears in the views.
      * @param actionContainer contains view actions. */
     public void addViewActionContainer(final String actionContainerId, final ActionContainer actionContainer) {
-        parser.addActionContainer(actionContainerId, actionContainer);
+        parser.getData().addActionContainer(actionContainerId, actionContainer);
     }
 
     /** Registers an action globally for all views.
@@ -142,34 +137,34 @@ public class InterfaceService {
      * @param actionId ID of the action.
      * @param action will be available in views with the selected ID. */
     public void addViewAction(final String actionId, final ActorConsumer<?, ?> action) {
-        parser.addAction(actionId, action);
+        parser.getData().addActorConsumer(actionId, action);
+    }
+
+    /** @param bundleId ID of the bundle as it appears in LML templates.
+     * @param file file handle of the bundle. Will be read when bundles are requested (before view parsing, after locale
+     *            change). */
+    public void addBundleFile(final String bundleId, final FileHandle file) {
+        i18nBundleFiles.put(bundleId, file);
     }
 
     @Initiate(priority = AutumnActionPriority.VERY_HIGH_PRIORITY)
-    private void assignViewResources(final SkinAnnotationProcessor skinProcessor,
-            final I18nBundleAnnotationProcessor bundleProcessor, final MessageProcessor messageProcessor) {
-        i18nBundleFiles = bundleProcessor.getBundleFiles();
-        buildParser();
-    }
-
-    private void buildParser() {
-        parser.setSkin(getSkin());
+    private void assignViewResources() {
         addDefaultViewActions();
         saveLastLocale(localeService.getCurrentLocale());
         for (final Entry<String, FileHandle> bundleData : i18nBundleFiles) {
-            parser.setI18nBundle(bundleData.key, I18NBundle.createBundle(bundleData.value, lastLocale));
+            parser.getData().addI18nBundle(bundleData.key, I18NBundle.createBundle(bundleData.value, lastLocale));
         }
     }
 
     private void saveLastLocale(final Locale currentLocale) {
         lastLocale = currentLocale;
-        parser.addArgument(CURRENT_LOCALE, LocaleService.fromLocale(lastLocale));
+        parser.getData().addArgument(CURRENT_LOCALE, LocaleService.fromLocale(lastLocale));
     }
 
     private void addDefaultViewActions() {
-        parser.addAction(ApplicationExitAction.ID, new ApplicationExitAction(this));
-        parser.addAction(ApplicationPauseAction.ID, new ApplicationPauseAction());
-        parser.addAction(ApplicationResumeAction.ID, new ApplicationResumeAction());
+        parser.getData().addActorConsumer(ApplicationExitAction.ID, new ApplicationExitAction(this));
+        parser.getData().addActorConsumer(ApplicationPauseAction.ID, new ApplicationPauseAction());
+        parser.getData().addActorConsumer(ApplicationResumeAction.ID, new ApplicationResumeAction());
     }
 
     /** Allows to manually register a managed controller. For internal use mostly.
@@ -179,8 +174,8 @@ public class InterfaceService {
      * @param controller controller implementation, managing a single view. */
     public void registerController(final Class<?> mappedControllerClass, final ViewController controller) {
         controllers.put(mappedControllerClass, controller);
-        if (Strings.isNotEmpty(controller.getId())) {
-            parser.addAction(SCREEN_TRANSITION_ACTION_PREFIX + controller.getId(),
+        if (Strings.isNotEmpty(controller.getViewId())) {
+            parser.getData().addActorConsumer(SCREEN_TRANSITION_ACTION_PREFIX + controller.getViewId(),
                     new ScreenTransitionAction(this, mappedControllerClass));
         }
     }
@@ -189,7 +184,7 @@ public class InterfaceService {
             final ViewDialogController dialogController) {
         dialogControllers.put(mappedDialogControllerClass, dialogController);
         if (Strings.isNotEmpty(dialogController.getId())) {
-            parser.addAction(DIALOG_SHOWING_ACTION_PREFIX + dialogController.getId(),
+            parser.getData().addActorConsumer(DIALOG_SHOWING_ACTION_PREFIX + dialogController.getId(),
                     new DialogShowingAction(this, mappedDialogControllerClass));
         }
     }
@@ -202,23 +197,23 @@ public class InterfaceService {
                 return;
             }
         }
-        throw new AutumnRuntimeException("At least one view has to be set as first.");
+        throw new GdxRuntimeException("At least one view has to be set as first.");
     }
 
     private void initiateView(final ViewController controller) {
         if (!controller.isCreated()) {
             validateLocale();
             final ActionContainer actionContainer = controller.getActionContainer();
-            registerViewSpecificActions(controller.getId(), actionContainer);
+            registerViewSpecificActions(controller.getViewId(), actionContainer);
             controller.createView(this);
-            unregisterViewSpecificActions(controller.getId(), actionContainer);
-            parser.clearActorsMappedById();
+            unregisterViewSpecificActions(controller.getViewId(), actionContainer);
+            parser.getActorsMappedByIds().clear();
         }
     }
 
     private void registerViewSpecificActions(final String controllerId, final ActionContainer actionContainer) {
         if (actionContainer != null) {
-            parser.addActionContainer(controllerId, actionContainer);
+            parser.getData().addActionContainer(controllerId, actionContainer);
         }
         final Array<ViewActionProvider> viewSpecificActions = viewActionProcessor.getActionProviders();
         if (GdxArrays.isNotEmpty(viewSpecificActions)) {
@@ -230,7 +225,7 @@ public class InterfaceService {
 
     private void unregisterViewSpecificActions(final String controllerId, final ActionContainer actionContainer) {
         if (actionContainer != null) {
-            parser.removeActionContainer(controllerId);
+            parser.getData().removeActionContainer(controllerId);
         }
         final Array<ViewActionProvider> viewSpecificActions = viewActionProcessor.getActionProviders();
         if (GdxArrays.isNotEmpty(viewSpecificActions)) {
@@ -245,7 +240,8 @@ public class InterfaceService {
         if (!lastLocale.equals(currentLocale)) {
             saveLastLocale(currentLocale);
             for (final Entry<String, FileHandle> bundleData : i18nBundleFiles) {
-                parser.setI18nBundle(bundleData.key, I18NBundle.createBundle(bundleData.value, currentLocale));
+                parser.getData().addI18nBundle(bundleData.key,
+                        I18NBundle.createBundle(bundleData.value, currentLocale));
             }
         }
     }
@@ -260,9 +256,15 @@ public class InterfaceService {
         return batch;
     }
 
-    /** @return {@link com.badlogic.gdx.scenes.scene2d.ui.Skin} used to build views. */
+    /** @return default {@link com.badlogic.gdx.scenes.scene2d.ui.Skin} used to build views. */
     public Skin getSkin() {
-        return skinService.getSkin();
+        return parser.getData().getDefaultSkin();
+    }
+
+    /** @param id ID of the requested skin. By default, case is ignored.
+     * @return {@link com.badlogic.gdx.scenes.scene2d.ui.Skin} with the selected ID. */
+    public Skin getSkin(final String id) {
+        return parser.getData().getSkin(id);
     }
 
     /** Hides current view (if present) and shows the view managed by the passed controller.
@@ -431,7 +433,7 @@ public class InterfaceService {
         if (currentController != null) {
             currentController.resize(width, height);
         }
-        messageProcessor.postMessage(AutumnMessage.GAME_RESIZED);
+        messageDispatcher.postMessage(AutumnMessage.GAME_RESIZED);
     }
 
     /** Pauses the current view, if present. */
@@ -439,7 +441,7 @@ public class InterfaceService {
         if (currentController != null) {
             currentController.pause();
         }
-        messageProcessor.postMessage(AutumnMessage.GAME_PAUSED);
+        messageDispatcher.postMessage(AutumnMessage.GAME_PAUSED);
     }
 
     /** Resumes the current view, if present. */
@@ -447,7 +449,7 @@ public class InterfaceService {
         if (currentController != null) {
             currentController.resume();
         }
-        messageProcessor.postMessage(AutumnMessage.GAME_RESUMED);
+        messageDispatcher.postMessage(AutumnMessage.GAME_RESUMED);
     }
 
     /** @return controller of currently shown view. Might be null. Mostly for internal use. */

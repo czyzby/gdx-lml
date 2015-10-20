@@ -1,9 +1,9 @@
 package com.github.czyzby.autumn.mvc.component.ui.dto.provider;
 
 import com.github.czyzby.lml.parser.LmlParser;
-import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
+import com.github.czyzby.lml.parser.action.ActorConsumer;
 
-/** Wraps around an {@link com.github.czyzby.lml.parser.impl.dto.ActorConsumer}.
+/** Wraps around an {@link com.github.czyzby.lml.parser.action.ActorConsumer}.
  *
  * @author MJ */
 public class ActorConsumerViewActionProvider extends AbstractViewActionProvider {
@@ -19,11 +19,11 @@ public class ActorConsumerViewActionProvider extends AbstractViewActionProvider 
 
     @Override
     protected void register(final LmlParser parser) {
-        parser.addAction(id, actorConsumer);
+        parser.getData().addActorConsumer(id, actorConsumer);
     }
 
     @Override
     protected void unregister(final LmlParser parser) {
-        parser.removeAction(id);
+        parser.getData().removeActorConsumer(id);
     }
 }

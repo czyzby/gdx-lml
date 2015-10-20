@@ -1,7 +1,7 @@
 package com.github.czyzby.autumn.mvc.component.ui.action;
 
 import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
-import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
+import com.github.czyzby.lml.parser.action.ActorConsumer;
 
 /** An action that represents dialog showing. Displays chosen dialog on invocation.
  *

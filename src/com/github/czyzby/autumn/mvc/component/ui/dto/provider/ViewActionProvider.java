@@ -2,8 +2,8 @@ package com.github.czyzby.autumn.mvc.component.ui.dto.provider;
 
 import com.github.czyzby.lml.parser.LmlParser;
 
-/** Wraps around a single {@link com.github.czyzby.lml.parser.impl.dto.ActionContainer} or
- * {@link com.github.czyzby.lml.parser.impl.dto.ActorConsumer}, providing access methods.
+/** Wraps around a single {@link com.github.czyzby.lml.parser.action.ActionContainer} or
+ * {@link com.github.czyzby.lml.parser.action.ActorConsumer}, providing access methods.
  *
  * @author MJ */
 public interface ViewActionProvider {

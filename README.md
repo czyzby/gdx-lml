@@ -24,32 +24,30 @@ Simply put - to save your time. While a pure Java application without reflection
 Normally, you would have to implement some kind of system that manages screens, internationalization, asset management, overall application initiation, and possibly a UI builder too. With Autumn MVC, all you care about is creating a configuration file with basic assets paths (bundles, skin) and a few classes annotated with `@View` that reference LML files.
 
 ### But I don't like LML...
-I can understand that not everyone might be a fan of HTML-like syntax and tedious refactoring. Personally, I find UIs created in Java less readable and too verbose, but if for some reason that's the way you want to go, take the hard way by making your `@View` implement `ViewController` and you will have full control over the screen, without losing SOME features, like the asset management, component injection and so on. There's even an abstract base for views without LML: `AbstractViewController`. However, screen transition mechanism relies on actions, so dropping Scene2D for another UI system is a no-go. You don't have to - or even are encouraged to - use Scene2D for your game logic though.
-
-Anyway, here's an (unfinished) list of LML attributes: [LML syntax](https://github.com/czyzby/gdx-lml/wiki/Syntax). 
+I can understand that not everyone might be a fan of HTML-like syntax and tedious refactoring. Personally, I find UIs created in Java less readable and too verbose, but if for some reason that's the way you want to go, take the hard way by making your `@View`-annotated classes implement `ViewController` and you will have full control over the screen, without losing SOME features, like the asset management, component injection and so on. There's even an abstract base for views without LML: `AbstractViewController`. However, screen transition mechanism relies on actions, so dropping Scene2D for another UI system is a no-go. You don't have to - or even are encouraged to - use Scene2D for your game logic though.
 
 ### Why not...
 Why should you use Autumn MVC instead of a professional, mature dependency injection library? Well, if you already have some of your own utilities and not a huge fan of view templates, you will probably do just fine with Dagger or whatever it is you want to use. In the end, it comes down to what saves your time.
 
-However, Autumn was written with LibGDX in mind, so it provides a lot of extra functionalities which you won't find in other component management systems. Unless we're talking about other LibGDX extensions, of course. I don't know of any similar semi-frameworks on top of LibGDX though.
+However, Autumn was written with LibGDX in mind, so it provides a lot of extra functionalities which you won't find in other component management systems - unless we're talking about other LibGDX extensions, of course. I don't know of any similar semi-frameworks on top of LibGDX though.
 
 To sum up - give it a go and find out if it suits your style.
 
 ## How to start
-Read on [LML](https://github.com/czyzby/gdx-lml) to see how the views are created. Check out [Autumn](https://github.com/czyzby/gdx-autumn) to find out more about the components system. You may also want to know a thing or two about [Kiwi](https://github.com/czyzby/gdx-kiwi), as these utilities might make your programming a bit easier.
+Read on [LML](https://github.com/czyzby/gdx-lml) to see how the views are created. Check out [Autumn](https://github.com/czyzby/gdx-autumn) to find out more about the components system. You may also want to know a thing or two about [Kiwi](https://github.com/czyzby/gdx-kiwi), as these utilities might make your programming a bit easier. Then check out [GdxIdle](https://github.com/czyzby/gdx-autumn-mvc-tests).
 
 ### Depedencies
 Gradle:
 
 ```
-    compile "com.github.czyzby:gdx-autumn-mvc:0.8.$gdxVersion"
+    compile "com.github.czyzby:gdx-autumn-mvc:1.1.$gdxVersion"
 ```
 Currently supported LibGDX version is **1.7.0**.
 
 ### Application
-Instead of implementing `ApplicationListener` or extending `ApplicationAdapter`, extend `AutumnApplication`. Actually, you can even use pass it to application initiation methods without extending, this is not an abstract class. Initiating this object requires you to pass a root scanning class (which will usually be the class in the bottom of your package hierarchy) and a class scanner, which is (usually) platform-specific.
+Instead of implementing `ApplicationListener` or extending `ApplicationAdapter`, use `AutumnApplication`. Actually, you can even use it without extending - this is not an abstract class. Initiating this object requires you to pass a root scanning class (which will usually be the class in the bottom of your package hierarchy) and a class scanner, which is (usually) platform-specific.
 
-After that, you might want to create a single `@Configuration` class that will be initiated and destroyed when the context is being built. By annotating its fields, you can choose skin, i18n bundles, preferences (and so on) that will be used by LML parser. Available configurations:
+After that, you might want to create a single `@Component` class with configuration, that will be initiated and destroyed when the context is being built. By annotating its fields, you can choose skin, i18n bundles, preferences (and so on) that will be used by LML parser. Available configurations:
 
 - `@I18nBundle` - should annotate a string with a path the I18nBundle or a FileHandle pointing to a bundle. Can optionally set bundle ID - multiple bundles can be used in views: specific bundles can be referenced with @bundleId.bundleKey.
 - `@I18nLocale` - should annotate a string with a property name (and specify properties path) or a default Locale object (not advised). Allows to set initial locale and - if properties are used - save locale in user's preferences. (Done automatically when changing locale with LocaleService.)
@@ -57,14 +55,14 @@ After that, you might want to create a single `@Configuration` class that will b
 - `@Preference` - should annotate a string with a path to application preferences. Currently it is used solely to pass the preferences object to the LML parser, so that the preferences could be referenced with # operator.
 - `@SoundVolume`, `@MusicVolume` - should annotate either a float with initial sounds or music volumes (not advised), or a string with the preference name where sound volume should be stored. All music properties should be in one preferences. Allows to save and restore sound settings.
 - `@SoundEnabled`, `@MusicEnabled` - should annotate either a boolean with initial sounds or music states (not advised), or a string with the preference name where music state should be stored. Passed preferences should be the same ones that were used for volumes.
-- `@StageViewport` - can annotate a ObjectProvider<Stage> (see Kiwi lazy variables), that provides viewports used upon stage creation. Default viewport type is the ScreenViewport, as it works arguably well for interfaces and does not require additional settings (like virtual screen size).
+- `@StageViewport` - can annotate a `ObjectProvider<Stage>` (see Kiwi lazy variables), that provides viewports used upon stage creation. Default viewport type is the `ScreenViewport`, as it works arguably well for interfaces and does not require additional settings (like virtual screen size).
 - `@LmlMacro` - can annotate a String or String[] containing paths to LML files with macro declarations. Since macros have to be parsed once (and their custom parser is created dynamically), keeping macros in separate files and parsing them on init is advised.
 - `@AvailableLocales` - can annotate a String[] field containing locales available in game. Annotated array will be passed to the LML templates with the chosen argument name (can be iterated over) and each of the locales in array will add an action with the specified prefix that changes the current locale of the application on invocation.
 
 To register views you can use:
 
 - `@View` - should annotate a class that manages a single view. By using this annotation, the class becomes a view controller - it can either implement `ViewController` interface for full view control or be wrapped by the default controller implementation. To gain some control over the view, classes annotated with @View can implement:
-  - `ActionContainer`: all controller's methods (that consume no arguments or a single argument - an object in class hierarchy of calling actor; see LML documentation) will be available in the LML views with & prefix or no prefix if referenced in attribute that expects an action, like onClick.
+  - `ActionContainer`: all controller's methods (that consume no arguments or a single argument - an object in class hierarchy of calling actor; see LML documentation) will be available in the LML views with `$` prefix (or no prefix if attribute expects an action, like onClick).
   - `ViewRenderer`: takes control over view rendering. Gains access to the stage. Default implementation calls stage acting and drawing.
   - `ViewResizer`: takes control over view resizing. Gains access to the stage. Default implementation updates stage's viewport.
   - `ViewInitializer`: allows to invoke extra actions while initiating and destroying the view. Initializing takes place after parsing LML template and initiating stage.
@@ -86,11 +84,12 @@ In views you can also use these utility annotations:
 - `@Inject` - while not unique to Autumn MVC (this is actually a standard Autumn annotation), this is one of the annotations you will use the most. It allows to you inject any component - be it classes annotated with @Component or @View (among others), standard Autumn services, meta annotation processors or even the ContextContainer itself. See [Autumn](https://github.com/czyzby/gdx-autumn) docs for more info and more useful annotations.
 - `@Dispose` - again, this is Autumn annotation that allows to automate the disposal of heavy objects. Basically, when the annotated object is removed from context (which usually takes place when the application is being closed), it will be automatically disposed of. This does not have to annotate injected assets, as AssetService already takes care of asset disposing.
 - `@ViewStage` - when used in @View or @ViewDialog, injects current Stage object into the field. MIGHT be null or TURN null, as screens are sometimes reloaded and stages references might be cleared.
-- `@ViewActor` - when used in @View or @ViewDialog, injects actor with the given ID to the field after LML template parsing. If actor ID is not given, field name is used. ID can be specified in LML templates with "id" tag attribute. Note that you can pass an array of strings with multiple actor IDs - if the field is an Array, ObjectSet or ObjectMap, multiple actors will be stored in the collection and injected into one field. If you use an Array, the injected actors' order will match the order of actor IDs that you pass into the annotation. If you use an ObjectMap, it has to be a `<String,CommonActorSuperClass>` map - actors will be put into the map with the key matching their ID. Collections are CLEARED on each view building, even if there were no actors to inject (if, for example, you forgot to put "id" tags in LML templates or if the actors appear only upon meeting some conditions), but there is only one instance used the entire time. If you don't initiate the collection yourself, it will be initiated upon first view building.
+- `@LmlActor`, `@LmlAction` - injects actors from LML templates; allows to invoke actions in LML templates. See LML docs.
 
 These are the services that you might want or have to inject from time to time:
 
 - `InterfaceService` - manages screen transitions, contains LML parser. Contains mutable static fields with some defaults that are used when constructing views (and making separate annotations for these settings seemed like an overkill).
+- `SkinService` - allows to directly access created `Skin` objects. 
 - `LocaleService` - manages I18N.
 - `AssetService` - manages an AssetManager, loads, provides and injects assets.
 - `MusicService` - manages sounds and sound preferences. This service also registers LML actions that allow to easily modify sound settings: toggleSound and toggleMusic turns sounds/music on and off and setSoundVolume/setMusicVolume can be attached to a Scene2D Slider to modify current volume. You can get current sound settings with musicOn, soundOn, getMusicVolume, getSoundVolume in LML templates; default actions names can be changed by setting MusicService static variables (with higher priority than @Initiate(priority=0)).
@@ -106,6 +105,15 @@ Automatic component scan on Android and iOS is not implemented and it might take
 Your opinions, comments and testing can help as well. Don't be afraid to inform me about bugs and functionalities that are missing or the ones you are not a huge fan of.
 
 ## What's new
+0 -> 1
+
+- Updated to LML 1. Removed `ViewActor` annotation; now LML's `LmlActor` is used. Added support for new LML features: `@OnChange`, `@LmlActor`, `@LmlAction`, etc. Make sure to update your LML templates according to the updated syntax. See LML docs for more info.
+- Updated to Autumn 1. All annotation processors were refactored to match the new API; their functionality stayed pretty much the same, unless noted below.
+- `StageViewport` annotation now can also annotate a class that implements `ObjectProvider<Stage>`; previously only fields were supported.
+- While updating from 0 to 1, Kiwi and Autumn MVC has changed the least out of my LibGDX libraries. Actually, the biggest change in Autumn MVC itself was updating the annotation processors and refactoring view managers to match new Autumn and LML features, with a few new small functionalities here and there that were trivial to add with the new systems.
+
+The last version that uses LML 0 and Autumn 0 is `0.8.1.7.0` (or `0.9.1.7.0-SNAPSHOT`).
+
 0.7 -> 0.8
 
 - @ViewActor annotation now takes an array of strings, making it possible to inject multiple actors into one field. Supported collection types are Array, ObjectSet and ObjectMap - standard LibGDX collections. If you use an Array, the injected actors' order will match the order of actor IDs that you pass into the annotation. If you use an ObjectMap, it has to be a `<String,CommonActorSuperClass>` map - actors will be put into the map with the key matching their ID. If you pass an empty array to the ViewActor annotation (default behavior), an array containing field's name will be used instead. Note that this does not break any existing code; if the annotated field is not a collection, actor mapped by the first ID in the annotation's string array (or mapped by field's name) will be injected directly into the field.

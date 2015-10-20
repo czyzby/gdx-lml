@@ -3,7 +3,7 @@ package com.github.czyzby.autumn.mvc.config;
 import com.badlogic.gdx.assets.AssetLoaderParameters;
 
 /** Contains all messages posted by Autumn MVC components using a
- * {@link com.github.czyzby.autumn.context.processor.method.MessageProcessor}.
+ * {@link com.github.czyzby.autumn.processor.event.MessageDispatcher}.
  *
  * @author MJ */
 public class AutumnMessage {
@@ -18,8 +18,8 @@ public class AutumnMessage {
      * methods. */
     public static final String ASSETS_LOADED = "AMVC_assetsLoaded";
 
-    /** Posted when application's {@link com.badlogic.gdx.scenes.scene2d.ui.Skin} is fully loaded. */
-    public static final String SKIN_LOADED = "AMVC_skinLoaded";
+    /** Posted when all application's {@link com.badlogic.gdx.scenes.scene2d.ui.Skin}s are fully loaded. */
+    public static final String SKINS_LOADED = "AMVC_skinsLoaded";
 
     /** Posted when the game's window is resized. Posted AFTER
      * {@link com.github.czyzby.autumn.mvc.component.ui.InterfaceService} resizes current view (if any is present). */

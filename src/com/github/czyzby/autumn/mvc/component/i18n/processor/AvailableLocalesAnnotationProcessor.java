@@ -1,57 +1,59 @@
 package com.github.czyzby.autumn.mvc.component.i18n.processor;
 
-import java.lang.annotation.Annotation;
-
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
-import com.github.czyzby.autumn.annotation.field.Inject;
-import com.github.czyzby.autumn.annotation.stereotype.MetaComponent;
-import com.github.czyzby.autumn.context.ContextComponent;
-import com.github.czyzby.autumn.context.ContextContainer;
-import com.github.czyzby.autumn.context.processor.field.ComponentFieldAnnotationProcessor;
-import com.github.czyzby.autumn.error.AutumnRuntimeException;
+import com.github.czyzby.autumn.annotation.Inject;
+import com.github.czyzby.autumn.context.Context;
+import com.github.czyzby.autumn.context.ContextDestroyer;
+import com.github.czyzby.autumn.context.ContextInitializer;
 import com.github.czyzby.autumn.mvc.component.i18n.LocaleService;
 import com.github.czyzby.autumn.mvc.component.i18n.dto.LocaleChangingAction;
 import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
 import com.github.czyzby.autumn.mvc.stereotype.preference.AvailableLocales;
-import com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy;
+import com.github.czyzby.autumn.processor.AbstractAnnotationProcessor;
 import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 import com.github.czyzby.lml.parser.LmlParser;
 
-/** Used to scan for annotated preferences' data.
+/** Used to scan for preferences of available game translations.
  *
  * @author MJ */
-@MetaComponent
-public class AvailableLocalesAnnotationProcessor extends ComponentFieldAnnotationProcessor {
-    @Inject(lazy = InterfaceService.class) private Lazy<InterfaceService> interfaceService;
-    @Inject(lazy = LocaleService.class) private Lazy<LocaleService> localeService;
+public class AvailableLocalesAnnotationProcessor extends AbstractAnnotationProcessor<AvailableLocales> {
+    @Inject private InterfaceService interfaceService;
+    @Inject private LocaleService localeService;
 
     @Override
-    public Class<? extends Annotation> getProcessedAnnotationClass() {
+    public Class<AvailableLocales> getSupportedAnnotationType() {
         return AvailableLocales.class;
     }
 
     @Override
-    public void processField(final ContextContainer context, final ContextComponent component, final Field field) {
+    public boolean isSupportingFields() {
+        return true;
+    }
+
+    @Override
+    public void processField(final Field field, final AvailableLocales annotation, final Object component,
+            final Context context, final ContextInitializer initializer, final ContextDestroyer contextDestroyer) {
         try {
-            final Object locales = Reflection.getFieldValue(field, component.getComponent());
+            final Object locales = Reflection.getFieldValue(field, component);
             if (locales instanceof String[]) {
                 final String[] availableLocales = (String[]) locales;
-                final LmlParser parser = interfaceService.get().getParser();
-                final AvailableLocales localesData = Reflection.getAnnotation(field, AvailableLocales.class);
+                final LmlParser parser = interfaceService.getParser();
 
-                parser.addArgument(localesData.viewArgumentName(), availableLocales);
+                parser.getData().addArgument(annotation.viewArgumentName(), availableLocales);
                 for (final String locale : availableLocales) {
-                    parser.addAction(localesData.localeChangeMethodPrefix() + locale,
-                            new LocaleChangingAction(localeService.get(), LocaleService.toLocale(locale)));
+                    parser.getData().addActorConsumer(annotation.localeChangeMethodPrefix() + locale,
+                            new LocaleChangingAction(localeService, LocaleService.toLocale(locale)));
                 }
                 return;
             }
-            throw new AutumnRuntimeException("Invalid field annotated with @AvailableLocales in component "
-                    + component.getComponent() + ". Expected String[], received: " + locales + ".");
+            throw new GdxRuntimeException("Invalid field annotated with @AvailableLocales in component " + component
+                    + ". Expected String[], received: " + locales + ".");
         } catch (final ReflectionException exception) {
-            throw new AutumnRuntimeException("Unable to read available locales from field: " + field + " of component: "
-                    + component.getComponent() + ".", exception);
+            throw new GdxRuntimeException(
+                    "Unable to read available locales from field: " + field + " of component: " + component + ".",
+                    exception);
         }
     }
 }

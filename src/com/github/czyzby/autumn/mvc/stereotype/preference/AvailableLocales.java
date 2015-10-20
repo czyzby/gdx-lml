@@ -20,6 +20,6 @@ public @interface AvailableLocales {
     /** @return prefix of the LML view method that allows to change current locale. Defaults to "locale:". */
     String localeChangeMethodPrefix() default "locale:";
 
-    /** @return name of the locales array as it appears in the LML views. Defaults to "locale". */
+    /** @return name of the locales array as it appears in the LML views. Defaults to "locales". */
     String viewArgumentName() default "locales";
 }

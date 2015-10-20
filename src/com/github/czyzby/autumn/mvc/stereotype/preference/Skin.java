@@ -13,11 +13,14 @@ import java.lang.annotation.Target;
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Skin {
+    /** @return name of the skin, as it will be available in LML templates. Defaults to "default". */
+    String value() default "default";
+
     /** @return paths to fonts. Allows to load fonts with the same atlas as the skin. Note that fonts names should be
      *         passed with {@link #fontNames()}. */
-    String[]fonts() default {};
+    String[] fonts() default {};
 
     /** @return names of the fonts as they appear in the skin. Allows to use font loaded from skin's atlas, without
      *         having to reference them in JSON files. Names array length has to match {@link #fonts()} length. */
-    String[]fontNames() default {};
+    String[] fontNames() default {};
 }

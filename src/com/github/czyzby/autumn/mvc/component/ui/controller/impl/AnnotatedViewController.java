@@ -6,8 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ObjectMap;
-import com.github.czyzby.autumn.context.ContextContainer;
 import com.github.czyzby.autumn.mvc.component.asset.AssetService;
 import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
 import com.github.czyzby.autumn.mvc.component.ui.controller.ViewController;
@@ -22,7 +20,8 @@ import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.asset.Disposables;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
-import com.github.czyzby.lml.parser.impl.dto.ActionContainer;
+import com.github.czyzby.lml.parser.action.ActionContainer;
+import com.github.czyzby.lml.util.LmlUtilities;
 
 /** Default controller wrapper for an object that isn't an implementation of
  * {@link com.github.czyzby.autumn.mvc.component.ui.controller.ViewController}, but is annotated with
@@ -32,7 +31,6 @@ import com.github.czyzby.lml.parser.impl.dto.ActionContainer;
 public class AnnotatedViewController extends AbstractAnnotatedController implements ViewController {
     private final Array<Music> themes = GdxArrays.newArray();
     private final View viewData;
-    private final ContextContainer context;
     private final String id;
 
     private Stage stage;
@@ -46,20 +44,17 @@ public class AnnotatedViewController extends AbstractAnnotatedController impleme
     // Lazy initiation to allow setting default renderers etc. in @Initiate methods.
     private boolean isInitiated;
 
-    public AnnotatedViewController(final View viewData, final Object wrappedObject, final ContextContainer context) {
+    public AnnotatedViewController(final View viewData, final Object wrappedObject, final AssetService assetService) {
         super(wrappedObject);
         this.viewData = viewData;
-        this.context = context;
 
         id = Strings.isWhitespace(viewData.id()) ? wrappedObject.getClass().getSimpleName() : viewData.id();
 
-        loadThemes();
+        loadThemes(assetService);
     }
 
-    private void loadThemes() {
+    private void loadThemes(final AssetService assetService) {
         if (viewData.themes().length > 0) {
-            final AssetService assetService = context.extractFromContext(AssetService.class)
-                    .getComponent(AssetService.class);
             if (viewData.loadThemesEagerly()) {
                 for (final String theme : viewData.themes()) {
                     themes.add(assetService.finishLoading(theme, Music.class));
@@ -78,11 +73,14 @@ public class AnnotatedViewController extends AbstractAnnotatedController impleme
         initiate();
         stage = new Stage(interfaceService.getViewportProvider().provide(), interfaceService.getBatch());
         injectStage(stage);
-        interfaceService.getParser().fill(stage, Gdx.files.getFileHandle(viewData.value(), viewData.fileType()));
-        final ObjectMap<String, Actor> actorsMappedById = interfaceService.getParser().getActorsMappedById();
-        injectReferencedActors(actorsMappedById);
+        final Array<Actor> actors = interfaceService.getParser().createView(wrappedObject,
+                Gdx.files.getFileHandle(viewData.value(), viewData.fileType()));
+        LmlUtilities.appendActorsToStage(stage, actors);
         if (viewInitializer != null) {
-            viewInitializer.initialize(stage, actorsMappedById);
+            viewInitializer.initialize(stage, interfaceService.getParser().getActorsMappedByIds());
+        }
+        if (viewData.clearLmlMetaData()) {
+            LmlUtilities.clearLmlUserObjects(actors);
         }
     }
 
@@ -95,11 +93,7 @@ public class AnnotatedViewController extends AbstractAnnotatedController impleme
         } else if (wrappedObject.getClass().equals(viewData.renderer())) {
             return (ViewRenderer) wrappedObject; // Safe to cast, wrapped has to implement VR.
         }
-        final Class<? extends ViewRenderer> rendererClass = viewData.renderer();
-        if (context.contains(rendererClass)) {
-            return context.getFromContext(rendererClass);
-        }
-        return Reflection.newInstance(rendererClass);
+        return Reflection.newInstance(viewData.renderer());
     }
 
     private ViewResizer createResizer() {
@@ -111,11 +105,7 @@ public class AnnotatedViewController extends AbstractAnnotatedController impleme
         } else if (wrappedObject.getClass().equals(viewData.resizer())) {
             return (ViewResizer) wrappedObject; // Safe to cast, wrapped has to implement VR.
         }
-        final Class<? extends ViewResizer> resizerClass = viewData.resizer();
-        if (context.contains(resizerClass)) {
-            return context.getFromContext(resizerClass);
-        }
-        return Reflection.newInstance(resizerClass);
+        return Reflection.newInstance(viewData.resizer());
     }
 
     private ViewPauser createPauser() {
@@ -127,11 +117,7 @@ public class AnnotatedViewController extends AbstractAnnotatedController impleme
         } else if (wrappedObject.getClass().equals(viewData.pauser())) {
             return (ViewPauser) wrappedObject; // Safe to cast, wrapped has to implement VP.
         }
-        final Class<? extends ViewPauser> pauserClass = viewData.pauser();
-        if (context.contains(pauserClass)) {
-            return context.getFromContext(pauserClass);
-        }
-        return Reflection.newInstance(pauserClass);
+        return Reflection.newInstance(viewData.pauser());
     }
 
     private ViewShower createShower() {
@@ -143,11 +129,7 @@ public class AnnotatedViewController extends AbstractAnnotatedController impleme
         } else if (wrappedObject.getClass().equals(viewData.shower())) {
             return (ViewShower) wrappedObject; // Safe to cast, wrapped has to implement VS.
         }
-        final Class<? extends ViewShower> showerClass = viewData.shower();
-        if (context.contains(showerClass)) {
-            return context.getFromContext(showerClass);
-        }
-        return Reflection.newInstance(showerClass);
+        return Reflection.newInstance(viewData.shower());
     }
 
     private ViewInitializer createInitializer() {
@@ -159,11 +141,7 @@ public class AnnotatedViewController extends AbstractAnnotatedController impleme
         } else if (wrappedObject.getClass().equals(viewData.initializer())) {
             return (ViewInitializer) wrappedObject; // Safe to cast, wrapped has to implement VI.
         }
-        final Class<? extends ViewInitializer> initializerClass = viewData.initializer();
-        if (context.contains(initializerClass)) {
-            return context.getFromContext(initializerClass);
-        }
-        return Reflection.newInstance(initializerClass);
+        return Reflection.newInstance(viewData.initializer());
     }
 
     private void initiate() {
@@ -222,7 +200,7 @@ public class AnnotatedViewController extends AbstractAnnotatedController impleme
     }
 
     @Override
-    public String getId() {
+    public String getViewId() {
         return id;
     }
 

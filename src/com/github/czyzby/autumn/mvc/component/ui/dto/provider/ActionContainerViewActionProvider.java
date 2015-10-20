@@ -1,9 +1,9 @@
 package com.github.czyzby.autumn.mvc.component.ui.dto.provider;
 
 import com.github.czyzby.lml.parser.LmlParser;
-import com.github.czyzby.lml.parser.impl.dto.ActionContainer;
+import com.github.czyzby.lml.parser.action.ActionContainer;
 
-/** Wraps around an {@link com.github.czyzby.lml.parser.impl.dto.ActionContainer}.
+/** Wraps around an {@link com.github.czyzby.lml.parser.action.ActionContainer}.
  *
  * @author MJ */
 public class ActionContainerViewActionProvider extends AbstractViewActionProvider {
@@ -19,11 +19,11 @@ public class ActionContainerViewActionProvider extends AbstractViewActionProvide
 
     @Override
     protected void register(final LmlParser parser) {
-        parser.addActionContainer(id, actionContainer);
+        parser.getData().addActionContainer(id, actionContainer);
     }
 
     @Override
     protected void unregister(final LmlParser parser) {
-        parser.removeActionContainer(id);
+        parser.getData().removeActionContainer(id);
     }
 }

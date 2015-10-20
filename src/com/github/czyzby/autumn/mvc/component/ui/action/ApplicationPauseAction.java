@@ -1,7 +1,7 @@
 package com.github.czyzby.autumn.mvc.component.ui.action;
 
 import com.badlogic.gdx.Gdx;
-import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
+import com.github.czyzby.lml.parser.action.ActorConsumer;
 
 /** LML view action. Forces application's pausing on invocation.
  *

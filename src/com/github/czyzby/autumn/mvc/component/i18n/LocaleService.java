@@ -1,22 +1,20 @@
 package com.github.czyzby.autumn.mvc.component.i18n;
 
-import java.lang.annotation.Annotation;
 import java.util.Locale;
 
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
-import com.github.czyzby.autumn.annotation.field.Inject;
-import com.github.czyzby.autumn.annotation.stereotype.MetaComponent;
-import com.github.czyzby.autumn.context.ContextComponent;
-import com.github.czyzby.autumn.context.ContextContainer;
-import com.github.czyzby.autumn.context.processor.field.ComponentFieldAnnotationProcessor;
-import com.github.czyzby.autumn.error.AutumnRuntimeException;
+import com.github.czyzby.autumn.annotation.Inject;
+import com.github.czyzby.autumn.context.Context;
+import com.github.czyzby.autumn.context.ContextDestroyer;
+import com.github.czyzby.autumn.context.ContextInitializer;
 import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
 import com.github.czyzby.autumn.mvc.stereotype.preference.I18nLocale;
+import com.github.czyzby.autumn.processor.AbstractAnnotationProcessor;
 import com.github.czyzby.kiwi.util.common.Strings;
-import com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
 import com.github.czyzby.kiwi.util.gdx.preference.ApplicationPreferences;
 import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
@@ -26,16 +24,14 @@ import com.github.czyzby.kiwi.util.tuple.mutable.MutableSingle;
  * locale.
  *
  * @author MJ */
-@MetaComponent
-public class LocaleService extends ComponentFieldAnnotationProcessor {
+public class LocaleService extends AbstractAnnotationProcessor<I18nLocale> {
     /** Regex used to split locales extracted from preferences or string variables containing locales, and to convert
      * {@link java.util.Locale} objects to strings. Defaults to "-". Can be changed globally, before context loading. */
     public static String DEFAULT_LOCALE_SEPARATOR = "-";
     /** Default locale used when no other value is given. Can be changed globally. */
     public static String DEFAULT_LANGUAGE = "en";
 
-    @Inject private ContextContainer context;
-    @Inject(lazy = InterfaceService.class) private Lazy<InterfaceService> interfaceService;
+    @Inject private InterfaceService interfaceService;
 
     private final MutableSingle<Locale> currentLocale = MutableSingle.of(null);
     private ObjectProvider<Locale> defaultLocaleProvider = new ObjectProvider<Locale>() {
@@ -50,7 +46,7 @@ public class LocaleService extends ComponentFieldAnnotationProcessor {
             if (Strings.isNotEmpty(localePreferenceName) && Strings.isNotEmpty(localePreferencesPath)) {
                 saveLocaleInPreferences();
             }
-            interfaceService.get().reload();
+            interfaceService.reload();
         }
     };
 
@@ -59,7 +55,7 @@ public class LocaleService extends ComponentFieldAnnotationProcessor {
 
     /** @param locale string containing locale with parts separated with {@link #DEFAULT_LOCALE_SEPARATOR}
      * @return locale constructed with the processed string.
-     * @throws AutumnRuntimeException if string is invalid. */
+     * @throws GdxRuntimeException if string is invalid. */
     public static Locale toLocale(final String locale) {
         final String[] localeParts = locale.split(DEFAULT_LOCALE_SEPARATOR);
         switch (localeParts.length) {
@@ -70,7 +66,7 @@ public class LocaleService extends ComponentFieldAnnotationProcessor {
             case 1:
                 return new Locale(localeParts[0]);
             default:
-                throw new AutumnRuntimeException("Invalid locale preference. Received: " + locale);
+                throw new GdxRuntimeException("Invalid locale preference. Received: " + locale);
         }
     }
 
@@ -119,22 +115,27 @@ public class LocaleService extends ComponentFieldAnnotationProcessor {
     }
 
     @Override
-    public Class<? extends Annotation> getProcessedAnnotationClass() {
+    public Class<I18nLocale> getSupportedAnnotationType() {
         return I18nLocale.class;
     }
 
     @Override
-    public void processField(final ContextContainer context, final ContextComponent component, final Field field) {
+    public boolean isSupportingFields() {
+        return true;
+    }
+
+    @Override
+    public void processField(final Field field, final I18nLocale annotation, final Object component,
+            final Context context, final ContextInitializer initializer, final ContextDestroyer contextDestroyer) {
         try {
-            final I18nLocale localeData = Reflection.getAnnotation(field, I18nLocale.class);
-            final Object locale = Reflection.getFieldValue(field, component.getComponent());
+            final Object locale = Reflection.getFieldValue(field, component);
             if (locale instanceof Locale) {
                 currentLocale.set((Locale) locale);
             } else if (locale instanceof String) {
-                extractLocaleFromAnnotatedString(localeData, (String) locale);
+                extractLocaleFromAnnotatedString(annotation, (String) locale);
             }
         } catch (final ReflectionException exception) {
-            throw new AutumnRuntimeException("Unable to extract application's locale.", exception);
+            throw new GdxRuntimeException("Unable to extract application's locale.", exception);
         }
 
     }
@@ -178,7 +179,7 @@ public class LocaleService extends ComponentFieldAnnotationProcessor {
      * @param preferenceName name of the locale setting in the preferences. */
     public void saveLocaleInPreferences(final String preferencesPath, final String preferenceName) {
         if (Strings.isEmpty(preferencesPath) || Strings.isEmpty(preferenceName)) {
-            throw new AutumnRuntimeException(
+            throw new GdxRuntimeException(
                     "Preference path and name cannot be empty! These are set automatically if you annotate a path to preference with @I18nBundle and pass a corrent path to the preferences.");
         }
         final Preferences preferences = ApplicationPreferences.getPreferences(preferencesPath);
@@ -190,7 +191,7 @@ public class LocaleService extends ComponentFieldAnnotationProcessor {
      *
      * @return bundle stored in LML parser with the default key. Might be null. */
     public I18NBundle getI18nBundle() {
-        return interfaceService.get().getParser().getDefaultI18nBundle();
+        return interfaceService.getParser().getData().getDefaultI18nBundle();
     }
 
     /** Utility method. Provides direct access to {@link com.badlogic.gdx.utils.I18NBundle} with selected name.
@@ -198,6 +199,6 @@ public class LocaleService extends ComponentFieldAnnotationProcessor {
      * @param forName ID of the bundle as it appears in the LML parser.
      * @return bundle stored in LML parser with the selected key. Might be null. */
     public I18NBundle getI18nBundle(final String forName) {
-        return interfaceService.get().getParser().getI18nBundle(forName);
+        return interfaceService.getParser().getData().getI18nBundle(forName);
     }
 }

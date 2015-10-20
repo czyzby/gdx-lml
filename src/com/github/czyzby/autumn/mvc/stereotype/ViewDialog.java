@@ -15,10 +15,9 @@ public @interface ViewDialog {
     String value();
 
     /** @return ID of the dialog. Allows to specify dialog's name as it appears in the views with the default
-     *         show:dialogId action. If the class implements
-     *         {@link com.github.czyzby.lml.parser.impl.dto.ActionContainer} interface, it will be added as action
-     *         container to the LML parser with the selected ID. If not set, will be replaced with the simple name of
-     *         class object. */
+     *         show:dialogId action. If the class implements {@link com.github.czyzby.lml.parser.action.ActionContainer}
+     *         interface, it will be added as action container to the LML parser with the selected ID. If not set, will
+     *         be replaced with the simple name of class object. */
     String id() default "";
 
     /** @return if true, LML template will be parsed once and the created dialog object will be shown each time it is

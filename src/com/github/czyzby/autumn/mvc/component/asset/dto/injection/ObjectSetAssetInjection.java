@@ -3,7 +3,7 @@ package com.github.czyzby.autumn.mvc.component.asset.dto.injection;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
-import com.github.czyzby.autumn.error.AutumnRuntimeException;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.github.czyzby.autumn.mvc.component.asset.AssetService;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxSets;
 import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
@@ -48,7 +48,7 @@ public class ObjectSetAssetInjection implements AssetInjection {
             }
             Reflection.setFieldValue(field, component, set);
         } catch (final ReflectionException exception) {
-            throw new AutumnRuntimeException("Unable to inject set of assets into component: " + component + ".",
+            throw new GdxRuntimeException("Unable to inject set of assets into component: " + component + ".",
                     exception);
         }
     }

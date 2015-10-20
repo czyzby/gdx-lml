@@ -2,7 +2,7 @@ package com.github.czyzby.autumn.mvc.component.sfx.dto;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.github.czyzby.autumn.mvc.component.sfx.MusicService;
-import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
+import com.github.czyzby.lml.parser.action.ActorConsumer;
 
 /** Changes music volume on invocation. Expects a slider.
  *

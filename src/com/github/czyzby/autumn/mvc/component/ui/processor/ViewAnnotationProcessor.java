@@ -1,59 +1,40 @@
 package com.github.czyzby.autumn.mvc.component.ui.processor;
 
-import java.lang.annotation.Annotation;
-
-import com.badlogic.gdx.utils.reflect.ClassReflection;
-import com.github.czyzby.autumn.annotation.field.Inject;
-import com.github.czyzby.autumn.annotation.stereotype.Component;
-import com.github.czyzby.autumn.annotation.stereotype.MetaComponent;
-import com.github.czyzby.autumn.context.ContextComponent;
-import com.github.czyzby.autumn.context.ContextContainer;
-import com.github.czyzby.autumn.context.processor.type.ComponentTypeAnnotationProcessor;
+import com.github.czyzby.autumn.annotation.Inject;
+import com.github.czyzby.autumn.context.Context;
+import com.github.czyzby.autumn.context.ContextDestroyer;
+import com.github.czyzby.autumn.context.ContextInitializer;
+import com.github.czyzby.autumn.mvc.component.asset.AssetService;
 import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
 import com.github.czyzby.autumn.mvc.component.ui.controller.ViewController;
 import com.github.czyzby.autumn.mvc.component.ui.controller.impl.AnnotatedViewController;
 import com.github.czyzby.autumn.mvc.stereotype.View;
-import com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy;
-import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
+import com.github.czyzby.autumn.processor.AbstractAnnotationProcessor;
 
 /** Processes {@link com.github.czyzby.autumn.mvc.stereotype.View} components. Initiates controllers.
  *
  * @author MJ */
-@MetaComponent
-public class ViewAnnotationProcessor extends ComponentTypeAnnotationProcessor {
-    @Inject(lazy = InterfaceService.class) private Lazy<InterfaceService> interfaceService;
+public class ViewAnnotationProcessor extends AbstractAnnotationProcessor<View> {
+    @Inject private InterfaceService interfaceService;
+    @Inject private AssetService assetService;
 
     @Override
-    public Class<? extends Annotation> getProcessedAnnotationClass() {
+    public Class<View> getSupportedAnnotationType() {
         return View.class;
     }
 
     @Override
-    public void processClass(final ContextContainer context, final Class<?> componentClass) {
-        final boolean isInContext = context.contains(componentClass);
-        final ContextComponent component = isInContext ? context.extractFromContext(componentClass)
-                : prepareComponent(context, componentClass);
-        final Object controller = component.getComponent();
-        final View viewData = Reflection.getAnnotation(componentClass, View.class);
-        if (controller instanceof ViewController) {
-            interfaceService.get().registerController(controller.getClass(), (ViewController) controller);
-        } else {
-            interfaceService.get().registerController(controller.getClass(),
-                    new AnnotatedViewController(viewData, controller, context));
-        }
-        if (!isInContext) {
-            context.registerComponent(component);
-        }
+    public boolean isSupportingTypes() {
+        return true;
     }
 
     @Override
-    public ContextComponent prepareComponent(final ContextContainer context, final Class<?> componentClass) {
-        if (ClassReflection.isAnnotationPresent(componentClass, Component.class)) {
-            final Component componentData = Reflection.getAnnotation(componentClass, Component.class);
-            return new ContextComponent(componentClass, getNewInstanceOf(componentClass), componentData.lazy(),
-                    componentData.keepInContext());
+    public void processType(final Class<?> type, final View annotation, final Object component, final Context context,
+            final ContextInitializer initializer, final ContextDestroyer contextDestroyer) {
+        if (component instanceof ViewController) {
+            interfaceService.registerController(type, (ViewController) component);
+        } else {
+            interfaceService.registerController(type, new AnnotatedViewController(annotation, component, assetService));
         }
-        // Not lazy and kept in context by default.
-        return new ContextComponent(componentClass, getNewInstanceOf(componentClass), false, true);
     }
 }

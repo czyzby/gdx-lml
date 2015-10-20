@@ -1,45 +1,45 @@
 package com.github.czyzby.autumn.mvc.component.sfx.processor;
 
-import java.lang.annotation.Annotation;
-
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
-import com.github.czyzby.autumn.annotation.field.Inject;
-import com.github.czyzby.autumn.annotation.stereotype.MetaComponent;
-import com.github.czyzby.autumn.context.ContextComponent;
-import com.github.czyzby.autumn.context.ContextContainer;
-import com.github.czyzby.autumn.context.processor.field.ComponentFieldAnnotationProcessor;
-import com.github.czyzby.autumn.error.AutumnRuntimeException;
+import com.github.czyzby.autumn.annotation.Inject;
+import com.github.czyzby.autumn.context.Context;
+import com.github.czyzby.autumn.context.ContextDestroyer;
+import com.github.czyzby.autumn.context.ContextInitializer;
 import com.github.czyzby.autumn.mvc.component.sfx.MusicService;
 import com.github.czyzby.autumn.mvc.stereotype.preference.sfx.SoundVolume;
-import com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy;
+import com.github.czyzby.autumn.processor.AbstractAnnotationProcessor;
 import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 
 /** Allows to set initial sound volume and assign sound preferences.
  *
  * @author MJ */
-@MetaComponent
-public class SoundVolumeAnnotationProcessor extends ComponentFieldAnnotationProcessor {
-    @Inject(lazy = MusicService.class) private Lazy<MusicService> musicService;
+public class SoundVolumeAnnotationProcessor extends AbstractAnnotationProcessor<SoundVolume> {
+    @Inject private MusicService musicService;
 
     @Override
-    public Class<? extends Annotation> getProcessedAnnotationClass() {
+    public Class<SoundVolume> getSupportedAnnotationType() {
         return SoundVolume.class;
     }
 
     @Override
-    public void processField(final ContextContainer context, final ContextComponent component, final Field field) {
+    public boolean isSupportingFields() {
+        return true;
+    }
+
+    @Override
+    public void processField(final Field field, final SoundVolume annotation, final Object component,
+            final Context context, final ContextInitializer initializer, final ContextDestroyer contextDestroyer) {
         try {
             if (field.getType().equals(float.class) || field.getType().equals(Float.class)) {
-                musicService.get().setSoundVolume((Float) Reflection.getFieldValue(field, component.getComponent()));
+                musicService.setSoundVolume((Float) Reflection.getFieldValue(field, component));
             } else {
-                final SoundVolume volumeData = Reflection.getAnnotation(field, SoundVolume.class);
-                musicService.get().setSoundVolumeFromPreferences(volumeData.preferences(),
-                        Reflection.getFieldValue(field, component.getComponent()).toString(),
-                        volumeData.defaultVolume());
+                musicService.setSoundVolumeFromPreferences(annotation.preferences(),
+                        Reflection.getFieldValue(field, component).toString(), annotation.defaultVolume());
             }
         } catch (final ReflectionException exception) {
-            throw new AutumnRuntimeException("Unable to extract sound volume.", exception);
+            throw new GdxRuntimeException("Unable to extract sound volume.", exception);
         }
     }
 }

@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
-import com.github.czyzby.autumn.error.AutumnRuntimeException;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.github.czyzby.autumn.mvc.component.asset.AssetService;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
@@ -51,7 +51,7 @@ public class ObjectMapAssetInjection implements AssetInjection {
             }
             Reflection.setFieldValue(field, component, map);
         } catch (final ReflectionException exception) {
-            throw new AutumnRuntimeException("Unable to inject map of assets into component: " + component + ".",
+            throw new GdxRuntimeException("Unable to inject map of assets into component: " + component + ".",
                     exception);
         }
     }

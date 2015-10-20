@@ -5,12 +5,13 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
-import com.github.czyzby.lml.parser.impl.dto.ActionContainer;
+import com.github.czyzby.lml.parser.LmlView;
+import com.github.czyzby.lml.parser.action.ActionContainer;
 
 /** Manages a single view.
  *
  * @author MJ */
-public interface ViewController {
+public interface ViewController extends LmlView {
     /** Should fully view's object. This generally invokes filling {@link com.badlogic.gdx.scenes.scene2d.Stage} with
      * referenced LML template. This action might be called multiple times, as screens are sometimes reloaded.
      *
@@ -56,13 +57,15 @@ public interface ViewController {
     void hide(Action action);
 
     /** @return Scene2D stage managed by the controller. */
+    @Override
     Stage getStage();
 
     /** @return if the controller is an action container (or contains one), this will be the name of the container
      *         recognized by the view. This is also the name of the view used for screen transition from within the LML
      *         templates.
      * @see com.github.czyzby.autumn.mvc.component.ui.action.ScreenTransitionAction */
-    String getId();
+    @Override
+    String getViewId();
 
     /** @return action container passed to the LML parser, available in views. */
     ActionContainer getActionContainer();

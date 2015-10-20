@@ -1,52 +1,46 @@
 package com.github.czyzby.autumn.mvc.component.ui.processor;
 
-import java.lang.annotation.Annotation;
-
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
-import com.github.czyzby.autumn.annotation.field.Inject;
-import com.github.czyzby.autumn.annotation.stereotype.Component;
-import com.github.czyzby.autumn.annotation.stereotype.MetaComponent;
-import com.github.czyzby.autumn.context.ContextComponent;
-import com.github.czyzby.autumn.context.ContextContainer;
-import com.github.czyzby.autumn.context.processor.type.ComponentTypeAnnotationProcessor;
-import com.github.czyzby.autumn.error.AutumnRuntimeException;
+import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.github.czyzby.autumn.annotation.Inject;
+import com.github.czyzby.autumn.context.Context;
+import com.github.czyzby.autumn.context.ContextDestroyer;
+import com.github.czyzby.autumn.context.ContextInitializer;
 import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
 import com.github.czyzby.autumn.mvc.component.ui.dto.provider.ActionContainerViewActionProvider;
 import com.github.czyzby.autumn.mvc.component.ui.dto.provider.ActorConsumerViewActionProvider;
 import com.github.czyzby.autumn.mvc.component.ui.dto.provider.ViewActionProvider;
 import com.github.czyzby.autumn.mvc.stereotype.ViewActionContainer;
-import com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy;
+import com.github.czyzby.autumn.processor.AbstractAnnotationProcessor;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
-import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
-import com.github.czyzby.lml.parser.impl.dto.ActionContainer;
-import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
+import com.github.czyzby.lml.parser.action.ActionContainer;
+import com.github.czyzby.lml.parser.action.ActorConsumer;
 
-@MetaComponent
-public class ViewActionContainerAnnotationProcessor extends ComponentTypeAnnotationProcessor {
-    @Inject(lazy = InterfaceService.class) private Lazy<InterfaceService> interfaceService;
+/** Registers action containers and actor consumers in the interface service.
+ *
+ * @author MJ */
+public class ViewActionContainerAnnotationProcessor extends AbstractAnnotationProcessor<ViewActionContainer> {
+    @Inject private InterfaceService interfaceService;
 
     private final Array<ViewActionProvider> actionProviders = GdxArrays.newArray();
 
     @Override
-    public Class<? extends Annotation> getProcessedAnnotationClass() {
+    public Class<ViewActionContainer> getSupportedAnnotationType() {
         return ViewActionContainer.class;
     }
 
     @Override
-    public void processClass(final ContextContainer context, final Class<?> componentClass) {
-        final boolean isInContext = context.contains(componentClass);
-        final ContextComponent component = isInContext ? context.extractFromContext(componentClass)
-                : prepareComponent(context, componentClass);
-        final Object actionContainer = component.getComponent();
-        final ViewActionContainer actionData = Reflection.getAnnotation(componentClass, ViewActionContainer.class);
-        if (isGlobal(actionData)) {
-            registerGlobalAction(actionData.value(), actionContainer);
+    public boolean isSupportingTypes() {
+        return true;
+    }
+
+    @Override
+    public void processType(final Class<?> type, final ViewActionContainer annotation, final Object component,
+            final Context context, final ContextInitializer initializer, final ContextDestroyer contextDestroyer) {
+        if (isGlobal(annotation)) {
+            registerGlobalAction(annotation.value(), component);
         } else {
-            registerLocalizedAction(actionData.value(), actionData.views(), actionContainer);
-        }
-        if (!isInContext) {
-            context.registerComponent(component);
+            registerLocalizedAction(annotation.value(), annotation.views(), component);
         }
     }
 
@@ -57,11 +51,11 @@ public class ViewActionContainerAnnotationProcessor extends ComponentTypeAnnotat
 
     private void registerGlobalAction(final String id, final Object actionContainer) {
         if (actionContainer instanceof ActionContainer) {
-            interfaceService.get().addViewActionContainer(id, (ActionContainer) actionContainer);
+            interfaceService.addViewActionContainer(id, (ActionContainer) actionContainer);
         } else if (actionContainer instanceof ActorConsumer) {
-            interfaceService.get().addViewAction(id, (ActorConsumer<?, ?>) actionContainer);
+            interfaceService.addViewAction(id, (ActorConsumer<?, ?>) actionContainer);
         } else {
-            throw new AutumnRuntimeException("Invalid type annotated with ViewActionContainer: " + actionContainer);
+            throw new GdxRuntimeException("Invalid type annotated with ViewActionContainer: " + actionContainer);
         }
     }
 
@@ -73,19 +67,8 @@ public class ViewActionContainerAnnotationProcessor extends ComponentTypeAnnotat
             actionProviders
                     .add(new ActorConsumerViewActionProvider(actionId, (ActorConsumer<?, ?>) actionContainer, viewIds));
         } else {
-            throw new AutumnRuntimeException("Invalid type annotated with ViewActionContainer: " + actionContainer);
+            throw new GdxRuntimeException("Invalid type annotated with ViewActionContainer: " + actionContainer);
         }
-    }
-
-    @Override
-    public ContextComponent prepareComponent(final ContextContainer context, final Class<?> componentClass) {
-        if (ClassReflection.isAnnotationPresent(componentClass, Component.class)) {
-            final Component componentData = Reflection.getAnnotation(componentClass, Component.class);
-            return new ContextComponent(componentClass, getNewInstanceOf(componentClass), componentData.lazy(),
-                    componentData.keepInContext());
-        }
-        // Not lazy and kept in context by default.
-        return new ContextComponent(componentClass, getNewInstanceOf(componentClass), false, true);
     }
 
     /** @return all registered actions that should be available only for specific views. */

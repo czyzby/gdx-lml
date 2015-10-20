@@ -3,10 +3,9 @@ package com.github.czyzby.autumn.mvc.component.sfx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Music.OnCompletionListener;
 import com.badlogic.gdx.audio.Sound;
-import com.github.czyzby.autumn.annotation.field.Inject;
-import com.github.czyzby.autumn.annotation.method.Destroy;
-import com.github.czyzby.autumn.annotation.method.Initiate;
-import com.github.czyzby.autumn.annotation.stereotype.Component;
+import com.github.czyzby.autumn.annotation.Destroy;
+import com.github.czyzby.autumn.annotation.Initiate;
+import com.github.czyzby.autumn.annotation.Inject;
 import com.github.czyzby.autumn.mvc.component.sfx.dto.CurrentMusicStateAction;
 import com.github.czyzby.autumn.mvc.component.sfx.dto.CurrentMusicVolumeAction;
 import com.github.czyzby.autumn.mvc.component.sfx.dto.CurrentSoundStateAction;
@@ -18,35 +17,33 @@ import com.github.czyzby.autumn.mvc.component.sfx.dto.ToggleSoundAction;
 import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
 import com.github.czyzby.autumn.mvc.config.AutumnActionPriority;
 import com.github.czyzby.kiwi.util.common.Strings;
-import com.github.czyzby.kiwi.util.gdx.asset.lazy.Lazy;
 import com.github.czyzby.kiwi.util.gdx.preference.ApplicationPreferences;
 import com.github.czyzby.lml.parser.LmlParser;
 
 /** Manages currently played UI theme and sound settings.
  *
  * @author MJ */
-@Component
 public class MusicService {
     /** Name of the action that returns music volume as it appears in LML views. Defaults to "getMusicVolume". */
-    private static String GET_MUSIC_VOLUME_ACTION_ID = "getMusicVolume";
+    public static String GET_MUSIC_VOLUME_ACTION_ID = "getMusicVolume";
     /** Name of the action that returns sound volume as it appears in LML views. Defaults to "getSoundVolume". */
-    private static String GET_SOUND_VOLUME_ACTION_ID = "getSoundVolume";
+    public static String GET_SOUND_VOLUME_ACTION_ID = "getSoundVolume";
     /** Name of the action that return if music is on as it appears in LML views. Defaults to "musicOn". */
-    private static String GET_MUSIC_STATE_ACTION_ID = "musicOn";
+    public static String GET_MUSIC_STATE_ACTION_ID = "musicOn";
     /** Name of the action that return if music is on as it appears in LML views. Defaults to "soundOn". */
-    private static String GET_SOUND_STATE_ACTION_ID = "soundOn";
+    public static String GET_SOUND_STATE_ACTION_ID = "soundOn";
 
     /** Name of the action that changes music volume as it appears in LML views. Defaults to "setMusicVolume". */
-    private static String SET_MUSIC_VOLUME_ACTION_ID = "setMusicVolume";
+    public static String SET_MUSIC_VOLUME_ACTION_ID = "setMusicVolume";
     /** Name of the action that changes sound volume as it appears in LML views. Defaults to "setSoundVolume". */
-    private static String SET_SOUND_VOLUME_ACTION_ID = "setSoundVolume";
+    public static String SET_SOUND_VOLUME_ACTION_ID = "setSoundVolume";
     /** Name of the action that turns music on and off as it appears in LML views. Defaults to "toggleMusic". */
-    private static String TOGGLE_MUSIC_ACTION_ID = "toggleMusic";
+    public static String TOGGLE_MUSIC_ACTION_ID = "toggleMusic";
     /** Name of the action that turns sound on and off as it appears in LML views. Defaults to "toggleSound". */
-    private static String TOGGLE_SOUND_ACTION_ID = "toggleSound";
+    public static String TOGGLE_SOUND_ACTION_ID = "toggleSound";
 
     /** Time that has to pass before the theme reaches its full volume or is fully turned off. */
-    public static float DEFAULT_THEME_FADING_TIME = 0.5f;
+    public static float DEFAULT_THEME_FADING_TIME = 0.25f;
 
     private static final float MIN_VOLUME = 0f;
     private static final float MAX_VOLUME = 1f;
@@ -64,12 +61,12 @@ public class MusicService {
 
     private Music currentTheme;
 
-    @Inject(lazy = InterfaceService.class) private Lazy<InterfaceService> interfaceService;
+    @Inject private InterfaceService interfaceService;
 
     private final OnCompletionListener musicCompletionListener = new OnCompletionListener() {
         @Override
         public void onCompletion(final Music music) {
-            playCurrentTheme(interfaceService.get().getCurrentController().getNextTheme());
+            playCurrentTheme(interfaceService.getCurrentController().getNextTheme());
         }
     };
 
@@ -77,16 +74,16 @@ public class MusicService {
     private void initiate() {
         savePreferences(true);
 
-        final LmlParser parser = interfaceService.get().getParser();
-        parser.addAction(TOGGLE_SOUND_ACTION_ID, new ToggleSoundAction(this));
-        parser.addAction(TOGGLE_MUSIC_ACTION_ID, new ToggleMusicAction(this));
-        parser.addAction(SET_SOUND_VOLUME_ACTION_ID, new SoundVolumeChangeAction(this));
-        parser.addAction(SET_MUSIC_VOLUME_ACTION_ID, new MusicVolumeChangeAction(this));
+        final LmlParser parser = interfaceService.getParser();
+        parser.getData().addActorConsumer(TOGGLE_SOUND_ACTION_ID, new ToggleSoundAction(this));
+        parser.getData().addActorConsumer(TOGGLE_MUSIC_ACTION_ID, new ToggleMusicAction(this));
+        parser.getData().addActorConsumer(SET_SOUND_VOLUME_ACTION_ID, new SoundVolumeChangeAction(this));
+        parser.getData().addActorConsumer(SET_MUSIC_VOLUME_ACTION_ID, new MusicVolumeChangeAction(this));
 
-        parser.addAction(GET_SOUND_VOLUME_ACTION_ID, new CurrentSoundVolumeAction(this));
-        parser.addAction(GET_MUSIC_VOLUME_ACTION_ID, new CurrentMusicVolumeAction(this));
-        parser.addAction(GET_SOUND_STATE_ACTION_ID, new CurrentSoundStateAction(this));
-        parser.addAction(GET_MUSIC_STATE_ACTION_ID, new CurrentMusicStateAction(this));
+        parser.getData().addActorConsumer(GET_SOUND_VOLUME_ACTION_ID, new CurrentSoundVolumeAction(this));
+        parser.getData().addActorConsumer(GET_MUSIC_VOLUME_ACTION_ID, new CurrentMusicVolumeAction(this));
+        parser.getData().addActorConsumer(GET_SOUND_STATE_ACTION_ID, new CurrentSoundStateAction(this));
+        parser.getData().addActorConsumer(GET_MUSIC_STATE_ACTION_ID, new CurrentMusicStateAction(this));
     }
 
     /** @return current volume of music, [0, 1]. */

@@ -9,8 +9,8 @@ import com.github.czyzby.autumn.mvc.component.ui.controller.ViewDialogShower;
 import com.github.czyzby.autumn.mvc.stereotype.ViewDialog;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.lml.parser.LmlParser;
-import com.github.czyzby.lml.parser.impl.dto.ActionContainer;
-import com.github.czyzby.lml.parser.impl.dto.StageAttacher;
+import com.github.czyzby.lml.parser.action.ActionContainer;
+import com.github.czyzby.lml.parser.action.StageAttacher;
 
 /** Wraps around an object annotated with {@link com.github.czyzby.autumn.mvc.stereotype.ViewDialog}.
  *
@@ -47,7 +47,7 @@ public class AnnotatedViewDialogController extends AbstractAnnotatedController i
 
     private void showDialog(final Stage stage) {
         if (dialog.getUserObject() instanceof StageAttacher) {
-            ((StageAttacher) dialog.getUserObject()).attachToStage(stage);
+            ((StageAttacher) dialog.getUserObject()).attachToStage(dialog, stage);
         } else {
             dialog.show(stage);
         }
@@ -62,12 +62,11 @@ public class AnnotatedViewDialogController extends AbstractAnnotatedController i
     private void prepareDialogInstance() {
         final LmlParser parser = interfaceService.getParser();
         if (actionContainer != null) {
-            parser.addActionContainer(getId(), actionContainer);
+            parser.getData().addActionContainer(getId(), actionContainer);
         }
-        dialog = (Dialog) parser.parse(Gdx.files.internal(dialogData.value())).first();
-        injectReferencedActors(parser.getActorsMappedById());
+        dialog = (Dialog) parser.createView(wrappedObject, Gdx.files.internal(dialogData.value())).first();
         if (actionContainer != null) {
-            parser.removeActionContainer(getId());
+            parser.getData().removeActionContainer(getId());
         }
     }
 

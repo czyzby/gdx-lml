@@ -3,7 +3,7 @@ package com.github.czyzby.autumn.mvc.component.i18n.dto;
 import java.util.Locale;
 
 import com.github.czyzby.autumn.mvc.component.i18n.LocaleService;
-import com.github.czyzby.lml.parser.impl.dto.ActorConsumer;
+import com.github.czyzby.lml.parser.action.ActorConsumer;
 
 /** Allows to change current application's locale.
  *

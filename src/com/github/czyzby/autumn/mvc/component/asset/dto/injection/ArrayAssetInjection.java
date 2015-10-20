@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
-import com.github.czyzby.autumn.error.AutumnRuntimeException;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.github.czyzby.autumn.mvc.component.asset.AssetService;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
@@ -49,7 +49,7 @@ public class ArrayAssetInjection implements AssetInjection {
             }
             Reflection.setFieldValue(field, component, array);
         } catch (final ReflectionException exception) {
-            throw new AutumnRuntimeException("Unable to inject array of assets into component: " + component + ".",
+            throw new GdxRuntimeException("Unable to inject array of assets into component: " + component + ".",
                     exception);
         }
     }

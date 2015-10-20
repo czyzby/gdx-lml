@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
 import com.github.czyzby.autumn.mvc.component.ui.controller.ViewController;
 import com.github.czyzby.kiwi.util.gdx.asset.Disposables;
-import com.github.czyzby.lml.parser.impl.dto.ActionContainer;
+import com.github.czyzby.lml.parser.action.ActionContainer;
 
 /** Base class for a view that does not use LML, for whatever reason.
  *
