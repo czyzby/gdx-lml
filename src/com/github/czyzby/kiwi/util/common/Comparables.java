@@ -18,6 +18,13 @@ public class Comparables {
 
     /** @param compareResult result of a comparison. Assumes that it can return any negative number for lower-than
      *            result and any positive number for greater-than result.
+     * @return signum of inverted comparison result (-1, 0 or 1). */
+    public static int invertResult(final int compareResult) {
+        return normalizeResult(-compareResult);
+    }
+
+    /** @param compareResult result of a comparison. Assumes that it can return any negative number for lower-than
+     *            result and any positive number for greater-than result.
      * @return signum of comparison result (-1, 0 or 1). */
     public static int normalizeResult(final int compareResult) {
         return compareResult == EQUAL_COMPARE_RESULT ? EQUAL_COMPARE_RESULT

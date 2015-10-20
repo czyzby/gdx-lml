@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.Method;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
+import com.github.czyzby.kiwi.util.common.Exceptions;
 
 /** LibGDX reflection utilities.
  *
@@ -45,6 +46,7 @@ public class Reflection {
         try {
             return ClassReflection.newInstance(ofClass);
         } catch (final Throwable exception) {
+            Exceptions.ignore(exception);
             return defaultValue;
         }
     }
