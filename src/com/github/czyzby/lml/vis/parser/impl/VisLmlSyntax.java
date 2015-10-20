@@ -2,6 +2,7 @@ package com.github.czyzby.lml.vis.parser.impl;
 
 import com.github.czyzby.lml.parser.impl.DefaultLmlSyntax;
 import com.github.czyzby.lml.vis.parser.impl.attribute.textbutton.TextButtonFocusBorderEnabledLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisLabelLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTextButtonLmlTagProvider;
 
 /** Replaces regular Scene2D actor tags with Vis UI widgets. Supports the same core syntax (operators).
@@ -16,6 +17,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
 
     /** Registers all Vis UI actors' tags. */
     protected void registerVisActorTags() {
+        addTagProvider(new VisLabelLmlTagProvider(), "label", "visLabel", "text", "txt", "li");
         addTagProvider(new VisTextButtonLmlTagProvider(), "textButton", "visTextButton", "a");
         // TODO register other Vis tags
     }
