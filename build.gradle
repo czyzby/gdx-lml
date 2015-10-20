@@ -1,0 +1,109 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+sourceSets.main.java.srcDirs = [ "src/" ]
+sourceCompatibility = 1.6
+
+ext {
+    libVersion = '1.2'
+    gdxVersion = '1.7.0'
+    isSnapshot = '-SNAPSHOT'
+    visVersion = '0.9.1'
+}
+
+group = "com.github.czyzby"
+archivesBaseName = "gdx-lml-vis"
+version = "$libVersion.$gdxVersion$isSnapshot"
+
+configurations {
+    deployerJars
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+jar {
+    from project.sourceSets.main.allSource
+    from project.sourceSets.main.output
+    baseName = 'gdx-lml-vis'
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+dependencies {
+    compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    compile "com.kotcrab.vis:vis-ui:$visVersion"
+    compile "com.github.czyzby:gdx-lml:$libVersion.$gdxVersion$isSnapshot"
+    deployerJars "org.apache.maven.wagon:wagon-ssh:2.2"
+    deployerJars "org.apache.maven.wagon:wagon-http:2.2"
+}
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+        authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+        authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      pom.project {
+        name 'Gdx Lml Vis'
+        packaging 'jar'
+        description 'Vis UI parser for LML templates.'
+        url 'http://github.com/czyzby/gdx-lml-vis'
+
+        licenses {
+          license {
+            name 'The Apache License, Version 2.0'
+            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+          }
+        }
+        
+        scm {
+          connection 'scm:git:git@github.com:czyzby/gdx-lml-vis.git'
+          developerConnection 'scm:git:git@github.com:czyzby/gdx-lml-vis.git'
+          url 'http://github.com/czyzby/gdx-lml-vis/'
+        }
+
+        developers {
+          developer {
+            id 'mj'
+            name 'MJ'
+            email 'john.hervicc@gmail.com'
+          }
+          developer {
+            id 'kotcrab'
+            name 'PP'
+            email 'kotcrab@gmail.com'
+          }
+        }
+      }
+    }
+  }
+}
