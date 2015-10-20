@@ -14,12 +14,11 @@
 </table>
 
 <!-- See tableColumn and tableRow macros for columns'
-    and rows' cell defaults management. -->
-
-<!-- Cell attributes proceeded with "default" can be
-    added to the table itself to specify cell defaults.
-    Table attributes that overlap with cell (for example:
-    pad) are proceeded with "table". -->
+    and rows' cell defaults management. Cell attributes
+    proceeded with "default" can be added to the table
+    itself to specify cell defaults. Table attributes
+    that overlap with cell (for example: pad) are
+    proceeded with "table". -->
 
 <table background="default-round-down"
     <!-- Try removing these attributes: -->
@@ -28,4 +27,9 @@
     <button grow=true row=true/>
     <button/>
     <button/>
+</table>
+
+<table oneColumn=true>
+    Will automatically
+    <textButton>append rows.</textButton><slider/>
 </table>
