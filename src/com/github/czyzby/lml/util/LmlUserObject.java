@@ -207,13 +207,13 @@ public class LmlUserObject {
      *
      * @author MJ */
     public static interface TableTarget {
+        /** @param table may consist of multiple tables.
+         * @return table that should be chosen with this target. */
+        Table extract(Table table);
+
         /** @param table will contain the actor.
          * @param actor will be added to the table.
          * @return cell of the table with the actor. */
-        Table extract(Table table);
-
-        /** @param table may consist of multiple tables.
-         * @return table that should be chosen with this target. */
         Cell<?> add(Table table, Actor actor);
     }
 

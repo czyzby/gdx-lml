@@ -10,7 +10,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.util.LmlUtilities;
 
 /** Handles {@link ImageTextButton} actor. Treats children as a button parent tag. As opposed to a table, it appends
- * plain text data to its label rather than create and add a new label for each line. Mapped to "imageTextButton".
+ * plain text data to its label rather than creating and adding a new label for each line. Mapped to "imageTextButton".
  *
  * @author MJ */
 public class ImageTextButtonLmlTag extends ButtonLmlTag {

@@ -10,7 +10,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * to be a direct child - just needs it in its hierarchy). Actors with this attribute are automatically added to the
  * dialog's button table by an initial building processor. If the referenced action returns a true boolean, dialog
  * hiding will be cancelled. Will look for an action that consumes the {@link Dialog} rather than the widget that
- * contains the attribute: keep that in mind when attaching methods.
+ * contains the attribute: keep that in mind when attaching methods. Mapped to "result", "onResult", "onDialogResult".
  *
  * @author MJ
  * @see com.github.czyzby.lml.parser.impl.attribute.building.OnResultInitialLmlAttribute
