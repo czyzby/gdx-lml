@@ -22,10 +22,15 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.window.CloseOnEscapeLmlAt
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.OnResultLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisDialogLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisImageButtonLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisImageLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisImageTextButtonLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisLabelLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisListLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisScrollPaneLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisSelectBoxLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTableLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTextButtonLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTreeLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisWindowLmlTagProvider;
 import com.kotcrab.vis.ui.widget.VisDialog;
 
@@ -82,10 +87,15 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         // Vis actors:
         addTagProvider(new VisDialogLmlTagProvider(), "dialog", "visDialog", "popup");
         addTagProvider(new VisImageButtonLmlTagProvider(), "imageButton", "visImageButton");
+        addTagProvider(new VisImageLmlTagProvider(), "image", "img", "icon");
         addTagProvider(new VisImageTextButtonLmlTagProvider(), "imageTextButton", "visImageTextButton");
         addTagProvider(new VisLabelLmlTagProvider(), "label", "visLabel", "text", "txt", "li");
+        addTagProvider(new VisListLmlTagProvider(), "list", "ul");
+        addTagProvider(new VisScrollPaneLmlTagProvider(), "scrollPane", "scroll", "scrollable");
+        addTagProvider(new VisSelectBoxLmlTagProvider(), "select", "selectBox");
         addTagProvider(new VisTableLmlTagProvider(), "table", "visTable", "div", "td", "th");
         addTagProvider(new VisTextButtonLmlTagProvider(), "textButton", "visTextButton", "a");
+        addTagProvider(new VisTreeLmlTagProvider(), "tree", "root");
         addTagProvider(new VisWindowLmlTagProvider(), "window", "visWindow");
         // TODO register other Vis tags
     }
