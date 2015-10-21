@@ -3,4 +3,7 @@
 <module>
     <source path="" />
     <inherits name='com.github.czyzby.lml.GdxLml' />
+	<inherits name="com.kotcrab.vis.vis-ui" />
+	
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.lml.vis.ui.reflected" />
 </module>
