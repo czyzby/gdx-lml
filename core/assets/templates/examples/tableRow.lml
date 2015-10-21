@@ -1,0 +1,35 @@
+<!-- @row is a table utility macro that can
+    appear only inside table (or its subclasses
+    tags). It appends a table row and allows to
+    set row's cell defaults with its attributes. -->
+
+<!-- Defining button-spamming macro: -->
+<@macro buttons><button/><button/><button/></@macro>
+
+<table bg="button-over">
+    <@buttons/>
+    <@row/>
+    <@buttons/>
+    <!-- This will set the defaults of the next row: -->
+    <@row size=32/>
+    <@buttons/>
+</table>
+
+<!-- Adding a row on the beginning of the table does
+    not affect table's layout and allows you to specify
+    defaults of the first row. -->
+
+<!-- This macro parses the data inside its tags with no
+    modifications, so you can add actor tags inside
+    row macros for extra readability. -->
+
+<table bg="button">
+    <@row>
+        First
+        <textButton>row</textButton>
+    </@row>
+    <@row>
+        Second
+        <textButton>row</textButton>
+    </@row>
+</table>

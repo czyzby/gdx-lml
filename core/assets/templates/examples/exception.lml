@@ -1,0 +1,20 @@
+<!-- You can force the parser to throw an exception
+    from within LML templates without any ugly hacks.
+    Meaningful exception reasons can be passed with
+    text between macro tags. -->
+
+<@if 24 < 12>
+    <label>This is correct... or is it?</label>
+<@if:else/>
+    <@exception>I'm not very good at maths.</@exception>
+</@if>
+
+<!-- This macro takes one optional boolean attribute.
+    If it is true, exception will be thrown regardless
+    of parser settings (default behavior). If false is
+    passed, it will throw exception only if the parser
+    is strict. -->
+
+<@throwException false>
+    This is thrown when parser is strict.
+</@throwException>

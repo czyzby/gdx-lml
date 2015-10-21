@@ -1,0 +1,24 @@
+<!-- Similarly to I18NBundle objects, Preferences
+    can be registered in LML parser and accessed
+    in templates. Preferences marker is '#'. -->
+
+<label>#somePreference</label>
+
+<!-- Preferences can store any value, even numeric
+    or boolean ones. -->
+
+<container size=#someNumber>
+    <textButton>
+        Size matches preference.
+    </textButton>
+</container>
+    
+<!-- However, non-string preferences are problematic
+    on GWT (due to LibGDX implementation?), so try
+    to add your preferences as strings. -->
+
+<!-- If you register multiple preferences, you can
+    access specific ones by proceeding preference
+    name with the ID of custom preferences and a dot.
+    Otherwise, default preferences will be used. -->
+<label>#custom.somePreference</label>

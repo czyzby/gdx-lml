@@ -1,0 +1,241 @@
+package com.github.czyzby.tests.reflected;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.github.czyzby.kiwi.util.common.Strings;
+import com.github.czyzby.kiwi.util.gdx.scene2d.Actors;
+import com.github.czyzby.lml.annotation.LmlAction;
+import com.github.czyzby.lml.annotation.LmlActor;
+import com.github.czyzby.lml.parser.LmlParser;
+import com.github.czyzby.lml.parser.LmlView;
+import com.github.czyzby.lml.parser.action.ActionContainer;
+import com.github.czyzby.lml.parser.impl.AbstractLmlView;
+import com.github.czyzby.lml.parser.impl.tag.macro.NewAttributeLmlMacroTag.AttributeParsingData;
+import com.github.czyzby.lml.scene2d.ui.reflected.ReflectedLmlDialog;
+import com.github.czyzby.lml.util.LmlUtilities;
+import com.github.czyzby.tests.Main;
+import com.github.czyzby.tests.reflected.widgets.BlinkingLabel;
+import com.kotcrab.vis.ui.widget.VisDialog;
+import com.kotcrab.vis.ui.widget.VisTextButton;
+
+/** Main view of the application. Since it extends {@link AbstractLmlView}, it is both {@link LmlView} (allowing its
+ * {@link Stage} to be filled) and {@link ActionContainer} (allowing it methods to be reflected and available in LML
+ * templates. Thanks to {@link LmlParser#createView(Object, com.badlogic.gdx.files.FileHandle)} method, parsed root
+ * actor go directly into this view's {@link #getStage()} and it is registered as an action container with "main" ID
+ * (returned by {@link #getViewId()}).
+ *
+ * @author MJ */
+public class MainView extends AbstractLmlView {
+    // Contains template to parse:
+    @LmlActor("templateInput") private TextArea templateInput;
+    // Is filled with parsed actors after template processing:
+    @LmlActor("resultTable") private Table resultTable;
+    // {examples} is converted to the argument with this name, which is an array of all examples. In main.lml, we assign
+    // each button to ID equal to one of examples. This array will contain all buttons in the order of the argument
+    // array. We don't actually need these - we're doing this because we can (TM). Buttons are printed with #toString().
+    @LmlActor("{examples}") private Array<TextButton> exampleButtons;
+
+    // Utility. Holds a reference to a button with current LML template.
+    private Button checkedButton;
+
+    public MainView() {
+        super(new Stage(new ScreenViewport()));
+    }
+
+    @Override
+    public String getViewId() {
+        return "main";
+    }
+
+    // Reflected methods, available in LML views:
+
+    /* templates/main.lml */
+
+    /** @return action that sets the action invisible and slowly fades it in. */
+    public Action fadeIn() {
+        // Used by main window just after view show.
+        return Actions.sequence(Actions.alpha(0f), Actions.fadeIn(0.5f, Interpolation.fade));
+    }
+
+    /** Parses template currently stored in template text area and adds the created actors to result table. */
+    public void parseTemplate() {
+        final String template = templateInput.getText();
+        Main.getParser().getData().addActionContainer(getViewId(), this); // Making our methods available in templates.
+        try {
+            final Array<Actor> actors = Main.getParser().parseTemplate(template);
+            resultTable.clear();
+            for (final Actor actor : actors) {
+                resultTable.add(actor).row();
+            }
+        } catch (final Exception exception) {
+            onParsingError(exception);
+        }
+    }
+
+    private void onParsingError(final Exception exception) {
+        // Printing the message without stack trace - we don't want to completely flood the console and its usually not
+        // relevant anyway. Change to '(...), "Unable to parse LML template:", exception);' for stacks.
+        Gdx.app.error("ERROR", "Unable to parse LML template: ", exception); // TODO convert to hide stack
+        Main.getParser().getTemplateReader().clear();
+        Main.getParser().fillStage(getStage(), Gdx.files.internal("templates/dialogs/error.lml"));
+    }
+
+    /** Switches the current content of template input to the content of a chosen file.
+     *
+     * @param actor invokes the action. Expected to have an ID that points to a template. */
+    @LmlAction("switch")
+    public void switchTemplate(final Button actor) {
+        switchCheckedButton(actor);
+        // In LML template, we set each button's ID to a template name. Now we extract these:
+        final String templateName = LmlUtilities.getActorId(actor);
+        templateInput.setText(Gdx.files.internal(toExamplePath(templateName)).readString());
+        parseTemplate();
+    }
+
+    private void switchCheckedButton(final Button actor) {
+        if (checkedButton != null) {
+            // Unchecking previous button.
+            checkedButton.setProgrammaticChangeEvents(false);
+            checkedButton.setChecked(false);
+        }
+        actor.setChecked(true);
+        checkedButton = actor;
+    }
+
+    // Converts template name to a example template path.
+    private static String toExamplePath(final String templateName) {
+        return "templates/examples/" + templateName + ".lml";
+    }
+
+    /* templates/dialogs/error.lml */
+
+    @LmlAction("onErrorApprove")
+    public void acceptError(final VisDialog dialog) {
+        ((Label) LmlUtilities.getActorWithId(dialog, "resultMessage")).setText("Thanks!");
+    }
+
+    @LmlAction("onErrorDecline")
+    public boolean declineError(final VisDialog dialog) {
+        ((Label) LmlUtilities.getActorWithId(dialog, "resultMessage")).setText("It's not like you have a choice.");
+        // Returning true boolean cancels dialog hiding:
+        return ReflectedLmlDialog.CANCEL_HIDING;
+    }
+
+    /* templates/examples/checkBox.lml */
+
+    /** @param checkBox will have its text changed. */
+    public void switchCase(final CheckBox checkBox) { // TODO VisCheckBox
+        if (checkBox.isChecked()) {
+            checkBox.setText(checkBox.getText().toString().toUpperCase());
+        } else {
+            checkBox.setText(checkBox.getText().toString().toLowerCase());
+        }
+    }
+
+    /* templates/examples/progressBar.lml */
+
+    @LmlAction("load")
+    public void advanceLoadingProgress(final ProgressBar progressBar) { // TODO VisProgessBar
+        progressBar.setValue(progressBar.getValue() + progressBar.getStepSize() * 5f);
+    }
+
+    /* templates/examples/actions.lml */
+
+    public String someAction() {
+        return "Extracted from method of MainView.";
+    }
+
+    @LmlAction("someNamedAction")
+    public String getSomeText() {
+        return "@LmlAction-annotated method result.";
+    }
+
+    /** @param container has to be sized.
+     * @return semi-random size depending on length of container's toString() result. */
+    @LmlAction({ "size", "getRandomSize" })
+    public float getSize(final Container<?> container) {
+        return container.toString().length() * 30f * MathUtils.random();
+    }
+
+    /** @param button its text will be modified if it's not too long. */
+    public void pressButton(final VisTextButton button) {
+        if (button.getText().length() < 30) {
+            button.setText(button.getText() + "!");
+        } else {
+            button.setText("Isn't it enough?!");
+        }
+    }
+
+    /** @param bar will have a random initial value set. */
+    public void setInitialValue(final ProgressBar bar) { // TODO VisProgressBar
+        bar.setValue(MathUtils.random(bar.getMinValue(), bar.getMaxValue()));
+    }
+
+    /* templates/examples/actorMacro.lml */
+
+    /** @return a new instance of customized actor. */
+    public Label getSomeActor() {
+        final Label actor = new Label("Actor created in plain Java.", Main.getParser().getData().getDefaultSkin());
+        actor.setColor(Color.PINK);
+        return actor;
+    }
+
+    /* templates/examples/evaluate.lml */
+
+    @LmlAction("stringConsumingMethod")
+    public String toUpperCase(final String value) {
+        return value.toUpperCase();
+    }
+
+    /* templates/examples/while.lml */
+
+    /** @return returns a random value between 0 and 1. */
+    @LmlAction("random")
+    public float getRandomValue() {
+        return MathUtils.random();
+    }
+
+    /* templates/examples/newAttribute.lml */
+
+    /** @param data contains data necessary to parse LML attribute. */
+    @LmlAction("upperCaseAttribute")
+    public void processUpperCaseAttribute(final AttributeParsingData data) {
+        if (data.getActor() instanceof Label) {
+            final Label label = (Label) data.getActor();
+            label.setText(
+                    label.getText() + data.getParser().parseString(data.getRawAttributeData(), label).toUpperCase());
+        } else {
+            data.getParser().throwErrorIfStrict("My attribute supports only labels.");
+        }
+    }
+
+    /* templates/examples/newTag.lml */
+
+    /** @return a new instance of customized widget: {@link BlinkingLabel}; */
+    public BlinkingLabel getBlinkingLabel() {
+        return new BlinkingLabel(Strings.EMPTY_STRING, Main.getParser().getData().getDefaultSkin(),
+                Actors.DEFAULT_STYLE);
+    }
+
+    @Override
+    public String toString() {
+        // Printing all example buttons and current playground content:
+        return resultTable + "\n" + Strings.join("\n", exampleButtons);
+    }
+}

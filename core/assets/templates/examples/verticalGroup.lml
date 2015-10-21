@@ -1,0 +1,14 @@
+<!-- Appends children vertically. -->
+
+<verticalGroup padding=2>
+    Converts text
+    to label children.
+</verticalGroup>
+
+<!-- Groups can be reversed: -->
+
+<vertical reverse=true>
+    <label>Last</label>
+    <button/>
+    <checkBox>First</checkBox>
+</vertical>

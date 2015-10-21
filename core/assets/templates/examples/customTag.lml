@@ -1,0 +1,15 @@
+<!-- Custom tags can be registered directly in Java.
+    Normally, to register a new tag (actor or macro),
+    you can to implement LmlTag interface - but it is
+    pretty complex. Fortunately, you can use abstract
+    class: AbstractActorLmlTag. While it forces you to
+    override more methods than macro abstract - actor
+    creation, handling plain text, handling children -
+    it is still pretty straightforward. In Main class,
+    we registered a custom tag for our BlinkingLabel
+    widget (which extends regular Label). -->
+
+<blink text="Blinking!"/>
+<blink blinkingTime=0.2>Blinking even faster!</blink>
+
+<!-- See Main#getCustomTag and Main#getCustomTagProvider -->

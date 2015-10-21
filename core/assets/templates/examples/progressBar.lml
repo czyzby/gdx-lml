@@ -1,0 +1,11 @@
+<!-- Progress bars can be easily used
+    as loading bars and game logic UI
+    elements (for example: health amount). -->
+
+<label>Click bars to load.</label>
+<progressBar onClick=load />
+<progressBar onClick=load value=25 min=0
+    max=200 stepSize=5 animateDuration=0.5 />
+<progressBar onClick=load vertical=true />
+
+<!-- Progress bars cannot have children. -->

@@ -1,0 +1,13 @@
+<!-- Scroll panes can have a single child.
+    They allows to display big widgets by
+    scrolling over their area.
+
+<!-- Using a container to limit size. -->
+<container size=200>
+    <scrollPane percentX=0.4 percentY=1>
+        <table tablePad=20 background="button-over">
+            <button size=300 row=true/>
+            This is a very big widget.
+        </table>
+    </scrollPane>
+</container>
