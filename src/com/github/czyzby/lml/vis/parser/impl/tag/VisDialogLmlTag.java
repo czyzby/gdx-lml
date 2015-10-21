@@ -3,6 +3,7 @@ package com.github.czyzby.lml.vis.parser.impl.tag;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.util.LmlUtilities;
+import com.github.czyzby.lml.vis.parser.impl.action.VisStageAttacher;
 import com.github.czyzby.lml.vis.parser.impl.tag.builder.VisWindowLmlActorBuilder;
 import com.github.czyzby.lml.vis.ui.reflected.ReflectedVisDialog;
 import com.kotcrab.vis.ui.widget.VisDialog;
@@ -19,7 +20,9 @@ public class VisDialogLmlTag extends VisWindowLmlTag {
 
     @Override
     protected VisWindow getNewInstanceOfVisWindow(final VisWindowLmlActorBuilder builder) {
-        return new ReflectedVisDialog(builder.getText());
+        final VisDialog dialog = new ReflectedVisDialog(builder.getText());
+        LmlUtilities.getLmlUserObject(dialog).setStageAttacher(new VisStageAttacher());
+        return dialog;
     }
 
     @Override
