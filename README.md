@@ -20,6 +20,10 @@ If you want to use LML with GWT, you have to add this module to your GdxDefiniti
 See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&t=18843), [example project](http://github.com/czyzby/gdx-lml-tests), [tutorial](https://github.com/czyzby/gdx-lml/wiki/Tutorial) and [old syntax page (work in progress)](https://github.com/czyzby/gdx-lml/wiki/Syntax).
 
 ## What's new
+1.1 -> 1.2
+
+- The old enum `TableTarget` was renamed to `StandardTableTarget`; `TableTarget` is now an interface. `StandardTableTarget` behavior is now modifiable. This allows to use custom multi-table widgets. 
+
 1.0 -> 1.1:
 
 - Dialog parents now add plain text to content table rather than themselves, which matches LML 0 behavior.

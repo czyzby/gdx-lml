@@ -17,6 +17,7 @@ import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlBuildingAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
+import com.github.czyzby.lml.util.LmlUserObject.StandardTableTarget;
 import com.github.czyzby.lml.util.LmlUserObject.TableTarget;
 
 /** Tables utility. Adds row to the current table. Allows to set row defaults with its attributes. For example:
@@ -94,7 +95,7 @@ public class TableRowLmlMacroTag extends AbstractMacroLmlTag {
         final ObjectMap<String, String> attributes = getNamedAttributes();
         if (GdxMaps.isEmpty(attributes)) {
             // Adding row to main table:
-            TableTarget.MAIN.extract(table).row();
+            StandardTableTarget.MAIN.extract(table).row();
         } else {
             // Processing attributes:
             processTableRow(table, attributes);
@@ -127,7 +128,7 @@ public class TableRowLmlMacroTag extends AbstractMacroLmlTag {
     /** @param builder may contain specific table target.
      * @return table target chosen by the builder. */
     protected TableTarget getTarget(final LmlActorBuilder builder) {
-        return builder.getTableTarget() == null ? TableTarget.MAIN : builder.getTableTarget();
+        return builder.getTableTarget() == null ? StandardTableTarget.MAIN : builder.getTableTarget();
     }
 
     /** This is meant to handle toButtonTable, toTitleTable, toDialogTable to choose which table should have a row

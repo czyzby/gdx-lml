@@ -5,7 +5,7 @@ import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlBuildingAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
-import com.github.czyzby.lml.util.LmlUserObject.TableTarget;
+import com.github.czyzby.lml.util.LmlUserObject.StandardTableTarget;
 
 /** Expends a boolean. Normally, dialog children are added to the content table. By setting this attribute to true,
  * dialog child will be forced directly to the dialog table with
@@ -23,7 +23,7 @@ public class ToDialogTableLmlAttribute implements LmlBuildingAttribute<LmlActorB
     public boolean process(final LmlParser parser, final LmlTag tag, final LmlActorBuilder builder,
             final String rawAttributeData) {
         if (parser.parseBoolean(rawAttributeData)) {
-            builder.setTableTarget(TableTarget.DIRECT);
+            builder.setTableTarget(StandardTableTarget.DIRECT);
         }
         return FULLY_PARSED;
     }

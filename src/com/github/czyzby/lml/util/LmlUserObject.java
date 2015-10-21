@@ -26,7 +26,7 @@ public class LmlUserObject {
     private Object data;
     private Array<ActorConsumer<?, Object>> onCreateActions;
     private Array<ActorConsumer<?, Object>> onCloseActions;
-    private TableTarget tableTarget = TableTarget.MAIN;
+    private TableTarget tableTarget = StandardTableTarget.MAIN;
 
     /** @return cell of a table in which the actor is stored. */
     public Cell<?> getCell() {
@@ -202,51 +202,87 @@ public class LmlUserObject {
     }
 
     /** Determines how the actor is added to a table. If a table-extending actor contains multiple tables (for example:
+     * Window also has a title table, Dialog has additional content and buttons tables), these objects allow to choose
+     * which table is actually used.
+     *
+     * @author MJ */
+    public static interface TableTarget {
+        /** @param table will contain the actor.
+         * @param actor will be added to the table.
+         * @return cell of the table with the actor. */
+        Table extract(Table table);
+
+        /** @param table may consist of multiple tables.
+         * @return table that should be chosen with this target. */
+        Cell<?> add(Table table, Actor actor);
+    }
+
+    /** Used to extract a {@link Table} instance from another table. Used for complex, multipart widgets that consist of
+     * multiple tables.
+     *
+     * @author MJ */
+    public static interface TableExtractor {
+        /** @param table may consist of multiple tables.
+         * @return table chosen by this extractor. */
+        Table extract(Table table);
+    }
+
+    /** Determines how the actor is added to a table. If a table-extending actor contains multiple tables (for example:
      * Window also has a title table, Dialog has additional content and buttons tables), this enum allows to choose
      * which table is actually used.
      *
      * @author MJ */
-    public static enum TableTarget {
+    public static enum StandardTableTarget implements TableTarget {
         /** Adds actors directly to the main table of the widget. For most tables, actor will be appended to the table
          * itself; if the actor is a dialog, actor is appended to the content table. */
-        MAIN {
+        MAIN(new TableExtractor() {
             @Override
             public Table extract(final Table table) {
                 return table instanceof Dialog ? ((Dialog) table).getContentTable() : table;
             }
-        },
+        }),
         /** Adds actors to the title table. Available only for windows. */
-        TITLE {
+        TITLE(new TableExtractor() {
             @Override
             public Table extract(final Table table) {
                 return table instanceof Window ? ((Window) table).getTitleTable() : table;
             }
-        },
+        }),
         /** Adds actors to the buttons table. Available only for dialogs. */
-        BUTTON {
+        BUTTON(new TableExtractor() {
             @Override
             public Table extract(final Table table) {
                 return table instanceof Dialog ? ((Dialog) table).getButtonTable() : table;
             }
-        },
+        }),
         /** Adds actors directly to the table, even if actor has another main table (for example, {@link Dialog} has the
          * {@link Dialog#getContentTable()}, which would be ignored using this attacher). */
-        DIRECT {
+        DIRECT(new TableExtractor() {
             @Override
             public Table extract(final Table table) {
                 return table;
             }
-        };
+        });
 
-        /** @param table will contain the actor.
-         * @param actor will be added to the table.
-         * @return cell of the table with the actor. */
+        private TableExtractor tableExtractor;
+
+        private StandardTableTarget(final TableExtractor tableExteractor) {
+            tableExtractor = tableExteractor;
+        }
+
+        @Override
         public final Cell<?> add(final Table table, final Actor actor) {
             return extract(table).add(actor);
         }
 
-        /** @param table may consist of multiple tables.
-         * @return table that should be chosen with the selected target. */
-        public abstract Table extract(Table table);
+        @Override
+        public final Table extract(final Table table) {
+            return tableExtractor.extract(table);
+        }
+
+        /** @param tableExtractor will change behavior of the chosen table target. Use with care! */
+        public void setTableExtractor(final TableExtractor tableExtractor) {
+            this.tableExtractor = tableExtractor;
+        }
     }
 }

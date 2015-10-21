@@ -308,7 +308,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
     /** Registers actor-based tags that create widgets.
      *
      * @see #registerTags() */
-    private void registerActorTags() {
+    protected void registerActorTags() {
         addTagProvider(new ActorLmlTagProvider(), "actor", "group", "empty", "mock", "blank", "placeholder");
         addTagProvider(new ButtonLmlTagProvider(), "button");
         addTagProvider(new CheckBoxLmlTagProvider(), "checkBox", "check");
