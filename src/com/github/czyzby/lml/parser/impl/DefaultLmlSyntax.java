@@ -419,7 +419,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
         addBuildingAttributeProcessor(new ToDialogTableLmlAttribute(), "toDialogTable", "addDirectlyToTable");
         addBuildingAttributeProcessor(new ToTitleTableLmlAttribute(), "toTitleTable");
         // Text:
-        addBuildingAttributeProcessor(new TextLmlAttribute(), "text", "value");
+        addBuildingAttributeProcessor(new TextLmlAttribute(), "text", "txt", "value");
         // Aligned:
         addBuildingAttributeProcessor(new HorizontalLmlAttribute(), "horizontal");
         addBuildingAttributeProcessor(new VerticalLmlAttribute(), "vertical");
@@ -521,7 +521,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
     }
 
     /** Image widget attributes. */
-    private void registerImageAttributes() {
+    protected void registerImageAttributes() {
         addAttributeProcessor(new ImageAlignmentLmlAttribute(), "imageAlign", "imgAlign", "iconAlign");
         addAttributeProcessor(new ScalingLmlAttribute(), "scaling", "imageScaling", "iconScaling", "imgScaling");
     }
@@ -595,7 +595,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
     }
 
     /** Table widget attributes. */
-    private void registerTableAttributes() {
+    protected void registerTableAttributes() {
         addAttributeProcessor(new OneColumnLmlAttribute(), "oneColumn");
         addAttributeProcessor(new TableAlignLmlAttribute(), "tableAlign");
         addAttributeProcessor(new TableBackgroundLmlAttribute(), "bg", "background");
@@ -662,7 +662,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
     }
 
     /** TextField widget attributes. */
-    private void registerTextFieldAttributes() {
+    protected void registerTextFieldAttributes() {
         addAttributeProcessor(new BlinkTimeLmlAttribute(), "blink", "blinkTime");
         addAttributeProcessor(new MaxLengthLmlAttribute(), "max", "maxLength");
         addAttributeProcessor(new MessageLmlAttribute(), "message", "messageText");

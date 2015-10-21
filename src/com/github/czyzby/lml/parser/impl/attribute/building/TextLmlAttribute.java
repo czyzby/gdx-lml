@@ -14,7 +14,7 @@ import com.github.czyzby.lml.parser.tag.LmlBuildingAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
 /** Sets initial text of text-based widgets. Used to construct the widgets. Expects a string. By default, mapped to
- * "text" and "value" attribute names.
+ * "text", "txt" and "value" attribute names.
  *
  * @author MJ */
 public class TextLmlAttribute implements LmlBuildingAttribute<TextLmlActorBuilder> {
