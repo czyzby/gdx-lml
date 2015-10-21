@@ -6,11 +6,14 @@ import com.github.czyzby.lml.parser.impl.DefaultLmlSyntax;
 import com.github.czyzby.lml.util.LmlUserObject.StandardTableTarget;
 import com.github.czyzby.lml.util.LmlUserObject.TableExtractor;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.ShowWindowBorderLmlAttribute;
-import com.github.czyzby.lml.vis.parser.impl.attribute.textbutton.TextButtonFocusBorderEnabledLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.button.ImageButtonGenerateDisabledLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.button.TextButtonFocusBorderEnabledLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.AddCloseButtonLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.CloseOnEscapeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.OnResultLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisDialogLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisImageButtonLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisImageTextButtonLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisLabelLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTextButtonLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisWindowLmlTagProvider;
@@ -54,6 +57,8 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     @Override
     protected void registerActorTags() {
         addTagProvider(new VisDialogLmlTagProvider(), "dialog", "visDialog", "popup");
+        addTagProvider(new VisImageButtonLmlTagProvider(), "imageButton", "visImageButton");
+        addTagProvider(new VisImageTextButtonLmlTagProvider(), "imageTextButton", "visImageTextButton");
         addTagProvider(new VisLabelLmlTagProvider(), "label", "visLabel", "text", "txt", "li");
         addTagProvider(new VisTextButtonLmlTagProvider(), "textButton", "visTextButton", "a");
         addTagProvider(new VisWindowLmlTagProvider(), "window", "visWindow");
@@ -76,6 +81,9 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         super.registerButtonAttributes();
         // VisTextButton:
         addAttributeProcessor(new TextButtonFocusBorderEnabledLmlAttribute(), "focusBorder", "focusBorderEnabled");
+        // VisImageButton:
+        addAttributeProcessor(new ImageButtonGenerateDisabledLmlAttribute(), "generateDisabled",
+                "generateDisabledImage");
     }
 
     @Override

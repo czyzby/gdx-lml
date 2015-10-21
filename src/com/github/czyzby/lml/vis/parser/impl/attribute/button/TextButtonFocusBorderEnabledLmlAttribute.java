@@ -1,4 +1,4 @@
-package com.github.czyzby.lml.vis.parser.impl.attribute.textbutton;
+package com.github.czyzby.lml.vis.parser.impl.attribute.button;
 
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
