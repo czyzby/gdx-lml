@@ -20,6 +20,7 @@ public class ReflectedVisDialog extends VisDialog {
 
     public ReflectedVisDialog(final String title) {
         super(title);
+        setSkin(VisUI.getSkin());
         getContentTable().setSkin(VisUI.getSkin());
         getButtonsTable().setSkin(VisUI.getSkin());
         setDefaultCellPreferences();

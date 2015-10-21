@@ -30,7 +30,10 @@ public class VisWindowLmlTag extends WindowLmlTag {
     /** @param builder contains data necessary to build {@link VisWindow}.
      * @return a new instance of {@link VisWindow}. */
     protected VisWindow getNewInstanceOfVisWindow(final VisWindowLmlActorBuilder builder) {
-        return new VisWindow(builder.getText(), getSkin(builder).get(builder.getStyleName(), WindowStyle.class));
+        final VisWindow window = new VisWindow(builder.getText(),
+                getSkin(builder).get(builder.getStyleName(), WindowStyle.class));
+        window.setSkin(getSkin(builder));
+        return window;
     }
 
     @Override

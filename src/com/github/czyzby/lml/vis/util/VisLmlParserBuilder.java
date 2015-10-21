@@ -1,5 +1,6 @@
 package com.github.czyzby.lml.vis.util;
 
+import com.github.czyzby.kiwi.util.common.Exceptions;
 import com.github.czyzby.lml.parser.LmlData;
 import com.github.czyzby.lml.parser.impl.AbstractLmlParser;
 import com.github.czyzby.lml.parser.impl.DefaultLmlParser;
@@ -26,7 +27,14 @@ public class VisLmlParserBuilder extends LmlParserBuilder {
 
     @Override
     protected AbstractLmlParser getInstanceOfParser(final LmlData lmlData) {
-        lmlData.setDefaultSkin(VisUI.getSkin());
+        try {
+            lmlData.setDefaultSkin(VisUI.getSkin());
+        } catch (final IllegalStateException exception) {
+            // No #isLoaded(). Assuming that the user wants a default skin.
+            Exceptions.ignore(exception);
+            VisUI.load();
+            lmlData.setDefaultSkin(VisUI.getSkin());
+        }
         return new DefaultLmlParser(lmlData, new VisLmlSyntax());
     }
 }
