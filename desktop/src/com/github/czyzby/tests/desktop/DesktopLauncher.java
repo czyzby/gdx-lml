@@ -18,7 +18,7 @@ public class DesktopLauncher {
 
     private static LwjglApplicationConfiguration getDefaultConfiguration() {
         final LwjglApplicationConfiguration configuration = new LwjglApplicationConfiguration();
-        configuration.title = "LML examples";
+        configuration.title = "LML with VisUI examples";
         configuration.width = 1024;
         configuration.height = 512;
         return configuration;
