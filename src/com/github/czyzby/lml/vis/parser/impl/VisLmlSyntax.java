@@ -9,6 +9,8 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.building.ShowWindowBorder
 import com.github.czyzby.lml.vis.parser.impl.attribute.textbutton.TextButtonFocusBorderEnabledLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.AddCloseButtonLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.CloseOnEscapeLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.window.OnResultLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisDialogLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisLabelLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTextButtonLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisWindowLmlTagProvider;
@@ -51,6 +53,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
 
     @Override
     protected void registerActorTags() {
+        addTagProvider(new VisDialogLmlTagProvider(), "dialog", "visDialog", "popup");
         addTagProvider(new VisLabelLmlTagProvider(), "label", "visLabel", "text", "txt", "li");
         addTagProvider(new VisTextButtonLmlTagProvider(), "textButton", "visTextButton", "a");
         addTagProvider(new VisWindowLmlTagProvider(), "window", "visWindow");
@@ -81,6 +84,13 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         // VisWindow:
         addAttributeProcessor(new AddCloseButtonLmlAttribute(), "closeButton", "addCloseButton");
         addAttributeProcessor(new CloseOnEscapeLmlAttribute(), "closeOnEscape");
+    }
+
+    @Override
+    protected void registerDialogAttributes() {
+        super.registerDialogAttributes();
+        // VisDialog children:
+        addAttributeProcessor(new OnResultLmlAttribute(), "result", "onResult", "onDialogResult");
     }
 
     @Override
