@@ -5,8 +5,8 @@
     
     <!-- Template input: -->
     <table grow=true>
-        <textArea id="templateInput" message="@textAreaPrompt" grow=true row=true />
-        <textButton onChange="parseTemplate" growX=true padTop=4>@parsingButton|LML</textButton> 
+        <textArea id="templateInput" style="small" message="@textAreaPrompt" grow=true row=true />
+        <textButton onChange="parseTemplate" growX=true padTop=4>@parsingButton|LML</textButton>
     </table>
 
     <!-- Buttons and parsing result: -->
@@ -15,10 +15,10 @@
         <!-- Buttons column: -->
         <table width=200 growY=true>
             <!-- This scroll pane contains buttons used to switch LML templates. -->
-            <scrollPane grow=true fadeBars=false overscroll=false>
+            <scrollPane style=list grow=true fadeBars=false overscroll=false>
                 <table defaultWidth=175 tableAlign=left defaultExpandX=true defaultAlign=left>
                     <@for example={examples}>
-                        <textButton id={example} style="toggle" onChange="switch" row=true>@{example}</textButton>
+                        <textButton id={example} style="toggle" onChange="switch" row=true focusBorder=false>@{example}</textButton>
                     </@for>
                 </table>
             </scrollPane>
