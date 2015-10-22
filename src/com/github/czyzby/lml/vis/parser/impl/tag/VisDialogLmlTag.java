@@ -26,11 +26,6 @@ public class VisDialogLmlTag extends VisWindowLmlTag {
     }
 
     @Override
-    protected Class<?> getActorType() {
-        return VisDialog.class;
-    }
-
-    @Override
     protected void handlePlainTextLine(final String plainTextLine) {
         final VisDialog dialog = getDialog();
         dialog.text(getParser().parseString(plainTextLine, dialog));

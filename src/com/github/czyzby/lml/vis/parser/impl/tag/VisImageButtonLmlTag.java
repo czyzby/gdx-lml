@@ -27,11 +27,6 @@ public class VisImageButtonLmlTag extends ButtonLmlTag {
     }
 
     @Override
-    protected Class<?> getActorType() {
-        return VisImageButton.class;
-    }
-
-    @Override
     protected boolean hasComponentActors() {
         return true;
     }

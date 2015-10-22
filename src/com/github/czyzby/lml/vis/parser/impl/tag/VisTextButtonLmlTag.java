@@ -21,9 +21,4 @@ public class VisTextButtonLmlTag extends TextButtonLmlTag {
     protected TextButton getNewInstanceOfTextButton(final TextLmlActorBuilder builder) {
         return new VisTextButton(builder.getText(), builder.getStyleName());
     }
-
-    @Override
-    protected Class<?> getActorType() {
-        return VisTextButton.class;
-    }
 }

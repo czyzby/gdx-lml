@@ -7,24 +7,18 @@ import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.kotcrab.vis.ui.widget.VisScrollPane;
 
-/**
- * Handles {@link VisScrollPane} actor. Can have a single child tag which will be set as scroll pane's managed widget.
+/** Handles {@link VisScrollPane} actor. Can have a single child tag which will be set as scroll pane's managed widget.
  * Parses plain text between tags to a label and sets it as its managed widget. Mapped to "scrollPane", "scroll",
  * "scrollable".
- * @author Kotcrab
- */
+ * 
+ * @author Kotcrab */
 public class VisScrollPaneLmlTag extends ScrollPaneLmlTag {
-    public VisScrollPaneLmlTag(LmlParser parser, LmlTag parentTag, String rawTagData) {
+    public VisScrollPaneLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 
     @Override
-    protected Actor getNewInstanceOfActor(LmlActorBuilder builder) {
+    protected Actor getNewInstanceOfActor(final LmlActorBuilder builder) {
         return new VisScrollPane(null, builder.getStyleName());
-    }
-
-    @Override
-    protected Class<?> getActorType() {
-        return VisScrollPane.class;
     }
 }

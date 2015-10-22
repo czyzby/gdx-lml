@@ -10,7 +10,7 @@ import com.kotcrab.vis.ui.widget.VisSelectBox;
 /** Handles {@link VisSelectBox} actor. Like the List widget it wraps, select box can handle only string data. Converts
  * label and text button children to items by extracting their text; does not accept any other child tags. Appends plain
  * text lines between tags as its items. Mapped to "select", "selectBox".
- * 
+ *
  * @author Kotcrab */
 public class VisSelectBoxLmlTag extends SelectBoxLmlTag {
     public VisSelectBoxLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
@@ -20,10 +20,5 @@ public class VisSelectBoxLmlTag extends SelectBoxLmlTag {
     @Override
     protected Actor getNewInstanceOfActor(final LmlActorBuilder builder) {
         return new VisSelectBox<String>(builder.getStyleName());
-    }
-
-    @Override
-    protected Class<?> getActorType() {
-        return VisSelectBox.class;
     }
 }

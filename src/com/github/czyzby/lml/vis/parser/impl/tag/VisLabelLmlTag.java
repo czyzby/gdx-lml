@@ -23,9 +23,4 @@ public class VisLabelLmlTag extends LabelLmlTag {
         final TextLmlActorBuilder textBuilder = (TextLmlActorBuilder) builder;
         return new VisLabel(textBuilder.getText(), builder.getStyleName());
     }
-
-    @Override
-    protected Class<?> getActorType() {
-        return VisLabel.class;
-    }
 }

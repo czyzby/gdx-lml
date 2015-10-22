@@ -19,9 +19,4 @@ public class VisTableLmlTag extends TableLmlTag {
     protected Actor getNewInstanceOfActor(final LmlActorBuilder builder) {
         return new VisTable();
     }
-
-    @Override
-    protected Class<?> getActorType() {
-        return VisTable.class;
-    }
 }

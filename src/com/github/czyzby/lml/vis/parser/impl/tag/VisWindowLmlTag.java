@@ -35,9 +35,4 @@ public class VisWindowLmlTag extends WindowLmlTag {
         window.setSkin(getSkin(builder));
         return window;
     }
-
-    @Override
-    protected Class<?> getActorType() {
-        return VisWindow.class;
-    }
 }

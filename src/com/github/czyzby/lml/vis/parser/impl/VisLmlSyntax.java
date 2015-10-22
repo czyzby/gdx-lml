@@ -12,7 +12,6 @@ import com.github.czyzby.lml.parser.impl.tag.actor.provider.TouchpadLmlTagProvid
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.VerticalGroupLmlTagProvider;
 import com.github.czyzby.lml.util.LmlUserObject.StandardTableTarget;
 import com.github.czyzby.lml.util.LmlUserObject.TableExtractor;
-import com.github.czyzby.lml.vis.parser.impl.attribute.building.ExtendedTextLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.ShowWindowBorderLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.button.ImageButtonGenerateDisabledLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.button.TextButtonFocusBorderEnabledLmlAttribute;
@@ -115,8 +114,6 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     @Override
     protected void registerBuildingAttributes() {
         super.registerBuildingAttributes();
-        // TextLmlActorBuilder:
-        addBuildingAttributeProcessor(new ExtendedTextLmlAttribute(), "text", "txt", "value");
         // VisWindowLmlActorBuilder:
         addBuildingAttributeProcessor(new ShowWindowBorderLmlAttribute(), "showBorder", "showWindowBorder");
     }
