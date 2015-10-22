@@ -47,7 +47,8 @@ public class SkinAssetAnnotationProcessor extends AbstractAnnotationProcessor<Sk
 
     /** Invoked when all skins are loaded. Injects skin assets.
      *
-     * @param interfaceService used to retrieve skins. */
+     * @param interfaceService used to retrieve skins.
+     * @return {@link OnMessage#REMOVE}. */
     @SuppressWarnings("unchecked")
     @OnMessage(AutumnMessage.SKINS_LOADED)
     public boolean injectFields(final InterfaceService interfaceService) {
