@@ -15,6 +15,9 @@ import com.github.czyzby.lml.util.LmlUserObject.TableExtractor;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.ShowWindowBorderLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.button.ImageButtonGenerateDisabledLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.button.TextButtonFocusBorderEnabledLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.split.MaxSplitLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.split.MinSplitLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.split.SplitAmountLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.table.UseCellDefaultsLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.AddCloseButtonLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.CloseOnEscapeLmlAttribute;
@@ -27,6 +30,7 @@ import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisLabelLmlTagProvider
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisListLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisScrollPaneLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisSelectBoxLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisSplitPaneLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTableLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTextButtonLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTreeLmlTagProvider;
@@ -75,7 +79,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
                                    // Vis providers. Invoking super only for testing purposes; this call should be
                                    // removed. TODO Remove super call.
 
-        // Standard Scene2D tags - abstract bases for Vis widgets or widgets with no VisUI equivalents:
+        // Standard Scene2D tags - abstract bases for Vis widgets or actors with no VisUI equivalents:
         addTagProvider(new ActorLmlTagProvider(), "actor", "group", "empty", "mock", "blank", "placeholder");
         addTagProvider(new ButtonLmlTagProvider(), "button");
         addTagProvider(new ContainerLmlTagProvider(), "container", "single");
@@ -87,15 +91,16 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         // Vis actors:
         addTagProvider(new VisDialogLmlTagProvider(), "dialog", "visDialog", "popup");
         addTagProvider(new VisImageButtonLmlTagProvider(), "imageButton", "visImageButton");
-        addTagProvider(new VisImageLmlTagProvider(), "image", "img", "icon");
+        addTagProvider(new VisImageLmlTagProvider(), "image", "visImage", "img", "icon");
         addTagProvider(new VisImageTextButtonLmlTagProvider(), "imageTextButton", "visImageTextButton");
         addTagProvider(new VisLabelLmlTagProvider(), "label", "visLabel", "text", "txt", "li");
-        addTagProvider(new VisListLmlTagProvider(), "list", "ul");
-        addTagProvider(new VisScrollPaneLmlTagProvider(), "scrollPane", "scroll", "scrollable");
-        addTagProvider(new VisSelectBoxLmlTagProvider(), "select", "selectBox");
+        addTagProvider(new VisListLmlTagProvider(), "list", "visList", "ul");
+        addTagProvider(new VisScrollPaneLmlTagProvider(), "scrollPane", "visScrollPane", "scroll", "scrollable");
+        addTagProvider(new VisSelectBoxLmlTagProvider(), "select", "selectBox", "visSelectBox");
+        addTagProvider(new VisSplitPaneLmlTagProvider(), "splitPane", "visSplitPane", "split", "splitable");
         addTagProvider(new VisTableLmlTagProvider(), "table", "visTable", "div", "td", "th");
         addTagProvider(new VisTextButtonLmlTagProvider(), "textButton", "visTextButton", "a");
-        addTagProvider(new VisTreeLmlTagProvider(), "tree", "root");
+        addTagProvider(new VisTreeLmlTagProvider(), "tree", "visTree", "root");
         addTagProvider(new VisWindowLmlTagProvider(), "window", "visWindow");
         // TODO register other Vis tags
     }
@@ -133,6 +138,14 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         super.registerDialogAttributes();
         // VisDialog children:
         addAttributeProcessor(new OnResultLmlAttribute(), "result", "onResult", "onDialogResult");
+    }
+
+    @Override
+    protected void registerSplitPaneAttributes() {
+        // VisSplitPane:
+        addAttributeProcessor(new MaxSplitLmlAttribute(), "max", "maxSplit", "maxSplitAmount");
+        addAttributeProcessor(new MinSplitLmlAttribute(), "min", "minSplit", "minSplitAmount");
+        addAttributeProcessor(new SplitAmountLmlAttribute(), "split", "splitAmount", "value");
     }
 
     @Override
