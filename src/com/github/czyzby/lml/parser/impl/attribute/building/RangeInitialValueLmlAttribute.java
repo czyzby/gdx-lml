@@ -1,8 +1,5 @@
 package com.github.czyzby.lml.parser.impl.attribute.building;
 
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
-import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.tag.builder.FloatRangeLmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlBuildingAttribute;
@@ -14,8 +11,8 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * @author MJ */
 public class RangeInitialValueLmlAttribute implements LmlBuildingAttribute<FloatRangeLmlActorBuilder> {
     @Override
-    public Class<?>[] getHandledTypes() {
-        return new Class<?>[] { ProgressBar.class, Slider.class, Touchpad.class };
+    public Class<FloatRangeLmlActorBuilder> getBuilderType() {
+        return FloatRangeLmlActorBuilder.class;
     }
 
     @Override

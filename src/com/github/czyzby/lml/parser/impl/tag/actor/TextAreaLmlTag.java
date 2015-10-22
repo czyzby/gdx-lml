@@ -22,9 +22,4 @@ public class TextAreaLmlTag extends TextFieldLmlTag {
         LmlUtilities.getLmlUserObject(textArea).setData(Boolean.TRUE); // Setting as multiline by default.
         return textArea;
     }
-
-    @Override
-    protected Class<?> getActorType() {
-        return TextArea.class;
-    }
 }

@@ -18,9 +18,4 @@ public class ButtonLmlTag extends TableLmlTag {
     protected Actor getNewInstanceOfActor(final LmlActorBuilder builder) {
         return new Button(getSkin(builder), builder.getStyleName());
     }
-
-    @Override
-    protected Class<?> getActorType() {
-        return Button.class;
-    }
 }

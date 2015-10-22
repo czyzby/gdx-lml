@@ -22,11 +22,6 @@ public class ContainerLmlTag extends AbstractActorLmlTag {
     }
 
     @Override
-    protected Class<?> getActorType() {
-        return Container.class;
-    }
-
-    @Override
     protected void handlePlainTextLine(final String plainTextLine) {
         addChild(toLabel(plainTextLine));
     }

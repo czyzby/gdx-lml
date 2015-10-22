@@ -36,11 +36,6 @@ public class TextFieldLmlTag extends AbstractNonParentalActorLmlTag {
         return new TextField(textBuilder.getText(), getSkin(textBuilder), textBuilder.getStyleName());
     }
 
-    @Override
-    protected Class<?> getActorType() {
-        return TextField.class;
-    }
-
     /** @return casted actor. */
     protected TextField getTextField() {
         return (TextField) getActor();

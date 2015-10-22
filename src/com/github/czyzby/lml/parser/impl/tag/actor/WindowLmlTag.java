@@ -36,11 +36,6 @@ public class WindowLmlTag extends TableLmlTag {
     }
 
     @Override
-    protected Class<?> getActorType() {
-        return Window.class;
-    }
-
-    @Override
     protected boolean hasComponentActors() {
         return true;
     }

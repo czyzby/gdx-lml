@@ -32,11 +32,6 @@ public class SplitPaneLmlTag extends AbstractActorLmlTag {
     }
 
     @Override
-    protected Class<?> getActorType() {
-        return SplitPane.class;
-    }
-
-    @Override
     protected void handleValidChild(final LmlTag childTag) {
         setSplitPaneChild(childTag.getActor());
     }

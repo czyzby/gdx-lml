@@ -94,11 +94,8 @@ import com.github.czyzby.lml.util.LmlUtilities;
  * &lt;@newTag myTable;myAlias getMyTable getMyBuilder&gt;
  * </pre>
  *
- * </blockquote>This usually WON'T work out of the box, because custom builders are assigned to specific actors. For
- * example: TextLmlActorBuilder would work for your custom extension of a Label or TextButton, but is not prepared to
- * handle a Table. But custom builders are rarely needed and can be compensated with the fact that you fully customize
- * your widget in Java, so most of the time you don't even NEED extra attributes. Using two macro attributes - tag names
- * array and creation method reference - should be enough most of the time.
+ * </blockquote>Building attributes are mapped to builder types, so if you use one of custom widget builders (like the
+ * text actor builder in the example above), your tag will automatically handle all its attributes.
  *
  * @author MJ */
 public class NewTagLmlMacroTag extends AbstractMacroLmlTag {
@@ -176,11 +173,6 @@ public class NewTagLmlMacroTag extends AbstractMacroLmlTag {
     public static abstract class CustomLmlTag extends AbstractActorLmlTag {
         public CustomLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
             super(parser, parentTag, rawTagData);
-        }
-
-        @Override
-        protected Class<?> getActorType() {
-            return Actor.class; // This is needed only for building attributes.
         }
 
         @Override

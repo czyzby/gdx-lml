@@ -15,11 +15,8 @@ public interface LmlBuildingAttribute<Builder extends LmlActorBuilder> {
     /** Utility for {@link #process(LmlParser, LmlTag, LmlActorBuilder, String)} method. Return for code clarity. */
     boolean FULLY_PARSED = true, NOT_FULLY_PARSED = false;
 
-    /** @return base actor classes that can be handled by this attribute processor. Since building attributes work on
-     *         generic builders rather than widgets themselves, then can handle multiple children types. An example
-     *         might be a text builder with additional "initialText" string property that can be used to build both
-     *         labels and text buttons. */
-    Class<?>[] getHandledTypes();
+    /** @return class of handled builder. */
+    Class<Builder> getBuilderType();
 
     /** @param parser handles LML template parsing.
      * @param tag contains raw tag data. Allows to access actor's parent.

@@ -20,9 +20,4 @@ public class TouchpadLmlTag extends AbstractNonParentalActorLmlTag {
         // Setting dead zone radius to 0f. Should not throw exception, can be changed later with attributes.
         return new Touchpad(0f, getSkin(builder), builder.getStyleName());
     }
-
-    @Override
-    protected Class<?> getActorType() {
-        return Touchpad.class;
-    }
 }

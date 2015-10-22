@@ -24,11 +24,6 @@ public class ListLmlTag extends AbstractActorLmlTag {
     }
 
     @Override
-    protected Class<?> getActorType() {
-        return List.class;
-    }
-
-    @Override
     protected void handleValidChild(final LmlTag childTag) {
         if (childTag.getActor() instanceof Label) {
             addListElement(((Label) childTag.getActor()).getText().toString());

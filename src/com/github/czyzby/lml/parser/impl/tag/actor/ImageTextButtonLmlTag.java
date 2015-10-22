@@ -30,11 +30,6 @@ public class ImageTextButtonLmlTag extends ButtonLmlTag {
     }
 
     @Override
-    protected Class<?> getActorType() {
-        return ImageTextButton.class;
-    }
-
-    @Override
     protected boolean hasComponentActors() {
         return true;
     }

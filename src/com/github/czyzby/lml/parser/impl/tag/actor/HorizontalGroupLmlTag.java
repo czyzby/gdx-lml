@@ -22,11 +22,6 @@ public class HorizontalGroupLmlTag extends AbstractActorLmlTag {
     }
 
     @Override
-    protected Class<?> getActorType() {
-        return HorizontalGroup.class;
-    }
-
-    @Override
     protected void handleValidChild(final LmlTag childTag) {
         addChild(childTag.getActor());
     }

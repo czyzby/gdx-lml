@@ -32,11 +32,6 @@ public class LabelLmlTag extends AbstractNonParentalActorLmlTag {
     }
 
     @Override
-    protected Class<?> getActorType() {
-        return Label.class;
-    }
-
-    @Override
     protected void handlePlainTextLine(final String plainTextLine) {
         final Label label = getLabel();
         final String textToAppend = getParser().parseString(plainTextLine, label);

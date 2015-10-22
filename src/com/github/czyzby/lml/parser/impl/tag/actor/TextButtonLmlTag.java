@@ -35,11 +35,6 @@ public class TextButtonLmlTag extends ButtonLmlTag {
     }
 
     @Override
-    protected Class<?> getActorType() {
-        return TextButton.class;
-    }
-
-    @Override
     protected void handlePlainTextLine(final String plainTextLine) {
         final TextButton button = getTextButton();
         final String textToAppend = getParser().parseString(plainTextLine, getActor());

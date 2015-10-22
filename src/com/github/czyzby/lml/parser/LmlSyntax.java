@@ -296,11 +296,11 @@ public interface LmlSyntax {
      * @param handledActorType removed attribute processor must handle this exact base actor type. */
     void removeAttributeProcessor(String name, Class<?> handledActorType);
 
-    /** @param forActorType actor type that needs to be created. Cannot be null.
+    /** @param builder will be used by the attribute processor. Cannot be null.
      * @param attributeName name of the attribute to parse.
      * @return attribute processor connected with the selected attribute name and actor's class or null.
      * @param <Builder> type of handled builder. */
-    <Builder extends LmlActorBuilder> LmlBuildingAttribute<Builder> getBuildingAttributeProcessor(Class<?> forActorType,
+    <Builder extends LmlActorBuilder> LmlBuildingAttribute<Builder> getBuildingAttributeProcessor(Builder builder,
             String attributeName);
 
     /** @param buildingAttributeProcessor will be registered under passed names for the handled actor class type.

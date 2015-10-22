@@ -19,9 +19,4 @@ public class SliderLmlTag extends ProgressBarLmlTag {
         return new Slider(rangeBuilder.getMin(), rangeBuilder.getMax(), rangeBuilder.getStepSize(),
                 rangeBuilder.isVertical(), getSkin(rangeBuilder), rangeBuilder.getStyleName());
     }
-
-    @Override
-    protected Class<?> getActorType() {
-        return Slider.class;
-    }
 }

@@ -1,6 +1,5 @@
 package com.github.czyzby.lml.parser.impl.attribute.building;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlBuildingAttribute;
@@ -14,8 +13,8 @@ import com.github.czyzby.lml.util.LmlUserObject.StandardTableTarget;
  * @author MJ */
 public class ToTitleTableLmlAttribute implements LmlBuildingAttribute<LmlActorBuilder> {
     @Override
-    public Class<?>[] getHandledTypes() {
-        return new Class<?>[] { Actor.class };
+    public Class<LmlActorBuilder> getBuilderType() {
+        return LmlActorBuilder.class;
     }
 
     @Override

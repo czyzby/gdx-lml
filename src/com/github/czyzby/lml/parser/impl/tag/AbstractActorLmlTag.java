@@ -50,7 +50,7 @@ public abstract class AbstractActorLmlTag extends AbstractLmlTag {
         for (final Entry<String, String> attribute : getNamedAttributes()) {
             // Processing building attributes:
             final LmlBuildingAttribute<LmlActorBuilder> buildingAttributeProcessor = syntax
-                    .getBuildingAttributeProcessor(getActorType(), attribute.key);
+                    .getBuildingAttributeProcessor(builder, attribute.key);
             if (buildingAttributeProcessor != null // This is the actual processing method:
                     && buildingAttributeProcessor.process(getParser(), this, builder, attribute.value)) {
                 // If processing returns true, the attribute is fully parsed and can be omitted during attribute parsing
@@ -146,9 +146,6 @@ public abstract class AbstractActorLmlTag extends AbstractLmlTag {
     /** @param builder fully initiated builder object with all building attributes already processed.
      * @return a new instance of handled actor. */
     protected abstract Actor getNewInstanceOfActor(LmlActorBuilder builder);
-
-    /** @return type of handled actor. */
-    protected abstract Class<?> getActorType();
 
     /** @return specialized builder needed to construct the widget. */
     protected LmlActorBuilder getNewInstanceOfBuilder() {

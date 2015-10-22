@@ -19,9 +19,4 @@ public class ImageLmlTag extends AbstractNonParentalActorLmlTag {
     protected Actor getNewInstanceOfActor(final LmlActorBuilder builder) {
         return new Image(getSkin(builder).getDrawable(builder.getStyleName()));
     }
-
-    @Override
-    protected Class<?> getActorType() {
-        return Image.class;
-    }
 }

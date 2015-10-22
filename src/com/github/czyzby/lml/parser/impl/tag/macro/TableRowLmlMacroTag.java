@@ -142,7 +142,7 @@ public class TableRowLmlMacroTag extends AbstractMacroLmlTag {
         final LmlSyntax syntax = getParser().getSyntax();
         for (final Entry<String, String> attribute : attributes) {
             final LmlBuildingAttribute<LmlActorBuilder> buildingAttribute = syntax
-                    .getBuildingAttributeProcessor(Actor.class, attribute.key);
+                    .getBuildingAttributeProcessor(builder, attribute.key);
             if (buildingAttribute != null) {
                 buildingAttribute.process(getParser(), getParent(), builder, attribute.value);
                 processedAttributes.add(attribute.key);

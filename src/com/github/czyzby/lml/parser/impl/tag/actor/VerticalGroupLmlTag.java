@@ -22,11 +22,6 @@ public class VerticalGroupLmlTag extends AbstractActorLmlTag {
     }
 
     @Override
-    protected Class<?> getActorType() {
-        return VerticalGroup.class;
-    }
-
-    @Override
     protected void handleValidChild(final LmlTag childTag) {
         addChild(childTag.getActor());
     }

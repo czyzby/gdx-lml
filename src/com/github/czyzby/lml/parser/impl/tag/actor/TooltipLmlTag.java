@@ -35,11 +35,6 @@ public class TooltipLmlTag extends TableLmlTag {
         return table;
     }
 
-    @Override
-    protected Class<?> getActorType() {
-        return TooltipTable.class;
-    }
-
     /** @param builder contains tooltip building data.
      * @return an instance of tooltip manager with the ID selected by the builder or default tooltip manager.
      * @throws LmlParsingException if parser is strict and the ID is invalid. */

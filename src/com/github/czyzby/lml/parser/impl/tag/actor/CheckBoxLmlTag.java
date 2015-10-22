@@ -21,11 +21,6 @@ public class CheckBoxLmlTag extends TextButtonLmlTag {
     }
 
     @Override
-    protected Class<?> getActorType() {
-        return CheckBox.class;
-    }
-
-    @Override
     protected boolean hasComponentActors() {
         return true;
     }

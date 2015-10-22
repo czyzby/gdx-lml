@@ -25,11 +25,6 @@ public class SelectBoxLmlTag extends AbstractActorLmlTag {
     }
 
     @Override
-    protected Class<?> getActorType() {
-        return SelectBox.class;
-    }
-
-    @Override
     protected void handlePlainTextLine(final String plainTextLine) {
         addChild(getParser().parseString(plainTextLine, getActor()));
     }

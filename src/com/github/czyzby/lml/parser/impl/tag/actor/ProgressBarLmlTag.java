@@ -36,9 +36,4 @@ public class ProgressBarLmlTag extends AbstractNonParentalActorLmlTag {
         return new ProgressBar(rangeBuilder.getMin(), rangeBuilder.getMax(), rangeBuilder.getStepSize(),
                 rangeBuilder.isVertical(), getSkin(rangeBuilder), rangeBuilder.getStyleName());
     }
-
-    @Override
-    protected Class<?> getActorType() {
-        return ProgressBar.class;
-    }
 }

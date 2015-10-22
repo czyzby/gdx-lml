@@ -23,11 +23,6 @@ public class ScrollPaneLmlTag extends AbstractActorLmlTag {
     }
 
     @Override
-    protected Class<?> getActorType() {
-        return ScrollPane.class;
-    }
-
-    @Override
     protected void handlePlainTextLine(final String plainTextLine) {
         setChild(toLabel(plainTextLine));
     }

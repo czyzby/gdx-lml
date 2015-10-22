@@ -276,8 +276,8 @@ public class DefaultLmlSyntax implements LmlSyntax {
     private final ObjectMap<String, LmlTagProvider> macroTagProviders = new IgnoreCaseStringMap<LmlTagProvider>();
     /** Key: class of actor; value: map with attributes assigned to the widget (key: attribute name, ignoring case). */
     private final ObjectMap<Class<?>, ObjectMap<String, LmlAttribute<?>>> attributeProcessors = getLazyMapOfIgnoreCaseMaps();
-    /** Key: class of actor; value: map with building attributes assigned to the widget (key: attribute name, ignoring
-     * case). */
+    /** Key: class of actor builder; value: map with building attributes assigned to the builder (key: attribute name,
+     * ignoring case, value: processor). */
     private final ObjectMap<Class<?>, ObjectMap<String, LmlBuildingAttribute<?>>> buildingAttributeProcessors = getLazyMapOfIgnoreCaseMaps();
 
     /** Constructs a new instance of default syntax, with default tag and attributes registered. */
@@ -860,9 +860,11 @@ public class DefaultLmlSyntax implements LmlSyntax {
             final String attributeName) {
         Class<?> actorClass = forActorType;
         while (actorClass != null) {
-            final ObjectMap<String, LmlAttribute<?>> processors = attributeProcessors.get(actorClass);
-            if (processors.containsKey(attributeName)) {
-                return (LmlAttribute<Actor>) processors.get(attributeName);
+            if (attributeProcessors.containsKey(actorClass)) {
+                final ObjectMap<String, LmlAttribute<?>> processors = attributeProcessors.get(actorClass);
+                if (processors.containsKey(attributeName)) {
+                    return (LmlAttribute<Actor>) processors.get(attributeName);
+                }
             }
             actorClass = actorClass.getSuperclass();
         }
@@ -886,14 +888,17 @@ public class DefaultLmlSyntax implements LmlSyntax {
     @Override
     @SuppressWarnings("unchecked")
     public <Builder extends LmlActorBuilder> LmlBuildingAttribute<Builder> getBuildingAttributeProcessor(
-            final Class<?> forActorType, final String attributeName) {
-        Class<?> actorClass = forActorType;
-        while (actorClass != null) {
-            final ObjectMap<String, LmlBuildingAttribute<?>> processors = buildingAttributeProcessors.get(actorClass);
-            if (processors.containsKey(attributeName)) {
-                return (LmlBuildingAttribute<Builder>) processors.get(attributeName);
+            final Builder builder, final String attributeName) {
+        Class<?> builderClass = builder.getClass();
+        while (builderClass != null) {
+            if (buildingAttributeProcessors.containsKey(builderClass)) {
+                final ObjectMap<String, LmlBuildingAttribute<?>> processors = buildingAttributeProcessors
+                        .get(builderClass);
+                if (processors.containsKey(attributeName)) {
+                    return (LmlBuildingAttribute<Builder>) processors.get(attributeName);
+                }
             }
-            actorClass = actorClass.getSuperclass();
+            builderClass = builderClass.getSuperclass();
         }
         return null;
     }
@@ -901,11 +906,10 @@ public class DefaultLmlSyntax implements LmlSyntax {
     @Override
     public <Builder extends LmlActorBuilder> void addBuildingAttributeProcessor(
             final LmlBuildingAttribute<Builder> buildingAttributeProcessor, final String... names) {
-        for (final Class<?> handledType : buildingAttributeProcessor.getHandledTypes()) {
-            final ObjectMap<String, LmlBuildingAttribute<?>> processors = buildingAttributeProcessors.get(handledType);
-            for (final String name : names) {
-                processors.put(name, buildingAttributeProcessor);
-            }
+        final ObjectMap<String, LmlBuildingAttribute<?>> processors = buildingAttributeProcessors
+                .get(buildingAttributeProcessor.getBuilderType());
+        for (final String name : names) {
+            processors.put(name, buildingAttributeProcessor);
         }
     }
 

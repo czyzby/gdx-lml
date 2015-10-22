@@ -24,11 +24,6 @@ public class TreeLmlTag extends AbstractActorLmlTag {
     }
 
     @Override
-    protected Class<?> getActorType() {
-        return Tree.class;
-    }
-
-    @Override
     protected void handleValidChild(final LmlTag childTag) {
         addChild(childTag.getActor());
     }

@@ -23,11 +23,6 @@ public class TableLmlTag extends AbstractActorLmlTag {
     }
 
     @Override
-    protected Class<?> getActorType() {
-        return Table.class;
-    }
-
-    @Override
     protected void handleValidChild(final LmlTag childTag) {
         addChild(childTag.getActor());
     }

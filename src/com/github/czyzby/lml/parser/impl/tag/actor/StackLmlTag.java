@@ -21,11 +21,6 @@ public class StackLmlTag extends AbstractActorLmlTag {
     }
 
     @Override
-    protected Class<?> getActorType() {
-        return Stack.class;
-    }
-
-    @Override
     protected void handleValidChild(final LmlTag childTag) {
         addChild(childTag.getActor());
     }

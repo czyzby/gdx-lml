@@ -24,11 +24,6 @@ public class ActorLmlTag extends AbstractActorLmlTag {
     }
 
     @Override
-    protected Class<?> getActorType() {
-        return isParent() ? Group.class : Actor.class;
-    }
-
-    @Override
     protected void handleValidChild(final LmlTag childTag) {
         validateActor();
         ((Group) getActor()).addActor(childTag.getActor());

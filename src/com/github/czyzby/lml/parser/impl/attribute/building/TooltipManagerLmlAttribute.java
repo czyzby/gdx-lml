@@ -4,7 +4,6 @@ import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.tag.builder.TooltipLmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlBuildingAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
-import com.github.czyzby.lml.scene2d.ui.reflected.TooltipTable;
 
 /** Allows to specify tooltip manager used to create and manage a tooltip. Expects a string - ID of a manager registered
  * in LML data object. Mapped to "tooltipManager".
@@ -12,8 +11,8 @@ import com.github.czyzby.lml.scene2d.ui.reflected.TooltipTable;
  * @author MJ */
 public class TooltipManagerLmlAttribute implements LmlBuildingAttribute<TooltipLmlActorBuilder> {
     @Override
-    public Class<?>[] getHandledTypes() {
-        return new Class<?>[] { TooltipTable.class };
+    public Class<TooltipLmlActorBuilder> getBuilderType() {
+        return TooltipLmlActorBuilder.class;
     }
 
     @Override

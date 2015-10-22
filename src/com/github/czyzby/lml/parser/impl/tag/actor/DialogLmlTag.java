@@ -22,11 +22,6 @@ public class DialogLmlTag extends WindowLmlTag {
     }
 
     @Override
-    protected Class<?> getActorType() {
-        return Dialog.class;
-    }
-
-    @Override
     protected void handlePlainTextLine(final String plainTextLine) {
         final Dialog dialog = getDialog();
         dialog.text(getParser().parseString(plainTextLine, dialog));

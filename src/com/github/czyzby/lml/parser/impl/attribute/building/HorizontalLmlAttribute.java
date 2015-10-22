@@ -1,8 +1,5 @@
 package com.github.czyzby.lml.parser.impl.attribute.building;
 
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
-import com.badlogic.gdx.scenes.scene2d.ui.SplitPane;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.tag.builder.AlignedLmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlBuildingAttribute;
@@ -14,8 +11,8 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * @author MJ */
 public class HorizontalLmlAttribute implements LmlBuildingAttribute<AlignedLmlActorBuilder> {
     @Override
-    public Class<?>[] getHandledTypes() {
-        return new Class<?>[] { SplitPane.class, ProgressBar.class, Slider.class };
+    public Class<AlignedLmlActorBuilder> getBuilderType() {
+        return AlignedLmlActorBuilder.class;
     }
 
     @Override
