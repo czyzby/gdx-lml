@@ -12,7 +12,7 @@
     every tag, even these normally not-parental. -->
 
 <container size=128>
-    <image style="default-round">
+    <image style="button-over">
         <tooltip background="button-down" instant=true>
             Converts text to labels.
             <textButton row=true>
