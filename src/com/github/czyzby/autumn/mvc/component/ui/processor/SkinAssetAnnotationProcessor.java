@@ -11,6 +11,7 @@ import com.github.czyzby.autumn.annotation.OnMessage;
 import com.github.czyzby.autumn.context.Context;
 import com.github.czyzby.autumn.context.ContextDestroyer;
 import com.github.czyzby.autumn.context.ContextInitializer;
+import com.github.czyzby.autumn.context.error.ContextInitiationException;
 import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
 import com.github.czyzby.autumn.mvc.config.AutumnMessage;
 import com.github.czyzby.autumn.mvc.stereotype.SkinAsset;
@@ -49,10 +50,14 @@ public class SkinAssetAnnotationProcessor extends AbstractAnnotationProcessor<Sk
      * @param interfaceService used to retrieve skins. */
     @SuppressWarnings("unchecked")
     @OnMessage(AutumnMessage.SKINS_LOADED)
-    public void injectFields(final InterfaceService interfaceService) {
+    public boolean injectFields(final InterfaceService interfaceService) {
         for (final Entry<Pair<String, String>, Array<Pair<Field, Object>>> entry : fieldsToInject) {
             final Skin skin = interfaceService.getParser().getData().getSkin(entry.key.getSecond());
             final String assetId = entry.key.getFirst();
+            if (skin == null) {
+                throw new ContextInitiationException(
+                        "Unable to inject asset: " + assetId + ". Unknown skin ID: " + entry.key.getSecond());
+            }
             for (final Pair<Field, Object> injection : entry.value) {
                 try {
                     Reflection.setFieldValue(injection.getFirst(), injection.getSecond(),
@@ -65,5 +70,6 @@ public class SkinAssetAnnotationProcessor extends AbstractAnnotationProcessor<Sk
             }
         }
         fieldsToInject.clear();
+        return OnMessage.REMOVE;
     }
 }

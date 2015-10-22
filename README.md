@@ -105,6 +105,10 @@ Automatic component scan on Android and iOS is not implemented and it might take
 Your opinions, comments and testing can help as well. Don't be afraid to inform me about bugs and functionalities that are missing or the ones you are not a huge fan of.
 
 ## What's new
+1.1 -> 1.2:
+
+- Fixed `@SkinAsset` injection. Now it throws meaningful exceptions when invalid skin ID is passed.
+
 0 -> 1
 
 - Updated to LML 1. Removed `ViewActor` annotation; now LML's `LmlActor` is used. Added support for new LML features: `@OnChange`, `@LmlActor`, `@LmlAction`, etc. Make sure to update your LML templates according to the updated syntax. See LML docs for more info.

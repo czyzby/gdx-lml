@@ -37,6 +37,7 @@ public class SkinService {
             skins.add(skin);
             interfaceService.getParser().getData().addSkin(skinData.key, skin);
         }
+        messageDispatcher.postMessage(AutumnMessage.SKINS_LOADED);
     }
 
     private static Skin initiateSkin(final SkinAssetAnnotationProcessor skinAssetProcessor, final SkinData skinData,
@@ -52,7 +53,6 @@ public class SkinService {
         assignFonts(skin, skinData, fontPaths, assetService);
 
         skin.load(Gdx.files.internal(skinData.getPath() + CommonFileExtension.JSON));
-        messageDispatcher.postMessage(AutumnMessage.SKINS_LOADED);
         return skin;
     }
 
