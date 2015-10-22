@@ -192,6 +192,8 @@ public class Main extends AbstractApplicationListener {
                 // Normally you don't have to override this method, but we want to support String constructor, so we
                 // supply one of default, extended builders:
                 return new TextLmlActorBuilder();
+                // By using this builder, we're automatically support "text", "txt" and "value" attributes, which will
+                // use #setText(String) method to modify the builder.
             }
 
             @Override
@@ -199,11 +201,6 @@ public class Main extends AbstractApplicationListener {
                 // Safe to cast builder. Always the same object type as returned by getNewInstanceOfBuilder:
                 final TextLmlActorBuilder textBuilder = (TextLmlActorBuilder) builder;
                 return new BlinkingLabel(textBuilder.getText(), getSkin(builder), builder.getStyleName());
-            }
-
-            @Override
-            protected Class<?> getActorType() {
-                return BlinkingLabel.class;
             }
 
             @Override
