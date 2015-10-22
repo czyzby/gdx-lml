@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -31,6 +30,7 @@ import com.github.czyzby.lml.util.LmlUtilities;
 import com.github.czyzby.tests.Main;
 import com.github.czyzby.tests.reflected.widgets.BlinkingLabel;
 import com.kotcrab.vis.ui.widget.VisDialog;
+import com.kotcrab.vis.ui.widget.VisTextArea;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 
 /** Main view of the application. Since it extends {@link AbstractLmlView}, it is both {@link LmlView} (allowing its
@@ -42,7 +42,7 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
  * @author MJ */
 public class MainView extends AbstractLmlView {
     // Contains template to parse:
-    @LmlActor("templateInput") private TextArea templateInput;
+    @LmlActor("templateInput") private VisTextArea templateInput;
     // Is filled with parsed actors after template processing:
     @LmlActor("resultTable") private Table resultTable;
     // {examples} is converted to the argument with this name, which is an array of all examples. In main.lml, we assign
