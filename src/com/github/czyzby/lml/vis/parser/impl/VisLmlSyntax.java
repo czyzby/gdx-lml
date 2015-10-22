@@ -12,9 +12,9 @@ import com.github.czyzby.lml.parser.impl.tag.actor.provider.TouchpadLmlTagProvid
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.VerticalGroupLmlTagProvider;
 import com.github.czyzby.lml.util.LmlUserObject.StandardTableTarget;
 import com.github.czyzby.lml.util.LmlUserObject.TableExtractor;
+import com.github.czyzby.lml.vis.parser.impl.attribute.FocusBorderEnabledLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.ShowWindowBorderLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.button.ImageButtonGenerateDisabledLmlAttribute;
-import com.github.czyzby.lml.vis.parser.impl.attribute.button.TextButtonFocusBorderEnabledLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MaxSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MinSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.SplitAmountLmlAttribute;
@@ -22,12 +22,14 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.table.UseCellDefaultsLmlA
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.AddCloseButtonLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.CloseOnEscapeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.OnResultLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisCheckBoxLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisDialogLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisImageButtonLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisImageLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisImageTextButtonLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisLabelLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisListLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisRadioButtonLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisScrollPaneLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisSelectBoxLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisSplitPaneLmlTagProvider;
@@ -89,12 +91,14 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new VerticalGroupLmlTagProvider(), "vertical", "verticalGroup");
 
         // Vis actors:
+        addTagProvider(new VisCheckBoxLmlTagProvider(), "checkBox", "visCheckBox", "check");
         addTagProvider(new VisDialogLmlTagProvider(), "dialog", "visDialog", "popup");
         addTagProvider(new VisImageButtonLmlTagProvider(), "imageButton", "visImageButton");
         addTagProvider(new VisImageLmlTagProvider(), "image", "visImage", "img", "icon");
         addTagProvider(new VisImageTextButtonLmlTagProvider(), "imageTextButton", "visImageTextButton");
         addTagProvider(new VisLabelLmlTagProvider(), "label", "visLabel", "text", "txt", "li");
         addTagProvider(new VisListLmlTagProvider(), "list", "visList", "ul");
+        addTagProvider(new VisRadioButtonLmlTagProvider(), "radioButton", "visRadioButton", "radio");
         addTagProvider(new VisScrollPaneLmlTagProvider(), "scrollPane", "visScrollPane", "scroll", "scrollable");
         addTagProvider(new VisSelectBoxLmlTagProvider(), "select", "selectBox", "visSelectBox");
         addTagProvider(new VisSplitPaneLmlTagProvider(), "splitPane", "visSplitPane", "split", "splitable");
@@ -116,6 +120,8 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         // TODO register attributes of Vis unique actors
     }
 
+    // Common extra attributes:
+
     @Override
     protected void registerBuildingAttributes() {
         super.registerBuildingAttributes();
@@ -124,10 +130,17 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     }
 
     @Override
+    protected void registerCommonAttributes() {
+        super.registerCommonAttributes();
+        // BorderOwner:
+        addAttributeProcessor(new FocusBorderEnabledLmlAttribute(), "focusBorder", "focusBorderEnabled");
+    }
+
+    // Specific actor extra attributes:
+
+    @Override
     protected void registerButtonAttributes() {
         super.registerButtonAttributes();
-        // VisTextButton:
-        addAttributeProcessor(new TextButtonFocusBorderEnabledLmlAttribute(), "focusBorder", "focusBorderEnabled");
         // VisImageButton:
         addAttributeProcessor(new ImageButtonGenerateDisabledLmlAttribute(), "generateDisabled",
                 "generateDisabledImage");
@@ -163,4 +176,8 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addAttributeProcessor(new AddCloseButtonLmlAttribute(), "closeButton", "addCloseButton");
         addAttributeProcessor(new CloseOnEscapeLmlAttribute(), "closeOnEscape");
     }
+
+    // Unique Vis actors attributes:
+
+    // TODO
 }
