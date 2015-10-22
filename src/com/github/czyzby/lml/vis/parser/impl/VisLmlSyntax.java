@@ -7,6 +7,7 @@ import com.github.czyzby.lml.parser.impl.tag.actor.provider.ActorLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.ButtonLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.ContainerLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.HorizontalGroupLmlTagProvider;
+import com.github.czyzby.lml.parser.impl.tag.actor.provider.StackLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.TooltipLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.TouchpadLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.VerticalGroupLmlTagProvider;
@@ -38,9 +39,11 @@ import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisImageLmlTagProvider
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisImageTextButtonLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisLabelLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisListLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisProgressBarLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisRadioButtonLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisScrollPaneLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisSelectBoxLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisSliderLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisSplitPaneLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTableLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTextAreaLmlTagProvider;
@@ -88,15 +91,12 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
 
     @Override
     protected void registerActorTags() {
-        super.registerActorTags(); // This unnecessarily initiates standard tag parsers, which are later overridden by
-                                   // Vis providers. Invoking super only for testing purposes; this call should be
-                                   // removed. TODO Remove super call.
-
         // Standard Scene2D tags - abstract bases for Vis widgets or actors with no VisUI equivalents:
         addTagProvider(new ActorLmlTagProvider(), "actor", "group", "empty", "mock", "blank", "placeholder");
         addTagProvider(new ButtonLmlTagProvider(), "button");
         addTagProvider(new ContainerLmlTagProvider(), "container", "single");
         addTagProvider(new HorizontalGroupLmlTagProvider(), "horizontal", "horizontalGroup");
+        addTagProvider(new StackLmlTagProvider(), "stack");
         addTagProvider(new TooltipLmlTagProvider(), "tooltip"); // VisTooltipLmlTagProvider supports Vis tooltips.
         addTagProvider(new TouchpadLmlTagProvider(), "touchpad", "touch");
         addTagProvider(new VerticalGroupLmlTagProvider(), "vertical", "verticalGroup");
@@ -109,9 +109,12 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new VisImageTextButtonLmlTagProvider(), "imageTextButton", "visImageTextButton");
         addTagProvider(new VisLabelLmlTagProvider(), "label", "visLabel", "text", "txt", "li");
         addTagProvider(new VisListLmlTagProvider(), "list", "visList", "ul");
+        addTagProvider(new VisProgressBarLmlTagProvider(), "progressBar", "visProgressBar", "progress", "loading",
+                "loadingBar");
         addTagProvider(new VisRadioButtonLmlTagProvider(), "radioButton", "visRadioButton", "radio");
         addTagProvider(new VisScrollPaneLmlTagProvider(), "scrollPane", "visScrollPane", "scroll", "scrollable");
         addTagProvider(new VisSelectBoxLmlTagProvider(), "select", "selectBox", "visSelectBox");
+        addTagProvider(new VisSliderLmlTagProvider(), "slider", "visSlider");
         addTagProvider(new VisSplitPaneLmlTagProvider(), "splitPane", "visSplitPane", "split", "splitable");
         addTagProvider(new VisTableLmlTagProvider(), "table", "visTable", "div", "td", "th");
         addTagProvider(new VisTextAreaLmlTagProvider(), "textArea", "inputArea", "multilineInput");
