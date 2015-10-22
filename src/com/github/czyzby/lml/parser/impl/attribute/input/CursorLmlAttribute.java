@@ -21,7 +21,7 @@ public class CursorLmlAttribute implements LmlAttribute<TextField> {
     @Override
     public void process(final LmlParser parser, final LmlTag tag, final TextField actor,
             final String rawAttributeData) {
-        LmlUtilities.getLmlUserObject(actor).addOnCreateAction(new ActorConsumer<Object, Object>() {
+        LmlUtilities.getLmlUserObject(actor).addOnCloseAction(new ActorConsumer<Object, Object>() {
             @Override
             public Void consume(final Object widget) {
                 actor.setCursorPosition(parser.parseInt(rawAttributeData, actor));

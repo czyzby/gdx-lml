@@ -93,6 +93,7 @@ import com.github.czyzby.lml.parser.impl.attribute.input.MaxLengthLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.input.MessageLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.input.PasswordCharacterLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.input.PasswordModeLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.input.PrefRowsLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.input.SelectAllLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.label.EllipsisLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.label.LabelAlignmentLmlAttribute;
@@ -674,6 +675,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
                 "passCharacter");
         addAttributeProcessor(new PasswordModeLmlAttribute(), "passwordMode", "password", "passMode", "pass");
         addAttributeProcessor(new SelectAllLmlAttribute(), "selectAll");
+        addAttributeProcessor(new PrefRowsLmlAttribute(), "prefRows", "prefRowsAmount"); // TextArea.
     }
 
     /** Tooltip listener attributes. */
