@@ -36,7 +36,8 @@ import com.kotcrab.vis.ui.widget.VisDialog;
 
 /** Replaces regular Scene2D actor tags with Vis UI widgets. Supports the same core syntax (operators).
  *
- * @author MJ */
+ * @author MJ
+ * @author Kotcrab */
 public class VisLmlSyntax extends DefaultLmlSyntax {
     public VisLmlSyntax() {
         overrideTableExtractors();
