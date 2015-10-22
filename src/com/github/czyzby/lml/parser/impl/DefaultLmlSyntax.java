@@ -87,6 +87,8 @@ import com.github.czyzby.lml.parser.impl.attribute.group.VerticalGroupSpacingLml
 import com.github.czyzby.lml.parser.impl.attribute.image.ImageAlignmentLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.image.ScalingLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.input.BlinkTimeLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.input.CursorLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.input.InputAlignLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.input.MaxLengthLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.input.MessageLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.input.PasswordCharacterLmlAttribute;
@@ -557,9 +559,9 @@ public class DefaultLmlSyntax implements LmlSyntax {
         addAttributeProcessor(new ScrollBarsPositionsLmlAttribute(), "barsPositions", "scrollBarsPositions");
         addAttributeProcessor(new ScrollCancelTouchFocusLmlAttribute(), "cancelTouchFocus");
         addAttributeProcessor(new ScrollClampLmlAttribute(), "clamp");
-        addAttributeProcessor(new ScrollDisabledLmlAttribute(), "disable", "disabled");
-        addAttributeProcessor(new ScrollDisabledXLmlAttribute(), "disableX", "disabledX");
-        addAttributeProcessor(new ScrollDisabledYLmlAttribute(), "disableY", "disabledY");
+        addAttributeProcessor(new ScrollDisabledLmlAttribute(), "disable", "disabled", "scrollingDisabled");
+        addAttributeProcessor(new ScrollDisabledXLmlAttribute(), "disableX", "disabledX", "scrollingDisabledX");
+        addAttributeProcessor(new ScrollDisabledYLmlAttribute(), "disableY", "disabledY", "scrollingDisabledY");
         addAttributeProcessor(new ScrollFadeBarsLmlAttribute(), "fadeBars", "fadeScrollbars");
         addAttributeProcessor(new ScrollFadeBarsSetupLmlAttribute(), "setupFadeScrollBars");
         addAttributeProcessor(new ScrollFlickLmlAttribute(), "flick", "flickScroll");
@@ -664,6 +666,8 @@ public class DefaultLmlSyntax implements LmlSyntax {
     /** TextField widget attributes. */
     protected void registerTextFieldAttributes() {
         addAttributeProcessor(new BlinkTimeLmlAttribute(), "blink", "blinkTime");
+        addAttributeProcessor(new CursorLmlAttribute(), "cursor", "cursorPos", "cursorPosition");
+        addAttributeProcessor(new InputAlignLmlAttribute(), "textAlign", "inputAlign", "textAlignment");
         addAttributeProcessor(new MaxLengthLmlAttribute(), "max", "maxLength");
         addAttributeProcessor(new MessageLmlAttribute(), "message", "messageText");
         addAttributeProcessor(new PasswordCharacterLmlAttribute(), "passwordCharacter", "passwordChar", "passChar",

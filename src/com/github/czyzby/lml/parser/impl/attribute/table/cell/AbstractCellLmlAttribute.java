@@ -53,8 +53,8 @@ public abstract class AbstractCellLmlAttribute implements LmlAttribute<Actor> {
      *            make sure to invoke its methods. */
     protected void processForActor(final LmlParser parser, final LmlTag tag, final Actor actor,
             final String rawAttributeData) {
-        parser.throwErrorIfStrict(tag.getTagName()
-                + " has a table cell attribute, but is not directly in a table. Cannot set table cell attribute value with raw data: "
-                + rawAttributeData);
+        parser.throwErrorIfStrict("\"" + tag.getTagName()
+                + "\" tag has a table cell attribute, but is not directly in a table. Cannot set table cell attribute value with raw data: "
+                + rawAttributeData + " with attribute processor: " + this);
     }
 }

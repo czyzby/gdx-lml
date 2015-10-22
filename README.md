@@ -23,6 +23,8 @@ See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&
 1.1 -> 1.2
 
 - The old enum `TableTarget` was renamed to `StandardTableTarget`; `TableTarget` is now an interface. `StandardTableTarget` behavior is now modifiable. This allows to use custom multi-table widgets. 
+- All attribute and tag-registering methods of `DefaultLmlSyntax` are now protected. This easily allows to extend this class.
+- Previously omitted attributes of `TextField` - `cursor` (`setCursorPosition`) and `textAlign` (`setAlignment`) - are now properly registered and available (with a few aliases), like in LML 0.
 
 1.0 -> 1.1:
 

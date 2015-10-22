@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlTag;
@@ -36,6 +37,8 @@ public class CellAlignLmlAttribute extends AbstractCellLmlAttribute {
             ((HorizontalGroup) actor).align(LmlUtilities.parseAlignment(parser, actor, rawAttributeData));
         } else if (actor instanceof VerticalGroup) {
             ((VerticalGroup) actor).align(LmlUtilities.parseAlignment(parser, actor, rawAttributeData));
+        } else if (actor instanceof TextField) {
+            ((TextField) actor).setAlignment(LmlUtilities.parseAlignment(parser, actor, rawAttributeData));
         } else {
             // Exception:
             super.processForActor(parser, tag, actor, rawAttributeData);
