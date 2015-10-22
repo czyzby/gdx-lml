@@ -1,5 +1,6 @@
 package com.github.czyzby.autumn.processor.event.impl;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.reflect.Method;
 import com.github.czyzby.autumn.annotation.OnEvent;
@@ -68,6 +69,8 @@ public class ReflectionEventListener extends MethodInvocation implements EventLi
             return OnEvent.KEEP;
         } catch (final Exception exception) {
             if (strict) {
+                // Gdx applications seem to ignore exceptions in posted runnables. This is bad.
+                Gdx.app.error("ERROR", "Exception occured on event listener.", exception);
                 throw new GdxRuntimeException("Unable to invoke event listener.", exception);
             }
             return OnEvent.KEEP;
