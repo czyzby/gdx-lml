@@ -15,6 +15,15 @@ import com.github.czyzby.lml.util.LmlUserObject.TableExtractor;
 import com.github.czyzby.lml.vis.parser.impl.attribute.FocusBorderEnabledLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.ShowWindowBorderLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.button.ImageButtonGenerateDisabledLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.input.BlinkTimeLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.input.CursorLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.input.InputAlignLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.input.MaxLengthLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.input.MessageLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.input.PasswordCharacterLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.input.PasswordModeLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.input.PrefRowsLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.input.SelectAllLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MaxSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MinSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.SplitAmountLmlAttribute;
@@ -34,7 +43,9 @@ import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisScrollPaneLmlTagPro
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisSelectBoxLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisSplitPaneLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTableLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTextAreaLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTextButtonLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTextFieldLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTreeLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisWindowLmlTagProvider;
 import com.kotcrab.vis.ui.widget.VisDialog;
@@ -103,7 +114,9 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new VisSelectBoxLmlTagProvider(), "select", "selectBox", "visSelectBox");
         addTagProvider(new VisSplitPaneLmlTagProvider(), "splitPane", "visSplitPane", "split", "splitable");
         addTagProvider(new VisTableLmlTagProvider(), "table", "visTable", "div", "td", "th");
+        addTagProvider(new VisTextAreaLmlTagProvider(), "textArea", "inputArea", "multilineInput");
         addTagProvider(new VisTextButtonLmlTagProvider(), "textButton", "visTextButton", "a");
+        addTagProvider(new VisTextFieldLmlTagProvider(), "textField", "visTextField", "input", "textInput");
         addTagProvider(new VisTreeLmlTagProvider(), "tree", "visTree", "root");
         addTagProvider(new VisWindowLmlTagProvider(), "window", "visWindow");
         // TODO register other Vis tags
@@ -167,6 +180,22 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         // Table:
         addAttributeProcessor(new UseCellDefaultsLmlAttribute(), "useCellDefaults", "useVisDefaults",
                 "useSpacingDefaults", "visDefaults");
+    }
+
+    @Override
+    protected void registerTextFieldAttributes() {
+        // VisTextField:
+        addAttributeProcessor(new BlinkTimeLmlAttribute(), "blink", "blinkTime");
+        addAttributeProcessor(new CursorLmlAttribute(), "cursor", "cursorPos", "cursorPosition");
+        addAttributeProcessor(new InputAlignLmlAttribute(), "textAlign", "inputAlign", "textAlignment");
+        addAttributeProcessor(new MaxLengthLmlAttribute(), "max", "maxLength");
+        addAttributeProcessor(new MessageLmlAttribute(), "message", "messageText");
+        addAttributeProcessor(new PasswordCharacterLmlAttribute(), "passwordCharacter", "passwordChar", "passChar",
+                "passCharacter");
+        addAttributeProcessor(new PasswordModeLmlAttribute(), "passwordMode", "password", "passMode", "pass");
+        addAttributeProcessor(new SelectAllLmlAttribute(), "selectAll");
+        // VisTextArea:
+        addAttributeProcessor(new PrefRowsLmlAttribute(), "prefRows", "prefRowsAmount");
     }
 
     @Override
