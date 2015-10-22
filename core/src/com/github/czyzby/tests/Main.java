@@ -45,7 +45,10 @@ public class Main extends AbstractApplicationListener {
             "exception", "forEach", "import", "loop", "meta", "nestedForEach", "newAttribute", "newTag", "nullCheck",
             "tableColumn", "tableRow", "while",
             // Custom elements:
-            "customAttribute", "customMacro", "customTag");
+            "customAttribute", "customMacro", "customTag",
+            // Vis tags:
+            "vis/radioButton" // TODO add other vis tags
+    );
     private static final String MAIN_VIEW_TEMPLATE = "templates/main.lml";
 
     private static LmlParser parser;

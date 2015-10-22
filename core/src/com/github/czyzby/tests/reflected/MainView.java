@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
@@ -139,19 +138,19 @@ public class MainView extends AbstractLmlView {
 
     /* templates/examples/checkBox.lml */
 
-    /** @param checkBox will have its text changed. */
-    public void switchCase(final CheckBox checkBox) { // TODO VisCheckBox
-        if (checkBox.isChecked()) {
-            checkBox.setText(checkBox.getText().toString().toUpperCase());
+    /** @param button will have its text changed. */
+    public void switchCase(final TextButton button) {
+        if (button.isChecked()) {
+            button.setText(button.getText().toString().toUpperCase());
         } else {
-            checkBox.setText(checkBox.getText().toString().toLowerCase());
+            button.setText(button.getText().toString().toLowerCase());
         }
     }
 
     /* templates/examples/progressBar.lml */
 
     @LmlAction("load")
-    public void advanceLoadingProgress(final ProgressBar progressBar) { // TODO VisProgessBar
+    public void advanceLoadingProgress(final ProgressBar progressBar) {
         progressBar.setValue(progressBar.getValue() + progressBar.getStepSize() * 5f);
     }
 
@@ -183,7 +182,7 @@ public class MainView extends AbstractLmlView {
     }
 
     /** @param bar will have a random initial value set. */
-    public void setInitialValue(final ProgressBar bar) { // TODO VisProgressBar
+    public void setInitialValue(final ProgressBar bar) {
         bar.setValue(MathUtils.random(bar.getMinValue(), bar.getMaxValue()));
     }
 
