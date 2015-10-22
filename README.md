@@ -25,6 +25,7 @@ See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&
 - The old enum `TableTarget` was renamed to `StandardTableTarget`; `TableTarget` is now an interface. `StandardTableTarget` behavior is now modifiable. This allows to use custom multi-table widgets. 
 - All attribute and tag-registering methods of `DefaultLmlSyntax` are now protected. This easily allows to extend this class.
 - Previously omitted attributes of `TextField` - `cursor` (`setCursorPosition`) and `textAlign` (`setAlignment`) - are now properly registered and available (with a few aliases), like in LML 0.
+- Now building attributes (values needed in widget constructors) are assigned to builder types rather than specific actors. This means that when a tag uses a specific builder, it will have all attributes automatically attached. Before, each building attribute processor had an array of actors that it supported, which wasn't very flexible when you used custom actors/tags.
 
 1.0 -> 1.1:
 
