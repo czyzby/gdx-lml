@@ -59,6 +59,10 @@ For efficient class scanning on desktop, see [Autumn FCS](http://github.com/czyz
 
 ##What's new
 
+1.1 -> 1.2:
+
+- Message and event listener exceptions are additionally logged, as LibGDX applications seem to ignore some exceptions that are thrown when posting runnables.
+
 0 -> 1:
 
 Autumn was rewritten from scratch, so many annotations changed their original methods and packages. Spring-inspired context, available through the whole life of application, turned out to be an overkill for games. After working on a few projects with Autumn MVC, I have never had the need to actually access context object and create any objects at runtime: usually initial dependency injection and component creation was more than enough. Not to mention that context meta-data was a lot of extra overhead for something as simple as initiating an application.
