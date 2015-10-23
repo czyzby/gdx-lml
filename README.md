@@ -108,6 +108,7 @@ Your opinions, comments and testing can help as well. Don't be afraid to inform 
 1.1 -> 1.2:
 
 - Fixed `@SkinAsset` injection. Now it throws meaningful exceptions when invalid skin ID is passed.
+- `@LmlParserSyntax` annotation. This is a preference annotation that can be used to quickly change internal `LmlParser`'s syntax. `@LmlParserSyntax` should annotate a field which contains an implementation of `LmlSyntax` - its value will be used to replace the current syntax of the parser kept by `InterfaceService`. This happens before any templates are parsed.
 
 0 -> 1
 

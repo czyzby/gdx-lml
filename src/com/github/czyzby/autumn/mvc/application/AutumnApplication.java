@@ -17,6 +17,7 @@ import com.github.czyzby.autumn.mvc.component.sfx.processor.SoundVolumeAnnotatio
 import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
 import com.github.czyzby.autumn.mvc.component.ui.SkinService;
 import com.github.czyzby.autumn.mvc.component.ui.processor.LmlMacroAnnotationProcessor;
+import com.github.czyzby.autumn.mvc.component.ui.processor.LmlParserSyntaxAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.component.ui.processor.PreferenceAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.component.ui.processor.SkinAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.component.ui.processor.SkinAssetAnnotationProcessor;
@@ -100,7 +101,8 @@ public class AutumnApplication implements ApplicationListener {
                 // Interface:
                 new ViewAnnotationProcessor(), new ViewDialogAnnotationProcessor(),
                 new ViewActionContainerAnnotationProcessor(), new ViewStageAnnotationProcessor(),
-                new LmlMacroAnnotationProcessor(), new AvailableLocalesAnnotationProcessor(),
+                new LmlMacroAnnotationProcessor(), new LmlParserSyntaxAnnotationProcessor(),
+                new AvailableLocalesAnnotationProcessor(),
                 // COMPONENTS.
                 // SFX:
                 new MusicService(),
