@@ -5,3 +5,34 @@ See [gdx-lml](http://github.com/czyzby/gdx-lml). Instead of building your parser
 ## Examples
 
 Check [gdx-lml-vis-tests](http://github.com/czyzby/gdx-lml-vis-tests) for examples of all tags and macros usage.
+
+## Dependency
+
+Gradle:
+```
+    compile "com.github.czyzby:gdx-lml-vis:1.2.$gdxVersion-SNAPSHOT"
+```
+Currently supported LibGDX version is **1.7.0**.
+
+GWT module:
+```
+	<inherits name='com.github.czyzby.lml.vis.GdxLmlVis' />
+```
+
+### Including gdx-lml-vis in Autumn MVC
+
+In one of your components (possibly in a configuration component, if you have one), include an annotated syntax field:
+
+```
+@LmlParserSyntax VisLmlSyntax syntax = new VisLmlSyntax();
+```
+
+Make sure that you call `VisUI.load()` and register Vis skin in LML parser. This can be easily done with an initiation method:
+
+```
+@Initiate(AutumnActionPriority.TOP_PRIORITY) // ...or higher.
+void init(InterfaceService interfaceService) {
+    VisUI.load();
+    interfaceService.getParser().getData().setDefaultSkin(VisUI.getSkin());
+}
+```
