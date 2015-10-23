@@ -101,6 +101,7 @@ public class MainView extends AbstractLmlView {
         // In LML template, we set each button's ID to a template name. Now we extract these:
         final String templateName = LmlUtilities.getActorId(actor);
         templateInput.setText(Gdx.files.internal(toExamplePath(templateName)).readString());
+        templateInput.invalidateHierarchy(); // Force view to recalculate preffered size (required to update scroll pane)
         parseTemplate();
     }
 

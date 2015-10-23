@@ -26,6 +26,7 @@ import com.github.czyzby.lml.vis.util.VisLml;
 import com.github.czyzby.tests.reflected.CustomActionContainer;
 import com.github.czyzby.tests.reflected.MainView;
 import com.github.czyzby.tests.reflected.widgets.BlinkingLabel;
+import com.github.czyzby.tests.reflected.widgets.CodeTextArea.CodeTextAreaLmlTagProvider;
 import com.kotcrab.vis.ui.VisUI;
 
 /** Main application's listener. Manages view.
@@ -70,6 +71,7 @@ public class Main extends AbstractApplicationListener {
         VisUI.load();
         return VisLml.parser().i18nBundle(getDefaultI18nBundle()).preferences(getDefaultPreferences())
                 .i18nBundle("custom", getCustomI18nBundle()).preferences("custom", getCustomPreferences())
+                .tag(new CodeTextAreaLmlTagProvider(), "codeTextArea") //Custom text area used to display LML code of current example
                 // {examples} argument will allow to iterate over Main#EXAMPLES array in LML templates:
                 .argument("examples", EXAMPLES)
                 // templates/examples/arguments.lml:
