@@ -48,7 +48,7 @@ public class Main extends AbstractApplicationListener {
             // Custom elements:
             "customAttribute", "customMacro", "customTag",
             // Vis tags:
-            "vis/radioButton" // TODO add other vis tags
+            "vis/radioButton", "vis/validatableTextField" // TODO add other vis tags
     );
     private static final String MAIN_VIEW_TEMPLATE = "templates/main.lml";
 
@@ -71,7 +71,8 @@ public class Main extends AbstractApplicationListener {
         VisUI.load();
         return VisLml.parser().i18nBundle(getDefaultI18nBundle()).preferences(getDefaultPreferences())
                 .i18nBundle("custom", getCustomI18nBundle()).preferences("custom", getCustomPreferences())
-                .tag(new CodeTextAreaLmlTagProvider(), "codeTextArea") //Custom text area used to display LML code of current example
+                .tag(new CodeTextAreaLmlTagProvider(), "codeTextArea") // Custom text area used to display LML code of
+                                                                       // current example
                 // {examples} argument will allow to iterate over Main#EXAMPLES array in LML templates:
                 .argument("examples", EXAMPLES)
                 // templates/examples/arguments.lml:

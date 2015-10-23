@@ -101,7 +101,8 @@ public class MainView extends AbstractLmlView {
         // In LML template, we set each button's ID to a template name. Now we extract these:
         final String templateName = LmlUtilities.getActorId(actor);
         templateInput.setText(Gdx.files.internal(toExamplePath(templateName)).readString());
-        templateInput.invalidateHierarchy(); // Force view to recalculate preffered size (required to update scroll pane)
+        templateInput.invalidateHierarchy(); // Force view to recalculate preffered size (required to update scroll
+                                             // pane)
         parseTemplate();
     }
 
@@ -224,5 +225,12 @@ public class MainView extends AbstractLmlView {
     public String toString() {
         // Printing all example buttons and current playground content:
         return resultTable + buttonManager.printButtons();
+    }
+
+    /* templates/examples/vis/vallidatableTextField.lml */
+
+    @LmlAction("isNotBlank")
+    public boolean isStringNotBlank(final String value) {
+        return Strings.isNotBlank(value);
     }
 }
