@@ -16,6 +16,7 @@ import com.github.czyzby.lml.util.LmlUserObject.TableExtractor;
 import com.github.czyzby.lml.vis.parser.impl.attribute.FocusBorderEnabledLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.ShowWindowBorderLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.button.ImageButtonGenerateDisabledLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.collapsible.CollapsedLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.BlinkTimeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.CursorLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.InputAlignLmlAttribute;
@@ -34,6 +35,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.table.UseCellDefaultsLmlA
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.AddCloseButtonLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.CloseOnEscapeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.OnResultLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.CollapsibleWidgetLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisCheckBoxLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisDialogLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisImageButtonLmlTagProvider;
@@ -132,6 +134,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new VisWindowLmlTagProvider(), "window", "visWindow");
 
         // Vis unique actors:
+        addTagProvider(new CollapsibleWidgetLmlTagProvider(), "collapsible", "collapsibleWidget");
         addTagProvider(new VisValidatableTextFieldLmlTagProvider(), "validatable", "validatableTextField",
                 "visValidatableTextField");
 
@@ -153,6 +156,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
 
     /** Registers attributes of Vis UI-specific actors. */
     protected void registerVisAttributes() {
+        registerCollapsibleWidgetAttributes();
         registerValidatableTextFieldAttributes();
         // TODO other vis attributes
     }
@@ -231,6 +235,12 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     }
 
     // Unique Vis actors attributes:
+
+    /** CollapsibleWidget attributes. */
+    protected void registerCollapsibleWidgetAttributes() {
+        addAttributeProcessor(new CollapsedLmlAttribute(), "collapse", "collapsed");
+    }
+
     /** VisValidatableTextField attributes. */
     protected void registerValidatableTextFieldAttributes() {
         addAttributeProcessor(new RestoreLastValidLmlAttribute(), "restore", "restoreLastValid");
