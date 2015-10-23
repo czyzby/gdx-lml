@@ -6,7 +6,7 @@ import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
 /** See {@link ScrollPane#setScrollingDisabled(boolean, boolean)}. Sets X scrolling to the parsed value and Y to default
- * value: true, because there were no getters or individual setters available. If you want to disable both, use
+ * value: false, because there were no getters or individual setters available. If you want to disable both, use
  * {@link ScrollDisabledLmlAttribute} instead. Mapped to "disableX", "disabledX".
  *
  * @author MJ */
@@ -19,6 +19,6 @@ public class ScrollDisabledXLmlAttribute implements LmlAttribute<ScrollPane> {
     @Override
     public void process(final LmlParser parser, final LmlTag tag, final ScrollPane actor,
             final String rawAttributeData) {
-        actor.setScrollingDisabled(parser.parseBoolean(rawAttributeData, actor), true);
+        actor.setScrollingDisabled(parser.parseBoolean(rawAttributeData, actor), false);
     }
 }
