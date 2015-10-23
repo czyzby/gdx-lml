@@ -12,7 +12,7 @@
     multiple components. -->
 
 <stack>
-    <image style="button" />
     <image style="button-down" />
+    <label color=black>.Complex</label>
     <label>Complex</label>
 </stack>
