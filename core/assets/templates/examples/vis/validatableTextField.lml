@@ -30,7 +30,7 @@
 <!-- Multiple validators are supported. -->
     Between 0 (including) and 1 (excluding):
     <validatableTextField text="0.15">
-    	<isFloat/>
+        <isFloat/>
         <greaterThan 0 true />
         <lesserThan 1 false />
     </validatableTextField>
