@@ -30,6 +30,7 @@ import com.github.czyzby.lml.scene2d.ui.reflected.ReflectedLmlDialog;
 import com.github.czyzby.lml.util.LmlUtilities;
 import com.github.czyzby.tests.Main;
 import com.github.czyzby.tests.reflected.widgets.BlinkingLabel;
+import com.kotcrab.vis.ui.widget.CollapsibleWidget;
 import com.kotcrab.vis.ui.widget.VisDialog;
 import com.kotcrab.vis.ui.widget.VisTextArea;
 import com.kotcrab.vis.ui.widget.VisTextButton;
@@ -225,6 +226,21 @@ public class MainView extends AbstractLmlView {
     public String toString() {
         // Printing all example buttons and current playground content:
         return resultTable + buttonManager.printButtons();
+    }
+    /* templates/examples/vis/collapsibleWidget.lml */
+
+    @LmlAction("collapse")
+    public void toggleCollapsedStatus(final CollapsibleWidget collapsibleWidget) {
+        collapsibleWidget.setCollapsed(!collapsibleWidget.isCollapsed());
+    }
+
+    @LmlAction("uncollapseAll")
+    public void showAllCollapsedWidgets() {
+        for (final Actor actor : resultTable.getChildren()) {
+            if (actor instanceof CollapsibleWidget) {
+                ((CollapsibleWidget) actor).setCollapsed(false);
+            }
+        }
     }
 
     /* templates/examples/vis/vallidatableTextField.lml */

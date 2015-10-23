@@ -48,7 +48,7 @@ public class Main extends AbstractApplicationListener {
             // Custom elements:
             "customAttribute", "customMacro", "customTag",
             // Vis tags:
-            "vis/radioButton", "vis/validatableTextField" // TODO add other vis tags
+            "vis/collapsibleWidget", "vis/radioButton", "vis/validatableTextField" // TODO add other vis tags
     );
     private static final String MAIN_VIEW_TEMPLATE = "templates/main.lml";
 
