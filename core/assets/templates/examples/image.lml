@@ -6,7 +6,7 @@
 <!-- Images cannot be parents, as they
     have no way of appending children. -->
 
-<container width=128 height=128>
+<container height=128>
     <image skin="default" style="default-rect"
         scaling="fill" />
 </container>
