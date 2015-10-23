@@ -9,16 +9,15 @@ import com.github.czyzby.lml.vis.parser.impl.tag.VisTextAreaLmlTag;
 import com.kotcrab.vis.ui.widget.VisTextArea;
 import com.kotcrab.vis.ui.widget.VisTextField;
 
-/**
- * Custom {@link VisTextArea} used to display LML code in main view. Supports embedding in scrollpane
- * by calculating required space needed for current text.
- * @author Kotcrab
- */
+/** Custom {@link VisTextArea} used to display LML code in main view. Supports embedding in scrollpane by calculating
+ * required space needed for current text.
+ *
+ * @author Kotcrab */
 public class CodeTextArea extends VisTextArea {
     private GlyphLayout prefSizeLayout;
     private String lastText;
 
-    public CodeTextArea(String text, String styleName) {
+    public CodeTextArea(final String text, final String styleName) {
         super(text, styleName);
     }
 
@@ -48,6 +47,9 @@ public class CodeTextArea extends VisTextArea {
         }
     }
 
+    /** Provides {@link CodeTextArea} tags.
+     *
+     * @author Kotcrab */
     public static class CodeTextAreaLmlTagProvider implements LmlTagProvider {
         @Override
         public LmlTag create(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
@@ -55,11 +57,15 @@ public class CodeTextArea extends VisTextArea {
         }
     }
 
+    /** Handles {@link CodeTextArea} actor.
+     *
+     * @author Kotcrab */
     public static class CodeTextAreaLmlTag extends VisTextAreaLmlTag {
         public CodeTextAreaLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
             super(parser, parentTag, rawTagData);
         }
 
+        @Override
         protected VisTextField getNewInstanceOfTextField(final TextLmlActorBuilder textBuilder) {
             return new CodeTextArea(textBuilder.getText(), textBuilder.getStyleName());
         }
