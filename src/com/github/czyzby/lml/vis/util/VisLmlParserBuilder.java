@@ -29,6 +29,7 @@ public class VisLmlParserBuilder extends LmlParserBuilder {
         if (!VisUI.isLoaded()) {
             VisUI.load();
         }
+        lmlData.setDefaultSkin(VisUI.getSkin());
         return new DefaultLmlParser(lmlData, new VisLmlSyntax());
     }
 }

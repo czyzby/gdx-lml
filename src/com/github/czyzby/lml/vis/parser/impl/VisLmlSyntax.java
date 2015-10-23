@@ -24,7 +24,9 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.input.MessageLmlAttribute
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.PasswordCharacterLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.PasswordModeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.PrefRowsLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.input.RestoreLastValidLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.SelectAllLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.input.ValidationEnabledLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MaxSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MinSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.SplitAmountLmlAttribute;
@@ -50,7 +52,13 @@ import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTextAreaLmlTagProvi
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTextButtonLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTextFieldLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTreeLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisValidatableTextFieldLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisWindowLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.validator.CustomValidatorLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.validator.FloatValidatorLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.validator.GreaterThanValidatorLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.validator.IntegerValidatorLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.validator.LesserThanValidatorLmlTagProvider;
 import com.kotcrab.vis.ui.widget.VisDialog;
 
 /** Replaces regular Scene2D actor tags with Vis UI widgets. Supports the same core syntax (operators).
@@ -122,7 +130,19 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new VisTextFieldLmlTagProvider(), "textField", "visTextField", "input", "textInput");
         addTagProvider(new VisTreeLmlTagProvider(), "tree", "visTree", "root");
         addTagProvider(new VisWindowLmlTagProvider(), "window", "visWindow");
-        // TODO register other Vis tags
+
+        // Vis unique actors:
+        addTagProvider(new VisValidatableTextFieldLmlTagProvider(), "validatable", "validatableTextField",
+                "visValidatableTextField");
+
+        // TODO other vis widgets
+
+        // Vis validators:
+        addTagProvider(new CustomValidatorLmlTagProvider(), "validator", "validate", "customValidator");
+        addTagProvider(new FloatValidatorLmlTagProvider(), "floatValidator", "isFloat");
+        addTagProvider(new GreaterThanValidatorLmlTagProvider(), "greaterThan", "greaterThanValidator");
+        addTagProvider(new IntegerValidatorLmlTagProvider(), "integerValidator", "intValidator", "isInt", "isInteger");
+        addTagProvider(new LesserThanValidatorLmlTagProvider(), "lesserThan", "lesserThanValidator");
     }
 
     @Override
@@ -133,7 +153,8 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
 
     /** Registers attributes of Vis UI-specific actors. */
     protected void registerVisAttributes() {
-        // TODO register attributes of Vis unique actors
+        registerValidatableTextFieldAttributes();
+        // TODO other vis attributes
     }
 
     // Common extra attributes:
@@ -210,6 +231,9 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     }
 
     // Unique Vis actors attributes:
-
-    // TODO
+    /** VisValidatableTextField attributes. */
+    protected void registerValidatableTextFieldAttributes() {
+        addAttributeProcessor(new RestoreLastValidLmlAttribute(), "restore", "restoreLastValid");
+        addAttributeProcessor(new ValidationEnabledLmlAttribute(), "enabled", "validate", "validationEnabled");
+    }
 }
