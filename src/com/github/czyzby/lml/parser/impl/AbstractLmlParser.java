@@ -16,8 +16,10 @@ import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.github.czyzby.kiwi.util.common.Nullables;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
+import com.github.czyzby.kiwi.util.gdx.reflection.Annotations;
 import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 import com.github.czyzby.lml.annotation.LmlActor;
+import com.github.czyzby.lml.annotation.LmlInject;
 import com.github.czyzby.lml.annotation.OnChange;
 import com.github.czyzby.lml.annotation.processor.OnChangeProcessor;
 import com.github.czyzby.lml.parser.LmlData;
@@ -200,11 +202,16 @@ public abstract class AbstractLmlParser implements LmlParser {
         if (view instanceof LmlView) {
             LmlUtilities.appendActorsToStage(((LmlView) view).getStage(), actors);
         }
+        processViewAnnotations(view);
+    }
+
+    protected <View> void processViewAnnotations(final View view) {
         Class<?> handledClass = view.getClass();
-        while (handledClass != null) {
+        while (handledClass != null && !handledClass.equals(Object.class)) {
             for (final Field field : ClassReflection.getDeclaredFields(handledClass)) {
                 processLmlActorAnnotation(view, field);
                 processOnChangeAnnotation(view, field);
+                processLmlInjectAnnotation(view, field);
             }
             handledClass = handledClass.getSuperclass();
         }
@@ -306,6 +313,32 @@ public abstract class AbstractLmlParser implements LmlParser {
                 }
             }
         }
+    }
+
+    protected <View> void processLmlInjectAnnotation(final View view, final Field field) {
+        if (Reflection.isAnnotationPresent(field, LmlInject.class)) {
+            try {
+                final LmlInject injectionData = Reflection.getAnnotation(field, LmlInject.class);
+                Object value = Reflection.getFieldValue(field, view);
+                if (value == null || injectionData.newInstance()) {
+                    value = Reflection.newInstance(getLmlInjectedValueType(field, injectionData));
+                    Reflection.setFieldValue(field, view, value);
+                }
+                // Processing field's value annotations:
+                processViewAnnotations(value);
+            } catch (final ReflectionException exception) {
+                throw new GdxRuntimeException(
+                        "Unable to inject value of LmlInject-annotated field: " + field + " of view: " + view,
+                        exception);
+            }
+        }
+    }
+
+    protected Class<?> getLmlInjectedValueType(final Field field, final LmlInject injectionData) {
+        if (Annotations.isNotVoid(injectionData.value())) {
+            return injectionData.value();
+        }
+        return field.getType();
     }
 
     @Override
@@ -746,7 +779,7 @@ public abstract class AbstractLmlParser implements LmlParser {
 
     private static void appendDebugIndex(final StringBuilder debugMessageBuilder, final int index,
             final int longestId) {
-        final String indexString = String.valueOf(index + 1); // +1, since starting lines from 1 is more natural.
+        final String indexString = String.valueOf(index + 1); // +1, since line numbers from 1 are more natural.
         debugMessageBuilder.append(indexString);
         for (int spaces = 0, amount = longestId + 1 - indexString.length(); spaces < amount; spaces++) {
             debugMessageBuilder.append(' ');
@@ -757,7 +790,7 @@ public abstract class AbstractLmlParser implements LmlParser {
      *            the exception message. Cannot be negative. */
     public void setLinesAmountPrintedOnException(final int debugLines) {
         if (debugLines < 0) {
-            throw new IllegalArgumentException("Debug lines amount cannot be 0.");
+            throw new IllegalArgumentException("Debug lines amount cannot be lower than 0.");
         }
         this.debugLines = debugLines;
     }

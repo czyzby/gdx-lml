@@ -61,7 +61,7 @@ public class DefaultLmlParser extends AbstractLmlParser {
     @Override
     public void addActor(final Actor actor) {
         if (actors == null) {
-            throw new IllegalStateException("Actor can be added to result collection only during parsing.");
+            throw new IllegalStateException("Actors can be added to result collection only during parsing.");
         }
         actors.add(actor);
         mapActorById(actor);

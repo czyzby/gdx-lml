@@ -35,7 +35,13 @@ public abstract class AbstractActorLmlTag extends AbstractLmlTag {
         final LmlSyntax syntax = getParser().getSyntax();
         final ObjectSet<String> processedAttributes = GdxSets.newSet();
         processBuildingAttributes(builder, syntax, processedAttributes);
-        final Actor actor = getNewInstanceOfActor(builder);
+        final Actor actor;
+        try {
+            actor = getNewInstanceOfActor(builder);
+        } catch (final Exception exception) {
+            getParser().throwError("Unable to create a new instance of actor with tag: " + getTagName(), exception);
+            return null;
+        }
         builder.finishBuilding(actor);
         processTagAttributes(syntax, processedAttributes, actor);
         invokeOnCreateActions(actor);

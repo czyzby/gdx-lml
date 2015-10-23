@@ -22,10 +22,12 @@ See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&
 ## What's new
 1.1 -> 1.2
 
+- `@LmlInject` annotation. When a view is created by the parser, its annotated fields are processed. In previous versions, this meant that all `@LmlActor`- and `@OnChange`-annotated fields had to be present in one class, which could quickly lead to fields flood in view classes. Now you can keep `@LmlActor`- and `@OnChange`-annotated fields in another container class and request to inject(/fill) it with `@LmlInject`. More in the annotation docs. `@LmlInject` example was added to the example project.
 - The old enum `TableTarget` was renamed to `StandardTableTarget`; `TableTarget` is now an interface. `StandardTableTarget` behavior is now modifiable. This allows to use custom multi-table widgets. 
-- All attribute and tag-registering methods of `DefaultLmlSyntax` are now protected. This easily allows to extend this class.
-- Previously omitted attributes of `TextField` - `cursor` (`setCursorPosition`) and `textAlign` (`setAlignment`) - are now properly registered and available (with a few aliases), like in LML 0.
-- Now building attributes (values needed in widget constructors) are assigned to builder types rather than specific actors. This means that when a tag uses a specific builder, it will have all attributes automatically attached. Before, each building attribute processor had an array of actors that it supported, which wasn't very flexible when you used custom actors/tags.
+- All attribute and tag-registering methods of `DefaultLmlSyntax` are now protected, even these previously omitted. This allows to easily extend this class.
+- `prefRows` attribute added to TextArea tags.
+- Previously omitted attributes of `TextField` - `cursor` (`setCursorPosition(int)`) and `textAlign` (`setAlignment(int)`) - are now properly registered and available (with a few aliases), like in LML 0.
+- Now building attributes (values needed in widget constructors) are assigned to builder types rather than specific actors. This means that when a tag uses a specific builder, it will have all attributes connected with the builder automatically attached. Before, each building attribute processor had an array of actors that it supported, which wasn't very flexible when you used custom actors/tags.
 
 1.0 -> 1.1:
 
