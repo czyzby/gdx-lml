@@ -20,6 +20,7 @@ import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.scene2d.Actors;
 import com.github.czyzby.lml.annotation.LmlAction;
 import com.github.czyzby.lml.annotation.LmlActor;
+import com.github.czyzby.lml.annotation.LmlInject;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.LmlView;
 import com.github.czyzby.lml.parser.action.ActionContainer;
@@ -45,13 +46,8 @@ public class MainView extends AbstractLmlView {
     @LmlActor("templateInput") private VisTextArea templateInput;
     // Is filled with parsed actors after template processing:
     @LmlActor("resultTable") private Table resultTable;
-    // {examples} is converted to the argument with this name, which is an array of all examples. In main.lml, we assign
-    // each button to ID equal to one of examples. This array will contain all buttons in the order of the argument
-    // array. We don't actually need these - we're doing this because we can (TM). Buttons are printed with #toString().
-    @LmlActor("{examples}") private Array<TextButton> exampleButtons;
-
-    // Utility. Holds a reference to a button with current LML template.
-    private Button checkedButton;
+    // Manages buttons. Will be created and filled by the parser.
+    @LmlInject private ButtonManager buttonManager;
 
     public MainView() {
         super(new Stage(new ScreenViewport()));
@@ -91,7 +87,8 @@ public class MainView extends AbstractLmlView {
         // Printing the message without stack trace - we don't want to completely flood the console and its usually not
         // relevant anyway. Change to '(...), "Unable to parse LML template:", exception);' for stacks.
         Gdx.app.error("ERROR", "Unable to parse LML template: ", exception); // TODO convert to hide stack
-        Main.getParser().getTemplateReader().clear();
+        resultTable.clear();
+        resultTable.add("Error occurred. Sorry.");
         Main.getParser().fillStage(getStage(), Gdx.files.internal("templates/dialogs/error.lml"));
     }
 
@@ -100,21 +97,11 @@ public class MainView extends AbstractLmlView {
      * @param actor invokes the action. Expected to have an ID that points to a template. */
     @LmlAction("switch")
     public void switchTemplate(final Button actor) {
-        switchCheckedButton(actor);
+        buttonManager.switchCheckedButton(actor);
         // In LML template, we set each button's ID to a template name. Now we extract these:
         final String templateName = LmlUtilities.getActorId(actor);
         templateInput.setText(Gdx.files.internal(toExamplePath(templateName)).readString());
         parseTemplate();
-    }
-
-    private void switchCheckedButton(final Button actor) {
-        if (checkedButton != null) {
-            // Unchecking previous button.
-            checkedButton.setProgrammaticChangeEvents(false);
-            checkedButton.setChecked(false);
-        }
-        actor.setChecked(true);
-        checkedButton = actor;
     }
 
     // Converts template name to a example template path.
@@ -235,6 +222,6 @@ public class MainView extends AbstractLmlView {
     @Override
     public String toString() {
         // Printing all example buttons and current playground content:
-        return resultTable + "\n" + Strings.join("\n", exampleButtons);
+        return resultTable + buttonManager.printButtons();
     }
 }
