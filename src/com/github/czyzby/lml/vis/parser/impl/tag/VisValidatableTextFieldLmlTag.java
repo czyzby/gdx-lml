@@ -17,6 +17,6 @@ public class VisValidatableTextFieldLmlTag extends VisTextFieldLmlTag {
 
     @Override
     protected VisTextField getNewInstanceOfTextField(final TextLmlActorBuilder textBuilder) {
-        return new VisValidatableTextField(textBuilder.getText());
+        return new VisValidatableTextField(textBuilder.getText(), textBuilder.getStyleName());
     }
 }
