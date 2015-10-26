@@ -29,6 +29,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.input.PrefRowsLmlAttribut
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.RestoreLastValidLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.SelectAllLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.ValidationEnabledLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.linklabel.UrlLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.numberselector.PrecisionLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.numberselector.ProgrammaticChangeEventsLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MaxSplitLmlAttribute;
@@ -54,6 +55,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.window.CloseOnEscapeLmlAt
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.OnResultLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.CollapsibleWidgetLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.FormValidatorLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.LinkLabelLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.NumberSelectorLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisCheckBoxLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisDialogLmlTagProvider;
@@ -157,6 +159,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         // Vis unique actors:
         addTagProvider(new CollapsibleWidgetLmlTagProvider(), "collapsible", "collapsibleWidget");
         addTagProvider(new FormValidatorLmlTagProvider(), "form", "formValidator", "formTable");
+        addTagProvider(new LinkLabelLmlTagProvider(), "linkLabel", "link");
         addTagProvider(new NumberSelectorLmlTagProvider(), "numberSelector", "numSelector", "selector");
         addTagProvider(new VisTooltipLmlTagProvider(), "visTooltip");
         addTagProvider(new VisValidatableTextFieldLmlTagProvider(), "validatable", "validatableTextField",
@@ -184,6 +187,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     protected void registerVisAttributes() {
         registerCollapsibleWidgetAttributes();
         registerNumberSelectorAttributes();
+        registerLinkLabelAttributes();
         registerValidatableTextFieldAttributes();
         registerValidatorAttributes();
         // TODO other vis attributes
@@ -283,6 +287,11 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     protected void registerNumberSelectorAttributes() {
         addAttributeProcessor(new PrecisionLmlAttribute(), "precision");
         addAttributeProcessor(new ProgrammaticChangeEventsLmlAttribute(), "programmaticChangeEvents");
+    }
+
+    /** LinkLabel attributes */
+    protected void registerLinkLabelAttributes() {
+        addAttributeProcessor(new UrlLmlAttribute(), "url", "href");
     }
 
     /** VisValidatableTextField attributes. */
