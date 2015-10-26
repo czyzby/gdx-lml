@@ -4,8 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.github.czyzby.kiwi.util.common.Strings;
-import com.kotcrab.vis.ui.util.form.FormInputValidator;
+import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.kotcrab.vis.ui.util.form.SimpleFormValidator;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisValidatableTextField;
@@ -16,12 +15,6 @@ import com.kotcrab.vis.ui.widget.VisValidatableTextField;
  *
  * @author MJ */
 public class VisFormTable extends VisTable {
-    private static final FormInputValidator MOCK_UP_VALIDATOR = new FormInputValidator(Strings.EMPTY_STRING) {
-        @Override
-        protected boolean validate(final String input) {
-            return true;
-        }
-    }; // TODO Remove once SimpleFormValidator#custom(VisValidableTextField) becomes available.
     private final SimpleFormValidator formValidator = createFormValidator();
 
     /** @return a new instance of {@link SimpleFormValidator}, managed by this table. */
@@ -37,19 +30,45 @@ public class VisFormTable extends VisTable {
     @Override
     public <T extends Actor> Cell<T> add(final T actor) {
         if (actor instanceof VisValidatableTextField) {
-            formValidator.custom((VisValidatableTextField) actor, MOCK_UP_VALIDATOR);
+            formValidator.add((VisValidatableTextField) actor);
         }
         return super.add(actor);
     }
 
-    /** See {@link SimpleFormValidator#setErrorMsgLabel(Label)}.
+    /** See {@link SimpleFormValidator#setMessageLabel(Label)}.
      *
      * @param label will show form errors. */
-    public void setErrorMessageLabel(final Label label) {
-        formValidator.setErrorMsgLabel(label);
+    public void setMessageLabel(final Label label) {
+        formValidator.setMessageLabel(label);
     }
 
-    public void setButtonToDisable(final Button button) {
-        formValidator.setButtonToDisable(button);
+    /** See {@link SimpleFormValidator#setSuccessMessage(String)}.
+     *
+     * @param message will be shown if there are no errors in the form. */
+    public void setSuccessMessage(final String message) {
+        formValidator.setSuccessMessage(message);
+    }
+
+    /** See {@link SimpleFormValidator#addDisableTarget(Disableable)}.
+     *
+     * @param disableable will be disabled if any errors are found in the form. */
+    public void addWidgetToDisable(final Disableable disableable) {
+        formValidator.addDisableTarget(disableable);
+    }
+
+    /** See {@link SimpleFormValidator#checked(Button, String)}.
+     *
+     * @param button must be checked.
+     * @param errorMessage displayed if button is not checked. */
+    public void addCheckedFormButton(final Button button, final String errorMessage) {
+        formValidator.checked(button, errorMessage);
+    }
+
+    /** See {@link SimpleFormValidator#unchecked(Button, String)}.
+     *
+     * @param button must be unchecked.
+     * @param errorMessage displayed if button is checked. */
+    public void addUncheckedFormButton(final Button button, final String errorMessage) {
+        formValidator.unchecked(button, errorMessage);
     }
 }

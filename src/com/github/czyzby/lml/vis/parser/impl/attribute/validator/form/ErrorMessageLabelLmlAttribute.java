@@ -6,7 +6,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.vis.ui.reflected.VisFormTable;
 
 /** Expects a boolean. If returns true, this label will be set as current error message label in form with
- * {@link VisFormTable#setErrorMessageLabel(Label)}. Mapped to "errorMessage", "errorLabel", "errorMsgLabel,
+ * {@link VisFormTable#setMessageLabel(Label)}. Mapped to "errorMessage", "errorLabel", "errorMsgLabel,
  * "errorMessageLabel".
  *
  * @author MJ */
@@ -20,7 +20,7 @@ public class ErrorMessageLabelLmlAttribute extends AbstractFormChildLmlAttribute
     protected void processFormAttribute(final LmlParser parser, final LmlTag tag, final VisFormTable parent,
             final Label actor, final String rawAttributeData) {
         if (parser.parseBoolean(rawAttributeData, actor)) {
-            parent.setErrorMessageLabel(actor);
+            parent.setMessageLabel(actor);
         }
     }
 }

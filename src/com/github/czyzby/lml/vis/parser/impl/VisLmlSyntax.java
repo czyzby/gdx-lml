@@ -46,6 +46,9 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.validator.LesserOrEqualLm
 import com.github.czyzby.lml.vis.parser.impl.attribute.validator.LesserThanLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.validator.form.DisableOnFormErrorLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.validator.form.ErrorMessageLabelLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.validator.form.FormSuccessMessageLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.validator.form.RequireCheckedLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.validator.form.RequireUncheckedLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.AddCloseButtonLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.CloseOnEscapeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.OnResultLmlAttribute;
@@ -301,10 +304,16 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         // LesserThanValidator:
         addAttributeProcessor(new LesserOrEqualLmlAttribute(), "orEqual", "allowEqual", "lesserOrEqual");
         addAttributeProcessor(new LesserThanLmlAttribute(), "value", "max", "lesserThan");
+        // FormValidator (VisFormTable):
+        addAttributeProcessor(new FormSuccessMessageLmlAttribute(), "success", "successMsg", "successMessage");
         // FormValidator children:
         addAttributeProcessor(new DisableOnFormErrorLmlAttribute(), "disableOnError", "disableOnFormError",
                 "formDisable");
         addAttributeProcessor(new ErrorMessageLabelLmlAttribute(), "errorMessage", "errorLabel", "errorMsgLabel",
                 "errorMessageLabel");
+        addAttributeProcessor(new RequireCheckedLmlAttribute(), "requireChecked", "formChecked", "notCheckedError",
+                "uncheckedError");
+        addAttributeProcessor(new RequireUncheckedLmlAttribute(), "requireUnchecked", "requireNotChecked",
+                "formUnchecked", "checkedError");
     }
 }
