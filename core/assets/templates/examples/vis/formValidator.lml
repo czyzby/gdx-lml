@@ -20,6 +20,14 @@
         <greaterThan value=18 orEqual=true error=@ageTooYoung/>
         <lesserThan value=200 error=@ageTooOld/>
     </validatable>
+    <table colspan=2 row=true defaultPad=8>
+        <checkBox checkedError=@userIsARobot checked=true>
+            @robot
+        </checkBox>
+        <checkBox uncheckedError=@userNotAHuman>
+            @human
+        </checkBox>
+    </table>
     <table colspan=2 growX=true>
 <!-- This label will display form errors: -->
         <label errorLabel=true expandX=true align=left />
