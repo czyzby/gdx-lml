@@ -32,6 +32,8 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.split.MaxSplitLmlAttribut
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MinSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.SplitAmountLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.table.UseCellDefaultsLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.tooltip.DelayLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.tooltip.TooltipFadeTimeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.validator.CustomValidatorLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.validator.ErrorMessageLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.validator.GreaterOrEqualLmlAttribute;
@@ -63,6 +65,7 @@ import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTableLmlTagProvider
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTextAreaLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTextButtonLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTextFieldLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTooltipLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTreeLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisValidatableTextFieldLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisWindowLmlTagProvider;
@@ -147,6 +150,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         // Vis unique actors:
         addTagProvider(new CollapsibleWidgetLmlTagProvider(), "collapsible", "collapsibleWidget");
         addTagProvider(new FormValidatorLmlTagProvider(), "form", "formValidator", "formTable");
+        addTagProvider(new VisTooltipLmlTagProvider(), "visTooltip");
         addTagProvider(new VisValidatableTextFieldLmlTagProvider(), "validatable", "validatableTextField",
                 "visValidatableTextField");
 
@@ -190,6 +194,14 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         super.registerCommonAttributes();
         // BorderOwner:
         addAttributeProcessor(new FocusBorderEnabledLmlAttribute(), "focusBorder", "focusBorderEnabled");
+    }
+
+    @Override
+    protected void registerTooltipAttributes() {
+        super.registerTooltipAttributes();
+        // Tooltip (VisUI pre-LibGDX 1.6.5 implementation):
+        addAttributeProcessor(new DelayLmlAttribute(), "delay", "appearDelay");
+        addAttributeProcessor(new TooltipFadeTimeLmlAttribute(), "fadeTime", "fadingTime");
     }
 
     // Specific actor extra attributes:
