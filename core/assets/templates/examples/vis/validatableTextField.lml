@@ -19,20 +19,20 @@
     Greater than 8:
     <validatable>
         15
-        <greaterThan 8 />
+        <greaterThan value=8 />
     </validatable>
     Lesser than or equal to 12:
     <validatable>
         15
-        <lesserThan 12 true />
+        <lesserThan value=12 orEqual=true />
     </validatable>
 
 <!-- Multiple validators are supported. -->
     Between 0 (including) and 1 (excluding):
     <validatableTextField text="0.15">
         <isFloat/>
-        <greaterThan 0 true />
-        <lesserThan 1 false />
+        <greaterThan value=0 orEqual=true />
+        <lesserThan value=1 orEqual=false />
     </validatableTextField>
 
 <!-- You can attach a custom validator by suppling a name of
@@ -40,7 +40,7 @@
     Custom - is not blank:
     <validatable>
         Delete me.
-        <validator isNotBlank />
+        <validator validate=isNotBlank />
     </validatable>
 </table>
 
