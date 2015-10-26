@@ -32,10 +32,20 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.split.MaxSplitLmlAttribut
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MinSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.SplitAmountLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.table.UseCellDefaultsLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.validator.CustomValidatorLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.validator.ErrorMessageLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.validator.GreaterOrEqualLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.validator.GreaterThanLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.validator.HideOnEmptyInputLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.validator.LesserOrEqualLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.validator.LesserThanLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.validator.form.DisableOnFormErrorLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.validator.form.ErrorMessageLabelLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.AddCloseButtonLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.CloseOnEscapeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.OnResultLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.CollapsibleWidgetLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.FormValidatorLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisCheckBoxLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisDialogLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisImageButtonLmlTagProvider;
@@ -61,6 +71,7 @@ import com.github.czyzby.lml.vis.parser.impl.tag.provider.validator.FloatValidat
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.validator.GreaterThanValidatorLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.validator.IntegerValidatorLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.validator.LesserThanValidatorLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.validator.NotEmptyValidatorLmlTagProvider;
 import com.kotcrab.vis.ui.widget.VisDialog;
 
 /** Replaces regular Scene2D actor tags with Vis UI widgets. Supports the same core syntax (operators).
@@ -135,6 +146,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
 
         // Vis unique actors:
         addTagProvider(new CollapsibleWidgetLmlTagProvider(), "collapsible", "collapsibleWidget");
+        addTagProvider(new FormValidatorLmlTagProvider(), "form", "formValidator", "formTable");
         addTagProvider(new VisValidatableTextFieldLmlTagProvider(), "validatable", "validatableTextField",
                 "visValidatableTextField");
 
@@ -146,6 +158,8 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new GreaterThanValidatorLmlTagProvider(), "greaterThan", "greaterThanValidator");
         addTagProvider(new IntegerValidatorLmlTagProvider(), "integerValidator", "intValidator", "isInt", "isInteger");
         addTagProvider(new LesserThanValidatorLmlTagProvider(), "lesserThan", "lesserThanValidator");
+        addTagProvider(new NotEmptyValidatorLmlTagProvider(), "notEmpty", "notEmptyValidator", "nonEmpty",
+                "isNotEmpty");
     }
 
     @Override
@@ -154,10 +168,11 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         registerVisAttributes();
     }
 
-    /** Registers attributes of Vis UI-specific actors. */
+    /** Registers attributes of VisUI-specific actors. */
     protected void registerVisAttributes() {
         registerCollapsibleWidgetAttributes();
         registerValidatableTextFieldAttributes();
+        registerValidatorAttributes();
         // TODO other vis attributes
     }
 
@@ -245,5 +260,25 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     protected void registerValidatableTextFieldAttributes() {
         addAttributeProcessor(new RestoreLastValidLmlAttribute(), "restore", "restoreLastValid");
         addAttributeProcessor(new ValidationEnabledLmlAttribute(), "enabled", "validate", "validationEnabled");
+    }
+
+    /** InputValidator implementations' attributes. */
+    protected void registerValidatorAttributes() {
+        // CustomValidator:
+        addAttributeProcessor(new CustomValidatorLmlAttribute(), "validator", "validate", "method", "action", "check");
+        // FormInputValidator:
+        addAttributeProcessor(new ErrorMessageLmlAttribute(), "error", "errorMsg", "errorMessage", "formError");
+        addAttributeProcessor(new HideOnEmptyInputLmlAttribute(), "hideOnEmpty", "hideErrorOnEmpty");
+        // GreaterThanValidator:
+        addAttributeProcessor(new GreaterOrEqualLmlAttribute(), "orEqual", "allowEqual", "greaterOrEqual");
+        addAttributeProcessor(new GreaterThanLmlAttribute(), "value", "min", "greaterThan");
+        // LesserThanValidator:
+        addAttributeProcessor(new LesserOrEqualLmlAttribute(), "orEqual", "allowEqual", "lesserOrEqual");
+        addAttributeProcessor(new LesserThanLmlAttribute(), "value", "max", "lesserThan");
+        // FormValidator children:
+        addAttributeProcessor(new DisableOnFormErrorLmlAttribute(), "disableOnError", "disableOnFormError",
+                "formDisable");
+        addAttributeProcessor(new ErrorMessageLabelLmlAttribute(), "errorMessage", "errorLabel", "errorMsgLabel",
+                "errorMessageLabel");
     }
 }
