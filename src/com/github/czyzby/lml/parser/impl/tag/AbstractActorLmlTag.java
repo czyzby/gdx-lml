@@ -10,7 +10,6 @@ import com.github.czyzby.kiwi.util.gdx.collection.GdxSets;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.LmlSyntax;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
-import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlBuildingAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.util.LmlUserObject;
@@ -32,9 +31,8 @@ public abstract class AbstractActorLmlTag extends AbstractLmlTag {
      * @return a fully initiated instance of the actor, with its tag attributes processed. */
     protected Actor prepareActor() {
         final LmlActorBuilder builder = getNewInstanceOfBuilder();
-        final LmlSyntax syntax = getParser().getSyntax();
         final ObjectSet<String> processedAttributes = GdxSets.newSet();
-        processBuildingAttributes(builder, syntax, processedAttributes);
+        processBuildingAttributes(builder, processedAttributes);
         final Actor actor;
         try {
             actor = getNewInstanceOfActor(builder);
@@ -43,16 +41,16 @@ public abstract class AbstractActorLmlTag extends AbstractLmlTag {
             return null;
         }
         builder.finishBuilding(actor);
-        processTagAttributes(syntax, processedAttributes, actor);
+        processTagAttributes(processedAttributes, actor);
         invokeOnCreateActions(actor);
         return actor;
     }
 
-    private void processBuildingAttributes(final LmlActorBuilder builder, final LmlSyntax syntax,
-            final ObjectSet<String> processedAttributes) {
+    private void processBuildingAttributes(final LmlActorBuilder builder, final ObjectSet<String> processedAttributes) {
         if (getNamedAttributes() == null) {
             return;
         }
+        final LmlSyntax syntax = getParser().getSyntax();
         for (final Entry<String, String> attribute : getNamedAttributes()) {
             // Processing building attributes:
             final LmlBuildingAttribute<LmlActorBuilder> buildingAttributeProcessor = syntax
@@ -67,31 +65,29 @@ public abstract class AbstractActorLmlTag extends AbstractLmlTag {
         }
     }
 
-    private void processTagAttributes(final LmlSyntax syntax, final ObjectSet<String> processedAttributes,
-            final Actor actor) {
+    private void processTagAttributes(final ObjectSet<String> processedAttributes, final Actor actor) {
         if (hasComponentActors()) {
             // Processing own attributes first:
-            processAttributes(syntax, processedAttributes, actor, false);
+            LmlUtilities.processAttributes(actor, this, getParser(), processedAttributes, false);
             // Processing leftover attributes for component children:
-            processComponentAttributes(syntax, processedAttributes, actor);
+            processComponentAttributes(processedAttributes, actor);
             // Processing leftover attributes, after the widget is fully constructed; throwing errors for unknown
             // attributes. We parse original attributes again for meaningful exceptions - "attribute for Window not
             // found" is a lot better than "attribute for Label not found", just because we were parsing Label component
             // last. Continuing even for non-strict parser to ensure the same behavior.
         }
         // Processing only own attributes. Throwing errors for unknown:
-        processAttributes(syntax, processedAttributes, actor, true);
+        LmlUtilities.processAttributes(actor, this, getParser(), processedAttributes, true);
     }
 
-    private void processComponentAttributes(final LmlSyntax syntax, final ObjectSet<String> processedAttributes,
-            final Actor actor) {
+    private void processComponentAttributes(final ObjectSet<String> processedAttributes, final Actor actor) {
         if (hasComponentActors()) {
             final Actor[] components = getComponentActors(actor);
             if (components == null || components.length == 0) {
                 return;
             }
             for (final Actor component : components) {
-                processAttributes(syntax, processedAttributes, component, false);
+                LmlUtilities.processAttributes(component, this, getParser(), processedAttributes, false);
             }
         }
     }
@@ -107,28 +103,6 @@ public abstract class AbstractActorLmlTag extends AbstractLmlTag {
      *         cannot return false. */
     protected Actor[] getComponentActors(final Actor actor) {
         return null;
-    }
-
-    private void processAttributes(final LmlSyntax syntax, final ObjectSet<String> processedAttributes,
-            final Actor actor, final boolean throwExceptionIfAttributeUnknown) {
-        if (getNamedAttributes() == null) {
-            return;
-        }
-        for (final Entry<String, String> attribute : getNamedAttributes()) {
-            if (attribute == null || processedAttributes.contains(attribute.key)) {
-                continue;
-            }
-            final LmlAttribute<Actor> attributeProcessor = syntax.getAttributeProcessor(actor, attribute.key);
-            if (attributeProcessor == null) {
-                if (throwExceptionIfAttributeUnknown) {
-                    getParser().throwErrorIfStrict("Unknown attribute: \"" + attribute.key + "\" for actor type: "
-                            + actor.getClass().getName());
-                }
-                continue;
-            }
-            attributeProcessor.process(getParser(), this, actor, attribute.value);
-            processedAttributes.add(attribute.key);
-        }
     }
 
     /** @param actor will have its specialized user object extracted (if present) and will invoke all its referenced on

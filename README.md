@@ -28,6 +28,7 @@ See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&
 - `prefRows` attribute added to TextArea tags.
 - Previously omitted attributes of `TextField` - `cursor` (`setCursorPosition(int)`) and `textAlign` (`setAlignment(int)`) - are now properly registered and available (with a few aliases), like in LML 0.
 - Now building attributes (values needed in widget constructors) are assigned to builder types rather than specific actors. This means that when a tag uses a specific builder, it will have all attributes connected with the builder automatically attached. Before, each building attribute processor had an array of actors that it supported, which wasn't very flexible when you used custom actors/tags.
+- `ScrollPane` scrolling disabling (on X and Y axis) attributes fixed.
 
 1.0 -> 1.1:
 

@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Tree;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ObjectMap.Entry;
+import com.badlogic.gdx.utils.ObjectSet;
 import com.github.czyzby.kiwi.util.common.Exceptions;
 import com.github.czyzby.kiwi.util.common.Nullables;
 import com.github.czyzby.kiwi.util.common.Strings;
@@ -22,6 +24,7 @@ import com.github.czyzby.lml.parser.action.ActionContainer;
 import com.github.czyzby.lml.parser.action.ActorConsumer;
 import com.github.czyzby.lml.parser.action.StageAttacher;
 import com.github.czyzby.lml.parser.impl.DefaultLmlSyntax;
+import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.util.collection.IgnoreCaseStringMap;
 
@@ -410,6 +413,42 @@ public class LmlUtilities {
                             + valueToParse);
         }
         return STATIC_TABLE_VALUES.get(valueToParse);
+    }
+
+    /** Utility method that processes all named attributes of the selected type.
+     *
+     * @param widget widget (validator, actor - processed element) that will be used to process attributes.
+     * @param tag contains attributes.
+     * @param parser will be used to parse attributes.
+     * @param processedAttributes already processed attribute names. These attributes will be ignored. Optional, can be
+     *            null.
+     * @param throwExceptionIfAttributeUnknown if true and unknown attribute is found, a strict parser will throw an
+     *            exception.
+     * @param <Type> type of processed widget. Its class tree will be used to retrieve attributes. */
+    public static <Type> void processAttributes(final Type widget, final LmlTag tag, final LmlParser parser,
+            final ObjectSet<String> processedAttributes, final boolean throwExceptionIfAttributeUnknown) {
+        if (GdxMaps.isEmpty(tag.getNamedAttributes())) {
+            return;
+        }
+        final LmlSyntax syntax = parser.getSyntax();
+        final boolean hasProcessedAttributes = processedAttributes != null;
+        for (final Entry<String, String> attribute : tag.getNamedAttributes()) {
+            if (attribute == null || hasProcessedAttributes && processedAttributes.contains(attribute.key)) {
+                continue;
+            }
+            final LmlAttribute<Type> attributeProcessor = syntax.getAttributeProcessor(widget, attribute.key);
+            if (attributeProcessor == null) {
+                if (throwExceptionIfAttributeUnknown) {
+                    parser.throwErrorIfStrict("Unknown attribute: \"" + attribute.key + "\" for widget type: "
+                            + widget.getClass().getName());
+                }
+                continue;
+            }
+            attributeProcessor.process(parser, tag, widget, attribute.value);
+            if (hasProcessedAttributes) {
+                processedAttributes.add(attribute.key);
+            }
+        }
     }
 
     // Syntax helpers:
