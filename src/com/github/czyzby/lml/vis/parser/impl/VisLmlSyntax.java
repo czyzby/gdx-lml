@@ -14,6 +14,7 @@ import com.github.czyzby.lml.parser.impl.tag.actor.provider.VerticalGroupLmlTagP
 import com.github.czyzby.lml.util.LmlUserObject.StandardTableTarget;
 import com.github.czyzby.lml.util.LmlUserObject.TableExtractor;
 import com.github.czyzby.lml.vis.parser.impl.attribute.FocusBorderEnabledLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.building.NumberSelectorNameLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.ShowWindowBorderLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.button.ImageButtonGenerateDisabledLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.collapsible.CollapsedLmlAttribute;
@@ -28,6 +29,8 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.input.PrefRowsLmlAttribut
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.RestoreLastValidLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.SelectAllLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.ValidationEnabledLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.numberselector.PrecisionLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.numberselector.ProgrammaticChangeEventsLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MaxSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MinSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.SplitAmountLmlAttribute;
@@ -48,6 +51,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.window.CloseOnEscapeLmlAt
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.OnResultLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.CollapsibleWidgetLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.FormValidatorLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.NumberSelectorLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisCheckBoxLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisDialogLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisImageButtonLmlTagProvider;
@@ -150,6 +154,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         // Vis unique actors:
         addTagProvider(new CollapsibleWidgetLmlTagProvider(), "collapsible", "collapsibleWidget");
         addTagProvider(new FormValidatorLmlTagProvider(), "form", "formValidator", "formTable");
+        addTagProvider(new NumberSelectorLmlTagProvider(), "numberSelector", "numSelector", "selector");
         addTagProvider(new VisTooltipLmlTagProvider(), "visTooltip");
         addTagProvider(new VisValidatableTextFieldLmlTagProvider(), "validatable", "validatableTextField",
                 "visValidatableTextField");
@@ -175,6 +180,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     /** Registers attributes of VisUI-specific actors. */
     protected void registerVisAttributes() {
         registerCollapsibleWidgetAttributes();
+        registerNumberSelectorAttributes();
         registerValidatableTextFieldAttributes();
         registerValidatorAttributes();
         // TODO other vis attributes
@@ -187,6 +193,8 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         super.registerBuildingAttributes();
         // VisWindowLmlActorBuilder:
         addBuildingAttributeProcessor(new ShowWindowBorderLmlAttribute(), "showBorder", "showWindowBorder");
+        // NumberSelectorLmlActorBuilder:
+        addBuildingAttributeProcessor(new NumberSelectorNameLmlAttribute(), "name");
     }
 
     @Override
@@ -266,6 +274,12 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     /** CollapsibleWidget attributes. */
     protected void registerCollapsibleWidgetAttributes() {
         addAttributeProcessor(new CollapsedLmlAttribute(), "collapse", "collapsed");
+    }
+
+    /** NumberSelector attributes */
+    protected void registerNumberSelectorAttributes() {
+        addAttributeProcessor(new PrecisionLmlAttribute(), "precision");
+        addAttributeProcessor(new ProgrammaticChangeEventsLmlAttribute(), "programmaticChangeEvents");
     }
 
     /** VisValidatableTextField attributes. */
