@@ -1,0 +1,10 @@
+<!-- NumberSelector is a widget for selecting integer or float number.
+    Maximum and minimum values can be set. -->
+
+<numberSelector max=100 value=50 step=5 />
+<numberSelector name="Value" min=5 max=25 value=10 step=1 />
+
+<!-- NumberSelector can be also used to select float values.
+    Precision defines how many digits after decimal point
+    will be shown. -->
+<numberSelector name=Floats value=1.5 max=5 step=0.1 precision=1 />
