@@ -35,6 +35,18 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.numberselector.Programmat
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MaxSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MinSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.SplitAmountLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.AttachDefaultTabListenerLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.OnAllTabsRemovalLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.OnTabRemoveLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.OnTabSwitchLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.TabDeselectLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.TabListenerLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.TabSelectedLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.tab.OnTabDisposeLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.tab.TabCloseableLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.tab.TabDirtyLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.tab.TabSavableLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.tab.TabTitleLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.table.UseCellDefaultsLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.tooltip.DelayLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.tooltip.TooltipFadeTimeLmlAttribute;
@@ -57,6 +69,8 @@ import com.github.czyzby.lml.vis.parser.impl.tag.provider.CollapsibleWidgetLmlTa
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.FormValidatorLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.LinkLabelLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.NumberSelectorLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.TabLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.TabbedPaneLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisCheckBoxLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisDialogLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisImageButtonLmlTagProvider;
@@ -161,6 +175,8 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new FormValidatorLmlTagProvider(), "form", "formValidator", "formTable");
         addTagProvider(new LinkLabelLmlTagProvider(), "linkLabel", "link");
         addTagProvider(new NumberSelectorLmlTagProvider(), "numberSelector", "numSelector", "selector");
+        addTagProvider(new TabbedPaneLmlTagProvider(), "tabbedPane", "tabs");
+        addTagProvider(new TabLmlTagProvider(), "tab");
         addTagProvider(new VisTooltipLmlTagProvider(), "visTooltip");
         addTagProvider(new VisValidatableTextFieldLmlTagProvider(), "validatable", "validatableTextField",
                 "visValidatableTextField");
@@ -188,6 +204,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         registerCollapsibleWidgetAttributes();
         registerNumberSelectorAttributes();
         registerLinkLabelAttributes();
+        registerTabbedPaneAttributes();
         registerValidatableTextFieldAttributes();
         registerValidatorAttributes();
         // TODO other vis attributes
@@ -283,15 +300,34 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addAttributeProcessor(new CollapsedLmlAttribute(), "collapse", "collapsed");
     }
 
-    /** NumberSelector attributes */
+    /** NumberSelector attributes. */
     protected void registerNumberSelectorAttributes() {
         addAttributeProcessor(new PrecisionLmlAttribute(), "precision");
         addAttributeProcessor(new ProgrammaticChangeEventsLmlAttribute(), "programmaticChangeEvents");
     }
 
-    /** LinkLabel attributes */
+    /** LinkLabel attributes. */
     protected void registerLinkLabelAttributes() {
         addAttributeProcessor(new UrlLmlAttribute(), "url", "href");
+    }
+
+    /** TabbedPane (and its tab children) attributes. */
+    protected void registerTabbedPaneAttributes() {
+        // TabbedPane:
+        addAttributeProcessor(new AttachDefaultTabListenerLmlAttribute(), "defaultListener", "attachDefaultListener");
+        addAttributeProcessor(new OnAllTabsRemovalLmlAttribute(), "onAllRemoved", "onAllTabsRemoved", "onClear",
+                "onTabsClear");
+        addAttributeProcessor(new OnTabRemoveLmlAttribute(), "onRemove", "onTabRemove");
+        addAttributeProcessor(new OnTabSwitchLmlAttribute(), "onSwitch", "onTabSwitch");
+        addAttributeProcessor(new TabDeselectLmlAttribute(), "allowTabDeselect", "tabDeselect");
+        addAttributeProcessor(new TabListenerLmlAttribute(), "tabListener", "tabbedPaneListener");
+        addAttributeProcessor(new TabSelectedLmlAttribute(), "selected", "selectedTab");
+        // Tab (VisTabTable):
+        addAttributeProcessor(new OnTabDisposeLmlAttribute(), "onDispose", "onTabDispose", "onRemove", "onTabRemove");
+        addAttributeProcessor(new TabCloseableLmlAttribute(), "closeable", "closeableByUser");
+        addAttributeProcessor(new TabDirtyLmlAttribute(), "dirty");
+        addAttributeProcessor(new TabSavableLmlAttribute(), "savable");
+        addAttributeProcessor(new TabTitleLmlAttribute(), "title", "name", "tabTitle", "tabName");
     }
 
     /** VisValidatableTextField attributes. */
