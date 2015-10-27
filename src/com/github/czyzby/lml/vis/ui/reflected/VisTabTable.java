@@ -13,6 +13,9 @@ public class VisTabTable extends VisTable {
     private final TableTab tab = new TableTab();
     private String title;
     private ActorConsumer<?, VisTabTable> onDispose;
+    private ActorConsumer<?, VisTabTable> onShow;
+    private ActorConsumer<?, VisTabTable> onHide;
+    private ActorConsumer<Boolean, VisTabTable> onSave;
 
     /** @param title tab's title. */
     public VisTabTable(final String title) {
@@ -32,6 +35,22 @@ public class VisTabTable extends VisTable {
     /** @param onDispose will be invoked (consuming this table) when the tab is being removed from the pane. */
     public void setOnDispose(final ActorConsumer<?, VisTabTable> onDispose) {
         this.onDispose = onDispose;
+    }
+
+    /** @param onSave will be invoked each time the tab is saved. If returns true, tab will be set as saved and will not
+     *            be dirty anymore. */
+    public void setOnSave(final ActorConsumer<Boolean, VisTabTable> onSave) {
+        this.onSave = onSave;
+    }
+
+    /** @param onShow will be invoked with this table each time the tab is shown. */
+    public void setOnShow(final ActorConsumer<?, VisTabTable> onShow) {
+        this.onShow = onShow;
+    }
+
+    /** @param onHide will be invoked with this table each time the tab is hidden. */
+    public void setOnHide(final ActorConsumer<?, VisTabTable> onHide) {
+        this.onHide = onHide;
     }
 
     /** @param title will become title of the tab. Note that this value should be changed only if the tab is currently
@@ -77,6 +96,32 @@ public class VisTabTable extends VisTable {
         @Override
         public Table getContentTable() {
             return VisTabTable.this;
+        }
+
+        @Override
+        public boolean save() {
+            super.save();
+            if (onSave == null || onSave.consume(VisTabTable.this)) {
+                setDirty(false);
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public void onShow() {
+            super.onShow();
+            if (onShow != null) {
+                onShow.consume(VisTabTable.this);
+            }
+        }
+
+        @Override
+        public void onHide() {
+            super.onHide();
+            if (onHide != null) {
+                onHide.consume(VisTabTable.this);
+            }
         }
 
         @Override

@@ -15,6 +15,7 @@ import com.github.czyzby.lml.util.LmlUserObject.StandardTableTarget;
 import com.github.czyzby.lml.util.LmlUserObject.TableExtractor;
 import com.github.czyzby.lml.vis.parser.impl.attribute.FocusBorderEnabledLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.NumberSelectorNameLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.building.NumberSelectorPrecisionLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.ShowWindowBorderLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.button.ImageButtonGenerateDisabledLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.collapsible.CollapsedLmlAttribute;
@@ -30,7 +31,6 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.input.RestoreLastValidLml
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.SelectAllLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.ValidationEnabledLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.linklabel.UrlLmlAttribute;
-import com.github.czyzby.lml.vis.parser.impl.attribute.building.NumberSelectorPrecisionLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.numberselector.ProgrammaticChangeEventsLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MaxSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MinSplitLmlAttribute;
@@ -40,9 +40,14 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.OnAllTabsRemovalLm
 import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.OnTabRemoveLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.OnTabSwitchLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.TabDeselectLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.TabHidingActionLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.TabListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.TabSelectedLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.TabShowingActionLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.tab.OnTabDisposeLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.tab.OnTabHideLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.tab.OnTabSaveLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.tab.OnTabShowLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.tab.TabCloseableLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.tab.TabDirtyLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.tab.TabSavableLmlAttribute;
@@ -320,10 +325,15 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addAttributeProcessor(new OnTabRemoveLmlAttribute(), "onRemove", "onTabRemove");
         addAttributeProcessor(new OnTabSwitchLmlAttribute(), "onSwitch", "onTabSwitch");
         addAttributeProcessor(new TabDeselectLmlAttribute(), "allowTabDeselect", "tabDeselect");
+        addAttributeProcessor(new TabHidingActionLmlAttribute(), "tabHideAction");
         addAttributeProcessor(new TabListenerLmlAttribute(), "tabListener", "tabbedPaneListener");
         addAttributeProcessor(new TabSelectedLmlAttribute(), "selected", "selectedTab");
+        addAttributeProcessor(new TabShowingActionLmlAttribute(), "tabShowAction");
         // Tab (VisTabTable):
         addAttributeProcessor(new OnTabDisposeLmlAttribute(), "onDispose", "onTabDispose", "onRemove", "onTabRemove");
+        addAttributeProcessor(new OnTabHideLmlAttribute(), "onTabHide");
+        addAttributeProcessor(new OnTabSaveLmlAttribute(), "onSave", "onTabSave");
+        addAttributeProcessor(new OnTabShowLmlAttribute(), "onTabShow");
         addAttributeProcessor(new TabCloseableLmlAttribute(), "closeable", "closeableByUser");
         addAttributeProcessor(new TabDirtyLmlAttribute(), "dirty");
         addAttributeProcessor(new TabSavableLmlAttribute(), "savable");
