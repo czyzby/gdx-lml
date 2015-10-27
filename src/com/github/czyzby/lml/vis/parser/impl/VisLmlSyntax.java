@@ -30,7 +30,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.input.RestoreLastValidLml
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.SelectAllLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.ValidationEnabledLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.linklabel.UrlLmlAttribute;
-import com.github.czyzby.lml.vis.parser.impl.attribute.numberselector.PrecisionLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.building.NumberSelectorPrecisionLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.numberselector.ProgrammaticChangeEventsLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MaxSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MinSplitLmlAttribute;
@@ -202,6 +202,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addBuildingAttributeProcessor(new ShowWindowBorderLmlAttribute(), "showBorder", "showWindowBorder");
         // NumberSelectorLmlActorBuilder:
         addBuildingAttributeProcessor(new NumberSelectorNameLmlAttribute(), "name");
+        addBuildingAttributeProcessor(new NumberSelectorPrecisionLmlAttribute(), "precision");
     }
 
     @Override
@@ -285,7 +286,6 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
 
     /** NumberSelector attributes */
     protected void registerNumberSelectorAttributes() {
-        addAttributeProcessor(new PrecisionLmlAttribute(), "precision");
         addAttributeProcessor(new ProgrammaticChangeEventsLmlAttribute(), "programmaticChangeEvents");
     }
 
