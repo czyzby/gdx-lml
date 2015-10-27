@@ -21,7 +21,8 @@ public class NumberSelectorLmlTag extends VisTableLmlTag {
         final NumberSelectorLmlActorBuilder selectorBuilder = (NumberSelectorLmlActorBuilder) builder;
         selectorBuilder.validateRange(getParser());
         return new NumberSelector(builder.getStyleName(), selectorBuilder.getName(), selectorBuilder.getValue(),
-                selectorBuilder.getMin(), selectorBuilder.getMax(), selectorBuilder.getStepSize());
+                selectorBuilder.getMin(), selectorBuilder.getMax(), selectorBuilder.getStepSize(),
+                selectorBuilder.getPrecision());
     }
 
     @Override

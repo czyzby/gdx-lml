@@ -10,6 +10,7 @@ import com.kotcrab.vis.ui.widget.NumberSelector;
  */
 public class NumberSelectorLmlActorBuilder extends FloatRangeLmlActorBuilder {
     private String name;
+    private int precision;
 
     @Override
     protected String getInitialStyleName() {
@@ -25,5 +26,18 @@ public class NumberSelectorLmlActorBuilder extends FloatRangeLmlActorBuilder {
     /** @param name selector name displayed before value input field */
     public void setName(final String name) {
         this.name = name;
+    }
+
+    /** @return selector precision */
+    public int getPrecision() {
+        return precision;
+    }
+
+    /**
+     * @param precision selector precision defines how many digits after decimal point will be shown,
+     * see {@link NumberSelector#setPrecision(int)}
+     */
+    public void setPrecision(final int precision) {
+        this.precision = precision;
     }
 }
