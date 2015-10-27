@@ -1,0 +1,27 @@
+<!-- TabbedPane provides functionality that you probably use
+    all the time often when using your IDE and browsing the web
+    or your files. It separates widgets into multiple tabs,
+    which can be modified and managed. -->
+
+<container size=250>
+    <tabbedPane selected=1>
+        <tab title=Empty closeable=false>
+            Cannot be closed.
+        </tab>
+        <tab title=Info oneColumn=true>
+            Tab works like a regular table.
+            <textButton>It can handle any children.</textButton>
+            Plain text is converted to labels.
+        </tab>
+        <tab text=Tab background=window>
+            <split>
+                <slider/>
+                <textButton>Click me</textButton>
+            </split>
+        </tab>
+        <tab text=Dirty savable=true dirty=true>
+        </tab>
+    </tabbedPane>
+</container>
+
+<!-- Tabbed panes can handle only "tab" children. -->
