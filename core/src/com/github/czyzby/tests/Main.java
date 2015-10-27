@@ -31,7 +31,8 @@ import com.kotcrab.vis.ui.VisUI;
 
 /** Main application's listener. Manages view.
  *
- * @author MJ */
+ * @author MJ
+ * @author Kotcrab */
 public class Main extends AbstractApplicationListener {
     private static final Array<String> EXAMPLES = ImmutableArray.of(
             // Tags:
@@ -48,8 +49,8 @@ public class Main extends AbstractApplicationListener {
             // Custom elements:
             "customAttribute", "customMacro", "customTag",
             // Vis tags:
-            "vis/collapsibleWidget", "vis/formValidator", "vis/linkLabel", "vis/numberSelector", "vis/tabbedPane", "vis/radioButton",
-            "vis/tooltip", "vis/validatableTextField"
+            "vis/collapsibleWidget", "vis/formValidator", "vis/linkLabel", "vis/numberSelector", "vis/tabbedPane",
+            "vis/radioButton", "vis/tooltip", "vis/validatableTextField"
     // TODO add other vis tags
     );
     private static final String MAIN_VIEW_TEMPLATE = "templates/main.lml";

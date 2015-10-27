@@ -28,6 +28,7 @@ import com.github.czyzby.lml.parser.impl.AbstractLmlView;
 import com.github.czyzby.lml.parser.impl.tag.macro.NewAttributeLmlMacroTag.AttributeParsingData;
 import com.github.czyzby.lml.scene2d.ui.reflected.ReflectedLmlDialog;
 import com.github.czyzby.lml.util.LmlUtilities;
+import com.github.czyzby.lml.vis.ui.reflected.VisTabTable;
 import com.github.czyzby.tests.Main;
 import com.github.czyzby.tests.reflected.widgets.BlinkingLabel;
 import com.kotcrab.vis.ui.widget.CollapsibleWidget;
@@ -241,6 +242,30 @@ public class MainView extends AbstractLmlView {
                 ((CollapsibleWidget) actor).setCollapsed(false);
             }
         }
+    }
+    /* templates/examples/vis/tabbedPane.lml */
+
+    /** @return simple fading in action. */
+    @LmlAction("showTab")
+    public Action getTabShowingAction() {
+        return Actions.sequence(Actions.alpha(0f), Actions.fadeIn(0.1f));
+    }
+
+    /** @return simple fading out action. */
+    @LmlAction("hideTab")
+    public Action getTabHidingAction() {
+        return Actions.fadeOut(0.1f);
+    }
+
+    /** @param tabTable will contain an extra label each time this method is invoked. Expects that the table contains a
+     *            label in first cell. */
+    @LmlAction("showSomeTab")
+    public void doOnCustomTabShow(final VisTabTable tabTable) {
+        // Note that this method might be called a few times before the tag is even shown due to TabbedPane
+        // implementation. This attribute should be used for some simple additional showing actions (visual-only, if
+        // possible), rather than modifying table's state, like in this example.
+        final Label label = (Label) tabTable.getCells().first().getActor();
+        label.setText(label.getText() + "!");
     }
 
     /* templates/examples/vis/vallidatableTextField.lml */
