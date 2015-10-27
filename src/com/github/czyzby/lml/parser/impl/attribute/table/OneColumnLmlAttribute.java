@@ -7,6 +7,11 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.util.LmlUserObject.StandardTableTarget;
 import com.github.czyzby.lml.util.LmlUtilities;
 
+/** Sets the main table of the widget as one column only. Expects a boolean. If set to true, table will append a row
+ * after each widget. In case of dialogs, this setting will be applied to content table rather than the dialog itself.
+ * Mapped to "oneColumn".
+ *
+ * @author MJ */
 public class OneColumnLmlAttribute implements LmlAttribute<Table> {
     @Override
     public Class<Table> getHandledType() {
