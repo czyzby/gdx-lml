@@ -24,6 +24,11 @@ public class MusicVolumeAnnotationProcessor extends AbstractAnnotationProcessor<
     }
 
     @Override
+    public boolean isSupportingFields() {
+        return true;
+    }
+
+    @Override
     public void processField(final Field field, final MusicVolume annotation, final Object component,
             final Context context, final ContextInitializer initializer, final ContextDestroyer contextDestroyer) {
         try {

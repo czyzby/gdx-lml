@@ -97,7 +97,7 @@ These are the services that you might want or have to inject from time to time:
 All classes (and annotations) have nearly full javadocs of public API, so everything should be clear. If it isn't, don't hesitate to ask.
 
 ## Example project
-See [GdxIdle](https://github.com/czyzby/gdx-autumn-mvc-tests).
+See [test project](https://github.com/czyzby/gdx-autumn-mvc-tests).
 
 ## Contributions
 Automatic component scan on Android and iOS is not implemented and it might take me some time before I finally force myself to do it, if ever. I do have an untested implementation, so if anyone needs it, I can share privately. It will probably be in a separate library that depends on Autumn, so no changes in MVC itself are required. If someone already implemented this functionality and is willing to share, I won't mind integrating it into Autumn.
@@ -109,6 +109,7 @@ Your opinions, comments and testing can help as well. Don't be afraid to inform 
 
 - Fixed `@SkinAsset` injection. Now it throws meaningful exceptions when invalid skin ID is passed.
 - `@LmlParserSyntax` annotation. This is a preference annotation that can be used to quickly change internal `LmlParser`'s syntax. `@LmlParserSyntax` should annotate a field which contains an implementation of `LmlSyntax` - its value will be used to replace the current syntax of the parser kept by `InterfaceService`. This happens before any templates are parsed.
+- Music settings will now be properly read from and saved in preferences.
 
 0 -> 1
 
