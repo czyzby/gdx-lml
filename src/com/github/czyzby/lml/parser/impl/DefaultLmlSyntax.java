@@ -88,6 +88,7 @@ import com.github.czyzby.lml.parser.impl.attribute.image.ImageAlignmentLmlAttrib
 import com.github.czyzby.lml.parser.impl.attribute.image.ScalingLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.input.BlinkTimeLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.input.CursorLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.input.DigitsOnlyLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.input.InputAlignLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.input.MaxLengthLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.input.MessageLmlAttribute;
@@ -95,6 +96,8 @@ import com.github.czyzby.lml.parser.impl.attribute.input.PasswordCharacterLmlAtt
 import com.github.czyzby.lml.parser.impl.attribute.input.PasswordModeLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.input.PrefRowsLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.input.SelectAllLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.input.TextFieldFilterLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.input.TextFieldListenerLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.label.EllipsisLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.label.LabelAlignmentLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.label.LineAlignmentLmlAttribute;
@@ -244,6 +247,9 @@ import com.github.czyzby.lml.parser.impl.tag.macro.provider.ImportClasspathLmlMa
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.ImportExternallLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.ImportInternalLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.ImportLocalLmlMacroTagProvider;
+import com.github.czyzby.lml.parser.impl.tag.macro.provider.LoggerDebugLmlMacroTagProvider;
+import com.github.czyzby.lml.parser.impl.tag.macro.provider.LoggerErrorLmlMacroTagProvider;
+import com.github.czyzby.lml.parser.impl.tag.macro.provider.LoggerInfoLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.LoopLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.MetaLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.NestedForEachLmlMacroTagProvider;
@@ -368,6 +374,9 @@ public class DefaultLmlSyntax implements LmlSyntax {
                 "internalImport", "internalInclude", "internalRequire", "internalTemplate");
         addMacroTagProvider(new ImportLocalLmlMacroTagProvider(), "localImport", "localInclude", "localRequire",
                 "localTemplate");
+        addMacroTagProvider(new LoggerDebugLmlMacroTagProvider(), "debug", "logDebug", "trace", "logTrace");
+        addMacroTagProvider(new LoggerErrorLmlMacroTagProvider(), "logError");
+        addMacroTagProvider(new LoggerInfoLmlMacroTagProvider(), "log", "logInfo", "info");
         addMacroTagProvider(new LoopLmlMacroTagProvider(), "loop", "times", "repeat");
         addMacroTagProvider(new MetaLmlMacroTagProvider(), "macro");
         addMacroTagProvider(new NestedForEachLmlMacroTagProvider(), "forEachNested", "nested", "nestedForEach",
@@ -668,6 +677,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
     protected void registerTextFieldAttributes() {
         addAttributeProcessor(new BlinkTimeLmlAttribute(), "blink", "blinkTime");
         addAttributeProcessor(new CursorLmlAttribute(), "cursor", "cursorPos", "cursorPosition");
+        addAttributeProcessor(new DigitsOnlyLmlAttribute(), "digitsOnly", "numeric");
         addAttributeProcessor(new InputAlignLmlAttribute(), "textAlign", "inputAlign", "textAlignment");
         addAttributeProcessor(new MaxLengthLmlAttribute(), "max", "maxLength");
         addAttributeProcessor(new MessageLmlAttribute(), "message", "messageText");
@@ -675,6 +685,8 @@ public class DefaultLmlSyntax implements LmlSyntax {
                 "passCharacter");
         addAttributeProcessor(new PasswordModeLmlAttribute(), "passwordMode", "password", "passMode", "pass");
         addAttributeProcessor(new SelectAllLmlAttribute(), "selectAll");
+        addAttributeProcessor(new TextFieldFilterLmlAttribute(), "filter", "textFilter", "textFieldFilter");
+        addAttributeProcessor(new TextFieldListenerLmlAttribute(), "listener", "textListener", "textFieldListener");
         addAttributeProcessor(new PrefRowsLmlAttribute(), "prefRows", "prefRowsAmount"); // TextArea.
     }
 

@@ -29,6 +29,8 @@ See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&
 - Previously omitted attributes of `TextField` - `cursor` (`setCursorPosition(int)`) and `textAlign` (`setAlignment(int)`) - are now properly registered and available (with a few aliases), like in LML 0.
 - Now building attributes (values needed in widget constructors) are assigned to builder types rather than specific actors. This means that when a tag uses a specific builder, it will have all attributes connected with the builder automatically attached. Before, each building attribute processor had an array of actors that it supported, which wasn't very flexible when you used custom actors/tags.
 - `ScrollPane` scrolling disabling (on X and Y axis) attributes fixed.
+- New `TextField` attributes. If `digitsOnly` (or `numeric`) attribute is set to true, text field's filter will be set to `DigitsOnlyFilter`, allowing only numbers to be entered. `textFieldListener` (with a few aliases, as always) expects an action ID of a method that consumes a `Character`; this method will be invoked each time a char is entered. `filter` attribute expects a method that consumes a `Character` and returns a boolean; the method will be invoked each time a character is typed and if it returns false, the character will not be appended to the text field.
+- Logging macros. Using LibGDX `Application` methods, this allows for easy multi-platform logging from within LML templates. Both content between tags and attributes are logged. `Lml` class allows to disable each logging level and change logger tag. See examples project for more info.
 
 1.0 -> 1.1:
 

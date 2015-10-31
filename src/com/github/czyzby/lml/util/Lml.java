@@ -4,15 +4,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.github.czyzby.lml.parser.LmlData;
 import com.github.czyzby.lml.parser.LmlParser;
 
-/** Utility class for simplified parser creation.
+/** Utility class for simplified parser creation. Stores LML settings.
  *
  * @author MJ
  * @see LmlUtilities
  * @see LmlParserBuilder */
 public class Lml {
-    private Lml() {
-    }
-
     /** When action is referenced in LML template, its parser looks for registered ActorConsumers with the selected key
      * (as they do not rely on reflection and are cheaper to invoke). If no
      * {@link com.github.czyzby.lml.parser.action.ActorConsumer} is found, then the parser looks for
@@ -24,6 +21,22 @@ public class Lml {
      * if you use multiple action containers and plan on releasing GWT client, keep this variable as false. If you need
      * field extraction, set to true. */
     public static boolean EXTRACT_FIELDS_AS_METHODS = false;
+
+    /** Settings used by logging macros. By setting these values to false, you can disable a certain group of logs. This
+     * can be very useful if you want to keep log macro invocations in LML templates for future development, while
+     * disabling them in actual client applications. */
+    public static boolean DEBUG_LOGS_ON = true, INFO_LOGS_ON = true, ERROR_LOGS_ON = true;
+
+    /** Used during logging as message tag (first logging method argument). Helps to determine the origin of logged
+     * messages. Defaults to "LML".
+     *
+     * @see com.badlogic.gdx.Application#debug(String, String)
+     * @see com.badlogic.gdx.Application#log(String, String)
+     * @see com.badlogic.gdx.Application#error(String, String) */
+    public static String LOGGER_TAG = "LML";
+
+    private Lml() {
+    }
 
     /** @return a new {@link LmlParserBuilder}, allowing to easily create a new instance of {@link LmlParser}. */
     public static LmlParserBuilder parser() {
