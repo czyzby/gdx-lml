@@ -32,6 +32,7 @@ See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&
 - New `TextField` attributes. If `digitsOnly` (or `numeric`) attribute is set to true, text field's filter will be set to `DigitsOnlyFilter`, allowing only numbers to be entered. `textFieldListener` (with a few aliases, as always) expects an action ID of a method that consumes a `Character`; this method will be invoked each time a char is entered. `filter` attribute expects a method that consumes a `Character` and returns a boolean; the method will be invoked each time a character is typed and if it returns false, the character will not be appended to the text field.
 - Logging macros. Using LibGDX `Application` methods, this allows for easy multi-platform logging from within LML templates. Both content between tags and attributes are logged. `Lml` class allows to disable each logging level and change logger tag. See examples project for more info.
 - Added `DISABLE_COMPONENT_ACTORS_ATTRIBUTE_PARSING` setting in `Lml` class. Now you can force the widgets to parse only its own attributes, even if they consist of multiple actors. See field's doc for more info.
+- New abstract base for simple `Group`-extending actors: `AbstractGroupLmlTag`.
 
 1.0 -> 1.1:
 
