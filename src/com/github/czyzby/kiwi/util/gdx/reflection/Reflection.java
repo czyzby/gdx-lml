@@ -66,11 +66,11 @@ public class Reflection {
 
     /** Utility method kept for backwards compatibility. Annotation checking used to be problematic on GWT.
      *
-     * @param field might be annotated.
+     * @param field might be annotated. Can be null.
      * @param annotationType class of the annotation that the field is checked against.
      * @return true if field is annotated with the specified annotation. */
     public static boolean isAnnotationPresent(final Field field, final Class<? extends Annotation> annotationType) {
-        return field.isAnnotationPresent(annotationType);
+        return field != null && field.isAnnotationPresent(annotationType);
     }
 
     /** Utility method that allows to extract actual annotation from class, bypassing LibGDX annotation wrapper. Returns
@@ -102,11 +102,11 @@ public class Reflection {
 
     /** Utility method kept for backwards compatibility. Annotation checking used to be problematic on GWT.
      *
-     * @param method might contain the specified annotation.
+     * @param method might contain the specified annotation. Can be null.
      * @param annotationType class of the annotation that the method is checked against.
      * @return true if method is annotated with the specified annotation. */
     public static boolean isAnnotationPresent(final Method method, final Class<? extends Annotation> annotationType) {
-        return method.isAnnotationPresent(annotationType);
+        return method != null && method.isAnnotationPresent(annotationType);
     }
 
     /** @param method will be set as accessible and invoked.
