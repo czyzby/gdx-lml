@@ -22,6 +22,8 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.building.NumberSelectorPr
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.ShowWindowBorderLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.button.ImageButtonGenerateDisabledLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.collapsible.CollapsedLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.grid.GridSpacingLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.grid.ItemSizeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.BlinkTimeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.CursorLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.DigitsOnlyLmlAttribute;
@@ -79,7 +81,9 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.window.AddCloseButtonLmlA
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.CloseOnEscapeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.OnResultLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.CollapsibleWidgetLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.ColumnGroupLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.FormValidatorLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.GridGroupLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.LinkLabelLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuBarLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuItemLmlTagProvider;
@@ -191,7 +195,9 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
 
         // Vis unique actors:
         addTagProvider(new CollapsibleWidgetLmlTagProvider(), "collapsible", "collapsibleWidget");
+        addTagProvider(new ColumnGroupLmlTagProvider(), "columnGroup");
         addTagProvider(new FormValidatorLmlTagProvider(), "form", "formValidator", "formTable");
+        addTagProvider(new GridGroupLmlTagProvider(), "gridGroup", "grid");
         addTagProvider(new LinkLabelLmlTagProvider(), "linkLabel", "link");
         addTagProvider(new MenuBarLmlTagProvider(), "menuBar", "bar");
         addTagProvider(new MenuItemLmlTagProvider(), "menuItem", "item");
@@ -205,8 +211,6 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new VisTooltipLmlTagProvider(), "visTooltip");
         addTagProvider(new VisValidatableTextFieldLmlTagProvider(), "validatable", "validatableTextField",
                 "visValidatableTextField");
-
-        // TODO other vis widgets
 
         // Vis validators:
         addTagProvider(new CustomValidatorLmlTagProvider(), "validator", "validate", "customValidator");
@@ -227,13 +231,13 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     /** Registers attributes of VisUI-specific actors. */
     protected void registerVisAttributes() {
         registerCollapsibleWidgetAttributes();
+        registerGridGroupAttributes();
         registerMenuAttributes();
         registerNumberSelectorAttributes();
         registerLinkLabelAttributes();
         registerTabbedPaneAttributes();
         registerValidatableTextFieldAttributes();
         registerValidatorAttributes();
-        // TODO other vis attributes
     }
 
     // Common extra attributes:
@@ -268,7 +272,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addAttributeProcessor(new TooltipFadeTimeLmlAttribute(), "fadeTime", "fadingTime");
     }
 
-    // Specific actor extra attributes:
+    // Scene2D equivalents extra attributes:
 
     @Override
     protected void registerButtonAttributes() {
@@ -335,7 +339,13 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addAttributeProcessor(new CollapsedLmlAttribute(), "collapse", "collapsed");
     }
 
-    /** Menu (and its connected widgets) attributes. */
+    /** GridGroup attributes. */
+    protected void registerGridGroupAttributes() {
+        addAttributeProcessor(new GridSpacingLmlAttribute(), "spacing");
+        addAttributeProcessor(new ItemSizeLmlAttribute(), "itemSize");
+    }
+
+    /** Menu-related attributes. */
     protected void registerMenuAttributes() {
         // MenuItem:
         addAttributeProcessor(new MenuItemGenerateDisabledImageLmlAttribute(), "generateDisabled");
