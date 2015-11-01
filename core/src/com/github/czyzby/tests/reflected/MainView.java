@@ -20,6 +20,8 @@ import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.scene2d.Actors;
 import com.github.czyzby.lml.annotation.LmlAction;
 import com.github.czyzby.lml.annotation.LmlActor;
+import com.github.czyzby.lml.annotation.LmlAfter;
+import com.github.czyzby.lml.annotation.LmlBefore;
 import com.github.czyzby.lml.annotation.LmlInject;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.LmlView;
@@ -61,7 +63,24 @@ public class MainView extends AbstractLmlView {
         return "main";
     }
 
-    // Reflected methods, available in LML views:
+    /* Method annotation examples: */
+
+    @LmlBefore
+    public void example() {
+        // This method will be invoked before parsing of the main.lml template. You can uncomment the log or some other
+        // method to see how it works.
+        // Gdx.app.log(Lml.LOGGER_TAG, "About to parse main.lml.");
+    }
+
+    @LmlAfter
+    public void example(final LmlParser parser) {
+        // This method will be invoked after main.lml is parsed and MainView's fields are fully injected and processed.
+        // Note that both LmlBefore- and LmlAfter-annotated methods can have either no arguments or a single argument:
+        // LmlParser; parser argument will never be null - the parser used to process template will be injected.
+        // Gdx.app.log(Lml.LOGGER_TAG, "Parsed main.lml with: " + parser);
+    }
+
+    /* Reflected methods, available in LML views: */
 
     /* templates/main.lml */
 
