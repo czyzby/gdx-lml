@@ -1,5 +1,7 @@
 package com.github.czyzby.lml.parser.impl;
 
+import java.lang.annotation.Annotation;
+
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -19,6 +21,8 @@ import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.reflection.Annotations;
 import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 import com.github.czyzby.lml.annotation.LmlActor;
+import com.github.czyzby.lml.annotation.LmlAfter;
+import com.github.czyzby.lml.annotation.LmlBefore;
 import com.github.czyzby.lml.annotation.LmlInject;
 import com.github.czyzby.lml.annotation.OnChange;
 import com.github.czyzby.lml.annotation.processor.OnChangeProcessor;
@@ -157,22 +161,26 @@ public abstract class AbstractLmlParser implements LmlParser {
         return actors;
     }
 
-    /** @param view by default, registers the view as an ActionContainer if it implements this interface.
+    /** @param view by default, registers the view as an ActionContainer if it implements this interface. Will have
+     *            {@link LmlBefore}-annotated methods invoked.
      * @param <View> class of the managed view. */
     protected <View> void doBeforeViewTemplateParsing(final View view) {
         if (view instanceof ActionContainer && view instanceof LmlView) {
             final String containerId = ((LmlView) view).getViewId();
             data.addActionContainer(containerId, (ActionContainer) view);
         }
+        invokeAnnotatedViewMethods(view, LmlBefore.class);
     }
 
-    /** @param view by default, unregisters the view as an ActionContainer if it implements this interface.
+    /** @param view by default, unregisters the view as an ActionContainer if it implements this interface. Invokes
+     *            {@link LmlAfter}-annotated methods.
      * @param <View> class of the managed view. */
     protected <View> void doAfterViewTemplateParsing(final View view) {
         if (view instanceof ActionContainer && view instanceof LmlView) {
             final String containerId = ((LmlView) view).getViewId();
             data.removeActionContainer(containerId);
         }
+        invokeAnnotatedViewMethods(view, LmlAfter.class);
     }
 
     @Override
@@ -203,6 +211,35 @@ public abstract class AbstractLmlParser implements LmlParser {
             LmlUtilities.appendActorsToStage(((LmlView) view).getStage(), actors);
         }
         processViewAnnotations(view);
+    }
+
+    protected <View> void invokeAnnotatedViewMethods(final View view, final Class<? extends Annotation> annotation) {
+        Class<?> handledClass = view.getClass();
+        try {
+            while (handledClass != null && !handledClass.equals(Object.class)) {
+                for (final Method method : ClassReflection.getDeclaredMethods(handledClass)) {
+                    if (Reflection.isAnnotationPresent(method, annotation)) {
+                        invokeAnnotatedViewMethod(view, method);
+                    }
+                }
+                handledClass = handledClass.getSuperclass();
+            }
+        } catch (final Exception exception) {
+            throw new GdxRuntimeException("Unable to invoke method annotated with: " + annotation, exception);
+        }
+    }
+
+    protected <View> void invokeAnnotatedViewMethod(final View view, final Method method) throws ReflectionException {
+        final Class<?>[] parameterTypes = method.getParameterTypes();
+        if (parameterTypes == null || parameterTypes.length == 0) {
+            Reflection.invokeMethod(method, view, (Object[]) Strings.EMPTY_ARRAY);
+        } else if (parameterTypes.length == 1 && LmlParser.class.equals(parameterTypes[0])) {
+            Reflection.invokeMethod(method, view, new Object[] { this });
+        } else {
+            throw new GdxRuntimeException(
+                    "Only no-arg or single-arg methods consuming LmlParser can be annotated. Found invalid args on annotated method: "
+                            + method);
+        }
     }
 
     protected <View> void processViewAnnotations(final View view) {
