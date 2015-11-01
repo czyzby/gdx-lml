@@ -12,6 +12,7 @@ import com.github.czyzby.lml.parser.LmlSyntax;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlBuildingAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
+import com.github.czyzby.lml.util.Lml;
 import com.github.czyzby.lml.util.LmlUserObject;
 import com.github.czyzby.lml.util.LmlUtilities;
 
@@ -66,17 +67,18 @@ public abstract class AbstractActorLmlTag extends AbstractLmlTag {
     }
 
     private void processTagAttributes(final ObjectSet<String> processedAttributes, final Actor actor) {
-        if (hasComponentActors()) {
-            // Processing own attributes first:
+        if (hasComponentActors() && !Lml.DISABLE_COMPONENT_ACTORS_ATTRIBUTE_PARSING) {
+            // Processing own attributes first, ignoring unknowns:
             LmlUtilities.processAttributes(actor, this, getParser(), processedAttributes, false);
             // Processing leftover attributes for component children:
             processComponentAttributes(processedAttributes, actor);
-            // Processing leftover attributes, after the widget is fully constructed; throwing errors for unknown
-            // attributes. We parse original attributes again for meaningful exceptions - "attribute for Window not
-            // found" is a lot better than "attribute for Label not found", just because we were parsing Label component
-            // last. Continuing even for non-strict parser to ensure the same behavior.
+            // Processing leftover attributes, after the widget is fully constructed; not throwing errors for unknown
+            // attributes. After we're done with components, we parse original attributes again for meaningful
+            // exceptions - "attribute for Window not found" is a lot better than "attribute for Label not found", just
+            // because we were parsing Label component of Window last. Continuing even for non-strict parser to ensure
+            // the same parsing behavior.
         }
-        // Processing only own attributes. Throwing errors for unknown:
+        // Processing own attributes. Throwing errors for unknown:
         LmlUtilities.processAttributes(actor, this, getParser(), processedAttributes, true);
     }
 

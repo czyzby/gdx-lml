@@ -22,6 +22,15 @@ public class Lml {
      * field extraction, set to true. */
     public static boolean EXTRACT_FIELDS_AS_METHODS = false;
 
+    /** If this is set to true, multi-widget actors will parse only its own attributes. For example, Scene2D Window is
+     * an extension of a Table, so it parses all Table attributes; but it also _contains_ a Scene2D Label (used as its
+     * title). When component actors attribute parsing is turned on, window can handle both its own attributes (table +
+     * unique window attributes), as well as label attributes, which will be applied to its label child. However,
+     * component attributes are rarely used for most widgets and - for others - require some extra computing that might
+     * be easily avoided. If you are sure you're never using any component actor attributes, you can disable components'
+     * attribute parsing by setting this value to true. */
+    public static boolean DISABLE_COMPONENT_ACTORS_ATTRIBUTE_PARSING = false;
+
     /** Settings used by logging macros. By setting these values to false, you can disable a certain group of logs. This
      * can be very useful if you want to keep log macro invocations in LML templates for future development, while
      * disabling them in actual client applications. */
