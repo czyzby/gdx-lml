@@ -13,7 +13,10 @@ import com.github.czyzby.lml.parser.impl.tag.actor.provider.TouchpadLmlTagProvid
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.VerticalGroupLmlTagProvider;
 import com.github.czyzby.lml.util.LmlUserObject.StandardTableTarget;
 import com.github.czyzby.lml.util.LmlUserObject.TableExtractor;
+import com.github.czyzby.lml.vis.parser.impl.attribute.ColorPickerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.FocusBorderEnabledLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.ResponsiveColorPickerLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.building.MenuItemImageLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.NumberSelectorNameLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.NumberSelectorPrecisionLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.ShowWindowBorderLmlAttribute;
@@ -21,6 +24,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.button.ImageButtonGenerat
 import com.github.czyzby.lml.vis.parser.impl.attribute.collapsible.CollapsedLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.BlinkTimeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.CursorLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.input.DigitsOnlyLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.InputAlignLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.MaxLengthLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.MessageLmlAttribute;
@@ -29,8 +33,12 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.input.PasswordModeLmlAttr
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.PrefRowsLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.RestoreLastValidLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.SelectAllLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.input.TextFieldFilterLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.input.TextFieldListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.ValidationEnabledLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.linklabel.UrlLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.menu.MenuItemGenerateDisabledImageLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.menu.MenuItemShortcutLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.numberselector.ProgrammaticChangeEventsLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MaxSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MinSplitLmlAttribute;
@@ -73,6 +81,10 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.window.OnResultLmlAttribu
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.CollapsibleWidgetLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.FormValidatorLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.LinkLabelLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuBarLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuItemLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuPopupLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.NumberSelectorLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.TabLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.TabbedPaneLmlTagProvider;
@@ -179,6 +191,10 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new CollapsibleWidgetLmlTagProvider(), "collapsible", "collapsibleWidget");
         addTagProvider(new FormValidatorLmlTagProvider(), "form", "formValidator", "formTable");
         addTagProvider(new LinkLabelLmlTagProvider(), "linkLabel", "link");
+        addTagProvider(new MenuBarLmlTagProvider(), "menuBar", "bar");
+        addTagProvider(new MenuItemLmlTagProvider(), "menuItem", "item");
+        addTagProvider(new MenuLmlTagProvider(), "menu");
+        addTagProvider(new MenuPopupLmlTagProvider(), "popupMenu", "subMenu");
         addTagProvider(new NumberSelectorLmlTagProvider(), "numberSelector", "numSelector", "selector");
         addTagProvider(new TabbedPaneLmlTagProvider(), "tabbedPane", "tabs");
         addTagProvider(new TabLmlTagProvider(), "tab");
@@ -207,6 +223,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     /** Registers attributes of VisUI-specific actors. */
     protected void registerVisAttributes() {
         registerCollapsibleWidgetAttributes();
+        registerMenuAttributes();
         registerNumberSelectorAttributes();
         registerLinkLabelAttributes();
         registerTabbedPaneAttributes();
@@ -225,6 +242,8 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         // NumberSelectorLmlActorBuilder:
         addBuildingAttributeProcessor(new NumberSelectorNameLmlAttribute(), "name");
         addBuildingAttributeProcessor(new NumberSelectorPrecisionLmlAttribute(), "precision");
+        // MenuItemLmlActorBuilder:
+        addBuildingAttributeProcessor(new MenuItemImageLmlAttribute(), "icon", "image", "drawable");
     }
 
     @Override
@@ -232,6 +251,9 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         super.registerCommonAttributes();
         // BorderOwner:
         addAttributeProcessor(new FocusBorderEnabledLmlAttribute(), "focusBorder", "focusBorderEnabled");
+        // Actor (ColorPicker attachment):
+        addAttributeProcessor(new ColorPickerLmlAttribute(), "colorPicker");
+        addAttributeProcessor(new ResponsiveColorPickerLmlAttribute(), "responsiveColorPicker");
     }
 
     @Override
@@ -280,6 +302,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         // VisTextField:
         addAttributeProcessor(new BlinkTimeLmlAttribute(), "blink", "blinkTime");
         addAttributeProcessor(new CursorLmlAttribute(), "cursor", "cursorPos", "cursorPosition");
+        addAttributeProcessor(new DigitsOnlyLmlAttribute(), "digitsOnly", "numeric");
         addAttributeProcessor(new InputAlignLmlAttribute(), "textAlign", "inputAlign", "textAlignment");
         addAttributeProcessor(new MaxLengthLmlAttribute(), "max", "maxLength");
         addAttributeProcessor(new MessageLmlAttribute(), "message", "messageText");
@@ -287,6 +310,8 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
                 "passCharacter");
         addAttributeProcessor(new PasswordModeLmlAttribute(), "passwordMode", "password", "passMode", "pass");
         addAttributeProcessor(new SelectAllLmlAttribute(), "selectAll");
+        addAttributeProcessor(new TextFieldFilterLmlAttribute(), "filter", "textFilter", "textFieldFilter");
+        addAttributeProcessor(new TextFieldListenerLmlAttribute(), "listener", "textListener", "textFieldListener");
         // VisTextArea:
         addAttributeProcessor(new PrefRowsLmlAttribute(), "prefRows", "prefRowsAmount");
     }
@@ -304,6 +329,13 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     /** CollapsibleWidget attributes. */
     protected void registerCollapsibleWidgetAttributes() {
         addAttributeProcessor(new CollapsedLmlAttribute(), "collapse", "collapsed");
+    }
+
+    /** Menu (and its connected widgets) attributes. */
+    protected void registerMenuAttributes() {
+        // MenuItem:
+        addAttributeProcessor(new MenuItemGenerateDisabledImageLmlAttribute(), "generateDisabled");
+        addAttributeProcessor(new MenuItemShortcutLmlAttribute(), "shortcut");
     }
 
     /** NumberSelector attributes. */
