@@ -25,8 +25,6 @@ public class LinkLabelLmlTag extends VisLabelLmlTag {
 
     @Override
     protected TextLmlActorBuilder getNewInstanceOfBuilder() {
-        final TextLmlActorBuilder builder = new TextLmlActorBuilder();
-        builder.setStyleName("link-label");
-        return builder;
+        return new TextLmlActorBuilder();
     }
 }
