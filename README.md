@@ -33,6 +33,7 @@ See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&
 - Logging macros. Using LibGDX `Application` methods, this allows for easy multi-platform logging from within LML templates. Both content between tags and attributes are logged. `Lml` class allows to disable each logging level and change logger tag. See examples project for more info.
 - Added `DISABLE_COMPONENT_ACTORS_ATTRIBUTE_PARSING` setting in `Lml` class. Now you can force the widgets to parse only its own attributes, even if they consist of multiple actors. See field's doc for more info.
 - New abstract base for simple `Group`-extending actors: `AbstractGroupLmlTag`.
+- `@LmlBefore` and `@LmlAfter` annotations. When using view-filling methods of `LmlParser`, you can annotate your view's methods with these annotations to make them automatically invoked before and after LML template parsing. Annotated methods can be either no-arg or consume a single argument: `LmlParser`. `@LmlBefore` methods are invoked after the view is registered as `ActionContainer` (if it implements this interface) and before the parsing has started. `@LmlAfter` methods are invoked after LML template is parsed, view's fields are all processed and view is no longer registered as an action container.
 
 1.0 -> 1.1:
 

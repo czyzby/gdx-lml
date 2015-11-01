@@ -161,28 +161,6 @@ public abstract class AbstractLmlParser implements LmlParser {
         return actors;
     }
 
-    /** @param view by default, registers the view as an ActionContainer if it implements this interface. Will have
-     *            {@link LmlBefore}-annotated methods invoked.
-     * @param <View> class of the managed view. */
-    protected <View> void doBeforeViewTemplateParsing(final View view) {
-        if (view instanceof ActionContainer && view instanceof LmlView) {
-            final String containerId = ((LmlView) view).getViewId();
-            data.addActionContainer(containerId, (ActionContainer) view);
-        }
-        invokeAnnotatedViewMethods(view, LmlBefore.class);
-    }
-
-    /** @param view by default, unregisters the view as an ActionContainer if it implements this interface. Invokes
-     *            {@link LmlAfter}-annotated methods.
-     * @param <View> class of the managed view. */
-    protected <View> void doAfterViewTemplateParsing(final View view) {
-        if (view instanceof ActionContainer && view instanceof LmlView) {
-            final String containerId = ((LmlView) view).getViewId();
-            data.removeActionContainer(containerId);
-        }
-        invokeAnnotatedViewMethods(view, LmlAfter.class);
-    }
-
     @Override
     public <View> Array<Actor> createView(final View view, final FileHandle lmlTemplateFile) {
         doBeforeViewTemplateParsing(view);
@@ -206,12 +184,40 @@ public abstract class AbstractLmlParser implements LmlParser {
         return view;
     }
 
+    /** @param view by default, registers the view as an {@link ActionContainer} if it implements this interface. Will
+     *            have {@link LmlBefore}-annotated methods invoked.
+     * @param <View> class of the managed view. */
+    protected <View> void doBeforeViewTemplateParsing(final View view) {
+        if (view instanceof ActionContainer && view instanceof LmlView) {
+            final String containerId = ((LmlView) view).getViewId();
+            data.addActionContainer(containerId, (ActionContainer) view);
+        }
+        invokeAnnotatedViewMethods(view, LmlBefore.class);
+    }
+
+    /** @param view if implements {@link LmlView}, actors will be added to its stage. Its field annotations will be
+     *            processed.
+     * @param actors result of template parsing.
+     * @param <View> class of the filled view. */
     protected <View> void fillView(final View view, final Array<Actor> actors) {
         if (view instanceof LmlView) {
             LmlUtilities.appendActorsToStage(((LmlView) view).getStage(), actors);
         }
-        processViewAnnotations(view);
+        processViewFieldAnnotations(view);
     }
+
+    /** @param view by default, unregisters the view as an {@link ActionContainer} if it implements this interface.
+     *            Invokes {@link LmlAfter}-annotated methods.
+     * @param <View> class of the managed view. */
+    protected <View> void doAfterViewTemplateParsing(final View view) {
+        if (view instanceof ActionContainer && view instanceof LmlView) {
+            final String containerId = ((LmlView) view).getViewId();
+            data.removeActionContainer(containerId);
+        }
+        invokeAnnotatedViewMethods(view, LmlAfter.class);
+    }
+
+    // LmlBefore + LmlAfter support:
 
     protected <View> void invokeAnnotatedViewMethods(final View view, final Class<? extends Annotation> annotation) {
         Class<?> handledClass = view.getClass();
@@ -242,7 +248,9 @@ public abstract class AbstractLmlParser implements LmlParser {
         }
     }
 
-    protected <View> void processViewAnnotations(final View view) {
+    // LmlActor + OnChange + LmlInject support:
+
+    protected <View> void processViewFieldAnnotations(final View view) {
         Class<?> handledClass = view.getClass();
         while (handledClass != null && !handledClass.equals(Object.class)) {
             for (final Field field : ClassReflection.getDeclaredFields(handledClass)) {
@@ -362,7 +370,7 @@ public abstract class AbstractLmlParser implements LmlParser {
                     Reflection.setFieldValue(field, view, value);
                 }
                 // Processing field's value annotations:
-                processViewAnnotations(value);
+                processViewFieldAnnotations(value);
             } catch (final ReflectionException exception) {
                 throw new GdxRuntimeException(
                         "Unable to inject value of LmlInject-annotated field: " + field + " of view: " + view,
