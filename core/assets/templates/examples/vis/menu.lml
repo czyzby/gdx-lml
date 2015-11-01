@@ -22,6 +22,8 @@
                 <menuItem text=OK? onChange=chooseItem/>
             </subMenu>
         </menuItem>
+<!-- "menuSeparator" provides Separator actors with a menu-specific style. -->
+        <menuSeparator/>
         <menuItem shortCut=a onChange=chooseItem>
             Some item.
         </menuItem>
