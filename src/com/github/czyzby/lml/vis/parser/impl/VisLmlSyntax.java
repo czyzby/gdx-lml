@@ -85,7 +85,9 @@ import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuBarLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuItemLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuPopupLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuSeparatorLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.NumberSelectorLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.SeparatorLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.TabLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.TabbedPaneLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisCheckBoxLmlTagProvider;
@@ -165,7 +167,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new TouchpadLmlTagProvider(), "touchpad", "touch");
         addTagProvider(new VerticalGroupLmlTagProvider(), "vertical", "verticalGroup");
 
-        // Vis actors:
+        // Vis actor equivalents:
         addTagProvider(new VisCheckBoxLmlTagProvider(), "checkBox", "visCheckBox", "check");
         addTagProvider(new VisDialogLmlTagProvider(), "dialog", "visDialog", "popup");
         addTagProvider(new VisImageButtonLmlTagProvider(), "imageButton", "visImageButton");
@@ -195,7 +197,9 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new MenuItemLmlTagProvider(), "menuItem", "item");
         addTagProvider(new MenuLmlTagProvider(), "menu");
         addTagProvider(new MenuPopupLmlTagProvider(), "popupMenu", "subMenu");
+        addTagProvider(new MenuSeparatorLmlTagProvider(), "menuSeparator");
         addTagProvider(new NumberSelectorLmlTagProvider(), "numberSelector", "numSelector", "selector");
+        addTagProvider(new SeparatorLmlTagProvider(), "separator");
         addTagProvider(new TabbedPaneLmlTagProvider(), "tabbedPane", "tabs");
         addTagProvider(new TabLmlTagProvider(), "tab");
         addTagProvider(new VisTooltipLmlTagProvider(), "visTooltip");
