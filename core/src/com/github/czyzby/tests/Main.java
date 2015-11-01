@@ -22,6 +22,7 @@ import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.parser.tag.LmlTagProvider;
+import com.github.czyzby.lml.vis.util.ColorPickerContainer;
 import com.github.czyzby.lml.vis.util.VisLml;
 import com.github.czyzby.tests.reflected.CustomActionContainer;
 import com.github.czyzby.tests.reflected.MainView;
@@ -44,13 +45,13 @@ public class Main extends AbstractApplicationListener {
             "i18n", "preferences", "arguments", "actions",
             // Macros:
             "actorMacro", "anyNotNull", "argumentReplace", "assign", "calculate", "comment", "conditional", "evaluate",
-            "exception", "forEach", "import", "loop", "meta", "nestedForEach", "newAttribute", "newTag", "nullCheck",
-            "tableColumn", "tableRow", "while",
+            "exception", "forEach", "import", "loop", "logger", "meta", "nestedForEach", "newAttribute", "newTag",
+            "nullCheck", "tableColumn", "tableRow", "while",
             // Custom elements:
             "customAttribute", "customMacro", "customTag",
             // Vis tags:
-            "vis/collapsibleWidget", "vis/formValidator", "vis/linkLabel", "vis/numberSelector", "vis/tabbedPane",
-            "vis/radioButton", "vis/tooltip", "vis/validatableTextField"
+            "vis/collapsibleWidget", "vis/colorPicker", "vis/formValidator", "vis/linkLabel", "vis/menu",
+            "vis/numberSelector", "vis/tabbedPane", "vis/radioButton", "vis/tooltip", "vis/validatableTextField"
     // TODO add other vis tags
     );
     private static final String MAIN_VIEW_TEMPLATE = "templates/main.lml";
@@ -264,5 +265,8 @@ public class Main extends AbstractApplicationListener {
     @Override
     public void dispose() {
         Disposables.disposeOf(view); // Null-safe disposing utility from gdx-kiwi.
+        // ColorPicker is a heavy widget which should be reused and disposed of. Custom LML attributes reuse a single
+        // ColorPicker instance which should be manually destroyed when the dialog is no longer expected to be shown:
+        ColorPickerContainer.dispose();
     }
 }

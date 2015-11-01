@@ -1,0 +1,15 @@
+<!-- Color picker dialog can be attached to any actor.
+    Dialog will be shown after the widget is clicked,
+    unless it's disabled. Color picker attribute expects
+    ID of a method that consumes a LibGDX Color instance. -->
+
+<textButton id=set colorPicker=setColor>
+    Changes color after you close the dialog.
+</textButton>
+
+<textButton id=change responsiveColorPicker=changeColor>
+    Constantly updates.
+</textButton>
+
+<!-- This will not show a dialog, unless disabled status is cleared: -->
+<textButton colorPicker=setColor disabled=true>Disabled</textButton>

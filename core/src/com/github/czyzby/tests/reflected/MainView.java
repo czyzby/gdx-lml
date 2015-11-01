@@ -32,6 +32,7 @@ import com.github.czyzby.lml.vis.ui.reflected.VisTabTable;
 import com.github.czyzby.tests.Main;
 import com.github.czyzby.tests.reflected.widgets.BlinkingLabel;
 import com.kotcrab.vis.ui.widget.CollapsibleWidget;
+import com.kotcrab.vis.ui.widget.MenuItem;
 import com.kotcrab.vis.ui.widget.VisDialog;
 import com.kotcrab.vis.ui.widget.VisTextArea;
 import com.kotcrab.vis.ui.widget.VisTextButton;
@@ -228,6 +229,7 @@ public class MainView extends AbstractLmlView {
         // Printing all example buttons and current playground content:
         return resultTable + buttonManager.printButtons();
     }
+
     /* templates/examples/vis/collapsibleWidget.lml */
 
     @LmlAction("collapse")
@@ -243,6 +245,34 @@ public class MainView extends AbstractLmlView {
             }
         }
     }
+
+    /* templates/examples/vis/colorPicker.lml */
+
+    /** @param result result of a color picker dialog. Will become an actor's color. */
+    @LmlAction("setColor")
+    public void setColorFromColorPicker(final Color result) {
+        if (result != null) { // null -> cancelled
+            LmlUtilities.getActorWithId(resultTable, "set").setColor(result);
+        }
+    }
+
+    /** @param currentColor currently selected color in a color picker dialog. Will become an actor's color. */
+    @LmlAction("changeColor")
+    public void changeColorWithColorPicker(final Color currentColor) {
+        if (currentColor != null) {
+            LmlUtilities.getActorWithId(resultTable, "change").setColor(currentColor);
+        }
+    }
+
+    /* templates/examples/vis/menu.lml */
+
+    /** @param menuItem its text will be appended to the result table. */
+    @LmlAction("chooseItem")
+    public void selectMenuItem(final MenuItem menuItem) {
+        final Label result = (Label) LmlUtilities.getActorWithId(resultTable, "result");
+        result.setText(menuItem.getText());
+    }
+
     /* templates/examples/vis/tabbedPane.lml */
 
     /** @return simple fading in action. */
