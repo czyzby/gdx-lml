@@ -1,0 +1,8 @@
+<!-- ColumnGroup is a simplified alternative to
+    VerticalGroup. -->
+    
+<columnGroup>
+    Converts text to labels.
+    <textButton>Handles any children.</textButton>
+    <slider/>
+</columnGroup>
