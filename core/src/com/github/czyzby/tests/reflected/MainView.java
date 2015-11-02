@@ -32,8 +32,8 @@ import com.github.czyzby.lml.parser.action.ActionContainer;
 import com.github.czyzby.lml.parser.impl.AbstractLmlView;
 import com.github.czyzby.lml.parser.impl.tag.macro.NewAttributeLmlMacroTag.AttributeParsingData;
 import com.github.czyzby.lml.scene2d.ui.reflected.ReflectedLmlDialog;
+import com.github.czyzby.lml.util.Lml;
 import com.github.czyzby.lml.util.LmlUtilities;
-import com.github.czyzby.tests.Main;
 import com.github.czyzby.tests.reflected.widgets.BlinkingLabel;
 
 /** Main view of the application. Since it extends {@link AbstractLmlView}, it is both {@link LmlView} (allowing its
@@ -50,6 +50,8 @@ public class MainView extends AbstractLmlView {
     @LmlActor("resultTable") private Table resultTable;
     // Manages buttons. Will be created and filled by the parser.
     @LmlInject private ButtonManager buttonManager;
+    // Used to create this view. @LmlInject-ing this field would also work.
+    private LmlParser parser;
 
     /** Creates a new main view with default stage. */
     public MainView() {
@@ -65,17 +67,21 @@ public class MainView extends AbstractLmlView {
     /* Method annotation examples: */
 
     @LmlBefore
-    public void example() {
+    public void example(final LmlParser parser) {
         // This method will be invoked before parsing of the main.lml template. You can uncomment the log or some other
         // method to see how it works.
         // Gdx.app.log(Lml.LOGGER_TAG, "About to parse main.lml.");
+
+        // Assigning parser - if you want to use @LmlInject instead to fill the parser field, try commenting this line:
+        this.parser = parser;
+
+        // Note that both LmlBefore- and LmlAfter-annotated methods can have either no arguments or a single argument:
+        // LmlParser; parser argument will never be null - the parser used to process template will be injected.
     }
 
     @LmlAfter
-    public void example(final LmlParser parser) {
+    public void example() {
         // This method will be invoked after main.lml is parsed and MainView's fields are fully injected and processed.
-        // Note that both LmlBefore- and LmlAfter-annotated methods can have either no arguments or a single argument:
-        // LmlParser; parser argument will never be null - the parser used to process template will be injected.
         // Gdx.app.log(Lml.LOGGER_TAG, "Parsed main.lml with: " + parser);
     }
 
@@ -92,9 +98,9 @@ public class MainView extends AbstractLmlView {
     /** Parses template currently stored in template text area and adds the created actors to result table. */
     public void parseTemplate() {
         final String template = templateInput.getText();
-        Main.getParser().getData().addActionContainer(getViewId(), this); // Making our methods available in templates.
+        parser.getData().addActionContainer(getViewId(), this); // Making our methods available in templates.
         try {
-            final Array<Actor> actors = Main.getParser().parseTemplate(template);
+            final Array<Actor> actors = parser.parseTemplate(template);
             resultTable.clear();
             for (final Actor actor : actors) {
                 resultTable.add(actor).row();
@@ -107,10 +113,10 @@ public class MainView extends AbstractLmlView {
     private void onParsingError(final Exception exception) {
         // Printing the message without stack trace - we don't want to completely flood the console and its usually not
         // relevant anyway. Change to '(...), "Unable to parse LML template:", exception);' for stacks.
-        Gdx.app.error("ERROR", "Unable to parse LML template: " + exception.getMessage());
+        Gdx.app.error(Lml.LOGGER_TAG, "Unable to parse LML template: " + exception.getMessage());
         resultTable.clear();
         resultTable.add("Error occurred. Sorry.");
-        Main.getParser().fillStage(getStage(), Gdx.files.internal("templates/dialogs/error.lml"));
+        parser.fillStage(getStage(), Gdx.files.internal("templates/dialogs/error.lml"));
     }
 
     /** Switches the current content of template input to the content of a chosen file.
@@ -198,7 +204,7 @@ public class MainView extends AbstractLmlView {
 
     /** @return a new instance of customized actor. */
     public Label getSomeActor() {
-        final Label actor = new Label("Actor created in plain Java.", Main.getParser().getData().getDefaultSkin());
+        final Label actor = new Label("Actor created in plain Java.", parser.getData().getDefaultSkin());
         actor.setColor(Color.PINK);
         return actor;
     }
@@ -236,8 +242,7 @@ public class MainView extends AbstractLmlView {
 
     /** @return a new instance of customized widget: {@link BlinkingLabel}; */
     public BlinkingLabel getBlinkingLabel() {
-        return new BlinkingLabel(Strings.EMPTY_STRING, Main.getParser().getData().getDefaultSkin(),
-                Actors.DEFAULT_STYLE);
+        return new BlinkingLabel(Strings.EMPTY_STRING, parser.getData().getDefaultSkin(), Actors.DEFAULT_STYLE);
     }
 
     @Override

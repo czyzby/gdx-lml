@@ -1,5 +1,6 @@
 package com.github.czyzby.tests;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
@@ -28,7 +29,7 @@ import com.github.czyzby.tests.reflected.CustomActionContainer;
 import com.github.czyzby.tests.reflected.MainView;
 import com.github.czyzby.tests.reflected.widgets.BlinkingLabel;
 
-/** Main application's listener. Manages view.
+/** Main application's listener. Manages {@link MainView} instance.
  *
  * @author MJ */
 public class Main extends AbstractApplicationListener {
@@ -48,12 +49,14 @@ public class Main extends AbstractApplicationListener {
             "customAttribute", "customMacro", "customTag");
     private static final String MAIN_VIEW_TEMPLATE = "templates/main.lml";
 
-    private static LmlParser parser;
     private MainView view;
 
     @Override
     public void create() {
-        parser = constructParser();
+        // Turning on all logging levels for logging macro examples:
+        Gdx.app.setLogLevel(Application.LOG_DEBUG);
+        // Creating LML parser:
+        final LmlParser parser = constructParser();
         // Thanks to using createView(Class, FileHandle) method, an instance of MainView will be created using no-arg
         // constructor. Its stage - retrieved by getStage() method - will be filled with root actors in the template.
         // Its annotated fields will be filled, annotated methods - invoked.
@@ -235,16 +238,6 @@ public class Main extends AbstractApplicationListener {
                 actor.setBlinkingTime(parser.parseFloat(rawAttributeData, actor));
             }
         };
-    }
-
-    /** Utility method for quick parser reference. Do NOT do this at home, global variables are very ugly.
-     *
-     * @return current LML parser. */
-    public static LmlParser getParser() {
-        // Normally, we would pass the parser in constructor argument of MainView - or inject it - but I wanted to keep
-        // the class as simple as possible, so it could be constructed with reflection and don't contain much
-        // boilerplate code, unnecessary fields, etc.
-        return parser;
     }
 
     @Override
