@@ -99,6 +99,66 @@ When you cannot or don't want to use actions or tweening utilities.
 - **ColorRange**: utility for simple color transitions.
 - **FloatRange**: utility for simple float number transitions. Might be useful for color's alpha.
 
+## Log
+LibGDX does provide logging utilities with `Application` methods and simple `com.badlogic.gdx.utils.Logger` class, but they both lack arguments support and features we might know from standard loggers, like including class name and current time. Kiwi loggers are slightly more complex, while trying to add as little overhead as possible. Typical usage:
+
+Settings:
+```
+// Turning off debug logging:
+LoggerService.debug(false);
+// Turning on info logging:
+LoggerService.info(true);
+// Turning on error logging:
+LoggerService.error(true);
+// Note that all levels are turned on by default.
+
+// Including current time in logs:
+LoggerService.logTime(true);
+// Using asynchronous loggers (not advised unless justified):
+LoggerService.asynchronous(true);
+// Using simple class names instead of full names:
+LoggerService.simpleClassNames(true);
+```
+
+Obtaining a logger:
+```
+private static final Logger LOGGER = LoggerService.forClass(MyClass.class);
+// Non-static logger reference, very convenient in abstract classes:
+protected final Logger logger = LoggerService.forClass(getClass());
+// Note that loggers are cached; if you try to obtain multiple loggers
+// for the same class, the same instance will be returned each time.
+```
+
+Logging:
+```
+try {
+  logger.debug("Logging a debug message!");
+  logger.info("Logging an info message with some params: {0}, {1}, {2}.", someVar, 5, someOtherVar);
+} catch (Exception exception) {
+  logger.error(exception, "Exception!");
+  logger.debug(exception, "Exception thrown, some extra data: {0} and {1}.", someVar, someOtherVar);
+}
+// Exception as the first argument is a design choice; otherwise var-args of
+// logging arguments could not be used.
+```
+
+Example logs:
+```
+logger.debug("Some message.");
+// [DEBUG] com.github.czyzby.ExampleClass: Some message.
+
+LoggerService.logTime(true);
+logger.info("Kiwi is {0}.", "useful");
+// [INFO]  com.github.czyzby.ExampleClass (Mon Nov 02 14:21:31 CET 2015): Kiwi is useful.
+
+logger.error(new RuntimeException("Example."), "Exception thrown!");
+// [ERROR] com.github.czyzby.ExampleClass (Mon Nov 02 14:21:31 CET 2015): Exception thrown!
+// java.lang.RuntimeException: Example.
+//   at --stack goes here--
+```
+
+Loggers delegate logging calls to current `Application` instance, so they should work on every platform.
+
 ##Dependency
 Core project Gradle dependency:
 ```
