@@ -12,7 +12,7 @@ Gradle:
 ```
     compile "com.github.czyzby:gdx-lml-vis:1.2.$gdxVersion-SNAPSHOT"
 ```
-Currently supported LibGDX version is **1.7.0**.
+Currently supported LibGDX version is **1.7.1**.
 
 GWT module:
 ```
