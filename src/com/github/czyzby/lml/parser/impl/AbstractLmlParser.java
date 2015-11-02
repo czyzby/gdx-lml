@@ -184,13 +184,18 @@ public abstract class AbstractLmlParser implements LmlParser {
         return view;
     }
 
-    /** @param view by default, registers the view as an {@link ActionContainer} if it implements this interface. Will
-     *            have {@link LmlBefore}-annotated methods invoked.
+    /** @param view by default, registers the view as an {@link ActionContainer} and {@link ActorConsumer} if it
+     *            implements any of these interfaces. Will have {@link LmlBefore}-annotated methods invoked.
      * @param <View> class of the managed view. */
     protected <View> void doBeforeViewTemplateParsing(final View view) {
-        if (view instanceof ActionContainer && view instanceof LmlView) {
+        if (view instanceof LmlView) {
             final String containerId = ((LmlView) view).getViewId();
-            data.addActionContainer(containerId, (ActionContainer) view);
+            if (view instanceof ActionContainer) {
+                data.addActionContainer(containerId, (ActionContainer) view);
+            }
+            if (view instanceof ActorConsumer<?, ?>) {
+                data.addActorConsumer(containerId, (ActorConsumer<?, ?>) view);
+            }
         }
         invokeAnnotatedViewMethods(view, LmlBefore.class);
     }
@@ -206,13 +211,18 @@ public abstract class AbstractLmlParser implements LmlParser {
         processViewFieldAnnotations(view);
     }
 
-    /** @param view by default, unregisters the view as an {@link ActionContainer} if it implements this interface.
-     *            Invokes {@link LmlAfter}-annotated methods.
+    /** @param view by default, unregisters the view as an {@link ActionContainer} and {@link ActorConsumer} if it
+     *            implements these interfaces. Invokes {@link LmlAfter}-annotated methods.
      * @param <View> class of the managed view. */
     protected <View> void doAfterViewTemplateParsing(final View view) {
-        if (view instanceof ActionContainer && view instanceof LmlView) {
+        if (view instanceof LmlView) {
             final String containerId = ((LmlView) view).getViewId();
-            data.removeActionContainer(containerId);
+            if (view instanceof ActionContainer) {
+                data.removeActionContainer(containerId);
+            }
+            if (view instanceof ActorConsumer<?, ?>) {
+                data.removeActorConsumer(containerId);
+            }
         }
         invokeAnnotatedViewMethods(view, LmlAfter.class);
     }
