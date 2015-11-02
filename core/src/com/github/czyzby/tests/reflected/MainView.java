@@ -53,6 +53,7 @@ public class MainView extends AbstractLmlView {
 
     /** Creates a new main view with default stage. */
     public MainView() {
+        // You'd generally want to construct the stage with a custom SpriteBatch, sharing it across all views.
         super(new Stage(new ScreenViewport()));
     }
 
