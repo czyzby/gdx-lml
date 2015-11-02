@@ -36,3 +36,7 @@ void init(InterfaceService interfaceService) {
     interfaceService.getParser().getData().setDefaultSkin(VisUI.getSkin());
 }
 ```
+
+### Non-GWT features
+
+To add non-GWT features (like the `FileChooser` support or various file validators from `FormValidator` class), use `ExtendedVisLml#extend(LmlParser)` method. This will register all the extra attributes and tags at the cost of nasty compilation errors on GWT platform.

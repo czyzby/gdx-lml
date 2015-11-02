@@ -8,10 +8,9 @@ import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.kotcrab.vis.ui.widget.LinkLabel;
 
-/**
- * Handles {@link LinkLabel} actor. Mapped to "linkLabel", "link".
- * @author Kotcrab
- */
+/** Handles {@link LinkLabel} actor. Mapped to "linkLabel", "link".
+ *
+ * @author Kotcrab */
 public class LinkLabelLmlTag extends VisLabelLmlTag {
     public LinkLabelLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
         super(parser, parentTag, rawTagData);
@@ -19,12 +18,8 @@ public class LinkLabelLmlTag extends VisLabelLmlTag {
 
     @Override
     protected Actor getNewInstanceOfActor(final LmlActorBuilder builder) {
+        // Safe to cast, see super#getNewInstanceOfBuilder():
         final TextLmlActorBuilder textBuilder = (TextLmlActorBuilder) builder;
         return new LinkLabel(textBuilder.getText(), Strings.EMPTY_STRING, builder.getStyleName());
-    }
-
-    @Override
-    protected TextLmlActorBuilder getNewInstanceOfBuilder() {
-        return new TextLmlActorBuilder();
     }
 }
