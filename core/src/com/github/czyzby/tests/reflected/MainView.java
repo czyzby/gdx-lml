@@ -38,9 +38,9 @@ import com.github.czyzby.tests.reflected.widgets.BlinkingLabel;
 
 /** Main view of the application. Since it extends {@link AbstractLmlView}, it is both {@link LmlView} (allowing its
  * {@link Stage} to be filled) and {@link ActionContainer} (allowing it methods to be reflected and available in LML
- * templates. Thanks to {@link LmlParser#createView(Object, com.badlogic.gdx.files.FileHandle)} method, parsed root
- * actor go directly into this view's {@link #getStage()} and it is registered as an action container with "main" ID
- * (returned by {@link #getViewId()}).
+ * templates. Thanks to {@link LmlParser#createView(Class, com.badlogic.gdx.files.FileHandle)} method, parsed root
+ * actors go directly into this view's {@link #getStage()}, and an instance of this class is registered as an action
+ * container with "main" ID (returned by {@link #getViewId()}).
  *
  * @author MJ */
 public class MainView extends AbstractLmlView {

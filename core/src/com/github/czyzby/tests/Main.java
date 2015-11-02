@@ -56,7 +56,7 @@ public class Main extends AbstractApplicationListener {
         parser = constructParser();
         // Thanks to using createView(Class, FileHandle) method, an instance of MainView will be created using no-arg
         // constructor. Its stage - retrieved by getStage() method - will be filled with root actors in the template.
-        // Its annotated fields will be filled.
+        // Its annotated fields will be filled, annotated methods - invoked.
         view = parser.createView(MainView.class, Gdx.files.internal(MAIN_VIEW_TEMPLATE));
         // Focusing input on view's stage:
         Gdx.input.setInputProcessor(view.getStage());
@@ -215,6 +215,7 @@ public class Main extends AbstractApplicationListener {
                 getParser().throwErrorIfStrict("Labels cannot have children. Even the blinking ones.");
                 // Appending children is pretty easy. If label was a Group, you could just replace the exception with:
                 // ((Group) getActor()).addActor(childTag.getActor());
+                // Also, you can use AbstractGroupLmlTag which already handles children for you.
             }
         };
     }
