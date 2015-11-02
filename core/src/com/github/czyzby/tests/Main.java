@@ -1,5 +1,6 @@
 package com.github.czyzby.tests;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
@@ -30,7 +31,7 @@ import com.github.czyzby.tests.reflected.widgets.BlinkingLabel;
 import com.github.czyzby.tests.reflected.widgets.CodeTextArea.CodeTextAreaLmlTagProvider;
 import com.kotcrab.vis.ui.VisUI;
 
-/** Main application's listener. Manages view.
+/** Main application's listener. Manages {@link MainView} instance.
  *
  * @author MJ
  * @author Kotcrab */
@@ -55,12 +56,14 @@ public class Main extends AbstractApplicationListener {
             "vis/tooltip", "vis/validatableTextField");
     private static final String MAIN_VIEW_TEMPLATE = "templates/main.lml";
 
-    private static LmlParser parser;
     private MainView view;
 
     @Override
     public void create() {
-        parser = constructParser();
+        // Turning on all logging levels for logging macro examples:
+        Gdx.app.setLogLevel(Application.LOG_DEBUG);
+        // Creating LML parser:
+        final LmlParser parser = constructParser();
         // Thanks to using createView(Class, FileHandle) method, an instance of MainView will be created using no-arg
         // constructor. Its stage - retrieved by getStage() method - will be filled with root actors in the template.
         // Its annotated fields will be filled.
@@ -74,8 +77,8 @@ public class Main extends AbstractApplicationListener {
         VisUI.load();
         return VisLml.parser().i18nBundle(getDefaultI18nBundle()).preferences(getDefaultPreferences())
                 .i18nBundle("custom", getCustomI18nBundle()).preferences("custom", getCustomPreferences())
-                .tag(new CodeTextAreaLmlTagProvider(), "codeTextArea") // Custom text area used to display LML code of
-                                                                       // current example
+                // Custom text area used to display LML code of current example:
+                .tag(new CodeTextAreaLmlTagProvider(), "codeTextArea")
                 // {examples} argument will allow to iterate over Main#EXAMPLES array in LML templates:
                 .argument("examples", EXAMPLES)
                 // templates/examples/arguments.lml:
@@ -219,6 +222,7 @@ public class Main extends AbstractApplicationListener {
                 getParser().throwErrorIfStrict("Labels cannot have children. Even the blinking ones.");
                 // Appending children is pretty easy. If label was a Group, you could just replace the exception with:
                 // ((Group) getActor()).addActor(childTag.getActor());
+                // Also, you can use AbstractGroupLmlTag which already handles children for you.
             }
         };
     }
@@ -238,16 +242,6 @@ public class Main extends AbstractApplicationListener {
                 actor.setBlinkingTime(parser.parseFloat(rawAttributeData, actor));
             }
         };
-    }
-
-    /** Utility method for quick parser reference. Do NOT do this at home, global variables are very ugly.
-     *
-     * @return current LML parser. */
-    public static LmlParser getParser() {
-        // Normally, we would pass the parser in constructor argument of MainView - or inject it - but I wanted to keep
-        // the class as simple as possible, so it could be constructed with reflection and don't contain much
-        // boilerplate code, unnecessary fields, etc.
-        return parser;
     }
 
     @Override
