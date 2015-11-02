@@ -22,7 +22,7 @@ See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&
 ## What's new
 1.1 -> 1.2
 
-- `@LmlInject` annotation. When a view is created by the parser, its annotated fields are processed. In previous versions, this meant that all `@LmlActor`- and `@OnChange`-annotated fields had to be present in one class, which could quickly lead to fields flood in view classes. Now you can keep `@LmlActor`- and `@OnChange`-annotated fields in another container class and request to inject(/fill) it with `@LmlInject`. More in the annotation docs. `@LmlInject` example was added to the example project.
+- `@LmlInject` annotation. When a view is created by the parser, its annotated fields are processed. In previous versions, this meant that all `@LmlActor`- and `@OnChange`-annotated fields had to be present in one class, which could quickly lead to fields flood in view classes. Now you can keep `@LmlActor`- and `@OnChange`-annotated fields in another container class and request to inject(/fill) it with `@LmlInject`. Also, `LmlParser` instance used to initiate the view can be injected. More in the annotation docs. `@LmlInject` examples were added to the example project.
 - The old enum `TableTarget` was renamed to `StandardTableTarget`; `TableTarget` is now an interface. `StandardTableTarget` behavior is now modifiable. This allows to use custom multi-table widgets. 
 - All attribute and tag-registering methods of `DefaultLmlSyntax` are now protected, even these previously omitted. This allows to easily extend this class.
 - `prefRows` attribute added to TextArea tags.

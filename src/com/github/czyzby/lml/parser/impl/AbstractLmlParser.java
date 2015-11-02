@@ -374,9 +374,15 @@ public abstract class AbstractLmlParser implements LmlParser {
         if (Reflection.isAnnotationPresent(field, LmlInject.class)) {
             try {
                 final LmlInject injectionData = Reflection.getAnnotation(field, LmlInject.class);
+                final Class<?> injectedValueType = getLmlInjectedValueType(field, injectionData);
+                if (LmlParser.class.equals(injectedValueType)) {
+                    // Injected type equals LmlParser - parser injection was requested:
+                    Reflection.setFieldValue(field, view, this);
+                    return;
+                }
                 Object value = Reflection.getFieldValue(field, view);
                 if (value == null || injectionData.newInstance()) {
-                    value = Reflection.newInstance(getLmlInjectedValueType(field, injectionData));
+                    value = Reflection.newInstance(injectedValueType);
                     Reflection.setFieldValue(field, view, value);
                 }
                 // Processing field's value annotations:

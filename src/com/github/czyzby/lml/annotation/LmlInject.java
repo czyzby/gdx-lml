@@ -41,6 +41,20 @@ import java.lang.annotation.Target;
  * detected. If, for example, {@code SomeView} has {@link LmlInject}-annotated field of {@code SomeView} type, injection
  * would never finish correctly and an exception would be eventually thrown.
  *
+ * <p>
+ * This annotation can also annotate a field with {@link com.github.czyzby.lml.parser.LmlParser} type (or with LmlParser
+ * class in {@link #value()}, which will have the same effect, but will let you use a more specific parser type). Parser
+ * used to fill the view will be injected. For example:
+ *
+ * <blockquote>
+ *
+ * <pre>
+ * {@literal @}LmlInject LmlParser parser;
+ * {@literal @}LmlInject(LmlParser.class) DefaultLmlParser castedParser;
+ * </pre>
+ *
+ * </blockquote>
+ *
  * @author MJ */
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)

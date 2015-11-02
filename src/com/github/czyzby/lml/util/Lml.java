@@ -19,25 +19,28 @@ public class Lml {
      * extracting fields causes problems on GWT (probably due to LibGDX reflection implementation), so this
      * functionality can be globally turned off by setting this variable to false (default state). The rule of thumb is:
      * if you use multiple action containers and plan on releasing GWT client, keep this variable as false. If you need
-     * field extraction, set to true. */
+     * field extraction, set it to true. */
     public static boolean EXTRACT_FIELDS_AS_METHODS = false;
 
-    /** If this is set to true, multi-widget actors will parse only its own attributes. For example, Scene2D Window is
-     * an extension of a Table, so it parses all Table attributes; but it also _contains_ a Scene2D Label (used as its
-     * title). When component actors attribute parsing is turned on, window can handle both its own attributes (table +
-     * unique window attributes), as well as label attributes, which will be applied to its label child. However,
-     * component attributes are rarely used for most widgets and - for others - require some extra computing that might
-     * be easily avoided. If you are sure you're never using any component actor attributes, you can disable components'
-     * attribute parsing by setting this value to true. */
+    /** If this is set to true, multi-widget actors will parse only its own attributes. For example, Scene2D Window
+     * contains a Scene2D Label (used as its title). When component actors attribute parsing is turned on, window can
+     * handle both its own attributes (table + unique window attributes), as well as label attributes, which will be
+     * applied to its label child. This might be useful from time to time, but component attributes are rarely used for
+     * most widgets and require some extra computing that might be easily avoided. If you are sure you're never using
+     * any component actor attributes, you can disable components' attribute parsing by setting this value to true. */
     public static boolean DISABLE_COMPONENT_ACTORS_ATTRIBUTE_PARSING = false;
 
-    /** Settings used by logging macros. By setting these values to false, you can disable a certain group of logs. This
+    /** Setting used by logging macros. By setting this value to false, you can disable a certain group of logs. This
      * can be very useful if you want to keep log macro invocations in LML templates for future development, while
-     * disabling them in actual client applications. */
+     * disabling them in actual client applications.
+     *
+     * <p>
+     * Note that logs can be also managed by {@link com.badlogic.gdx.Application#setLogLevel(int)}. If some logs that
+     * you use do not show up, make sure that the application's logging level is high enough. */
     public static boolean DEBUG_LOGS_ON = true, INFO_LOGS_ON = true, ERROR_LOGS_ON = true;
 
-    /** Used during logging as message tag (first logging method argument). Helps to determine the origin of logged
-     * messages. Defaults to "LML".
+    /** Used during logging as message tag (first argument of {@link com.badlogic.gdx.Application} logging methods).
+     * Helps to determine the origin of logged messages. Defaults to "LML".
      *
      * @see com.badlogic.gdx.Application#debug(String, String)
      * @see com.badlogic.gdx.Application#log(String, String)

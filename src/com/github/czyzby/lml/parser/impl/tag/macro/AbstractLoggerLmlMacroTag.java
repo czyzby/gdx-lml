@@ -35,7 +35,7 @@ public abstract class AbstractLoggerLmlMacroTag extends AbstractMacroLmlTag {
                 log(Lml.LOGGER_TAG, content);
             }
         } else {
-            if (Strings.isNotEmpty(content)) {
+            if (Strings.isNotBlank(content)) {
                 attributes.add(content);
             }
             log(Lml.LOGGER_TAG, Strings.join(" ", attributes));
