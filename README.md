@@ -162,9 +162,9 @@ Loggers delegate logging calls to current `Application` instance, so they should
 ##Dependency
 Core project Gradle dependency:
 ```
-    compile "com.github.czyzby:gdx-kiwi:1.1.$gdxVersion"
+    compile "com.github.czyzby:gdx-kiwi:1.2.$gdxVersion"
 ```
-Currently supported LibGDX version is **1.7.0**.
+Currently supported LibGDX version is **1.7.1**.
 
 GWT module:
 ```

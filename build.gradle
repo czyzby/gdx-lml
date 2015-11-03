@@ -9,7 +9,7 @@ sourceCompatibility = 1.6
 ext {
     libVersion = '1.2'
     gdxVersion = '1.7.1'
-    isSnapshot = '-SNAPSHOT'
+    isSnapshot = ''
 }
 
 group = "com.github.czyzby"
