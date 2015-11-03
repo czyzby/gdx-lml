@@ -40,9 +40,9 @@ Read on [LML](https://github.com/czyzby/gdx-lml) to see how the views are create
 Gradle:
 
 ```
-    compile "com.github.czyzby:gdx-autumn-mvc:1.1.$gdxVersion"
+    compile "com.github.czyzby:gdx-autumn-mvc:1.2.$gdxVersion"
 ```
-Currently supported LibGDX version is **1.7.0**.
+Currently supported LibGDX version is **1.7.1**.
 
 ### Application
 Instead of implementing `ApplicationListener` or extending `ApplicationAdapter`, use `AutumnApplication`. Actually, you can even use it without extending - this is not an abstract class. Initiating this object requires you to pass a root scanning class (which will usually be the class in the bottom of your package hierarchy) and a class scanner, which is (usually) platform-specific.

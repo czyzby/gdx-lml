@@ -41,7 +41,7 @@ import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
  * Allows to load assets both eagerly and by constant updating, without forcing loading of "lazy" assets upon "eager"
  * request, like AssetManager does (see {@link com.badlogic.gdx.assets.AssetManager#finishLoadingAsset(String)}
  * implementation - it basically loads everything, waiting for a specific asset to get loaded). Note that some wrapped
- * methods provide additional utility, so direct access to the manager is not advised.
+ * methods provide additional utility and validations, so direct access to the managers is not advised.
  *
  * @author MJ */
 public class AssetService extends AbstractAnnotationProcessor<Asset> {
