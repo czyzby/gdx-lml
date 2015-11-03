@@ -24,11 +24,11 @@ Adding these classes to reflection pool solves the problem most of the times (if
 Gradle dependency (for GWT project):
 
 ```
-    compile "com.github.czyzby:gdx-autumn-gwt:1.1.$gdxVersion"
-    compile "com.github.czyzby:gdx-autumn-gwt:1.1.$gdxVersion:sources"
+    compile "com.github.czyzby:gdx-autumn-gwt:1.2.$gdxVersion"
+    compile "com.github.czyzby:gdx-autumn-gwt:1.2.$gdxVersion:sources"
 ```
 
-Currently supported LibGDX version is **1.7.0**.
+Currently supported LibGDX version is **1.7.1**.
 
 GWT module:
 
