@@ -7,9 +7,9 @@ See [gdx-lml-tests](http://github.com/czyzby/gdx-lml-tests) for example uses of 
 ##Maven artifact
 To import LML with Gradle, add this dependency to your core:
 ```
-    compile "com.github.czyzby:gdx-lml:1.1.$gdxVersion"
+    compile "com.github.czyzby:gdx-lml:1.2.$gdxVersion"
 ```
-Currently supported LibGDX version is **1.7.0**.
+Currently supported LibGDX version is **1.7.1**.
 
 If you want to use LML with GWT, you have to add this module to your GdxDefinition:
 ```

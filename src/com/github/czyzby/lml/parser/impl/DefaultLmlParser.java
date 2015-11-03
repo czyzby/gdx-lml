@@ -406,8 +406,10 @@ public class DefaultLmlParser extends AbstractLmlParser {
             // The tag is a child, so we're closing it immediately.
             tag.closeTag();
             if (currentParentTag != null) {
+                // Tag is child - adding to current parent:
                 currentParentTag.handleChild(tag);
             } else {
+                // Tag is a root - adding to the result:
                 if (tag.getActor() != null) {
                     actors.add(tag.getActor());
                 }
