@@ -1,6 +1,7 @@
 package com.github.czyzby.tests.reflected;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
@@ -15,8 +16,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.czyzby.kiwi.util.common.Strings;
+import com.github.czyzby.kiwi.util.gdx.collection.disposable.DisposableArray;
 import com.github.czyzby.kiwi.util.gdx.scene2d.Actors;
 import com.github.czyzby.lml.annotation.LmlAction;
 import com.github.czyzby.lml.annotation.LmlActor;
@@ -31,6 +34,7 @@ import com.github.czyzby.lml.parser.impl.tag.macro.NewAttributeLmlMacroTag.Attri
 import com.github.czyzby.lml.scene2d.ui.reflected.ReflectedLmlDialog;
 import com.github.czyzby.lml.util.Lml;
 import com.github.czyzby.lml.util.LmlUtilities;
+import com.github.czyzby.lml.vis.parser.impl.nongwt.ExtendedVisLml;
 import com.github.czyzby.lml.vis.ui.reflected.VisTabTable;
 import com.github.czyzby.tests.reflected.widgets.BlinkingLabel;
 import com.kotcrab.vis.ui.widget.CollapsibleWidget;
@@ -55,6 +59,8 @@ public class MainView extends AbstractLmlView {
     @LmlInject private ButtonManager buttonManager;
     // Used to create this view. @LmlInject-ing this field would also work.
     private LmlParser parser;
+    // Used to dispose heavy widgets, like ColorPicker:
+    private final DisposableArray<Disposable> heavyWidgets = DisposableArray.newArray();
 
     /** Creates a new main view with default stage. */
     public MainView() {
@@ -77,6 +83,7 @@ public class MainView extends AbstractLmlView {
 
         // Assigning parser - if you want to use @LmlInject instead to fill the parser field, try commenting this line:
         this.parser = parser;
+        ExtendedVisLml.extend(parser);
 
         // Note that both LmlBefore- and LmlAfter-annotated methods can have either no arguments or a single argument:
         // LmlParser; parser argument will never be null - the parser used to process template will be injected.
@@ -100,6 +107,7 @@ public class MainView extends AbstractLmlView {
 
     /** Parses template currently stored in template text area and adds the created actors to result table. */
     public void parseTemplate() {
+        destroyHeavyWidgets();
         final String template = templateInput.getText();
         parser.getData().addActionContainer(getViewId(), this); // Making our methods available in templates.
         try {
@@ -284,6 +292,20 @@ public class MainView extends AbstractLmlView {
         }
     }
 
+    /** @param disposable will be eventually disposed after a new template is parsed or before application is closed. */
+    @LmlAction("scheduleDispose")
+    public void addHeavyWidget(final Disposable disposable) {
+        heavyWidgets.add(disposable);
+    }
+
+    /** @param result result of a color picker dialog. Will become an actor's color. */
+    @LmlAction("customColor")
+    public void setColorFromCustomColorPicker(final Color result) {
+        if (result != null) {
+            LmlUtilities.getActorWithId(resultTable, "new").setColor(result);
+        }
+    }
+
     /* templates/examples/vis/menu.lml */
 
     /** @param menuItem its text will be appended to the result table. */
@@ -323,6 +345,27 @@ public class MainView extends AbstractLmlView {
     @LmlAction("isNotBlank")
     public boolean isStringNotBlank(final String value) {
         return Strings.isNotBlank(value);
+    }
+
+    // Utility methods:
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        destroyHeavyWidgets();
+    }
+
+    private void destroyHeavyWidgets() {
+        heavyWidgets.dispose();
+        heavyWidgets.clear();
+    }
+
+    public void array(final Array<FileHandle> array) {
+        System.out.println(array);
+    }
+
+    public void file(final FileHandle file) {
+        System.out.println(file);
     }
 
     @Override
