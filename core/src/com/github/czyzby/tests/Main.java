@@ -4,9 +4,11 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.I18NBundle;
@@ -30,6 +32,7 @@ import com.github.czyzby.tests.reflected.MainView;
 import com.github.czyzby.tests.reflected.widgets.BlinkingLabel;
 import com.github.czyzby.tests.reflected.widgets.CodeTextArea.CodeTextAreaLmlTagProvider;
 import com.kotcrab.vis.ui.VisUI;
+import com.kotcrab.vis.ui.widget.VisTextField.VisTextFieldStyle;
 
 /** Main application's listener. Manages {@link MainView} instance.
  *
@@ -75,6 +78,7 @@ public class Main extends AbstractApplicationListener {
     /** @return a new fully constructed instance of LML parser. */
     private static LmlParser constructParser() {
         VisUI.load();
+        createCodeTextAreaStyle();
         return VisLml.parser().i18nBundle(getDefaultI18nBundle()).preferences(getDefaultPreferences())
                 .i18nBundle("custom", getCustomI18nBundle()).preferences("custom", getCustomPreferences())
                 // Custom text area used to display LML code of current example:
@@ -93,6 +97,19 @@ public class Main extends AbstractApplicationListener {
                 .attribute(getCustomBlinkingLabelAttribute(), "blinkingTime") // Additional blinking label's attribute.
                 // Preparing the parser:
                 .build();
+    }
+
+    private static void createCodeTextAreaStyle() {
+        Skin skin = VisUI.getSkin();
+
+        // VisUI doesn't have font that would be good showing for source code so we load and add it to skin manually
+        BitmapFont hackFont = new BitmapFont(Gdx.files.internal("fonts/hackFont.fnt"));
+        skin.add("hack-font", hackFont, BitmapFont.class);
+
+        // Clone default VisTextField style and change its font to our just loaded hack font then add it to skin
+        VisTextFieldStyle codeStyle = new VisTextFieldStyle(VisUI.getSkin().get(VisTextFieldStyle.class));
+        codeStyle.font = hackFont;
+        skin.add("source-code", codeStyle, VisTextFieldStyle.class);
     }
 
     // This bundle will be available through "default" ID and used if no ID is specified.
