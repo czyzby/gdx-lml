@@ -50,9 +50,9 @@ Autumn makes heavy use of reflection. While it doesn't rely on direct calls to c
 Gradle dependency:
 
 ```
-    compile "com.github.czyzby:gdx-autumn:1.1.$gdxVersion"
+    compile "com.github.czyzby:gdx-autumn:1.2.$gdxVersion"
 ```
-Currently supported LibGDX version is **1.7.0**.
+Currently supported LibGDX version is **1.7.1**.
 
 To include Autumn in GWT, see [Autumn GWT](http://github.com/czyzby/gdx-autumn-gwt).
 For efficient class scanning on desktop, see [Autumn FCS](http://github.com/czyzby/gdx-autumn-fcs).
