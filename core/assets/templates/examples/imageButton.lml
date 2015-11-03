@@ -4,7 +4,7 @@
     attributes, which will be applied to their interal
     widget. -->
 
-<imageButton />
+<imageButton style="close"/>
 
 <container size=128>
     <imageButton/>

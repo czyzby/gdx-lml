@@ -1,7 +1,7 @@
 <!-- Images can display any drawable
     from the skin you choose. -->
 
-<container size=32>
+<container size=22>
     <image style="icon-trash"/>
 </container>
 

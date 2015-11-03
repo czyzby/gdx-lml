@@ -1,8 +1,8 @@
 <!-- GridGroup allows to easily keep actors in
     a grid layout. -->
 
-<container width=150>
-    <gridGroup itemSize=32 spacing=2>
+<container width=100>
+    <gridGroup itemSize=22 spacing=2>
 <!-- Spawning 16 images: -->
         <@loop 16>
             <image style=icon-trash/>
