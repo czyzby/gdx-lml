@@ -7,7 +7,7 @@
 <table background="button-down">
     Text converted to labels.
     <textButton row=true>Adds row.</textButton>
-    <label color=green height=25>
+    <label color=vis-red height=25>
         All cell methods supported!
     </label>
     <slider grow=true width=50/>

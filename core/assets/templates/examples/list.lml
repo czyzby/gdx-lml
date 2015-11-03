@@ -6,7 +6,7 @@
     <label text="Also\ valid." />
     2 - should be selected.
     <li>Label alias.</li>
-    <label color=red>Attributes are ignored.</label>
+    <label color=vis-red>Attributes are ignored.</label>
     <textButton>This is because list</textButton>
     extracts text from children
     and converts it to its lines.

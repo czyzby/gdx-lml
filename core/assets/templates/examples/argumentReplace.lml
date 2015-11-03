@@ -5,8 +5,8 @@
     global argument values. -->
 
 <@replace someArgument="Custom." customMacroArgument="Macro!">
-    <label color=red>{someArgument}</label>
-    <label color=red>{customMacroArgument}</label>
+    <label color=vis-red>{someArgument}</label>
+    <label color=vis-red>{customMacroArgument}</label>
 </@replace>
 <!-- Global arguments: -->
 <label>{someArgument}</label>
@@ -19,5 +19,5 @@
     exactly for this purpose. -->
 
 <@noOp>
-    <label color=green>Remains unchanged.</label>
+    <label color=vis-blue>Remains unchanged.</label>
 </@noOp>

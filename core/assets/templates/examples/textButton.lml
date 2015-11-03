@@ -15,7 +15,7 @@
     appended to button text.
     No new labels are created.
     <mock row=true/>
-    <label color="green">
+    <label color="vis-blue">
         This is a separate label.
     </label>
 </textButton>

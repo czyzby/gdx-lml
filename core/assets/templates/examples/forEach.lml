@@ -1,7 +1,7 @@
 <!-- For-each macro allows to iterate over LML arrays. -->
 
 <@each value=That;This;These;Those>
-    <label color=green>{value}</label>
+    <label color=vis-blue>{value}</label>
 </@each>
 
 <!-- Array elements are separated with ';'. If action
@@ -22,7 +22,7 @@
     is the alias of macro tag you used. -->
 
 <@each value=text;next;text range=[3,0]>
-    <label color=green>{each:index}: {value}{range}</label>
+    <label color=vis-blue>{each:index}: {value}{range}</label>
 </@each>
 
 <!-- If one of the arrays is shorter than the

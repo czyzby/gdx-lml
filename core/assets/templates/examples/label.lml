@@ -6,7 +6,7 @@
 <!-- Labels append their text between tags.
     to themselves. They cannot have children. -->
     
-<label multiline=true color=red>
+<label multiline=true color=vis-red>
     Multiline
     label.
 </label>

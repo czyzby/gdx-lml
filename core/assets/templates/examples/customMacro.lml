@@ -7,7 +7,7 @@
     functionality. In Main class, we registered a macro
     that changes its data between tags to upper case. -->
 
-<label color=red>
+<label color=vis-red>
     <@uppercase>
         no more shouting!
     </@uppercase>

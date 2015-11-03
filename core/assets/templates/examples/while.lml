@@ -4,7 +4,7 @@
     text passed between its tags until the condition returns
     true. -->
 
-<label color=green>Random numbers above 0.25:</label>
+<label color=vis-blue>Random numbers above 0.25:</label>
 <@while 0.25 < $random>
     <label>{while:index}: random higher than 0.25!</label>
 </@while>

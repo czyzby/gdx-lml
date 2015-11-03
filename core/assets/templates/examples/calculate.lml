@@ -19,7 +19,7 @@
     12 > (4%3) * 5
 </@calculate>
 <table>
-    <label color=green row={shouldIMakeRow}>Well...</label>
+    <label color=vis-blue row={shouldIMakeRow}>Well...</label>
     <label>should I?</label>
 </table>
 

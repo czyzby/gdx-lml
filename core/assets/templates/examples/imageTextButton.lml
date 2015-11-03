@@ -23,7 +23,7 @@
     <mock row=true/>
     <!-- Adding colspan=2, as internal image and
         label are also in cells. --> 
-    <label color="green" colspan=2>
+    <label color="vis-blue" colspan=2>
         This is a separate label.
     </label>
 </imageTextButton>

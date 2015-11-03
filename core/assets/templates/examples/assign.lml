@@ -15,6 +15,6 @@
     for assigning LML snippets to arguments. -->
 
 <@assign myLabel>
-    <label color=green>Tag in LML argument.</label>
+    <label color=vis-blue>Tag in LML argument.</label>
 </@assign>
 {myLabel}
