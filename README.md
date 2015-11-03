@@ -10,7 +10,7 @@ Check [gdx-lml-vis-tests](http://github.com/czyzby/gdx-lml-vis-tests) for exampl
 
 Gradle:
 ```
-    compile "com.github.czyzby:gdx-lml-vis:1.2.$gdxVersion-SNAPSHOT"
+    compile "com.github.czyzby:gdx-lml-vis:1.2.$gdxVersion"
 ```
 Currently supported LibGDX version is **1.7.1**.
 
