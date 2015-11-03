@@ -29,6 +29,7 @@ import com.github.czyzby.kiwi.util.gdx.collection.GdxSets;
 // This is ugly. Focus on the framework, forget about the logic.
 @Component
 public class GameManager {
+
     private static final int MONSTERS_PER_LOCATION = 5;
     private static final int MAX_DAMAGE_MODIFICATOR = 9;
     private static final int MIN_DAMAGE_MODIFICATOR = 10;
@@ -43,6 +44,7 @@ public class GameManager {
     @Inject private LocaleService localeService;
     @Inject private MusicService musicService;
 
+    private boolean regionsAssigned;
     @Asset("game/locations.atlas") private TextureAtlas locationsAtlas;
     @Asset("game/monsters.atlas") private TextureAtlas monstersAtlas;
     @Asset(value = { "sfx/sounds/punch0.ogg", "sfx/sounds/punch1.ogg", "sfx/sounds/punch2.ogg", "sfx/sounds/punch3.ogg",
@@ -63,8 +65,11 @@ public class GameManager {
 
     @OnMessage(AutumnMessage.ASSETS_LOADED)
     private void assignRegions() {
-        interfaceService.getSkin().addRegions(locationsAtlas);
-        interfaceService.getSkin().addRegions(monstersAtlas);
+        if (!regionsAssigned) {
+            regionsAssigned = true;
+            interfaceService.getSkin().addRegions(locationsAtlas);
+            interfaceService.getSkin().addRegions(monstersAtlas);
+        }
     }
 
     @Initiate

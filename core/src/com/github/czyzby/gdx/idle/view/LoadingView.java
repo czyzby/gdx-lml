@@ -11,6 +11,8 @@ import com.github.czyzby.lml.annotation.LmlActor;
 
 @View(value = "templates/loading.lml", id = "loading", first = true)
 public class LoadingView implements ViewRenderer {
+    private static final int MAX_PROGRESS = 100;
+
     @Inject private AssetService assetService;
 
     @LmlActor("loadingBar") private ProgressBar loadingBar;
@@ -19,8 +21,10 @@ public class LoadingView implements ViewRenderer {
 
     @Override
     public void render(final Stage stage, final float delta) {
-        assetService.update();
-        updateProgress();
+        if (progress < MAX_PROGRESS) {
+            assetService.update();
+            updateProgress();
+        }
         stage.act(delta);
         stage.draw();
     }
@@ -28,7 +32,7 @@ public class LoadingView implements ViewRenderer {
     private void updateProgress() {
         final float currentProgress = assetService.getLoadingProgress();
         loadingBar.setValue(currentProgress);
-        final int progressPercent = (int) (currentProgress * 100f);
+        final int progressPercent = (int) (currentProgress * MAX_PROGRESS);
         if (progressPercent != progress) {
             progress = progressPercent;
             progressLabel.setText(String.valueOf(progress));
