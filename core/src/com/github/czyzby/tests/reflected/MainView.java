@@ -34,7 +34,6 @@ import com.github.czyzby.lml.parser.impl.tag.macro.NewAttributeLmlMacroTag.Attri
 import com.github.czyzby.lml.scene2d.ui.reflected.ReflectedLmlDialog;
 import com.github.czyzby.lml.util.Lml;
 import com.github.czyzby.lml.util.LmlUtilities;
-import com.github.czyzby.lml.vis.parser.impl.nongwt.ExtendedVisLml;
 import com.github.czyzby.lml.vis.ui.reflected.VisTabTable;
 import com.github.czyzby.tests.reflected.widgets.BlinkingLabel;
 import com.kotcrab.vis.ui.widget.CollapsibleWidget;
@@ -83,7 +82,6 @@ public class MainView extends AbstractLmlView {
 
         // Assigning parser - if you want to use @LmlInject instead to fill the parser field, try commenting this line:
         this.parser = parser;
-        ExtendedVisLml.extend(parser);
 
         // Note that both LmlBefore- and LmlAfter-annotated methods can have either no arguments or a single argument:
         // LmlParser; parser argument will never be null - the parser used to process template will be injected.
