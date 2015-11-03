@@ -40,3 +40,9 @@ void init(InterfaceService interfaceService) {
 ### Non-GWT features
 
 To add non-GWT features (like the `FileChooser` support or various file validators from `FormValidator` class), use `ExtendedVisLml#extend(LmlParser)` method. This will register all the extra attributes and tags at the cost of nasty compilation errors on GWT platform.
+
+## Changes
+
+1.2 -> 1.3
+
+- `allowAlphaEdit` (`allowAlpha`) attribute for `colorPicker` tag.

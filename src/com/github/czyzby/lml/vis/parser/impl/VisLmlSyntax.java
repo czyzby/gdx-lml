@@ -42,6 +42,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.linklabel.UrlLmlAttribute
 import com.github.czyzby.lml.vis.parser.impl.attribute.menu.MenuItemGenerateDisabledImageLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.menu.MenuItemShortcutLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.numberselector.ProgrammaticChangeEventsLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.picker.AllowAlphaEditLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.CloseAfterPickingLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.ColorPickerListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.ColorPickerResponsiveListenerLmlAttribute;
@@ -347,6 +348,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
 
     /** ColorPicker attributes. */
     protected void registerColorPickerAttributes() {
+        addAttributeProcessor(new AllowAlphaEditLmlAttribute(), "allowAlphaEdit", "allowAlpha");
         addAttributeProcessor(new CloseAfterPickingLmlAttribute(), "closeAfterPickingFinished", "closeAfter");
         addAttributeProcessor(new ColorPickerListenerLmlAttribute(), "listener");
         addAttributeProcessor(new ColorPickerResponsiveListenerLmlAttribute(), "responsiveListener");
