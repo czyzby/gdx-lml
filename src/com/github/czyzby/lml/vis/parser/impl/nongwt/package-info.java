@@ -1,2 +1,2 @@
-/** Classes in this package are not available on GWT and should not be used if you plan to use a GWT client. */
+/** Classes in this package are not available on GWT and will cause compilation errors in GWT applications. */
 package com.github.czyzby.lml.vis.parser.impl.nongwt;

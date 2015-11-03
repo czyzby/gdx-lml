@@ -11,7 +11,6 @@ import com.kotcrab.vis.ui.widget.color.ColorPicker;
  * templates to fully customize the widget. If you have ever used the color picker with LML attributes (or manually,
  * with this container's methods), remember to call {@link #dispose()} when you no longer need the widget.
  *
- *
  * @author MJ */
 public class ColorPickerContainer {
     private static ColorPicker INSTANCE;
@@ -30,9 +29,30 @@ public class ColorPickerContainer {
      * @see #getInstance() */
     public static ColorPicker requestInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new ColorPicker(Strings.EMPTY_STRING);
+            initiateInstance();
         }
         return INSTANCE;
+    }
+
+    /** Disposes of current instance (if present) and creates a new default instance. */
+    public static void reloadInstance() {
+        dispose();
+        initiateInstance();
+    }
+
+    /** Disposes of current instance (if present) and creates a new instance.
+     *
+     * @param title will become window's title.
+     * @param styleName determines the style of {@link ColorPicker}. */
+    public static void reloadInstance(final String title, final String styleName) {
+        dispose();
+        initiateInstance(title, styleName);
+    }
+
+    /** Creates an instance of {@link ColorPicker} which will be accessible through {@link #getInstance()} and
+     * {@link #requestInstance()} methods. */
+    public static void initiateInstance() {
+        INSTANCE = new ColorPicker(Strings.EMPTY_STRING);
     }
 
     /** Creates an instance of {@link ColorPicker} which will be accessible through {@link #getInstance()} and
@@ -48,7 +68,11 @@ public class ColorPickerContainer {
      * manually disposed of, so if you want to replace another color picker with a new one, make sure to properly
      * destroy it before calling this method.
      *
-     * @param colorPicker will become managed {@link ColorPicker} instance. */
+     * @param colorPicker will become managed {@link ColorPicker} instance.
+     * @see #initiateInstance()
+     * @see #initiateInstance(String, String)
+     * @see #reloadInstance()
+     * @see #reloadInstance(String, String) */
     public static void setInstance(final ColorPicker colorPicker) {
         INSTANCE = colorPicker;
     }

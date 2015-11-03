@@ -7,7 +7,7 @@ import com.github.czyzby.lml.parser.impl.tag.builder.TextLmlActorBuilder;
  *
  * @author MJ */
 public class VisWindowLmlActorBuilder extends TextLmlActorBuilder {
-    private boolean showWindowBorder;
+    private boolean showWindowBorder = true;
 
     @Override
     protected String getInitialStyleName() {

@@ -42,6 +42,9 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.linklabel.UrlLmlAttribute
 import com.github.czyzby.lml.vis.parser.impl.attribute.menu.MenuItemGenerateDisabledImageLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.menu.MenuItemShortcutLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.numberselector.ProgrammaticChangeEventsLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.picker.CloseAfterPickingLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.picker.ColorPickerListenerLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.picker.ColorPickerResponsiveListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MaxSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MinSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.SplitAmountLmlAttribute;
@@ -81,6 +84,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.window.AddCloseButtonLmlA
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.CloseOnEscapeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.OnResultLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.CollapsibleWidgetLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.ColorPickerLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.ColumnGroupLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.FormValidatorLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.GridGroupLmlTagProvider;
@@ -195,6 +199,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
 
         // Vis unique actors:
         addTagProvider(new CollapsibleWidgetLmlTagProvider(), "collapsible", "collapsibleWidget");
+        addTagProvider(new ColorPickerLmlTagProvider(), "colorPicker");
         addTagProvider(new ColumnGroupLmlTagProvider(), "columnGroup");
         addTagProvider(new FormValidatorLmlTagProvider(), "form", "formValidator", "formTable");
         addTagProvider(new GridGroupLmlTagProvider(), "gridGroup", "grid");
@@ -231,6 +236,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     /** Registers attributes of VisUI-specific actors. */
     protected void registerVisAttributes() {
         registerCollapsibleWidgetAttributes();
+        registerColorPickerAttributes();
         registerGridGroupAttributes();
         registerMenuAttributes();
         registerNumberSelectorAttributes();
@@ -337,6 +343,13 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     /** CollapsibleWidget attributes. */
     protected void registerCollapsibleWidgetAttributes() {
         addAttributeProcessor(new CollapsedLmlAttribute(), "collapse", "collapsed");
+    }
+
+    /** ColorPicker attributes. */
+    protected void registerColorPickerAttributes() {
+        addAttributeProcessor(new CloseAfterPickingLmlAttribute(), "closeAfterPickingFinished", "closeAfter");
+        addAttributeProcessor(new ColorPickerListenerLmlAttribute(), "listener");
+        addAttributeProcessor(new ColorPickerResponsiveListenerLmlAttribute(), "responsiveListener");
     }
 
     /** GridGroup attributes. */
