@@ -1,7 +1,6 @@
 package com.github.czyzby.tests.reflected;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
@@ -41,6 +40,7 @@ import com.kotcrab.vis.ui.widget.MenuItem;
 import com.kotcrab.vis.ui.widget.VisDialog;
 import com.kotcrab.vis.ui.widget.VisTextArea;
 import com.kotcrab.vis.ui.widget.VisTextButton;
+import com.kotcrab.vis.ui.widget.VisWindow;
 
 /** Main view of the application. Since it extends {@link AbstractLmlView}, it is both {@link LmlView} (allowing its
  * {@link Stage} to be filled) and {@link ActionContainer} (allowing it methods to be reflected and available in LML
@@ -353,17 +353,19 @@ public class MainView extends AbstractLmlView {
         destroyHeavyWidgets();
     }
 
+    @LmlAction("closeDialog")
+    public void closeDialog(Actor actor) {
+        while (actor != null && !(actor instanceof VisWindow)) {
+            actor = actor.getParent();
+        }
+        if (actor != null) {
+            ((VisWindow) actor).fadeOut();
+        }
+    }
+
     private void destroyHeavyWidgets() {
         heavyWidgets.dispose();
         heavyWidgets.clear();
-    }
-
-    public void array(final Array<FileHandle> array) {
-        System.out.println(array);
-    }
-
-    public void file(final FileHandle file) {
-        System.out.println(file);
     }
 
     @Override
