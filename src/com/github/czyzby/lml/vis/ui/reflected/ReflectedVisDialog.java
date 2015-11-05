@@ -18,8 +18,9 @@ public class ReflectedVisDialog extends VisDialog {
      * Use for code clarity. */
     public static final boolean CANCEL_HIDING = true, HIDE = false;
 
-    public ReflectedVisDialog(final String title) {
+    public ReflectedVisDialog(final String title, final String styleName) {
         super(title);
+        setStyle(VisUI.getSkin().get(styleName, WindowStyle.class));
         setSkin(VisUI.getSkin());
         getContentTable().setSkin(VisUI.getSkin());
         getButtonsTable().setSkin(VisUI.getSkin());

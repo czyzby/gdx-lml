@@ -20,7 +20,7 @@ public class VisDialogLmlTag extends VisWindowLmlTag {
 
     @Override
     protected VisWindow getNewInstanceOfVisWindow(final VisWindowLmlActorBuilder builder) {
-        final VisDialog dialog = new ReflectedVisDialog(builder.getText());
+        final VisDialog dialog = new ReflectedVisDialog(builder.getText(), builder.getStyleName());
         LmlUtilities.getLmlUserObject(dialog).setStageAttacher(new VisStageAttacher());
         return dialog;
     }

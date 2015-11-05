@@ -46,3 +46,4 @@ To add non-GWT features (like the `FileChooser` support or various file validato
 1.2 -> 1.3
 
 - `allowAlphaEdit` (`allowAlpha`) attribute for `colorPicker` tag.
+- `VisDialog` style setting is no longer ignored.
