@@ -84,6 +84,9 @@ import com.github.czyzby.lml.parser.impl.attribute.group.VerticalGroupPaddingRig
 import com.github.czyzby.lml.parser.impl.attribute.group.VerticalGroupPaddingTopLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.group.VerticalGroupReverseLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.group.VerticalGroupSpacingLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.group.button.MaxCheckCountLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.group.button.MinCheckCountLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.group.button.UncheckLastLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.image.ImageAlignmentLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.image.ScalingLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.input.BlinkTimeLmlAttribute;
@@ -207,6 +210,7 @@ import com.github.czyzby.lml.parser.impl.attribute.tree.IconSpacingLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.tree.TreePaddingLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.tree.YSpacingLmlAttribute;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.ActorLmlTagProvider;
+import com.github.czyzby.lml.parser.impl.tag.actor.provider.ButtonGroupLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.ButtonLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.CheckBoxLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.ContainerLmlTagProvider;
@@ -319,6 +323,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
      * @see #registerTags() */
     protected void registerActorTags() {
         addTagProvider(new ActorLmlTagProvider(), "actor", "group", "empty", "mock", "blank", "placeholder");
+        addTagProvider(new ButtonGroupLmlTagProvider(), "buttonGroup", "buttonTable");
         addTagProvider(new ButtonLmlTagProvider(), "button");
         addTagProvider(new CheckBoxLmlTagProvider(), "checkBox", "check");
         addTagProvider(new ContainerLmlTagProvider(), "container", "single");
@@ -402,6 +407,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
         // Regular attributes. Parsed after the actor is constructed.
         registerCommonAttributes();
         registerButtonAttributes();
+        registerButtonGroupAttributes();
         registerContainerAttributes();
         registerDialogAttributes();
         registerHorizontalGroupAttributes();
@@ -487,6 +493,13 @@ public class DefaultLmlSyntax implements LmlSyntax {
     /** Button widget attributes. */
     protected void registerButtonAttributes() {
         addAttributeProcessor(new CheckedLmlAttribute(), "checked", "isChecked");
+    }
+
+    /** ButtonGroup (ButtonTable) attributes. */
+    protected void registerButtonGroupAttributes() {
+        addAttributeProcessor(new MaxCheckCountLmlAttribute(), "max", "maxCheckCount");
+        addAttributeProcessor(new MinCheckCountLmlAttribute(), "min", "minCheckCount");
+        addAttributeProcessor(new UncheckLastLmlAttribute(), "uncheckLast");
     }
 
     /** Container widget attributes. */

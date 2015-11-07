@@ -20,6 +20,10 @@ If you want to use LML with GWT, you have to add this module to your GdxDefiniti
 See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&t=18843), [example project](http://github.com/czyzby/gdx-lml-tests), [tutorial](https://github.com/czyzby/gdx-lml/wiki/Tutorial) and [old syntax page (work in progress)](https://github.com/czyzby/gdx-lml/wiki/Syntax).
 
 ## What's new
+1.2 -> 1.3
+
+- `ButtonGroup` support through specialized `Table` extension: `ButtonTable`. `<buttonTable>` tag works like a regular table (can have any children), except it adds all its direct `Button`-extending children to an internal `ButtonGroup` instance, validating their checked status.
+
 1.1 -> 1.2
 
 - `@LmlInject` annotation. When a view is created by the parser, its annotated fields are processed. In previous versions, this meant that all `@LmlActor`- and `@OnChange`-annotated fields had to be present in one class, which could quickly lead to fields flood in view classes. Now you can keep `@LmlActor`- and `@OnChange`-annotated fields in another container class and request to inject(/fill) it with `@LmlInject`. Also, `LmlParser` instance used to initiate the view can be injected. More in the annotation docs. `@LmlInject` examples were added to the example project.
