@@ -1,6 +1,5 @@
 package com.github.czyzby.lml.vis.util;
 
-import com.github.czyzby.kiwi.util.common.Exceptions;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.asset.Disposables;
 import com.kotcrab.vis.ui.widget.color.ColorPicker;
@@ -15,6 +14,7 @@ import com.kotcrab.vis.ui.widget.color.ColorPicker;
 public class ColorPickerContainer {
     private static ColorPicker INSTANCE;
 
+    /** Static utility, do not initiate. */
     private ColorPickerContainer() {
     }
 
@@ -77,14 +77,21 @@ public class ColorPickerContainer {
         INSTANCE = colorPicker;
     }
 
-    /** Disposes of managed {@link ColorPicker} instance (if present). Null-safe, never throws an exception. */
+    /** @return true if current {@link ColorPicker} instance is {@code null} or already disposed. If this method returns
+     *         true, current picker returned by {@link #getInstance()} cannot be used and one of initiation methods
+     *         should be invoked.
+     * @see #initiateInstance()
+     * @see #initiateInstance(String, String)
+     * @see #setInstance(ColorPicker) */
+    public static boolean isDisposed() {
+        return INSTANCE == null || INSTANCE.isDisposed();
+    }
+
+    /** Disposes of managed {@link ColorPicker} instance (if present and not disposed yet). Null-safe, should never
+     * throw an exception - unless the disposition method itself throws one. */
     public static void dispose() {
-        try {
+        if (!isDisposed()) {
             Disposables.disposeOf(INSTANCE);
-        } catch (final Exception exception) {
-            // Although Disposables utility method is null-safe, exception might still be thrown if color picker
-            // instance if already disposed of. Ignored.
-            Exceptions.ignore(exception);
         }
     }
 }

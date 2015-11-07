@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.github.czyzby.lml.parser.impl.DefaultLmlSyntax;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.ActorLmlTagProvider;
+import com.github.czyzby.lml.parser.impl.tag.actor.provider.ButtonGroupLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.ButtonLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.ContainerLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.HorizontalGroupLmlTagProvider;
@@ -168,6 +169,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     protected void registerActorTags() {
         // Standard Scene2D tags - abstract bases for Vis widgets or actors with no VisUI equivalents:
         addTagProvider(new ActorLmlTagProvider(), "actor", "group", "empty", "mock", "blank", "placeholder");
+        addTagProvider(new ButtonGroupLmlTagProvider(), "buttonGroup", "buttonTable");
         addTagProvider(new ButtonLmlTagProvider(), "button");
         addTagProvider(new ContainerLmlTagProvider(), "container", "single");
         addTagProvider(new HorizontalGroupLmlTagProvider(), "horizontal", "horizontalGroup");
@@ -247,7 +249,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         registerValidatorAttributes();
     }
 
-    // Common extra attributes:
+    // Extra common attributes:
 
     @Override
     protected void registerBuildingAttributes() {
