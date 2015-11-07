@@ -3,7 +3,7 @@ package com.github.czyzby.kiwi.util.common;
 /** Utility class for comparable classes. Allows to convert compare results into booleans without magic numbers in code.
  *
  * @author MJ */
-public class Comparables {
+public class Comparables extends UtilitiesClass {
     /** Standard comparison result returned when the first value is lower than the second. Note: some comparators might
      * return any negative number. */
     public static final int LOWER_THAN_COMPARE_RESULT = -1;

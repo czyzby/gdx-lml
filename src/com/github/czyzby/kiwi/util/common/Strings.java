@@ -3,7 +3,7 @@ package com.github.czyzby.kiwi.util.common;
 /** Utility class for strings and CharSequences (sometimes expected or returned by Scene2D API).
  *
  * @author MJ */
-public class Strings {
+public class Strings extends UtilitiesClass {
     /** A string with length of 0, not null. */
     public static final String EMPTY_STRING = "";
     /** Common regex. Allows to determine if string contains no characters or only whitespaces. */

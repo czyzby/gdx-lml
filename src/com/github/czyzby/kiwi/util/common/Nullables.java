@@ -3,7 +3,7 @@ package com.github.czyzby.kiwi.util.common;
 /** Provides static utilities for nullable objects to avoid NullPointerExceptions. Java 6 compatible.
  *
  * @author MJ */
-public class Nullables {
+public class Nullables extends UtilitiesClass {
     /** "null", matches StringBuilder behavior. */
     public static final String DEFAULT_NULL_STRING = "null";
 

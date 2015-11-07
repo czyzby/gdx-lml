@@ -4,11 +4,14 @@ package com.github.czyzby.kiwi.util.common;
  * while seconds (as floats) are used in LibGDX timers and actions.
  *
  * @author MJ */
-public class TimeUtilities {
+public class TimeUtilities extends UtilitiesClass {
     public static final long SECOND_IN_MILLIES = 1000L, MINUTE_IN_MILLIES = 60000L, HOUR_IN_MILLIES = 3600000L,
             DAY_IN_MILLIES = 86400000L;
     public static final float MILLISECOND_IN_SECONDS = 0.001f, MINUTE_IN_SECONDS = 60f, HOUR_IN_SECONDS = 3600f,
             DAY_IN_SECONDS = 86400f;
+
+    private TimeUtilities() {
+    }
 
     public static long convertSecondsToMillies(final long seconds) {
         return seconds * SECOND_IN_MILLIES;
