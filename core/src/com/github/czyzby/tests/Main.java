@@ -35,10 +35,10 @@ import com.github.czyzby.tests.reflected.widgets.BlinkingLabel;
 public class Main extends AbstractApplicationListener {
     private static final Array<String> EXAMPLES = ImmutableArray.of(
             // Tags:
-            "actor", "button", "checkBox", "container", "dialog", "horizontalGroup", "imageButton", "image",
-            "imageTextButton", "label", "list", "progressBar", "scrollPane", "selectBox", "slider", "splitPane",
-            "stack", "table", "textArea", "textButton", "textField", "tooltip", "touchpad", "tree", "verticalGroup",
-            "window",
+            "actor", "button", "buttonGroup", "checkBox", "container", "dialog", "horizontalGroup", "imageButton",
+            "image", "imageTextButton", "label", "list", "progressBar", "scrollPane", "selectBox", "slider",
+            "splitPane", "stack", "table", "textArea", "textButton", "textField", "tooltip", "touchpad", "tree",
+            "verticalGroup", "window",
             // Syntax:
             "i18n", "preferences", "arguments", "actions",
             // Macros:
