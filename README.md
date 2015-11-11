@@ -108,6 +108,7 @@ Your opinions, comments and testing can help as well. Don't be afraid to inform 
 1.2 -> 1.3:
 
 - `SkinService` now has an `addSkin(String, Skin)` method, allowing you to manually load and register a skin. (You could load your skin manually before, but you had to add it to `LmlParser` in `InterfaceService` and dispose it on your own. `SkinService` does that for you.)
+- Action executed after locale changing is now in a static class: `LocaleService$LocaleChangeAction`. This allows for easier locale changing action tweaking.
 
 1.1 -> 1.2:
 

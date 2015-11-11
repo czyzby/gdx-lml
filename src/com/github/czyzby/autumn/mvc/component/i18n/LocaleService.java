@@ -34,19 +34,11 @@ public class LocaleService extends AbstractAnnotationProcessor<I18nLocale> {
     @Inject private InterfaceService interfaceService;
 
     private final MutableSingle<Locale> currentLocale = MutableSingle.of(null);
+    private Runnable doOnLocaleChange = new LocaleChangeAction(this);
     private ObjectProvider<Locale> defaultLocaleProvider = new ObjectProvider<Locale>() {
         @Override
         public Locale provide() {
             return toLocale(DEFAULT_LANGUAGE);
-        }
-    };
-    private Runnable doOnLocaleChange = new Runnable() {
-        @Override
-        public void run() {
-            if (Strings.isNotEmpty(localePreferenceName) && Strings.isNotEmpty(localePreferencesPath)) {
-                saveLocaleInPreferences();
-            }
-            interfaceService.reload();
         }
     };
 
@@ -200,5 +192,30 @@ public class LocaleService extends AbstractAnnotationProcessor<I18nLocale> {
      * @return bundle stored in LML parser with the selected key. Might be null. */
     public I18NBundle getI18nBundle(final String forName) {
         return interfaceService.getParser().getData().getI18nBundle(forName);
+    }
+
+    /** Default action executed on locale change.
+     *
+     * @author MJ */
+    public static class LocaleChangeAction implements Runnable {
+        private final LocaleService localeService;
+
+        public LocaleChangeAction(final LocaleService localeService) {
+            this.localeService = localeService;
+        }
+
+        /** @return handled locale service instance. */
+        protected LocaleService getLocaleService() {
+            return localeService;
+        }
+
+        @Override
+        public void run() {
+            if (Strings.isNotEmpty(localeService.localePreferenceName)
+                    && Strings.isNotEmpty(localeService.localePreferencesPath)) {
+                localeService.saveLocaleInPreferences();
+            }
+            localeService.interfaceService.reload();
+        }
     }
 }
