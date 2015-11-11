@@ -88,6 +88,13 @@ public class SkinService {
         return interfaceService.getParser().getData().getSkin(id);
     }
 
+    /** @param id ID of the skin. By default, case is ignored.
+     * @param skin will be registered in LML parser and disposed by this service when the application is closed. */
+    public void addSkin(final String id, final Skin skin) {
+        skins.add(skin);
+        interfaceService.getParser().getData().addSkin(id, skin);
+    }
+
     @Destroy(priority = AutumnActionPriority.VERY_LOW_PRIORITY)
     private void dispose() {
         skins.dispose();

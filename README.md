@@ -105,6 +105,10 @@ Automatic component scan on Android and iOS is not implemented and it might take
 Your opinions, comments and testing can help as well. Don't be afraid to inform me about bugs and functionalities that are missing or the ones you are not a huge fan of.
 
 ## What's new
+1.2 -> 1.3:
+
+- `SkinService` now has an `addSkin(String, Skin)` method, allowing you to manually load and register a skin. (You could load your skin manually before, but you had to add it to `LmlParser` in `InterfaceService` and dispose it on your own. `SkinService` does that for you.)
+
 1.1 -> 1.2:
 
 - Fixed `@SkinAsset` injection. Now it throws meaningful exceptions when invalid skin ID is passed.
