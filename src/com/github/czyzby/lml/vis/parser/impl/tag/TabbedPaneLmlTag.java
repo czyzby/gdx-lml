@@ -15,6 +15,7 @@ import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.util.LmlUtilities;
 import com.github.czyzby.lml.vis.ui.reflected.VisTabTable;
+import com.github.czyzby.lml.vis.ui.reflected.action.TabShowingAction;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane;
@@ -175,7 +176,8 @@ public class TabbedPaneLmlTag extends AbstractActorLmlTag {
             }
         }
 
-        private void setNewTab(final Tab tab) {
+        /** @param tab will become currently set action. */
+        public void setNewTab(final Tab tab) {
             final Table contentTable = getContentTable(tabbedPane);
             contentTable.clear();
             currentTab = tab;
@@ -190,41 +192,6 @@ public class TabbedPaneLmlTag extends AbstractActorLmlTag {
         @Override
         public void removedAllTabs() {
             switchedTab(null);
-        }
-
-        /** Changes current tab to a new one.
-         *
-         * @author MJ */
-        public static class TabShowingAction extends Action {
-            private boolean shown;
-            private Tab tabToShow;
-            private LmlTabbedPaneListener listener;
-
-            /** Chaining action for pooling utility.
-             *
-             * @param tabToShow will be shown.
-             * @param listener manages tabs.
-             * @return this for chaining. */
-            public TabShowingAction show(final Tab tabToShow, final LmlTabbedPaneListener listener) {
-                this.tabToShow = tabToShow;
-                this.listener = listener;
-                shown = false;
-                return this;
-            }
-
-            @Override
-            public boolean act(final float delta) {
-                if (!shown) {
-                    shown = true;
-                    listener.setNewTab(tabToShow);
-                }
-                return true;
-            }
-
-            @Override
-            public void restart() {
-                shown = false;
-            }
         }
     }
 }
