@@ -58,6 +58,9 @@ To include Autumn in GWT, see [Autumn GWT](http://github.com/czyzby/gdx-autumn-g
 For efficient class scanning on desktop, see [Autumn FCS](http://github.com/czyzby/gdx-autumn-fcs).
 
 ##What's new
+1.2 -> 1.3
+
+- Annotated methods (`@Initiate`, `@Destroy`) no longer keep component references for invocation if they are static. If your static `@Destroy` method is annotated, you can safely assume that the component will still be properly garbage collected after context initiation, as long as you didn't keep it reference anywhere.
 
 1.1 -> 1.2:
 

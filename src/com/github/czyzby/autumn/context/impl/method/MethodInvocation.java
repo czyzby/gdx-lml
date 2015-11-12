@@ -16,11 +16,11 @@ public class MethodInvocation {
     private final Object[] parameters;
 
     /** @param method will be eventually invoked.
-     * @param methodOwner an instance of the object that contains the method.
+     * @param methodOwner an instance of the object that contains the method. Will be kept, unless the method is static.
      * @param parameters will be used to invoke the method. */
     public MethodInvocation(final Method method, final Object methodOwner, final Object[] parameters) {
         this.method = method;
-        this.methodOwner = methodOwner;
+        this.methodOwner = method.isStatic() ? null : methodOwner;
         this.parameters = parameters;
     }
 
