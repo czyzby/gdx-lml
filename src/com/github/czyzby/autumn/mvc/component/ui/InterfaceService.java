@@ -103,8 +103,10 @@ public class InterfaceService {
     private ViewController currentController;
     private Locale lastLocale;
     private boolean isControllerHiding;
+
     private Runnable actionOnReload;
     private Runnable actionOnShow;
+    private Runnable actionOnBundlesReload;
 
     @Inject private AssetService assetService;
     @Inject private LocaleService localeService;
@@ -150,10 +152,6 @@ public class InterfaceService {
     @Initiate(priority = AutumnActionPriority.VERY_HIGH_PRIORITY)
     private void assignViewResources() {
         addDefaultViewActions();
-        saveLastLocale(localeService.getCurrentLocale());
-        for (final Entry<String, FileHandle> bundleData : i18nBundleFiles) {
-            parser.getData().addI18nBundle(bundleData.key, I18NBundle.createBundle(bundleData.value, lastLocale));
-        }
     }
 
     private void saveLastLocale(final Locale currentLocale) {
@@ -237,13 +235,19 @@ public class InterfaceService {
 
     private void validateLocale() {
         final Locale currentLocale = localeService.getCurrentLocale();
-        if (!lastLocale.equals(currentLocale)) {
+        if (!currentLocale.equals(lastLocale)) {
             saveLastLocale(currentLocale);
             for (final Entry<String, FileHandle> bundleData : i18nBundleFiles) {
                 parser.getData().addI18nBundle(bundleData.key,
                         I18NBundle.createBundle(bundleData.value, currentLocale));
             }
+            executeActionOnBundlesReload();
         }
+    }
+
+    /** @param actionOnBundlesReload will be executed each time i18n bundles are reloaded. */
+    public void setActionOnBundlesReload(final Runnable actionOnBundlesReload) {
+        this.actionOnBundlesReload = actionOnBundlesReload;
     }
 
     /** @return LML parser that should be used to construct views. */
@@ -392,6 +396,12 @@ public class InterfaceService {
                 reloadViews();
             }
         };
+    }
+
+    private void executeActionOnBundlesReload() {
+        if (actionOnBundlesReload != null) {
+            actionOnBundlesReload.run();
+        }
     }
 
     private void executeActionOnReload() {
