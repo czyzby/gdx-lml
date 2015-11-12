@@ -1,8 +1,11 @@
 package com.github.czyzby.autumn.mvc.component.ui.controller.impl;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.github.czyzby.autumn.mvc.component.ui.InterfaceService;
 import com.github.czyzby.autumn.mvc.component.ui.controller.ViewDialogController;
 import com.github.czyzby.autumn.mvc.component.ui.controller.ViewDialogShower;
@@ -10,7 +13,8 @@ import com.github.czyzby.autumn.mvc.stereotype.ViewDialog;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.action.ActionContainer;
-import com.github.czyzby.lml.parser.action.StageAttacher;
+import com.github.czyzby.lml.util.LmlUserObject;
+import com.github.czyzby.lml.util.LmlUtilities;
 
 /** Wraps around an object annotated with {@link com.github.czyzby.autumn.mvc.stereotype.ViewDialog}.
  *
@@ -22,7 +26,7 @@ public class AnnotatedViewDialogController extends AbstractAnnotatedController i
     private final ActionContainer actionContainer;
     private final String id;
 
-    private Dialog dialog;
+    private Window dialog;
 
     public AnnotatedViewDialogController(final ViewDialog dialogData, final Object wrappedObject,
             final InterfaceService interfaceService) {
@@ -46,10 +50,17 @@ public class AnnotatedViewDialogController extends AbstractAnnotatedController i
     }
 
     private void showDialog(final Stage stage) {
-        if (dialog.getUserObject() instanceof StageAttacher) {
-            ((StageAttacher) dialog.getUserObject()).attachToStage(dialog, stage);
+        final LmlUserObject userObject = LmlUtilities.getOptionalLmlUserObject(dialog);
+        if (userObject != null && userObject.getStageAttacher() != null) {
+            userObject.getStageAttacher().attachToStage(dialog, stage);
+        } else if (dialog instanceof Dialog) {
+            ((Dialog) dialog).show(stage);
         } else {
-            dialog.show(stage);
+            // Simplified copy of Dialog#show:
+            stage.addActor(dialog);
+            dialog.setPosition(Math.round((stage.getWidth() - dialog.getWidth()) / 2f),
+                    Math.round((stage.getHeight() - dialog.getHeight()) / 2f));
+            dialog.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0.4f, Interpolation.fade)));
         }
     }
 
@@ -64,7 +75,7 @@ public class AnnotatedViewDialogController extends AbstractAnnotatedController i
         if (actionContainer != null) {
             parser.getData().addActionContainer(getId(), actionContainer);
         }
-        dialog = (Dialog) parser.createView(wrappedObject, Gdx.files.internal(dialogData.value())).first();
+        dialog = (Window) parser.createView(wrappedObject, Gdx.files.internal(dialogData.value())).first();
         if (actionContainer != null) {
             parser.getData().removeActionContainer(getId());
         }
@@ -74,7 +85,13 @@ public class AnnotatedViewDialogController extends AbstractAnnotatedController i
     public void destroyDialog() {
         if (dialog != null) {
             if (dialog.getStage() != null) {
-                dialog.hide();
+                if (dialog instanceof Dialog) {
+                    ((Dialog) dialog).hide();
+                } else {
+                    // Simplified version of Dialog#hide:
+                    dialog.addAction(
+                            Actions.sequence(Actions.fadeOut(0.4f, Interpolation.fade), Actions.removeActor()));
+                }
             }
             dialog = null;
         }

@@ -110,6 +110,7 @@ Your opinions, comments and testing can help as well. Don't be afraid to inform 
 - `SkinService` now has an `addSkin(String, Skin)` method, allowing you to manually load and register a skin. (You could load your skin manually before, but you had to add it to `LmlParser` in `InterfaceService` and dispose it on your own. `SkinService` does that for you.)
 - Action executed after locale changing is now in a static class: `LocaleService$LocaleChangeAction`. This allows for easier locale changing action tweaking.
 - Added `InterfaceService#setActionOnBundlesReload(Runnable)`, allowing to specify an action executed each time registered `I18NBundle` objects are loaded.
+- Now `@ViewDialog` can also support `Window` child. This is meant to be more flexible when it comes to custom `Dialog` implementations (like `VisDialog` in `VisUI`, which does not extend `Dialog` class).
 
 1.1 -> 1.2:
 
