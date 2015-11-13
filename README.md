@@ -59,3 +59,4 @@ To add non-GWT features (like the `FileChooser` support or various file validato
 - `allowAlphaEdit` (`allowAlpha`) attribute for `colorPicker` tag.
 - `VisDialog` style setting is no longer ignored.
 - Fixed `TabbedPane` with custom showing/hiding actions. `Action`-extending object was not included in GWT reflection, which caused runtime errors.
+- Fixed `ColorPicker` attribute. Since `setColor` method calls color picker's listener, there was one extra unnecessary listener call before the picker was shown. Now listener is cleared before internally calling `setColor`.

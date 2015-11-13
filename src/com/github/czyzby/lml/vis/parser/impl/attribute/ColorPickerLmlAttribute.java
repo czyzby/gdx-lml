@@ -46,8 +46,10 @@ public class ColorPickerLmlAttribute implements LmlAttribute<Actor> {
                     return;
                 }
                 final ColorPicker colorPicker = ColorPickerContainer.requestInstance();
+                colorPicker.setListener(null);
                 colorPicker.setColor(actor.getColor());
                 colorPicker.setListener(colorPickerListener);
+                colorPicker.centerWindow();
                 actor.getStage().addActor(colorPicker.fadeIn());
             }
         });
