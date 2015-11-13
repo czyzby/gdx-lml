@@ -65,6 +65,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.tab.OnTabSaveLmlAt
 import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.tab.OnTabShowLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.tab.TabCloseableLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.tab.TabDirtyLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.tab.TabDisableLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.tab.TabSavableLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.tab.TabTitleLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.table.UseCellDefaultsLmlAttribute;
@@ -381,7 +382,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
 
     /** TabbedPane (and its tab children) attributes. */
     protected void registerTabbedPaneAttributes() {
-        // TabbedPane:
+        // TabbedPane (pane's main table with TabbedPane attached):
         addAttributeProcessor(new AttachDefaultTabListenerLmlAttribute(), "defaultListener", "attachDefaultListener");
         addAttributeProcessor(new OnAllTabsRemovalLmlAttribute(), "onAllRemoved", "onAllTabsRemoved", "onClear",
                 "onTabsClear");
@@ -399,6 +400,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addAttributeProcessor(new OnTabShowLmlAttribute(), "onTabShow");
         addAttributeProcessor(new TabCloseableLmlAttribute(), "closeable", "closeableByUser");
         addAttributeProcessor(new TabDirtyLmlAttribute(), "dirty");
+        addAttributeProcessor(new TabDisableLmlAttribute(), "disable", "disabled");
         addAttributeProcessor(new TabSavableLmlAttribute(), "savable");
         addAttributeProcessor(new TabTitleLmlAttribute(), "title", "name", "tabTitle", "tabName");
     }

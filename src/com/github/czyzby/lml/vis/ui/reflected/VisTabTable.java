@@ -12,6 +12,7 @@ import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 public class VisTabTable extends VisTable {
     private final TableTab tab = new TableTab();
     private String title;
+    private boolean disabled;
     private ActorConsumer<?, VisTabTable> onDispose;
     private ActorConsumer<?, VisTabTable> onShow;
     private ActorConsumer<?, VisTabTable> onHide;
@@ -57,6 +58,21 @@ public class VisTabTable extends VisTable {
      *            not shown. */
     public void setTitle(final String title) {
         this.title = title;
+    }
+
+    /** @param disabled will change the disabled status of the tab if it is currently in a table. If the tab is not in a
+     *            pane, this setting will be accessible through {@link #isDisabled()} method and should be set
+     *            manually. */
+    public void setDisabled(final boolean disabled) {
+        this.disabled = disabled;
+        if (tab.getPane() != null) {
+            tab.getPane().disableTab(tab, disabled);
+        }
+    }
+
+    /** @return true if the tab was set as disabled. */
+    public boolean isDisabled() {
+        return disabled;
     }
 
     /** Internal {@link Tab} implementation used by {@link VisTabTable}.

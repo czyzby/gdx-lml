@@ -23,7 +23,8 @@ import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPaneAdapter;
 
 /** Handles {@link TabbedPane}. Allows to use table attributes: settings will be applied to tabbed pane's main table.
  * Its children, though, should not have any cell attributes; in fact, it is prepared only to handle tab children - see
- * {@link TabLmlTag}. Cannot parse plain text between tags. Mapped to "tabbedPane", "tabs".
+ * {@link TabLmlTag}. Cannot parse plain text between tags. Note that tabbed pane tag cannot handle oneColumn attribute
+ * properly. Mapped to "tabbedPane", "tabs".
  *
  * @author MJ */
 public class TabbedPaneLmlTag extends AbstractActorLmlTag {
@@ -40,7 +41,7 @@ public class TabbedPaneLmlTag extends AbstractActorLmlTag {
     protected Actor getNewInstanceOfActor(final LmlActorBuilder builder) {
         tabbedPane = new TabbedPane(builder.getStyleName());
         final Table mainTable = tabbedPane.getTable();
-        // TabbedPane will be accessible through LmlUserObject#getData().
+        // TabbedPane will be accessible through LmlUserObject#getData(). This disables oneColumn attribute, though.
         LmlUtilities.getLmlUserObject(mainTable).setData(tabbedPane);
         mainTable.row();
         // This will be the content table:
@@ -71,6 +72,9 @@ public class TabbedPaneLmlTag extends AbstractActorLmlTag {
         if (childTag.getActor() instanceof VisTabTable) {
             final VisTabTable child = (VisTabTable) childTag.getActor();
             tabbedPane.add(child.getTab());
+            if (child.isDisabled()) {
+                tabbedPane.disableTab(child.getTab(), true);
+            }
         } else {
             getParser().throwErrorIfStrict(
                     "TabbedPane cannot handle all actors. It can contain only tab children. Found child: "
