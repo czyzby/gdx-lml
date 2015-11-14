@@ -38,6 +38,7 @@ import com.github.czyzby.autumn.mvc.component.ui.controller.ViewPauser;
 import com.github.czyzby.autumn.mvc.component.ui.controller.ViewRenderer;
 import com.github.czyzby.autumn.mvc.component.ui.controller.ViewResizer;
 import com.github.czyzby.autumn.mvc.component.ui.controller.ViewShower;
+import com.github.czyzby.autumn.mvc.component.ui.controller.impl.AnnotatedViewDialogController;
 import com.github.czyzby.autumn.mvc.component.ui.controller.impl.StandardCameraCenteringViewResizer;
 import com.github.czyzby.autumn.mvc.component.ui.controller.impl.StandardViewRenderer;
 import com.github.czyzby.autumn.mvc.component.ui.controller.impl.StandardViewShower;
@@ -201,6 +202,11 @@ public class InterfaceService {
     private void initiateView(final ViewController controller) {
         if (!controller.isCreated()) {
             validateLocale();
+            // Action on locale change might initiate all views, which is pretty common if the user wants to pre-load
+            // all views and dialogs. So we're double-checking if the view is really not created yet:
+            if (controller.isCreated()) {
+                return;
+            }
             final ActionContainer actionContainer = controller.getActionContainer();
             registerViewSpecificActions(controller.getViewId(), actionContainer);
             controller.createView(this);
@@ -321,10 +327,19 @@ public class InterfaceService {
                 Actions.run(CommonActionRunnables.getViewSetterRunnable(this, viewController))));
     }
 
-    /** Forces eager initiation of all views managed by registered controllers. */
+    /** Forces eager initiation of all views managed by registered controllers. Initiates dialogs that cache and reuse
+     * their dialog actor instance. */
     public void initiateAllControllers() {
         for (final ViewController controller : controllers.values()) {
             initiateView(controller);
+        }
+        for (final ViewDialogController controller : dialogControllers.values()) {
+            if (controller instanceof AnnotatedViewDialogController) {
+                final AnnotatedViewDialogController dialogController = (AnnotatedViewDialogController) controller;
+                if (!dialogController.isInitiated() && dialogController.isCachingInstance()) {
+                    dialogController.prepareDialogInstance();
+                }
+            }
         }
     }
 

@@ -42,7 +42,7 @@ public class AnnotatedViewDialogController extends AbstractAnnotatedController i
     @Override
     public void show(final Stage stage) {
         injectStage(stage);
-        if (dialog == null || !dialogData.cacheInstance()) {
+        if (dialog == null || !isCachingInstance()) {
             prepareDialogInstance();
         }
         doBeforeShow();
@@ -70,7 +70,18 @@ public class AnnotatedViewDialogController extends AbstractAnnotatedController i
         }
     }
 
-    private void prepareDialogInstance() {
+    /** @return true if an instance of the dialog is currently initiated and available. */
+    public boolean isInitiated() {
+        return dialog != null;
+    }
+
+    /** @return true if dialog actor instance is cached and reused on each showing. */
+    public boolean isCachingInstance() {
+        return dialogData.cacheInstance();
+    }
+
+    /** Creates instance of the managed dialog actor. */
+    public void prepareDialogInstance() {
         final LmlParser parser = interfaceService.getParser();
         if (actionContainer != null) {
             parser.getData().addActionContainer(getId(), actionContainer);

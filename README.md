@@ -111,6 +111,7 @@ Your opinions, comments and testing can help as well. Don't be afraid to inform 
 - Action executed after locale changing is now in a static class: `LocaleService$LocaleChangeAction`. This allows for easier locale changing action tweaking.
 - Added `InterfaceService#setActionOnBundlesReload(Runnable)`, allowing to specify an action executed each time registered `I18NBundle` objects are loaded.
 - Now `@ViewDialog` can also support `Window` child. This is meant to be more flexible when it comes to custom `Dialog` implementations (like `VisDialog` in `VisUI`, which does not extend `Dialog` class).
+- `InterfaceService#initiateAllControllers()` now also initiates dialog controllers (with dialog instance caching turned on).
 
 1.1 -> 1.2:
 
