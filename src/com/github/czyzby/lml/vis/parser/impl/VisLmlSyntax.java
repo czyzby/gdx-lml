@@ -17,14 +17,25 @@ import com.github.czyzby.lml.util.LmlUserObject.TableExtractor;
 import com.github.czyzby.lml.vis.parser.impl.attribute.ColorPickerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.FocusBorderEnabledLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.ResponsiveColorPickerLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.building.GroupTypeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.MenuItemImageLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.NumberSelectorNameLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.NumberSelectorPrecisionLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.ShowWindowBorderLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.button.ImageButtonGenerateDisabledLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.collapsible.CollapsedLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.DragListenerLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.DraggedAlphaLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.DraggedFadingInterpolationLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.DraggedFadingTimeLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.DraggedMovingInterpolationLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.InvisibleWhenDraggedLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.pane.AcceptForeignLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.pane.DragPaneListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.grid.GridSpacingLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.grid.ItemHeightLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.grid.ItemSizeLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.grid.ItemWidthLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.BlinkTimeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.CursorLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.DigitsOnlyLmlAttribute;
@@ -90,6 +101,8 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.window.OnResultLmlAttribu
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.CollapsibleWidgetLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.ColorPickerLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.ColumnGroupLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.DragPaneLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.DraggableLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.FormValidatorLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.GridGroupLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.LinkLabelLmlTagProvider;
@@ -206,6 +219,8 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new CollapsibleWidgetLmlTagProvider(), "collapsible", "collapsibleWidget");
         addTagProvider(new ColorPickerLmlTagProvider(), "colorPicker");
         addTagProvider(new ColumnGroupLmlTagProvider(), "columnGroup");
+        addTagProvider(new DraggableLmlTagProvider(), "drag", "draggable");
+        addTagProvider(new DragPaneLmlTagProvider(), "dragPane");
         addTagProvider(new FormValidatorLmlTagProvider(), "form", "formValidator", "formTable");
         addTagProvider(new GridGroupLmlTagProvider(), "gridGroup", "grid");
         addTagProvider(new LinkLabelLmlTagProvider(), "linkLabel", "link");
@@ -242,6 +257,8 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     protected void registerVisAttributes() {
         registerCollapsibleWidgetAttributes();
         registerColorPickerAttributes();
+        registerDraggableAttributes();
+        registerDragPaneAttributes();
         registerGridGroupAttributes();
         registerMenuAttributes();
         registerNumberSelectorAttributes();
@@ -256,6 +273,8 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     @Override
     protected void registerBuildingAttributes() {
         super.registerBuildingAttributes();
+        // DragPaneLmlActorBuilder:
+        addBuildingAttributeProcessor(new GroupTypeLmlAttribute(), "type");
         // VisWindowLmlActorBuilder:
         addBuildingAttributeProcessor(new ShowWindowBorderLmlAttribute(), "showBorder", "showWindowBorder");
         // NumberSelectorLmlActorBuilder:
@@ -358,10 +377,28 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addAttributeProcessor(new ColorPickerResponsiveListenerLmlAttribute(), "responsiveListener");
     }
 
+    /** Draggable listener attributes. */
+    protected void registerDraggableAttributes() {
+        addAttributeProcessor(new DraggedAlphaLmlAttribute(), "alpha");
+        addAttributeProcessor(new DraggedFadingInterpolationLmlAttribute(), "fadingInterpolation");
+        addAttributeProcessor(new DraggedFadingTimeLmlAttribute(), "fadingTime");
+        addAttributeProcessor(new DraggedMovingInterpolationLmlAttribute(), "movingInterpolation");
+        addAttributeProcessor(new DragListenerLmlAttribute(), "listener");
+        addAttributeProcessor(new InvisibleWhenDraggedLmlAttribute(), "invisible", "invisibleWhenDragged");
+    }
+
+    /** DragPane attributes. */
+    protected void registerDragPaneAttributes() {
+        addAttributeProcessor(new AcceptForeignLmlAttribute(), "foreign", "acceptForeign");
+        addAttributeProcessor(new DragPaneListenerLmlAttribute(), "listener");
+    }
+
     /** GridGroup attributes. */
     protected void registerGridGroupAttributes() {
         addAttributeProcessor(new GridSpacingLmlAttribute(), "spacing");
+        addAttributeProcessor(new ItemHeightLmlAttribute(), "itemHeight");
         addAttributeProcessor(new ItemSizeLmlAttribute(), "itemSize");
+        addAttributeProcessor(new ItemWidthLmlAttribute(), "itemWidth");
     }
 
     /** Menu-related attributes. */
