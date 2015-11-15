@@ -7,7 +7,7 @@ import com.kotcrab.vis.ui.layout.DragPane;
 
 /** Expects a boolean. If boolean value is false, {@link DragPane.DragPaneListener.AcceptOwnChildren} will be attached
  * with {@link DragPane#setListener(com.kotcrab.vis.ui.layout.DragPane.DragPaneListener)} method, prohibiting foreign
- * actors from being added to the pane. Mapped to "foreign", "acceptForeign".
+ * actors from being added to the pane. This overrides any previous listeners. Mapped to "foreign", "acceptForeign".
  *
  * @author MJ */
 public class AcceptForeignLmlAttribute implements LmlAttribute<DragPane> {
