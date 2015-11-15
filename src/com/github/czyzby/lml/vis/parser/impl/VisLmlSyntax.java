@@ -43,6 +43,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.linklabel.UrlLmlAttribute
 import com.github.czyzby.lml.vis.parser.impl.attribute.menu.MenuItemGenerateDisabledImageLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.menu.MenuItemShortcutLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.numberselector.ProgrammaticChangeEventsLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.numberselector.SelectorMaxLengthLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.AllowAlphaEditLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.CloseAfterPickingLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.ColorPickerListenerLmlAttribute;
@@ -373,6 +374,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     /** NumberSelector attributes. */
     protected void registerNumberSelectorAttributes() {
         addAttributeProcessor(new ProgrammaticChangeEventsLmlAttribute(), "programmaticChangeEvents");
+        addAttributeProcessor(new SelectorMaxLengthLmlAttribute(), "maxLength");
     }
 
     /** LinkLabel attributes. */

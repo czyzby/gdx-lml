@@ -61,3 +61,4 @@ To add non-GWT features (like the `FileChooser` support or various file validato
 - Fixed `TabbedPane` with custom showing/hiding actions. `Action`-extending object was not included in GWT reflection, which caused runtime errors.
 - Fixed `ColorPicker` attribute. Since `setColor` method calls color picker's listener, there was one extra unnecessary listener call before the picker was shown. Now listener is cleared before internally calling `setColor`.
 - Added support for `TabbedPane` tab disabling. `Tab` now supports custom `disable` attribute.
+- `maxLength` attribute in `numberSelector` tag. Affects internal `VisTextField`.
