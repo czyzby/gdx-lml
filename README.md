@@ -19,10 +19,13 @@ If you want to use LML with GWT, you have to add this module to your GdxDefiniti
 ##Documentation
 See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&t=18843), [example project](http://github.com/czyzby/gdx-lml-tests), [tutorial](https://github.com/czyzby/gdx-lml/wiki/Tutorial) and [old syntax page (work in progress)](https://github.com/czyzby/gdx-lml/wiki/Syntax).
 
+##Extensions
+[VisUI](https://github.com/kotcrab/VisEditor/wiki/VisUI) syntax support is available through [gdx-lml-vis library](https://github.com/czyzby/gdx-lml-vis). Additionally to replacing standard Scene2D actors with improved VisUI widgets, it offers full support for other VisUI features - including color picker, file chooser, new widgets, listeners and validators.
+
 ## What's new
 1.2 -> 1.3
 
-- `ButtonGroup` support through specialized `Table` extension: `ButtonTable`. `<buttonTable>` tag works like a regular table (can have any children), except it adds all its direct `Button`-extending children to an internal `ButtonGroup` instance, validating their checked status.
+- `ButtonGroup` support through specialized `Table` extension: `ButtonTable`. `<buttonTable>` tag works like a regular table (can have any children), except it adds all its direct `Button`-extending children to an internal `ButtonGroup` instance, validating their checked status. This allows to easily build groups of widgets with min and max amounts of checked buttons.
 
 1.1 -> 1.2
 
