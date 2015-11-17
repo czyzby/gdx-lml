@@ -190,6 +190,8 @@ public class TabbedPaneLmlTag extends AbstractActorLmlTag {
                 if (showActionProvider != null) {
                     contentTable.addAction(showActionProvider.consume(tab));
                 }
+            } else {
+                contentTable.clear();
             }
         }
 
