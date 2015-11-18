@@ -6,6 +6,8 @@ See [gdx-lml](http://github.com/czyzby/gdx-lml). Instead of building your parser
 
 Check [gdx-lml-vis-tests](http://github.com/czyzby/gdx-lml-vis-tests) for examples of all tags and macros usage.
 
+See [online demo](http://vis.kotcrab.com/demo/lml/).
+
 ## Dependency
 
 Gradle:
@@ -18,6 +20,11 @@ GWT module:
 ```
 	<inherits name='com.github.czyzby.lml.vis.GdxLmlVis' />
 ```
+On GWT, you might also want to include sources of `gdx-lml-vis` and currently used `VisUI` library version.
+
+### Non-GWT features
+
+To add non-GWT features (like the `FileChooser` support or various file validators from `FormValidator` class), use `ExtendedVisLml#extend(LmlParser)` method. This will register all the extra attributes and tags at the cost of nasty compilation errors on GWT platform.
 
 ### Including gdx-lml-vis in Autumn MVC
 
@@ -47,10 +54,6 @@ public static void destroyColorPicker() {
 ```
 
 Note that by making the method static, instance of the class containing the method will not be kept, so it can be safely garbage collected after application initiation. This is very useful if you want to keep such settings in a single configuration class.
-
-### Non-GWT features
-
-To add non-GWT features (like the `FileChooser` support or various file validators from `FormValidator` class), use `ExtendedVisLml#extend(LmlParser)` method. This will register all the extra attributes and tags at the cost of nasty compilation errors on GWT platform.
 
 ## Changes
 
