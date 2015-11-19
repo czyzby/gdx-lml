@@ -14,4 +14,6 @@
     children. As any regular table, image buttons
     parse plain text between tags to labels. -->
 
-<imageButton>Will become a label.</imageButton>
+<imageButton image="default-round-down">
+    Will become a label.
+</imageButton>

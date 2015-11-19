@@ -7,7 +7,9 @@
 <imageTextButton>Hello.</imageTextButton>
 
 <container size=128>
-    <imageTextButton>Bigger button.</imageTextButton>
+    <imageTextButton image="default-round-down">
+        Bigger button.
+    </imageTextButton>
 </container>
 
 <!-- Since buttons extend table, they can have any
