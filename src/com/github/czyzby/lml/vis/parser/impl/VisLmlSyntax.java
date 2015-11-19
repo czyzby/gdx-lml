@@ -22,7 +22,9 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.building.MenuItemImageLml
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.NumberSelectorNameLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.NumberSelectorPrecisionLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.ShowWindowBorderLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.button.ButtonImageLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.button.ImageButtonGenerateDisabledLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.button.TextButtonImageLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.collapsible.CollapsedLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.BlockInputLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.DragListenerLmlAttribute;
@@ -146,7 +148,11 @@ import com.github.czyzby.lml.vis.parser.impl.tag.provider.validator.LesserThanVa
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.validator.NotEmptyValidatorLmlTagProvider;
 import com.kotcrab.vis.ui.widget.VisDialog;
 
-/** Replaces regular Scene2D actor tags with Vis UI widgets. Supports the same core syntax (operators).
+/** Replaces regular Scene2D actor tags with VisUI widgets. Supports the same core syntax - most tags from original LML
+ * are either pointing to the same widgets or to VisUI equivalents, and all the attributes and macros you know from LML
+ * are also supported. This syntax, however, adds extra tags and attributes of unique VisUI actors, that are simply
+ * absent in regular Scene2D. See {@link #registerActorTags()} method source for all registered actor tags. Macro tags
+ * are unchanged.
  *
  * @author MJ
  * @author Kotcrab */
@@ -310,8 +316,11 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     protected void registerButtonAttributes() {
         super.registerButtonAttributes();
         // VisImageButton:
+        addAttributeProcessor(new ButtonImageLmlAttribute(), "image", "icon");
         addAttributeProcessor(new ImageButtonGenerateDisabledLmlAttribute(), "generateDisabled",
                 "generateDisabledImage");
+        // VisImageTextButton:
+        addAttributeProcessor(new TextButtonImageLmlAttribute(), "image", "icon");
     }
 
     @Override
