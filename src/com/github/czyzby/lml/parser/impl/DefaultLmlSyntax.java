@@ -154,7 +154,9 @@ import com.github.czyzby.lml.parser.impl.attribute.table.TablePadLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.TablePadRightLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.TablePadTopLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.TableRoundLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.table.button.ButtonImageLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.button.CheckedLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.table.button.TextButtonImageLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.cell.AbstractCellLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.cell.CellAlignLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.cell.CellColspanLmlAttribute;
@@ -492,7 +494,9 @@ public class DefaultLmlSyntax implements LmlSyntax {
 
     /** Button widget attributes. */
     protected void registerButtonAttributes() {
-        addAttributeProcessor(new CheckedLmlAttribute(), "checked", "isChecked");
+        addAttributeProcessor(new ButtonImageLmlAttribute(), "image", "icon"); // ImageButton
+        addAttributeProcessor(new CheckedLmlAttribute(), "checked", "isChecked"); // Button
+        addAttributeProcessor(new TextButtonImageLmlAttribute(), "image", "icon"); // ImageTextButton
     }
 
     /** ButtonGroup (ButtonTable) attributes. */
