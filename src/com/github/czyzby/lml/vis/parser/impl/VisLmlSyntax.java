@@ -35,6 +35,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.DraggedMovingIn
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.InvisibleWhenDraggedLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.pane.AcceptForeignLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.pane.DragPaneListenerLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.pane.GroupIdLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.pane.MaxChildrenLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.grid.GridSpacingLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.grid.ItemHeightLmlAttribute;
@@ -403,6 +404,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     protected void registerDragPaneAttributes() {
         addAttributeProcessor(new AcceptForeignLmlAttribute(), "foreign", "acceptForeign");
         addAttributeProcessor(new DragPaneListenerLmlAttribute(), "listener");
+        addAttributeProcessor(new GroupIdLmlAttribute(), "groupId");
         addAttributeProcessor(new MaxChildrenLmlAttribute(), "maxChildren");
     }
 
