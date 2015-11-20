@@ -1,4 +1,4 @@
-#LibGDX Autumn Androoid
+#LibGDX Autumn Android
 Android "natives" for [LibGDX Autumn](https://github.com/czyzby/gdx-autumn) - dependency injection with component scan mechanism.
 
 ## Scanner
