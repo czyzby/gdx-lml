@@ -28,8 +28,9 @@ public class DragPaneLmlTag extends AbstractGroupLmlTag {
 
     @Override
     protected Group getNewInstanceOfGroup(final LmlActorBuilder builder) {
-        final DragPane dragPane = new DragPane(((DragPaneLmlActorBuilder) builder).getGroupType().getGroup());
-        dragPane.setDraggable(new Draggable());
+        final DragPaneLmlActorBuilder dragPaneBuilder = (DragPaneLmlActorBuilder) builder;
+        final DragPane dragPane = new DragPane(dragPaneBuilder.getGroupType().getGroup());
+        dragPane.setDraggable(dragPaneBuilder.getGroupType().getDraggable(dragPane.getGroup()));
         return dragPane;
     }
 

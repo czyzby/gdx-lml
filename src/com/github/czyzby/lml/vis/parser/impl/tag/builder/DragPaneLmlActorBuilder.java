@@ -4,8 +4,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
+import com.github.czyzby.lml.vis.ui.reflected.FixedSizeGridGroup;
 import com.kotcrab.vis.ui.layout.ColumnGroup;
 import com.kotcrab.vis.ui.layout.GridGroup;
+import com.kotcrab.vis.ui.widget.Draggable;
 
 /** Allows to build drag pane widgets.
  *
@@ -54,9 +56,27 @@ public class DragPaneLmlActorBuilder extends LmlActorBuilder {
             public WidgetGroup getGroup() {
                 return new ColumnGroup();
             }
+        },
+        /** Constructs {@link FixedSizeGridGroup}. */
+        FIXED {
+            @Override
+            public WidgetGroup getGroup() {
+                return new FixedSizeGridGroup(16, 32);
+            }
+
+            @Override
+            public Draggable getDraggable(final WidgetGroup group) {
+                return FixedSizeGridGroup.getDraggable((FixedSizeGridGroup) group);
+            }
         };
 
         /** @return a new instance of selected group type. */
         public abstract WidgetGroup getGroup();
+
+        /** @param group an instance of selected group, see {@link #getGroup()}.
+         * @return a customized instance of {@link Draggable} for this group type. */
+        public Draggable getDraggable(final WidgetGroup group) {
+            return new Draggable();
+        }
     }
 }

@@ -32,6 +32,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.DraggedAlphaLml
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.DraggedFadingInterpolationLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.DraggedFadingTimeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.DraggedMovingInterpolationLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.DraggedMovingTimeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.InvisibleWhenDraggedLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.pane.AcceptForeignLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.pane.DragPaneListenerLmlAttribute;
@@ -41,6 +42,8 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.grid.GridSpacingLmlAttrib
 import com.github.czyzby.lml.vis.parser.impl.attribute.grid.ItemHeightLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.grid.ItemSizeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.grid.ItemWidthLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.grid.fixed.BlockIndexesLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.grid.fixed.ItemsAmountLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.BlinkTimeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.CursorLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.DigitsOnlyLmlAttribute;
@@ -396,6 +399,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addAttributeProcessor(new DraggedFadingInterpolationLmlAttribute(), "fadingInterpolation");
         addAttributeProcessor(new DraggedFadingTimeLmlAttribute(), "fadingTime");
         addAttributeProcessor(new DraggedMovingInterpolationLmlAttribute(), "movingInterpolation");
+        addAttributeProcessor(new DraggedMovingTimeLmlAttribute(), "movingTime");
         addAttributeProcessor(new DragListenerLmlAttribute(), "listener");
         addAttributeProcessor(new InvisibleWhenDraggedLmlAttribute(), "invisible", "invisibleWhenDragged");
     }
@@ -414,6 +418,9 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addAttributeProcessor(new ItemHeightLmlAttribute(), "itemHeight");
         addAttributeProcessor(new ItemSizeLmlAttribute(), "itemSize");
         addAttributeProcessor(new ItemWidthLmlAttribute(), "itemWidth");
+        // FixedSizeGridGroup:
+        addAttributeProcessor(new BlockIndexesLmlAttribute(), "blockIndexes");
+        addAttributeProcessor(new ItemsAmountLmlAttribute(), "itemsAmount");
     }
 
     /** Menu-related attributes. */
