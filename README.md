@@ -23,10 +23,11 @@ As you might guess, they are used to scan for annotated classes. Each platform r
 
 - **FixedClassScanner** - well, it *can* be used on any platform, but you have to manually select the classes it has access to, so it basically removes the concept of true component scan.
 - **FallbackDesktopClassScanner** - scans binary classes (run from IDE) or jars in the class loader base location (run from a jar). No external dependencies, but it relies on reflection and class loading to scan packages. Use when necessary.
-- **DesktopClassScanner** - uses `fast-classpath-scanner` library for non-reflection-based, efficient component scanning. Does not load tested classes. Works only on desktop. Available in `gdx-autumn-fcs` library.
-- **GwtClassScanner** - scans through all classes registered for GWT LibGDX reflection pool. Available in `gdx-autumn-gwt` library.
+- **DesktopClassScanner** - uses `fast-classpath-scanner` library for non-reflection-based, efficient component scanning. Does not load tested classes. Works only on desktop. Available in `gdx-autumn-fcs` [library](https://github.com/czyzby/gdx-autumn-fcs).
+- **GwtClassScanner** - scans through all classes registered for GWT LibGDX reflection pool. Available in `gdx-autumn-gwt` [library](https://github.com/czyzby/gdx-autumn-gwt).
+- **AndroidClassScanner** - uses Android Java API to scan through all available classes. Available in `gdx-autumn-android` [library](https://github.com/czyzby/gdx-autumn-android).
 
-Unfortunately, class scanners for Android and iOS are not implemented yet. I didn't have much time to do it yet (nor do I normally target these platforms); I do have an untested Android component scanner implementation, if anyone is interested. But, for now, use *FixedClassScanner*. Sorry.
+Unfortunately, class scanner iOS is not implemented yet. For now, you might try to make your own implementation (based on Android scanner?) or use *FixedClassScanner*. Sorry.
 
 ### Annotations
 
@@ -55,12 +56,14 @@ Gradle dependency:
 Currently supported LibGDX version is **1.7.1**.
 
 To include Autumn in GWT, see [Autumn GWT](http://github.com/czyzby/gdx-autumn-gwt).
+To include Autumn on Android, see [Autumn Android](http://github.com/czyzby/gdx-autumn-android).
 For efficient class scanning on desktop, see [Autumn FCS](http://github.com/czyzby/gdx-autumn-fcs).
 
 ##What's new
 1.2 -> 1.3
 
 - Annotated methods (`@Initiate`, `@Destroy`) no longer keep component references for invocation if they are static. If your static `@Destroy` method is annotated, you can safely assume that the component will still be properly garbage collected after context initiation, as long as you didn't keep its reference anywhere.
+- Android class scanner in [Autumn Android](http://github.com/czyzby/gdx-autumn-android).
 
 1.1 -> 1.2:
 
