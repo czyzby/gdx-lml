@@ -100,18 +100,19 @@ All classes (and annotations) have nearly full javadocs of public API, so everyt
 See [test project](https://github.com/czyzby/gdx-autumn-mvc-tests).
 
 ## Contributions
-Automatic component scan on Android and iOS is not implemented and it might take me some time before I finally force myself to do it, if ever. I do have an untested implementation, so if anyone needs it, I can share privately. It will probably be in a separate library that depends on Autumn, so no changes in MVC itself are required. If someone already implemented this functionality and is willing to share, I won't mind integrating it into Autumn.
+Automatic component scan on iOS is not implemented and it might take me some time before I finally force myself to do it, if ever. If someone already implemented this functionality and is willing to share, I won't mind integrating it into Autumn.
 
 Your opinions, comments and testing can help as well. Don't be afraid to inform me about bugs and functionalities that are missing or the ones you are not a huge fan of.
 
 ## What's new
 1.2 -> 1.3:
 
-- `SkinService` now has an `addSkin(String, Skin)` method, allowing you to manually load and register a skin. (You could load your skin manually before, but you had to add it to `LmlParser` in `InterfaceService` and dispose it on your own. `SkinService` does that for you.)
+- `SkinService` now has an `addSkin(String, Skin)` method, allowing you to manually load and register a skin. You could load your skin manually before, but you had to add it to `LmlParser` in `InterfaceService` and dispose it on your own. Now `SkinService` does that for you.
 - Action executed after locale changing is now in a static class: `LocaleService$LocaleChangeAction`. This allows for easier locale changing action tweaking.
 - Added `InterfaceService#setActionOnBundlesReload(Runnable)`, allowing to specify an action executed each time registered `I18NBundle` objects are loaded.
 - Now `@ViewDialog` can also support `Window` child. This is meant to be more flexible when it comes to custom `Dialog` implementations (like `VisDialog` in `VisUI`, which does not extend `Dialog` class).
-- `InterfaceService#initiateAllControllers()` now also initiates dialog controllers (with dialog instance caching turned on).
+- `InterfaceService#initiateAllControllers()` now also initiates dialog controllers (those with dialog instance caching turned on). This might be an overlooked method, but it generally should be called after assets are loaded to greatly speed up screen transitions on platforms that have a hard time reading files and creating views as fast as regular desktop applications (GWT).
+- Android class scanner implemented in [Autumn Android](http://github.com/czyzby/gdx-autumn-android).
 
 1.1 -> 1.2:
 
