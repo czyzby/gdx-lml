@@ -24,7 +24,7 @@ public class FixedClassScanner extends AbstractClassScanner {
     }
 
     /** @param availableClasses will be available in scanner's pool. */
-    public void addClasses(final Class<?> availableClasses) {
+    public void addClasses(final Class<?>... availableClasses) {
         pool.addAll(availableClasses);
     }
 

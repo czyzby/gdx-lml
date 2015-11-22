@@ -21,12 +21,11 @@ import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.tuple.immutable.Pair;
 
-/** Tries to scan class path resources if running from binaries (IDE) or .jar files otherwise. Has no external
+/** Tries to scan class path resources if running from binaries (IDE), or .jar files otherwise. Has no external
  * dependencies. Will not work on GWT (is not available there) or mobile platforms.
  *
  * @author MJ */
 public class FallbackDesktopClassScanner implements ClassScanner {
-    private static final char INNER_CLASS_SIGN = '$';
     private static final char DOT_SEPARATOR = '.';
     private static final char FILE_SEPARATOR = '/';
 
@@ -71,13 +70,20 @@ public class FallbackDesktopClassScanner implements ClassScanner {
             if (classPathFile.isDirectory()) {
                 addAllChildren(filesWithDepthsToProcess, classPathFile, depth);
             } else {
-                final Class<?> classToProcess = ClassReflection
-                        .forName(getBinaryClassName(mainPackageName, classPathFile, depth));
+                final String className = getBinaryClassName(mainPackageName, classPathFile, depth);
+                if (!isFromPackage(mainPackageName, className)) {
+                    continue;
+                }
+                final Class<?> classToProcess = ClassReflection.forName(className);
                 processClass(annotations, result, classToProcess);
             }
         }
         return result;
     }
+
+    private static boolean isFromPackage(final String mainPackageName, final String className) {
+        return !Strings.contains(className, '-') && className.startsWith(mainPackageName);
+    } // True if not package-info.
 
     private static File toFile(final URL url) throws URISyntaxException {
         return new File(url.toURI()).getAbsoluteFile();
@@ -139,7 +145,7 @@ public class FallbackDesktopClassScanner implements ClassScanner {
             final String classPathRoot, final Array<Class<?>> result, final JarEntry entry) throws ReflectionException {
         if (!entry.isDirectory()) {
             final String entryName = entry.getName();
-            if (!Strings.contains(entryName, INNER_CLASS_SIGN) && entryName.startsWith(classPathRoot)) {
+            if (isFromPackage(classPathRoot, entryName) && entryName.endsWith(CLASS_FILE_EXTENSION)) {
                 final String className = jarEntryToClassName(entryName);
                 final Class<?> classToProcess = ClassReflection.forName(className);
                 processClass(annotations, result, classToProcess);
