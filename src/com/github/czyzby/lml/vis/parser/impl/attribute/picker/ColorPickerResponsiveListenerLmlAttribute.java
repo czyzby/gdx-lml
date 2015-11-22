@@ -36,6 +36,11 @@ public class ColorPickerResponsiveListenerLmlAttribute extends ColorPickerListen
             public void canceled(final Color oldColor) {
                 changed(oldColor);
             }
+
+            @Override
+            public void reset(final Color previousColor, final Color newColor) {
+                changed(newColor);
+            }
         };
     }
 }
