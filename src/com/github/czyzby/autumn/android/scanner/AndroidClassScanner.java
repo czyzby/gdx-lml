@@ -8,7 +8,9 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.github.czyzby.autumn.scanner.ClassScanner;
+import com.github.czyzby.kiwi.util.common.Exceptions;
 
 import android.content.pm.ApplicationInfo;
 import dalvik.system.DexFile;
@@ -39,20 +41,21 @@ public class AndroidClassScanner implements ClassScanner {
         }
     }
 
-    private void processClassName(final Iterable<Class<? extends Annotation>> annotations, final Array<Class<?>> result,
-            final String packageName, final String className) {
+    private static void processClassName(final Iterable<Class<? extends Annotation>> annotations,
+            final Array<Class<?>> result, final String packageName, final String className) {
         if (!className.startsWith(packageName)) {
             return;
         }
         try {
-            final Class<?> classToProcess = getClass().getClassLoader().loadClass(className);
+            final Class<?> classToProcess = ClassReflection.forName(className);
             for (final Class<? extends Annotation> annotation : annotations) {
                 if (ClassReflection.isAnnotationPresent(classToProcess, annotation)) {
                     result.add(classToProcess);
+                    return;
                 }
             }
-        } catch (final ClassNotFoundException exception) {
-            exception.printStackTrace();
+        } catch (final ReflectionException exception) {
+            exception.printStackTrace(); // Unexpected. Classes should be present.
         }
     }
 
@@ -62,7 +65,7 @@ public class AndroidClassScanner implements ClassScanner {
                 dexFile.close();
             }
         } catch (final Exception exception) {
-            throw new GdxRuntimeException("Unable to scan Android application.", exception);
+            Exceptions.ignore(exception);
         }
     }
 }
