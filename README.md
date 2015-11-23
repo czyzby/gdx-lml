@@ -57,6 +57,10 @@ Note that by making the method static, instance of the class containing the meth
 
 ## Changes
 
+1.3 -> 1.4
+
+- Added `SwapListener` to `FixedSizeGridGroup`. Now you can manage (and cancel) swap event without having to modify `Draggable`.
+
 1.2 -> 1.3
 
 - `allowAlphaEdit` (`allowAlpha`) attribute for `colorPicker` tag.

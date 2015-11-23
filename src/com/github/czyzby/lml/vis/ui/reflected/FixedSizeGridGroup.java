@@ -23,6 +23,7 @@ import com.kotcrab.vis.ui.widget.Draggable;
  * @see GridDragListener */
 public class FixedSizeGridGroup extends GridGroup {
     private final IntSet blockedIndexes = new IntSet();
+    private SwapListener swapListener;
     private int itemsAmount;
 
     /** @param itemsAmount amount of cells expected in the grid. All these cells will be filled with mock-up actors.
@@ -194,8 +195,18 @@ public class FixedSizeGridGroup extends GridGroup {
 
     /** @param actor a possible mock-up actor stored in a cell.
      * @return true if passed actor is a mock-up. */
-    protected boolean isMockUp(final Object actor) {
+    public boolean isMockUp(final Object actor) {
         return actor instanceof MockUpActor;
+    }
+
+    /** @return listener notified of actor swaps. Can be null. */
+    public SwapListener getSwapListener() {
+        return swapListener;
+    }
+
+    /** @param swapListener will be notified of actor swaps. Pass null to remove. */
+    public void setSwapListener(final SwapListener swapListener) {
+        this.swapListener = swapListener;
     }
 
     /** @param group is about to be added to a {@link DragPane} and needs a {@link Draggable} for its children.
@@ -252,7 +263,8 @@ public class FixedSizeGridGroup extends GridGroup {
             final int actorIndex = group.getChildren().indexOf(actor, true);
             int childIndex = group.getChildren().indexOf(directPaneChild, true);
             if (childIndex >= 0) { // Same group:
-                if (group.isIndexBlocked(childIndex)) {
+                if (group.isIndexBlocked(childIndex)
+                        || !hasSwapListenerApproval(group, actor, group, directPaneChild)) {
                     return CANCEL;
                 }
                 final Object[] children = group.getChildren().items;
@@ -262,7 +274,9 @@ public class FixedSizeGridGroup extends GridGroup {
             } else { // Dragged into a different group:
                 if (dragPane.getGroup() instanceof FixedSizeGridGroup) {
                     childIndex = dragPane.getGroup().getChildren().indexOf(directPaneChild, true);
-                    if (((FixedSizeGridGroup) dragPane.getGroup()).isIndexBlocked(childIndex)) {
+                    final FixedSizeGridGroup targetGroup = (FixedSizeGridGroup) dragPane.getGroup();
+                    if (targetGroup.isIndexBlocked(childIndex)
+                            || !isSwapApproved(group, actor, targetGroup, directPaneChild)) {
                         return CANCEL;
                     }
                     dragPane.addActorAt(childIndex, actor);
@@ -272,6 +286,18 @@ public class FixedSizeGridGroup extends GridGroup {
                 }
             }
             return APPROVE;
+        }
+
+        private static boolean isSwapApproved(final FixedSizeGridGroup fromGroup, final Actor removedActor,
+                final FixedSizeGridGroup toGroup, final Actor addedActor) {
+            return hasSwapListenerApproval(fromGroup, removedActor, toGroup, addedActor)
+                    && hasSwapListenerApproval(toGroup, addedActor, fromGroup, removedActor);
+        }
+
+        private static boolean hasSwapListenerApproval(final FixedSizeGridGroup fromGroup, final Actor removedActor,
+                final FixedSizeGridGroup toGroup, final Actor addedActor) {
+            return fromGroup.getSwapListener() == null
+                    || fromGroup.getSwapListener().onSwap(fromGroup, removedActor, toGroup, addedActor);
         }
 
         /** @param previousParent previous parent of the dragged actor. Can be null.
@@ -285,6 +311,28 @@ public class FixedSizeGridGroup extends GridGroup {
                 previousParent.addActorAt(previousIndex, removedCell);
             }
         }
+    }
+
+    /** Allows to manage swapping events.
+     *
+     * @author MJ */
+    public static interface SwapListener {
+        /** Use in listener's method for code clarity. */
+        boolean CANCEL = false, APPROVE = true;
+
+        /** Note that if an item is moved from one group to another and both groups have listeners, both of them will be
+         * invoked and both of them have to approve. If an item is moved around internally (in the same group, moved
+         * from one cell to another), listener will be invoked once.
+         *
+         * @param fromGroup has the listener attached.
+         * @param removedActor will be removed from the fromGroup and added to toGroup.
+         * @param toGroup will contain the removed actor. Might be the same object as fromGroup.
+         * @param addedActor will be added in place of removedActor to fromGroup. Can be a mock-up object.
+         * @return true if you want to accept the swap. False if you want to cancel it.
+         * @see #CANCEL
+         * @see #APPROVE
+         * @see FixedSizeGridGroup#isMockUp(Object) */
+        boolean onSwap(FixedSizeGridGroup fromGroup, Actor removedActor, FixedSizeGridGroup toGroup, Actor addedActor);
     }
 
     /** Mock-up actor class, implementing {@link Layout} and {@link Poolable} for extra utility. Sizes set with
