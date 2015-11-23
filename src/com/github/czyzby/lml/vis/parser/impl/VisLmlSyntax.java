@@ -63,10 +63,12 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.menu.MenuItemGenerateDisa
 import com.github.czyzby.lml.vis.parser.impl.attribute.menu.MenuItemShortcutLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.numberselector.ProgrammaticChangeEventsLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.numberselector.SelectorMaxLengthLmlAttribute;
-import com.github.czyzby.lml.vis.parser.impl.attribute.picker.AllowAlphaEditLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.CloseAfterPickingLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.ColorPickerListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.ColorPickerResponsiveListenerLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.picker.basic.AllowAlphaEditLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.picker.basic.BasicColorPickerListenerLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.picker.basic.ShowHexFieldLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MaxSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MinSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.SplitAmountLmlAttribute;
@@ -106,11 +108,13 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.validator.form.RequireUnc
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.AddCloseButtonLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.CloseOnEscapeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.OnResultLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.BasicColorPickerLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.CollapsibleWidgetLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.ColorPickerLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.ColumnGroupLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.DragPaneLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.DraggableLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.ExtendedColorPickerLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.FormValidatorLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.GridGroupLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.LinkLabelLmlTagProvider;
@@ -228,11 +232,13 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new VisWindowLmlTagProvider(), "window", "visWindow");
 
         // Vis unique actors:
+        addTagProvider(new BasicColorPickerLmlTagProvider(), "basicColorPicker", "basicPicker");
         addTagProvider(new CollapsibleWidgetLmlTagProvider(), "collapsible", "collapsibleWidget");
         addTagProvider(new ColorPickerLmlTagProvider(), "colorPicker");
         addTagProvider(new ColumnGroupLmlTagProvider(), "columnGroup");
         addTagProvider(new DraggableLmlTagProvider(), "drag", "draggable");
         addTagProvider(new DragPaneLmlTagProvider(), "dragPane");
+        addTagProvider(new ExtendedColorPickerLmlTagProvider(), "extendedColorPicker", "extendedPicker");
         addTagProvider(new FormValidatorLmlTagProvider(), "form", "formValidator", "formTable");
         addTagProvider(new GridGroupLmlTagProvider(), "gridGroup", "grid");
         addTagProvider(new LinkLabelLmlTagProvider(), "linkLabel", "link");
@@ -386,10 +392,13 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
 
     /** ColorPicker attributes. */
     protected void registerColorPickerAttributes() {
-        addAttributeProcessor(new AllowAlphaEditLmlAttribute(), "allowAlphaEdit", "allowAlpha");
         addAttributeProcessor(new CloseAfterPickingLmlAttribute(), "closeAfterPickingFinished", "closeAfter");
         addAttributeProcessor(new ColorPickerListenerLmlAttribute(), "listener");
         addAttributeProcessor(new ColorPickerResponsiveListenerLmlAttribute(), "responsiveListener");
+        // BasicColorPicker:
+        addAttributeProcessor(new AllowAlphaEditLmlAttribute(), "allowAlphaEdit", "allowAlpha");
+        addAttributeProcessor(new BasicColorPickerListenerLmlAttribute(), "listener");
+        addAttributeProcessor(new ShowHexFieldLmlAttribute(), "showHex", "showHexField");
     }
 
     /** Draggable listener attributes. */

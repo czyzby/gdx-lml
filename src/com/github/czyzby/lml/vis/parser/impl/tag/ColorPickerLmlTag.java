@@ -43,4 +43,14 @@ public class ColorPickerLmlTag extends VisWindowLmlTag {
         final Actor actor = tag.getActor();
         actor.addListener(new PopupAttacher((ColorPicker) getActor(), actor));
     }
+
+    @Override
+    protected boolean hasComponentActors() {
+        return true;
+    }
+
+    @Override
+    protected Actor[] getComponentActors(final Actor actor) {
+        return new Actor[] { ((ColorPicker) actor).getPicker() };
+    }
 }

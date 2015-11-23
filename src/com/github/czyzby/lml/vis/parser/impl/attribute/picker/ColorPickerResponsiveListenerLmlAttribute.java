@@ -8,7 +8,9 @@ import com.kotcrab.vis.ui.widget.color.ColorPickerListener;
 /** See {@link ColorPicker#setListener(ColorPickerListener)}. Requires an action ID that references a method consuming
  * {@link Color} instance. Will construct a listener which invokes the method each time the color has changed or color
  * picker is cancelled (will invoke method with old color value). Will cancel {@link ColorPickerListenerLmlAttribute}
- * setting. Mapped to "responsiveListener".
+ * setting. If you need to attach a more complex listener, you can provide your own implementation in Java after getting
+ * reference of the picker with {@link com.github.czyzby.lml.parser.impl.attribute.OnCreateLmlAttribute} or
+ * {@link com.github.czyzby.lml.parser.impl.attribute.OnCloseLmlAttribute}. Mapped to "responsiveListener".
  *
  * @author MJ */
 public class ColorPickerResponsiveListenerLmlAttribute extends ColorPickerListenerLmlAttribute {
