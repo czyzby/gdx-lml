@@ -11,7 +11,7 @@ If, for some reason, class scanning does not work on Android, I'm afraid you're 
 Gradle dependency (for Android LibGDX project):
 
 ```
-    compile "com.github.czyzby:gdx-autumn-android:1.3.$gdxVersion-SNAPSHOT"
+    compile "com.github.czyzby:gdx-autumn-android:1.3.$gdxVersion"
 ```
 
 Currently supported LibGDX version is **1.7.1**.
