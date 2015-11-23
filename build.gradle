@@ -7,7 +7,7 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 sourceCompatibility = 1.6
 
 ext {
-    libVersion = '1.3'
+    libVersion = '1.4'
     gdxVersion = '1.7.1'
     isSnapshot = '-SNAPSHOT'
     fcsVersion = '1.9.7'

@@ -11,7 +11,7 @@ If, for some reason, class scanning does not work on your desktop target platfor
 Gradle dependency (for desktop LibGDX project):
 
 ```
-    compile "com.github.czyzby:gdx-autumn-fcs:1.2.$gdxVersion"
+    compile "com.github.czyzby:gdx-autumn-fcs:1.3.$gdxVersion"
 ```
 
 Currently supported LibGDX version is **1.7.1**.
