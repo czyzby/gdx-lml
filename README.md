@@ -24,8 +24,8 @@ Adding these classes to reflection pool solves the problem most of the times (if
 Gradle dependency (for GWT project):
 
 ```
-    compile "com.github.czyzby:gdx-autumn-gwt:1.2.$gdxVersion"
-    compile "com.github.czyzby:gdx-autumn-gwt:1.2.$gdxVersion:sources"
+    compile "com.github.czyzby:gdx-autumn-gwt:1.3.$gdxVersion"
+    compile "com.github.czyzby:gdx-autumn-gwt:1.3.$gdxVersion:sources"
 ```
 
 Currently supported LibGDX version is **1.7.1**.
