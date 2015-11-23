@@ -45,7 +45,7 @@ public class FallbackDesktopClassScanner implements ClassScanner {
             while (resources.hasMoreElements()) {
                 try {
                     filesWithDepthsToProcess.add(Pair.of(toFile(resources.nextElement()), 0));
-                } catch (final URISyntaxException uriSyntaxException) {
+                } catch (final Exception uriSyntaxException) {
                     Exceptions.ignore(uriSyntaxException); // Will throw an exception for non-hierarchical files.
                 }
             }
