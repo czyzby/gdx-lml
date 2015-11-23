@@ -2,7 +2,8 @@
     append their initial text between tags on invocation.
     Their first attribute is an array of macro aliases. -->
 <@macro myMacro;someAlias><textButton/></@macro>
-<@myMacro/><@someAlias/>
+<@myMacro/>
+<@someAlias/>
 
 <!-- Second, optional macro definition attribute is the
     name of the argument that will be replaced by text
@@ -16,9 +17,11 @@
     additional attributes that might be passed during
     macro invocation. -->
 <@macro myMacro content size>
-    <container size={size}><textButton>
-        {content}
-    </textButton></container>
+    <container size={size}>
+        <textButton>
+            {content}
+        </textButton>
+    </container>
 </@macro>
 <@myMacro 150>Unnamed params.</@myMacro>
 <@myMacro size=125>Named params.</@myMacro>
@@ -27,9 +30,11 @@
     declaration order) or named (any order allowed).
     Attributes be also given a default value. -->
 <@macro myMacro content width=150 height=30>
-    <container width={width} height={height}><textButton>
-        {content}
-    </textButton></container>
+    <container width={width} height={height}>
+        <textButton>
+            {content}
+        </textButton>
+    </container>
 </@macro>
 <@myMacro>Using defaults.</@myMacro>
 <@myMacro width=200>Custom width.</@myMacro>

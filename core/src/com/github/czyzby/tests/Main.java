@@ -41,10 +41,10 @@ import com.kotcrab.vis.ui.widget.VisTextField.VisTextFieldStyle;
 public class Main extends AbstractApplicationListener {
     private static final Array<String> EXAMPLES = ImmutableArray.of(
             // Tags:
-            "actor", "button", "checkBox", "container", "dialog", "horizontalGroup", "imageButton", "image",
-            "imageTextButton", "label", "list", "progressBar", "scrollPane", "selectBox", "slider", "splitPane",
-            "stack", "table", "textArea", "textButton", "textField", "tooltip", "touchpad", "tree", "verticalGroup",
-            "window",
+            "actor", "button", "buttonGroup", "checkBox", "container", "dialog", "horizontalGroup", "imageButton",
+            "image", "imageTextButton", "label", "list", "progressBar", "scrollPane", "selectBox", "slider",
+            "splitPane", "stack", "table", "textArea", "textButton", "textField", "tooltip", "touchpad", "tree",
+            "verticalGroup", "window",
             // Syntax:
             "i18n", "preferences", "arguments", "actions",
             // Macros:
@@ -54,9 +54,10 @@ public class Main extends AbstractApplicationListener {
             // Custom elements:
             "customAttribute", "customMacro", "customTag",
             // Vis unique tags:
-            "vis/collapsibleWidget", "vis/colorPicker", "vis/columnGroup", "vis/formValidator", "vis/gridGroup",
-            "vis/linkLabel", "vis/menu", "vis/numberSelector", "vis/tabbedPane", "vis/radioButton", "vis/separator",
-            "vis/tooltip", "vis/validatableTextField");
+            "vis/basicColorPicker", "vis/collapsibleWidget", "vis/colorPicker", "vis/columnGroup", "vis/draggable",
+            "vis/dragPane", "vis/fixedSizeGridGroup", "vis/formValidator", "vis/gridGroup", "vis/linkLabel", "vis/menu",
+            "vis/numberSelector", "vis/tabbedPane", "vis/radioButton", "vis/separator", "vis/tooltip",
+            "vis/validatableTextField");
     private static final String MAIN_VIEW_TEMPLATE = "templates/main.lml";
 
     private MainView view;
@@ -100,14 +101,14 @@ public class Main extends AbstractApplicationListener {
     }
 
     private static void createCodeTextAreaStyle() {
-        Skin skin = VisUI.getSkin();
+        final Skin skin = VisUI.getSkin();
 
         // VisUI doesn't have font that would be good showing for source code so we load and add it to skin manually
-        BitmapFont hackFont = new BitmapFont(Gdx.files.internal("fonts/hackFont.fnt"));
+        final BitmapFont hackFont = new BitmapFont(Gdx.files.internal("fonts/hackFont.fnt"));
         skin.add("hack-font", hackFont, BitmapFont.class);
 
         // Clone default VisTextField style and change its font to our just loaded hack font then add it to skin
-        VisTextFieldStyle codeStyle = new VisTextFieldStyle(VisUI.getSkin().get(VisTextFieldStyle.class));
+        final VisTextFieldStyle codeStyle = new VisTextFieldStyle(VisUI.getSkin().get(VisTextFieldStyle.class));
         codeStyle.font = hackFont;
         skin.add("source-code", codeStyle, VisTextFieldStyle.class);
     }

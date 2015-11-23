@@ -11,8 +11,11 @@
     Constantly updates.
 </textButton>
 
-<!-- This will not show a dialog, unless disabled status is removed: -->
-<textButton colorPicker=setColor disabled=true>Disabled</textButton>
+<!-- This will not show a dialog, unless disabled
+    status is removed: -->
+<textButton colorPicker=setColor disabled=true>
+    Disabled
+</textButton>
 
 <!-- You can also attach a ColorPicker with a separate tag, which
     allows you to set more complex attributes. This is generally not
@@ -23,10 +26,13 @@
 
 <textButton id=new>
     New instance.
-<!-- Try replacing "listener" attribute with "responsiveListener". -->
-    <colorPicker title=Custom. tablePad=40 listener=customColor color=red
-            onCreate=scheduleDispose>
-        Can handle children.
-        <textButton colspan=2 growX=true>Like a window (or a table).</textButton>
+<!-- Try replacing "listener" attribute with
+    "responsiveListener". -->
+    <colorPicker title=Custom. tablePad=40 listener=customColor
+            color=red allowAlpha=false onCreate=scheduleDispose>
+        Can handle children. <@row/>
+        <textButton growX=true>
+            Like a window (or a table).
+        </textButton>
     </colorPicker>
 </textButton>

@@ -4,10 +4,12 @@
     also have image attributes, which will be
     applied to their internal icon. -->
 
-<imageTextButton>Hello.</imageTextButton>
+<imageTextButton image=icon-arrow-left>Hello.</imageTextButton>
 
-<container size=128>
-    <imageTextButton>Bigger button.</imageTextButton>
+<container size=150>
+    <imageTextButton image=icon-arrow-right>
+        Bigger button.
+    </imageTextButton>
 </container>
 
 <!-- Since buttons extend table, they can have any
