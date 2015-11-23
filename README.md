@@ -40,7 +40,7 @@ Read on [LML](https://github.com/czyzby/gdx-lml) to see how the views are create
 Gradle:
 
 ```
-    compile "com.github.czyzby:gdx-autumn-mvc:1.2.$gdxVersion"
+    compile "com.github.czyzby:gdx-autumn-mvc:1.3.$gdxVersion"
 ```
 Currently supported LibGDX version is **1.7.1**.
 
