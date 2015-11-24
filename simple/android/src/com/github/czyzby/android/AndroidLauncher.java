@@ -1,5 +1,7 @@
 package com.github.czyzby.android;
 
+import android.os.Bundle;
+
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.github.czyzby.Configuration;
