@@ -1,0 +1,3 @@
+<window title="@firstTitle" titleAlign="center">
+    <progressBar id="loadingBar" animateDuration=0.4 onComplete="goto:second"/>
+</window>

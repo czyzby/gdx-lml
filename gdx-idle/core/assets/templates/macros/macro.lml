@@ -1,0 +1,25 @@
+<@macro background "" style>
+	<@if {style}>
+		<table background="{style}" fillParent=true/>
+	<@if:else/>	
+		<table background="$getRandomBackground" fillParent=true/>
+	</@if>
+</@macro>
+
+<@macro settings "" includeLocale=true>
+	<table fillParent=true defaultAlign="top" tablePad=6 defaultPad=2>
+		<div defaultAlign="left">
+			<checkBox style="small" onClick="toggleMusic" isChecked="$musicOn" row=true>@toggleMusic</checkBox>
+			<checkBox style="small" onClick="toggleSound" isChecked="$soundOn" >@toggleSound</checkBox>
+		</div>
+		<empty expand=true fill=true/>
+		<@if {includeLocale}>
+			<label style="small-tan">@changeLanguage</label>
+			<@each locale={locales}>
+				<@if {locale} != {currentLocale}>
+					<textButton style="small" onClick="locale:{locale}">@{locale}</textButton>
+				</@if>
+			</@each>
+		</@if>
+	</table>
+</@macro>

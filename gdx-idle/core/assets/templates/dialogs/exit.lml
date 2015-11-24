@@ -1,0 +1,5 @@
+<dialog class="dialog-tan" title="@exitTitle" titleAlign="center">
+	@exitPrompt
+	<textButton pad=2 expandX=true fillX=true onResult="close">@no</textButton>
+	<textButton pad=2 expandX=true fillX=true onResult="app:exit">@yes</textButton>
+</dialog>
