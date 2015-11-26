@@ -10,9 +10,11 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.action.ActorConsumer;
+import com.github.czyzby.lml.parser.impl.attribute.table.OneColumnLmlAttribute;
 import com.github.czyzby.lml.parser.impl.tag.AbstractActorLmlTag;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
+import com.github.czyzby.lml.util.LmlUserObject;
 import com.github.czyzby.lml.util.LmlUtilities;
 import com.github.czyzby.lml.vis.ui.reflected.VisTabTable;
 import com.github.czyzby.lml.vis.ui.reflected.action.TabShowingAction;
@@ -23,8 +25,10 @@ import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPaneAdapter;
 
 /** Handles {@link TabbedPane}. Allows to use table attributes: settings will be applied to tabbed pane's main table.
  * Its children, though, should not have any cell attributes; in fact, it is prepared only to handle tab children - see
- * {@link TabLmlTag}. Cannot parse plain text between tags. Note that tabbed pane tag cannot handle oneColumn attribute
- * properly. Mapped to "tabbedPane", "tabs".
+ * {@link TabLmlTag}. Cannot parse plain text between tags. Note that tabbed pane tag cannot handle
+ * {@link OneColumnLmlAttribute} properly. Tabbed pane is not actually an actor - if you want to inject the pane by its
+ * ID, use {@link Table} instead and extract {@link TabbedPane} instance with {@link #getTabbedPane(Table)}. Mapped to
+ * "tabbedPane", "tabs".
  *
  * @author MJ */
 public class TabbedPaneLmlTag extends AbstractActorLmlTag {
@@ -43,12 +47,27 @@ public class TabbedPaneLmlTag extends AbstractActorLmlTag {
         final Table mainTable = tabbedPane.getTable();
         // TabbedPane will be accessible through LmlUserObject#getData(). This disables oneColumn attribute, though.
         LmlUtilities.getLmlUserObject(mainTable).setData(tabbedPane);
-        mainTable.row();
+        if (tabbedPane.getTabsPane().isHorizontal()) {
+            mainTable.row();
+        }
         // This will be the content table:
         mainTable.add(new VisTable()).grow().row();
         // There might be an expand+fill image in the second cell. We need to correct that:
         normalizeSecondCell(mainTable);
         return mainTable;
+    }
+
+    /** @param table main table of the {@link TabbedPane}. If LML meta-data was not cleared, it will contain a reference
+     *            of its {@link TabbedPane} parent.
+     * @return {@link TabbedPane} which uses passed table as its main table. {@code null} if table is not used by a
+     *         tabbed pane, LML meta-data was cleared or reference was lost due to prohibited settings (like using of
+     *         {@link OneColumnLmlAttribute}). */
+    public static TabbedPane getTabbedPane(final Table table) {
+        final LmlUserObject userObject = LmlUtilities.getOptionalLmlUserObject(table);
+        if (userObject != null && userObject.getData() instanceof TabbedPane) {
+            return (TabbedPane) userObject.getData();
+        }
+        return null;
     }
 
     /** @param mainTable main table of {@link TabbedPane}. */

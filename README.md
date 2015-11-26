@@ -59,7 +59,8 @@ Note that by making the method static, instance of the class containing the meth
 
 1.3 -> 1.4
 
-- Added `SwapListener` to `FixedSizeGridGroup`. Now you can manage (and cancel) swap event without having to modify `Draggable`.
+- Added `SwapListener` to `FixedSizeGridGroup`. Now you can manage (and cancel) swap events without having to modify internal `Draggable` listener.
+- Added `TabbedPaneLmlTag#getTabbedPane(Table)` method. Since `TabbedPane` does not extend `Actor` class, it cannot be injected to `@LmlActor`-annotated fields - instead, its main table (`TabbedPane#getTable()`) is used. `#getTabbedPane(Table)` method allows to extract the direct reference to `TabbedPane` from its main table - ideally, you'll want to use this in an on-create or on-close method and assign the pane, as this reference might be lost after you clear LML meta-data with `LmlUtilities#clearLmlUserObjects(Iterable<Actor>)` or similar methods.
 
 1.2 -> 1.3
 
