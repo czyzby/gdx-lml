@@ -615,6 +615,7 @@ public class InterfaceService {
             final ViewController previousController = interfaceService.currentController;
             interfaceService.currentController = controllerToShow;
             interfaceService.initiateView(controllerToShow);
+            controllerToShow.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
             interfaceService.currentController.show(interfaceService.showingActionProvider
                     .provideAction(interfaceService.currentController, previousController));
             controllerToShow = null;
