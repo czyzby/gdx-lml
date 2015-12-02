@@ -61,6 +61,7 @@ Note that by making the method static, instance of the class containing the meth
 
 - Added `SwapListener` to `FixedSizeGridGroup`. Now you can manage (and cancel) swap events without having to modify internal `Draggable` listener.
 - Added `TabbedPaneLmlTag#getTabbedPane(Table)` method. Since `TabbedPane` does not extend `Actor` class, it cannot be injected to `@LmlActor`-annotated fields - instead, its main table (`TabbedPane#getTable()`) is used. `#getTabbedPane(Table)` method allows to extract the direct reference to `TabbedPane` from its main table - ideally, you'll want to use this in an on-create or on-close method and assign the pane, as this reference might be lost after you clear LML meta-data with `LmlUtilities#clearLmlUserObjects(Iterable<Actor>)` or similar methods.
+- Removed `ColumnGroup` support, since this widget is deprecated in the last `VisUI` version. Use `VerticalGroup` instead.
 
 1.2 -> 1.3
 

@@ -111,7 +111,6 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.window.OnResultLmlAttribu
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.BasicColorPickerLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.CollapsibleWidgetLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.ColorPickerLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.ColumnGroupLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.DragPaneLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.DraggableLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.ExtendedColorPickerLmlTagProvider;
@@ -235,7 +234,6 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new BasicColorPickerLmlTagProvider(), "basicColorPicker", "basicPicker");
         addTagProvider(new CollapsibleWidgetLmlTagProvider(), "collapsible", "collapsibleWidget");
         addTagProvider(new ColorPickerLmlTagProvider(), "colorPicker");
-        addTagProvider(new ColumnGroupLmlTagProvider(), "columnGroup");
         addTagProvider(new DraggableLmlTagProvider(), "drag", "draggable");
         addTagProvider(new DragPaneLmlTagProvider(), "dragPane");
         addTagProvider(new ExtendedColorPickerLmlTagProvider(), "extendedColorPicker", "extendedPicker");
