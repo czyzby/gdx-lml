@@ -110,6 +110,7 @@ Your opinions, comments and testing can help as well. Don't be afraid to inform 
 
 - Views are now additionally resized before showing, which fixes bugs with some viewports where not every screen was resized properly.
 - `@Property` was added along with `PreferencesService`. Now you can add your custom, fully managed preferences. See docs for more info.
+- Added additional controller removal methods to `InterfaceService`: `remove`, `removeDialog`, `destroyDialog`.
 
 1.2 -> 1.3:
 

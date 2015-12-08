@@ -398,9 +398,39 @@ public class InterfaceService {
     /** Forces destruction of the selected view. The view should not be currently shown, as it still might get a render
      * call if next screen was not set.
      *
-     * @param viewController will be destroyed. */
+     * @param viewController will be destroyed.
+     * @see #remove(Class) */
     public void destroy(final Class<?> viewController) {
         controllers.get(viewController).destroyView();
+    }
+
+    /** Forces destruction of the selected dialog (if an instance is actually kept). Proper UI behavior is ensured only
+     * if dialog is not currently shown on the stage.
+     *
+     * @param dialogController its dialog will be destroyed.
+     * @see #removeDialog(Class) */
+    public void destroyDialog(final Class<?> dialogController) {
+        dialogControllers.get(dialogController).destroyDialog();
+    }
+
+    /** Forces destruction and complete removal of the controller from the service. The view should not be currently
+     * shown, as it still might get a render call if next screen was not set.
+     *
+     * @param viewController will be destroyed and removed. Will no longer be available.
+     * @see #destroy(Class) */
+    public void remove(final Class<?> viewController) {
+        destroy(viewController);
+        controllers.remove(viewController);
+    }
+
+    /** Forces destruction and complete removal of the dialog controller from the service. Proper UI behavior is ensured
+     * only if dialog is not currently shown on the stage.
+     *
+     * @param dialogController will be destroyed and removed. Will no longer be available.
+     * @see #destroyDialog(Class) */
+    public void removeDialog(final Class<?> dialogController) {
+        destroyDialog(dialogController);
+        dialogControllers.remove(dialogController);
     }
 
     private Runnable getViewReloadingRunnable() {
