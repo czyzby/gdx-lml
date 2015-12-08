@@ -58,6 +58,7 @@ After that, you might want to create a single `@Component` class with configurat
 - `@StageViewport` - can annotate a `ObjectProvider<Stage>` (see Kiwi lazy variables), that provides viewports used upon stage creation. Default viewport type is the `ScreenViewport`, as it works arguably well for interfaces and does not require additional settings (like virtual screen size).
 - `@LmlMacro` - can annotate a String or String[] containing paths to LML files with macro declarations. Since macros have to be parsed once (and their custom parser is created dynamically), keeping macros in separate files and parsing them on init is advised.
 - `@AvailableLocales` - can annotate a String[] field containing locales available in game. Annotated array will be passed to the LML templates with the chosen argument name (can be iterated over) and each of the locales in array will add an action with the specified prefix that changes the current locale of the application on invocation.
+- `@Property` - custom preference stored in a selected LibGDX `Preferences` file. Can also annotate a class implementing `Preference` interface (or extending `AbstractPreference`). Allows to register custom preferences that are accessible in LML templates, read upon application initiation and saved upon destruction.
 
 To register views you can use:
 
@@ -108,6 +109,7 @@ Your opinions, comments and testing can help as well. Don't be afraid to inform 
 1.3 -> 1.4:
 
 - Views are now additionally resized before showing, which fixes bugs with some viewports where not every screen was resized properly.
+- `@Property` was added along with `PreferencesService`. Now you can add your custom, fully managed preferences. See docs for more info.
 
 1.2 -> 1.3:
 

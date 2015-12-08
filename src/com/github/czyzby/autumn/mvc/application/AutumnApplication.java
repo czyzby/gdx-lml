@@ -9,6 +9,7 @@ import com.github.czyzby.autumn.mvc.component.asset.AssetService;
 import com.github.czyzby.autumn.mvc.component.i18n.LocaleService;
 import com.github.czyzby.autumn.mvc.component.i18n.processor.AvailableLocalesAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.component.i18n.processor.I18nBundleAnnotationProcessor;
+import com.github.czyzby.autumn.mvc.component.preferences.PreferencesService;
 import com.github.czyzby.autumn.mvc.component.sfx.MusicService;
 import com.github.czyzby.autumn.mvc.component.sfx.processor.MusicEnabledAnnotationProcessor;
 import com.github.czyzby.autumn.mvc.component.sfx.processor.MusicVolumeAnnotationProcessor;
@@ -29,6 +30,7 @@ import com.github.czyzby.autumn.mvc.component.ui.processor.ViewStageAnnotationPr
 import com.github.czyzby.autumn.mvc.stereotype.View;
 import com.github.czyzby.autumn.mvc.stereotype.ViewActionContainer;
 import com.github.czyzby.autumn.mvc.stereotype.ViewDialog;
+import com.github.czyzby.autumn.mvc.stereotype.preference.Property;
 import com.github.czyzby.autumn.mvc.stereotype.preference.StageViewport;
 import com.github.czyzby.autumn.scanner.ClassScanner;
 import com.github.czyzby.kiwi.util.gdx.GdxUtilities;
@@ -79,7 +81,8 @@ public class AutumnApplication implements ApplicationListener {
      * @param initializer should be used to register component annotations to scan for. */
     @SuppressWarnings("unchecked")
     protected void registerDefaultComponentAnnotations(final ContextInitializer initializer) {
-        initializer.scanFor(ViewActionContainer.class, ViewDialog.class, View.class, StageViewport.class);
+        initializer.scanFor(ViewActionContainer.class, ViewDialog.class, View.class, StageViewport.class,
+                Property.class);
     }
 
     /** Invoked before context initiation.
@@ -97,7 +100,7 @@ public class AutumnApplication implements ApplicationListener {
                 new SoundEnabledAnnotationProcessor(), new SoundVolumeAnnotationProcessor(),
                 // Settings:
                 new I18nBundleAnnotationProcessor(), new PreferenceAnnotationProcessor(), new SkinAnnotationProcessor(),
-                new StageViewportAnnotationProcessor(),
+                new StageViewportAnnotationProcessor(), new PreferencesService(),
                 // Interface:
                 new ViewAnnotationProcessor(), new ViewDialogAnnotationProcessor(),
                 new ViewActionContainerAnnotationProcessor(), new ViewStageAnnotationProcessor(),
@@ -134,6 +137,12 @@ public class AutumnApplication implements ApplicationListener {
     @Override
     public void resume() {
         interfaceService.resume();
+    }
+
+    /** @return direct reference to main {@link InterfaceService} instance. After {@link #create()} method is executed,
+     *         this value is never {@code null}. */
+    public InterfaceService getInterfaceService() {
+        return interfaceService;
     }
 
     @Override

@@ -9,6 +9,7 @@
 	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.mvc.component.asset.AssetService" />
 	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.mvc.component.i18n.LocaleService" />
 	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.mvc.component.i18n.processor" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.mvc.component.preferences.PreferencesService" />
 	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.mvc.component.sfx.MusicService" />
 	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.mvc.component.sfx.processor" />
 	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.autumn.mvc.component.ui.InterfaceService" />

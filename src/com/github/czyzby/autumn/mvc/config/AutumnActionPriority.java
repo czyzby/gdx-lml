@@ -26,6 +26,7 @@ public class AutumnActionPriority {
      * {@link com.github.czyzby.autumn.mvc.component.ui.SkinService} (skin disposing). */
     public static final int VERY_LOW_PRIORITY = -2;
     /** -3. Executes last. Used by: {@link com.github.czyzby.autumn.mvc.component.ui.InterfaceService} (first view
-     * initiation and showing); {@link com.github.czyzby.autumn.mvc.component.asset.AssetService} (assets disposing). */
+     * initiation and showing); {@link com.github.czyzby.autumn.mvc.component.asset.AssetService} (assets disposing),
+     * {@link com.github.czyzby.autumn.mvc.component.preferences.PreferencesService} (saving preferences) */
     public static final int MIN_PRIORITY = -3;
 }
