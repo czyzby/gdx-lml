@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
-import com.github.czyzby.lml.vis.ui.reflected.FixedSizeGridGroup;
+import com.github.czyzby.lml.vis.ui.FixedSizeGridGroup;
 import com.kotcrab.vis.ui.layout.GridGroup;
 import com.kotcrab.vis.ui.widget.Draggable;
 

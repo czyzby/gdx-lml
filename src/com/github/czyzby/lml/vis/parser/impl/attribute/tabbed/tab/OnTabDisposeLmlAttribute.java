@@ -4,7 +4,7 @@ import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.action.ActorConsumer;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
-import com.github.czyzby.lml.vis.ui.reflected.VisTabTable;
+import com.github.czyzby.lml.vis.ui.VisTabTable;
 
 /** See {@code VisTabTable#setOnDispose(ActorConsumer)}. Expects an action ID; the action will be invoked each time the
  * tab is removed from the pane. Only one action is permitted; using this attribute multiple times will override

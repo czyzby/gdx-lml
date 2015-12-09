@@ -3,7 +3,7 @@ package com.github.czyzby.lml.vis.parser.impl.attribute.validator.form;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlTag;
-import com.github.czyzby.lml.vis.ui.reflected.VisFormTable;
+import com.github.czyzby.lml.vis.ui.VisFormTable;
 
 /** See {@link VisFormTable#addCheckedFormButton(Button, String)}. Expects a string - error message that will be
  * displayed if the button is not checked. Mapped to "requireChecked", "formChecked", "notCheckedError",

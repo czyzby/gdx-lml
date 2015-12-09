@@ -3,7 +3,7 @@ package com.github.czyzby.lml.vis.parser.impl.attribute.validator.form;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlTag;
-import com.github.czyzby.lml.vis.ui.reflected.VisFormTable;
+import com.github.czyzby.lml.vis.ui.VisFormTable;
 
 /** Expects a boolean. If returns true, this label will be set as current error message label in form with
  * {@link VisFormTable#setMessageLabel(Label)}. Mapped to "errorMessage", "errorLabel", "errorMsgLabel,

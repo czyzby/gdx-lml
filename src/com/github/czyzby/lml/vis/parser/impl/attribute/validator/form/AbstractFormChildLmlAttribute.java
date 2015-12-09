@@ -3,7 +3,7 @@ package com.github.czyzby.lml.vis.parser.impl.attribute.validator.form;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
-import com.github.czyzby.lml.vis.ui.reflected.VisFormTable;
+import com.github.czyzby.lml.vis.ui.VisFormTable;
 
 /** Abstract base for form children attributes.
  *

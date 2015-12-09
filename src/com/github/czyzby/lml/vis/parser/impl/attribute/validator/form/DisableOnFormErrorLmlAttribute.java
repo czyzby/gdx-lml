@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlTag;
-import com.github.czyzby.lml.vis.ui.reflected.VisFormTable;
+import com.github.czyzby.lml.vis.ui.VisFormTable;
 
 /** Sets the selected widget as button to disable if there are any errors in the form. Expects a boolean. If true, calls
  * {@link VisFormTable#addWidgetToDisable(Disableable)}. Mapped to "disableOnError", "disableOnFormError",

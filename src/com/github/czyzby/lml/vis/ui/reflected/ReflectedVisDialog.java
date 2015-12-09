@@ -1,6 +1,7 @@
 package com.github.czyzby.lml.vis.ui.reflected;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.github.czyzby.lml.parser.action.ActorConsumer;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.VisDialog;
@@ -20,10 +21,15 @@ public class ReflectedVisDialog extends VisDialog {
 
     public ReflectedVisDialog(final String title, final String styleName) {
         super(title, styleName);
-        setSkin(VisUI.getSkin());
-        getContentTable().setSkin(VisUI.getSkin());
-        getButtonsTable().setSkin(VisUI.getSkin());
+        assignTableSkins();
         setDefaultCellPreferences();
+    }
+
+    private void assignTableSkins() {
+        final Skin skin = VisUI.getSkin();
+        setSkin(skin);
+        getContentTable().setSkin(skin);
+        getButtonsTable().setSkin(skin);
     }
 
     private void setDefaultCellPreferences() {

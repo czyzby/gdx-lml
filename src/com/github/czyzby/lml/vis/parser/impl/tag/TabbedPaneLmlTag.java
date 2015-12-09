@@ -16,7 +16,7 @@ import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.util.LmlUserObject;
 import com.github.czyzby.lml.util.LmlUtilities;
-import com.github.czyzby.lml.vis.ui.reflected.VisTabTable;
+import com.github.czyzby.lml.vis.ui.VisTabTable;
 import com.github.czyzby.lml.vis.ui.reflected.action.TabShowingAction;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.tabbedpane.Tab;

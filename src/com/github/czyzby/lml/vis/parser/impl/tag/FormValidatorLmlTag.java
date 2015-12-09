@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
-import com.github.czyzby.lml.vis.ui.reflected.VisFormTable;
+import com.github.czyzby.lml.vis.ui.VisFormTable;
 import com.kotcrab.vis.ui.util.form.SimpleFormValidator;
 
 /** Maintains a {@link SimpleFormValidator} through a specialized table widget: {@link VisFormTable}. As a parent, works

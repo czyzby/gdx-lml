@@ -1,4 +1,4 @@
-package com.github.czyzby.lml.vis.ui.reflected;
+package com.github.czyzby.lml.vis.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;

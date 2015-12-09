@@ -5,7 +5,7 @@ import com.github.czyzby.lml.parser.action.ActorConsumer;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.util.LmlUtilities;
-import com.github.czyzby.lml.vis.ui.reflected.VisTabTable;
+import com.github.czyzby.lml.vis.ui.VisTabTable;
 
 /** See {@link com.kotcrab.vis.ui.widget.tabbedpane.Tab#setDirty(boolean)}. Mapped to "dirty".
  *
