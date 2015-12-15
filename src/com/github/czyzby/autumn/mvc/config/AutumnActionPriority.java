@@ -14,7 +14,8 @@ public class AutumnActionPriority {
     /** 2. Used by: {@link com.github.czyzby.autumn.mvc.component.ui.InterfaceService} (bundles and preferences
      * assignment, LML parser creation). */
     public static final int VERY_HIGH_PRIORITY = 2;
-    /** 1. */
+    /** 1. Used by: {@link com.github.czyzby.autumn.mvc.component.preferences.PreferencesService} (preferences
+     * loading). */
     public static final int HIGH_PRIORITY = 1;
     /** 0. Used by: {@link com.github.czyzby.autumn.mvc.component.sfx.MusicService} (adding sound settings actions to
      * LML parser). */

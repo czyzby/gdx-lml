@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.badlogic.gdx.utils.reflect.Field;
 import com.github.czyzby.autumn.annotation.Destroy;
+import com.github.czyzby.autumn.annotation.Initiate;
 import com.github.czyzby.autumn.annotation.Inject;
 import com.github.czyzby.autumn.context.Context;
 import com.github.czyzby.autumn.context.ContextDestroyer;
@@ -31,8 +32,12 @@ public class PreferencesService extends AbstractAnnotationProcessor<Property> {
      * preference name to construct the action. */
     public static String GETTER_PREFIX = "get", SETTER_PREFIX = "set";
 
+    /** Preference names (keys) with their {@link Preference} objects (values). */
     private final ObjectMap<String, Preference<?>> preferences = GdxMaps.newObjectMap();
+    /** Preference names (keys) with their {@link Preferences} files (values). */
     private final ObjectMap<String, Preferences> namesToFiles = GdxMaps.newObjectMap();
+    /** Preference names (keys) with their {@link Preferences} files names, as stored in LML parser (values). */
+    private final ObjectMap<String, String> preferencesToInitiate = GdxMaps.newObjectMap();
 
     @Inject private InterfaceService interfaceService;
 
@@ -57,13 +62,25 @@ public class PreferencesService extends AbstractAnnotationProcessor<Property> {
     /** @param name name of the preference. Will determine how the preference is saved in the file. set(name) and
      *            get(name) methods will be added to LML templates.
      * @param preferencesName name of the registered preferences.
-     * @param preference container of the preference. Will be initiated (read). */
+     * @param preference container of the preference. Note that the preference won't be initiated (read from preferences
+     *            file) unless {@link #initiatePreferences()} is called. */
     public void addPreference(final String name, final String preferencesName, final Preference<?> preference) {
         preferences.put(name, preference);
-        final Preferences preferences = getPreferences(preferencesName);
-        namesToFiles.put(name, preferences);
-        initiatePreference(name, preference, preferences);
-        addLmlActions(name, preference);
+        preferencesToInitiate.put(name, preferencesName);
+    }
+
+    /** Initiates all {@link Property}-annotated preferences. Called automatically during application initiation. */
+    @Initiate(priority = AutumnActionPriority.HIGH_PRIORITY)
+    public void initiatePreferences() {
+        for (final Entry<String, String> preference : preferencesToInitiate) {
+            final String name = preference.key;
+            final Preferences preferences = getPreferences(preference.value);
+            namesToFiles.put(name, preferences);
+            final Preference<?> preferenceWrapper = this.preferences.get(name);
+            initiatePreference(name, preferenceWrapper, preferences);
+            addLmlActions(name, preferenceWrapper);
+        }
+        preferencesToInitiate.clear();
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
