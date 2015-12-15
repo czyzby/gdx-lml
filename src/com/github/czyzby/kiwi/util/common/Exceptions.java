@@ -20,14 +20,17 @@ public class Exceptions extends UtilitiesClass {
     public static void ignore(final String reason, final Throwable exception) {
     }
 
-    /** @param exception will be converted to {@link RuntimeException}.
-     * @return a new runtime exception. */
+    /** @param exception will be converted to {@link RuntimeException} (or casted).
+     * @return a new runtime exception or passed exception. */
     public static RuntimeException toRuntimeException(final Throwable exception) {
+        if (exception instanceof RuntimeException) {
+            return (RuntimeException) exception;
+        }
         return new RuntimeException(exception);
     }
 
     /** @param exception will be converted to {@link RuntimeException}.
-     * @param message optional new exception message.
+     * @param message new exception message.
      * @return a new runtime exception. */
     public static RuntimeException toRuntimeException(final String message, final Throwable exception) {
         return new RuntimeException(message, exception);

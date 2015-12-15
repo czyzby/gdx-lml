@@ -147,6 +147,13 @@ public class LoggerService implements Disposable {
         return INSTANCE.getLoggerForClass(forClass);
     }
 
+    /** Turns off all logging levels in the static logger service instance. Will disable all logging. */
+    public static void disable() {
+        debug(false);
+        info(false);
+        error(false);
+    }
+
     /** @param debugOn if true, debug messages will be logged. */
     public static void debug(final boolean debugOn) {
         INSTANCE.setDebugOn(debugOn);

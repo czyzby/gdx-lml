@@ -100,7 +100,7 @@ When you cannot or don't want to use actions or tweening utilities.
 - **FloatRange**: utility for simple float number transitions. Might be useful for color's alpha.
 
 ## Log
-LibGDX does provide logging utilities with `Application` methods and simple `com.badlogic.gdx.utils.Logger` class, but they both lack arguments support and features we might know from standard loggers, like including class name and current time. Kiwi loggers are slightly more complex, while trying to add as little overhead as possible. Typical usage:
+LibGDX does provide logging utilities with `Application` methods and simple `com.badlogic.gdx.utils.Logger` class, but they both lack arguments support and features we might know from standard loggers, like including class name and current time. Kiwi loggers are slightly more complex, while trying to add as little overhead as possible. Typical usage examples:
 
 Settings:
 ```
@@ -110,6 +110,8 @@ LoggerService.debug(false);
 LoggerService.info(true);
 // Turning on error logging:
 LoggerService.error(true);
+// Completely turning off logging:
+LoggerService.disable(); 
 // Note that all levels are turned on by default.
 
 // Including current time in logs:
