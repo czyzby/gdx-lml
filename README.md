@@ -53,6 +53,7 @@ Utility classes for lazy objects. Create - or give access to, depending on imple
 ###Collections
 LibGDX collections utilities. To avoid collisions with Guava and Java API, these classes start with Gdx.
 - **GdxArrays**: utilities for LibGDX array collections. Includes array type conversions, common operations, null-safe checks and factory methods.
+- **GdxLists**: utilities for LibGDX list collections: `PooledLinkedList` and `SortedIntList`. Includes factory methods, null-safe utilities and custom, reusable `PooledLinkedList` iterators (since it does not implement `Iterable` interface).
 - **GdxMaps**: utilities for LibGDX maps. Conversions are limited since there is no map interface in LibGDX, but it should be enough for most needs.
 - **GdxSets**: utilities for LibGDX sets. Not as powerful as Guava, but you do get union and intersect.
 

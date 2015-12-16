@@ -4,9 +4,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.IntArray;
-import com.badlogic.gdx.utils.PooledLinkedList;
 import com.badlogic.gdx.utils.SnapshotArray;
-import com.badlogic.gdx.utils.SortedIntList;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
 import com.github.czyzby.kiwi.util.gdx.collection.disposable.DisposableArray;
 import com.github.czyzby.kiwi.util.gdx.collection.immutable.ImmutableArray;
@@ -19,50 +17,62 @@ public class GdxArrays {
     private GdxArrays() {
     }
 
-    /** @return a new, empty Array. */
+    /** @return a new, empty Array.
+     * @param <Type> type of stored elements. */
     public static <Type> Array<Type> newArray() {
         return new Array<Type>();
     }
 
     /** @param initialCapacity initial capacity of the array. Will be resized if needed.
-     * @return a new, empty Array. */
+     * @return a new, empty Array.
+     * @param <Type> type of stored elements. */
     public static <Type> Array<Type> newArray(final int initialCapacity) {
         return new Array<Type>(initialCapacity);
     }
 
-    /** @return a new, empty typed Array. */
+    /** @param forClass class of stored elements.
+     * @return a new, empty typed Array.
+     * @param <Type> type of stored elements. */
     public static <Type> Array<Type> newArray(final Class<Type> forClass) {
         return new Array<Type>(forClass);
     }
 
-    /** @return a new, empty SnapshotArray. */
+    /** @return a new, empty SnapshotArray.
+     * @param <Type> type of stored elements. */
     public static <Type> SnapshotArray<Type> newSnapshotArray() {
         return new SnapshotArray<Type>();
     }
 
-    /** @return a new, empty typed SnapshotArray. */
+    /** @param forClass class of stored elements.
+     * @return a new, empty typed SnapshotArray.
+     * @param <Type> type of stored elements. */
     public static <Type> SnapshotArray<Type> newSnapshotArray(final Class<Type> forClass) {
         return new SnapshotArray<Type>(forClass);
     }
 
-    /** @return a new, empty DelayedRemovalArray. */
+    /** @return a new, empty DelayedRemovalArray.
+     * @param <Type> type of stored elements. */
     public static <Type> DelayedRemovalArray<Type> newDelayedRemovalArray() {
         return new DelayedRemovalArray<Type>();
     }
 
-    /** @return a new, empty typed DelayedRemovalArray. */
+    /** @param forClass class of stored elements.
+     * @return a new, empty typed DelayedRemovalArray.
+     * @param <Type> type of stored elements. */
     public static <Type> DelayedRemovalArray<Type> newDelayedRemovalArray(final Class<Type> forClass) {
         return new DelayedRemovalArray<Type>(forClass);
     }
 
     /** @param values will be appended to the array.
-     * @return a new Array with the passed values. */
+     * @return a new Array with the passed values.
+     * @param <Type> type of stored elements. */
     public static <Type> Array<Type> newArray(final Type... values) {
         return new Array<Type>(values);
     }
 
     /** @param values will be appended to the array.
-     * @return a new Array with the passed values. */
+     * @return a new Array with the passed values.
+     * @param <Type> type of stored elements. */
     public static <Type> Array<Type> newArray(final Iterable<? extends Type> values) {
         final Array<Type> array = new Array<Type>();
         for (final Type value : values) {
@@ -71,8 +81,10 @@ public class GdxArrays {
         return array;
     }
 
-    /** @param values will be appended to the array.
-     * @return a new typed Array with the passed values. */
+    /** @param forClass class of stored objects.
+     * @param values will be appended to the array.
+     * @return a new typed Array with the passed values.
+     * @param <Type> type of stored elements. */
     public static <Type> Array<Type> newArray(final Class<Type> forClass, final Iterable<? extends Type> values) {
         final Array<Type> array = new Array<Type>(forClass);
         for (final Type value : values) {
@@ -82,13 +94,15 @@ public class GdxArrays {
     }
 
     /** @param values will be appended to the array.
-     * @return a new SnapshotArray with the passed values. */
+     * @return a new SnapshotArray with the passed values.
+     * @param <Type> type of stored elements. */
     public static <Type> SnapshotArray<Type> newSnapshotArray(final Type... values) {
         return new SnapshotArray<Type>(values);
     }
 
     /** @param values will be appended to the array.
-     * @return a new SnapshotArray with the passed values. */
+     * @return a new SnapshotArray with the passed values.
+     * @param <Type> type of stored elements. */
     public static <Type> SnapshotArray<Type> newSnapshotArray(final Iterable<? extends Type> values) {
         final SnapshotArray<Type> array = new SnapshotArray<Type>();
         for (final Type value : values) {
@@ -97,8 +111,10 @@ public class GdxArrays {
         return array;
     }
 
-    /** @param values will be appended to the array.
-     * @return a new typed SnapshotArray with the passed values. */
+    /** @param forClass class of stored elements.
+     * @param values will be appended to the array.
+     * @return a new typed SnapshotArray with the passed values.
+     * @param <Type> type of stored elements. */
     public static <Type> SnapshotArray<Type> newSnapshotArray(final Class<Type> forClass,
             final Iterable<? extends Type> values) {
         final SnapshotArray<Type> array = new SnapshotArray<Type>(forClass);
@@ -109,13 +125,15 @@ public class GdxArrays {
     }
 
     /** @param values will be appended to the array.
-     * @return a new DelayedRemovalArray with the passed values. */
+     * @return a new DelayedRemovalArray with the passed values.
+     * @param <Type> type of stored elements. */
     public static <Type> DelayedRemovalArray<Type> newDelayedRemovalArray(final Type... values) {
         return new DelayedRemovalArray<Type>(values);
     }
 
     /** @param values will be appended to the array.
-     * @return a new DelayedRemovalArray with the passed values. */
+     * @return a new DelayedRemovalArray with the passed values.
+     * @param <Type> type of stored elements. */
     public static <Type> DelayedRemovalArray<Type> newDelayedRemovalArray(final Iterable<? extends Type> values) {
         final DelayedRemovalArray<Type> array = new DelayedRemovalArray<Type>();
         for (final Type value : values) {
@@ -124,8 +142,10 @@ public class GdxArrays {
         return array;
     }
 
-    /** @param values will be appended to the array.
-     * @return a new typed DelayedRemovalArray with the passed values. */
+    /** @param forClass class of stored elements.
+     * @param values will be appended to the array.
+     * @return a new typed DelayedRemovalArray with the passed values.
+     * @param <Type> type of stored elements. */
     public static <Type> DelayedRemovalArray<Type> newDelayedRemovalArray(final Class<Type> forClass,
             final Iterable<? extends Type> values) {
         final DelayedRemovalArray<Type> array = new DelayedRemovalArray<Type>(forClass);
@@ -135,93 +155,96 @@ public class GdxArrays {
         return array;
     }
 
-    /** @return a new disposable array made using passed array values. */
+    /** @param array will be copied.
+     * @return a new disposable array made using passed array values.
+     * @param <Type> type of stored elements. */
     public static <Type extends Disposable> DisposableArray<Type> toDisposable(final Array<? extends Type> array) {
         return new DisposableArray<Type>(array);
     }
 
-    /** @return a new semi-immutable array made using passed array values. */
+    /** @param array will be copied.
+     * @return a new semi-immutable array made using passed array values.
+     * @param <Type> type of stored elements. */
     public static <Type> ImmutableArray<Type> toImmutable(final Array<? extends Type> array) {
         return new ImmutableArray<Type>(array);
     }
 
-    /** @return a new snapshot array created with the passed array values. */
+    /** @param array will be copied.
+     * @return a new snapshot array created with the passed array values.
+     * @param <Type> type of stored elements. */
     public static <Type> SnapshotArray<Type> toSnapshot(final Array<? extends Type> array) {
         return new SnapshotArray<Type>(array);
     }
 
-    /** @return a new delayed removal array created with the passed array values. */
+    /** @param array will be copied.
+     * @return a new delayed removal array created with the passed array values.
+     * @param <Type> type of stored elements. */
     public static <Type> DelayedRemovalArray<Type> toDelayedRemoval(final Array<? extends Type> array) {
         return new DelayedRemovalArray<Type>(array);
     }
 
-    /** @param provider creates new object on get(index) calls if the value on the selected index is null.
-     * @return a new lazy array created with the passed array values. */
+    /** @param array will be copied.
+     * @param provider creates new object on get(index) calls if the value on the selected index is null.
+     * @return a new lazy array created with the passed array values.
+     * @param <Type> type of stored elements. */
     public static <Type> LazyArray<Type> toLazy(final ObjectProvider<? extends Type> provider,
             final Array<? extends Type> array) {
         return new LazyArray<Type>(provider, array);
     }
 
-    /** @return a new pooled linked list the the passes iterable's values. */
-    public static <Type> PooledLinkedList<Type> toPooledLinkedList(final int maxPoolSize,
-            final Iterable<? extends Type> iterable) {
-        final PooledLinkedList<Type> list = new PooledLinkedList<Type>(maxPoolSize);
-        for (final Type value : iterable) {
-            list.add(value);
-        }
-        return list;
-    }
-
-    /** @return a new sorted int list with iterable's values inserted with ascending indexes, starting with 0. */
-    public static <Type> SortedIntList<Type> toSortedIntList(final Iterable<? extends Type> iterable) {
-        final SortedIntList<Type> list = new SortedIntList<Type>();
-        int index = 0;
-        for (final Type value : iterable) {
-            list.insert(index++, value);
-        }
-        return list;
-    }
-
-    /** @return true if array is null or has no elements. */
+    /** @param array can be null.
+     * @return true if array is null or has no elements. */
     public static boolean isEmpty(final Array<?> array) {
         return array == null || array.size == 0;
     }
 
-    /** @return true if array is not null and has at least one element. */
+    /** @param array can be null.
+     * @return true if array is not null and has at least one element. */
     public static boolean isNotEmpty(final Array<?> array) {
         return array != null && array.size > 0;
     }
 
-    /** @return the biggest size among the passed arrays. */
+    /** @param arrays will be checked. Can be null.
+     * @return the biggest size among the passed arrays. 0 if all arrays are empty or null. */
     public static int getBiggestSize(final Array<?>... arrays) {
         int maxSize = 0;
         for (final Array<?> array : arrays) {
-            maxSize = Math.max(maxSize, array.size);
+            if (array != null) {
+                maxSize = Math.max(maxSize, array.size);
+            }
         }
         return maxSize;
     }
 
-    /** @return the biggest size among the passed arrays. */
-    public static <Type> int getBiggestSize(final Iterable<Array<? extends Type>> arrays) {
+    /** @param arrays will be checked. Can be null.
+     * @return the biggest size among the passed arrays. 0 if all arrays are empty or null. */
+    public static int getBiggestSize(final Iterable<Array<?>> arrays) {
         int maxSize = 0;
         for (final Array<?> array : arrays) {
-            maxSize = Math.max(maxSize, array.size);
+            if (array != null) {
+                maxSize = Math.max(maxSize, array.size);
+            }
         }
         return maxSize;
     }
 
-    /** @return true if the given index is last in the passed array. */
+    /** @param array cannot be null.
+     * @param index will be checked.
+     * @return true if the given index is last in the passed array. */
     public static boolean isIndexLast(final Array<?> array, final int index) {
         return array.size - 1 == index;
     }
 
-    /** @return true if the given index is valid for the passed array. */
+    /** @param array cannot be null.
+     * @param index will be checked.
+     * @return true if the given index is valid for the passed array. */
     public static boolean isIndexValid(final Array<?> array, final int index) {
         return index >= 0 && index < array.size;
     }
 
     /** @param array can be null.
-     * @return null (if array is empty or last stored value was null) or last stored value. */
+     * @return null (if array is empty or last stored value was null) or last stored value.
+     * @param <Type> type of stored values. */
     public static <Type> Type removeLast(final Array<? extends Type> array) {
         if (isEmpty(array)) {
             return null;
@@ -230,7 +253,8 @@ public class GdxArrays {
     }
 
     /** @param array can be null.
-     * @return last stored value in the array if it is not empty or null. */
+     * @return last stored value in the array if it is not empty or null.
+     * @param <Type> type of stored values. */
     public static <Type> Type getLast(final Array<? extends Type> array) {
         if (isEmpty(array)) {
             return null;
@@ -247,22 +271,31 @@ public class GdxArrays {
         return intArray.get(intArray.size - 1);
     }
 
-    /** @return true if the passed array is empty. */
+    /** @param intArray can be null.*
+     * @return true if the passed array is empty. */
     public static boolean isEmpty(final IntArray intArray) {
         return intArray == null || intArray.size == 0;
     }
 
-    /** @return a new array with values from all passed arrays. Duplicates are added multiple times. */
+    /** @param arrays will be joined.
+     * @return a new array with values from all passed arrays. Duplicates are added multiple times.
+     * @param <Type> type of stored elements. */
     public static <Type> Array<Type> union(final Array<Type>... arrays) {
         return unionTo(new Array<Type>(), arrays);
     }
 
-    /** @return a new typed array with values from all passed arrays. Duplicates are added multiple times. */
+    /** @param ofClass class of stored elements.
+     * @param arrays will be joined.
+     * @return a new typed array with values from all passed arrays. Duplicates are added multiple times.
+     * @param <Type> type of stored elements. */
     public static <Type> Array<Type> union(final Class<Type> ofClass, final Array<Type>... arrays) {
         return unionTo(new Array<Type>(ofClass), arrays);
     }
 
-    /** @return first argument array with values added from all passed arrays. Duplicates are added multiple times. */
+    /** @param array will contain passed arrays.
+     * @param arrays will be joined.
+     * @return first argument array with values added from all passed arrays. Duplicates are added multiple times.
+     * @param <Type> type of stored elements. */
     public static <Type> Array<Type> unionTo(final Array<Type> array, final Array<Type>... arrays) {
         if (arrays == null || arrays.length == 0) {
             return array;
