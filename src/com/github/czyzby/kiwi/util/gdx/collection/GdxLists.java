@@ -9,7 +9,8 @@ import com.github.czyzby.kiwi.util.common.UtilitiesClass;
 /** Utilities for LibGDX list collections: {@link PooledLinkedList} and {@link SortedIntList}.
  *
  * @author MJ
- * @see GdxArrays */
+ * @see GdxArrays
+ * @since 1.4 */
 public class GdxLists extends UtilitiesClass {
     private GdxLists() {
     }

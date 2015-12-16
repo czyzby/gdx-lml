@@ -11,8 +11,8 @@ This library aims to provide what is missing, while **NOT** trying to replace wh
 The one package that kind of goes against what I've just said. Yeah.
 - **Comparables**: not as powerful as Guava, but it will save you some magic numbers in conditions.
 - **Exceptions**: utilities for management of exceptions.
-- **Nullables**: utilities for objects that might be null, since Java 6 is missing Objects utility. Again, you will probably be better off using optionals, but sometimes we do have to deal with unpleasant external APIs.
-- **Strings**: since Scene2D widgets often make use of custom StringBuilder and might actually expect or return CharSequences from time to time, this class provides static utilities (mostly) for CharSequences.
+- **Nullables**: utilities for objects that might be null, mostly because Java 6 is missing official `Objects` utility. Again, you will probably be better off using optionals, but sometimes we do have to deal with unpleasant external APIs.
+- **Strings**: since Scene2D widgets often make use of custom `StringBuilder` class and might actually expect or return `CharSequences` from time to time, this class provides static utility methods consuming (mostly) `CharSequence` instances. They are still useful for regular strings, of course.
 - **TimeUtilities**: time conversion methods. Might be helpful for LibGDX timers and actions.
 
 ##Tuples
@@ -90,7 +90,7 @@ Similarly to `Lazy` utility containers, lazy collections create objects as soon 
 
 ### Scene2D
 - **Actors**: simple, common utility methods for Scene2D actors.
-- **Alignment**: wraps around Align class to provide human-(instantly-)readable alignment checking methods.
+- **Alignment**: wraps around `Align` class to provide human-(instantly-)readable alignment checking methods.
 - **Padding**: utility container for paddings and spacings. Makes it easier to keep static padding settings, without having to create multiple variables.
 - **InterfaceSkin**: utility container that provides static access to UI skin.
 - **Tooltips**: simple utilities for the new LibGDX official tooltips.
