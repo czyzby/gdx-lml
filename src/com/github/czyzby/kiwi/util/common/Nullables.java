@@ -10,7 +10,16 @@ public class Nullables extends UtilitiesClass {
     private Nullables() {
     }
 
-    /** A simple null-check. */
+    /** @param nullable if is null, {@link NullPointerException} is thrown.
+     * @throws NullPointerException when passed parameter is null. */
+    public static void requireNotNull(final Object nullable) throws NullPointerException {
+        if (nullable == null) {
+            throw new NullPointerException();
+        }
+    }
+
+    /** @param nullable can be null.
+     * @return true is passed object is null. */
     public static boolean isNull(final Object nullable) {
         return nullable == null;
     }

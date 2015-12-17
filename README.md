@@ -80,6 +80,9 @@ Similarly to `Lazy` utility containers, lazy collections create objects as soon 
 - **LazyArray**: creates objects on `get(int index)` if the value associated with the index is null. Never throws out of bounds exception for reasonable indexes (non-negative).
 - **LazyObjectMap**: creates objects on `get(Object key)` if the key is not present in the map. Never returns null if its provider is properly implemented.
 
+#### Pooled
+- **PooledList**: `PooledLinkedList` done right. This is a `LinkedList` equivalent that pools its nodes and caches its iterator (limiting GC). As opposed to `PooledLinkedList`, this implementation allows to share a common node pool across multiple list instances and implements `Iterable` (which is more than desired for collections).
+
 ### Preferences
 - **Preference**: utility interface for common preference operations. Advised to be implemented by an enum to provide static access to each of application's preferences. Comes with an example implementation - `PreferenceWrapper`.
 - **ApplicationPreferences**: utility container for application's preferences. Manages a map of cached preferences to avoid reading preferences multiple times and ensure that the returned Preferences object for the given path is always the same and in sync.
