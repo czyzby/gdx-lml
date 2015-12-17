@@ -54,8 +54,8 @@ public class Main extends AbstractApplicationListener {
             // Custom elements:
             "customAttribute", "customMacro", "customTag",
             // Vis unique tags:
-            "vis/basicColorPicker", "vis/collapsibleWidget", "vis/colorPicker", "vis/columnGroup", "vis/draggable",
-            "vis/dragPane", "vis/fixedSizeGridGroup", "vis/formValidator", "vis/gridGroup", "vis/linkLabel", "vis/menu",
+            "vis/basicColorPicker", "vis/collapsibleWidget", "vis/colorPicker", "vis/draggable", "vis/dragPane",
+            "vis/fixedSizeGridGroup", "vis/formValidator", "vis/gridGroup", "vis/linkLabel", "vis/menu",
             "vis/numberSelector", "vis/tabbedPane", "vis/radioButton", "vis/separator", "vis/tooltip",
             "vis/validatableTextField");
     private static final String MAIN_VIEW_TEMPLATE = "templates/main.lml";
