@@ -1,9 +1,10 @@
 package com.github.czyzby.lml.parser.impl;
 
-import java.util.LinkedList;
-
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.Array;
 import com.github.czyzby.kiwi.util.common.Strings;
+import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
+import com.github.czyzby.kiwi.util.gdx.collection.pooled.PooledList;
 import com.github.czyzby.lml.parser.LmlTemplateReader;
 
 /** Standard template reader, working on plain char sequences (which mostly comes down to simple strings). Does not do
@@ -12,7 +13,7 @@ import com.github.czyzby.lml.parser.LmlTemplateReader;
  *
  * @author MJ */
 public class DefaultLmlTemplateReader implements LmlTemplateReader {
-    protected final LinkedList<CharSequenceEntry> sequencesQueue = new LinkedList<CharSequenceEntry>();
+    protected final PooledList<CharSequenceEntry> sequencesQueue = new PooledList<CharSequenceEntry>();
 
     /** First sequence appended to the reader since the time it was empty. Basically, any time the reader is empty and
      * gets a sequence, it will be set as the original one to determine current line number. */
@@ -112,7 +113,7 @@ public class DefaultLmlTemplateReader implements LmlTemplateReader {
 
     /** Dequeues last sequence, if any. */
     protected void getSequenceFromQueue() {
-        setCurrentSequence(sequencesQueue.poll());
+        setCurrentSequence(sequencesQueue.removeFirst());
     }
 
     @Override
@@ -203,9 +204,11 @@ public class DefaultLmlTemplateReader implements LmlTemplateReader {
         final StringBuilder builder = new StringBuilder();
         builder.append("Currently parsing: ");
         appendDebugMessage(builder, originalSequence);
+        final Array<CharSequenceEntry> sequences = GdxArrays.newArray(sequencesQueue);// Slow, but this is for debug
+                                                                                      // only.
         for (int index = sequencesQueue.size() - 2; index >= 0; index--) {
             builder.append("\nWhich spawned:");
-            appendDebugMessage(builder, sequencesQueue.get(index)); // Slow, but this is debugging-only method.
+            appendDebugMessage(builder, sequences.get(index));
         }
         if (currentSequence != originalSequence) {
             builder.append("\nWhich spawned:");

@@ -7,9 +7,9 @@ See [gdx-lml-tests](http://github.com/czyzby/gdx-lml-tests) for example uses of 
 ##Maven artifact
 To import LML with Gradle, add this dependency to your core:
 ```
-    compile "com.github.czyzby:gdx-lml:1.3.$gdxVersion"
+    compile "com.github.czyzby:gdx-lml:1.4.$gdxVersion"
 ```
-Currently supported LibGDX version is **1.7.1**.
+Currently supported LibGDX version is **1.7.2**.
 
 If you want to use LML with GWT, you have to add this module to your GdxDefinition:
 ```
@@ -23,6 +23,10 @@ See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&
 [VisUI](https://github.com/kotcrab/VisEditor/wiki/VisUI) syntax support is available through [gdx-lml-vis library](https://github.com/czyzby/gdx-lml-vis). Additionally to replacing standard Scene2D actors with improved VisUI widgets, it offers full support for other VisUI features - including color picker, file chooser, new widgets, listeners and validators.
 
 ## What's new
+1.3 -> 1.4
+
+- `PooledList` is now used instead of `LinkedList`, which should slightly speed up the parsing (as in: limit its garbage collection) thanks to cached nodes and iterators.
+
 1.2 -> 1.3
 
 - `ButtonGroup` support through specialized `Table` extension: `ButtonTable`. `<buttonTable>` tag works like a regular table (can have any children), except it adds all its direct `Button`-extending children to an internal `ButtonGroup` instance, validating their checked status. This allows to easily build groups of widgets with min and max amounts of checked buttons.

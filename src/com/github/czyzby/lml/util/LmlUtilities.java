@@ -1,8 +1,5 @@
 package com.github.czyzby.lml.util;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -17,6 +14,7 @@ import com.github.czyzby.kiwi.util.common.Exceptions;
 import com.github.czyzby.kiwi.util.common.Nullables;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
+import com.github.czyzby.kiwi.util.gdx.collection.pooled.PooledList;
 import com.github.czyzby.kiwi.util.gdx.scene2d.Alignment;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.LmlSyntax;
@@ -123,14 +121,14 @@ public class LmlUtilities {
      * @param actorId ID of the actor to find.
      * @return instance of the actor with the selected ID (ignoring case) or null if not found. */
     public static Actor getActorWithId(final Group group, final String actorId) {
-        final Queue<Group> groupsToSearch = new LinkedList<Group>();
-        groupsToSearch.offer(group);
+        final PooledList<Group> groupsToSearch = new PooledList<Group>();
+        groupsToSearch.add(group);
         while (!groupsToSearch.isEmpty()) {
-            for (final Actor actor : groupsToSearch.poll().getChildren()) {
+            for (final Actor actor : groupsToSearch.removeFirst().getChildren()) {
                 if (actorId.equalsIgnoreCase(actor.getName())) {
                     return actor;
                 } else if (actor instanceof Group) {
-                    groupsToSearch.offer((Group) actor);
+                    groupsToSearch.add((Group) actor);
                 }
             }
         }
@@ -150,15 +148,15 @@ public class LmlUtilities {
             actor.setUserObject(null);
         }
         if (actor instanceof Group) {
-            final Queue<Group> groupsToSearch = new LinkedList<Group>();
+            final PooledList<Group> groupsToSearch = new PooledList<Group>();
             groupsToSearch.add((Group) actor);
             while (!groupsToSearch.isEmpty()) {
-                for (final Actor child : groupsToSearch.poll().getChildren()) {
+                for (final Actor child : groupsToSearch.removeFirst().getChildren()) {
                     if (child.getUserObject() instanceof LmlUserObject) {
                         child.setUserObject(null);
                     }
                     if (child instanceof Group) {
-                        groupsToSearch.offer((Group) child);
+                        groupsToSearch.add((Group) child);
                     }
                 }
             }
