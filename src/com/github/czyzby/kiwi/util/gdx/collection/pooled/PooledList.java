@@ -328,6 +328,38 @@ public class PooledList<T> implements Iterable<T> {
         return iterator.replace(element);
     }
 
+    /** @return direct reference to list's pool. */
+    public Pool<Node<T>> getPool() {
+        return pool;
+    }
+
+    /** Removes all elements of the list. Frees all nodes to the pool. */
+    public void clear() {
+        Node<T> node = head.next, next;
+        size = 0;
+        head.reset(); // Clearing references.
+        tail = head;
+        iterator.currentNode = head;
+        while (node != null) {
+            next = node.next;
+            node.free(pool);
+            node = next;
+        }
+    }
+
+    /** Clears the list. Instead of returning the nodes to the pool, it simply clears references to them, allowing them
+     * to be garbage-collected. Invoke this method only if you don't plan on using {@link PooledList} with the selected
+     * pool anymore or if the pool has a max value that is already achieved (or lesser than total amount of nodes in the
+     * list), in which case nodes would be garbage-collected as well.
+     *
+     * @see #clear() */
+    public void purge() {
+        head.reset();
+        tail = head;
+        size = 0;
+        iterator.currentNode = head;
+    }
+
     /** Represents a single node in the {@link PooledList}. Stores an element and references to its node neighbors.
      *
      * @author MJ
