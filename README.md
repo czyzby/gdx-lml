@@ -106,6 +106,11 @@ Automatic component scan on iOS is not implemented and it might take me some tim
 Your opinions, comments and testing can help as well. Don't be afraid to inform me about bugs and functionalities that are missing or the ones you are not a huge fan of.
 
 ## What's new
+1.4 -> 1.5:
+
+- Added `getPreference` methods to `PreferencesService`. Now you can also access preferences "manually" instead of injecting them.
+- Added `setCreateMissingDependencies` to `AutumnApplication`. Now you can easily turn off injection of not annotated classes without providers.
+
 1.3 -> 1.4:
 
 - Views are now additionally resized before showing, which fixes bugs with some viewports where not every screen was resized properly.

@@ -112,6 +112,20 @@ public class PreferencesService extends AbstractAnnotationProcessor<Property> {
         return interfaceService.getParser().getData().getPreferences(preferencesName);
     }
 
+    /** @param preference name of the preference.
+     * @return preference wrapper, allowing to access chosen preference. */
+    public Preference<?> getPreference(final String preference) {
+        return preferences.get(preference);
+    }
+
+    /** @param preference name of the preference.
+     * @param preferenceType class of the preference value managed by the wrapper.
+     * @return preference wrapper, allowing to access chosen preference. */
+    @SuppressWarnings("unchecked")
+    public <Type> Preference<Type> getPreference(final String preference, final Class<Type> preferenceType) {
+        return (Preference<Type>) preferences.get(preference);
+    }
+
     @Override
     public boolean isSupportingTypes() {
         return true;

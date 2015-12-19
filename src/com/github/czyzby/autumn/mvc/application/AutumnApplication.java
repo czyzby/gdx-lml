@@ -45,6 +45,7 @@ public class AutumnApplication implements ApplicationListener {
     private Array<Pair<Class<?>, ClassScanner>> componentScanners;
     private ContextDestroyer contextDestroyer;
     private InterfaceService interfaceService;
+    private boolean createMissingDependencies = true;
 
     public AutumnApplication(final ClassScanner componentScanner, final Class<?> scanningRoot) {
         componentScanners = GdxArrays.newArray();
@@ -68,12 +69,21 @@ public class AutumnApplication implements ApplicationListener {
     private void initiateContext() {
         interfaceService = new InterfaceService();
         final ContextInitializer initializer = new ContextInitializer();
+        initializer.createMissingDependencies(createMissingDependencies);
         registerDefaultComponentAnnotations(initializer);
         addDefaultComponents(initializer);
         for (final Pair<Class<?>, ClassScanner> componentScanner : componentScanners) {
             initializer.scan(componentScanner.getFirst(), componentScanner.getSecond());
         }
         contextDestroyer = initializer.initiate();
+    }
+
+    /** @param createMissingDependencies if true, classes not available in context (unannotated) and without valid
+     *            providers will be created with no-arg constructor if requested for injection. Defaults to true.
+     * @return this, for chaining. */
+    public AutumnApplication setCreateMissingDependencies(final boolean createMissingDependencies) {
+        this.createMissingDependencies = createMissingDependencies;
+        return this;
     }
 
     /** Invoked before context initiation.
