@@ -60,6 +60,10 @@ To include Autumn on Android, see [Autumn Android](http://github.com/czyzby/gdx-
 For efficient class scanning on desktop, see [Autumn FCS](http://github.com/czyzby/gdx-autumn-fcs).
 
 ##What's new
+1.3 -> 1.5
+
+- Exceptions thrown during annotation checks are now logged. This will basically affect only GWT platform (if it happens to work) - exceptions were ignored there due to clumsy reflection mechanism, but it turns out that some of them are actually relevant from time to time.
+
 1.2 -> 1.3
 
 - Annotated methods (`@Initiate`, `@Destroy`) no longer keep component references for invocation if they are static. If your static `@Destroy` method is annotated, you can safely assume that the component will still be properly garbage collected after context initiation, as long as you didn't keep its reference anywhere.

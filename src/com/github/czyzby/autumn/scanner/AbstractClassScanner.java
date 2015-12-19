@@ -2,9 +2,8 @@ package com.github.czyzby.autumn.scanner;
 
 import java.lang.annotation.Annotation;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
-import com.github.czyzby.kiwi.util.common.Exceptions;
-import com.github.czyzby.kiwi.util.gdx.reflection.Annotations;
 
 /** Contains utility methods common for vanilla Java + LibGDX scanners that could support GWT.
  *
@@ -31,7 +30,7 @@ public abstract class AbstractClassScanner implements ClassScanner {
     protected boolean isAnnotatedWithAny(final Class<?> possibleMatch,
             final Iterable<Class<? extends Annotation>> annotations) {
         try {
-            if (Annotations.hasAnnotations(possibleMatch)) {
+            if (hasAnnotations(possibleMatch)) {
                 for (final Class<? extends Annotation> annotation : annotations) {
                     if (ClassReflection.isAnnotationPresent(possibleMatch, annotation)) {
                         return true;
@@ -40,9 +39,16 @@ public abstract class AbstractClassScanner implements ClassScanner {
             }
         } catch (final Exception exception) {
             // Not reflected classes might throw an exception on GWT, so we're expecting an error here.
-            Exceptions.ignore(exception);
-            return false;
+            Gdx.app.error("WARN", "Exception thrown during annotation check: " + exception.getMessage());
         }
         return false;
+    }
+
+    /** @param classToProcess will be checked.
+     * @return true if the class has any annotations.
+     * @throws RuntimeException thrown on GWT if the class or its necessary dependencies are not reflected. */
+    protected boolean hasAnnotations(final Class<?> classToProcess) {
+        final com.badlogic.gdx.utils.reflect.Annotation[] annotations = ClassReflection.getAnnotations(classToProcess);
+        return annotations != null && annotations.length > 0;
     }
 }
