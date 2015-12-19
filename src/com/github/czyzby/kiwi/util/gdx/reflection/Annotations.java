@@ -25,11 +25,20 @@ public class Annotations {
     }
 
     /** @param classInAnnotation will be validated.
-     * @return true if the class is not null and does not equal {@link Void} or void class. Void class is often used in
-     *         annotation as default return value for not required class methods. */
+     * @return true if the class is not null and does not equal {@link Void} or {@code void} class. Void class is often
+     *         used in annotations as default return value for optional class-returning methods. */
     public static boolean isNotVoid(final Class<?> classInAnnotation) {
-        // Null should never happen in regular Java, but who knows what can happen on GWT.
+        // Null should never be returned in regular Java, but who knows what can happen on GWT.
         return classInAnnotation != null && !classInAnnotation.equals(void.class)
                 && !classInAnnotation.equals(Void.class);
+    }
+
+    /** @param classInAnnotation will be validated.
+     * @return true if the class is null or equals {@link Void} or {@code void} class. Void class is often used in
+     *         annotations as default return value for optional class-returning methods. */
+    public static boolean isVoid(final Class<?> classInAnnotation) {
+        // Null should never be returned in regular Java, but who knows what can happen on GWT.
+        return classInAnnotation == null || classInAnnotation.equals(void.class)
+                || classInAnnotation.equals(Void.class);
     }
 }
