@@ -48,9 +48,9 @@ public class Main extends AbstractApplicationListener {
             // Syntax:
             "i18n", "preferences", "arguments", "actions",
             // Macros:
-            "actorMacro", "anyNotNull", "argumentReplace", "assign", "calculate", "comment", "conditional", "evaluate",
-            "exception", "forEach", "import", "loop", "logger", "meta", "nestedForEach", "newAttribute", "newTag",
-            "nullCheck", "tableColumn", "tableRow", "while",
+            "actorMacro", "anyNotNull", "argument", "argumentReplace", "assign", "calculate", "comment", "conditional",
+            "evaluate", "exception", "forEach", "import", "loop", "logger", "meta", "nestedForEach", "newAttribute",
+            "newTag", "nullCheck", "tableColumn", "tableRow", "while",
             // Custom elements:
             "customAttribute", "customMacro", "customTag",
             // Vis unique tags:
