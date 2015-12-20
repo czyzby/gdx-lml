@@ -120,7 +120,8 @@ public class PreferencesService extends AbstractAnnotationProcessor<Property> {
 
     /** @param preference name of the preference.
      * @param preferenceType class of the preference value managed by the wrapper.
-     * @return preference wrapper, allowing to access chosen preference. */
+     * @return preference wrapper, allowing to access chosen preference.
+     * @param <Type> type supported by the preference. Performs unchecked cast. */
     @SuppressWarnings("unchecked")
     public <Type> Preference<Type> getPreference(final String preference, final Class<Type> preferenceType) {
         return (Preference<Type>) preferences.get(preference);
