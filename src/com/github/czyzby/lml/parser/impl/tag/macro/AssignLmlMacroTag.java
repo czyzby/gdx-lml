@@ -56,7 +56,7 @@ public class AssignLmlMacroTag extends AbstractMacroLmlTag {
     /** @param argumentValue should be evaluated according to macro specification.
      * @return evaluated value. */
     protected String processArgumentValue(final String argumentValue) {
-        // Assignment macro does parse the value, it just
+        // Assignment macro does parse the value, it just assigns it.
         return argumentValue;
     }
 

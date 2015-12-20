@@ -23,6 +23,10 @@ See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&
 [VisUI](https://github.com/kotcrab/VisEditor/wiki/VisUI) syntax support is available through [gdx-lml-vis library](https://github.com/czyzby/gdx-lml-vis). Additionally to replacing standard Scene2D actors with improved VisUI widgets, it offers full support for other VisUI features - including color picker, file chooser, new widgets, listeners and validators.
 
 ## What's new
+1.4 -> 1.5
+
+- `argument` macro added. Contrary to `assign` macro, this macro evaluates passed arguments. For example, `assign` macro would assign `@someBundleLine` to argument name, while `argument` value would convert it to `Actual bundle line value in .properties file.` and assign it to the argument. See `ArgumentLmlMacroTag` for more informations.
+
 1.3 -> 1.4
 
 - `PooledList` is now used instead of `LinkedList`, which should slightly speed up the parsing (as in: limit its garbage collection) thanks to cached nodes and iterators.

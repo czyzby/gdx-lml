@@ -240,6 +240,7 @@ import com.github.czyzby.lml.parser.impl.tag.actor.provider.VerticalGroupLmlTagP
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.WindowLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.ActorLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.AnyNotNullLmlMacroTagProvider;
+import com.github.czyzby.lml.parser.impl.tag.macro.provider.ArgumentLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.ArgumentReplacementLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.AssignLmlMarcoTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.CalculationLmlMacroTagProvider;
@@ -359,6 +360,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
     protected void registerMacroTags() {
         addMacroTagProvider(new ActorLmlMacroTagProvider(), "actor", "widget");
         addMacroTagProvider(new AnyNotNullLmlMacroTagProvider(), "anyNotNull", "any", "anyExists", "anyPresent");
+        addMacroTagProvider(new ArgumentLmlMacroTagProvider(), "nls", "argument", "preference", "i18n", "bundle");
         addMacroTagProvider(new ArgumentReplacementLmlMacroTagProvider(), "replace", "replaceArguments", "replaceArgs",
                 "argumentsReplace", "argsReplace", "noOp", "noOperation", "doNothing", "root");
         addMacroTagProvider(new AssignLmlMarcoTagProvider(), "assign", "var", "val", "toArgument");
