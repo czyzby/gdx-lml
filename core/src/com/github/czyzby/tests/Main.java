@@ -46,7 +46,7 @@ public class Main extends AbstractApplicationListener {
             "splitPane", "stack", "table", "textArea", "textButton", "textField", "tooltip", "touchpad", "tree",
             "verticalGroup", "window",
             // Syntax:
-            "i18n", "preferences", "arguments", "actions",
+            "i18n", "preferences", "arguments", "actions", "arrays", "equations",
             // Macros:
             "actorMacro", "anyNotNull", "argument", "argumentReplace", "assign", "calculate", "comment", "conditional",
             "evaluate", "exception", "forEach", "import", "loop", "logger", "meta", "nestedForEach", "newAttribute",

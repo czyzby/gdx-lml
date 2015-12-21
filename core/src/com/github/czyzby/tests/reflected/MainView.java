@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.czyzby.kiwi.util.common.Strings;
+import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.collection.disposable.DisposableArray;
 import com.github.czyzby.kiwi.util.gdx.scene2d.Actors;
 import com.github.czyzby.lml.annotation.LmlAction;
@@ -159,6 +160,13 @@ public class MainView extends AbstractLmlView {
         ((Label) LmlUtilities.getActorWithId(dialog, "resultMessage")).setText("It's not like you have a choice.");
         // Returning true boolean cancels dialog hiding:
         return ReflectedLmlDialog.CANCEL_HIDING;
+    }
+
+    /* templates/examples/arrays.lml */
+
+    @LmlAction("someMethodReturningArray")
+    public Array<Float> getSomeNumbers() {
+        return GdxArrays.newArray(4.2f, 3f);
     }
 
     /* templates/examples/checkBox.lml */

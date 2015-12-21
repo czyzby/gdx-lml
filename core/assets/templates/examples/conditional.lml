@@ -19,7 +19,7 @@
         <@if {loop:index}%3 = 0>
             <@row/>
         </@if>
-        <button/>
+        <button pad=1/>
     </@loop>
 </table>
 
