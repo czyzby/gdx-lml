@@ -7,9 +7,8 @@ Android "natives" for [LibGDX Autumn](https://github.com/czyzby/gdx-autumn) - de
 ### Alternatives
 If, for some reason, class scanning does not work on Android, I'm afraid you're stuck with `FixedClassScanner` - you have to register "scanned" classes manually, so this defeats the whole purpose of automated class scanning, but it should definitely work on every platform.
 
-##Dependency
-Gradle dependency (for Android LibGDX project):
-
+## Dependencies
+`Gradle` dependency (for Android LibGDX project):
 ```
     compile "com.github.czyzby:gdx-autumn-android:1.4.$gdxVersion"
 ```
