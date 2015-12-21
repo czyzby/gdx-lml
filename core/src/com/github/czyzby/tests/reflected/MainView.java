@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.czyzby.kiwi.util.common.Strings;
+import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.scene2d.Actors;
 import com.github.czyzby.lml.annotation.LmlAction;
 import com.github.czyzby.lml.annotation.LmlActor;
@@ -113,7 +114,7 @@ public class MainView extends AbstractLmlView {
     private void onParsingError(final Exception exception) {
         // Printing the message without stack trace - we don't want to completely flood the console and its usually not
         // relevant anyway. Change to '(...), "Unable to parse LML template:", exception);' for stacks.
-        Gdx.app.error(Lml.LOGGER_TAG, "Unable to parse LML template: " + exception.getMessage());
+        Gdx.app.error(Lml.LOGGER_TAG, "Unable to parse LML template: " + exception);
         resultTable.clear();
         resultTable.add("Error occurred. Sorry.");
         parser.fillStage(getStage(), Gdx.files.internal("templates/dialogs/error.lml"));
@@ -148,6 +149,13 @@ public class MainView extends AbstractLmlView {
         ((Label) LmlUtilities.getActorWithId(dialog, "resultMessage")).setText("It's not like you have a choice.");
         // Returning true boolean cancels dialog hiding:
         return ReflectedLmlDialog.CANCEL_HIDING;
+    }
+
+    /* templates/examples/arrays.lml */
+
+    @LmlAction("someMethodReturningArray")
+    public Array<Float> getSomeNumbers() {
+        return GdxArrays.newArray(4.2f, 3f);
     }
 
     /* templates/examples/checkBox.lml */
