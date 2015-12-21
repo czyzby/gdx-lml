@@ -1,8 +1,8 @@
 #LibGDX Autumn GWT
 GWT natives for [LibGDX Autumn](https://github.com/czyzby/gdx-autumn) - dependency injection with component scan mechanism.
 
-##Reflection
-Autumn GWT generates an object aware of all LibGDX-reflected classes, registered with standard `gdx.reflect.include` (and omitted with `.exclude`) GWT definition property. `GwtClassScanner` is the default Autumn's `ClassScanner` implementation for GWT - it will detect all annotated classes that were included for LibGDX reflection.
+## Reflection
+Autumn GWT generates an object aware of all LibGDX-reflected classes, registered with standard `gdx.reflect.include` (and omitted with `gdx.reflect.exclude`) GWT definition property. `GwtClassScanner` is the default Autumn's `ClassScanner` implementation for GWT - it will detect all annotated classes that were included for LibGDX reflection.
 
 ### Troubleshooting
 Sometimes upon application initiation you might see an error like this:
@@ -22,7 +22,7 @@ Adding these classes to reflection pool solves the problem most of the times (if
 
 If one of your components fails to initiate, make sure that all of its extended super classes (and, if desperate, all implemented interfaces) all included in reflection pool. This is sometimes the issue, as super classes might need to be reflected for correct scan of class' annotations.
 
-##Dependency
+## Dependencies
 `Gradle` dependency (for GWT LibGDX project):
 ```
     compile "com.github.czyzby:gdx-autumn-gwt:1.4.$gdxVersion"
