@@ -77,6 +77,10 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * 3), it adds a table row thanks to "row=true" attribute. {makeRow} will take these values: false (0 iteration), true
  * (1), false (2), true (3).
  *
+ * <p>
+ * {@link com.github.czyzby.lml.parser.LmlSyntax#getEquationMarker() Equation marker} is a simplified alternative to
+ * this macro.
+ *
  * @author MJ */
 public class CalculationLmlMacroTag extends AssignLmlMacroTag {
     public CalculationLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {

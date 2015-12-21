@@ -5,9 +5,9 @@ import com.badlogic.gdx.utils.IntMap;
 import com.github.czyzby.kiwi.util.common.Nullables;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.lml.parser.LmlParser;
-import com.github.czyzby.lml.parser.action.ActorConsumer;
+import com.github.czyzby.lml.util.LmlUtilities;
 
-/** Allows to evaluate string equations at runtime. Supports String, float, int and boolean times, determined upon
+/** Allows to evaluate string equations at runtime. Supports String, float, int and boolean types, determined upon
  * parsing. See {@link DefaultOperator} for supported operations.
  *
  * @author MJ */
@@ -138,17 +138,19 @@ public class Equation {
     }
 
     private String buildValue(final StringBuilder valueBuilder) {
-        final String value = valueBuilder.toString().trim();
-        if (parser != null && Strings.startsWith(value, parser.getSyntax().getMethodInvocationMarker())) {
-            // Equation element is a LML action. Invoking:
-            final ActorConsumer<?, Actor> action = parser.parseAction(value, actor);
-            if (action == null) {
-                parser.throwErrorIfStrict("Unknown action ID in equation: " + value);
-                return value;
-            }
-            return Nullables.toString(action.consume(actor));
+        String value = valueBuilder.toString().trim().replace("\\n", "\n");
+        if (isInQuotation(value)) {
+            value = LmlUtilities.stripQuotation(value);
+        }
+        if (parser != null) {
+            return parser.parseString(value, actor);
         }
         return value;
+    }
+
+    protected boolean isInQuotation(final String value) {
+        return Strings.startsWith(value, '"') && Strings.endsWith(value, '"')
+                || Strings.startsWith(value, '\'') && Strings.endsWith(value, '\'');
     }
 
     protected String printNodes(Element firstNode) {
@@ -691,7 +693,7 @@ public class Equation {
         /** Utility operator that can process 1 value at a time (cannot process 2 arguments) or an operator. Returns
          * unchanged passed value while processing and passed operator while merging. This is basically negated
          * negation. */
-        NO_OP('\\') {
+        NO_OP('\uFFEE') {
             @Override
             public int getSingleArgumentPriority() {
                 return 5;
@@ -869,7 +871,7 @@ public class Equation {
          * </tr>
          * </table>
         */
-        NOT_EQUALS('{') { // != is converted to this.
+        NOT_EQUALS('\uFFEF') { // != is converted to this.
             @Override
             public int getDoubleArgumentPriority() {
                 return 1;
@@ -940,7 +942,7 @@ public class Equation {
          * </tr>
          * </table>
         */
-        NOT_EQUALS_STRICT('}') { // !== is converted to this.
+        NOT_EQUALS_STRICT('\uFFFA') { // !== is converted to this.
             @Override
             public int getDoubleArgumentPriority() {
                 return 1;
@@ -999,7 +1001,7 @@ public class Equation {
          * </tr>
          * </table>
         */
-        EQUALS_STRICT('`') { // == is converted to this value.
+        EQUALS_STRICT('\uFFFB') { // == is converted to this value.
             @Override
             public int getDoubleArgumentPriority() {
                 return 1;
@@ -1120,7 +1122,7 @@ public class Equation {
          * </tr>
          * </table>
         */
-        LOWER_OR_EQUALS('[') { // <= and =< are converted to this operator.
+        LOWER_OR_EQUALS('\uFFFC') { // <= and =< are converted to this operator.
             @Override
             public int getDoubleArgumentPriority() {
                 return 1;
@@ -1241,7 +1243,7 @@ public class Equation {
          * </tr>
          * </table>
         */
-        GREATER_OR_EQUALS(']') { // >= and => are converted to this operator
+        GREATER_OR_EQUALS('\uFFFD') { // >= and => are converted to this operator
             @Override
             public int getDoubleArgumentPriority() {
                 return 1;
@@ -1714,7 +1716,7 @@ public class Equation {
          * </tr>
          * </table>
         */
-        INCREMENT('\'') { // Converted from ++.
+        INCREMENT('\uFFFE') { // Converted from ++.
             @Override
             public int getSingleArgumentPriority() {
                 return 5;
@@ -1763,7 +1765,7 @@ public class Equation {
          * </tr>
          * </table>
         */
-        DECREMENT('"') { // Converted from --.
+        DECREMENT('\uFFFF') { // Converted from --.
             @Override
             public int getSingleArgumentPriority() {
                 return 5;

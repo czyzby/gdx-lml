@@ -250,6 +250,31 @@ public interface LmlSyntax {
      *         keys. */
     char getRangeArrayClosing();
 
+    /** @return character that marks that selected block should be evaluated as an equation rather than regular
+     *         argument. Defaults to '='. Changes the way argument is parsed. For example:<blockquote>
+     *
+     *         <pre>
+     * {=4+5}
+     *         </pre>
+     *
+     *         </blockquote> Rather than looking for argument named "=4+5", this block will evaluate to "9". Equations
+     *         can also handle preferences, actions and bundle lines. For example: <blockquote>
+     *
+     *         <pre>
+     * # Given .properties i18n bundle file with line:
+     * player=Player
+     *
+     * # ...this equation:
+     * {={@literal @}player + 1}
+     *
+     * # ...evaluates to:
+     * Player1
+     *         </pre>
+     *
+     *         </blockquote>See {@link com.github.czyzby.lml.parser.impl.tag.macro.CalculationLmlMacroTag calculation
+     *         macro docs} for more informations about equations. */
+    char getEquationMarker();
+
     /** @param tagName name of the tag as it appears in LML template.
      * @return provider of tags associated with the selected name. Might be null, if tag was not registered.
      * @see #getMacroTagProvider(String) */

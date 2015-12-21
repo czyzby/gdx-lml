@@ -646,8 +646,8 @@ public abstract class AbstractLmlParser implements LmlParser {
     protected void parseArrayElements(final Array<String> resultArray, final String[] unparsedArrayElements,
             final Object forActor) {
         for (final String element : unparsedArrayElements) {
-            final String[] range = parseArrayRange(element); // Used instead of a "isRange" as the parsing is pretty
-            // complex and we want to do look-ups only once. Returns null if the element is not a range after all.
+            final String[] range = parseArrayRange(element, forActor); // Used instead of a "isRange" as the parsing is
+            // pretty complex and we want to do look-ups only once. Returns null if the element is not a range.
             if (range != null) {
                 // Element is a range. Adding all range elements:
                 parseArrayElements(resultArray, range, forActor);
@@ -692,8 +692,9 @@ public abstract class AbstractLmlParser implements LmlParser {
     }
 
     /** @param rawLmlData unparsed data that might be an array range.
+     * @param forActor requested to parse a range.
      * @return array range elements if the data is a range or null if it is not. */
-    protected String[] parseArrayRange(final String rawLmlData) {
+    protected String[] parseArrayRange(final String rawLmlData, final Object forActor) {
         final int openingIndex = rawLmlData.indexOf(syntax.getRangeArrayOpening());
         if (Strings.isCharacterAbsent(openingIndex)) {
             return null;
@@ -707,8 +708,8 @@ public abstract class AbstractLmlParser implements LmlParser {
             return null;
         }
         final String rangeBase = rawLmlData.substring(0, openingIndex);
-        final int rangeStart = Integer.parseInt(rawLmlData.substring(openingIndex + 1, separatorIndex));
-        final int rangeEnd = Integer.parseInt(rawLmlData.substring(separatorIndex + 1, closingIndex));
+        final int rangeStart = getRangeValue(rawLmlData.substring(openingIndex + 1, separatorIndex), forActor);
+        final int rangeEnd = getRangeValue(rawLmlData.substring(separatorIndex + 1, closingIndex), forActor);
         if (rangeStart < rangeEnd) {
             // Range going up.
             final String[] range = new String[rangeEnd - rangeStart + 1];
@@ -723,6 +724,17 @@ public abstract class AbstractLmlParser implements LmlParser {
             range[rangeStart - index] = rangeBase + index;
         }
         return range;
+    }
+
+    /** @param rawData raw string data of range start or end. Expected to be a number (or a value that can be parsed
+     *            into an int).
+     * @param forActor requested to parse a range.
+     * @return parsed value of the range. */
+    protected int getRangeValue(final String rawData, final Object forActor) {
+        if (Strings.isInt(rawData)) {
+            return Integer.parseInt(rawData);
+        }
+        return parseInt(rawData, forActor);
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.lml.parser.LmlData;
 import com.github.czyzby.lml.parser.LmlSyntax;
 import com.github.czyzby.lml.parser.LmlTemplateReader;
+import com.github.czyzby.lml.parser.impl.tag.macro.util.Equation;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.parser.tag.LmlTagProvider;
 import com.github.czyzby.lml.util.LmlParsingException;
@@ -125,8 +126,16 @@ public class DefaultLmlParser extends AbstractLmlParser {
         while (templateReader.hasNextCharacter()) {
             final char argumentCharacter = templateReader.nextCharacter();
             if (argumentCharacter == syntax.getArgumentClosing()) {
-                final String argumentName = argumentNameBuilder.toString().trim(); // Getting actual argument name.
-                templateReader.append(Nullables.toString(data.getArgument(argumentName)), argumentName + " argument");
+                final String argument = argumentNameBuilder.toString().trim(); // Getting actual argument name.
+                if (Strings.startsWith(argument, syntax.getEquationMarker())) {
+                    // Starts with an equation sign. Evaluating.
+                    final String equation = LmlUtilities.stripMarker(argument);
+                    templateReader
+                            .append(new Equation(this, currentParentTag == null ? null : currentParentTag.getActor())
+                                    .getResult(equation), equation + " equation");
+                } else { // Regular argument. Looking for value mapped to the selected key.
+                    templateReader.append(Nullables.toString(data.getArgument(argument)), argument + " argument");
+                }
                 return;
             }
             argumentNameBuilder.append(argumentCharacter);

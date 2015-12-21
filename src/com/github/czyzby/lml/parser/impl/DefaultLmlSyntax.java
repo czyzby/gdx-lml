@@ -848,6 +848,11 @@ public class DefaultLmlSyntax implements LmlSyntax {
     }
 
     @Override
+    public char getEquationMarker() {
+        return '=';
+    }
+
+    @Override
     public LmlTagProvider getTagProvider(final String tagName) {
         return tagProviders.get(tagName);
     }
