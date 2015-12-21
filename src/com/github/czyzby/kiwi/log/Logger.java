@@ -15,6 +15,9 @@ public interface Logger {
     /** @return true if error messages are logged. */
     boolean isErrorOn();
 
+    /** @param value will be converted to string and logged on debug level. Can be null. */
+    void debug(Object value);
+
     /** @param message will be logged on debug level. */
     void debug(String message);
 
@@ -33,6 +36,9 @@ public interface Logger {
      * @see com.github.czyzby.kiwi.log.formatter.TextFormatter */
     void debug(Throwable exception, String message, Object... arguments);
 
+    /** @param value will be converted to string and logged on info level. Can be null. */
+    void info(Object value);
+
     /** @param message will be logged on info level. */
     void info(String message);
 
@@ -50,6 +56,9 @@ public interface Logger {
      * @param arguments will replace placeholders.
      * @see com.github.czyzby.kiwi.log.formatter.TextFormatter */
     void info(Throwable exception, String message, Object... arguments);
+
+    /** @param value will be converted to string and logged on error level. Can be null. */
+    void error(Object value);
 
     /** @param message will be logged on error level. */
     void error(String message);

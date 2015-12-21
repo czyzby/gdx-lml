@@ -5,6 +5,7 @@ import java.util.Date;
 import com.github.czyzby.kiwi.log.Logger;
 import com.github.czyzby.kiwi.log.LoggerService;
 import com.github.czyzby.kiwi.log.formatter.TextFormatter;
+import com.github.czyzby.kiwi.util.common.Nullables;
 
 /** Abstract base for Kiwi loggers.
  *
@@ -61,6 +62,13 @@ public abstract class AbstractLogger implements Logger {
     }
 
     @Override
+    public void debug(final Object value) {
+        if (isDebugOn()) {
+            logDebug(getDebugTag(), Nullables.toString(value));
+        }
+    }
+
+    @Override
     public void debug(final String message) {
         if (isDebugOn()) {
             logDebug(getDebugTag(), message);
@@ -89,6 +97,13 @@ public abstract class AbstractLogger implements Logger {
     }
 
     @Override
+    public void info(final Object value) {
+        if (isInfoOn()) {
+            logInfo(getInfoTag(), Nullables.toString(value));
+        }
+    }
+
+    @Override
     public void info(final String message) {
         if (isInfoOn()) {
             logInfo(getInfoTag(), message);
@@ -113,6 +128,13 @@ public abstract class AbstractLogger implements Logger {
     public void info(final Throwable exception, final String message, final Object... arguments) {
         if (isInfoOn()) {
             logInfo(getInfoTag(), formatter.format(message, arguments), exception);
+        }
+    }
+
+    @Override
+    public void error(final Object value) {
+        if (isErrorOn()) {
+            logError(getErrorTag(), Nullables.toString(value));
         }
     }
 
