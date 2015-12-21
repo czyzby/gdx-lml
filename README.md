@@ -8,7 +8,7 @@ Check [gdx-lml-vis-tests](http://github.com/czyzby/gdx-lml-vis-tests) for exampl
 
 See [online demo](http://vis.kotcrab.com/demo/lml/).
 
-## Dependency
+## Dependencies
 
 Gradle:
 ```
@@ -55,7 +55,7 @@ public static void destroyColorPicker() {
 
 Note that by making the method static, instance of the class containing the method will not be kept, so it can be safely garbage collected after application initiation. This is very useful if you want to keep such settings in a single configuration class.
 
-## Changes
+## What's new
 
 1.3 -> 1.4
 
@@ -64,16 +64,5 @@ Note that by making the method static, instance of the class containing the meth
 - Removed `ColumnGroup` support, since this widget is deprecated in the last `VisUI` version. Use `VerticalGroup` instead.
 - `FixedSizeGridGroup`, `VisFormTable` and `VisTabTable` are no longer GWT-reflected. They were moved from `com.github.czyzby.lml.vis.ui.reflected` to `com.github.czyzby.lml.vis.ui` package. `MockUpActor` was extracted from `FixedSizeGridGroup` (it was an internal class) and moved to `com.github.czyzby.lml.vis.ui.reflected` package.
 
-1.2 -> 1.3
-
-- `allowAlphaEdit` (`allowAlpha`) attribute for `colorPicker` tag.
-- `VisDialog` style setting is no longer ignored.
-- Fixed `TabbedPane` with custom showing/hiding actions. `Action`-extending object was not included in GWT reflection, which caused runtime errors.
-- Fixed `colorPicker` attribute. Since `setColor` method calls color picker's listener, there was one extra unnecessary listener call before the picker was shown. Now listener is cleared before internally calling `setColor`.
-- Added support for `TabbedPane` tab disabling. `Tab` now supports custom `disable` attribute.
-- `maxLength` attribute in `numberSelector` tag. Affects internal `VisTextField`.
-- `Draggable` listener supported through `draggable` tag. The tag will add the listener to its direct parent actor. If the parent is a `DragPane`, it will set the listener to all its children instead.
-- `DragPane` group supported through `dragPane` tag. As most groups, accepts all widgets and converts plain text to labels. Allows to modify its content through actor dragging.
-- `itemWidth` and `itemHeight` attributes added to `gridGroup` tag.
-- `image` (with `icon` alias) attribute available for `VisImageButton` and `VisImageTextButton`. These attributes replace `imageUp` drawable in buttons' styles: if this is the only drawable in the style, it will be always drawn on the button. You can just use a single style without any icons and manage buttons' images through these attributes.
-- Added new color pickers. `BasicColorPicker` and `ExtendedColorPicker` widgets support through `basicColorPicker` and `extendedColorPicker` tags.
+### Archive
+Older change logs are available in `CHANGES.md` file.
