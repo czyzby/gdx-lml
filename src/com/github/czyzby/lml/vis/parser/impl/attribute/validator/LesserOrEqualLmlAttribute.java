@@ -5,7 +5,7 @@ import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.kotcrab.vis.ui.util.Validators.LesserThanValidator;
 
-/** See {@link LesserThanValidator#setEquals(boolean)}. Mapped to "orEqual", "allowEqual", "lesserOrEqual".
+/** See {@link LesserThanValidator#setUseEquals(boolean)}. Mapped to "orEqual", "allowEqual", "lesserOrEqual".
  *
  * @author MJ */
 public class LesserOrEqualLmlAttribute implements LmlAttribute<LesserThanValidator> {
@@ -17,6 +17,6 @@ public class LesserOrEqualLmlAttribute implements LmlAttribute<LesserThanValidat
     @Override
     public void process(final LmlParser parser, final LmlTag tag, final LesserThanValidator actor,
             final String rawAttributeData) {
-        actor.setEquals(parser.parseBoolean(rawAttributeData, tag.getParent().getActor()));
+        actor.setUseEquals(parser.parseBoolean(rawAttributeData, tag.getParent().getActor()));
     }
 }

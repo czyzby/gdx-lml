@@ -5,7 +5,7 @@ import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.kotcrab.vis.ui.util.Validators.GreaterThanValidator;
 
-/** See {@link GreaterThanValidator#setEquals(boolean)}. Mapped to "orEqual", "allowEqual", "greaterOrEqual".
+/** See {@link GreaterThanValidator#setUseEquals(boolean)}. Mapped to "orEqual", "allowEqual", "greaterOrEqual".
  *
  * @author MJ */
 public class GreaterOrEqualLmlAttribute implements LmlAttribute<GreaterThanValidator> {
@@ -17,6 +17,6 @@ public class GreaterOrEqualLmlAttribute implements LmlAttribute<GreaterThanValid
     @Override
     public void process(final LmlParser parser, final LmlTag tag, final GreaterThanValidator actor,
             final String rawAttributeData) {
-        actor.setEquals(parser.parseBoolean(rawAttributeData, tag.getParent().getActor()));
+        actor.setUseEquals(parser.parseBoolean(rawAttributeData, tag.getParent().getActor()));
     }
 }
