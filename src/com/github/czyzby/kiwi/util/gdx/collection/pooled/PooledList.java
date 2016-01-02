@@ -15,8 +15,9 @@ import com.github.czyzby.kiwi.util.common.Nullables;
  * <p>
  * This list does NOT implement any collection-related interfaces, because LibGDX (sadly) does not provide any, and
  * standard Java collection interfaces contain operations that would be highly inefficient in case of a linked list
- * (like accessing or removing an element by its numeric index). It was assumed that no common collection interface is
- * better than misleading API, especially since LibGDX collections do not share any interface either.
+ * (like accessing or removing an element by its numeric index) and non-generic methods for backwards compatibility. It
+ * was assumed that no common collection interface is better than misleading API, especially since LibGDX collections do
+ * not share any interface either.
  * <p>
  * Usage examples: FIFO queue:<blockquote>
  *
@@ -152,7 +153,7 @@ public class PooledList<T> implements Iterable<T> {
 
     /** @return head (first element) of the list. Null if list is empty. */
     public T getFirst() {
-        return head.element;
+        return isNotEmpty() ? head.next.element : null;
     }
 
     /** @return tail (last element) of the list. Null if list is empty. */
