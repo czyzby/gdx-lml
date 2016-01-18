@@ -16,6 +16,8 @@ Gradle:
 ```
 Currently supported LibGDX version is **1.7.2**.
 
+Note that `gdx-lml-vis 1.5.1.8.0` will support `1.0.0` VisUI version and is currently on hold. If you want to use the lastest features, try `1.5.1.8.0-SNAPSHOT`.
+
 GWT module:
 ```
 	<inherits name='com.github.czyzby.lml.vis.GdxLmlVis' />

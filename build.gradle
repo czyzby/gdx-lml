@@ -8,7 +8,7 @@ sourceCompatibility = 1.6
 
 ext {
     libVersion = '1.5'
-    gdxVersion = '1.7.2'
+    gdxVersion = '1.8.0'
     isSnapshot = '-SNAPSHOT'
     visVersion = '1.0.0-SNAPSHOT'
 }
