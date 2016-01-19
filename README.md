@@ -25,11 +25,11 @@ If one of your components fails to initiate, make sure that all of its extended 
 ## Dependencies
 `Gradle` dependency (for GWT LibGDX project):
 ```
-    compile "com.github.czyzby:gdx-autumn-gwt:1.4.$gdxVersion"
-    compile "com.github.czyzby:gdx-autumn-gwt:1.4.$gdxVersion:sources"
+    compile "com.github.czyzby:gdx-autumn-gwt:1.5.$gdxVersion"
+    compile "com.github.czyzby:gdx-autumn-gwt:1.5.$gdxVersion:sources"
 ```
 
-Currently supported LibGDX version is **1.7.2**.
+Currently supported LibGDX version is **1.8.0**.
 
 GWT module:
 ```
