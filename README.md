@@ -10,7 +10,7 @@ If, for some reason, class scanning does not work on your desktop target platfor
 ## Dependencies
 `Gradle` dependency (for desktop LibGDX project):
 ```
-    compile "com.github.czyzby:gdx-autumn-fcs:1.4.$gdxVersion"
+    compile "com.github.czyzby:gdx-autumn-fcs:1.5.$gdxVersion"
 ```
 
-Currently supported LibGDX version is **1.7.2**.
+Currently supported LibGDX version is **1.8.0**.

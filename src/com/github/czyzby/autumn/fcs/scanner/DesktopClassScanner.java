@@ -4,6 +4,7 @@ import java.lang.annotation.Annotation;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectSet;
+import com.github.czyzby.autumn.AutumnRoot;
 import com.github.czyzby.autumn.scanner.ClassScanner;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxSets;
@@ -25,7 +26,8 @@ public class DesktopClassScanner implements ClassScanner {
     public Array<Class<?>> findClassesAnnotatedWith(final Class<?> root,
             final Iterable<Class<? extends Annotation>> annotations) {
         final ObjectSet<Class<?>> result = GdxSets.newSet(); // Using set to remove duplicates.
-        final FastClasspathScanner scanner = new FastClasspathScanner(root.getPackage().getName());
+        final FastClasspathScanner scanner = new FastClasspathScanner(root.getPackage().getName(),
+                AutumnRoot.class.getPackage().getName());
         for (final Class<? extends Annotation> annotation : annotations) {
             scanner.matchClassesWithAnnotation(annotation, new ClassAnnotationMatchProcessor() {
                 @Override
