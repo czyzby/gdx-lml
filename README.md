@@ -50,9 +50,9 @@ Autumn makes heavy use of reflection. While it doesn't rely on direct calls to c
 ## Dependencies
 Gradle dependency:
 ```
-    compile "com.github.czyzby:gdx-autumn:1.4.$gdxVersion"
+    compile "com.github.czyzby:gdx-autumn:1.5.$gdxVersion"
 ```
-Currently supported LibGDX version is **1.7.2**.
+Currently supported LibGDX version is **1.8.0**.
 
 To include Autumn in GWT, see [Autumn GWT](http://github.com/czyzby/gdx-autumn-gwt).
 To include Autumn on Android, see [Autumn Android](http://github.com/czyzby/gdx-autumn-android).
@@ -62,6 +62,7 @@ For efficient class scanning on desktop, see [Autumn FCS](http://github.com/czyz
 1.3 -> 1.5
 
 - Exceptions thrown during annotation checks are now logged. This will basically affect only GWT platform - exceptions were ignored there due to clumsy reflection mechanism, but it turns out that some of them are actually relevant from time to time. If your application fails to initiate a component, make sure that all of its extended classes (and implemented interfaces) are reflected. If not, try to include them.
+- Added `AutumnRoot` class in root Autumn package for class scanners utility.
 
 1.2 -> 1.3
 
