@@ -59,6 +59,10 @@ Note that by making the method static, instance of the class containing the meth
 
 ## What's new
 
+1.4 -> 1.5
+
+- As `vertical` style was removed from default skin, `Separator` tag no longer supports `vertical`/`horizontal` attributes.
+
 1.3 -> 1.4
 
 - Added `SwapListener` to `FixedSizeGridGroup`. Now you can manage (and cancel) swap events without having to modify internal `Draggable` listener.
