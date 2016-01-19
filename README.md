@@ -13,9 +13,9 @@ See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&
 ## Dependencies
 To import LML with `Gradle`, add this dependency to your core project:
 ```
-    compile "com.github.czyzby:gdx-lml:1.4.$gdxVersion"
+    compile "com.github.czyzby:gdx-lml:1.5.$gdxVersion"
 ```
-Currently supported LibGDX version is **1.7.2**.
+Currently supported LibGDX version is **1.8.0**.
 
 If you want to use LML with GWT, you have to add this module to your `GdxDefinition`:
 ```
