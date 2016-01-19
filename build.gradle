@@ -55,7 +55,7 @@ signing {
 dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     compile "com.kotcrab.vis:vis-ui:$visVersion"
-    compile "com.github.czyzby:gdx-lml:$libVersion.$gdxVersion$isSnapshot"
+    compile "com.github.czyzby:gdx-lml:$libVersion.$gdxVersion" //$isSnapshot"
     deployerJars "org.apache.maven.wagon:wagon-ssh:2.2"
     deployerJars "org.apache.maven.wagon:wagon-http:2.2"
 }
