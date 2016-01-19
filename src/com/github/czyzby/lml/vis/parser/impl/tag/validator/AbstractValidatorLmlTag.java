@@ -9,7 +9,7 @@ import com.github.czyzby.lml.parser.impl.tag.AbstractLmlTag;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.util.LmlUtilities;
 import com.github.czyzby.lml.vis.parser.impl.tag.FormValidatorLmlTag;
-import com.kotcrab.vis.ui.InputValidator;
+import com.kotcrab.vis.ui.util.InputValidator;
 import com.kotcrab.vis.ui.util.form.FormInputValidator;
 import com.kotcrab.vis.ui.util.form.ValidatorWrapper;
 import com.kotcrab.vis.ui.widget.VisValidatableTextField;

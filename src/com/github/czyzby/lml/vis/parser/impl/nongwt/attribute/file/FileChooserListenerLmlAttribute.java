@@ -40,8 +40,10 @@ public class FileChooserListenerLmlAttribute implements LmlAttribute<FileChooser
             fileChooser.setMultiSelectionEnabled(false);
             fileChooser.setListener(new FileChooserAdapter() {
                 @Override
-                public void selected(final FileHandle file) {
-                    action.consume(file);
+                public void selected(final Array<FileHandle> file) {
+                    if (GdxArrays.isNotEmpty(file)) {
+                        action.consume(file.first());
+                    }
                 }
 
                 @Override
@@ -63,11 +65,6 @@ public class FileChooserListenerLmlAttribute implements LmlAttribute<FileChooser
                 @Override
                 public void selected(final Array<FileHandle> files) {
                     directoryAction.consume(files);
-                }
-
-                @Override
-                public void selected(final FileHandle file) {
-                    // directoryAction.consume(GdxArrays.newArray(file));
                 }
 
                 @Override
