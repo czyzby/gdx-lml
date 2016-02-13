@@ -468,7 +468,9 @@ public abstract class AbstractLmlParser implements LmlParser {
 
     @Override
     public String parseString(final String rawLmlData, final Object forActor) {
-        if (Strings.startsWith(rawLmlData, syntax.getBundleLineMarker())) {
+        if (Strings.isShortherThan(rawLmlData, 2)) {
+            return rawLmlData; // At least 2 characters are needed for bundles, preferences, etc.
+        } else if (Strings.startsWith(rawLmlData, syntax.getBundleLineMarker())) {
             return parseBundleLine(rawLmlData, forActor);
         } else if (Strings.startsWith(rawLmlData, syntax.getPreferenceMarker())) {
             return parsePreference(rawLmlData);
