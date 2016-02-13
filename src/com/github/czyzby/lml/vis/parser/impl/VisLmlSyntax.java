@@ -38,6 +38,8 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.pane.AcceptFore
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.pane.DragPaneListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.pane.GroupIdLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.pane.MaxChildrenLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.flow.HorizontalSpacingLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.flow.VerticalSpacingLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.grid.GridSpacingLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.grid.ItemHeightLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.grid.ItemSizeLmlAttribute;
@@ -116,6 +118,7 @@ import com.github.czyzby.lml.vis.parser.impl.tag.provider.DraggableLmlTagProvide
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.ExtendedColorPickerLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.FormValidatorLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.GridGroupLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.HorizontalFlowGroupLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.LinkLabelLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuBarLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuItemLmlTagProvider;
@@ -126,6 +129,7 @@ import com.github.czyzby.lml.vis.parser.impl.tag.provider.NumberSelectorLmlTagPr
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.SeparatorLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.TabLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.TabbedPaneLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.VerticalFlowGroupLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisCheckBoxLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisDialogLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisImageButtonLmlTagProvider;
@@ -239,6 +243,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new ExtendedColorPickerLmlTagProvider(), "extendedColorPicker", "extendedPicker");
         addTagProvider(new FormValidatorLmlTagProvider(), "form", "formValidator", "formTable");
         addTagProvider(new GridGroupLmlTagProvider(), "gridGroup", "grid");
+        addTagProvider(new HorizontalFlowGroupLmlTagProvider(), "horizontalFlow", "hFlow", "horizontalFlowGroup");
         addTagProvider(new LinkLabelLmlTagProvider(), "linkLabel", "link");
         addTagProvider(new MenuBarLmlTagProvider(), "menuBar", "bar");
         addTagProvider(new MenuItemLmlTagProvider(), "menuItem", "item");
@@ -249,6 +254,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new SeparatorLmlTagProvider(), "separator");
         addTagProvider(new TabbedPaneLmlTagProvider(), "tabbedPane", "tabs");
         addTagProvider(new TabLmlTagProvider(), "tab");
+        addTagProvider(new VerticalFlowGroupLmlTagProvider(), "verticalFlow", "vFlow", "verticalFlowGroup");
         addTagProvider(new VisTooltipLmlTagProvider(), "visTooltip");
         addTagProvider(new VisValidatableTextFieldLmlTagProvider(), "validatable", "validatableTextField",
                 "visValidatableTextField");
@@ -275,6 +281,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         registerColorPickerAttributes();
         registerDraggableAttributes();
         registerDragPaneAttributes();
+        registerFlowGroupsAttributes();
         registerGridGroupAttributes();
         registerMenuAttributes();
         registerNumberSelectorAttributes();
@@ -417,6 +424,14 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addAttributeProcessor(new DragPaneListenerLmlAttribute(), "listener");
         addAttributeProcessor(new GroupIdLmlAttribute(), "groupId");
         addAttributeProcessor(new MaxChildrenLmlAttribute(), "maxChildren");
+    }
+
+    /** Flow groups attributes. */
+    protected void registerFlowGroupsAttributes() {
+        // HorizontalFlowGroup:
+        addAttributeProcessor(new HorizontalSpacingLmlAttribute(), "spacing");
+        // VerticalFlowGroup:
+        addAttributeProcessor(new VerticalSpacingLmlAttribute(), "spacing");
     }
 
     /** GridGroup attributes. */

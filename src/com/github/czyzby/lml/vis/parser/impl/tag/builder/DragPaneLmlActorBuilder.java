@@ -6,6 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.vis.ui.FixedSizeGridGroup;
 import com.kotcrab.vis.ui.layout.GridGroup;
+import com.kotcrab.vis.ui.layout.HorizontalFlowGroup;
+import com.kotcrab.vis.ui.layout.VerticalFlowGroup;
 import com.kotcrab.vis.ui.widget.Draggable;
 
 /** Allows to build drag pane widgets.
@@ -24,9 +26,11 @@ public class DragPaneLmlActorBuilder extends LmlActorBuilder {
         this.groupType = groupType;
     }
 
-    /** Contains all default group types managed by the drag pane.
+    /** Contains all default group types managed by the drag pane. When referenced in drag pane type attribute, has to
+     * match the exact enum name (case ignored).
      *
-     * @author MJ */
+     * @author MJ
+     * @see com.github.czyzby.lml.vis.parser.impl.attribute.building.GroupTypeLmlAttribute */
     public static enum GroupType {
         /** Constructs {@link HorizontalGroup}. */
         HORIZONTAL {
@@ -59,6 +63,20 @@ public class DragPaneLmlActorBuilder extends LmlActorBuilder {
             @Override
             public Draggable getDraggable(final WidgetGroup group) {
                 return FixedSizeGridGroup.getDraggable((FixedSizeGridGroup) group);
+            }
+        },
+        /** Constructs {@link HorizontalFlowGroup}. */
+        HFLOW {
+            @Override
+            public WidgetGroup getGroup() {
+                return new HorizontalFlowGroup();
+            }
+        },
+        /** Constructs {@link VerticalFlowGroup}. */
+        VFLOW {
+            @Override
+            public WidgetGroup getGroup() {
+                return new VerticalFlowGroup();
             }
         };
 

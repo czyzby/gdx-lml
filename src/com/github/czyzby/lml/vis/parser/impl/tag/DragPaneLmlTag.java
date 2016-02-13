@@ -15,7 +15,8 @@ import com.kotcrab.vis.ui.widget.Draggable;
  * - so, for example, if you choose a "grid" group type, drag pane tag will be able to handle all
  * {@link GridGroupLmlTag} attributes. Mapped to "dragPane".
  *
- * @author MJ */
+ * @author MJ
+ * @see DragPaneLmlActorBuilder.GroupType */
 public class DragPaneLmlTag extends AbstractGroupLmlTag {
     public DragPaneLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
         super(parser, parentTag, rawTagData);
