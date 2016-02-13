@@ -1,4 +1,4 @@
-#VisUI parser for LML templates.
+#[VisUI](https://github.com/kotcrab/VisEditor/wiki/VisUI) parser for LML templates.
 
 See [gdx-lml](http://github.com/czyzby/gdx-lml). Instead of building your parser with `Lml` class (or `LmlParserBuilder`), use `VisLml` (or `VisLmlParserBuilder`).
 
@@ -16,7 +16,7 @@ Gradle:
 ```
 Currently supported LibGDX version is **1.7.2**.
 
-Note that `gdx-lml-vis 1.5.1.8.0` will support `1.0.0` VisUI version and is currently on hold. If you want to use the lastest features, try `1.5.1.8.0-SNAPSHOT`.
+Note that `gdx-lml-vis 1.5.1.9.2` will support `1.0.0` VisUI version and is currently on hold. If you want to use the newest features, try `1.5.1.9.2-SNAPSHOT`.
 
 GWT module:
 ```
@@ -62,6 +62,7 @@ Note that by making the method static, instance of the class containing the meth
 1.4 -> 1.5
 
 - As `vertical` style was removed from default skin, `Separator` tag no longer supports `vertical`/`horizontal` attributes.
+- `VerticalFlowGroup` and `HorizontalFlowGroup` support. To use these groups in a `dragPane` tag, set `type` attribute to `vFlow` or `hFlow` (as always, case ignored).
 
 1.3 -> 1.4
 
