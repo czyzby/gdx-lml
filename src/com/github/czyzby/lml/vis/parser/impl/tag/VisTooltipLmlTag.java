@@ -15,9 +15,8 @@ public class VisTooltipLmlTag extends VisTableLmlTag {
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     protected Actor getNewInstanceOfActor(final LmlActorBuilder builder) {
-        final Tooltip tooltip = new Tooltip(builder.getStyleName(), (Actor) null, (Actor) null);
+        final Tooltip tooltip = new Tooltip(builder.getStyleName());
         tooltip.clearChildren(); // One empty cell is added, removing it.
         return tooltip;
     }

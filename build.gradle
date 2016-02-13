@@ -8,9 +8,9 @@ sourceCompatibility = 1.6
 
 ext {
     libVersion = '1.5'
-    gdxVersion = '1.8.0'
+    gdxVersion = '1.9.2'
     isSnapshot = '-SNAPSHOT'
-    visVersion = '1.0.0-SNAPSHOT'
+    visVersion = '1.0.0'
 }
 
 group = "com.github.czyzby"
@@ -55,7 +55,7 @@ signing {
 dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     compile "com.kotcrab.vis:vis-ui:$visVersion"
-    compile "com.github.czyzby:gdx-lml:$libVersion.$gdxVersion" //$isSnapshot"
+    compile "com.github.czyzby:gdx-lml:$libVersion.$gdxVersion$isSnapshot"
     deployerJars "org.apache.maven.wagon:wagon-ssh:2.2"
     deployerJars "org.apache.maven.wagon:wagon-http:2.2"
 }
