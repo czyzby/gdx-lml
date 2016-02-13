@@ -13,11 +13,11 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    version = '1.5.1.7.2'
+    version = '1.5.1.9.2'
     ext {
         appName = 'gdx-lml-vis-tests'
         libVersion = '1.5'
-        gdxVersion = '1.7.2'
+        gdxVersion = '1.9.2'
         visVersion = '1.0.0'
         isSnapshot = '-SNAPSHOT'
     }
@@ -52,7 +52,7 @@ project(":html") {
         compile "com.github.czyzby:gdx-kiwi:$libVersion.$gdxVersion$isSnapshot:sources"
         compile "com.github.czyzby:gdx-lml:$libVersion.$gdxVersion$isSnapshot:sources"
         compile "com.github.czyzby:gdx-lml-vis:$libVersion.$gdxVersion$isSnapshot:sources"
-        compile "com.kotcrab.vis:vis-ui:$visVersion$isSnapshot:sources"
+        compile "com.kotcrab.vis:vis-ui:$visVersion:sources"
     }
 }
 

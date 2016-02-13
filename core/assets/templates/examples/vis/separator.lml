@@ -1,12 +1,11 @@
 <!-- Separators are simple actors used for - as you
     might guess - separating widgets in groups. They
-    have no extra attributes (except for vertical/
-    horizontal alignment) and cannot be parents. -->
+    have no extra attributes and cannot be parents. -->
 
 <table defaultGrowX=true oneColumn=true>
     <table>
         <textButton grow=true>Button</textButton>
-        <separator vertical=true growY=true pad=2/>
+        <separator growY=true pad=2/>
         <textButton grow=true>Button</textButton>
     </table>
     <separator padTop=3 padBottom=3/>
