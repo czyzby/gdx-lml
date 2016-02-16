@@ -36,12 +36,11 @@ import com.github.czyzby.lml.util.Lml;
 import com.github.czyzby.lml.util.LmlUtilities;
 import com.github.czyzby.lml.vis.ui.VisTabTable;
 import com.github.czyzby.tests.reflected.widgets.BlinkingLabel;
-import com.kotcrab.vis.ui.util.adapter.ArrayAdapter;
 import com.kotcrab.vis.ui.util.adapter.ListAdapter;
+import com.kotcrab.vis.ui.util.adapter.SimpleListAdapter;
 import com.kotcrab.vis.ui.widget.CollapsibleWidget;
 import com.kotcrab.vis.ui.widget.MenuItem;
 import com.kotcrab.vis.ui.widget.VisDialog;
-import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTextArea;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
@@ -321,13 +320,7 @@ public class MainView extends AbstractLmlView {
     public ListAdapter<?> getCustomListAdapter() {
         final String prompt = "This list was created directly in Java and passed with a custom adapter that converts text to labels.";
         final Array<String> values = new Array<String>(Strings.split(prompt, ' '));
-        return new ArrayAdapter<String, Label>(values) {
-            @Override
-            protected Label createView(final String item) {
-                // Converting each word to a simple separate label:
-                return new VisLabel(item);
-            }
-        };
+        return new SimpleListAdapter<String>(values);
     }
 
     @LmlAction("itemListener")
