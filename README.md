@@ -12,9 +12,9 @@ See [online demo](http://vis.kotcrab.com/demo/lml/).
 
 Gradle:
 ```
-    compile "com.github.czyzby:gdx-lml-vis:1.5.$gdxVersion"
+    compile "com.github.czyzby:gdx-lml-vis:1.4.$gdxVersion"
 ```
-Currently supported LibGDX version is **1.9.2**.
+Currently supported LibGDX version is **1.7.2**.
 
 GWT module:
 ```

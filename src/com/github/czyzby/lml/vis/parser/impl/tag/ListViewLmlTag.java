@@ -74,7 +74,8 @@ public class ListViewLmlTag extends TableLmlTag {
     }
 
     /** @param listAdapter converts data to views.
-     * @return a new instance of ListView. */
+     * @return a new instance of ListView.
+     * @param <Type> type of items stored by the list. */
     protected <Type> ListView<Type> createListView(final ListAdapter<Type> listAdapter) {
         return new ListView<Type>(listAdapter);
     }
