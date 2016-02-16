@@ -1,0 +1,29 @@
+<!-- ListView widgets are used to display collections
+    of data in a specified way. By default, they can be
+    used to display a group of actors - similarly to the
+    List widget, but accepting all kinds of actors.
+    ListView has a built-in ScrollPane (it can parse its
+    attributes) and footer/header support. -->
+
+<table oneColumn=true>
+
+<listView size=200>
+<textButton header=true>Header!</textButton>
+    Some item.
+    <slider/>
+    All actor types are accepted.
+<textButton footer=true>Custom footer.</textButton>
+</listView>
+
+<!-- To be honest, list view should be rarely used to
+    display already created actors (except during the
+    prototyping). You will usually want to provide a
+    custom ListAdapter to display a certain collection: -->
+
+<listView size=200 adapter=listAdapter itemListener=itemListener>
+    <textButton header=true>Custom collection.</textButton>
+</listView>
+
+<!-- Try clicking on the second view's items to print
+    them into the console (thanks to itemListener). -->
+</table>
