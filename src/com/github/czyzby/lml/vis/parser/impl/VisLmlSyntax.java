@@ -18,6 +18,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.ColorPickerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.FocusBorderEnabledLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.ResponsiveColorPickerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.GroupTypeLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.building.ListAdapterLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.MenuItemImageLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.NumberSelectorNameLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.NumberSelectorPrecisionLmlAttribute;
@@ -61,6 +62,9 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.input.TextFieldFilterLmlA
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.TextFieldListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.ValidationEnabledLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.linklabel.UrlLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.listview.FooterLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.listview.HeaderLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.listview.ItemClickListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.menu.MenuItemGenerateDisabledImageLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.menu.MenuItemShortcutLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.numberselector.ProgrammaticChangeEventsLmlAttribute;
@@ -120,6 +124,7 @@ import com.github.czyzby.lml.vis.parser.impl.tag.provider.FormValidatorLmlTagPro
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.GridGroupLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.HorizontalFlowGroupLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.LinkLabelLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.ListViewLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuBarLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuItemLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuLmlTagProvider;
@@ -245,6 +250,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new GridGroupLmlTagProvider(), "gridGroup", "grid");
         addTagProvider(new HorizontalFlowGroupLmlTagProvider(), "horizontalFlow", "hFlow", "horizontalFlowGroup");
         addTagProvider(new LinkLabelLmlTagProvider(), "linkLabel", "link");
+        addTagProvider(new ListViewLmlTagProvider(), "listView");
         addTagProvider(new MenuBarLmlTagProvider(), "menuBar", "bar");
         addTagProvider(new MenuItemLmlTagProvider(), "menuItem", "item");
         addTagProvider(new MenuLmlTagProvider(), "menu");
@@ -286,6 +292,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         registerMenuAttributes();
         registerNumberSelectorAttributes();
         registerLinkLabelAttributes();
+        registerListViewAttributes();
         registerTabbedPaneAttributes();
         registerValidatableTextFieldAttributes();
         registerValidatorAttributes();
@@ -305,6 +312,8 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addBuildingAttributeProcessor(new NumberSelectorPrecisionLmlAttribute(), "precision");
         // MenuItemLmlActorBuilder:
         addBuildingAttributeProcessor(new MenuItemImageLmlAttribute(), "icon", "image", "drawable");
+        // ListViewLmlActorBuilder:
+        addBuildingAttributeProcessor(new ListAdapterLmlAttribute(), "adapter", "listAdapter");
     }
 
     @Override
@@ -461,6 +470,15 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     /** LinkLabel attributes. */
     protected void registerLinkLabelAttributes() {
         addAttributeProcessor(new UrlLmlAttribute(), "url", "href");
+    }
+
+    /** ListView attributes. */
+    protected void registerListViewAttributes() {
+        // ListView children:
+        addAttributeProcessor(new FooterLmlAttribute(), "footer");
+        addAttributeProcessor(new HeaderLmlAttribute(), "header");
+        // ListView attributes:
+        addAttributeProcessor(new ItemClickListenerLmlAttribute(), "itemListener", "itemClickListener");
     }
 
     /** TabbedPane (and its tab children) attributes. */

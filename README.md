@@ -1,6 +1,6 @@
-#[VisUI](https://github.com/kotcrab/VisEditor/wiki/VisUI) parser for LML templates.
+#[VisUI](https://github.com/kotcrab/VisEditor/wiki/VisUI) parser for [LML](http://github.com/czyzby/gdx-lml) templates
 
-See [gdx-lml](http://github.com/czyzby/gdx-lml). Instead of building your parser with `Lml` class (or `LmlParserBuilder`), use `VisLml` (or `VisLmlParserBuilder`).
+See [gdx-lml](http://github.com/czyzby/gdx-lml). This extension allows *LML* to create improved *VisUI* widgets instead of regular *Scene2D* actors.
 
 ## Examples
 
@@ -12,17 +12,19 @@ See [online demo](http://vis.kotcrab.com/demo/lml/).
 
 Gradle:
 ```
-    compile "com.github.czyzby:gdx-lml-vis:1.4.$gdxVersion"
+    compile "com.github.czyzby:gdx-lml-vis:1.5.$gdxVersion"
 ```
-Currently supported LibGDX version is **1.7.2**.
-
-Note that `gdx-lml-vis 1.5.1.9.2` will support `1.0.0` VisUI version and is currently on hold. If you want to use the newest features, try `1.5.1.9.2-SNAPSHOT`.
+Currently supported LibGDX version is **1.9.2**.
 
 GWT module:
 ```
 	<inherits name='com.github.czyzby.lml.vis.GdxLmlVis' />
 ```
 On GWT, you might also want to include sources of `gdx-lml-vis` and currently used `VisUI` library version.
+
+## gdx-lml to gdx-lml-vis
+
+Instead of building your parser with `Lml` class (or `LmlParserBuilder`), use `VisLml` (or `VisLmlParserBuilder`). Everything else is pretty straightforward: `VisLmlSyntax` overrides default *Scene2D* actors with improved *VisUI* widgets, so you can use all of the standard tags. Your existing *LML* templates should work out of the box - you might only need to change style names here and there, since *VisUI* uses its own custom `Skin`.
 
 ### Non-GWT features
 
@@ -63,6 +65,7 @@ Note that by making the method static, instance of the class containing the meth
 
 - As `vertical` style was removed from default skin, `Separator` tag no longer supports `vertical`/`horizontal` attributes.
 - `VerticalFlowGroup` and `HorizontalFlowGroup` support. To use these groups in a `dragPane` tag, set `type` attribute to `vFlow` or `hFlow` (as always, case ignored).
+- `ListView` support. Now you can display a collection of values in a customized way.
 
 1.3 -> 1.4
 
