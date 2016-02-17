@@ -15,7 +15,7 @@ public class HtmlLauncher extends GwtApplication {
     }
 
     @Override
-    public ApplicationListener getApplicationListener() {
+    public ApplicationListener createApplicationListener() {
         // Note that our ApplicationListener is implemented by AutumnApplication - we just say which classes should be
         // scanned (Configuration.class is the root) and with which scanner (GwtClassScanner in this case).
         return new AutumnApplication(new GwtClassScanner(), Configuration.class);

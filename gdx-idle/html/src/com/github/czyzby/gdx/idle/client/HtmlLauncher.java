@@ -8,14 +8,13 @@ import com.github.czyzby.autumn.mvc.application.AutumnApplication;
 import com.github.czyzby.gdx.idle.Config;
 
 public class HtmlLauncher extends GwtApplication {
-
     @Override
     public GwtApplicationConfiguration getConfig() {
         return new GwtApplicationConfiguration(512, 512);
     }
 
     @Override
-    public ApplicationListener getApplicationListener() {
+    public ApplicationListener createApplicationListener() {
         return new AutumnApplication(new GwtClassScanner(), Config.class);
     }
 }

@@ -14,12 +14,12 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    version = '1.4.1.7.2'
+    version = '1.5.1.9.2'
     ext {
         appName = "simple"
-        gdxVersion = '1.7.2'
-        autumnVersion = '1.4.' + gdxVersion
-        visVersion = '0.9.5'
+        gdxVersion = '1.9.2'
+        autumnVersion = '1.5.' + gdxVersion + '-SNAPSHOT'
+        visVersion = '1.0.1'
     }
 
     repositories {
