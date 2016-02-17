@@ -52,7 +52,7 @@ Gradle dependency:
 ```
     compile "com.github.czyzby:gdx-autumn:1.5.$gdxVersion"
 ```
-Currently supported LibGDX version is **1.8.0**.
+Currently supported LibGDX version is **1.9.2**.
 
 To include Autumn in GWT, see [Autumn GWT](http://github.com/czyzby/gdx-autumn-gwt).
 To include Autumn on Android, see [Autumn Android](http://github.com/czyzby/gdx-autumn-android).
