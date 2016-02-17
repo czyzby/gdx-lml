@@ -66,6 +66,7 @@ Note that by making the method static, instance of the class containing the meth
 - As `vertical` style was removed from default skin, `Separator` tag no longer supports `vertical`/`horizontal` attributes.
 - `VerticalFlowGroup` and `HorizontalFlowGroup` support. To use these groups in a `dragPane` tag, set `type` attribute to `vFlow` or `hFlow` (as always, case ignored).
 - `ListView` support. Now you can display a collection of values in a customized way.
+- Added `deadzoneRadius` attribute to `draggable` tag.
 
 1.3 -> 1.4
 

@@ -28,6 +28,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.button.ImageButtonGenerat
 import com.github.czyzby.lml.vis.parser.impl.attribute.button.TextButtonImageLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.collapsible.CollapsedLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.BlockInputLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.DeadzoneRadiusLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.DragListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.DraggedAlphaLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.DraggedFadingInterpolationLmlAttribute;
@@ -418,6 +419,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     /** Draggable listener attributes. */
     protected void registerDraggableAttributes() {
         addAttributeProcessor(new BlockInputLmlAttribute(), "blockInput");
+        addAttributeProcessor(new DeadzoneRadiusLmlAttribute(), "deadzone", "deadzoneRadius");
         addAttributeProcessor(new DraggedAlphaLmlAttribute(), "alpha");
         addAttributeProcessor(new DraggedFadingInterpolationLmlAttribute(), "fadingInterpolation");
         addAttributeProcessor(new DraggedFadingTimeLmlAttribute(), "fadingTime");
