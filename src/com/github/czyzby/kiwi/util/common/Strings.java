@@ -130,6 +130,20 @@ public class Strings extends UtilitiesClass {
         return character != '\n' && character != '\r';
     }
 
+    /** @param charSequence will be validated. Can be null.
+     * @param length required length.
+     * @return true if passed sequence is not null and its length is lower than passed value. */
+    public static boolean isShortherThan(final CharSequence charSequence, final int length) {
+        return charSequence != null && charSequence.length() < length;
+    }
+
+    /** @param charSequence will be validated. Can be null.
+     * @param length required length.
+     * @return true if passed sequence is not null and its length is higher than passed value. */
+    public static boolean isLongerThan(final CharSequence charSequence, final int length) {
+        return charSequence != null && charSequence.length() > length;
+    }
+
     /** @return true if the passed sequence starts with the given character. */
     public static boolean startsWith(final CharSequence charSequence, final char character) {
         return charSequence != null && charSequence.length() > 0 && charSequence.charAt(0) == character;

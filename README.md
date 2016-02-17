@@ -170,7 +170,7 @@ Core project Gradle dependency:
 ```
     compile "com.github.czyzby:gdx-kiwi:1.5.$gdxVersion"
 ```
-Currently supported LibGDX version is **1.8.0**.
+Currently supported LibGDX version is **1.9.2**.
 
 GWT module:
 ```
