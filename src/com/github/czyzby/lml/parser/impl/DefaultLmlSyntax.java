@@ -2,6 +2,8 @@ package com.github.czyzby.lml.parser.impl;
 
 import com.badlogic.gdx.utils.ObjectMap;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
+import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
+import com.github.czyzby.kiwi.util.gdx.collection.immutable.ImmutableObjectMap;
 import com.github.czyzby.kiwi.util.gdx.collection.lazy.LazyObjectMap;
 import com.github.czyzby.lml.parser.LmlSyntax;
 import com.github.czyzby.lml.parser.impl.attribute.ActionLmlAttribute;
@@ -954,5 +956,44 @@ public class DefaultLmlSyntax implements LmlSyntax {
     @Override
     public void removeBuildingAttributeProcessor(final String name, final Class<?> handledActorType) {
         buildingAttributeProcessors.get(handledActorType).remove(name);
+    }
+
+    // DTD utility methods:
+    @Override
+    public ObjectMap<String, LmlAttribute<?>> getAttributesForActor(final Object actor) {
+        final ObjectMap<String, LmlAttribute<?>> attributes = GdxMaps.newObjectMap();
+        if (actor == null) {
+            return attributes;
+        }
+        Class<?> actorClass = actor.getClass();
+        while (actorClass != null) {
+            attributes.putAll(attributeProcessors.get(actorClass));
+            actorClass = actorClass.getSuperclass();
+        }
+        return attributes;
+    }
+
+    @Override
+    public ObjectMap<String, LmlBuildingAttribute<?>> getAttributesForBuilder(final LmlActorBuilder builder) {
+        final ObjectMap<String, LmlBuildingAttribute<?>> attributes = GdxMaps.newObjectMap();
+        if (builder == null) {
+            return attributes;
+        }
+        Class<?> builderClass = builder.getClass();
+        while (builderClass != null) {
+            attributes.putAll(buildingAttributeProcessors.get(builderClass));
+            builderClass = builderClass.getSuperclass();
+        }
+        return attributes;
+    }
+
+    @Override
+    public ObjectMap<String, LmlTagProvider> getMacroTags() {
+        return ImmutableObjectMap.copyOf(macroTagProviders);
+    }
+
+    @Override
+    public ObjectMap<String, LmlTagProvider> getTags() {
+        return ImmutableObjectMap.copyOf(tagProviders);
     }
 }

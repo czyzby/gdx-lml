@@ -33,6 +33,10 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * @author MJ */
 public abstract class AbstractConditionalLmlMacroTag extends AbstractMacroLmlTag {
+    /** This value is appended to original macro tag name to create if-else functionality. {@literal <name:else/>} tag
+     * should separate value appended on true "true" from "false". */
+    public static final String ELSE_SUFFIX = ":else";
+
     public AbstractConditionalLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
         super(parser, parentTag, rawTagData);
     }
@@ -54,7 +58,7 @@ public abstract class AbstractConditionalLmlMacroTag extends AbstractMacroLmlTag
         builder.append(syntax.getTagOpening());
         builder.append(syntax.getMacroMarker());
         builder.append(getTagName());
-        builder.append(":else");
+        builder.append(ELSE_SUFFIX);
         builder.append(syntax.getClosedTagMarker());
         builder.append(syntax.getTagClosing());
         return builder.toString();

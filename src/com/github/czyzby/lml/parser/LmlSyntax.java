@@ -1,5 +1,6 @@
 package com.github.czyzby.lml.parser;
 
+import com.badlogic.gdx.utils.ObjectMap;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlBuildingAttribute;
@@ -337,4 +338,20 @@ public interface LmlSyntax {
     /** @param name building attribute processor registered with this name will be removed.
      * @param handledActorType removed building attribute processor must handle this exact base actor type. */
     void removeBuildingAttributeProcessor(String name, Class<?> handledActorType);
+
+    /** @param actor an instance of LML actor.
+     * @return all attributes that can be applied to this actor. This is a debug method. */
+    ObjectMap<String, LmlAttribute<?>> getAttributesForActor(Object actor);
+
+    /** @param builder builder of a LML actor.
+     * @return all attributes that can be applied to this builder. This is a debug method. */
+    ObjectMap<String, LmlBuildingAttribute<?>> getAttributesForBuilder(LmlActorBuilder builder);
+
+    /** @return all actor tags available in this syntax. Should not be modified manually. Might return a copy of tags
+     *         instead of the internal collection. This is a debug method. */
+    ObjectMap<String, LmlTagProvider> getTags();
+
+    /** @return all macro tags available in this syntax. Should not be modified manually. Might return a copy of tags
+     *         instead of the internal collection. This is a debug method. */
+    ObjectMap<String, LmlTagProvider> getMacroTags();
 }
