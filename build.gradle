@@ -10,7 +10,7 @@ ext {
     libVersion = '1.5'
     gdxVersion = '1.9.2'
     isSnapshot = '-SNAPSHOT'
-    visVersion = '1.0.0'
+    visVersion = '1.0.1'
 }
 
 group = "com.github.czyzby"
