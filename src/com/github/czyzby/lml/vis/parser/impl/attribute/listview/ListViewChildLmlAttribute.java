@@ -1,12 +1,11 @@
 package com.github.czyzby.lml.vis.parser.impl.attribute.listview;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
-import com.github.czyzby.lml.vis.parser.impl.tag.ListViewLmlTag;
 import com.kotcrab.vis.ui.widget.ListView;
+import com.kotcrab.vis.ui.widget.ListView.ListViewTable;
 
 /** Abstract base for attributes of {@link ListView} children.
  *
@@ -19,16 +18,11 @@ public abstract class ListViewChildLmlAttribute implements LmlAttribute<Actor> {
 
     @Override
     public void process(final LmlParser parser, final LmlTag tag, final Actor actor, final String rawAttributeData) {
-        if (tag.getParent() == null || !(tag.getParent().getActor() instanceof Table)) {
+        if (tag.getParent() == null || !(tag.getParent().getActor() instanceof ListViewTable<?>)) {
             throwInvalidParentException(parser);
         } else {
-            final Actor parent = tag.getParent().getActor();
-            final ListView<?> listView = ListViewLmlTag.getListView((Table) parent);
-            if (listView == null) {
-                throwInvalidParentException(parser);
-            } else {
-                process(parser, tag, actor, listView, rawAttributeData);
-            }
+            final ListView<?> listView = ((ListViewTable<?>) tag.getParent().getActor()).getListView();
+            process(parser, tag, actor, listView, rawAttributeData);
         }
     }
 

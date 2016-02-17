@@ -7,17 +7,17 @@ import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.tag.actor.TableLmlTag;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
-import com.github.czyzby.lml.util.LmlUserObject;
 import com.github.czyzby.lml.util.LmlUtilities;
 import com.github.czyzby.lml.vis.parser.impl.tag.builder.ListViewLmlActorBuilder;
 import com.kotcrab.vis.ui.util.adapter.ArrayAdapter;
 import com.kotcrab.vis.ui.util.adapter.ListAdapter;
 import com.kotcrab.vis.ui.widget.ListView;
+import com.kotcrab.vis.ui.widget.ListView.ListViewTable;
 import com.kotcrab.vis.ui.widget.ListView.UpdatePolicy;
 
 /** Manages {@link ListView} widget. Note that list view is not actually an {@link Actor} - instead, its main table is
- * used as the main widget. When injecting the list view into fields or methods, expect {@link Table} instance and
- * extract {@link ListView} with {@link #getListView(Table)} method. Mapped to "listView".
+ * used as the main widget. When injecting the list view into fields or methods, expect {@link ListViewTable} instance
+ * and extract {@link ListView} with {@link ListViewTable#getListView()} method. Mapped to "listView".
  *
  * <p>
  * Normally, list views are used to display collections of values. However, they can also be used as regular groups of
@@ -34,14 +34,13 @@ import com.kotcrab.vis.ui.widget.ListView.UpdatePolicy;
  * you want a custom way of building the table, use another adapter implementation.
  *
  * <p>
- * By default, {@link ListView} will be in {@link UpdatePolicy#ON_DRAW} policy to prevent the table from being rebuilt
- * during creation. If you want to change this setting, do it manually after constructing the view.
+ * By default, {@link ListView} will be in {@link UpdatePolicy#MANUAL} policy during creation to prevent the table from
+ * being rebuilt during LML parsing. After the tag is closed, policy will be changed back to
+ * {@link UpdatePolicy#IMMEDIATELY}. If you want to change this setting, do it manually after full construction of the
+ * actor (onClose action can be used).
  *
  * @author MJ */
 public class ListViewLmlTag extends TableLmlTag {
-    private ListView<?> listView;
-    private ListAdapter<?> listAdapter;
-
     public ListViewLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
         super(parser, parentTag, rawTagData);
     }
@@ -53,24 +52,11 @@ public class ListViewLmlTag extends TableLmlTag {
 
     @Override
     protected Table getNewInstanceOfActor(final LmlActorBuilder builder) {
-        listAdapter = extractListAdapter((ListViewLmlActorBuilder) builder);
-        listView = createListView(listAdapter);
+        final ListAdapter<?> listAdapter = extractListAdapter((ListViewLmlActorBuilder) builder);
+        final ListView<?> listView = createListView(listAdapter);
         LmlUtilities.getLmlUserObject(listView.getMainTable()).setData(listView);
-        listView.setUpdatePolicy(UpdatePolicy.ON_DRAW); // Prevents the table from being rebuilt during creation.
+        listView.setUpdatePolicy(UpdatePolicy.MANUAL); // Prevents the table from being rebuilt during creation.
         return listView.getMainTable();
-    }
-
-    /** @param mainTable main table of a {@link ListView} created with LML.
-     * @return {@link ListView} instance managing the table. Might be null if the table is not managed by a list view or
-     *         LML meta-data was cleared.
-     * @see LmlUtilities#clearLmlUserObjects(Iterable)
-     * @see LmlUtilities#getLmlUserObject(Actor) */
-    public static ListView<?> getListView(final Table mainTable) {
-        final LmlUserObject userObject = LmlUtilities.getOptionalLmlUserObject(mainTable);
-        if (userObject != null && userObject.getData() instanceof ListView<?>) {
-            return (ListView<?>) userObject.getData();
-        }
-        return null;
     }
 
     /** @param listAdapter converts data to views.
@@ -95,14 +81,11 @@ public class ListViewLmlTag extends TableLmlTag {
     @Override
     @SuppressWarnings("unchecked")
     protected void addChild(final Actor actor) {
+        final ListView<?> listView = ((ListViewTable<?>) getActor()).getListView();
         if (listView.getFooter() == actor || listView.getHeader() == actor) {
             return;
-        } else if (listAdapter instanceof ArrayAdapter<?, ?>) {
-            ((ArrayAdapter<Actor, Actor>) listAdapter).add(actor);
-        } else {
-            getParser().throwErrorIfStrict(
-                    "ListView can have tag children only with the default list adapter. Cannot append children to a custom list view.");
         }
+        ((ListAdapter<Actor>) listView.getAdapter()).add(actor);
     }
 
     @Override
@@ -117,7 +100,15 @@ public class ListViewLmlTag extends TableLmlTag {
 
     @Override
     protected Actor[] getComponentActors(final Actor actor) {
-        final ListView<?> listView = getListView((Table) actor);
+        final ListView<?> listView = ((ListViewTable<?>) actor).getListView();
         return new Actor[] { listView.getScrollPane() };
+    }
+
+    @Override
+    protected void doOnTagClose() {
+        final ListView<?> listView = ((ListViewTable<?>) getActor()).getListView();
+        listView.rebuildView();
+        listView.setUpdatePolicy(UpdatePolicy.IMMEDIATELY);
+        super.doOnTagClose();
     }
 }

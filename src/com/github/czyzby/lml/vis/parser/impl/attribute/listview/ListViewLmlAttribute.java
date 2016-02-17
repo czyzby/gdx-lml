@@ -1,29 +1,26 @@
 package com.github.czyzby.lml.vis.parser.impl.attribute.listview;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
-import com.github.czyzby.lml.vis.parser.impl.tag.ListViewLmlTag;
 import com.kotcrab.vis.ui.widget.ListView;
+import com.kotcrab.vis.ui.widget.ListView.ListViewTable;
 
 /** Abstract base for {@link ListView} tag attributes.
  *
  * @author MJ */
-public abstract class ListViewLmlAttribute implements LmlAttribute<Table> {
+public abstract class ListViewLmlAttribute implements LmlAttribute<ListViewTable<?>> {
     @Override
-    public Class<Table> getHandledType() {
-        return Table.class;
+    @SuppressWarnings("unchecked")
+    public Class<ListViewTable<?>> getHandledType() {
+        return (Class<ListViewTable<?>>) (Object) ListViewTable.class;
     }
 
     @Override
-    public void process(final LmlParser parser, final LmlTag tag, final Table actor, final String rawAttributeData) {
-        final ListView<?> listView = ListViewLmlTag.getListView(actor);
-        if (listView == null) {
-            parser.throwErrorIfStrict("This attribute can be used only in ListView tags.");
-        } else {
-            process(parser, tag, actor, listView, rawAttributeData);
-        }
+    public void process(final LmlParser parser, final LmlTag tag, final ListViewTable<?> actor,
+            final String rawAttributeData) {
+        final ListView<?> listView = actor.getListView();
+        process(parser, tag, actor, listView, rawAttributeData);
     }
 
     /** @param parser handles LML template parsing.
@@ -33,6 +30,6 @@ public abstract class ListViewLmlAttribute implements LmlAttribute<Table> {
      * @param rawAttributeData unparsed LML attribute data that should be handled by this attribute processor. Common
      *            data types (string, int, float, boolean, action) are already handled by LML parser implementation, so
      *            make sure to invoke its methods. */
-    protected abstract void process(LmlParser parser, LmlTag tag, Table mainTable, ListView<?> listView,
+    protected abstract void process(LmlParser parser, LmlTag tag, ListViewTable<?> mainTable, ListView<?> listView,
             String rawAttributeData);
 }
