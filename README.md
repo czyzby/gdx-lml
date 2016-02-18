@@ -103,7 +103,7 @@ Gradle:
 ```
     compile "com.github.czyzby:gdx-autumn-mvc:1.5.$gdxVersion"
 ```
-Currently supported LibGDX version is **1.8.0**.
+Currently supported LibGDX version is **1.9.2**.
 
 When used on GWT, make sure to inherit Autumn module:
 ```
