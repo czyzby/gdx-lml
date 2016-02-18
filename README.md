@@ -29,7 +29,7 @@ If one of your components fails to initiate, make sure that all of its extended 
     compile "com.github.czyzby:gdx-autumn-gwt:1.5.$gdxVersion:sources"
 ```
 
-Currently supported LibGDX version is **1.8.0**.
+Currently supported LibGDX version is **1.9.2**.
 
 GWT module:
 ```
