@@ -13,4 +13,4 @@ If, for some reason, class scanning does not work on Android, I'm afraid you're 
     compile "com.github.czyzby:gdx-autumn-android:1.5.$gdxVersion"
 ```
 
-Currently supported LibGDX version is **1.8.0**.
+Currently supported LibGDX version is **1.9.2**.
