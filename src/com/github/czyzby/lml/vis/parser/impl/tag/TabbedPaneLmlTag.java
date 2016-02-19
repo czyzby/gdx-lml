@@ -18,6 +18,7 @@ import com.github.czyzby.lml.util.LmlUserObject;
 import com.github.czyzby.lml.util.LmlUtilities;
 import com.github.czyzby.lml.vis.ui.VisTabTable;
 import com.github.czyzby.lml.vis.ui.reflected.action.TabShowingAction;
+import com.kotcrab.vis.ui.layout.HorizontalFlowGroup;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane;
@@ -47,7 +48,8 @@ public class TabbedPaneLmlTag extends AbstractActorLmlTag {
         final Table mainTable = tabbedPane.getTable();
         // TabbedPane will be accessible through LmlUserObject#getData(). This disables oneColumn attribute, though.
         LmlUtilities.getLmlUserObject(mainTable).setData(tabbedPane);
-        if (tabbedPane.getTabsPane().isHorizontal()) {
+        if (tabbedPane.getTabsPane().isHorizontal()
+                || tabbedPane.getTabsPane().getActor() instanceof HorizontalFlowGroup) {
             mainTable.row();
         }
         // This will be the content table:
