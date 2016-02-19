@@ -18,7 +18,7 @@ allprojects {
         appName = 'gdx-lml-vis-tests'
         libVersion = '1.5'
         gdxVersion = '1.9.2'
-        visVersion = '1.0.0'
+        visVersion = '1.0.1'
         isSnapshot = '-SNAPSHOT'
     }
 
