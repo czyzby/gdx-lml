@@ -18,7 +18,7 @@ allprojects {
     ext {
         appName = "simple"
         gdxVersion = '1.9.2'
-        autumnVersion = '1.5.' + gdxVersion + '-SNAPSHOT'
+        autumnVersion = '1.5.' + gdxVersion
         visVersion = '1.0.1'
     }
 

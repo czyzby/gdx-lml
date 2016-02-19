@@ -1,4 +1,4 @@
-package com.github.czyzby;
+package com.github.czyzby.config;
 
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -73,7 +73,7 @@ public class Configuration {
      *            skin. Again: VisUI is an extension, so we have to register its skin manually. Fortunately, it doesn't
      *            require much work. */
     @Initiate(priority = AutumnActionPriority.TOP_PRIORITY)
-    void initiateSkin(final SkinService skinService) {
+    public void initiateSkin(final SkinService skinService) {
         // Loading default VisUI skin with double scale:
         VisUI.load(VisUI.SkinScale.X2);
         // Registering VisUI skin with "default" name - skin with this ID will be used by default if no other ID is
