@@ -19,7 +19,7 @@ allprojects {
         libVersion = '1.5'
         gdxVersion = '1.9.2'
         visVersion = '1.0.1'
-        isSnapshot = '-SNAPSHOT'
+        isSnapshot = ''
     }
 
     repositories {
