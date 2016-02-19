@@ -6,7 +6,7 @@ See [gdx-lml](http://github.com/czyzby/gdx-lml). This extension allows *LML* to 
 
 Check [gdx-lml-vis-tests](http://github.com/czyzby/gdx-lml-vis-tests) for examples of all tags and macros usage.
 
-See [online demo](http://vis.kotcrab.com/demo/lml/).
+See [online demo](http://vis.kotcrab.com/demo/lml/) (might be slightly outdated).
 
 ## Dependencies
 
@@ -22,17 +22,21 @@ GWT module:
 ```
 On GWT, you might also want to include sources of `gdx-lml-vis` and currently used `VisUI` library version.
 
-## gdx-lml to gdx-lml-vis
+## Usage
+
+Start with [LML tutorial](https://github.com/czyzby/gdx-lml/wiki/Tutorial) - *gdx-lml-vis* works pretty much like regular LML, it just parses templates to different actors, provides additional widgets and contains default skins. Make sure to check out the [example project](http://github.com/czyzby/gdx-lml-vis-tests) and [VisUI features](https://github.com/kotcrab/VisEditor/wiki/VisUI).
+
+### Upgrading regular *gdx-lml* to *gdx-lml-vis*
 
 Instead of building your parser with `Lml` class (or `LmlParserBuilder`), use `VisLml` (or `VisLmlParserBuilder`). Everything else is pretty straightforward: `VisLmlSyntax` overrides default *Scene2D* actors with improved *VisUI* widgets, so you can use all of the standard tags. Your existing *LML* templates should work out of the box - you might only need to change style names here and there, since *VisUI* uses its own custom `Skin`.
 
-### Non-GWT features
+### Non-*GWT* features
 
 To add non-GWT features (like the `FileChooser` support or various file validators from `FormValidator` class), use `ExtendedVisLml#extend(LmlParser)` method. This will register all the extra attributes and tags at the cost of nasty compilation errors on GWT platform.
 
-### Including gdx-lml-vis in Autumn MVC
+### Including *gdx-lml-vis* in [Autumn MVC](https://github.com/czyzby/gdx-autumn-mvc)
 
-In one of your components (possibly in a configuration component, if you have one), include an annotated syntax field:
+In one of your components (possibly in a configuration component, if you have one), include an annotated field with syntax instance:
 
 ```
 @LmlParserSyntax VisLmlSyntax syntax = new VisLmlSyntax();
@@ -48,7 +52,7 @@ private void initiate(final SkinService skinService) {
 }
 ```
 
-By using `SkinService`'s `addSkin` method, the disposing of VisUI skin is already handled for you. Still, you might also want to dispose of the `ColorPicker` instance (as it is reused for performance reasons) if you ever needed one:
+By using `SkinService#addSkin` method, the disposing of VisUI skin and registering it in LML parser is already handled for you. Still, you might also want to manually dispose of the `ColorPicker` instance (as it is reused for performance reasons) if you ever used one:
 
 ```
 @Destroy
