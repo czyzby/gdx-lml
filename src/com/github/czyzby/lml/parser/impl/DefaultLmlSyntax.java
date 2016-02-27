@@ -91,6 +91,13 @@ import com.github.czyzby.lml.parser.impl.attribute.group.button.MinCheckCountLml
 import com.github.czyzby.lml.parser.impl.attribute.group.button.UncheckLastLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.image.ImageAlignmentLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.image.ScalingLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.image.animated.AnimationDelayLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.image.animated.AnimationMaxDelayLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.image.animated.BackwardsLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.image.animated.BouncingLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.image.animated.CurrentFrameLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.image.animated.FramesLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.image.animated.PlayOnceLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.input.BlinkTimeLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.input.CursorLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.input.DigitsOnlyLmlAttribute;
@@ -214,6 +221,7 @@ import com.github.czyzby.lml.parser.impl.attribute.tree.IconSpacingLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.tree.TreePaddingLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.tree.YSpacingLmlAttribute;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.ActorLmlTagProvider;
+import com.github.czyzby.lml.parser.impl.tag.actor.provider.AnimatedImageLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.ButtonGroupLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.ButtonLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.CheckBoxLmlTagProvider;
@@ -328,6 +336,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
      * @see #registerTags() */
     protected void registerActorTags() {
         addTagProvider(new ActorLmlTagProvider(), "actor", "group", "empty", "mock", "blank", "placeholder");
+        addTagProvider(new AnimatedImageLmlTagProvider(), "animate", "animation", "animatedImage");
         addTagProvider(new ButtonGroupLmlTagProvider(), "buttonGroup", "buttonTable");
         addTagProvider(new ButtonLmlTagProvider(), "button");
         addTagProvider(new CheckBoxLmlTagProvider(), "checkBox", "check");
@@ -412,6 +421,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
 
         // Regular attributes. Parsed after the actor is constructed.
         registerCommonAttributes();
+        registerAnimatedImageAttributes();
         registerButtonAttributes();
         registerButtonGroupAttributes();
         registerContainerAttributes();
@@ -501,6 +511,17 @@ public class DefaultLmlSyntax implements LmlSyntax {
         addAttributeProcessor(new ButtonImageLmlAttribute(), "image", "icon"); // ImageButton
         addAttributeProcessor(new CheckedLmlAttribute(), "checked", "isChecked"); // Button
         addAttributeProcessor(new TextButtonImageLmlAttribute(), "image", "icon"); // ImageTextButton
+    }
+
+    /** AnimatedImage widget attributes. */
+    protected void registerAnimatedImageAttributes() {
+        addAttributeProcessor(new AnimationDelayLmlAttribute(), "delay");
+        addAttributeProcessor(new AnimationMaxDelayLmlAttribute(), "maxDelay");
+        addAttributeProcessor(new BackwardsLmlAttribute(), "backwards");
+        addAttributeProcessor(new BouncingLmlAttribute(), "bounce", "bouncing");
+        addAttributeProcessor(new CurrentFrameLmlAttribute(), "frame", "currentFrame");
+        addAttributeProcessor(new FramesLmlAttribute(), "frames");
+        addAttributeProcessor(new PlayOnceLmlAttribute(), "playOnce");
     }
 
     /** ButtonGroup (ButtonTable) attributes. */
