@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.github.czyzby.lml.parser.impl.DefaultLmlSyntax;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.ActorLmlTagProvider;
+import com.github.czyzby.lml.parser.impl.tag.actor.provider.AnimatedImageLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.ButtonGroupLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.ButtonLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.ContainerLmlTagProvider;
@@ -217,6 +218,9 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new TooltipLmlTagProvider(), "tooltip"); // VisTooltipLmlTagProvider supports Vis tooltips.
         addTagProvider(new TouchpadLmlTagProvider(), "touchpad", "touch");
         addTagProvider(new VerticalGroupLmlTagProvider(), "vertical", "verticalGroup");
+
+        // LML unique actors:
+        addTagProvider(new AnimatedImageLmlTagProvider(), "animate", "animation", "animatedImage");
 
         // Vis actor equivalents:
         addTagProvider(new VisCheckBoxLmlTagProvider(), "checkBox", "visCheckBox", "check");
