@@ -23,6 +23,11 @@ If you want to use LML with GWT, you have to add this module to your `GdxDefinit
 ```
 
 ## What's new
+
+1.5 -> 1.6
+
+- Removed `/*` alias for comment macro. Since `DTD` creator was added to LML, now it is possible to create templates that are somewhat-valid `XML` files. `/*` was the only default tag that used forbidden `XML` characters.
+
 1.5.1.8.0 -> 1.5.1.9.2
 
 - Now when parsing a string value, a single character will not be treated as bundle line, preference or action (etc.) - even if it matches `@`, `$` or any other functional character. So, `$` will be parsed to `"$"`, but `$$$` will still look for an action (mapped to `$$` key). This is a simple convenience for printing a single character - these cannot be properly used as property names or bundle lines (and so on) anyway, as at least 2 characters are required. Note that if you want to use multiple restricted characters, you can always use i18n bundles.

@@ -367,7 +367,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
                 "argumentsReplace", "argsReplace", "noOp", "noOperation", "doNothing", "root");
         addMacroTagProvider(new AssignLmlMarcoTagProvider(), "assign", "var", "val", "toArgument");
         addMacroTagProvider(new CalculationLmlMacroTagProvider(), "calculate", "calculation", "equation", "calc");
-        addMacroTagProvider(new CommentLmlMacroTagProvider(), "comment", "FIXME", "TODO", "/*");
+        addMacroTagProvider(new CommentLmlMacroTagProvider(), "comment", "FIXME", "TODO");
         addMacroTagProvider(new ConditionalLmlMacroTagProvider(), "if", "test", "check", "try", "verify", "inspect",
                 "validate", "onCondition", "condition", "conditional");
         addMacroTagProvider(new EvaluateLmlMacroTagProvider(), "eval", "evaluate", "invoke", "invokeAndAssign",
