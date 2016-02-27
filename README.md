@@ -65,6 +65,10 @@ Note that by making the method static, instance of the class containing the meth
 
 ## What's new
 
+1.5 -> 1.6
+
+- Removed `/*` alias for comment macro. Since `DTD` creator was added to LML, now it is possible to create templates that are somewhat-valid `XML` files. `/*` was the only default tag that used forbidden `XML` characters.
+
 1.4 -> 1.5
 
 - As `vertical` style was removed from default skin, `Separator` tag no longer supports `vertical`/`horizontal` attributes.
