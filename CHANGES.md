@@ -2,6 +2,11 @@ Newest change logs are in the `README.md` file.
 
 # LML 1.X
 
+1.2 -> 1.3
+
+- `ButtonGroup` support through specialized `Table` extension: `ButtonTable`. `<buttonTable>` tag works like a regular table (can have any children), except it adds all its direct `Button`-extending children to an internal `ButtonGroup` instance, validating their checked status. This allows to easily build groups of widgets with min and max amounts of checked buttons.
+- `image` (with `icon` alias) attribute available for `ImageButton` and `ImageTextButton`. These attributes replace `imageUp` drawable in buttons' styles: if this is the only drawable in the style, it will be always drawn on the button. You can just use a single style without any icons and manage buttons' images through these LML attributes.
+
 1.1 -> 1.2
 
 - `@LmlInject` annotation. When a view is created by the parser, its annotated fields are processed. In previous versions, this meant that all `@LmlActor`- and `@OnChange`-annotated fields had to be present in one class, which could quickly lead to fields flood in view classes. Now you can keep `@LmlActor`- and `@OnChange`-annotated fields in another container class and request to inject(/fill) it with `@LmlInject`. Also, `LmlParser` instance used to initiate the view can be injected. More in the annotation docs. `@LmlInject` examples were added to the example project.

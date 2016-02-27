@@ -44,10 +44,5 @@ If you want to use LML with GWT, you have to add this module to your `GdxDefinit
 
 - `PooledList` is now used instead of `LinkedList`, which should slightly speed up the parsing (as in: limit its garbage collection) thanks to cached nodes and iterators.
 
-1.2 -> 1.3
-
-- `ButtonGroup` support through specialized `Table` extension: `ButtonTable`. `<buttonTable>` tag works like a regular table (can have any children), except it adds all its direct `Button`-extending children to an internal `ButtonGroup` instance, validating their checked status. This allows to easily build groups of widgets with min and max amounts of checked buttons.
-- `image` (with `icon` alias) attribute available for `ImageButton` and `ImageTextButton`. These attributes replace `imageUp` drawable in buttons' styles: if this is the only drawable in the style, it will be always drawn on the button. You can just use a single style without any icons and manage buttons' images through these LML attributes.
-
 ### Archive
 Older change logs are available in `CHANGES.md` file.
