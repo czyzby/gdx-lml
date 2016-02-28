@@ -4,13 +4,21 @@ Templates for LibGDX Scene2D with HTML-like syntax and FreeMarker-inspired macro
 ##Examples
 See [gdx-lml-tests](http://github.com/czyzby/gdx-lml-tests) for example uses of all available tags and macros.
 
+Check it out [on-line](http://czyzby.github.io/gdx-lml-tests/).
+
 ###Documentation
 See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&t=18843), [example project](http://github.com/czyzby/gdx-lml-tests), [tutorial](https://github.com/czyzby/gdx-lml/wiki/Tutorial) and [old syntax page (work in progress)](https://github.com/czyzby/gdx-lml/wiki/Syntax).
 
 ##Extensions
 [VisUI](https://github.com/kotcrab/VisEditor/wiki/VisUI) syntax support is available through [gdx-lml-vis library](https://github.com/czyzby/gdx-lml-vis). Additionally to replacing standard Scene2D actors with improved VisUI widgets, it offers full support for other VisUI features - including color picker, file chooser, other new widgets, listeners and validators.
 
+Check it out [on-line](http://czyzby.github.io/gdx-lml-vis-tests/).
+
+
 ## Dependencies
+
+`gdx-lml` is available through the official project creator tool: `gdx-setup` (in additional extensions). However, its version might not be up to date.
+
 To import LML with `Gradle`, add this dependency to your core project:
 ```
     compile "com.github.czyzby:gdx-lml:$libVersion.$gdxVersion"
