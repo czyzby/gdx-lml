@@ -6,7 +6,7 @@ See [gdx-lml](http://github.com/czyzby/gdx-lml). This extension allows *LML* to 
 
 Check [gdx-lml-vis-tests](http://github.com/czyzby/gdx-lml-vis-tests) for examples of all tags and macros usage.
 
-See on-line demo [here](http://czyzby.github.io/gdx-lml-vis-tests/) or [here](http://vis.kotcrab.com/demo/lml/).
+See on-line demo [here](http://czyzby.github.io/gdx-lml-vis-tests/).
 
 ## Dependencies
 
