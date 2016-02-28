@@ -25,12 +25,10 @@ If one of your components fails to initiate, make sure that all of its extended 
 ## Dependencies
 `Gradle` dependency (for GWT LibGDX project):
 ```
-    compile "com.github.czyzby:gdx-autumn-gwt:1.5.$gdxVersion"
-    compile "com.github.czyzby:gdx-autumn-gwt:1.5.$gdxVersion:sources"
+    compile "com.github.czyzby:gdx-autumn-gwt:$libVersion.$gdxVersion"
+    compile "com.github.czyzby:gdx-autumn-gwt:$libVersion.$gdxVersion:sources"
 ```
-
-Currently supported LibGDX version is **1.9.2**.
-
+`$libVersion` is the current version of the library, usually following `MAJOR.MINOR` schema. `$gdxVersion` is the LibGDX version used to build (and required by) the library. You can check the current library version [here](http://search.maven.org/#search|ga|1|g%3A%22com.github.czyzby%22) - or you can use the [snapshots](https://oss.sonatype.org/content/repositories/snapshots/com/github/czyzby/).
 GWT module:
 ```
     <inherits name='com.github.czyzby.autumn.gwt.GdxAutumnGwt' />
