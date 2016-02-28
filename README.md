@@ -13,9 +13,10 @@ See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&
 ## Dependencies
 To import LML with `Gradle`, add this dependency to your core project:
 ```
-    compile "com.github.czyzby:gdx-lml:1.5.$gdxVersion"
+    compile "com.github.czyzby:gdx-lml:$libVersion.$gdxVersion"
 ```
-Currently supported LibGDX version is **1.9.2**.
+
+`$libVersion` is the current version of the library, usually following `MAJOR.MINOR` schema. `$gdxVersion` is the LibGDX version used to build (and required by) the library. You can check the current library version [here](http://search.maven.org/#search|ga|1|g%3A%22com.github.czyzby%22) - or you can use the [snapshots](https://oss.sonatype.org/content/repositories/snapshots/com/github/czyzby/).
 
 If you want to use LML with GWT, you have to add this module to your `GdxDefinition`:
 ```
@@ -27,6 +28,7 @@ If you want to use LML with GWT, you have to add this module to your `GdxDefinit
 1.5 -> 1.6
 
 - Removed `/*` alias for comment macro. Since `DTD` creator was added to LML, now it is possible to create templates that are somewhat-valid `XML` files. `/*` was the only default tag that used forbidden `XML` characters.
+- New actor: `AnimatedImage`. Extends the regular `Image`; manages an array of drawables updated on `act` method. Allows to display a set of images in the specified way. Available through `animate, animation, animatedImage` tags.
 
 1.5.1.8.0 -> 1.5.1.9.2
 

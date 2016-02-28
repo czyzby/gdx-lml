@@ -14,6 +14,10 @@ import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
  * {@link #setMaxDelay(float)} methods. All standard {@link Image} methods are supported. Does NOT use
  * {@link com.badlogic.gdx.graphics.g2d.Animation} internally, as it relies on texture regions rather than drawables.
  *
+ * <p>
+ * This class supports pretty simple animations, without frames with different delays etc. If you need complex
+ * animations, you might prefer using actions API or a custom actor implementation.
+ *
  * @author MJ
  * @see Image */
 public class AnimatedImage extends Image {
