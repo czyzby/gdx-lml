@@ -10,7 +10,6 @@ If, for some reason, class scanning does not work on Android, I'm afraid you're 
 ## Dependencies
 `Gradle` dependency (for Android LibGDX project):
 ```
-    compile "com.github.czyzby:gdx-autumn-android:1.5.$gdxVersion"
+    compile "com.github.czyzby:gdx-autumn-android:$libVersion.$gdxVersion"
 ```
-
-Currently supported LibGDX version is **1.9.2**.
+`$libVersion` is the current version of the library, usually following `MAJOR.MINOR` schema. `$gdxVersion` is the LibGDX version used to build (and required by) the library. You can check the current library version [here](http://search.maven.org/#search|ga|1|g%3A%22com.github.czyzby%22) - or you can use the [snapshots](https://oss.sonatype.org/content/repositories/snapshots/com/github/czyzby/).
