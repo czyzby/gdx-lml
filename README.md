@@ -97,13 +97,13 @@ Automatic component scan on iOS is not implemented and it might take me some tim
 
 Your opinions, comments and testing can help as well. Don't be afraid to inform me about bugs and functionalities that are missing or the ones you are not a huge fan of.
 
-## Depedencies
+## Dependencies
 Gradle:
 
 ```
-    compile "com.github.czyzby:gdx-autumn-mvc:1.5.$gdxVersion"
+    compile "com.github.czyzby:gdx-autumn-mvc:$libVersion.$gdxVersion"
 ```
-Currently supported LibGDX version is **1.9.2**.
+`$libVersion` is the current version of the library, usually following `MAJOR.MINOR` schema. `$gdxVersion` is the LibGDX version used to build (and required by) the library. You can check the current library version [here](http://search.maven.org/#search|ga|1|g%3A%22com.github.czyzby%22) - or you can use the [snapshots](https://oss.sonatype.org/content/repositories/snapshots/com/github/czyzby/).
 
 When used on GWT, make sure to inherit Autumn module:
 ```
