@@ -6,9 +6,12 @@ See [gdx-lml](http://github.com/czyzby/gdx-lml). This extension allows *LML* to 
 
 Check [gdx-lml-vis-tests](http://github.com/czyzby/gdx-lml-vis-tests) for examples of all tags and macros usage.
 
-See [online demo](http://vis.kotcrab.com/demo/lml/) (might be slightly outdated).
+See on-line demo [here](http://czyzby.github.io/gdx-lml-vis-tests/) or [here](http://vis.kotcrab.com/demo/lml/).
 
 ## Dependencies
+
+`gdx-lml-vis` is available through the official project creator tool: `gdx-setup` (in additional extensions). However, its version might not be up to date.
+
 
 Gradle:
 ```
