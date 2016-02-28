@@ -166,11 +166,14 @@ logger.error(new RuntimeException("Example."), "Exception thrown!");
 Loggers delegate logging calls to current `Application` instance, so they should work on every platform.
 
 ##Dependency
+
+`gdx-kiwi` is available through the official project creator tool: `gdx-setup` (in additional extensions). However, its version might not be up to date.
+
 Core project Gradle dependency:
 ```
-    compile "com.github.czyzby:gdx-kiwi:1.5.$gdxVersion"
+    compile "com.github.czyzby:gdx-kiwi:$libVersion.$gdxVersion"
 ```
-Currently supported LibGDX version is **1.9.2**.
+`$libVersion` is the current version of the library, usually following `MAJOR.MINOR` schema. `$gdxVersion` is the LibGDX version used to build (and required by) the library. You can check the current library version [here](http://search.maven.org/#search|ga|1|g%3A%22com.github.czyzby%22) - or you can use the [snapshots](https://oss.sonatype.org/content/repositories/snapshots/com/github/czyzby/).
 
 GWT module:
 ```
