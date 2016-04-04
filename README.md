@@ -8,7 +8,7 @@ This repository contains most of my libraries aimed at improving LibGDX framewor
 [Kiwi](https://github.com/czyzby/gdx-lml/tree/master/kiwi) is a Guava-inspired set of utilities for pretty much any LibGDX-based application. It makes it easier to use LibGDX collections, assets and its API in general.
 
 ### gdx-lml
-[LML](https://github.com/czyzby/gdx-lml/tree/master/lml) (*LibGDX Marker Language*) allows to parse HTML-like templates with FreeMarker-inspired macros into Scene2D actors. Since making your UI in Java can become unreadable and tedious thanks to this language's verbosity, LML can be a useful alternative. Especially since LML templates can be modified or reloaded without having to recompile the whole application. Comes with extra support for managing preferences, assets and internationalization.
+[LML](https://github.com/czyzby/gdx-lml/tree/master/lml) (*LibGDX Markup Language*) allows to parse HTML-like templates with FreeMarker-inspired macros into Scene2D actors. Since making your UI in Java can become unreadable and tedious thanks to this language's verbosity, LML can be a useful alternative. Especially since LML templates can be modified or reloaded without having to recompile the whole application. Comes with extra support for managing preferences, assets and internationalization.
 
 #### gdx-lml-vis
 [VisUI](https://github.com/kotcrab/VisEditor/wiki/VisUI) is a superb library, extending Scene2D with additional widgets and a modern skin. [LML Vis](https://github.com/czyzby/gdx-lml/tree/master/lml-vis) allows to parse LML templates into VisUI widgets, instead of standard Scene2D ones and extends the syntax with ways to construct the new actors.
@@ -41,7 +41,7 @@ This repository contains most of my libraries aimed at improving LibGDX framewor
 
 All libraries follow the same schema:
 ```
-    compile "com.github.czyzby:lib-name:$libVersion.$gdxVersion"
+        compile "com.github.czyzby:lib-name:$libVersion.$gdxVersion"
 ```
 `lib-name` is the name of the library (one of the ones listed above). `libVersion` follows `MAJOR.MINOR` schema and is the actual version of the library. `gdxVersion` is the version of the LibGDX library used to build the archive. For example, this is a valid LML dependency (although it might be out of date by now!): `'com.github.czyzby:gdx-lml:1.5.1.9.2'`. To find out the current version ID and GWT definition, check out the specific library's `README` file or [Maven Central](http://search.maven.org/#search|ga|1|g%3A%22com.github.czyzby%22).
 
@@ -51,12 +51,12 @@ Clone this repository. The whole setup is Gradle-based, with very similar struct
 
 The project requires some additional "secret" properties, used for archives signing and logging to Maven Central. While most likely you will not need these functionalities, Gradle still forces you to provide these properties. So, make sure to include a `gradle.properties` file in root folder or - even better - in your Gradle home folder:
 ```
-signing.keyId= 
-signing.password= 
-signing.secretKeyRingFile= 
+        signing.keyId= 
+        signing.password= 
+        signing.secretKeyRingFile= 
 
-ossrhUsername= 
-ossrhPassword= 
+        ossrhUsername= 
+        ossrhPassword= 
 ```
 
 Before pulling any requests, make sure your code is formatted with `eclipse-formatter.xml` (or its equivalent for other IDE). Note that this is *not* the official LibGDX code formatter, as I'm not really a huge fan of its setup.
