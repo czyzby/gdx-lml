@@ -1,0 +1,28 @@
+<!-- DragPane is a wrapper of a group of actors. You can
+    choose the group type with "type" attributes. This
+    tag can have any attributes of the wrapped group. -->
+
+<table oneColumn=true>
+    <dragPane type=horizontal>
+        Label1
+        Label2
+        Label3
+    </dragPane>
+<!-- Note that pane below has gridGroup attribute (itemSize): -->
+    <dragPane type=grid itemSize=64 spacing=1 width=140>
+        <textButton>B1</textButton>
+        <textButton>B2</textButton>
+        <textButton>B3</textButton>
+    </dragPane>
+    <dragPane type=vertical acceptForeign=false padding=4>
+        Rejects
+        foreign
+        actors.
+    </dragPane>
+<!-- Limited to 4 actors by maxChildren=4 attribute: -->
+    <dragPane type=grid width=128 minHeight=64 itemSize=64
+        spacing=0 maxChildren=4 background=button-over>
+<!-- Custom draggable added to all children: -->
+        <draggable alpha=0.6 movingTime=0.3 invisible=true />
+    </dragPane>
+</table>

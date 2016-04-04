@@ -1,0 +1,14 @@
+ext {
+  gwtVersion = '2.6.0'
+}
+
+javadoc {
+  options.addStringOption("sourcepath", "")
+}
+
+dependencies {
+  compile "com.github.czyzby:gdx-websocket:$libVersion"
+  compile "com.github.czyzby:gdx-websocket:$libVersion:sources"
+  compile "com.google.gwt:gwt-user:$gwtVersion"
+  compile "com.google.gwt:gwt-user:$gwtVersion:sources"
+}

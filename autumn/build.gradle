@@ -1,0 +1,3 @@
+dependencies {
+  compile "com.github.czyzby:gdx-kiwi:$libVersion"
+}

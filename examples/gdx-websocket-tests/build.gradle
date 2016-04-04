@@ -1,0 +1,80 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        jcenter()
+    }
+    dependencies {
+        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
+    }
+}
+
+allprojects {
+    apply plugin: "eclipse"
+    apply plugin: "idea"
+
+    version = '1.6.1.9.2'
+    ext {
+        appName = "gdx-websocket-tests"
+        gdxVersion = '1.9.2'
+        vertxVersion = '3.2.0'
+        libVersion = '1.6.' + gdxVersion + '-SNAPSHOT'
+    }
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+    }
+}
+
+project(":desktop") {
+    apply plugin: "java"
+
+    dependencies {
+        compile project(":core")
+        compile "com.github.czyzby:gdx-websocket-common:$libVersion"
+        compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    }
+}
+
+project(":html") {
+    apply plugin: "gwt"
+    apply plugin: "war"
+
+    dependencies {
+        compile project(":core")
+        compile "com.github.czyzby:gdx-websocket-gwt:$libVersion"
+        compile "com.github.czyzby:gdx-websocket-gwt:$libVersion:sources"
+        compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
+        compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
+    }
+}
+
+project(":core") {
+    apply plugin: "java"
+
+    dependencies {
+        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        compile "com.github.czyzby:gdx-websocket:$libVersion"
+    }
+}
+
+project(":server") {
+    apply plugin: "java"
+    
+    dependencies {
+        compile "io.vertx:vertx-core:$vertxVersion"
+    }
+}
+
+
+tasks.eclipse.doLast {
+    delete ".project"
+    delete ".classpath"
+    delete ".settings/"
+}

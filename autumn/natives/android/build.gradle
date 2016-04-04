@@ -1,0 +1,14 @@
+ext {
+  androidVersion = '4.1.1.4'
+}
+
+configurations {
+  provided
+  compile.extendsFrom provided
+}
+
+dependencies {
+  compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
+  compile "com.github.czyzby:gdx-autumn:$libVersion"
+  provided "com.google.android:android:$androidVersion"
+}

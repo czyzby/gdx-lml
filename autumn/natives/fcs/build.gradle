@@ -1,0 +1,8 @@
+ext {
+  fcsVersion = '1.9.17'
+}
+
+dependencies {
+  compile "com.github.czyzby:gdx-autumn:$libVersion"
+  compile "io.github.lukehutch:fast-classpath-scanner:$fcsVersion"
+}

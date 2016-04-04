@@ -1,0 +1,32 @@
+<!-- Registering a new tag in Java - even when
+    using AbstractActorLmlTag - requires some
+    work, especially when all you want to do
+    is override a single method (for example:
+    slightly change how the actor is rendered).
+    By referencing a method that returns an instance
+    of Actor, you can add a new tag in one LML line. -->
+
+<@tag myBlinkingLabel;myBlink getBlinkingLabel/>
+<myBlinkingLabel>Blinking label.</myBlinkingLabel>
+<myBlink>Note that this is not a macro.</myBlink>
+
+<!-- First tag creator macro attribute is an array
+    of tag aliases. The second is a reference to
+    the method that produces custom actors. It will
+    be invoked each time the tag is used to create
+    a new instance of the actor. -->
+
+<!-- Note that all attributes that normally apply
+    to this actor's class tree will be supported:
+    if your custom widget extends Label, all label
+    attributes will be available (and so on). Also,
+    if your actor extends Group or Table, it will
+    properly append children to itself using
+    Group's or Table's adding methods. -->
+
+<!-- The method can consume LmlActorBuilder, so you
+    can extract constructor attributes from tags.
+    You can even pass your own builder with third
+    attribute - ID of method that produces builders.
+    More about this macro in NewTagMacroLmlTag
+    (name of the century!) class docs. -->

@@ -1,0 +1,8 @@
+ext {
+  nvVersion = '1.23'
+}
+
+dependencies {
+  compile "com.github.czyzby:gdx-websocket:$libVersion"
+  compile "com.neovisionaries:nv-websocket-client:$nvVersion"
+}

@@ -1,0 +1,9 @@
+<!-- Text fields allow to read user's text input.
+    These are single-line, as opposed to text areas. -->
+
+<textField message="Empty." />
+<textField text="Initial." />
+<textField>Content.</textField>
+
+<!-- They cannot have children - except plain text,
+    which will be appended to them. -->

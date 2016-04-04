@@ -1,0 +1,13 @@
+<!-- Text areas are basically multiline text fields. -->
+
+<!-- Wrapping in container to set size. -->
+<container size=200>
+    <textArea>
+        Text converted
+        to text area's
+        content.
+    </textArea>    
+</container>
+
+<!-- They cannot have children - except plain text,
+    which will be appended to them. -->

@@ -1,102 +1,128 @@
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'maven'
-apply plugin: 'signing'
+allprojects {
+  apply plugin: 'eclipse'
+  apply plugin: 'idea'
+}
 
-sourceSets.main.java.srcDirs = [ "src/" ]
-sourceCompatibility = 1.6
+subprojects {
+  apply plugin: 'java'
+  apply plugin: 'maven'
+  apply plugin: 'signing'
 
-ext {
-    libVersion = '1.6'
+  ext {
+    projectVersion = '1.6'
     gdxVersion = '1.9.2'
     isSnapshot = '-SNAPSHOT'
-}
+    libVersion = "$projectVersion.$gdxVersion$isSnapshot"
+    wagonVersion = '2.2'
+  }
 
-group = "com.github.czyzby"
-archivesBaseName = "gdx-lml"
-version = "$libVersion.$gdxVersion$isSnapshot"
-
-configurations {
-    deployerJars
-}
-
-repositories {
+  repositories {
+    mavenLocal()
     mavenCentral()
-    jcenter()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-}
+    maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+  }
 
-jar {
+  sourceCompatibility = 1.6
+  group = 'com.github.czyzby'
+  version = libVersion
+  archivesBaseName = projectName
+  eclipse.project.name = projectName
+
+  configurations {
+    deployerJars
+  }
+
+  jar {
     from project.sourceSets.main.allSource
     from project.sourceSets.main.output
-    baseName = 'gdx-lml'
-}
+    baseName = archivesBaseName
+  }
 
-task javadocJar(type: Jar) {
+  dependencies {
+    compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    deployerJars "org.apache.maven.wagon:wagon-ssh:$wagonVersion"
+    deployerJars "org.apache.maven.wagon:wagon-http:$wagonVersion"
+  }
+
+  task javadocJar(type: Jar) {
     classifier = 'javadoc'
     from javadoc
-}
+  }
 
-task sourcesJar(type: Jar) {
+  task sourcesJar(type: Jar) {
     classifier = 'sources'
     from sourceSets.main.allSource
-}
+  }
 
-artifacts {
+  artifacts {
     archives javadocJar, sourcesJar
-}
+  }
 
-signing {
+  signing {
     sign configurations.archives
-}
+  }
 
-dependencies {
-    compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-    compile "com.github.czyzby:gdx-kiwi:$libVersion.$gdxVersion$isSnapshot"
-    deployerJars "org.apache.maven.wagon:wagon-ssh:2.2"
-    deployerJars "org.apache.maven.wagon:wagon-http:2.2"
-}
+  uploadArchives {
+    repositories {
+      mavenDeployer {
+        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-uploadArchives {
-  repositories {
-    mavenDeployer {
-      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+        repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+          authentication(userName: ossrhUsername, password: ossrhPassword)
+        }
 
-      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
-      }
+        snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+          authentication(userName: ossrhUsername, password: ossrhPassword)
+        }
 
-      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
-      }
+        pom.project {
+          name = projectName
+          packaging 'jar'
+          description = projectDesc
+          url 'http://github.com/czyzby/gdx-lml'
 
-      pom.project {
-        name 'Gdx Lml'
-        packaging 'jar'
-        description 'Templates for LibGDX Scene2D UI with HTML-like syntax and FreeMarker-inspired macros.'
-        url 'http://github.com/czyzby/gdx-lml'
-
-        licenses {
-          license {
-            name 'The Apache License, Version 2.0'
-            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+          licenses {
+            license {
+              name 'The Apache License, Version 2.0'
+              url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+            }
           }
-        }
-        
-        scm {
-          connection 'scm:git:git@github.com:czyzby/gdx-lml.git'
-          developerConnection 'scm:git:git@github.com:czyzby/gdx-lml.git'
-          url 'http://github.com/czyzby/gdx-lml/'
-        }
+          
+          scm {
+            connection 'scm:git:git@github.com:czyzby/gdx-lml.git'
+            developerConnection 'scm:git:git@github.com:czyzby/gdx-lml.git'
+            url 'http://github.com/czyzby/gdx-lml/'
+          }
 
-        developers {
-          developer {
-            id 'mj'
-            name 'MJ'
-            email 'john.hervicc@gmail.com'
+          developers {
+            developer {
+              id 'mj'
+              name 'MJ'
+              email 'john.hervicc@gmail.com'
+            }
           }
         }
       }
     }
   }
+}
+
+// Invokes 'build' and 'install' tasks on all projects in the correct order.
+// Prefer this over 'gradle build install' when changing the version of library.
+task installAll(dependsOn: ['installBase', 'lml-vis:build', 'lml-vis:install',
+  'mvc:build', 'mvc:install', 'autumn/natives/android:build',
+  'autumn/natives/android:install', 'autumn/natives/fcs:build',
+  'autumn/natives/fcs:install', 'autumn/natives/gwt:build',
+  'autumn/natives/gwt:install', 'websocket/natives/common:build',
+  'websocket/natives/common:install', 'websocket/natives/gwt:build',
+  'websocket/natives/gwt:install']) 
+task installBase(dependsOn: ['installKiwi', 'lml:build', 'lml:install',
+  'autumn:build', 'autumn:install', 'websocket:build', 'websocket:install'])
+task installKiwi(dependsOn: ['kiwi:build', 'kiwi:install'])
+
+tasks.eclipse.doLast {
+  delete ".project"
+  delete ".classpath"
+  delete ".settings/"
 }

@@ -1,0 +1,13 @@
+<!-- Container is a "simplified table". It
+    manages a single actor and has less options,
+    but is also lightweight. -->
+<container width=100 height=30>
+    <button/>
+</container>
+
+<!-- It can have only 1 child. If it finds text
+    between its tag, it converts it to a label
+    and sets it as its only child. -->
+<container background=button>
+    Label managed by container.
+</container>

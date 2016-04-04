@@ -1,58 +1,72 @@
-#LibGDX Markup Language
-Templates for LibGDX Scene2D with HTML-like syntax and FreeMarker-inspired macros.
+# LibGDX utilities
 
-##Examples
-See [gdx-lml-tests](http://github.com/czyzby/gdx-lml-tests) for example uses of all available tags and macros.
+This repository contains most of my libraries aimed at improving LibGDX framework. While they used to be kept in multiple separate repositories, this setup is much easier to maintain for the contributor(s) and, well, makes it harder to overlook some of my less popular libraries.
 
-Check it out [on-line](http://czyzby.github.io/gdx-lml-tests/).
+## Projects
 
-###Documentation
-See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&t=18843), [example project](http://github.com/czyzby/gdx-lml-tests), [tutorial](https://github.com/czyzby/gdx-lml/wiki/Tutorial) and [old syntax page (work in progress)](https://github.com/czyzby/gdx-lml/wiki/Syntax).
+### gdx-kiwi
+[Kiwi](https://github.com/czyzby/gdx-lml/tree/master/kiwi) is a Guava-inspired set of utilities for pretty much any LibGDX-based application. It makes it easier to use LibGDX collections, assets and its API in general.
 
-##Extensions
-[VisUI](https://github.com/kotcrab/VisEditor/wiki/VisUI) syntax support is available through [gdx-lml-vis library](https://github.com/czyzby/gdx-lml-vis). Additionally to replacing standard Scene2D actors with improved VisUI widgets, it offers full support for other VisUI features - including color picker, file chooser, other new widgets, listeners and validators.
+### gdx-lml
+[LML](https://github.com/czyzby/gdx-lml/tree/master/lml) (*LibGDX Marker Language*) allows to parse HTML-like templates with FreeMarker-inspired macros into Scene2D actors. Since making your UI in Java can become unreadable and tedious thanks to this language's verbosity, LML can be a useful alternative. Especially since LML templates can be modified or reloaded without having to recompile the whole application. Comes with extra support for managing preferences, assets and internationalization.
 
-Check it out [on-line](http://czyzby.github.io/gdx-lml-vis-tests/).
+#### gdx-lml-vis
+[VisUI](https://github.com/kotcrab/VisEditor/wiki/VisUI) is a superb library, extending Scene2D with additional widgets and a modern skin. [LML Vis](https://github.com/czyzby/gdx-lml/tree/master/lml-vis) allows to parse LML templates into VisUI widgets, instead of standard Scene2D ones and extends the syntax with ways to construct the new actors.
 
+### gdx-autumn
+[Autumn](https://github.com/czyzby/gdx-lml/tree/master/autumn) is a dependency injection mechanism with component scanning. Using a set of annotations and class scanners, it allows you to build your application without singletons, global variables or even direct calls to constructors.
+
+#### gdx-autumn-android
+[Autumn Android](https://github.com/czyzby/gdx-lml/tree/master/autumn/natives/android) provides class scanner for Android applications.
+
+#### gdx-autumn-fcs
+[Autumn FCS](https://github.com/czyzby/gdx-lml/tree/master/autumn/natives/fcs) provides class scanner for desktop applications using lightweight [`fast-classpath-scanner`](https://github.com/lukehutch/fast-classpath-scanner).
+
+#### gdx-autumn-gwt
+[Autumn GWT](https://github.com/czyzby/gdx-lml/tree/master/autumn/natives/gwt) provides class scanner for GWT applications.
+
+### gdx-autumn-mvc
+[Autumn MVC](https://github.com/czyzby/gdx-lml/tree/master/mvc) is a model-view-controller framework on top of LibGDX. It uses **Autumn** to manage components and **LML** as view templates. Makes it easier to maintain assets, internationalization, preferences, music, screen transitions, and so on. While other libraries are rather general-purpose, this one forces its structure upon your application - but should still be worth it, considering the amount of things it handles for you.
+
+### gdx-websocket
+[LibGDX web sockets library](https://github.com/czyzby/gdx-lml/tree/master/websocket) aims to extend the default `Net` implementations with cross-platform client-side web sockets. Rather than being a huge framework with serialization and server-side libraries, this set of libraries offers a simple and somewhat low level, yet pretty powerful client networking API.
+
+#### gdx-websocket-common
+[Common web sockets library](https://github.com/czyzby/gdx-lml/tree/master/websocket/natives/common) contains web socket natives for desktop and Android applications using [nv-websocket-client](https://github.com/TakahikoKawasaki/nv-websocket-client) library.
+
+#### gdx-websocket-gwt
+[GWT web sockets library](https://github.com/czyzby/gdx-lml/tree/master/websocket/natives/gwt) contains web socket natives for GWT applications.
 
 ## Dependencies
 
-`gdx-lml` is available through the official project creator tool: `gdx-setup` (in additional extensions). However, its version might not be up to date.
-
-To import LML with `Gradle`, add this dependency to your core project:
+All libraries follow the same schema:
 ```
-    compile "com.github.czyzby:gdx-lml:$libVersion.$gdxVersion"
+    compile "com.github.czyzby:lib-name:$libVersion.$gdxVersion"
+```
+`lib-name` is the name of the library (one of the ones listed above). `libVersion` follows `MAJOR.MINOR` schema and is the actual version of the library. `gdxVersion` is the version of the LibGDX library used to build the archive. For example, this is a valid LML dependency (although it might be out of date by now!): `'com.github.czyzby:gdx-lml:1.5.1.9.2'`. To find out the current version ID and GWT definition, check out the specific library's `README` file or [Maven Central](http://search.maven.org/#search|ga|1|g%3A%22com.github.czyzby%22).
+
+## Working with the sources
+
+Clone this repository. The whole setup is Gradle-based, with very similar structure to default LibGDX projects generated with `gdx-setup`. Note that Gradle wrapper is not included in the root project, so you should have Gradle installed locally.
+
+The project requires some additional "secret" properties, used for archives signing and logging to Maven Central. While most likely you will not need these functionalities, Gradle still forces you to provide these properties. So, make sure to include a `gradle.properties` file in root folder or - even better - in your Gradle home folder:
+```
+signing.keyId= 
+signing.password= 
+signing.secretKeyRingFile= 
+
+ossrhUsername= 
+ossrhPassword= 
 ```
 
-`$libVersion` is the current version of the library, usually following `MAJOR.MINOR` schema. `$gdxVersion` is the LibGDX version used to build (and required by) the library. You can check the current library version [here](http://search.maven.org/#search|ga|1|g%3A%22com.github.czyzby%22) - or you can use the [snapshots](https://oss.sonatype.org/content/repositories/snapshots/com/github/czyzby/).
+Before pulling any requests, make sure your code is formatted with `eclipse-formatter.xml` (or its equivalent for other IDE). Note that this is *not* the official LibGDX code formatter, as I'm not really a huge fan of its setup.
 
-If you want to use LML with GWT, you have to add this module to your `GdxDefinition`:
-```
-    <inherits name='com.github.czyzby.lml.GdxLml' />
-```
+### Useful Gradle tasks
+- `gradle eclipse` - generates Eclipse project structure.
+- `gradle idea` - generates IntelliJ project structure.
+- `gradle build install` - builds the libraries' archives and pushes them to Maven Local.
+- `gradle installAll` - same as the previous one, but the tasks are always invoked in the correct order. Use when changing libraries' versions to avoid missing artifacts errors.
+- `gradle uploadArchives` - pushes the archives to Maven Central. Requires proper `gradle.properties` with signing and logging data.
+- `gradle clean` - removes built archives.
 
-## What's new
-
-1.5 -> 1.6
-
-- Removed `/*` alias for comment macro. Since `DTD` creator was added to LML, now it is possible to create templates that are somewhat-valid `XML` files. `/*` was the only default tag that used forbidden `XML` characters.
-- New actor: `AnimatedImage`. Extends the regular `Image`; manages an array of drawables updated on `act` method. Allows to display a set of images in the specified way. Available through `animate, animation, animatedImage` tags.
-
-1.5.1.8.0 -> 1.5.1.9.2
-
-- Now when parsing a string value, a single character will not be treated as bundle line, preference or action (etc.) - even if it matches `@`, `$` or any other functional character. So, `$` will be parsed to `"$"`, but `$$$` will still look for an action (mapped to `$$` key). This is a simple convenience for printing a single character - these cannot be properly used as property names or bundle lines (and so on) anyway, as at least 2 characters are required. Note that if you want to use multiple restricted characters, you can always use i18n bundles.
-- *DTD* file generator. Now you can generate a *DTD* file based on your customized *LmlParser* with `Dtd` class.
-
-1.4 -> 1.5
-
-- `argument` macro added. Contrary to `assign` macro, this macro evaluates passed arguments. For example, `assign` macro would assign `@someBundleLine` to argument name, while `argument` value would convert it to `Actual bundle line value in .properties file.` and assign it to the argument. See `ArgumentLmlMacroTag` for more informations.
-- Ranges now accept bundle lines, preferences and methods. For example, now you can customize range size with i18n bundle file: `range[@start,@end]`, provided that `.properties` file has numeric `start` and `end` lines.
-- Equations (available through `if`, `while` and `calculate` macros) now parse bundle lines and preferences. For example, `<@if @someLine < 20>` will check if bundle line mapped to `someLine` is shorter than 20 characters in the current locale.
-- Equation marker. Now equations can be used pretty much anywhere, using mechanism similar to arguments. Normally, you insert parser arguments `{likeThat}` - this will look for an argument named `likeThat` and replace the braces block with its value (or `null`). To use equation instead, add `=` character at the beginning. For example, `{=3+5}` will replace the block with `8`. Bundle lines, preferences and methods are also supported by these equations. Equation marker aims to be a simplified alternative to `calculate` macro. As usual: to change equation marker, extend `DefaultLmlSyntax` class and override appropriate method. See new equations example in `gdx-lml-tests`.
-
-1.3 -> 1.4
-
-- `PooledList` is now used instead of `LinkedList`, which should slightly speed up the parsing (as in: limit its garbage collection) thanks to cached nodes and iterators.
-
-### Archive
-Older change logs are available in `CHANGES.md` file.
+To run a task on a specific library, proceed task name with the project ID. For example, `gradle kiwi:build` will build archives of Kiwi library.

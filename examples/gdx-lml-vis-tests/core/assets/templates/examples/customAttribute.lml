@@ -1,0 +1,16 @@
+<!-- You can register your own attributes directly in Java.
+    All you have to do is implement LmlAttribute interface
+    (which is rather trivial) and supply aliases of the
+    attribute. It will be available for the actor class tree
+    of chosen base class. In Main class, we registered an
+    attribute that supports Actor.class, so it is available
+    for all tags. -->
+
+<a href="https://github.com/czyzby/gdx-lml-vis">
+    Show repository.
+</a>
+
+<!-- "a" is an alias of TextButton. "href" is one of the names
+    of our custom attribute. -->
+
+<!-- See Main#getCustomAttribute -->

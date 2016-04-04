@@ -1,0 +1,17 @@
+<dialog title="@credits" titleAlign="center">
+    <scrollPane growX=true height=150 disabledX=true>
+        <table tablePad=4>
+        <!-- This is a macro that will iterate over
+            authors range - author0, author1, author2.
+            Current range value will replace {author}.
+            See LML examples project for more info. -->
+        <@for author=@author[0,2]>
+            <label padRight=5 align="right">{author}Description</label>
+            <linkLabel url="{author}Link" row=true align="left">{author}</linkLabel>
+        </@for>
+        </table>
+    </scrollPane>
+    <!-- onResult attribute will cause the button to be automatically
+        added to the dialog's buttons table. -->
+    <textButton growX=true onResult="close">@back</textButton>
+</dialog>

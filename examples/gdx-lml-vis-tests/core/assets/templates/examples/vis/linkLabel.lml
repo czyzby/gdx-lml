@@ -1,0 +1,10 @@
+<!-- LinkLabel allows to create label with clickable link. -->
+
+<linkLabel url="http://www.example.com">Click me!</linkLabel>
+<linkLabel url="http://www.example.org">No, click me!</linkLabel>
+
+<!-- By default URL will be opened in default browser. If browser
+    can't handle this URL, other system application that is
+    registered for this URL will be used. (see Gdx.net.openURI() for
+    more information). This behaviour can be overridden from code by
+    setting custom LinkLabel listener. -->

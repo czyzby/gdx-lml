@@ -1,0 +1,28 @@
+<!-- Null check macro allows you to check if the passed
+    arguments are not null or false. While it might seem
+    unnecessary in text-based templates, it does have its
+    uses. One of them being checking method results and
+    validating LML arguments. This macro allows to validate
+    multiple values at once and evaluates to true if at
+    least one of them is not null or false. -->
+
+<@anyNotNull $someMethod>
+    <label>someMethod returns non-null value.</label>
+</@anyNotNull>
+
+<@anyNotNull {unknownArg} {unknown}>
+    <@exception>These argument should be unknown.</@exception>
+<@anyNotNull:else/>
+    <label>Unknown arguments.</label>
+</@anyNotNull>
+
+<!-- As with any conditional macro, "else" tag is optional and
+    follows this syntax: <@tagName:else/>, where "tagName" is
+    the name of conditional macro tag you used. -->
+
+<!-- This method can validate multiple values at once. -->
+<@anyNotNull {unknownArg} $someMethod>
+    <label>At least one value not null.</label>
+<@anyNotNull:else/>
+    <@exception>someMethod should return non-null.</@exception>
+</@anyNotNull>
