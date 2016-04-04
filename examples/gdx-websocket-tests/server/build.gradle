@@ -1,9 +1,0 @@
-sourceCompatibility = 1.8
-sourceSets.main.java.srcDirs = [ "src/" ]
-apply plugin: 'application'
-
-mainClassName = 'com.github.czyzby.ServerLauncher'
-
-eclipse.project {
-  name = appName + "-server"
-}

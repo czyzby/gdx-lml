@@ -1,7 +1,0 @@
-<window title="@secondTitle" titleAlign="center" oneColumn=true defaultSpace=1>
-    <@for prompt=@prompt[0,1]>
-        <label color="vis-blue">{prompt}</label>
-    </@for>
-    <textButton growX=true onChange="play">@playSound</textButton>
-    <textButton growX=true onChange="goto:third">@next</textButton>
-</window>
