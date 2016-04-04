@@ -1,0 +1,17 @@
+<!-- Image buttons are regular buttons extended with
+    an internal Image. Additionally to all button (and
+    table) attributes, they can also have all image
+    attributes, which will be applied to their interal
+    widget. -->
+
+<imageButton style="close"/>
+
+<container size=128>
+    <imageButton/>
+</container>
+
+<!-- Since buttons extend table, they can have any
+    children. As any regular table, image buttons
+    parse plain text between tags to labels. -->
+
+<imageButton>Will become a label.</imageButton>

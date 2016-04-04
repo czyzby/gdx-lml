@@ -1,0 +1,20 @@
+<!-- Split panes can have 2 children
+    that will be displayed on a split area. -->
+    
+<splitPane vertical=true>
+    Text is converted to labels.
+    <textButton>Any widgets are accepted</textButton>
+</splitPane>
+
+<!-- Normally, splitting bar can be moved
+    by dragging. If you want a fixed split
+    value, modify min/max. -->
+    
+<splitPane min=0.2 split=0.2 max=0.200001>
+    I will be partially hidden.
+    <textButton>I will take most of the space</textButton>
+</splitPane>
+
+<!-- Setting touchable=childrenOnly attribute
+    SHOULD work, but doesn't seem to stop
+    split pane from being modifiable. Oh well. -->

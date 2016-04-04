@@ -1,0 +1,27 @@
+<!-- Arguments can be used to pass values from Java
+    into LML templates. Upon adding, arguments are
+    converted to strings and added with the specified
+    ID. Argument syntax is {argumentId}. -->
+
+<label>{someArgument}</label>
+
+<!-- As usual, LML arguments can appear anywhere and
+    can have any type. Actually, arguments can even
+    consist of LML code - this is because (contrary
+    to bundle lines and preferences) arguments' content
+    actually replaces original LML template code.
+    Be careful with arguments with spaces - they
+    cannot be used in tags. -->
+
+<container size="{someNumber}">
+    <image style=button/>
+</container>
+{lmlSnippet}
+    
+<!-- Arguments are also commonly used by macros -
+    macros can have their own, local arguments
+    accessible during macro parsing. An example
+    might be index argument in loop macros.
+    There are also many macros that allow to
+    define new arguments (or replace old ones).
+    See macro examples for more informations. -->

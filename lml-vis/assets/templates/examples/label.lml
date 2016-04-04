@@ -1,0 +1,32 @@
+<!-- Using labels is the most common way of
+    displaying plain text. -->
+
+<label>Some text.</label>
+
+<!-- Labels append their text between tags.
+    to themselves. They cannot have children. -->
+    
+<label multiline=true color=vis-red>
+    Multiline
+    label.
+</label>
+
+<!-- Actually, most parental tags will parse
+    plain text as labels. -->
+
+<container>
+    This will become a label with default style.
+</container>
+
+<!-- If you need to set the text directly in the
+    constructor, use "text" or "value" attribute. -->
+    
+<label text="It\ will\ become\ the\ text."/>
+
+<!-- You need to escape spaces in tags though,
+    so generally i18n bundles are preferred: -->
+
+<label text="@bundleLine"/>
+<label>@bundleLine</label>
+
+<!-- See "Syntax: i18n" example for more info. -->

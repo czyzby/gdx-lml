@@ -1,0 +1,25 @@
+<!-- Evaluation macro allows to immediately invoke
+    a method. Method will be found for the current
+    parent tag actor; if macro is present outside
+    of actor tags, it will look for no-arg methods
+    or methods mapped to specific ID and invoked
+    them with null. -->
+
+<!-- This will look for method mapped to labelConsumer
+    and invoke it with the label: -->
+<label><@evaluate labelConsumer /></label>
+
+<!-- Evaluate macro can be used to assign method
+    results to arguments. If you pass second
+    attribute to the macro, it will become the
+    name of result argument. -->
+<@evaluate someMethod methodResult />
+<label>{methodResult}</label>
+
+<!-- You can also invoke a method with argument other
+    than actor. Data between macro tags will be
+    converted to string and passed to the method. -->
+<@evaluate stringConsumingMethod methodResult>
+    This will become method argument.
+</@evaluate>
+<label>{methodResult}</label>

@@ -1,0 +1,31 @@
+<!-- Image text buttons are extended text buttons
+    with an internal Image. Additionally to any
+    button, table and label attributes, they can
+    also have image attributes, which will be
+    applied to their internal icon. -->
+
+<imageTextButton image=icon-arrow-left>Hello.</imageTextButton>
+
+<container size=150>
+    <imageTextButton image=icon-arrow-right>
+        Bigger button.
+    </imageTextButton>
+</container>
+
+<!-- Since buttons extend table, they can have any
+    children. Contrary to regular image buttons,
+    they append text between tags to their original
+    label, rather than creating a new one for each
+    line. -->
+
+<imageTextButton text="Initial." multiline=true>
+    This will be also
+    appended to button text.
+    No new labels are created.
+    <mock row=true/>
+    <!-- Adding colspan=2, as internal image and
+        label are also in cells. --> 
+    <label color="vis-blue" colspan=2>
+        This is a separate label.
+    </label>
+</imageTextButton>

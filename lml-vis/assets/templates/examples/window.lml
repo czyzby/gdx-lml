@@ -1,0 +1,15 @@
+<!-- Windows are extended tables. Usually, they are
+    the root widgets that contain the views. -->
+
+<window title=Hello titleAlign=right>
+    Adds text as labels.
+    <textField row=true>Accepts any tags.</textField>
+    <slider grow=true/>
+    Works like a table.
+</window>
+
+<!-- Since windows manage another table - title table -
+    you can append widgets to it by adding "toTitleTable"
+    attribute. Also, windows contain an internal label
+    (title), so their tags can have label attributes
+    that will affect the title. -->

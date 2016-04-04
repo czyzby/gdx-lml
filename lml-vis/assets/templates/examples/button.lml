@@ -1,0 +1,19 @@
+<!-- Buttons are basic Table extensions
+    with default click listeners and
+    (un)checked status. -->
+<button/>
+
+<!-- Since they are Tables, they can parse
+    any actors and append them to their cells.
+    Buttons' sizes will fit to show all their
+    children actors. -->
+<button><actor size=128/></button>
+
+<!-- They can be used to simulate text
+    buttons, although labels will not
+    change style according to button state,
+    because they are separate widgets,
+    rather than internal parts of button. -->
+<button style=toggle checked=true>Text as label</button>
+<!-- The above example would work the same
+    way if the text was in <label></label> tags. -->

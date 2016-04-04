@@ -1,0 +1,14 @@
+<!-- Actions like goto:view, show:dialog and app:exit are
+    some of the default actions, available in all views.
+    goto expects a view ID (set in View annotation) and 
+    will switch the current view. show expects a dialog
+    ID (set in ViewDialog annotation) and will simply
+    display a chosen dialog. app:exit closes the
+    application. -->
+
+<window title="@thirdTitle" titleAlign="center" oneColumn=true defaultPad=1 defaultGrowX=true>
+    <textButton onChange="show:settings">@settings</textButton>
+    <textButton onChange="show:credits">@credits</textButton>
+    <textButton onChange="goto:second">@back</textButton>
+    <textButton onChange="app:exit">@exit</textButton>
+</window>

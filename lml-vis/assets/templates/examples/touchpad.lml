@@ -1,0 +1,7 @@
+<!-- Scene2D touchpad actor is supported.
+    It cannot have children tags or plain text
+    between its tags. -->
+
+<container size=200>
+    <touchpad deadzone=20/>
+</container>

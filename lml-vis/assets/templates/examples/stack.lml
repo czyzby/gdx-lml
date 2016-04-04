@@ -1,0 +1,18 @@
+<!-- Stacks append their children on top
+    of each other. Converts plain text to
+    labels with default style. -->
+
+<stack>
+    OK, this will
+    most likely be
+    unreadable.
+</stack>
+
+<!-- It can be used for complex widgets with
+    multiple components. -->
+
+<stack>
+    <image style="button-down" />
+    <label color=black>.Complex</label>
+    <label>Complex</label>
+</stack>

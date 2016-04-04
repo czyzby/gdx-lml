@@ -1,0 +1,35 @@
+<!-- Table is the most common widget group in Scene2D.
+    Even windows, dialogs and buttons extend this class.
+    Unsurprisingly, tables in LML are very flexible
+    parent tags that allow they children to use cell
+    attributes. -->
+
+<table background="button-down">
+    Text converted to labels.
+    <textButton row=true>Adds row.</textButton>
+    <label color=vis-red height=25>
+        All cell methods supported!
+    </label>
+    <slider grow=true width=50/>
+</table>
+
+<!-- See tableColumn and tableRow macros for columns'
+    and rows' cell defaults management. Cell attributes
+    proceeded with "default" can be added to the table
+    itself to specify cell defaults. Table attributes
+    that overlap with cell (for example: pad) are
+    proceeded with "table". -->
+
+<table background="button-over"
+    <!-- Try removing these attributes: -->
+        defaultPad=4 tablePad=12>
+    <button/>
+    <button grow=true row=true/>
+    <button/>
+    <button/>
+</table>
+
+<table oneColumn=true>
+    Will automatically
+    <textButton>append rows.</textButton><slider/>
+</table>
