@@ -1,4 +1,4 @@
-package com.github.czyzby.nongwt.autumn.scanner;
+package com.github.czyzby.autumn.nongwt.scanner;
 
 import java.io.File;
 import java.io.IOException;
