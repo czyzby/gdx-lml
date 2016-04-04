@@ -13,7 +13,7 @@ subprojects {
     gdxVersion = '1.9.2'
     isSnapshot = '-SNAPSHOT'
     libVersion = "$projectVersion.$gdxVersion$isSnapshot"
-    wagonVersion = '2.2'
+    wagonVersion = '2.10'
   }
 
   repositories {
