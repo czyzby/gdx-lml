@@ -4,7 +4,9 @@ import com.github.czyzby.websocket.data.WebSocketCloseCode;
 
 /** Allows to hook up to web socket events.
  *
- * @author MJ */
+ * @author MJ
+ * @see AbstractWebSocketListener
+ * @see WebSocketAdapter */
 public interface WebSocketListener {
     /** Return in listener's methods for code clarity. */
     boolean FULLY_HANDLED = true, NOT_HANDLED = false;

@@ -3,6 +3,7 @@ package com.github.czyzby.websocket.impl;
 import com.badlogic.gdx.utils.Array;
 import com.github.czyzby.websocket.WebSocket;
 import com.github.czyzby.websocket.WebSocketListener;
+import com.github.czyzby.websocket.WebSockets;
 import com.github.czyzby.websocket.data.WebSocketCloseCode;
 import com.github.czyzby.websocket.data.WebSocketException;
 import com.github.czyzby.websocket.data.WebSocketState;
@@ -14,7 +15,7 @@ import com.github.czyzby.websocket.serialization.Serializer;
 public abstract class AbstractWebSocket implements WebSocket {
     private final String url;
     private final Array<WebSocketListener> listeners = new Array<WebSocketListener>(2); // Default 16 is likely too big.
-    private Serializer serializer;
+    private Serializer serializer = WebSockets.DEFAULT_SERIALIZER;
     private boolean serializeAsString;
     private boolean sendGracefully;
 

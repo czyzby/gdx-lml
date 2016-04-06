@@ -1,8 +1,13 @@
 package com.github.czyzby.websocket.serialization;
 
+import com.github.czyzby.websocket.serialization.impl.Base64Serializer;
+import com.github.czyzby.websocket.serialization.impl.JsonSerializer;
+
 /** Common interface for packet serializers.
  *
- * @author MJ */
+ * @author MJ
+ * @see JsonSerializer
+ * @see Base64Serializer */
 public interface Serializer {
     /** @param object will be serialized as string.
      * @return passed object serialized to a string. */
