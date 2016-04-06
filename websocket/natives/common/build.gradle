@@ -1,5 +1,5 @@
 ext {
-  nvVersion = '1.23'
+  nvVersion = '1.25'
 }
 
 dependencies {
