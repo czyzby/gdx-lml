@@ -115,7 +115,7 @@ public abstract class AbstractWebSocket implements WebSocket {
     @Override
     public boolean isSecure() {
         final String secureWebSocketPrefix = "wss";
-        return url.substring(0, secureWebSocketPrefix.length()).equalsIgnoreCase(secureWebSocketPrefix);
+        return getUrl().substring(0, secureWebSocketPrefix.length()).equalsIgnoreCase(secureWebSocketPrefix);
     }
 
     @Override
@@ -131,10 +131,12 @@ public abstract class AbstractWebSocket implements WebSocket {
     @Override
     public void send(final Object packet) throws WebSocketException {
         try {
-            if (serializeAsString) {
-                send(serializer.serializeAsString(packet));
-            } else {
-                send(serializer.serialize(packet));
+            if (packet != null) {
+                if (serializeAsString) {
+                    send(serializer.serializeAsString(packet));
+                } else {
+                    send(serializer.serialize(packet));
+                }
             }
         } catch (final WebSocketException exception) {
             onSendingException(exception);
@@ -184,7 +186,9 @@ public abstract class AbstractWebSocket implements WebSocket {
     @Override
     public void send(final byte[] packet) throws WebSocketException {
         try {
-            sendBinary(packet);
+            if (packet != null) {
+                sendBinary(packet);
+            }
         } catch (final WebSocketException exception) {
             onSendingException(exception);
         } catch (final Exception exception) {
@@ -195,7 +199,9 @@ public abstract class AbstractWebSocket implements WebSocket {
     @Override
     public void send(final String packet) throws WebSocketException {
         try {
-            sendString(packet);
+            if (packet != null) {
+                sendString(packet);
+            }
         } catch (final WebSocketException exception) {
             onSendingException(exception);
         } catch (final Exception exception) {
@@ -203,11 +209,11 @@ public abstract class AbstractWebSocket implements WebSocket {
         }
     }
 
-    /** @param packet should be sent to the server.
+    /** @param packet should be sent to the server. Is never null.
      * @throws Exception thrown during sending. */
     protected abstract void sendBinary(byte[] packet) throws Exception;
 
-    /** @param packet should be sent to the server.
+    /** @param packet should be sent to the server. Is never null.
      * @throws Exception thrown during sending. */
     protected abstract void sendString(String packet) throws Exception;
 

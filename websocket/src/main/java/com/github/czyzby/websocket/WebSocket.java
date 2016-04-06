@@ -71,13 +71,14 @@ public interface WebSocket {
      * @see #setSerializeAsString(boolean) */
     void send(Object packet) throws WebSocketException;
 
-    /** @param packet will be sent as-is to the server. Request is ignored if client is not connected.
+    /** @param packet will be sent as-is to the server. Nulls are ignored. Request is ignored if client is not
+     *            connected.
      * @throws WebSocketException if unable to send the packet due to an exception. Not thrown if the client is not
      *             connected. */
     void send(String packet) throws WebSocketException;
 
-    /** @param packet will be sent as binary data to the server. Might not be supported by every platform - older
-     *            browsers in particular. Request is ignored if client is not connected.
+    /** @param packet will be sent as binary data to the server. Nulls are ignored. Might not be supported by every
+     *            platform - older browsers in particular. Request is ignored if client is not connected.
      * @throws WebSocketException if unable to send the packet due to an exception. Not thrown if the client is not
      *             connected. */
     void send(byte[] packet) throws WebSocketException;
