@@ -16,7 +16,7 @@ allprojects {
 
     version = '1.6.1.9.2'
     ext {
-        appName = "gdx-websocket-tests"
+        appName = "gdx-websocket-json"
         gdxVersion = '1.9.2'
         vertxVersion = '3.2.1'
         libVersion = '1.6.' + gdxVersion + '-SNAPSHOT'
@@ -60,7 +60,16 @@ project(":core") {
     apply plugin: "java"
 
     dependencies {
+        compile project(":shared")
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        compile "com.github.czyzby:gdx-websocket:$libVersion"
+    }
+}
+
+project(":shared") {
+    apply plugin: "java"
+
+    dependencies {
         compile "com.github.czyzby:gdx-websocket:$libVersion"
     }
 }
@@ -69,6 +78,7 @@ project(":server") {
     apply plugin: "java"
     
     dependencies {
+        compile project(":shared")
         compile "io.vertx:vertx-core:$vertxVersion"
     }
 }
