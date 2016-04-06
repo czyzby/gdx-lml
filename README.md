@@ -49,7 +49,7 @@ All libraries follow the same schema:
 
 Clone this repository. The whole setup is Gradle-based, with very similar structure to default LibGDX projects generated with `gdx-setup`. Note that Gradle wrapper is not included in the root project, so you should have Gradle installed locally.
 
-The project requires some additional "secret" properties, used for archives signing and logging to Maven Central. While most likely you will not need these functionalities, Gradle still forces you to provide these properties. So, make sure to include a `gradle.properties` file in root folder or - even better - in your Gradle home folder:
+To deploy the libs, the project requires some additional "secret" properties, used for archives signing and logging to Maven Central. While you most likely will not need these functionalities, Gradle still forces you to provide these properties. A default unfilled `gradle.properties` file is available in the root folder, so Gradle will not complain about missing properties, but you might want to fill these in your Gradle home folder:
 ```
         signing.keyId= 
         signing.password= 
