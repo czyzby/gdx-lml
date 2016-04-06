@@ -3,6 +3,7 @@ package com.github.czyzby;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
 
+//Note that server web socket implementation is not provided by gdx-websocket. This class uses an external library: Vert.x.
 public class ServerLauncher {
     public static void main(final String... args) throws Exception {
         System.out.println("Launching web socket server...");
