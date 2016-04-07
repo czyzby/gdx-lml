@@ -279,5 +279,6 @@ public class Main extends AbstractApplicationListener {
         // ColorPicker is a heavy widget which should be reused and disposed of. Custom LML attributes reuse a single
         // ColorPicker instance which should be manually destroyed when the dialog is no longer expected to be shown:
         ColorPickerContainer.dispose();
+        VisUI.dispose();
     }
 }
