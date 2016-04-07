@@ -48,18 +48,16 @@ public class NvWebSocket extends AbstractWebSocket {
     }
 
     private static WebSocketState convertState(final com.neovisionaries.ws.client.WebSocketState state) {
-        // Somewhat faster than a switch.
-        if (state == com.neovisionaries.ws.client.WebSocketState.CREATED) {
-            // Not even connecting yet.
-            return WebSocketState.CLOSED;
-        } else if (state == com.neovisionaries.ws.client.WebSocketState.CONNECTING) {
-            return WebSocketState.CONNECTING;
-        } else if (state == com.neovisionaries.ws.client.WebSocketState.OPEN) {
-            return WebSocketState.OPEN;
-        } else if (state == com.neovisionaries.ws.client.WebSocketState.CLOSING) {
-            return WebSocketState.CLOSING;
-        } else if (state == com.neovisionaries.ws.client.WebSocketState.CLOSED) {
-            return WebSocketState.CLOSED;
+        switch (state) {
+            case CLOSED:
+            case CREATED:
+                return WebSocketState.CLOSED;
+            case CLOSING:
+                return WebSocketState.CLOSING;
+            case CONNECTING:
+                return WebSocketState.CONNECTING;
+            case OPEN:
+                return WebSocketState.OPEN;
         }
         return WebSocketState.CLOSED;
     }
