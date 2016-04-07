@@ -1,0 +1,7 @@
+<!-- This is a simple window macro, which sets some basic default values.
+	Use in case of basic windows without complex cell settings. -->
+<@macro window content title pad=2 oneColumn=true>
+<window title="@{title}" titleAlign="center" defaultPad={pad} oneColumn={oneColumn}>
+	{content}
+</window>
+</@macro>

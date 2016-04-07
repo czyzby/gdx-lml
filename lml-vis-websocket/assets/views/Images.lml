@@ -1,0 +1,3 @@
+<table fillParent=true align="bottomRight" background="button-window-bg">
+	<textButton onChange="toMenu" pad=10>@toMenu</textButton>
+</table>
