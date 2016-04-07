@@ -1,5 +1,4 @@
 # LibGDX utilities
-
 This repository contains most of my libraries aimed at improving LibGDX framework. While they used to be kept in multiple separate repositories, this setup is much easier to maintain for the contributor(s) and, well, makes it harder to overlook some of my less popular libraries.
 
 ### Note
@@ -49,7 +48,6 @@ If you came here looking for `gdx-lml` documentation, [check this out](https://g
 See [examples section](https://github.com/czyzby/gdx-lml/tree/master/examples) to check out some simple applications using presented libraries.
 
 ## Dependencies
-
 All libraries follow the same schema:
 ```
         compile "com.github.czyzby:lib-name:$libVersion.$gdxVersion"
@@ -85,5 +83,6 @@ Additionally, in `examples` directory you can find a utility Gradle project. Thi
 - `gradle updateVersion` - copies `gradle.properties` from `examples` to all projects directories.
 - `gradle eclipseAll` - generates Eclipse project meta-data for all examples.
 - `gradle runAll` - starts each desktop application, one by one. Useful for quick testing. Some applications (web socket tests) might fail to run if their corresponding server application is not turned on - this is expected.
+- `gradle cleanAll` - cleans build directories of example projects.
 
 To run a task on a specific library, proceed task name with its project ID. For example, `gradle kiwi:build` will build archives of Kiwi library.

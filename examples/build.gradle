@@ -1,20 +1,21 @@
-// This is a utility build.gradle that allows to run eclipse task on every
-// example project and quickly update libs versions.
+// This is a utility build.gradle that allows to run certain tasks on every
+// example project and quickly update libs versions. This is NOT the Gradle root
+// of all test projects: they are autonomous.
 
 // Copies (overrides) gradle.properties file to all project directories.
 task updateVersion << {
-   file(".").listFiles().findAll { it.isDirectory() && it.name != '.gradle'}
-    .each { copy {
+  file(".").listFiles().findAll { it.isDirectory() && it.name != '.gradle'}
+    .each { directory -> copy {
       from "gradle.properties"
-      into it
+      into directory
     }
   }
 }
 
-// Invokes `eclipse` Gradle task in every project directory.
+// Invokes `cleanEclipse` and `eclipse` Gradle tasks in every project directory.
 task eclipseAll << {
   file(".").listFiles().findAll { it.isDirectory() && it.name != '.gradle' }
-    .each { runProcess(it, "gradle", "eclipse", "--daemon") }
+    .each { runProcess(it, "gradle", "cleanEclipse", "eclipse", "--daemon") }
 }
 
 // Invokes `desktop:run` Gradle task in every project directory. Note that some
@@ -22,6 +23,12 @@ task eclipseAll << {
 task runAll << {
   file(".").listFiles().findAll { it.isDirectory() && it.name != '.gradle' }
     .each { runProcess(it, "gradle", "desktop:run", "--daemon") }
+}
+
+// Cleans all projects.
+task cleanAll << {
+  file(".").listFiles().findAll { it.isDirectory() && it.name != '.gradle' }
+    .each { runProcess(it, "gradle", "clean", "--daemon") }
 }
 
 // Utility method. Runs a selected system command in the chosen directory.

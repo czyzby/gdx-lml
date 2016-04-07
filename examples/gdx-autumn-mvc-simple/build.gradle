@@ -15,13 +15,8 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    version = vLib + '.' + vLibgdx
-    ext {
-        appName = "simple"
-        gdxVersion = vLibgdx
-        autumnVersion = vLib + '.' + gdxVersion + (snap? "-SNAPSHOT" : "")
-        visVersion = vVis
-    }
+    version = libVersion
+    ext.appName = "gdx-autumn-mvc-simple"
 
     repositories {
         mavenLocal()
@@ -39,7 +34,7 @@ project(":desktop") {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-        compile "com.github.czyzby:gdx-autumn-fcs:$autumnVersion"
+        compile "com.github.czyzby:gdx-autumn-fcs:$libVersion"
     }
 }
 
@@ -54,7 +49,7 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
-        compile "com.github.czyzby:gdx-autumn-android:$autumnVersion"
+        compile "com.github.czyzby:gdx-autumn-android:$libVersion"
     }
 }
 
@@ -67,10 +62,10 @@ project(":html") {
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
-        compile "com.github.czyzby:gdx-autumn-gwt:$autumnVersion"
-        compile "com.github.czyzby:gdx-autumn-gwt:$autumnVersion:sources"
-        compile "com.github.czyzby:gdx-autumn-mvc:$autumnVersion:sources"
-        compile "com.github.czyzby:gdx-lml-vis:$autumnVersion:sources"
+        compile "com.github.czyzby:gdx-autumn-gwt:$libVersion"
+        compile "com.github.czyzby:gdx-autumn-gwt:$libVersion:sources"
+        compile "com.github.czyzby:gdx-autumn-mvc:$libVersion:sources"
+        compile "com.github.czyzby:gdx-lml-vis:$libVersion:sources"
         compile "com.kotcrab.vis:vis-ui:$visVersion:sources"
     }
 }
@@ -80,8 +75,8 @@ project(":core") {
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-        compile "com.github.czyzby:gdx-autumn-mvc:$autumnVersion"
-        compile "com.github.czyzby:gdx-lml-vis:$autumnVersion"
+        compile "com.github.czyzby:gdx-autumn-mvc:$libVersion"
+        compile "com.github.czyzby:gdx-lml-vis:$libVersion"
     }
 }
 

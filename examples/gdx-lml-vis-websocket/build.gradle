@@ -14,14 +14,8 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    version = vLib + '.' + vLibgdx
-    ext {
-        appName = "gdx-lml-vis-websocket"
-        gdxVersion = vLibgdx
-        isSnapshot = snap? '-SNAPSHOT' : ''
-        libVersion = vLib + '.' + gdxVersion + isSnapshot
-        visVersion = vVis
-    }
+    version = libVersion
+    ext.appName = "gdx-lml-vis-websocket"
     repositories {
         mavenLocal()
         mavenCentral()

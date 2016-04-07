@@ -14,14 +14,8 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    version = vLib + '.' + vLibgdx
-    ext {
-        appName = 'gdx-lml-vis-tests'
-        libVersion = vLib
-        gdxVersion = vLibgdx
-        visVersion = vVis
-        isSnapshot = snap? '-SNAPSHOT' : ''
-    }
+    version = libVersion
+    ext.appName = 'gdx-lml-vis-tests'
 
     repositories {
         mavenLocal()
@@ -50,9 +44,9 @@ project(":html") {
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
-        compile "com.github.czyzby:gdx-kiwi:$libVersion.$gdxVersion$isSnapshot:sources"
-        compile "com.github.czyzby:gdx-lml:$libVersion.$gdxVersion$isSnapshot:sources"
-        compile "com.github.czyzby:gdx-lml-vis:$libVersion.$gdxVersion$isSnapshot:sources"
+        compile "com.github.czyzby:gdx-kiwi:$libVersion:sources"
+        compile "com.github.czyzby:gdx-lml:$libVersion:sources"
+        compile "com.github.czyzby:gdx-lml-vis:$libVersion:sources"
         compile "com.kotcrab.vis:vis-ui:$visVersion:sources"
     }
 }
@@ -61,7 +55,7 @@ project(":core") {
     apply plugin: "java"
 
     dependencies {
-        compile "com.github.czyzby:gdx-lml-vis:$libVersion.$gdxVersion$isSnapshot"
+        compile "com.github.czyzby:gdx-lml-vis:$libVersion"
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     }
 }
