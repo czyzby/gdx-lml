@@ -2,7 +2,7 @@
 This repository contains most of my libraries aimed at improving LibGDX framework. While they used to be kept in multiple separate repositories, this setup is much easier to maintain for the contributor(s) and, well, makes it harder to overlook some of my less popular libraries.
 
 ### Note
-This used to be `gdx-lml` library repository before I finally forced myself to merge all my LibGDX extensions into one huge Gradle project. Switching to the previous setup is highly unlikely, so if you watched or starred some of my other repositories, it's time to do the same with this one. Sorry.
+This used to be `gdx-lml` library repository before I finally forced myself to merge all my LibGDX extensions into one huge Gradle project. This repository one was chosen, as `gdx-lml` is (or used to be) my most popular library. (Yeah, you got me: I wanted to keep the stars - sue me.) Switching to the previous setup is highly unlikely, so if you watched some of my other repositories, it's time to do the same with this one. Sorry.
 
 If you came here looking for `gdx-lml` documentation, [check this out](https://github.com/czyzby/gdx-lml/tree/master/lml). `gdx-lml-tests` project, which shows usage of all LML tags, was moved [here](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-lml-tests).
 
