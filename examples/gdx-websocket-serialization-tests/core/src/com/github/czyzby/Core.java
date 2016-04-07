@@ -20,6 +20,7 @@ import com.github.czyzby.websocket.WebSocket;
 import com.github.czyzby.websocket.WebSocketHandler;
 import com.github.czyzby.websocket.WebSocketHandler.Handler;
 import com.github.czyzby.websocket.WebSocketListener;
+import com.github.czyzby.websocket.WebSockets;
 import com.github.czyzby.websocket.net.ExtendedNet;
 import com.github.czyzby.websocket.serialization.impl.ManualSerializer;
 import com.kotcrab.vis.ui.VisUI;
@@ -126,9 +127,9 @@ public class Core extends AbstractApplicationListener implements LmlView, Action
 
     @Override
     public void dispose() {
+        WebSockets.closeGracefully(socket); // Null-safe closing method that catches and logs any exceptions.
         Disposables.disposeOf(stage);
         VisUI.dispose();
-        socket.close();
     }
 
     // LmlView methods, used to parse core.lml template:

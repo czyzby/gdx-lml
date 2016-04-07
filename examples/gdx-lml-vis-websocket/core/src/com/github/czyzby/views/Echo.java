@@ -15,6 +15,7 @@ import com.github.czyzby.views.container.WebSocketButtons;
 import com.github.czyzby.websocket.WebSocket;
 import com.github.czyzby.websocket.WebSocketAdapter;
 import com.github.czyzby.websocket.WebSocketListener;
+import com.github.czyzby.websocket.WebSockets;
 import com.github.czyzby.websocket.data.WebSocketCloseCode;
 import com.github.czyzby.websocket.net.ExtendedNet;
 import com.kotcrab.vis.ui.widget.VisTextField;
@@ -100,7 +101,7 @@ public class Echo extends AbstractLmlView {
     @LmlAction("close")
     void disconnect() {
         if (webSocket.isOpen()) {
-            webSocket.close();
+            WebSockets.closeGracefully(webSocket); // Null-safe closing method that catches and logs any exceptions.
         }
     }
 

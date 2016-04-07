@@ -1,5 +1,6 @@
 package com.github.czyzby.websocket;
 
+import com.badlogic.gdx.Gdx;
 import com.github.czyzby.websocket.data.WebSocketException;
 import com.github.czyzby.websocket.serialization.Serializer;
 import com.github.czyzby.websocket.serialization.impl.JsonSerializer;
@@ -79,10 +80,26 @@ public class WebSockets {
         return port > 0 && port <= 65535;
     }
 
+    /** @param webSocket can be null. Will be closed using default {@link WebSocket#close()} method. Any exception that
+     *            occurs during web socket closing will be caught and logged as debug log using current LibGDX
+     *            application logging mechanism. (Basically, exception's message will be logged in the console if debug
+     *            logs are on.) */
+    public static void closeGracefully(final WebSocket webSocket) {
+        if (webSocket != null) {
+            try {
+                webSocket.close();
+            } catch (final Exception exception) {
+                Gdx.app.debug("WebSocket", exception.getMessage());
+            }
+        }
+    }
+
     /** Provides web socket instances.
      *
      * @author MJ */
     protected static interface WebSocketFactory {
+        /** @param url URL to connect with. Factory can assume that the URL is not null and valid.
+         * @return platform-specific {@link WebSocket} instance. */
         WebSocket newWebSocket(String url);
     }
 }

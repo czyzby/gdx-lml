@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.github.czyzby.websocket.WebSocket;
 import com.github.czyzby.websocket.WebSocketAdapter;
+import com.github.czyzby.websocket.WebSockets;
 import com.github.czyzby.websocket.data.WebSocketCloseCode;
 import com.github.czyzby.websocket.net.ExtendedNet;
 
@@ -61,7 +62,7 @@ public class Core extends ApplicationAdapter {
 
     @Override
     public void dispose() {
-        socket.close();
+        WebSockets.closeGracefully(socket); // Null-safe closing method that catches and logs any exceptions.
         batch.dispose();
         font.dispose();
     }
