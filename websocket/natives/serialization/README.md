@@ -18,10 +18,10 @@ GWT module:
          <inherits name='com.github.czyzby.websocket.GdxWebSocketSerialization' />
 ```
 
-### Comparison with JSON serialization. 
+### Comparison with JSON serialization
 JSON serialization requires a lot less code, as the classes' fields are scanned with reflection and processed automatically. `gdx-websocket-serialization` forces you to implement `Transferable` interface and (de)serialize your objects manually using `Serializer` and `Deserializer` API. This gives you a lot of control about how your data is serialized: every data type (primitive values, strings, etc.) allows you decide how many bytes you want to use for each value thanks to `Size` enum.
 
-#### **JsonSerializer**:
+#### `JsonSerializer`:
 - Based on tested and stable official LibGDX `Json` API.
 - Serialized objects do not need to implement any interfaces or have any annotations to be properly handled.
 - Verbose. Serialized data has much more bytes than it could have.
@@ -31,7 +31,7 @@ JSON serialization requires a lot less code, as the classes' fields are scanned 
 
 *When to use*: simple projects; server written in another language; prototyping.
 
-#### **ManualSerializer**:
+#### `ManualSerializer`:
 - Uses `Serializer` and `Deserializer` API.
 - Serialized objects need to implement `Transferable` interface and provide (de)serialization methods, forcing the programmer to (de)serialize each field manually.
 - Easy to optimize. Serialized data can be as small as possible without truncating the transfered values.
@@ -41,7 +41,7 @@ JSON serialization requires a lot less code, as the classes' fields are scanned 
 
 *When to use*: performance-critical applications; server running on JVM.
 
-### Example
+### Example usage
 To use this serialization, you need to set the `ManualSerializer` in `WebSocket`:
 ```
          WebSocket webSocket = ...;

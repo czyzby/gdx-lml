@@ -37,6 +37,12 @@ This repository contains most of my libraries aimed at improving LibGDX framewor
 #### gdx-websocket-gwt
 [GWT web sockets library](https://github.com/czyzby/gdx-lml/tree/master/websocket/natives/gwt) contains web socket natives for GWT applications.
 
+#### gdx-websocket-serialization
+[Serialization library for LibGDX web sockets](https://github.com/czyzby/gdx-lml/tree/master/websocket/natives/serialization) contains serialization mechanism that works on every platform. While default object serialization (using reflection and LibGDX `Json` API) is fine for most project, some performance-critical applications might require a different solution. Since most popular and tested serialization libraries are rarely GWT-compatible, `gdx-websocket` comes with its own alternative. Warning: JSON-based communication is much easier to use.
+
+### Examples
+See [examples section](https://github.com/czyzby/gdx-lml/tree/master/examples) to check out some simple applications using these libraries.
+
 ## Dependencies
 
 All libraries follow the same schema:
@@ -46,7 +52,6 @@ All libraries follow the same schema:
 `lib-name` is the name of the library (one of the ones listed above). `libVersion` follows `MAJOR.MINOR` schema and is the actual version of the library. `gdxVersion` is the version of the LibGDX library used to build the archive. For example, this is a valid LML dependency (although it might be out of date by now!): `'com.github.czyzby:gdx-lml:1.5.1.9.2'`. To find out the current version ID and GWT definition, check out the specific library's `README` file or [Maven Central](http://search.maven.org/#search|ga|1|g%3A%22com.github.czyzby%22).
 
 ## Working with the sources
-
 Clone this repository. The whole setup is Gradle-based, with very similar structure to default LibGDX projects generated with `gdx-setup`. Note that Gradle wrapper is not included in the root project, so you should have Gradle installed locally.
 
 To deploy the libs, the project requires some additional "secret" properties, used for archives signing and logging to Maven Central. While you most likely will not need these functionalities, Gradle still forces you to provide these properties. A default unfilled `gradle.properties` file is available in the root folder, so Gradle will not complain about missing properties, but you might want to fill these in your Gradle home folder:
@@ -58,6 +63,7 @@ To deploy the libs, the project requires some additional "secret" properties, us
         ossrhUsername= 
         ossrhPassword= 
 ```
+Deploying to Maven Local does not require signing task, so just keep signing properties commented out and you should be fine.
 
 Before pulling any requests, make sure your code is formatted with `eclipse-formatter.xml` (or its equivalent for other IDE). Note that this is *not* the official LibGDX code formatter, as I'm not really a huge fan of its setup.
 
@@ -68,5 +74,11 @@ Before pulling any requests, make sure your code is formatted with `eclipse-form
 - `gradle installAll` - same as the previous one, but the tasks are always invoked in the correct order. Use when changing libraries' versions to avoid missing artifacts errors.
 - `gradle uploadArchives` - pushes the archives to Maven Central. Requires proper `gradle.properties` with signing and logging data.
 - `gradle clean` - removes built archives.
+
+Additionally, in `examples` directory you can find a utility Gradle project with some task that modify example projects en masse:
+
+- `gradle updateVersion` - copies `gradle.properties` from `examples` to all projects directories.
+- `gradle eclipseAll` - generates Eclipse project meta-data for all examples.
+- `gradle runAll` - starts each desktop application, one by one. Useful for quick testing. Some applications (web socket tests) might fail to run if their corresponding server application is not turned on - this is expected.
 
 To run a task on a specific library, proceed task name with the project ID. For example, `gradle kiwi:build` will build archives of Kiwi library.
