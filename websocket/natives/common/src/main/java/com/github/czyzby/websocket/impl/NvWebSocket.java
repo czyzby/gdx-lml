@@ -20,11 +20,24 @@ public class NvWebSocket extends AbstractWebSocket {
     @Override
     public void connect() throws WebSocketException {
         try {
-            webSocket = webSocketFactory.createSocket(getUrl());
-            webSocket.addListener(new NvWebSocketListener(this));
-            webSocket.connect();
+            dispose();
+            final WebSocket currentWebSocket = webSocket = webSocketFactory.createSocket(getUrl());
+            currentWebSocket.addListener(new NvWebSocketListener(this));
+            currentWebSocket.connect();
         } catch (final Throwable exception) {
             throw new WebSocketException("Unable to connect.", exception);
+        }
+    }
+
+    /** Removes current web socket instance. */
+    protected void dispose() {
+        final WebSocket currentWebSocket = webSocket;
+        if (currentWebSocket != null && currentWebSocket.isOpen()) {
+            try {
+                currentWebSocket.disconnect(WebSocketCloseCode.AWAY.getCode());
+            } catch (final Exception exception) {
+                postErrorEvent(exception);
+            }
         }
     }
 
@@ -59,7 +72,8 @@ public class NvWebSocket extends AbstractWebSocket {
 
     @Override
     public boolean isOpen() {
-        return webSocket.isOpen();
+        final WebSocket currentWebSocket = webSocket;
+        return currentWebSocket != null && currentWebSocket.isOpen();
     }
 
     @Override
