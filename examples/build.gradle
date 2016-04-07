@@ -1,0 +1,30 @@
+// This is a utility build.gradle that allows to run eclipse task on every
+// example project and quickly update libs versions.
+
+Closure dirFilter = { false }
+
+task updateVersion << {
+   file(".").listFiles().findAll { it.isDirectory() && it.name != '.gradle'}
+    .each { copy {
+      from "gradle.properties"
+      into it
+    }
+  }
+}
+
+task eclipseAll << {
+  file(".").listFiles().findAll { it.isDirectory() && it.name != '.gradle' }
+    .each { runProcess(it, "gradle", "eclipse", "--daemon") }
+}
+
+task runAll << {
+  file(".").listFiles().findAll { it.isDirectory() && it.name != '.gradle' }
+    .each { runProcess(it, "gradle", "desktop:run", "--daemon") }
+}
+
+def runProcess(dir, String... commands) {
+  def builder = new ProcessBuilder(commands)
+  builder.inheritIO()
+  builder.directory(dir)
+  builder.start().waitFor()
+}

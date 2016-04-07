@@ -14,12 +14,13 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    version = '1.6.1.9.2'
+    version = vLib + '.' + vLibgdx
     ext {
         appName = "gdx-websocket-tests"
-        gdxVersion = '1.9.2'
-        vertxVersion = '3.2.1'
-        libVersion = '1.6.' + gdxVersion + '-SNAPSHOT'
+        gdxVersion = vLibgdx
+        isSnapshot = snap? '-SNAPSHOT' : ''
+        libVersion = vLib + '.' + gdxVersion + isSnapshot
+        vertxVersion = vVertx
     }
 
     repositories {

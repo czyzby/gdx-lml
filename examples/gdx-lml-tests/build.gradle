@@ -13,12 +13,13 @@ buildscript {
 allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
-    version = '1.6.1.9.2'
+
+    version = vLib + '.' + vLibgdx
     ext {
         appName = 'gdx-lml-tests'
-        libVersion = '1.6'
-        gdxVersion = '1.9.2'
-        isSnapshot = '-SNAPSHOT'
+        libVersion = vLib
+        gdxVersion = vLibgdx
+        isSnapshot = snap? '-SNAPSHOT' : ''
     }
 
     repositories {

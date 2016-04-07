@@ -15,12 +15,12 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    version = '1.6.1.9.2'
+    version = vLib + '.' + vLibgdx
     ext {
         appName = "simple"
-        gdxVersion = '1.9.2'
-        autumnVersion = '1.6.' + gdxVersion + '-SNAPSHOT'
-        visVersion = '1.0.1'
+        gdxVersion = vLibgdx
+        autumnVersion = vLib + '.' + gdxVersion + (snap? "-SNAPSHOT" : "")
+        visVersion = vVis
     }
 
     repositories {

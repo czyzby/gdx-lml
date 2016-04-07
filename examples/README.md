@@ -1,3 +1,5 @@
 # Examples
 
 This section includes some example LibGDX projects using the presented libraries. All these projects are separate and autonomous from the main Gradle build.
+
+Note that while this folder contains a `build.gradle` file, this is only a utility for running tasks en masse - this is NOT the root `build.gradle` of all example project, they are all autonomous. Running `gradle eclipseAll` will generate Eclipse meta-data for all example projects. `gradle updateVersion` copies `gradle.properties` to all example projects, allowing to quickly change the version of used libraries. `gradle runAll` will invoke `desktop:run` task on every project, starting desktop client versions one by one for quick testing. Some examples require a server to run properly (web socket tests) and will fail to run if the server application is not started - this is expected and these projects should be tested "manually".
