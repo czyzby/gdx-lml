@@ -4,7 +4,7 @@ Default LibGDX `Net` API provides only TCP sockets and HTTP requests. This libra
 
 `ExtendedNet` (as unfortunate as it might sound) contains additional methods for opening web sockets, as well as some static instance providers. `WebSockets` class has some general web sockets utilities. Both binary and text packets are supported on every platform (but note that older browsers might have problems with binary data). The code is heavily documented.
 
-See example project [using simple string communication](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-websocket-tests) or [using JSON serialization](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-websocket-json) for more info and a basic working application examples. *Note: examples might depend on latest snapshot versions and use new features.*
+See example project [using simple string communication](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-websocket-tests) or [using JSON serialization](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-websocket-json) for more info and a basic working application examples. [This mock-up application](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-lml-vis-websocket) uses `gdx-websocket` to connect with an external web socket echo server. *Note: examples might depend on latest snapshot versions and use new features.*
 
 Note that this library contains *only* the web sockets *abstraction* - it has the necessary interfaces, basic serialization (using LibGDX API) and some abstract implementations, but not much else. Every platform has to include a specific library with the actual implementation and initiate its module before using web sockets. Make sure to check out natives libraries `READMEs`.
 

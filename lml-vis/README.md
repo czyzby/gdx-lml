@@ -4,9 +4,9 @@ See [gdx-lml](https://github.com/czyzby/gdx-lml/tree/master/lml). This extension
 
 ## Examples
 
-Check [gdx-lml-vis-tests](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-lml-vis-tests) for examples of all tags and macros usage.
+Check [gdx-lml-vis-tests](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-lml-vis-tests) for examples of all tags and macros usage. Check [gdx-lml-vis-websocket](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-lml-vis-websocket) for a simple (yet practical) mock-up application.
 
-See on-line demo [here](http://czyzby.github.io/gdx-lml/lml-vis).
+See on-line demo [here](http://czyzby.github.io/gdx-lml/lml-vis). See application mock-up [here](http://czyzby.github.io/gdx-lml/lml-vis-websocket).
 
 ## Dependencies
 
