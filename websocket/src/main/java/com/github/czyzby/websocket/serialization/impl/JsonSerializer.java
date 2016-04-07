@@ -14,6 +14,15 @@ public class JsonSerializer extends AbstractStringSerializer {
         json.setOutputType(OutputType.javascript);
     }
 
+    /** @param preserveClassName if true, object's class name will be added to the JSON representation under "class"
+     *            key. If false, class data will not be preserved. Default to true. Note that if you set this value to
+     *            false, deserialization might fail or return {@link com.badlogic.gdx.utils.JsonValue} instead of
+     *            instance of the actual serialized object. Set to false only if you don't need the class data or your
+     *            server is not using the same serialization and does not need class data. */
+    public void setPreserveClassName(final boolean preserveClassName) {
+        json.setTypeName(preserveClassName ? "class" : null);
+    }
+
     @Override
     public String serializeAsString(final Object object) {
         try {

@@ -6,7 +6,8 @@ import com.github.czyzby.websocket.data.WebSocketCloseCode;
  *
  * @author MJ
  * @see AbstractWebSocketListener
- * @see WebSocketAdapter */
+ * @see WebSocketAdapter
+ * @see WebSocketHandler */
 public interface WebSocketListener {
     /** Return in listener's methods for code clarity. */
     boolean FULLY_HANDLED = true, NOT_HANDLED = false;
