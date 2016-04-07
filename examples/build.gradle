@@ -26,6 +26,7 @@ task runAll << {
 
 // Utility method. Runs a selected system command in the chosen directory.
 def runProcess(dir, String... commands) {
+  println "Running `${commands.join(' ')}` in ${dir.name}:"
   def builder = new ProcessBuilder(commands)
   builder.inheritIO()
   builder.directory(dir)
