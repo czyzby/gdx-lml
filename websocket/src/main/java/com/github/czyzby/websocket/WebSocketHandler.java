@@ -21,10 +21,13 @@ public class WebSocketHandler extends AbstractWebSocketListener {
     private final Handler<Object> unknown = new Handler<Object>() {
         @Override
         public boolean handle(final WebSocket webSocket, final Object packet) {
-            onError(webSocket, new WebSocketException("Unknown packet type: " + packet.getClass()));
+            if (failIfNoHandler) {
+                onError(webSocket, new WebSocketException("Unknown packet type: " + packet.getClass()));
+            }
             return NOT_HANDLED;
         }
     };
+    private boolean failIfNoHandler = true;
 
     /** @param packetClass class of the packet that should be passed to the selected handler.
      * @param handler will be notified when the chosen type of packet is received. Should be prepared to handle the
@@ -32,6 +35,12 @@ public class WebSocketHandler extends AbstractWebSocketListener {
     @SuppressWarnings("unchecked")
     public void registerHandler(final Class<?> packetClass, final Handler<?> handler) {
         handlers.put(packetClass, (Handler<Object>) handler);
+    }
+
+    /** @param failIfNoHandler if true and a web socket receives packet that has no handler registered to its class, an
+     *            exception will passed to {@link #onError(WebSocket, Throwable)} method. Defaults to true. */
+    public void setFailIfNoHandler(final boolean failIfNoHandler) {
+        this.failIfNoHandler = failIfNoHandler;
     }
 
     @Override
