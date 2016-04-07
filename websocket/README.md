@@ -14,6 +14,7 @@ Note that this library contains *only* the web sockets *abstraction* - it has th
          compile "com.github.czyzby:gdx-websocket:$libVersion.$gdxVersion"
 ```
 `$libVersion` is the current version of the library, usually following `MAJOR.MINOR` schema. `$gdxVersion` is the LibGDX version used to build (and required by) the library. You can check the current library version [here](http://search.maven.org/#search|ga|1|g%3A%22com.github.czyzby%22) - or you can use the [snapshots](https://oss.sonatype.org/content/repositories/snapshots/com/github/czyzby/).
+
 GWT module:
 ```
          <inherits name='com.github.czyzby.websocket.GdxWebSocket' />
@@ -21,12 +22,12 @@ GWT module:
 
 ### Natives
 
-Desktop/Android natives:
+Desktop/Android [natives](https://github.com/czyzby/gdx-lml/tree/master/websocket/natives/common):
 ```
          compile "com.github.czyzby:gdx-websocket-common:$libVersion.$gdxVersion"
 ```
 
-GWT natives:
+GWT [natives](https://github.com/czyzby/gdx-lml/tree/master/websocket/natives/gwt):
 ```
         compile "com.github.czyzby:gdx-websocket-gwt:$libVersion.$gdxVersion"
         compile "com.github.czyzby:gdx-websocket-gwt:$libVersion.$gdxVersion:sources"
@@ -37,6 +38,10 @@ GWT natives module:
         <inherits name='com.github.czyzby.websocket.GdxWebSocketGwt' />
 ```
 
+### Extensions
+
+- [gdx-websocket-serialization](https://github.com/czyzby/gdx-lml/tree/master/websocket/natives/serialization): a custom serialization mechanism, not based on reflection. Alternative to JSON-based communication. More verbose, but gives you full control over (de)serialization process. Useful for performance-critical applications. Check out its [example project](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-websocket-serialization-tests).
+
 ## Changes
 
 1.5 -> 1.6
@@ -46,3 +51,4 @@ GWT natives module:
 - Added default `Serializer` implementation: `JsonSerializer`. Uses **LibGDX** `Json` API to serialize objects as strings.
 - Added `WebSockets#DEFAULT_SERIALIZER`. Modify this field to automatically assign serializer of your choice to all new web socket instances.
 - Added `Base64Serializer`. Uses **LibGDX** `Base64Coder` API to encode and decode the data to and from *BASE64*. Wraps around an existing serializer.
+- Added custom serialization in [gdx-websocket-serialization](https://github.com/czyzby/gdx-lml/tree/master/websocket/natives/serialization) library. `ManualSerializer` is an alternative to the default `JsonSerializer`.

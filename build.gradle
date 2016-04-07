@@ -118,7 +118,8 @@ task installAll(dependsOn: ['installBase', 'lml-vis:build', 'lml-vis:install',
   'autumn/natives/fcs:install', 'autumn/natives/gwt:build',
   'autumn/natives/gwt:install', 'websocket/natives/common:build',
   'websocket/natives/common:install', 'websocket/natives/gwt:build',
-  'websocket/natives/gwt:install']) 
+  'websocket/natives/gwt:install', 'websocket/natives/serialization:build',
+  'websocket/natives/serialization:install']) 
 task installBase(dependsOn: ['installKiwi', 'lml:build', 'lml:install',
   'autumn:build', 'autumn:install', 'websocket:build', 'websocket:install'])
 task installKiwi(dependsOn: ['kiwi:build', 'kiwi:install'])

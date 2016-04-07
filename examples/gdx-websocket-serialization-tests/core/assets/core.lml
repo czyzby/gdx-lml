@@ -1,0 +1,9 @@
+<window title="gdx-websocket-serialization" titleAlign="center" oneColumn=true defaultPad=3>
+	Enter a number and send it to the server:
+	<textField id="input" message="0" digitsOnly=true growX=true maxLength=9 textAlign="center">
+		123
+	</textField>
+	<label id="status" style="small" color="vis-blue">Results appear there.</label>
+	<textButton growX=true onChange="sendPing">Send PING!</textButton>
+	<textButton growX=true onChange="sendPong">Send PONG!</textButton>
+</window>
