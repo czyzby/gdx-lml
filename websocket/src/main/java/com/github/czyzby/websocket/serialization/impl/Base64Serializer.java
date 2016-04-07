@@ -39,7 +39,7 @@ public class Base64Serializer implements Serializer {
         try {
             return Base64Coder.encodeString(new String(serialized, "UTF-8"), useUrlSafeEncoding).getBytes("UTF-8");
         } catch (final UnsupportedEncodingException exception) {
-            throw new SerializationException("Unexpected: UTF-8 not supported.", exception);
+            throw new SerializationException("Unexpected: UTF-8 format not supported.", exception);
         } catch (final Exception exception) {
             throw new SerializationException("Unable to encode data into BASE64.", exception);
         }
@@ -62,7 +62,7 @@ public class Base64Serializer implements Serializer {
         try {
             decoded = Base64Coder.decodeString(new String(data, "UTF-8"), useUrlSafeEncoding);
         } catch (final UnsupportedEncodingException exception) {
-            throw new SerializationException("Unexpected: UTF-8 not supported.", exception);
+            throw new SerializationException("Unexpected: UTF-8 format not supported.", exception);
         } catch (final Exception exception) {
             throw new SerializationException("Unable to decode data from BASE64: " + data, exception);
         }

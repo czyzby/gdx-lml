@@ -5,24 +5,24 @@ import java.io.UnsupportedEncodingException;
 import com.github.czyzby.websocket.serialization.SerializationException;
 import com.github.czyzby.websocket.serialization.Serializer;
 
-/** Abstract base for serializers that convert objects to strings. Methods consuming and producing byte arrays convert
- * their data to strings and delegate the operations to string-based methods.
+/** Abstract base for serializers that convert objects to byte arrays. Methods consuming and producing strings convert
+ * their data to byte arrays and delegate the operations to binary-based methods.
  *
  * @author MJ */
-public abstract class AbstractStringSerializer implements Serializer {
+public abstract class AbstractBinarySerializer implements Serializer {
     @Override
-    public byte[] serialize(final Object object) {
+    public String serializeAsString(final Object object) {
         try {
-            return serializeAsString(object).getBytes("UTF-8");
+            return new String(serialize(object), "UTF-8");
         } catch (final UnsupportedEncodingException exception) {
             throw new SerializationException("Unexpected: UTF-8 format not supported.", exception);
         }
     }
 
     @Override
-    public Object deserialize(final byte[] data) {
+    public Object deserialize(final String data) {
         try {
-            return deserialize(new String(data, "UTF-8"));
+            return deserialize(data.getBytes("UTF-8"));
         } catch (final UnsupportedEncodingException exception) {
             throw new SerializationException("Unexpected: UTF-8 format not supported.", exception);
         }
