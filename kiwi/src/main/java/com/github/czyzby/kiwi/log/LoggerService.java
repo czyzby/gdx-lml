@@ -6,8 +6,8 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.async.AsyncExecutor;
 import com.github.czyzby.kiwi.log.formatter.TextFormatter;
-import com.github.czyzby.kiwi.log.impl.AsynchronousLogger;
-import com.github.czyzby.kiwi.log.impl.DefaultLogger;
+import com.github.czyzby.kiwi.log.impl.AsynchronousLogger.AsynchronousLoggerFactory;
+import com.github.czyzby.kiwi.log.impl.DefaultLogger.DefaultLoggerFactory;
 import com.github.czyzby.kiwi.util.gdx.asset.Disposables;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 
@@ -28,10 +28,10 @@ public class LoggerService implements Disposable {
     private volatile AsyncExecutor executor;
 
     // Settings:
+    private LoggerFactory factory = new DefaultLoggerFactory();
     private boolean debugOn = true, infoOn = true, errorOn = true;
     private boolean logTime;
     private boolean useSimpleClassNames;
-    private boolean useAsynchronousLoggers;
 
     public LoggerService() {
         // Services manage their own settings, we need to override default settings to turn on all logging levels.
@@ -43,17 +43,11 @@ public class LoggerService implements Disposable {
      *         logger instance for same class. */
     public Logger getLoggerForClass(final Class<?> forClass) {
         if (!loggers.containsKey(forClass)) {
-            createLogger(forClass);
+            final Logger logger = factory.newLogger(this, forClass);
+            loggers.put(forClass, logger);
+            return logger;
         }
         return loggers.get(forClass);
-    }
-
-    private void createLogger(final Class<?> forClass) {
-        if (useAsynchronousLoggers) {
-            loggers.put(forClass, new AsynchronousLogger(this, forClass));
-        } else {
-            loggers.put(forClass, new DefaultLogger(this, forClass));
-        }
     }
 
     /** @return an instance of {@link AsyncExecutor}, used by asynchronous loggers. */
@@ -130,9 +124,27 @@ public class LoggerService implements Disposable {
      *            and it has practically no gain on GWT. Use asynchronous loggers if you use multiple threads and
      *            regular logging causes delays or starvation. Defaults to false and should generally should not be set
      *            to true, unless justified. Note that this setting should be changed BEFORE any loggers are obtained,
-     *            as it changes the way loggers are created. */
+     *            as it changes the way loggers are created. Note that invoking this method modifies internal
+     *            {@link LoggerFactory} instance. */
     public void setUseAsynchronousLoggers(final boolean useAsynchronousLoggers) {
-        this.useAsynchronousLoggers = useAsynchronousLoggers;
+        setFactory(useAsynchronousLoggers ? new AsynchronousLoggerFactory() : new DefaultLoggerFactory());
+    }
+
+    /** @return {@link LoggerFactory} used to create new loggers. */
+    public LoggerFactory getFactory() {
+        return factory;
+    }
+
+    /** @param factory will be used to create new loggers. Note that this method should be invoked BEFORE any loggers
+     *            are created, as any loggers created with previous factory will still be cached. */
+    public void setFactory(final LoggerFactory factory) {
+        this.factory = factory;
+    }
+
+    /** Removes all currently cached loggers. Note that loggers still used by other objects will not be disposed or
+     * garbage collected - this method only affects internal logger service cache. */
+    public void clearLoggersCache() {
+        loggers.clear();
     }
 
     @Override

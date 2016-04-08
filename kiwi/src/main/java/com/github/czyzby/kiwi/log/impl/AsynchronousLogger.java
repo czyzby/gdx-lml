@@ -3,6 +3,8 @@ package com.github.czyzby.kiwi.log.impl;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.async.AsyncExecutor;
 import com.badlogic.gdx.utils.async.AsyncTask;
+import com.github.czyzby.kiwi.log.Logger;
+import com.github.czyzby.kiwi.log.LoggerFactory;
 import com.github.czyzby.kiwi.log.LoggerService;
 
 /** Uses an {@link AsyncExecutor} to log messages. Creates a new {@link AsyncTask} for each message. Eventually
@@ -81,5 +83,15 @@ public class AsynchronousLogger extends AbstractLogger {
                 return null;
             }
         });
+    }
+
+    /** Provides {@link AsynchronousLogger} instances.
+     *
+     * @author MJ */
+    public static class AsynchronousLoggerFactory implements LoggerFactory {
+        @Override
+        public Logger newLogger(final LoggerService service, final Class<?> forClass) {
+            return new AsynchronousLogger(service, forClass);
+        }
     }
 }

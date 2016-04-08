@@ -1,6 +1,8 @@
 package com.github.czyzby.kiwi.log.impl;
 
 import com.badlogic.gdx.Gdx;
+import com.github.czyzby.kiwi.log.Logger;
+import com.github.czyzby.kiwi.log.LoggerFactory;
 import com.github.czyzby.kiwi.log.LoggerService;
 
 /** Default {@link com.github.czyzby.kiwi.log.Logger} implementation. Delegates logger calls directly to current
@@ -40,5 +42,16 @@ public class DefaultLogger extends AbstractLogger {
     @Override
     protected void logError(final String tag, final String message, final Throwable exception) {
         Gdx.app.error(tag, message, exception);
+    }
+
+    /** Provides {@link DefaultLogger} instances.
+     *
+     * @author MJ */
+    public static class DefaultLoggerFactory implements LoggerFactory {
+        @Override
+        public Logger newLogger(final LoggerService service, final Class<?> forClass) {
+            return new DefaultLogger(service, forClass);
+        }
+
     }
 }
