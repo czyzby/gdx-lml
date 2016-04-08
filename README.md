@@ -70,13 +70,13 @@ Note that deploying to Maven Local does *not* require the signing task, so if yo
 
 Before pulling any requests, make sure your code is formatted with `eclipse-formatter.xml` (or its equivalent for other IDE). Note that this is *not* the official LibGDX code formatter, as I'm not really a huge fan of its setup.
 
-Assuming you want to use Eclipse IDE (which is IMHO much better for managing multiple projects thanks to its workspaces, working sets and whatnot), this is simple `TODO` after repository cloning:
+Assuming you want to use Eclipse IDE (which is IMHO much better for managing multiple projects than IntelliJ thanks to its workspaces, working sets and whatnot), this is a simple list of stuff to do after repository cloning:
 
-- Make sure `gradle` is installed globally. This repository has no Gradle wrappers in any project.
+- Make sure `gradle` is installed globally. This repository has no Gradle wrappers in any project, so you cannot just use `./gradlew`.
 - Run `gradle eclipse` to generate Eclipse projects for core libraries.
 - *Optional*: `cd examples` and run `gradle eclipseAll` to generate Eclipse projects for all examples. Some examples have an Android project and require you to add `local.properties` file with `sdk.dir` property.
-- Open Eclipse IDE. Import existing projects, search for nested ones.
-- Add `eclipse-formatter.xml`. Make this the default formatter for the imported projects.
+- Open Eclipse IDE. Import existing projects. Make sure to turn on searching for nested ones.
+- Add `eclipse-formatter.xml` as Java code formatter. Make this the default formatter for the imported projects.
 
 ### Useful Gradle tasks
 - `gradle eclipse` - generates Eclipse project structure.
