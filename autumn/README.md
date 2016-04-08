@@ -57,6 +57,10 @@ To include Autumn on Android, see [Autumn Android](https://github.com/czyzby/gdx
 For efficient class scanning on desktop, see [Autumn FCS](https://github.com/czyzby/gdx-lml/tree/master/autumn/natives/fcs).
 
 ##What's new
+1.5 -> 1.6
+
+- Fixed `@Dispose` annotation behavior.
+
 1.3 -> 1.5
 
 - Exceptions thrown during annotation checks are now logged. This will basically affect only GWT platform - exceptions were ignored there due to clumsy reflection mechanism, but it turns out that some of them are actually relevant from time to time. If your application fails to initiate a component, make sure that all of its extended classes (and implemented interfaces) are reflected. If not, try to include them.

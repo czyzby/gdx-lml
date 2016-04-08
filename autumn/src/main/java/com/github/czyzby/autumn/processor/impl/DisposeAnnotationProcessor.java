@@ -32,7 +32,7 @@ public class DisposeAnnotationProcessor extends AbstractAnnotationProcessor<Disp
     @Override
     public void processField(final Field field, final Dispose annotation, final Object component, final Context context,
             final ContextInitializer initializer, final ContextDestroyer contextDestroyer) {
-        disposables.add(new DisposableField(field, context));
+        disposables.add(new DisposableField(field, component));
     }
 
     @Override
