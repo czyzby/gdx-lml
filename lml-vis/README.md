@@ -69,6 +69,7 @@ Note that by making the method static, instance of the class containing the meth
 
 1.5 -> 1.6
 
+- Macro marker was changed from `@` to `:`. While it required to switch a single character in the actual source code, this is actually a major update. This change breaks all LML templates that used any macro tags. `@` was a poor choice in the first place: it can be confused with the i18n bundle marker (also `@`) and is not a valid XML character. Since `DTD` supported was added, invalid macro sign was no longer an option. Quick conversion tip: replace `<@` and `</@` with `<:` and `</:` in all `*.lml` files.
 - Removed `/*` alias for comment macro. Since `DTD` creator was added to LML, now it is possible to create templates that are somewhat-valid `XML` files. `/*` was the only default tag that used forbidden `XML` characters.
 
 1.4 -> 1.5
@@ -77,13 +78,6 @@ Note that by making the method static, instance of the class containing the meth
 - `VerticalFlowGroup` and `HorizontalFlowGroup` support. To use these groups in a `dragPane` tag, set `type` attribute to `vFlow` or `hFlow` (as always, case ignored).
 - `ListView` support. Now you can display a collection of values in a customized way. Note that currently `ListView` does **NOT** work on GWT due to reflection use in VisUI 1.0.1. It will be fixed in future versions.
 - Added `deadzoneRadius` attribute to `draggable` tag.
-
-1.3 -> 1.4
-
-- Added `SwapListener` to `FixedSizeGridGroup`. Now you can manage (and cancel) swap events without having to modify internal `Draggable` listener.
-- Added `TabbedPaneLmlTag#getTabbedPane(Table)` method. Since `TabbedPane` does not extend `Actor` class, it cannot be injected to `@LmlActor`-annotated fields - instead, its main table (`TabbedPane#getTable()`) is used. `#getTabbedPane(Table)` method allows to extract the direct reference to `TabbedPane` from its main table - ideally, you'll want to use this in an on-create or on-close method and assign the pane, as this reference might be lost after you clear LML meta-data with `LmlUtilities#clearLmlUserObjects(Iterable<Actor>)` or similar methods.
-- Removed `ColumnGroup` support, since this widget is deprecated in the last `VisUI` version. Use `VerticalGroup` instead.
-- `FixedSizeGridGroup`, `VisFormTable` and `VisTabTable` are no longer GWT-reflected. They were moved from `com.github.czyzby.lml.vis.ui.reflected` to `com.github.czyzby.lml.vis.ui` package. `MockUpActor` was extracted from `FixedSizeGridGroup` (it was an internal class) and moved to `com.github.czyzby.lml.vis.ui.reflected` package.
 
 ### Archive
 Older change logs are available in `CHANGES.md` file.
