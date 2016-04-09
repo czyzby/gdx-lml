@@ -16,6 +16,7 @@ public interface Tuple extends Serializable {
     public Object get(int index) throws IndexOutOfBoundsException;
 
     /** @param index index of the variable in pair.
+     * @param asInstanceOf expected type of value.
      * @return variable in pair with the passed index.
      * @throws IndexOutOfBoundsException for invalid index.
      * @throws ClassCastException if value's class doesn't match with the passed class parameter.

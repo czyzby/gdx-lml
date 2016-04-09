@@ -21,7 +21,9 @@ import com.badlogic.gdx.utils.ObjectMap;
 public class ImmutableObjectMap<Key, Value> extends ObjectMap<Key, Value> {
     @SuppressWarnings("hiding") private final int size;
 
-    /** Creates a new immutable map identical to the specified map. */
+    /** Creates a new immutable map identical to the specified map.
+     *
+     * @param map will be copied. */
     public ImmutableObjectMap(final ObjectMap<? extends Key, ? extends Value> map) {
         super(map);
         this.size = super.size;
@@ -30,7 +32,9 @@ public class ImmutableObjectMap<Key, Value> extends ObjectMap<Key, Value> {
     /** @param keysAndValues pairs of keys and values.
      * @return a new ImmutableObjectMap created with the passed keys and values.
      * @throws IllegalArgumentException if keys and values total amount is not even.
-     * @throws ClassCastException if received unexpected object type. */
+     * @throws ClassCastException if received unexpected object type.
+     * @param <Key> type of map keys.
+     * @param <Value> type of set values. */
     @SuppressWarnings("unchecked")
     public static <Key, Value> ImmutableObjectMap<Key, Value> of(final Object... keysAndValues) {
         if (keysAndValues.length % 2 != 0) {
@@ -43,7 +47,10 @@ public class ImmutableObjectMap<Key, Value> extends ObjectMap<Key, Value> {
         return copyOf(map);
     }
 
-    /** @return a new ImmutableObjectMap created with the keys and values stored in passed map. */
+    /** @param objectMap will be copied.
+     * @return a new ImmutableObjectMap created with the keys and values stored in passed map.
+     * @param <Key> type of map keys.
+     * @param <Value> type of set values. */
     public static <Key, Value> ImmutableObjectMap<Key, Value> copyOf(
             final ObjectMap<? extends Key, ? extends Value> objectMap) {
         return new ImmutableObjectMap<Key, Value>(objectMap);

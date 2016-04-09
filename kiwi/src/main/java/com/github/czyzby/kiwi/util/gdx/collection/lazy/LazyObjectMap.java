@@ -38,7 +38,8 @@ public class LazyObjectMap<Key, Value> extends ObjectMap<Key, Value> {
     /** Creates a new map with a load factor of 0.8. This map will hold initialCapacity * 0.8 items before growing the
      * backing table.
      *
-     * @param provider creates new object on get(key) calls if the key is not present in the map. */
+     * @param provider creates new object on get(key) calls if the key is not present in the map.
+     * @param initialCapacity initial expected elements amount. */
     public LazyObjectMap(final ObjectProvider<? extends Value> provider, final int initialCapacity) {
         super(initialCapacity);
         this.provider = provider;
@@ -47,7 +48,9 @@ public class LazyObjectMap<Key, Value> extends ObjectMap<Key, Value> {
     /** Creates a new map with the specified initial capacity and load factor. This map will hold initialCapacity *
      * loadFactor items before growing the backing table.
      *
-     * @param provider creates new object on get(key) calls if the key is not present in the map. */
+     * @param provider creates new object on get(key) calls if the key is not present in the map.
+     * @param initialCapacity initial expected elements amount.
+     * @param loadFactor determines how fast map is resized. */
     public LazyObjectMap(final ObjectProvider<? extends Value> provider, final int initialCapacity,
             final float loadFactor) {
         super(initialCapacity, loadFactor);
@@ -56,38 +59,50 @@ public class LazyObjectMap<Key, Value> extends ObjectMap<Key, Value> {
 
     /** Creates a new map identical to the specified map.
      *
-     * @param provider creates new object on get(key) calls if the key is not present in the map. */
+     * @param provider creates new object on get(key) calls if the key is not present in the map.
+     * @param map will be copied. */
     public LazyObjectMap(final ObjectProvider<? extends Value> provider,
             final ObjectMap<? extends Key, ? extends Value> map) {
         super(map);
         this.provider = provider;
     }
 
-    /** Creates a new map identical to the specified map. */
+    /** Creates a new map identical to the specified map.
+     *
+     * @param map will be copied. */
     public LazyObjectMap(final LazyObjectMap<? extends Key, ? extends Value> map) {
         super(map);
         this.provider = map.provider;
     }
 
     /** @param provider creates new object on get(key) calls if the key is not present in the map.
-     * @return new lazy map instance. */
+     * @return new lazy map instance.
+     * @param <Key> type of map keys.
+     * @param <Value> type of map values. */
     public static <Key, Value> LazyObjectMap<Key, Value> newMap(final ObjectProvider<? extends Value> provider) {
         return new LazyObjectMap<Key, Value>(provider);
     }
 
-    /** @return a new lazy map that provides empty, non-typed arrays. */
+    /** @return a new lazy map that provides empty, non-typed arrays.
+     * @param <Key> type of map keys.
+     * @param <Value> type of array values. */
     public static <Key, Value> LazyObjectMap<Key, Array<Value>> newMapOfArrays() {
         final ObjectProvider<Array<Value>> provider = ArrayObjectProvider.getProvider();
         return newMap(provider);
     }
 
-    /** @return a new lazy map that provides empty object sets. */
+    /** @return a new lazy map that provides empty object sets.
+     * @param <Key> type of map keys.
+     * @param <Value> type of set values. */
     public static <Key, Value> LazyObjectMap<Key, ObjectSet<Value>> newMapOfSets() {
         final ObjectProvider<ObjectSet<Value>> provider = SetObjectProvider.getProvider();
         return newMap(provider);
     }
 
-    /** @return a new lazy map that provides empty object maps. */
+    /** @return a new lazy map that provides empty object maps.
+     * @param <Key> type of map keys.
+     * @param <MapKey> type of maps' keys.
+     * @param <MapValue> type of maps' values. */
     public static <Key, MapKey, MapValue> LazyObjectMap<Key, ObjectMap<MapKey, MapValue>> newMapOfMaps() {
         final ObjectProvider<ObjectMap<MapKey, MapValue>> provider = MapObjectProvider.getProvider();
         return newMap(provider);
@@ -97,7 +112,9 @@ public class LazyObjectMap<Key, Value> extends ObjectMap<Key, Value> {
      * @param provider creates new object on get(key) calls if the key is not present in the map.
      * @return a new LazyObjectMap created with the passed keys and values.
      * @throws IllegalArgumentException if keys and values total amount is not even.
-     * @throws ClassCastException if received unexpected object type. */
+     * @throws ClassCastException if received unexpected object type.
+     * @param <Key> type of map keys.
+     * @param <Value> type of set values. */
     @SuppressWarnings("unchecked")
     public static <Key, Value> LazyObjectMap<Key, Value> of(final ObjectProvider<? extends Value> provider,
             final Object... keysAndValues) {
@@ -112,13 +129,19 @@ public class LazyObjectMap<Key, Value> extends ObjectMap<Key, Value> {
     }
 
     /** @param provider creates new object on get(key) calls if the key is not present in the map.
-     * @return a new LazyObjectMap created with the keys and values stored in passed map. */
+     * @param objectMap will be copied.
+     * @return a new LazyObjectMap created with the keys and values stored in passed map.
+     * @param <Key> type of map keys.
+     * @param <Value> type of set values. */
     public static <Key, Value> LazyObjectMap<Key, Value> copyOf(
             final ObjectMap<? extends Key, ? extends Value> objectMap, final ObjectProvider<? extends Value> provider) {
         return new LazyObjectMap<Key, Value>(provider, objectMap);
     }
 
-    /** @return a new LazyObjectMap created with the keys and values stored in passed map. */
+    /** @param lazyMap will be copied.
+     * @return a new LazyObjectMap created with the keys and values stored in passed map.
+     * @param <Key> type of map keys.
+     * @param <Value> type of set values. */
     public static <Key, Value> LazyObjectMap<Key, Value> copyOf(
             final LazyObjectMap<? extends Key, ? extends Value> lazyMap) {
         return new LazyObjectMap<Key, Value>(lazyMap);
@@ -135,7 +158,10 @@ public class LazyObjectMap<Key, Value> extends ObjectMap<Key, Value> {
     }
 
     /** LazyObjectMap initiates values on access. No need for default values, as nulls are impossible as long as the
-     * provided is correctly implemented and nulls are not put into the map. */
+     * provided is correctly implemented and nulls are not put into the map.
+     *
+     * @param key selected key.
+     * @param defaultValue returned if no value is set for the key. */
     @Override
     @Deprecated
     public Value get(final Key key, final Value defaultValue) {

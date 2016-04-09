@@ -35,6 +35,7 @@ public interface Preference {
     public String getStringFrom(Preferences preferences);
 
     /** @param preferences can contain the parameter.
+     * @param defaultValue returned if preference is not found.
      * @return the value connected with the preference's key present in the passed preferences or passed default value
      *         if not found. */
     public String getStringOrElse(Preferences preferences, String defaultValue);
@@ -44,6 +45,7 @@ public interface Preference {
     public boolean getBooleanFrom(Preferences preferences);
 
     /** @param preferences can contain the parameter.
+     * @param defaultValue returned if preference is not found.
      * @return the value connected with the preference's key present in the passed preferences or passed default value
      *         if not found. */
     public boolean getBooleanOrElse(Preferences preferences, boolean defaultValue);
@@ -53,6 +55,7 @@ public interface Preference {
     public int getIntFrom(Preferences preferences);
 
     /** @param preferences can contain the parameter.
+     * @param defaultValue returned if preference is not found.
      * @return the value connected with the preference's key present in the passed preferences or passed default value
      *         if not found. */
     public int getIntOrElse(Preferences preferences, int defaultValue);
@@ -62,6 +65,7 @@ public interface Preference {
     public long getLongFrom(Preferences preferences);
 
     /** @param preferences can contain the parameter.
+     * @param defaultValue returned if preference is not found.
      * @return the value connected with the preference's key present in the passed preferences or passed default value
      *         if not found. */
     public long getLongOrElse(Preferences preferences, long defaultValue);
@@ -71,10 +75,12 @@ public interface Preference {
     public float getFloatFrom(Preferences preferences);
 
     /** @param preferences can contain the parameter.
+     * @param defaultValue returned if preference is not found.
      * @return the value connected with the preference's key present in the passed preferences or passed default value
      *         if not found. */
     public float getFloatOrElse(Preferences preferences, float defaultValue);
 
-    /** @return true if the preference is present in the passed preferences. */
+    /** @param preferences cannot be null.
+     * @return true if the preference is present in the passed preferences. */
     public boolean isPresentIn(Preferences preferences);
 }

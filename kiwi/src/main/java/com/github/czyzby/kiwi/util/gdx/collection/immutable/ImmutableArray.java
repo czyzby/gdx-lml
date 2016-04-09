@@ -25,19 +25,28 @@ public class ImmutableArray<Type> extends Array<Type> {
     private ImmutableArrayIterable<Type> arrayIterable;
 
     /** Creates a new ordered, immutable array containing the elements in the specified array. The new array will have
-     * the same type of backing array. */
+     * the same type of backing array.
+     *
+     * @param array will be used. */
     public ImmutableArray(final Type[] array) {
         super(array);
     }
 
     /** Creates a new immutable array containing the elements in the specified array. The new array will have the same
-     * type of backing array and will be ordered if the specified array is ordered. */
+     * type of backing array and will be ordered if the specified array is ordered.
+     *
+     * @param array will be copied. */
     public ImmutableArray(final Array<? extends Type> array) {
         super(array);
     }
 
     /** Creates a new array containing the elements in the specified array. The new array will have the same type of
-     * backing array. */
+     * backing array.
+     *
+     * @param ordered true if should be ordered.
+     * @param array will be used.
+     * @param start starting index.
+     * @param count elements amount. */
     public ImmutableArray(final boolean ordered, final Type[] array, final int start, final int count) {
         super(ordered, array, start, count);
     }
@@ -48,34 +57,45 @@ public class ImmutableArray<Type> extends Array<Type> {
         this.items = super.items;
     }
 
-    /** @return a new ImmutableArray containing the passed objects. */
+    /** @param values will be wrapped.
+     * @return a new ImmutableArray containing the passed objects.
+     * @param <Type> type of stored values. */
     public static <Type> ImmutableArray<Type> of(final Type... values) {
         return new ImmutableArray<Type>(values);
     }
 
-    /** @return a new ImmutableArray containing the passed objects. */
+    /** @param values will be wrapped.
+     * @return a new ImmutableArray containing the passed objects.
+     * @param <Type> type of stored values. */
     public static <Type> ImmutableArray<Type> with(final Type... values) {
         return of(values);
     }
 
-    /** @return a new ImmutableArray created using the passed array. */
+    /** @param array will be copied.
+     * @return a new ImmutableArray created using the passed array.
+     * @param <Type> type of stored values. */
     public static <Type> ImmutableArray<Type> copyOf(final Array<? extends Type> array) {
         return new ImmutableArray<Type>(array);
     }
 
-    /** @return a new ImmutableArray containing the sorted passed objects. */
+    /** @param values will be sorted and copied.
+     * @return a new ImmutableArray containing the sorted passed objects.
+     * @param <Type> type of stored values. */
     public static <Type extends Comparable<?>> ImmutableArray<Type> ofSorted(final Type... values) {
         return copyOfSorted(new Array<Type>(values));
     }
 
-    /** @return a new ImmutableArray created using the sorted passed array. */
+    /** @param array will be sorted and copied.
+     * @return a new ImmutableArray created using the sorted passed array.
+     * @param <Type> type of stored values. */
     public static <Type extends Comparable<?>> ImmutableArray<Type> copyOfSorted(final Array<? extends Type> array) {
         array.sort();
         return new ImmutableArray<Type>(array);
     }
 
     /** @param values will be appended to the array.
-     * @return a new ImmutableArray with the passed values. */
+     * @return a new ImmutableArray with the passed values.
+     * @param <Type> type of stored values. */
     public static <Type> ImmutableArray<Type> with(final Iterable<? extends Type> values) {
         final Array<Type> array = new Array<Type>();
         for (final Type value : values) {

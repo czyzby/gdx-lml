@@ -34,25 +34,31 @@ public class Lazy<Type> {
     }
 
     /** @param provider will provide wrapped object on first call.
+     * @return a new {@link Lazy}.
      * @param <Type> type of wrapped value. */
     public static <Type> Lazy<Type> providedBy(final ObjectProvider<? extends Type> provider) {
         return new Lazy<Type>(provider);
     }
 
-    /** @param provider will provide wrapped object on first call. Thread-safe.
+    /** @param provider will provide wrapped object on first call. Lazy provides synchronization, provider can be not
+     *            thread safe.
+     * @return a new {@link ConcurrentLazy}.
      * @param <Type> type of wrapped value. */
     public static <Type> ConcurrentLazy<Type> concurrentProvidedBy(final ObjectProvider<? extends Type> provider) {
         return new ConcurrentLazy<Type>(provider);
     }
 
     /** @param provider will provide wrapped disposable object on first call.
+     * @return a new {@link DisposableLazy}.
      * @param <Type> type of wrapped value. */
     public static <Type extends Disposable> DisposableLazy<Type> disposableProvidedBy(
             final ObjectProvider<? extends Type> provider) {
         return new DisposableLazy<Type>(provider);
     }
 
-    /** @param provider will provide wrapped disposable object on first call. Thread-safe.
+    /** @param provider will provide wrapped disposable object on first call. Lazy provides synchronization, provider
+     *            can be not thread safe.
+     * @return a new {@link ConcurrentDisposableLazy}.
      * @param <Type> type of wrapped value. */
     public static <Type extends Disposable> ConcurrentDisposableLazy<Type> concurrentDisposableProvidedBy(
             final ObjectProvider<? extends Type> provider) {

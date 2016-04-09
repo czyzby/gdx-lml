@@ -33,7 +33,8 @@ public class Nullables extends UtilitiesClass {
 
     /** @param nullable probable null.
      * @param alternative will be return if nullable is null.
-     * @return nullable parameter if it's not null; alternative otherwise. */
+     * @return nullable parameter if it's not null; alternative otherwise.
+     * @param <Type> type of passed objects. */
     public static <Type> Type getOrElse(final Type nullable, final Type alternative) {
         return nullable == null ? alternative : nullable;
     }

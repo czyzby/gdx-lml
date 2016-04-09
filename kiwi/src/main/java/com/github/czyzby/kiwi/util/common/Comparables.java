@@ -82,7 +82,8 @@ public class Comparables extends UtilitiesClass {
      *
      * @param first first compared value.
      * @param second second compared value.
-     * @return comparison result of first and second value. */
+     * @return comparison result of first and second value.
+     * @param <Value> common values type. */
     public static <Value extends Comparable<Value>> int nullSafeCompare(final Value first, final Value second) {
         if (first == null) {
             return second == null ? EQUAL_COMPARE_RESULT : LOWER_THAN_COMPARE_RESULT;

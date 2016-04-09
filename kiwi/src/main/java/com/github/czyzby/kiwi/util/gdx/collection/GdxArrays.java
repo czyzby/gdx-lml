@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.SnapshotArray;
+import com.github.czyzby.kiwi.util.common.UtilitiesClass;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
 import com.github.czyzby.kiwi.util.gdx.collection.disposable.DisposableArray;
 import com.github.czyzby.kiwi.util.gdx.collection.immutable.ImmutableArray;
@@ -13,7 +14,7 @@ import com.github.czyzby.kiwi.util.gdx.collection.lazy.LazyArray;
 /** Common {@link Array} utilities, somewhat inspired by Guava.
  *
  * @author MJ */
-public class GdxArrays {
+public class GdxArrays extends UtilitiesClass {
     private GdxArrays() {
     }
 

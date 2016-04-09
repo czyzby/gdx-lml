@@ -40,7 +40,8 @@ public class InterfaceSkin extends UtilitiesClass {
     /** @param itemName name of the item as it appears in the interface style Skin.
      * @param itemClass desired class of the item.
      * @return item with selected name and class (if present).
-     * @throws GdxRuntimeException if skin is not initiated. */
+     * @throws GdxRuntimeException if skin is not initiated.
+     * @param <Item> expected type of item. */
     public static <Item> Item extractItem(final String itemName, final Class<Item> itemClass) {
         if (INTERFACE_STYLE == null) {
             throw new GdxRuntimeException("Interface skin is not set.");

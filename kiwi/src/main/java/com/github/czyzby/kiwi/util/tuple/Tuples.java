@@ -12,7 +12,8 @@ public class Tuples extends UtilitiesClass {
     private Tuples() {
     }
 
-    /** @return a new instance of an iterator that iterates over tuple's values.
+    /** @param tuple will be iterated over.
+     * @return a new instance of an iterator that iterates over tuple's values.
      * @param <Type> iterator type. */
     public static <Type> Iterator<Type> getTupleIterator(final Tuple tuple) {
         return new Iterator<Type>() {

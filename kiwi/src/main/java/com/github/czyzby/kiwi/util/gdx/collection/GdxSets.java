@@ -2,22 +2,26 @@ package com.github.czyzby.kiwi.util.gdx.collection;
 
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectSet;
+import com.github.czyzby.kiwi.util.common.UtilitiesClass;
 import com.github.czyzby.kiwi.util.gdx.collection.disposable.DisposableObjectSet;
 import com.github.czyzby.kiwi.util.gdx.collection.immutable.ImmutableObjectSet;
 
 /** Common {@link ObjectSet} utilities, somewhat inspired by Guava.
  *
  * @author MJ */
-public class GdxSets {
+public class GdxSets extends UtilitiesClass {
     private GdxSets() {
     }
 
-    /** @return a new, empty ObjectSet. */
+    /** @return a new, empty ObjectSet.
+     * @param <Type> type of stored values. */
     public static <Type> ObjectSet<Type> newSet() {
         return new ObjectSet<Type>();
     }
 
-    /** @return a new ObjectSet with the passed values. */
+    /** @param values will be added to the set.
+     * @return a new ObjectSet with the passed values.
+     * @param <Type> type of stored values. */
     public static <Type> ObjectSet<Type> newSet(final Type... values) {
         final ObjectSet<Type> set = new ObjectSet<Type>();
         for (final Type value : values) {
@@ -26,7 +30,9 @@ public class GdxSets {
         return set;
     }
 
-    /** @return a new ObjectSet with the passed values. */
+    /** @param values will be added to the set.
+     * @return a new ObjectSet with the passed values.
+     * @param <Type> type of stored values. */
     public static <Type> ObjectSet<Type> newSet(final Iterable<? extends Type> values) {
         final ObjectSet<Type> set = new ObjectSet<Type>();
         for (final Type value : values) {
@@ -35,28 +41,35 @@ public class GdxSets {
         return set;
     }
 
-    /** @return a new disposable set with the passed values. */
+    /** @param set will be copied.
+     * @return a new disposable set with the passed values.
+     * @param <Type> type of stored values. */
     public static <Type extends Disposable> DisposableObjectSet<Type> toDisposable(
             final ObjectSet<? extends Type> set) {
         return new DisposableObjectSet<Type>(set);
     }
 
-    /** @return a new semi-immutable set with the passed values. */
+    /** @param set will be copied.
+     * @return a new semi-immutable set with the passed values.
+     * @param <Type> type of stored values. */
     public static <Type> ImmutableObjectSet<Type> toImmutable(final ObjectSet<? extends Type> set) {
         return new ImmutableObjectSet<Type>(set);
     }
 
-    /** @return true if array is null or has no elements. */
+    /** @param set can be null.
+     * @return true if array is null or has no elements. */
     public static boolean isEmpty(final ObjectSet<?> set) {
         return set == null || set.size == 0;
     }
 
-    /** @return true if array is not null and has at least one element. */
+    /** @param set can be null.
+     * @return true if array is not null and has at least one element. */
     public static boolean isNotEmpty(final ObjectSet<?> set) {
         return set != null && set.size > 0;
     }
 
-    /** @return the biggest size among the passed sets. */
+    /** @param sets cannot be null.
+     * @return the biggest size among the passed sets. */
     public static int getBiggestSize(final ObjectSet<?>... sets) {
         int maxSize = 0;
         for (final ObjectSet<?> set : sets) {
@@ -65,7 +78,9 @@ public class GdxSets {
         return maxSize;
     }
 
-    /** @return the biggest size among the passed arrays. */
+    /** @param sets cannot be null.
+     * @return the biggest size among the passed sets.
+     * @param <Type> type of stored values. */
     public static <Type> int getBiggestSize(final Iterable<ObjectSet<? extends Type>> sets) {
         int maxSize = 0;
         for (final ObjectSet<?> set : sets) {
@@ -75,7 +90,9 @@ public class GdxSets {
     }
 
     /** @param set will contain all values that are present in every passed set (excluding this one).
-     * @return first argument set will all intersecting values. */
+     * @param sets will be intersected.
+     * @return first argument set will all intersecting values.
+     * @param <Type> type of stored values. */
     public static <Type> ObjectSet<Type> intersectTo(final ObjectSet<Type> set, final ObjectSet<Type>... sets) {
         if (sets == null || sets.length == 0) {
             return set;
@@ -89,7 +106,10 @@ public class GdxSets {
         return set;
     }
 
-    /** @return true if passed value is present in all of passed sets. */
+    /** @param value cannot be null.
+     * @param sets will be checked.
+     * @return true if passed value is present in all of passed sets.
+     * @param <Type> type of stored values. */
     public static <Type> boolean isPresentInEvery(final Type value, final ObjectSet<Type>... sets) {
         for (final ObjectSet<Type> set : sets) {
             if (!set.contains(value)) {
@@ -99,7 +119,10 @@ public class GdxSets {
         return true;
     }
 
-    /** @return true if passed value is present in any of passed sets. */
+    /** @param value cannot be null.
+     * @param sets will be checked.
+     * @return true if passed value is present in any of passed sets.
+     * @param <Type> type of stored values. */
     public static <Type> boolean isPresentInAny(final Type value, final ObjectSet<Type>... sets) {
         for (final ObjectSet<Type> set : sets) {
             if (set.contains(value)) {
@@ -109,13 +132,17 @@ public class GdxSets {
         return false;
     }
 
-    /** @return a new set with all values that are present in all of passed sets. */
+    /** @param sets cannot be null.
+     * @return a new set with all values that are present in all of passed sets.
+     * @param <Type> type of stored values. */
     public static <Type> ObjectSet<Type> intersect(final ObjectSet<Type>... sets) {
         return intersectTo(new ObjectSet<Type>(), sets);
     }
 
-    /** @param set will contain all values present in passed sets.
-     * @return first set argument will all values present in other passed sets. */
+    /** @param set will contain all values present in passed sets. Will be returned.
+     * @param sets cannot be null.
+     * @return first set argument will all values present in other passed sets.
+     * @param <Type> type of stored values. */
     public static <Type> ObjectSet<Type> unionTo(final ObjectSet<Type> set, final ObjectSet<Type>... sets) {
         if (sets == null || sets.length == 0) {
             return set;
@@ -126,7 +153,9 @@ public class GdxSets {
         return set;
     }
 
-    /** @return a new set containing all values present in all of passed sets. */
+    /** @param sets will be merged.
+     * @return a new set containing all values present in all of passed sets.
+     * @param <Type> type of stored values. */
     public static <Type> ObjectSet<Type> union(final ObjectSet<Type>... sets) {
         return unionTo(new ObjectSet<Type>(), sets);
     }

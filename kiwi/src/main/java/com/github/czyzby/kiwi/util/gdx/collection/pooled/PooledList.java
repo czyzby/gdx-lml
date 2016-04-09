@@ -52,7 +52,8 @@ import com.github.czyzby.kiwi.util.common.Nullables;
  * iteration.
  *
  * @author MJ
- * @param <T> type of stored values. */
+ * @param <T> type of stored values.
+ * @since 1.4 */
 public class PooledList<T> implements Iterable<T> {
     /** Used by the default constructor and factory methods. Has no limit. NOT thread-safe - in multi-thread
      * applications, a custom node pool should be used (either a thread-safe pool or a separate pool for each
@@ -78,39 +79,45 @@ public class PooledList<T> implements Iterable<T> {
         head = tail = this.pool.obtain();
     }
 
-    /** @return a new, empty {@link PooledList} instance using the {@link #DEFAULT_POOL}. */
+    /** @return a new, empty {@link PooledList} instance using the {@link #DEFAULT_POOL}.
+     * @param <Type> type of stored values. */
     public static <Type> PooledList<Type> newList() {
         return new PooledList<Type>();
     }
 
     /** @param pool custom node pool.
-     * @return a new, empty {@link PooledList} instance using the passed node pool. */
+     * @return a new, empty {@link PooledList} instance using the passed node pool.
+     * @param <Type> type of stored values. */
     public static <Type> PooledList<Type> newList(final Pool<Node<?>> pool) {
         return new PooledList<Type>(pool);
     }
 
     /** @param elements will be added to the list. None of them can be null.
-     * @return a new {@link PooledList} instance using the {@link #DEFAULT_POOL}. */
+     * @return a new {@link PooledList} instance using the {@link #DEFAULT_POOL}.
+     * @param <Type> type of stored values. */
     public static <Type> PooledList<Type> of(final Type... elements) {
         return new PooledList<Type>().addAll(elements);
     }
 
     /** @param pool custom node pool.
      * @param elements will be added to the list. None of them can be null.
-     * @return a new {@link PooledList} instance using the passed node pool. */
+     * @return a new {@link PooledList} instance using the passed node pool.
+     * @param <Type> type of stored values. */
     public static <Type> PooledList<Type> of(final Pool<Node<?>> pool, final Type... elements) {
         return new PooledList<Type>(pool).addAll(elements);
     }
 
     /** @param elements will be iterated over and added to the list.
-     * @return a new {@link PooledList} instance using the {@link #DEFAULT_POOL}. */
+     * @return a new {@link PooledList} instance using the {@link #DEFAULT_POOL}.
+     * @param <Type> type of stored values. */
     public static <Type> PooledList<Type> copyOf(final Iterable<Type> elements) {
         return new PooledList<Type>().addAll(elements);
     }
 
     /** @param pool custom node pool.
      * @param elements will be iterated over and added to the list.
-     * @return a new {@link PooledList} instance using the passed node pool. */
+     * @return a new {@link PooledList} instance using the passed node pool.
+     * @param <Type> type of stored values. */
     public static <Type> PooledList<Type> copyOf(final Pool<Node<?>> pool, final Iterable<Type> elements) {
         return new PooledList<Type>(pool).addAll(elements);
     }
@@ -523,7 +530,8 @@ public class PooledList<T> implements Iterable<T> {
             super(initialCapacity, max);
         }
 
-        /** @return a new pool with default size. */
+        /** @return a new pool with default size.
+         * @param <T> type of stored nodes. */
         public static <T> Pool<Node<T>> newPool() {
             return new NodePool<T>();
         }

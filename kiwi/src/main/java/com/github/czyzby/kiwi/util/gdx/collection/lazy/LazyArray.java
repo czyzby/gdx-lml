@@ -29,7 +29,8 @@ public class LazyArray<Type> extends Array<Type> {
 
     /** Creates an ordered array with the specified capacity.
      *
-     * @param provider creates new object on get(index) calls if the value on the selected index is null. */
+     * @param provider creates new object on get(index) calls if the value on the selected index is null.
+     * @param capacity initial expected amount of elements. */
     public LazyArray(final ObjectProvider<? extends Type> provider, final int capacity) {
         super(capacity);
         this.provider = provider;
@@ -49,7 +50,8 @@ public class LazyArray<Type> extends Array<Type> {
      * @param ordered If false, methods that remove elements may change the order of other elements in the array, which
      *            avoids a memory copy.
      * @param capacity Any elements added beyond this will cause the backing array to be grown.
-     * @param provider creates new object on get(index) calls if the value on the selected index is null. */
+     * @param provider creates new object on get(index) calls if the value on the selected index is null.
+     * @param arrayType type of stored values. */
     public LazyArray(final ObjectProvider<? extends Type> provider, final boolean ordered, final int capacity,
             final Class<Type> arrayType) {
         super(ordered, capacity, arrayType);
@@ -58,7 +60,8 @@ public class LazyArray<Type> extends Array<Type> {
 
     /** Creates an ordered array with {@link #items} of the specified type and a capacity of 16.
      *
-     * @param provider creates new object on get(index) calls if the value on the selected index is null. */
+     * @param provider creates new object on get(index) calls if the value on the selected index is null.
+     * @param arrayType type of stored values. */
     public LazyArray(final ObjectProvider<? extends Type> provider, final Class<Type> arrayType) {
         super(arrayType);
         this.provider = provider;
@@ -68,7 +71,8 @@ public class LazyArray<Type> extends Array<Type> {
      * backing array and will be ordered if the specified array is ordered. The capacity is set to the number of
      * elements, so any subsequent elements added will cause the backing array to be grown.
      *
-     * @param provider creates new object on get(index) calls if the value on the selected index is null. */
+     * @param provider creates new object on get(index) calls if the value on the selected index is null.
+     * @param array will be copied. */
     public LazyArray(final ObjectProvider<? extends Type> provider, final Array<? extends Type> array) {
         super(array);
         this.provider = provider;
@@ -76,7 +80,9 @@ public class LazyArray<Type> extends Array<Type> {
 
     /** Creates a new array containing the elements in the specified array. The new array will have the same type of
      * backing array and will be ordered if the specified array is ordered. The capacity is set to the number of
-     * elements, so any subsequent elements added will cause the backing array to be grown. */
+     * elements, so any subsequent elements added will cause the backing array to be grown.
+     *
+     * @param array will be copied. */
     public LazyArray(final LazyArray<? extends Type> array) {
         super(array);
         this.provider = array.provider;
@@ -86,7 +92,8 @@ public class LazyArray<Type> extends Array<Type> {
      * type of backing array. The capacity is set to the number of elements, so any subsequent elements added will cause
      * the backing array to be grown.
      *
-     * @param provider creates new object on get(index) calls if the value on the selected index is null. */
+     * @param provider creates new object on get(index) calls if the value on the selected index is null.
+     * @param array will be used. */
     public LazyArray(final ObjectProvider<? extends Type> provider, final Type[] array) {
         super(array);
         this.provider = provider;
@@ -98,7 +105,10 @@ public class LazyArray<Type> extends Array<Type> {
      *
      * @param ordered If false, methods that remove elements may change the order of other elements in the array, which
      *            avoids a memory copy.
-     * @param provider creates new object on get(index) calls if the value on the selected index is null. */
+     * @param provider creates new object on get(index) calls if the value on the selected index is null.
+     * @param array will be used.
+     * @param start starting index.
+     * @param count elements amount. */
     public LazyArray(final ObjectProvider<? extends Type> provider, final boolean ordered, final Type[] array,
             final int start, final int count) {
         super(ordered, array, start, count);
@@ -106,50 +116,62 @@ public class LazyArray<Type> extends Array<Type> {
     }
 
     /** @param provider creates new object on get(index) calls if the value on the selected index is null.
-     * @return a new instance of lazy array. */
+     * @return a new instance of lazy array.
+     * @param <Type> type of stored values. */
     public static <Type> LazyArray<Type> newArray(final ObjectProvider<? extends Type> provider) {
         return new LazyArray<Type>(provider);
     }
 
-    /** @return a new lazy array that provides empty, non-typed arrays. */
+    /** @return a new lazy array that provides empty, non-typed arrays.
+     * @param <Type> type of stored values. */
     public static <Type> LazyArray<Array<Type>> newArrayOfArrays() {
         final ObjectProvider<Array<Type>> provider = ArrayObjectProvider.getProvider();
         return newArray(provider);
     }
 
-    /** @return a new lazy array that provides empty object sets. */
+    /** @return a new lazy array that provides empty object sets.
+     * @param <Type> type of stored values. */
     public static <Type> LazyArray<ObjectSet<Type>> newArrayOfSets() {
         final ObjectProvider<ObjectSet<Type>> provider = SetObjectProvider.getProvider();
         return newArray(provider);
     }
 
-    /** @return a new lazy array that provides empty object maps. */
+    /** @return a new lazy array that provides empty object maps.
+     * @param <Key> type of map keys.
+     * @param <Value> type of set values. */
     public static <Key, Value> LazyArray<ObjectMap<Key, Value>> newArrayOfMaps() {
         final ObjectProvider<ObjectMap<Key, Value>> provider = MapObjectProvider.getProvider();
         return newArray(provider);
     }
 
     /** @param provider creates new object on get(index) calls if the value on the selected index is null.
-     * @return a new LazyArray containing the passed objects. */
+     * @param values will be used.
+     * @return a new LazyArray containing the passed objects.
+     * @param <Type> type of stored values. */
     public static <Type> LazyArray<Type> of(final ObjectProvider<? extends Type> provider, final Type... values) {
         return new LazyArray<Type>(provider, values);
     }
 
     /** @param provider creates new object on get(index) calls if the value on the selected index is null.
-     * @return a new LazyArray created using the passed array. */
+     * @param array will be copied.
+     * @return a new LazyArray created using the passed array.
+     * @param <Type> type of stored values. */
     public static <Type> LazyArray<Type> copyOf(final ObjectProvider<? extends Type> provider,
             final Array<? extends Type> array) {
         return new LazyArray<Type>(provider, array);
     }
 
-    /** @return a new LazyArray created using the passed array. */
+    /** @param array will be copied.
+     * @return a new LazyArray created using the passed array.
+     * @param <Type> type of stored values. */
     public static <Type> LazyArray<Type> copyOf(final LazyArray<? extends Type> array) {
         return new LazyArray<Type>(array);
     }
 
     /** @param provider creates new object on get(index) calls if the value on the selected index is null.
      * @param values will be appended to the array.
-     * @return a new LazyArray with the passed values. */
+     * @return a new LazyArray with the passed values.
+     * @param <Type> type of stored values. */
     public static <Type> LazyArray<Type> with(final ObjectProvider<? extends Type> provider,
             final Iterable<? extends Type> values) {
         final LazyArray<Type> array = new LazyArray<Type>(provider);
@@ -160,7 +182,10 @@ public class LazyArray<Type> extends Array<Type> {
     }
 
     /** @param values will be appended to the array.
-     * @return a new typed LazyArray with the passed values. */
+     * @param forClass type of stored values.
+     * @param provider used to create elements when getter methods are called for empty indexes.
+     * @return a new typed LazyArray with the passed values.
+     * @param <Type> type of stored values. */
     public static <Type> LazyArray<Type> with(final ObjectProvider<? extends Type> provider, final Class<Type> forClass,
             final Iterable<? extends Type> values) {
         final LazyArray<Type> array = new LazyArray<Type>(provider, forClass);

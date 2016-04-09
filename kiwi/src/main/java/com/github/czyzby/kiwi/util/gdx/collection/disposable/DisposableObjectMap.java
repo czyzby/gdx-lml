@@ -23,23 +23,32 @@ public class DisposableObjectMap<Key, Value extends Disposable> extends ObjectMa
     }
 
     /** Creates a new map with a load factor of 0.8. This map will hold initialCapacity * 0.8 items before growing the
-     * backing table. */
+     * backing table.
+     *
+     * @param initialCapacity initial expected amount of elements. */
     public DisposableObjectMap(final int initialCapacity) {
         super(initialCapacity);
     }
 
     /** Creates a new map with the specified initial capacity and load factor. This map will hold initialCapacity *
-     * loadFactor items before growing the backing table. */
+     * loadFactor items before growing the backing table.
+     *
+     * @param initialCapacity initial expected amount of elements.
+     * @param loadFactor determines when the map is grown. */
     public DisposableObjectMap(final int initialCapacity, final float loadFactor) {
         super(initialCapacity, loadFactor);
     }
 
-    /** Creates a new disposable map identical to the specified map. */
+    /** Creates a new disposable map identical to the specified map.
+     *
+     * @param map will be copied. */
     public DisposableObjectMap(final ObjectMap<? extends Key, ? extends Value> map) {
         super(map);
     }
 
-    /** @return new disposable map instance. */
+    /** @return new disposable map instance.
+     * @param <Key> type of map keys.
+     * @param <Value> type of set values. */
     public static <Key, Value extends Disposable> DisposableObjectMap<Key, Value> newMap() {
         return new DisposableObjectMap<Key, Value>();
     }
@@ -47,7 +56,9 @@ public class DisposableObjectMap<Key, Value extends Disposable> extends ObjectMa
     /** @param keysAndValues pairs of keys and values.
      * @return a new DisposableObjectMap created with the passed keys and values.
      * @throws IllegalArgumentException if keys and values total amount is not even.
-     * @throws ClassCastException if received unexpected object type. */
+     * @throws ClassCastException if received unexpected object type.
+     * @param <Key> type of map keys.
+     * @param <Value> type of set values. */
     @SuppressWarnings("unchecked")
     public static <Key, Value extends Disposable> DisposableObjectMap<Key, Value> of(final Object... keysAndValues) {
         if (keysAndValues.length % 2 != 0) {
@@ -60,7 +71,10 @@ public class DisposableObjectMap<Key, Value extends Disposable> extends ObjectMa
         return map;
     }
 
-    /** @return a new DisposableObjectMap created with the keys and values stored in passed map. */
+    /** @param objectMap will be copied.
+     * @return a new DisposableObjectMap created with the keys and values stored in passed map.
+     * @param <Key> type of map keys.
+     * @param <Value> type of set values. */
     public static <Key, Value extends Disposable> DisposableObjectMap<Key, Value> copyOf(
             final ObjectMap<? extends Key, ? extends Value> objectMap) {
         return new DisposableObjectMap<Key, Value>(objectMap);

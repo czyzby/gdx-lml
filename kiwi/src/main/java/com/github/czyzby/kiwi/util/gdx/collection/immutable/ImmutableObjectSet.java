@@ -22,13 +22,17 @@ import com.badlogic.gdx.utils.ObjectSet;
 public class ImmutableObjectSet<Type> extends ObjectSet<Type> {
     @SuppressWarnings("hiding") private final int size;
 
-    /** Creates a new set identical to the specified set. */
+    /** Creates a new set identical to the specified set.
+     *
+     * @param set will be copied. */
     public ImmutableObjectSet(final ObjectSet<? extends Type> set) {
         super(set);
         this.size = super.size;
     }
 
-    /** @return a new ImmutableObjectSet with the passed values. */
+    /** @param values will be copied.
+     * @return a new ImmutableObjectSet with the passed values.
+     * @param <Type> type of stored values. */
     public static <Type> ImmutableObjectSet<Type> of(final Type... values) {
         final ObjectSet<Type> set = new ObjectSet<Type>(values.length);
         for (final Type value : values) {
@@ -37,12 +41,16 @@ public class ImmutableObjectSet<Type> extends ObjectSet<Type> {
         return copyOf(set);
     }
 
-    /** @return a new ImmutableObjectSet with the passed values. */
+    /** @param values will be copied.
+     * @return a new ImmutableObjectSet with the passed values.
+     * @param <Type> type of stored values. */
     public static <Type> ImmutableObjectSet<Type> with(final Type... values) {
         return of(values);
     }
 
-    /** @return a new ImmutableObjectSet with the values specified in the passed set. */
+    /** @param objectSet will be copied.
+     * @return a new ImmutableObjectSet with the passed values.
+     * @param <Type> type of stored values. */
     public static <Type> ImmutableObjectSet<Type> copyOf(final ObjectSet<? extends Type> objectSet) {
         return new ImmutableObjectSet<Type>(objectSet);
     }

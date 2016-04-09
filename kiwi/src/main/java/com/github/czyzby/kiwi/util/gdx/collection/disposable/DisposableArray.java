@@ -16,14 +16,16 @@ public class DisposableArray<Type extends Disposable> extends Array<Type>impleme
         super();
     }
 
-    /** Creates an ordered array with the specified capacity. */
+    /** Creates an ordered array with the specified capacity.
+     *
+     * @param capacity any elements added beyond this will cause the backing array to be grown. */
     public DisposableArray(final int capacity) {
         super(capacity);
     }
 
-    /** @param ordered If false, methods that remove elements may change the order of other elements in the array, which
+    /** @param ordered if false, methods that remove elements may change the order of other elements in the array, which
      *            avoids a memory copy.
-     * @param capacity Any elements added beyond this will cause the backing array to be grown. */
+     * @param capacity any elements added beyond this will cause the backing array to be grown. */
     public DisposableArray(final boolean ordered, final int capacity) {
         super(ordered, capacity);
     }
@@ -32,26 +34,33 @@ public class DisposableArray<Type extends Disposable> extends Array<Type>impleme
      *
      * @param ordered If false, methods that remove elements may change the order of other elements in the array, which
      *            avoids a memory copy.
-     * @param capacity Any elements added beyond this will cause the backing array to be grown. */
+     * @param capacity Any elements added beyond this will cause the backing array to be grown.
+     * @param arrayType type of stored values. */
     public DisposableArray(final boolean ordered, final int capacity, final Class<?> arrayType) {
         super(ordered, capacity, arrayType);
     }
 
-    /** Creates an ordered array with {@link #items} of the specified type and a capacity of 16. */
+    /** Creates an ordered array with {@link #items} of the specified type and a capacity of 16.
+     *
+     * @param arrayType type of stored values. */
     public DisposableArray(final Class<?> arrayType) {
         super(arrayType);
     }
 
     /** Creates a new array containing the elements in the specified array. The new array will have the same type of
      * backing array and will be ordered if the specified array is ordered. The capacity is set to the number of
-     * elements, so any subsequent elements added will cause the backing array to be grown. */
+     * elements, so any subsequent elements added will cause the backing array to be grown.
+     *
+     * @param array will be copied. */
     public DisposableArray(final Array<? extends Type> array) {
         super(array);
     }
 
     /** Creates a new ordered array containing the elements in the specified array. The new array will have the same
      * type of backing array. The capacity is set to the number of elements, so any subsequent elements added will cause
-     * the backing array to be grown. */
+     * the backing array to be grown.
+     *
+     * @param array will be used. */
     public DisposableArray(final Type[] array) {
         super(array);
     }
@@ -61,33 +70,44 @@ public class DisposableArray<Type extends Disposable> extends Array<Type>impleme
      * backing array to be grown.
      *
      * @param ordered If false, methods that remove elements may change the order of other elements in the array, which
-     *            avoids a memory copy. */
+     *            avoids a memory copy.
+     * @param array will be used.
+     * @param start starting index.
+     * @param count elements amount. */
     public DisposableArray(final boolean ordered, final Type[] array, final int start, final int count) {
         super(ordered, array, start, count);
     }
 
-    /** @return a new instance of disposable array. */
+    /** @return a new instance of disposable array.
+     * @param <Type> type of stored values. */
     public static <Type extends Disposable> DisposableArray<Type> newArray() {
         return new DisposableArray<Type>();
     }
 
-    /** @return a new DisposableArray containing the passed objects. */
+    /** @param values will be used.
+     * @return a new DisposableArray containing the passed objects.
+     * @param <Type> type of stored values. */
     public static <Type extends Disposable> DisposableArray<Type> of(final Type... values) {
         return new DisposableArray<Type>(values);
     }
 
-    /** @return a new DisposableArray containing the passed objects. */
+    /** @param values will be used.
+     * @return a new DisposableArray containing the passed objects.
+     * @param <Type> type of stored values. */
     public static <Type extends Disposable> DisposableArray<Type> with(final Type... values) {
         return of(values);
     }
 
-    /** @return a new DisposableArray created using the passed array. */
+    /** @param array will be copied.
+     * @return a new DisposableArray created using the passed array.
+     * @param <Type> type of stored values. */
     public static <Type extends Disposable> DisposableArray<Type> copyOf(final Array<? extends Type> array) {
         return new DisposableArray<Type>(array);
     }
 
     /** @param values will be appended to the array.
-     * @return a new DisposableArray with the passed values. */
+     * @return a new DisposableArray with the passed values.
+     * @param <Type> type of stored values. */
     public static <Type extends Disposable> DisposableArray<Type> with(final Iterable<? extends Type> values) {
         final DisposableArray<Type> array = new DisposableArray<Type>();
         for (final Type value : values) {
@@ -96,8 +116,10 @@ public class DisposableArray<Type extends Disposable> extends Array<Type>impleme
         return array;
     }
 
-    /** @param values will be appended to the array.
-     * @return a new typed DisposableArray with the passed values. */
+    /** @param forClass type of stored values.
+     * @param values will be appended to the array.
+     * @return a new typed DisposableArray with the passed values.
+     * @param <Type> type of stored values. */
     public static <Type extends Disposable> DisposableArray<Type> with(final Class<Type> forClass,
             final Iterable<? extends Type> values) {
         final DisposableArray<Type> array = new DisposableArray<Type>(forClass);

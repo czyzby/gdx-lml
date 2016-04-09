@@ -5,11 +5,13 @@ import java.util.Iterator;
 import com.badlogic.gdx.utils.PooledLinkedList;
 import com.badlogic.gdx.utils.SortedIntList;
 import com.github.czyzby.kiwi.util.common.UtilitiesClass;
+import com.github.czyzby.kiwi.util.gdx.collection.pooled.PooledList;
 
 /** Utilities for LibGDX list collections: {@link PooledLinkedList} and {@link SortedIntList}.
  *
  * @author MJ
  * @see GdxArrays
+ * @see PooledList
  * @since 1.4 */
 public class GdxLists extends UtilitiesClass {
     private GdxLists() {

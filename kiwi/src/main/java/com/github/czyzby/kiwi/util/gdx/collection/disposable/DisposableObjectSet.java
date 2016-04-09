@@ -23,28 +23,38 @@ public class DisposableObjectSet<Type extends Disposable> extends ObjectSet<Type
     }
 
     /** Creates a new set with a load factor of 0.8. This set will hold initialCapacity * 0.8 items before growing the
-     * backing table. */
+     * backing table.
+     *
+     * @param initialCapacity initial expected amount of elements. */
     public DisposableObjectSet(final int initialCapacity) {
         super(initialCapacity);
     }
 
     /** Creates a new set with the specified initial capacity and load factor. This set will hold initialCapacity *
-     * loadFactor items before growing the backing table. */
+     * loadFactor items before growing the backing table.
+     *
+     * @param initialCapacity initial expected amount of elements.
+     * @param loadFactor determines how fast set is grown. */
     public DisposableObjectSet(final int initialCapacity, final float loadFactor) {
         super(initialCapacity, loadFactor);
     }
 
-    /** Creates a new set identical to the specified set. */
+    /** Creates a new set identical to the specified set.
+     *
+     * @param set will be copied. */
     public DisposableObjectSet(final ObjectSet<? extends Type> set) {
         super(set);
     }
 
-    /** @return a new instance of disposable set. */
+    /** @return a new instance of disposable set.
+     * @param <Type> type of stored values. */
     public static <Type extends Disposable> DisposableObjectSet<Type> newSet() {
         return new DisposableObjectSet<Type>();
     }
 
-    /** @return a new DisposableObjectSet with the passed values. */
+    /** @param disposables will be copied.
+     * @return a new DisposableObjectSet with the passed values.
+     * @param <Type> type of stored values. */
     public static <Type extends Disposable> DisposableObjectSet<Type> of(final Type... disposables) {
         final DisposableObjectSet<Type> set = new DisposableObjectSet<Type>(disposables.length);
         for (final Type disposable : disposables) {
@@ -53,12 +63,16 @@ public class DisposableObjectSet<Type extends Disposable> extends ObjectSet<Type
         return set;
     }
 
-    /** @return a new DisposableObjectSet with the passed values. */
+    /** @param disposables will be copied.
+     * @return a new DisposableObjectSet with the passed values.
+     * @param <Type> type of stored values. */
     public static <Type extends Disposable> DisposableObjectSet<Type> with(final Type... disposables) {
         return of(disposables);
     }
 
-    /** @return a new DisposableObjectSet with the values specified in the passed set. */
+    /** @param objectSet will be copied.
+     * @return a new DisposableObjectSet with the values specified in the passed set.
+     * @param <Type> type of stored values. */
     public static <Type extends Disposable> DisposableObjectSet<Type> copyOf(
             final ObjectSet<? extends Type> objectSet) {
         return new DisposableObjectSet<Type>(objectSet);

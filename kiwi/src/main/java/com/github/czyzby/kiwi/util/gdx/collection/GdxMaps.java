@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.IdentityMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.OrderedMap;
+import com.github.czyzby.kiwi.util.common.UtilitiesClass;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
 import com.github.czyzby.kiwi.util.gdx.collection.disposable.DisposableObjectMap;
 import com.github.czyzby.kiwi.util.gdx.collection.immutable.ImmutableObjectMap;
@@ -13,23 +14,30 @@ import com.github.czyzby.kiwi.util.gdx.collection.lazy.LazyObjectMap;
 /** Common LibGDX maps utilities, somewhat inspired by Guava.
  *
  * @author MJ */
-public class GdxMaps {
+public class GdxMaps extends UtilitiesClass {
     private GdxMaps() {
     }
 
-    /** @return an empty, new object map. */
+    /** @return an empty, new {@link ObjectMap}.
+     * @param <Key> type of map keys.
+     * @param <Value> type of map values. */
     public static <Key, Value> ObjectMap<Key, Value> newObjectMap() {
         return new ObjectMap<Key, Value>();
     }
 
-    /** @return a new object map with the passed values. */
+    /** @param map will be copied.
+     * @return a new object map with the passed values.
+     * @param <Key> type of map keys.
+     * @param <Value> type of map values. */
     public static <Key, Value> ObjectMap<Key, Value> newObjectMap(final ObjectMap<? extends Key, ? extends Value> map) {
         return new ObjectMap<Key, Value>(map);
     }
 
     /** @param keyAndValues pairs of keys and values. Each value has to be proceeded by a key.
      * @return a new object map with the given values. Not fail-fast - be careful when passing arguments, or it might
-     *         result in unexpected map values. */
+     *         result in unexpected map values.
+     * @param <Key> type of map keys.
+     * @param <Value> type of map values. */
     @SuppressWarnings("unchecked")
     public static <Key, Value> ObjectMap<Key, Value> newObjectMap(final Object... keyAndValues) {
         if (keyAndValues.length % 2 != 0) {
@@ -42,12 +50,17 @@ public class GdxMaps {
         return map;
     }
 
-    /** @return an empty, new ordered map. */
+    /** @return an empty, new ordered map.
+     * @param <Key> type of map keys.
+     * @param <Value> type of map values. */
     public static <Key, Value> OrderedMap<Key, Value> newOrderedMap() {
         return new OrderedMap<Key, Value>();
     }
 
-    /** @return a new ordered map with the passed values. */
+    /** @param map will be copied.
+     * @return a new ordered map with the passed values.
+     * @param <Key> type of map keys.
+     * @param <Value> type of map values. */
     public static <Key, Value> OrderedMap<Key, Value> newOrderedMap(
             final ObjectMap<? extends Key, ? extends Value> map) {
         return new OrderedMap<Key, Value>(map);
@@ -55,7 +68,9 @@ public class GdxMaps {
 
     /** @param keyAndValues pairs of keys and values. Each value has to be proceeded by a key.
      * @return a new ordered map with the given values. Not fail-fast - be careful when passing arguments, or it might
-     *         result in unexpected map values. */
+     *         result in unexpected map values.
+     * @param <Key> type of map keys.
+     * @param <Value> type of map values. */
     @SuppressWarnings("unchecked")
     public static <Key, Value> OrderedMap<Key, Value> newOrderedMap(final Object... keyAndValues) {
         if (keyAndValues.length % 2 != 0) {
@@ -68,12 +83,17 @@ public class GdxMaps {
         return map;
     }
 
-    /** @return an empty, new identity map. */
+    /** @return an empty, new identity map.
+     * @param <Key> type of map keys.
+     * @param <Value> type of map values. */
     public static <Key, Value> IdentityMap<Key, Value> newIdentityMap() {
         return new IdentityMap<Key, Value>();
     }
 
-    /** @return a new identity map with the passed values. */
+    /** @param map will be copied.
+     * @return a new identity map with the passed values.
+     * @param <Key> type of map keys.
+     * @param <Value> type of map values. */
     public static <Key, Value> IdentityMap<Key, Value> newIdentityMap(
             final IdentityMap<? extends Key, ? extends Value> map) {
         return new IdentityMap<Key, Value>(map);
@@ -81,7 +101,9 @@ public class GdxMaps {
 
     /** @param keyAndValues pairs of keys and values. Each value has to be proceeded by a key.
      * @return a new identity map with the given values. Not fail-fast - be careful when passing arguments, or it might
-     *         result in unexpected map values. */
+     *         result in unexpected map values.
+     * @param <Key> type of map keys.
+     * @param <Value> type of map values. */
     @SuppressWarnings("unchecked")
     public static <Key, Value> IdentityMap<Key, Value> newIdentityMap(final Object... keyAndValues) {
         if (keyAndValues.length % 2 != 0) {
@@ -94,22 +116,34 @@ public class GdxMaps {
         return map;
     }
 
-    /** @return an empty, new array map. */
+    /** @return an empty, new array map.
+     * @param <Key> type of map keys.
+     * @param <Value> type of map values. */
     public static <Key, Value> ArrayMap<Key, Value> newArrayMap() {
         return new ArrayMap<Key, Value>();
     }
 
-    /** @return a new array map with the passed values. */
+    /** @param map will be copied.
+     * @return a new array map with the passed values.
+     * @param <Key> type of map keys.
+     * @param <Value> type of map values. */
     public static <Key, Value> ArrayMap<Key, Value> newArrayMap(final ArrayMap<? extends Key, ? extends Value> map) {
         return new ArrayMap<Key, Value>(map);
     }
 
-    /** @return an empty, new array map. */
+    /** @param ordered if true, map will be ordered.
+     * @return an empty, new array map.
+     * @param <Key> type of map keys.
+     * @param <Value> type of map values. */
     public static <Key, Value> ArrayMap<Key, Value> newArrayMap(final boolean ordered) {
         return new ArrayMap<Key, Value>(ordered, 16); // default capacity
     }
 
-    /** @return an empty, new typed array map. */
+    /** @param keyType class of map keys.
+     * @param valueType class of map values.
+     * @return an empty, new typed array map.
+     * @param <Key> type of map keys.
+     * @param <Value> type of map values. */
     public static <Key, Value> ArrayMap<Key, Value> newArrayMap(final Class<Key> keyType,
             final Class<Value> valueType) {
         return new ArrayMap<Key, Value>(keyType, valueType);
@@ -117,7 +151,9 @@ public class GdxMaps {
 
     /** @param keyAndValues pairs of keys and values. Each value has to be proceeded by a key.
      * @return a new array map with the given values. Not fail-fast - be careful when passing arguments, or it might
-     *         result in unexpected map values. */
+     *         result in unexpected map values.
+     * @param <Key> type of map keys.
+     * @param <Value> type of map values. */
     @SuppressWarnings("unchecked")
     public static <Key, Value> ArrayMap<Key, Value> newArrayMap(final Object... keyAndValues) {
         if (keyAndValues.length % 2 != 0) {
@@ -130,9 +166,13 @@ public class GdxMaps {
         return map;
     }
 
-    /** @param keyAndValues pairs of keys and values. Each value has to be proceeded by a key.
+    /** @param keyType class of map keys.
+     * @param valueType class of map values.
+     * @param keyAndValues pairs of keys and values. Each value has to be proceeded by a key.
      * @return a new typed array map with the given values. Not fail-fast - be careful when passing arguments, or it
-     *         might result in unexpected map values. */
+     *         might result in unexpected map values.
+     * @param <Key> type of map keys.
+     * @param <Value> type of map values. */
     @SuppressWarnings("unchecked")
     public static <Key, Value> ArrayMap<Key, Value> newArrayMap(final Class<Key> keyType, final Class<Value> valueType,
             final Object... keyAndValues) {
@@ -146,36 +186,50 @@ public class GdxMaps {
         return map;
     }
 
-    /** @return a new disposable object map with the passed values. */
+    /** @param map will be copied.
+     * @return a new disposable object map with the passed values.
+     * @param <Key> type of map keys.
+     * @param <Value> type of map values. */
     public static <Key, Value extends Disposable> DisposableObjectMap<Key, Value> toDisposable(
             final ObjectMap<? extends Key, ? extends Value> map) {
         return new DisposableObjectMap<Key, Value>(map);
     }
 
-    /** @return a new immutable map with the passed values. */
+    /** @param map will be copied.
+     * @return a new immutable map with the passed values.
+     * @param <Key> type of map keys.
+     * @param <Value> type of map values. */
     public static <Key, Value> ImmutableObjectMap<Key, Value> toImmutable(
             final ObjectMap<? extends Key, ? extends Value> map) {
         return new ImmutableObjectMap<Key, Value>(map);
     }
 
-    /** @return a new ordered map with the passed values. */
+    /** @param map will be copied.
+     * @return a new ordered map with the passed values.
+     * @param <Key> type of map keys.
+     * @param <Value> type of map values. */
     public static <Key, Value> OrderedMap<Key, Value> toOrdered(final ObjectMap<? extends Key, ? extends Value> map) {
         return new OrderedMap<Key, Value>(map);
     }
 
-    /** @param provider creates new object on get(key) calls if the key is not present in the map.
-     * @return a new ordered map with the passed values. */
+    /** @param map will be copied.
+     * @param provider creates new object on get(key) calls if the key is not present in the map.
+     * @return a new ordered map with the passed values.
+     * @param <Key> type of map keys.
+     * @param <Value> type of map values. */
     public static <Key, Value> LazyObjectMap<Key, Value> toLazy(final ObjectMap<? extends Key, ? extends Value> map,
             final ObjectProvider<? extends Value> provider) {
         return new LazyObjectMap<Key, Value>(provider, map);
     }
 
-    /** @return true if map is null or has no elements. */
+    /** @param map can be null.
+     * @return true if map is null or has no elements. */
     public static boolean isEmpty(final ObjectMap<?, ?> map) {
         return map == null || map.size == 0;
     }
 
-    /** @return true if map is not null and has at least one element. */
+    /** @param map can be null.
+     * @return true if map is not null and has at least one element. */
     public static boolean isNotEmpty(final ObjectMap<?, ?> map) {
         return map != null && map.size > 0;
     }
@@ -186,7 +240,9 @@ public class GdxMaps {
      * @param map may contain a value associated with the key.
      * @param key map key.
      * @param value map value to add.
-     * @return value associated with the key in the map (recently added or the previous one). */
+     * @return value associated with the key in the map (recently added or the previous one).
+     * @param <Key> type of map keys.
+     * @param <Value> type of map values. */
     public static <Key, Value> Value putIfAbsent(final ObjectMap<Key, Value> map, final Key key, final Value value) {
         if (!map.containsKey(key)) {
             map.put(key, value);
