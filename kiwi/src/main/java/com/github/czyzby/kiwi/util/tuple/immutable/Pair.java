@@ -26,13 +26,21 @@ public class Pair<First, Second> implements DoubleTuple<First, Second> {
         this.second = second;
     }
 
-    /** @return a new pair with the passed variables. Accepts nulls. */
+    /** @param first first tuple value. Can be null.
+     * @param second second tuple value. Can be null.
+     * @return a new pair with the passed variables. Accepts nulls.
+     * @param <First> type of first value.
+     * @param <Second> type of second value. */
     public static <First, Second> Pair<First, Second> of(final First first, final Second second) {
         return new Pair<First, Second>(first, second);
     }
 
-    /** @return a new pair with the passed variables.
-     * @throws NullPointerException if any of the variables are null. */
+    /** @param first first tuple value.
+     * @param second second tuple value.
+     * @return a new pair with the passed variables.
+     * @throws NullPointerException if any of the variables are null.
+     * @param <First> type of first value.
+     * @param <Second> type of second value. */
     public static <First, Second> Pair<First, Second> ofNonNull(final First first, final Second second)
             throws NullPointerException {
         if (first == null || second == null) {
@@ -42,7 +50,9 @@ public class Pair<First, Second> implements DoubleTuple<First, Second> {
     }
 
     /** @param pair will be inverted.
-     * @return a new pair with inverted values. */
+     * @return a new pair with inverted values.
+     * @param <First> type of first value.
+     * @param <Second> type of second value. */
     public static <First, Second> Pair<Second, First> invert(final Pair<First, Second> pair) {
         return new Pair<Second, First>(pair.getSecond(), pair.getFirst());
     }
@@ -87,9 +97,10 @@ public class Pair<First, Second> implements DoubleTuple<First, Second> {
         return second;
     }
 
+    /** @param value ignored.
+     * @throws UnsupportedOperationException on each call. Pair is immutable. */
     @Override
     @Deprecated
-    /** @throws UnsupportedOperationException on each call. Pair is immutable. */
     public Second setValue(final Second value) {
         throw new UnsupportedOperationException("Pair cannot be modified.");
     }
@@ -119,13 +130,15 @@ public class Pair<First, Second> implements DoubleTuple<First, Second> {
     }
 
     /** @param third will be set as third triplet's value.
-     * @return a new immutable Triplet constructed with this pair's values and another passed variable. */
+     * @return a new immutable Triplet constructed with this pair's values and another passed variable.
+     * @param <Third> type of third value. */
     public <Third> Triple<First, Second, Third> toTriplet(final Third third) {
         return Triple.of(first, second, third);
     }
 
     /** @param third will be set as third triplet's value.
-     * @return a new MutableTriplet constructed with this pair's values and another passed variable. */
+     * @return a new MutableTriplet constructed with this pair's values and another passed variable.
+     * @param <Third> type of third value. */
     public <Third> MutableTriple<First, Second, Third> toMutableTriplet(final Third third) {
         return MutableTriple.of(first, second, third);
     }
@@ -224,9 +237,11 @@ public class Pair<First, Second> implements DoubleTuple<First, Second> {
         return false;
     }
 
+    /** @param index ignored.
+     * @param value ignored.
+     * @throws UnsupportedOperationException on each call. Pair is immutable. */
     @Override
     @Deprecated
-    /** @throws UnsupportedOperationException on each call. Pair is immutable. */
     public void set(final int index, final Object value) {
         throw new UnsupportedOperationException("Pair cannot be modified.");
     }

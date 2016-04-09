@@ -25,13 +25,21 @@ public class MutablePair<First, Second> implements DoubleTuple<First, Second> {
         this.second = second;
     }
 
-    /** @return a new pair with the passed variables. Accepts nulls. */
+    /** @param first can be null.
+     * @param second can be null.
+     * @return a new pair with the passed variables. Accepts nulls.
+     * @param <First> type of first value.
+     * @param <Second> type of second value. */
     public static <First, Second> MutablePair<First, Second> of(final First first, final Second second) {
         return new MutablePair<First, Second>(first, second);
     }
 
-    /** @return a new pair with the passed variables.
-     * @throws NullPointerException if any of the variables are null. */
+    /** @param first cannot be null.
+     * @param second cannot be null.
+     * @return a new pair with the passed variables.
+     * @throws NullPointerException if any of the variables are null.
+     * @param <First> type of first value.
+     * @param <Second> type of second value. */
     public static <First, Second> MutablePair<First, Second> ofNonNull(final First first, final Second second)
             throws NullPointerException {
         if (first == null || second == null) {
@@ -41,7 +49,9 @@ public class MutablePair<First, Second> implements DoubleTuple<First, Second> {
     }
 
     /** @param pair will be inverted.
-     * @return a new pair with inverted values. */
+     * @return a new pair with inverted values.
+     * @param <First> type of first value.
+     * @param <Second> type of second value. */
     public static <First, Second> MutablePair<Second, First> invert(final MutablePair<First, Second> pair) {
         return new MutablePair<Second, First>(pair.getSecond(), pair.getFirst());
     }
@@ -127,13 +137,15 @@ public class MutablePair<First, Second> implements DoubleTuple<First, Second> {
     }
 
     /** @param third will be set as third triplet's value.
-     * @return a new immutable Triplet constructed with this pair's values and another passed variable. */
+     * @return a new immutable Triplet constructed with this pair's values and another passed variable.
+     * @param <Third> type of third value. */
     public <Third> Triple<First, Second, Third> toImmutableTriplet(final Third third) {
         return Triple.of(first, second, third);
     }
 
     /** @param third will be set as third triplet's value.
-     * @return a new MutableTriplet constructed with this pair's values and another passed variable. */
+     * @return a new MutableTriplet constructed with this pair's values and another passed variable.
+     * @param <Third> type of third value. */
     public <Third> MutableTriple<First, Second, Third> toTriplet(final Third third) {
         return MutableTriple.of(first, second, third);
     }

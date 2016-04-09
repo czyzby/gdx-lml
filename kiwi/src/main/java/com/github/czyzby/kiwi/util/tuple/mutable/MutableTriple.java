@@ -25,14 +25,26 @@ public class MutableTriple<First, Second, Third> implements TripleTuple<First, S
         this.third = third;
     }
 
-    /** @return a new triple with the passed variables. Accepts nulls. */
+    /** @param first can be null.
+     * @param second can be null.
+     * @param third can be null.
+     * @return a new triple with the passed variables. Accepts nulls.
+     * @param <First> type of first value.
+     * @param <Second> type of second value.
+     * @param <Third> type of third value. */
     public static <First, Second, Third> MutableTriple<First, Second, Third> of(final First first, final Second second,
             final Third third) {
         return new MutableTriple<First, Second, Third>(first, second, third);
     }
 
-    /** @return a new triple with the passed variables.
-     * @throws NullPointerException if any of the variables are null. */
+    /** @param first cannot be null.
+     * @param second cannot be null.
+     * @param third cannot be null.
+     * @return a new triple with the passed variables.
+     * @throws NullPointerException if any of the variables are null.
+     * @param <First> type of first value.
+     * @param <Second> type of second value.
+     * @param <Third> type of third value. */
     public static <First, Second, Third> MutableTriple<First, Second, Third> ofNonNull(final First first,
             final Second second, final Third third) throws NullPointerException {
         if (first == null || second == null || third == null) {
@@ -42,21 +54,30 @@ public class MutableTriple<First, Second, Third> implements TripleTuple<First, S
     }
 
     /** @param triple will be inverted.
-     * @return a new triple with inverted first and third values. */
+     * @return a new triple with inverted first and third values.
+     * @param <First> type of first value.
+     * @param <Second> type of second value.
+     * @param <Third> type of third value. */
     public static <First, Second, Third> MutableTriple<Third, Second, First> invert(
             final MutableTriple<First, Second, Third> triple) {
         return new MutableTriple<Third, Second, First>(triple.getThird(), triple.getSecond(), triple.getFirst());
     }
 
     /** @param triple will be shifted left.
-     * @return a new triple with values shifted left. */
+     * @return a new triple with values shifted left.
+     * @param <First> type of first value.
+     * @param <Second> type of second value.
+     * @param <Third> type of third value. */
     public static <First, Second, Third> MutableTriple<Second, Third, First> shiftLeft(
             final MutableTriple<First, Second, Third> triple) {
         return new MutableTriple<Second, Third, First>(triple.getSecond(), triple.getThird(), triple.getFirst());
     }
 
     /** @param triple will be shifted right.
-     * @return a new triple with values shifted right. */
+     * @return a new triple with values shifted right.
+     * @param <First> type of first value.
+     * @param <Second> type of second value.
+     * @param <Third> type of third value. */
     public static <First, Second, Third> MutableTriple<Third, First, Second> shiftRight(
             final MutableTriple<First, Second, Third> triple) {
         return new MutableTriple<Third, First, Second>(triple.getThird(), triple.getFirst(), triple.getSecond());

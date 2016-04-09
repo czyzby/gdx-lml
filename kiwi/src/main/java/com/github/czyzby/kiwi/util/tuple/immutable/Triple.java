@@ -26,14 +26,26 @@ public class Triple<First, Second, Third> implements TripleTuple<First, Second, 
         this.third = third;
     }
 
-    /** @return a new triplet with the passed variables. Accepts nulls. */
+    /** @param first can be null.
+     * @param second can be null.
+     * @param third can be null.
+     * @return a new triplet with the passed variables. Accepts nulls.
+     * @param <First> type of first value.
+     * @param <Second> type of second value.
+     * @param <Third> type of third value. */
     public static <First, Second, Third> Triple<First, Second, Third> of(final First first, final Second second,
             final Third third) {
         return new Triple<First, Second, Third>(first, second, third);
     }
 
-    /** @return a new triplet with the passed variables.
-     * @throws NullPointerException if any of the variables are null. */
+    /** @param first cannot be null.
+     * @param second cannot be null.
+     * @param third cannot be null.
+     * @return a new triplet with the passed variables.
+     * @throws NullPointerException if any of the variables are null.
+     * @param <First> type of first value.
+     * @param <Second> type of second value.
+     * @param <Third> type of third value. */
     public static <First, Second, Third> Triple<First, Second, Third> ofNonNull(final First first, final Second second,
             final Third third) throws NullPointerException {
         if (first == null || second == null || third == null) {
@@ -43,21 +55,30 @@ public class Triple<First, Second, Third> implements TripleTuple<First, Second, 
     }
 
     /** @param triplet will be inverted.
-     * @return a new triplet with inverted first and third values. */
+     * @return a new triplet with inverted first and third values.
+     * @param <First> type of first value.
+     * @param <Second> type of second value.
+     * @param <Third> type of third value. */
     public static <First, Second, Third> Triple<Third, Second, First> invert(
             final Triple<First, Second, Third> triplet) {
         return new Triple<Third, Second, First>(triplet.getThird(), triplet.getSecond(), triplet.getFirst());
     }
 
     /** @param triplet will be shifted left.
-     * @return a new triplet with values shifted left. */
+     * @return a new triplet with values shifted left.
+     * @param <First> type of first value.
+     * @param <Second> type of second value.
+     * @param <Third> type of third value. */
     public static <First, Second, Third> Triple<Second, Third, First> shiftLeft(
             final Triple<First, Second, Third> triplet) {
         return new Triple<Second, Third, First>(triplet.getSecond(), triplet.getThird(), triplet.getFirst());
     }
 
     /** @param triplet will be shifted right.
-     * @return a new triplet with values shifted right. */
+     * @return a new triplet with values shifted right.
+     * @param <First> type of first value.
+     * @param <Second> type of second value.
+     * @param <Third> type of third value. */
     public static <First, Second, Third> Triple<Third, First, Second> shiftRight(
             final Triple<First, Second, Third> triplet) {
         return new Triple<Third, First, Second>(triplet.getThird(), triplet.getFirst(), triplet.getSecond());
@@ -105,7 +126,6 @@ public class Triple<First, Second, Third> implements TripleTuple<First, Second, 
 
     @Override
     @Deprecated
-    /** @throws UnsupportedOperationException on each call. Triple is immutable. */
     public Second setValue(final Second value) {
         throw new UnsupportedOperationException("Triple cannot be modified.");
     }
@@ -258,7 +278,6 @@ public class Triple<First, Second, Third> implements TripleTuple<First, Second, 
 
     @Override
     @Deprecated
-    /** @throws UnsupportedOperationException on each call. Triple is immutable. */
     public void set(final int index, final Object value) {
         throw new UnsupportedOperationException("Triple cannot be modified.");
     }

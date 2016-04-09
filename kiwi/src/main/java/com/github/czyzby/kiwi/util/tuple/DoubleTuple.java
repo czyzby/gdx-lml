@@ -26,7 +26,8 @@ public interface DoubleTuple<First, Second> extends Iterable<Object>, Map.Entry<
 
     /** @param third will be set as third triplet's value.
      * @return a new TripleTuple constructed with this pair's values and another passed variable. It's mutability should
-     *         match DoubleTuple implementation. */
+     *         match DoubleTuple implementation.
+     * @param <Third> type of third value. */
     public <Third> TripleTuple<First, Second, Third> toTripleTuple(Third third);
 
 }

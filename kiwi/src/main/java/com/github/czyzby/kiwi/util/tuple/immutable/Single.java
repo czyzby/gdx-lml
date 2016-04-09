@@ -20,13 +20,17 @@ public class Single<Type> implements SingleTuple<Type> {
         this.value = value;
     }
 
-    /** @return a new immutable Single holding the passed value. */
+    /** @param value will be wrapped. Can be null.
+     * @return a new immutable Single holding the passed value.
+     * @param <Type> type of stored value. */
     public static <Type> Single<Type> of(final Type value) {
         return new Single<Type>(value);
     }
 
-    /** @param value if null, NullPointerException will be thrown.
-     * @return a new immutable Single holding the passed non-null value. */
+    /** @param value cannot be null.
+     * @return a new immutable Single holding the passed non-null value.
+     * @throws NullPointerException if value is null.
+     * @param <Type> type of stored value. */
     public static <Type> Single<Type> ofNonNull(final Type value) {
         if (value == null) {
             throw new NullPointerException("Cannot construct non-null single with null value.");
@@ -166,7 +170,7 @@ public class Single<Type> implements SingleTuple<Type> {
     }
 
     /** @return a MutableSingle holding the same value. */
-    public MutableSingle<Type> toMmutable() {
+    public MutableSingle<Type> toMutable() {
         return MutableSingle.of(value);
     }
 }

@@ -2,15 +2,18 @@ package com.github.czyzby.kiwi.util.tuple;
 
 import java.util.Iterator;
 
+import com.github.czyzby.kiwi.util.common.UtilitiesClass;
+
 /** Contains utilties for creating tuples. Note that factory methods are provided by classes that are implementation of
  * specific tuple interfaces.
  *
  * @author MJ */
-public class Tuples {
+public class Tuples extends UtilitiesClass {
     private Tuples() {
     }
 
-    /** @return a new instance of an iterator that iterates over tuple's values. */
+    /** @return a new instance of an iterator that iterates over tuple's values.
+     * @param <Type> iterator type. */
     public static <Type> Iterator<Type> getTupleIterator(final Tuple tuple) {
         return new Iterator<Type>() {
             private int currentIndex;
