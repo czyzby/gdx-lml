@@ -5,9 +5,9 @@
     true. -->
 
 <label color=green>Random numbers above 0.25:</label>
-<@while 0.25 < $random>
+<:while 0.25 < $random>
     <label>{while:index}: random higher than 0.25!</label>
-</@while>
+</:while>
 
 <!-- Iteration index is available through
     {tagName:index} argument, where "tagName"
@@ -20,12 +20,12 @@
     {myArg} occurrence in "while" macro would be parsed
     to 12 in the first place, creating "9<12" condition. -->
 
-<@comment>
-<@assign myArg 12 />
-<@while 9<{myArg}>
+<:comment>
+<:assign myArg 12 />
+<:while 9<{myArg}>
     <label>Label: {while:index}</label>
-    <@calculate myArg --{myArg}/>
-</@while>
-</@comment>
+    <:calculate myArg --{myArg}/>
+</:while>
+</:comment>
 
 <!-- Uncomment for a very nasty exception. -->

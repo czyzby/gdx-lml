@@ -17,9 +17,9 @@
             <!-- This scroll pane contains buttons used to switch LML templates. -->
             <scrollPane grow=true fadeBars=false overscroll=false>
                 <table defaultWidth=175 tableAlign=left defaultExpandX=true defaultAlign=left>
-                    <@for example={examples}>
+                    <:for example={examples}>
                         <textButton id={example} style="toggle" onChange="switch" row=true>@{example}</textButton>
-                    </@for>
+                    </:for>
                 </table>
             </scrollPane>
         </table>

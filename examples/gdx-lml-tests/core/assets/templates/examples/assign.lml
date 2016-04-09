@@ -6,7 +6,7 @@
 <!-- First macro attribute is the name of the argument to assign.
     The rest will be merged and assigned to the argument. -->
 
-<@assign myArgument This will become argument value./>
+<:assign myArgument This will become argument value./>
 <label>{myArgument}</label>
 
 <!-- If the macro is parental and contains data between
@@ -14,7 +14,7 @@
     than leftover macro attributes. This is very useful
     for assigning LML snippets to arguments. -->
 
-<@assign myLabel>
+<:assign myLabel>
     <label color=green>Tag in LML argument.</label>
-</@assign>
+</:assign>
 {myLabel}

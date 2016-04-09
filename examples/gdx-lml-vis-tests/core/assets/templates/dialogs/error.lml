@@ -3,9 +3,9 @@
 <dialog title="@error" style="dialog" oneColumn=true>
     <imageButton style=close-window toTitleTable=true
         expandX=true align=right onChange=closeDialog />
-    <@for line=@errorLine[0,3]>
+    <:for line=@errorLine[0,3]>
         <label>{line}</label>
-    </@for>
+    </:for>
     <textButton onResult="onErrorApprove" growX=true>@ok</textButton>
     <textButton onResult="onErrorDecline" growX=true>@no</textButton>
     <!-- toDialogTable appends label to dialog itself,

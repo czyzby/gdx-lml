@@ -8,9 +8,9 @@
     that changes its data between tags to upper case. -->
 
 <label color=vis-red>
-    <@uppercase>
+    <:uppercase>
         no more shouting!
-    </@uppercase>
+    </:uppercase>
 </label>
 
 <!-- See Main#getCustomMacro and Main#getCustomMacroProvider -->

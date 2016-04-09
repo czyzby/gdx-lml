@@ -1,4 +1,4 @@
-<@window title="echo">
+<:window title="echo">
 	<table defaultWidth=120 defaultHeight=40 defaultPad=4>
 		<textButton id="open" onChange="open">@connect</textButton>
 		<textButton id="send" onChange="send" disabled=true>@send</textButton>
@@ -10,4 +10,4 @@
 		 disabled=true/>
 	<label id="status" style="small" color="vis-blue">@status</label>
 	<textButton onChange="toMenu" expandX=true align="right">@toMenu</textButton>
-</@window>
+</:window>

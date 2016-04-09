@@ -5,7 +5,7 @@
     forces ignoring of errors if field is empty. -->
 
 <form background=button-over defaultPad=2 successMessage=Great!>
-    <@column 1 width=220 growX=true />
+    <:column 1 width=220 growX=true />
     Name:
     <validatable row=true>
         <isNotEmpty error=@nameNotEmpty />
