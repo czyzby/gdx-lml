@@ -8,13 +8,13 @@ While a custom *DTD* file for *LML* written by hand would be a great addition, i
 
 To generate a *DTD* file, fully create your parser (including the loaded skin!) and pass it to *Dtd* class:
 ```
-LmlParser parser = Lml.parser(getMySkin()).build();
-// TODO If you have any custom tags or attributes, add them before generating!
-try (PrintStream out = new PrintStream(new FileOutputStream("lml.dtd"))) {
-    out.print(Dtd.getSchema(parser));
-} catch (final Exception exception) {
-    // Should never happen for valid files.
-}
+        LmlParser parser = Lml.parser(getMySkin()).build();
+        // TODO If you have any custom tags or attributes, add them before generating!
+        try (PrintStream out = new PrintStream(new FileOutputStream("lml.dtd"))) {
+            out.print(Dtd.getSchema(parser));
+        } catch (final Exception exception) {
+            // Should never happen for valid files.
+        }
 ```
 Any problems with your parser will be printed into the console.
 
@@ -23,12 +23,12 @@ If you don't want to generate the file yourself, try using schemas from this fol
 Most modern IDEs will recognized referenced *DTD* files and provide content assist:
 
 ```
-<?xml version="1.0"?>
-<!DOCTYPE table SYSTEM "lml.dtd">
+        <?xml version="1.0"?>
+        <!DOCTYPE table SYSTEM "lml.dtd">
 
-<table>
-    <!-- Your template goes here. -->
-</table>
+        <table>
+            <!-- Your template goes here. -->
+        </table>
 ```
 
 ## Known issues
@@ -36,23 +36,33 @@ Most modern IDEs will recognized referenced *DTD* files and provide content assi
 There is a number of restricted characters in XML, including `@` - which is used as the macro beginning character. In future versions macro marker might change, but for now you might have to replace it manually:
 
 ```
-LmlParser parser = Lml.parser(getDefaultSkin()).syntax(new DefaultLmlSyntax() {
-    @Override
-    public char getMacroMarker() {
-        return ':'; // TODO Custom macro marker.
-    }
-}).build()
+        LmlParser parser = Lml.parser(getDefaultSkin()).syntax(new DefaultLmlSyntax() {
+            @Override
+            public char getMacroMarker() {
+                return ':'; // TODO Custom macro marker.
+            }
+        }).build()
 ```
 Note that pre-generated *DTD* files in this folder use `:`, but you might prefer any other valid XML special character, like '.', '-' or '_'.
 
+If you use `gdx-lml-vis`, you have to create a custom `VisLmlSyntax` instead:
+```
+        new VisLmlSyntax() {
+            @Override
+            public char getMacroMarker() {
+                return ':';
+            }
+        }
+```
+
 *XML* files need single root tag. You can either use a single container actor (like table or window) or a no-op macro:
 ```
-<?xml version="1.0"?>
-<!DOCTYPE :noop SYSTEM "lml.dtd">
+        <?xml version="1.0"?>
+        <!DOCTYPE :noop SYSTEM "lml.dtd">
 
-<:noop>
-    <!-- This template can contain multiple actors. -->
-</:noop>
+        <:noop>
+            <!-- This template can contain multiple actors. -->
+        </:noop>
 ```
 Tags and attributes are case-insensitive; all case data is lost during registration. That's why *DTD* files have lowercase values, even if they contain multiple words. This might make your templates slightly harder to read.
 
@@ -62,7 +72,7 @@ Some attributes are marked as allowed for certain tags, but available only under
 
 Also, there is no way to allow an element to have any attributes in *DTD*. Of course, things like this:
 ```
-<:if {argument} < 13 || {argument} != 20>
+        <:if {argument} < 13 || {argument} != 20>
 ```
 ...are invalid *XML* tags no matter how hard we try, but there are some macros that *could* be valid if only they could use any attributes. *XSD* schema generator might be provided some day, but for now - you can either accept that most of your macro tags will be marked red, or modify *DTD* files to add your attributes manually.
 
