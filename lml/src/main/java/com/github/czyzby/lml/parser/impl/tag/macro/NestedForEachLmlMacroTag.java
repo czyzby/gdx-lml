@@ -12,9 +12,9 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * once. This: <blockquote>
  *
  * <pre>
- * &lt;@nested value0=array0 value1=array1&gt;
+ * &lt;:nested value0=array0 value1=array1&gt;
  *      &lt;!-- do something, index: {nested:index}, values: {value0}, {value1} --&gt;
- * &lt;/@nested&gt;
+ * &lt;/:nested&gt;
  * </pre>
  *
  * </blockquote>...is "equivalent" to this Java syntax: <blockquote>
@@ -35,9 +35,9 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * index. This is also arguably faster to parse. For example: <blockquote>
  *
  * <pre>
- * &lt;@nested who=he;she;it what=is;was;does&gt;
+ * &lt;:nested who=he;she;it what=is;was;does&gt;
  *      Rule {nested:index}: {who} {what}.
- * &lt;/@nested&gt;
+ * &lt;/:nested&gt;
  * </pre>
  *
  * </blockquote>...prints:

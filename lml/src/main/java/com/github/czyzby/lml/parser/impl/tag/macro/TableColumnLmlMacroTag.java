@@ -17,7 +17,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * <pre>
  * &lt;table&gt;
- *     &lt;@column 2 pad=3 grow=true /&gt;
+ *     &lt;:column 2 pad=3 grow=true /&gt;
  * &lt;/table&gt;
  * </pre>
  *

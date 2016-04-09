@@ -200,7 +200,7 @@ public interface LmlSyntax {
      *         For example: <blockquote>
      *
      *         <pre>
-     * &lt;@forEach elem=val1;val2;val3&gt; &lt;label&gt;{elem}&lt;/label&gt; &lt;/@forEach&gt;.
+     * &lt;:forEach elem=val1;val2;val3&gt; &lt;label&gt;{elem}&lt;/label&gt; &lt;/:forEach&gt;.
      *         </pre>
      *
      *         </blockquote> This macro will iterate over array consisting of "val1", "val2" and "val3", assigning each
@@ -213,7 +213,7 @@ public interface LmlSyntax {
      *         might be used in conjunction with i18n bundles for long texts. For example: <blockquote>
      *
      *         <pre>
-     * &lt;@forEach elem=line[0,2]&gt; &lt;label&gt;@{elem}&lt;/label&gt; &lt;/@forEach&gt;.
+     * &lt;:forEach elem=line[0,2]&gt; &lt;label&gt;@{elem}&lt;/label&gt; &lt;/:forEach&gt;.
      *         </pre>
      *
      *         </blockquote> This macro will iterate over array consisting of "line0", "line1" and "val2", assigning
@@ -228,7 +228,7 @@ public interface LmlSyntax {
      *         <blockquote>
      *
      *         <pre>
-     * &lt;@forEach elem=line[0,2]&gt; &lt;label&gt;@{elem}&lt;/label&gt; &lt;/@forEach&gt;.
+     * &lt;:forEach elem=line[0,2]&gt; &lt;label&gt;@{elem}&lt;/label&gt; &lt;/:forEach&gt;.
      *         </pre>
      *
      *         </blockquote> This macro will iterate over array consisting of "line0", "line1" and "val2", assigning
@@ -242,7 +242,7 @@ public interface LmlSyntax {
      *         might be used in conjunction with i18n bundles for long texts. For example: <blockquote>
      *
      *         <pre>
-     * &lt;@forEach elem=line[0,2]&gt; &lt;label&gt;@{elem}&lt;/label&gt; &lt;/@forEach&gt;.
+     * &lt;:forEach elem=line[0,2]&gt; &lt;label&gt;@{elem}&lt;/label&gt; &lt;/:forEach&gt;.
      *         </pre>
      *
      *         </blockquote> This macro will iterate over array consisting of "line0", "line1" and "val2", assigning

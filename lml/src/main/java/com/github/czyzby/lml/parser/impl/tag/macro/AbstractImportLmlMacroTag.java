@@ -14,8 +14,8 @@ import com.github.czyzby.lml.util.collection.IgnoreCaseStringMap;
  * <blockquote>
  *
  * <pre>
- * &lt;@import file.lml /&gt;
- * &lt;@import file.lml contentArg&gt; Content &lt;/@import&gt;
+ * &lt;:import file.lml /&gt;
+ * &lt;:import file.lml contentArg&gt; Content &lt;/:import&gt;
  * </pre>
  *
  * </blockquote>In the first example, file.lml will be read and appended to the current template without any changes. In

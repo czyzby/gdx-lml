@@ -39,9 +39,9 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <blockquote>
  *
  * <pre>
- * &lt;@if {loop:index}%4=0&gt;
+ * &lt;:if {loop:index}%4=0&gt;
  *      &lt;label row=true/&gt;
- * &lt;/@if&gt;
+ * &lt;/:if&gt;
  * </pre>
  *
  * </blockquote> This macro appends label tag only if "loop:index" argument modulo 4 equals 0.
@@ -49,11 +49,11 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <blockquote>
  *
  * <pre>
- * &lt;@if 100&lt;{@literal @}bundleLine&gt;
+ * &lt;:if 100&lt;{@literal @}bundleLine&gt;
  *      &lt;textButton text=@bundleLine width=256 expandX=true/&gt;
- * &lt;@if:else/&gt;
+ * &lt;:if:else/&gt;
  *      &lt;textButton text=@bundleLine width=128/&gt;
- * &lt;/@if&gt;
+ * &lt;/:if&gt;
  * </pre>
  *
  * </blockquote>This macro finds i18n bundle line mapped to "bundleLine" and checks if its longer than 100 chars. If it
@@ -62,7 +62,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <blockquote>
  *
  * <pre>
- * &lt;@if ($action = (--{for:index})) || ({marker} = continue)&gt;
+ * &lt;:if ($action = (--{for:index})) || ({marker} = continue)&gt;
  * </pre>
  *
  * </blockquote>This condition evaluates to true if result of method mapped to "action" equals decremented "for:index"

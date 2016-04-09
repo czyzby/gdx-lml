@@ -9,9 +9,9 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * {@link LmlParser#parseString(String, Object)}. For example (macro aliases used):<blockquote>
  *
  * <pre>
- * &lt;@argument arg0 Value/&gt;
- * &lt;@nls arg1 {@literal @}bundle/&gt;
- * &lt;@preference arg2&gt;#preference&lt;/@preference&gt;
+ * &lt;:argument arg0 Value/&gt;
+ * &lt;:nls arg1 {@literal @}bundle/&gt;
+ * &lt;:preference arg2&gt;#preference&lt;/:preference&gt;
  * </pre>
  *
  * </blockquote>Assigned values:

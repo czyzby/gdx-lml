@@ -14,7 +14,7 @@ import com.github.czyzby.lml.util.LmlUtilities;
  * For example: <blockquote>
  *
  * <pre>
- * &lt;table&gt;&lt;@actor methodName/&gt;&lt;/table&gt;
+ * &lt;table&gt;&lt;:actor methodName/&gt;&lt;/table&gt;
  * </pre>
  *
  * </blockquote> This will look for a method mapped to "methodName" and invoke it with the Table (parent's actor) as its
@@ -23,7 +23,7 @@ import com.github.czyzby.lml.util.LmlUtilities;
  * <blockquote>
  *
  * <pre>
- * &lt;@actor methodId actorId&gt;Method argument&lt;/@actor&gt;
+ * &lt;:actor methodId actorId&gt;Method argument&lt;/:actor&gt;
  * </pre>
  *
  * </blockquote>This will look for a method mapped to "methodId" and invoke it with a string parameter:

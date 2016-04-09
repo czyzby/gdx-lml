@@ -11,11 +11,11 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <blockquote>
  *
  * <pre>
- * &lt;@notNull $myMethod&gt;
+ * &lt;:notNull $myMethod&gt;
  *      &lt;label text=$myMethod&gt;
- * &lt;@notNull:else/&gt;
- *      &lt;@exception&gt;MyMethod should never return null!&lt;/@exception&gt;
- * &lt;/@notNull&gt;
+ * &lt;:notNull:else/&gt;
+ *      &lt;:exception&gt;MyMethod should never return null!&lt;/:exception&gt;
+ * &lt;/:notNull&gt;
  * </pre>
  *
  * </blockquote>If method mapped to "myMethod" key returns null or false, this will throw an exception with a custom

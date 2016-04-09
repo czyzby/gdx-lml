@@ -8,7 +8,6 @@ import com.github.czyzby.kiwi.util.common.Exceptions;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.lml.parser.LmlParser;
-import com.github.czyzby.lml.parser.LmlSyntax;
 import com.github.czyzby.lml.parser.impl.tag.macro.AbstractConditionalLmlMacroTag;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
@@ -23,9 +22,7 @@ public class Dtd {
     private boolean displayLogs = true;
 
     /** @param parser contains parsing data. Used to create mock-up actors. The skin MUST be fully loaded and contain
-     *            all used actors' styles for the generator to work properly. Note that '{@literal @}' character
-     *            (currently used as macro prefix) is an invalid XML character, so {@link LmlSyntax#getMacroMarker()}
-     *            can be overridden to return another, valid value (for example - ':' or '_').
+     *            all used actors' styles for the generator to work properly.
      * @return DTD schema file containing all possible tags and their attributes. Any problems with the generation will
      *         be logged. This is a relatively heavy operation and should be done only during development.
      * @see #getDtdSchema(LmlParser) */
@@ -46,9 +43,7 @@ public class Dtd {
     }
 
     /** @param parser contains parsing data. Used to create mock-up actors. The skin MUST be fully loaded and contain
-     *            all used actors' styles for the generator to work properly. Note that '{@literal @}' character
-     *            (currently used as macro prefix) is an invalid XML character, so {@link LmlSyntax#getMacroMarker()}
-     *            can be overridden to return another, valid value (for example - ':' or '_').
+     *            all used actors' styles for the generator to work properly.
      * @return DTD schema file containing all possible tags and their attributes. Any problems with the generation will
      *         be logged. This is a relatively heavy operation and should be done only during development. */
     public String getDtdSchema(final LmlParser parser) {

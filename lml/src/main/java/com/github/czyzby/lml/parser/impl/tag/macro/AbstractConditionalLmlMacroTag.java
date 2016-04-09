@@ -14,11 +14,11 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * one part of the data stored between their tags. For example: <blockquote>
  *
  * <pre>
- * &lt;@notNull {someArgument}&gt;
+ * &lt;:notNull {someArgument}&gt;
  *      Added on true.
- * &lt;@notNull:else/&gt;
+ * &lt;:notNull:else/&gt;
  *      Added on false.
- * &lt;/@notNull&gt;
+ * &lt;/:notNull&gt;
  * </pre>
  *
  * </blockquote>This particular macro - as you might guess - checks if the {someArgument} value is not null. If it is
@@ -27,9 +27,9 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * <p>
  * Else tag is optional: if else tag is not given, the whole macro content is appended only on "true" condition. Else
- * tag follows this syntax: tagOpening (&lt;) + macroMarker ({@literal @}) + macroTagName (for example, "notNull") +
- * ":else" (ignoring case) + closedTagMarker (/) + tagClosing (&gt;). Typos or whitespaces in else tags might result in
- * invalid parsing.
+ * tag follows this syntax: tagOpening (&lt;) + macroMarker (:) + macroTagName (for example, "notNull") + ":else"
+ * (ignoring case) + closedTagMarker (/) + tagClosing (&gt;). Typos or whitespaces in else tags might result in invalid
+ * parsing.
  *
  * @author MJ */
 public abstract class AbstractConditionalLmlMacroTag extends AbstractMacroLmlTag {

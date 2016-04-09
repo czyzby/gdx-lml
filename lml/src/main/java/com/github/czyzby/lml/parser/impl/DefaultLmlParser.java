@@ -220,7 +220,7 @@ public class DefaultLmlParser extends AbstractLmlParser {
             processClosedTag(closedTagName);
         } else if (Strings.startsWith(rawTagData, syntax.getMacroMarker())) {
             // Uh-oh, this is a macro. Macros handle their content themselves, so we need to process them differently.
-            final String macroName = LmlUtilities // Stripping last character if the tag is immediately closed: <@tag/>.
+            final String macroName = LmlUtilities // Stripping last character if the tag is immediately closed: <:tag/>.
                     .stripEnding(rawTagData.substring(1, tagNameEndIndex), syntax.getClosedTagMarker()).trim();
             processMacro(macroName, rawTagData, builder);
         } else {
@@ -346,7 +346,7 @@ public class DefaultLmlParser extends AbstractLmlParser {
                     || Strings.isWhitespace(character)) {
                 // Whitespaces separate tag name from attributes and cannot be escaped in tag names. If the tag is
                 // currently being closed or its a whitespace, we've got the whole tag name. But this can happen:
-                // <@macro><@macro attribute /></@macro>
+                // <:macro><:macro attribute /></:macro>
                 // If we return now, we tell the parser that a nested macro is inside this one, even though the macro
                 // itself was closed as soon as it was opened. We need to check if macro is not a child.
                 if ((Strings.isWhitespace(character) || character == syntax.getClosedTagMarker())

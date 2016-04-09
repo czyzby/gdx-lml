@@ -14,9 +14,9 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * can be the data between macro tags. For example: <blockquote>
  *
  * <pre>
- * &lt;@assign arg0 Value/&gt;
- * &lt;@assign arg1 Complex value  with many   parts./&gt;
- * &lt;@assign arg2&gt;Data between macro tags.&lt;/@assign&gt;
+ * &lt;:assign arg0 Value/&gt;
+ * &lt;:assign arg1 Complex value  with many   parts./&gt;
+ * &lt;:assign arg2&gt;Data between macro tags.&lt;/:assign&gt;
  * </pre>
  *
  * </blockquote>Assigned values:

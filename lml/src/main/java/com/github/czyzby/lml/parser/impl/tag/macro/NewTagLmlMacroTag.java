@@ -42,7 +42,7 @@ import com.github.czyzby.lml.util.LmlUtilities;
  * <blockquote>
  *
  * <pre>
- * &lt;@newTag myTable getMyTable&gt;
+ * &lt;:newTag myTable getMyTable&gt;
  * &lt;!-- Now you can use: --&gt;
  * &lt;myTable&gt;
  *      &lt;label pad=3&gt;Will be properly added.&lt;/label&gt;
@@ -91,7 +91,7 @@ import com.github.czyzby.lml.util.LmlUtilities;
  * }
  *
  * &lt;!-- In template: --&gt;
- * &lt;@newTag myTable;myAlias getMyTable getMyBuilder&gt;
+ * &lt;:newTag myTable;myAlias getMyTable getMyBuilder&gt;
  * </pre>
  *
  * </blockquote>Building attributes are mapped to builder types, so if you use one of custom widget builders (like the

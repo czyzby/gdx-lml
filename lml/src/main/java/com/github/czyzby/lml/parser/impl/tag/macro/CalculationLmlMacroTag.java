@@ -36,7 +36,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <blockquote>
  *
  * <pre>
- * &lt;@calculate meaningOfLife 40+2/&gt;
+ * &lt;:calculate meaningOfLife 40+2/&gt;
  * </pre>
  *
  * </blockquote>This will assign "42" to {meaningOfLife} attribute.
@@ -44,7 +44,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <blockquote>
  *
  * <pre>
- * &lt;@calculate shouldContinue&gt;{loop:index}^2==4&lt;/@calculate&gt;
+ * &lt;:calculate shouldContinue&gt;{loop:index}^2==4&lt;/:calculate&gt;
  * </pre>
  *
  * </blockquote>This will assign "true" boolean value to {shouldContinue} if squared "loop:index" argument value equals
@@ -53,7 +53,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <blockquote>
  *
  * <pre>
- * &lt;@calculate concat should+be+joined+{index}/&gt;
+ * &lt;:calculate concat should+be+joined+{index}/&gt;
  * </pre>
  *
  * </blockquote>Will merge the arguments, assigning "shouldbejoinedN" (where N is the current value of "index") to
@@ -63,10 +63,10 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * <pre>
  *&lt;table&gt;
- *  &lt;@loop 4&gt;
- *    &lt;@calculate makeRow {loop:index}%2==1/&gt;
+ *  &lt;:loop 4&gt;
+ *    &lt;:calculate makeRow {loop:index}%2==1/&gt;
  *    &lt;label row={makeRow}&gt;@bundleLine{loop:index}&lt;/label&gt;
- *  &lt;/@loop&gt;
+ *  &lt;/:loop&gt;
  *&lt;/table&gt;
  * </pre>
  *

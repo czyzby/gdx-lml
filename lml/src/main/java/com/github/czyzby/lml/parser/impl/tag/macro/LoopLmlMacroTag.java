@@ -9,7 +9,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * iteration index. For example: <blockquote>
  *
  * <pre>
- * &lt;@loop 3&gt;txt{loop:index} &lt;/@loop&gt;
+ * &lt;:loop 3&gt;txt{loop:index} &lt;/:loop&gt;
  * </pre>
  *
  * </blockquote>This loop will print: "txt0 txt1 txt2 ".
@@ -19,7 +19,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * instead: <blockquote>
  *
  * <pre>
- * &lt;@each index=[4,-2]&gt;{index} &lt;/@each&gt;
+ * &lt;:each index=[4,-2]&gt;{index} &lt;/:each&gt;
  * </pre>
  *
  * </blockquote>This will prints: "4 3 2 1 0 -1 -2 ". (If the start of the range is bigger than the end, value will be

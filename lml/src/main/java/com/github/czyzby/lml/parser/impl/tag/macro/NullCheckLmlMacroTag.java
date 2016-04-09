@@ -10,7 +10,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <blockquote>
  *
  * <pre>
- * &lt;@notNull {arg0} {arg1}&gt;
+ * &lt;:notNull {arg0} {arg1}&gt;
  * </pre>
  *
  * </blockquote>If one of the arguments returns a non-null value and the other is mapped to an empty string, macro will
@@ -22,7 +22,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <blockquote>
  *
  * <pre>
- * &lt;@notNull {arg0}null {arg1}null&gt;
+ * &lt;:notNull {arg0}null {arg1}null&gt;
  * </pre>
  *
  * </blockquote>If any of the arguments is an empty string in this example, the macro will still receive fixed amount of

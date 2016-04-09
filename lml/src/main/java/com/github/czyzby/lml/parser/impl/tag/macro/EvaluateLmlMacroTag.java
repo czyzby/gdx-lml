@@ -17,7 +17,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <blockquote>
  *
  * <pre>
- * &lt;label id=someLabel&gt;&lt;@evaluate methodName/&gt;&lt;/label&gt;
+ * &lt;label id=someLabel&gt;&lt;:evaluate methodName/&gt;&lt;/label&gt;
  * </pre>
  *
  * </blockquote>This macro will look for method with "methodName" ID (either {@literal @}LmlAction-mapped, actual method
@@ -26,7 +26,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <blockquote>
  *
  * <pre>
- * &lt;@evaluate methodId argumentName&gt;Method argument&lt;/@evaluate&gt;
+ * &lt;:evaluate methodId argumentName&gt;Method argument&lt;/:evaluate&gt;
  * </pre>
  *
  * </blockquote>This macro will look for a method with "methodId" ID (consuming a string or no-arg) and invoke it with

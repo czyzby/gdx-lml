@@ -8,9 +8,9 @@ import com.github.czyzby.lml.util.Lml;
 /** Logs passed messages with {@link com.badlogic.gdx.Application#debug(String, String)}. For example: <blockquote>
  *
  * <pre>
- * &lt;@debug Debug: {arg} /&gt;
- * &lt;@debug Debug:&gt;{arg}&lt;/@debug&gt;
- * &lt;@debug&gt;Debug: {arg}&lt;/@debug&gt;
+ * &lt;:debug Debug: {arg} /&gt;
+ * &lt;:debug Debug:&gt;{arg}&lt;/:debug&gt;
+ * &lt;:debug&gt;Debug: {arg}&lt;/:debug&gt;
  * </pre>
  *
  * </blockquote>All of these macro invocations will log "Debug:" string joined with the current value assigned to "arg"

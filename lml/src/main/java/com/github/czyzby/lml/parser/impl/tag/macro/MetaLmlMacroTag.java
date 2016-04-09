@@ -22,10 +22,10 @@ import com.github.czyzby.lml.util.collection.IgnoreCaseStringMap;
  * <blockquote>
  *
  * <pre>
- * &lt;@macro newActor&gt;&lt;actor/&gt;&lt;/@macro&gt;
- * &lt;@newActor/&gt;
+ * &lt;:macro newActor&gt;&lt;actor/&gt;&lt;/:macro&gt;
+ * &lt;:newActor/&gt;
  * </pre>
- * 
+ *
  * row
  *
  * </blockquote>This is a very simple macro that adds a single tag on evaluation. It is not prepared to handle content
@@ -33,10 +33,10 @@ import com.github.czyzby.lml.util.collection.IgnoreCaseStringMap;
  * single tag: &lt;actor/&gt;. <blockquote>
  *
  * <pre>
- * &lt;@macro newActor "" id&gt;&lt;actor id={id}/&gt;&lt;/@macro&gt;
- * &lt;@newActor id=actorId/&gt;
- * &lt;@newActor actorId/&gt;
- * &lt;@newActor/&gt;
+ * &lt;:macro newActor "" id&gt;&lt;actor id={id}/&gt;&lt;/:macro&gt;
+ * &lt;:newActor id=actorId/&gt;
+ * &lt;:newActor actorId/&gt;
+ * &lt;:newActor/&gt;
  * </pre>
  *
  * </blockquote>In this updated example, we added two arguments: empty quotation (as we still don't want to parse data
@@ -48,9 +48,9 @@ import com.github.czyzby.lml.util.collection.IgnoreCaseStringMap;
  * and it was replaced by null. <blockquote>
  *
  * <pre>
- * &lt;@macro newActor "" id=defaultId&gt;&lt;actor id={id}/&gt;&lt;/@macro&gt;
- * &lt;@newActor id=actorId/&gt;
- * &lt;@newActor/&gt;
+ * &lt;:macro newActor "" id=defaultId&gt;&lt;actor id={id}/&gt;&lt;/:macro&gt;
+ * &lt;:newActor id=actorId/&gt;
+ * &lt;:newActor/&gt;
  * </pre>
  *
  * </blockquote> In this example, we added a default value to the "id" attribute. Now, if macro is evaluated without
@@ -59,8 +59,8 @@ import com.github.czyzby.lml.util.collection.IgnoreCaseStringMap;
  * attribute - is optional.<blockquote>
  *
  * <pre>
- * &lt;@macro newActor content&gt;&lt;actor id={content}/&gt;&lt;/@macro&gt;
- * &lt;@newActor&gt;actorId&lt;/@newActor&gt;
+ * &lt;:macro newActor content&gt;&lt;actor id={content}/&gt;&lt;/:macro&gt;
+ * &lt;:newActor&gt;actorId&lt;/:newActor&gt;
  * </pre>
  *
  * </blockquote> In this example, we replaced second attribute with "content", allowing us to use data between macro
@@ -68,20 +68,20 @@ import com.github.czyzby.lml.util.collection.IgnoreCaseStringMap;
  * "{content}" with data between tags. <blockquote>
  *
  * <pre>
- * &lt;@macro dialog content title includeCloseButton=true&gt;
+ * &lt;:macro dialog content title includeCloseButton=true&gt;
  *      &lt;dialog title={title} defaultPad=4&gt;
  *          {content}
- *          &lt;@if {includeCloseButton}&gt;
+ *          &lt;:if {includeCloseButton}&gt;
  *              &lt;textButton expandX=true fillX=true onResult=close&gt;@closeButton&lt;/textButton&gt;
- *          &lt;/@if&gt;
+ *          &lt;/:if&gt;
  *      &lt;/dialog&gt;
- * &lt;/@macro&gt;
+ * &lt;/:macro&gt;
  *
  *      &lt;!-- This: --&gt;
  *
- * &lt;@dialog title=@error&gt;
+ * &lt;:dialog title=@error&gt;
  *      &lt;label style=big&gt;@someWarning&lt;/label&gt;
- * &lt;/@dialog&gt;
+ * &lt;/:dialog&gt;
  *
  *      &lt;!-- ...evaluates to: --&gt;
  *

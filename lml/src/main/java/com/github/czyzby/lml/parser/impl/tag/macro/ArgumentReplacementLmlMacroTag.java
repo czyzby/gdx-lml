@@ -12,10 +12,10 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <blockquote>
  *
  * <pre>
- * &lt;@assign argumentName argumentValue&gt;
- * &lt;@replace argumentName=localValue&gt;
+ * &lt;:assign argumentName argumentValue&gt;
+ * &lt;:replace argumentName=localValue&gt;
  *      {argumentName} &lt;!-- == localValue --&gt;
- * &lt;/@replace&gt;
+ * &lt;/:replace&gt;
  * {argumentName} &lt;!-- == argumentValue --&gt;
  * </pre>
  *
@@ -36,13 +36,13 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * &lt;/actor&gt;
  * &lt;actor/&gt;
  *
- * &lt;!-- Valid, but might need to change macro syntax if {@literal @} causes problems: --&gt;
- * &lt;@root&gt;
+ * &lt;!-- Valid XML with essentially the same functionality: --&gt;
+ * &lt;:root&gt;
  *      &lt;actor&gt;
  *          &lt;actor/&gt;
  *      &lt;/actor&gt;
  *      &lt;actor/&gt;
- * &lt;/@root&gt;
+ * &lt;/:root&gt;
  * </pre>
  *
  * </blockquote>

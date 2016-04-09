@@ -13,9 +13,9 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * indexes. For example: <blockquote>
  *
  * <pre>
- * &lt;@forEach element=elem0;elem1 range=rang[0,2]&gt;
+ * &lt;:forEach element=elem0;elem1 range=rang[0,2]&gt;
  *      {forEach:index}: {element} {range}
- * &lt;/@forEach&gt;
+ * &lt;/:forEach&gt;
  * </pre>
  *
  * </blockquote>The first argument is a standard array with values separated with ';'. The second is a range. This will

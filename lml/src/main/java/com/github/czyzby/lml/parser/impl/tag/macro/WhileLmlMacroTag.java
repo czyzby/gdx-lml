@@ -14,9 +14,9 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <blockquote>
  *
  * <pre>
- * &lt;@while 9 &lt; $someAction&gt;
+ * &lt;:while 9 &lt; $someAction&gt;
  *     &lt;label&gt;Label: {while:index}&lt;/label&gt;
- * &lt;/@while&gt;
+ * &lt;/:while&gt;
  * </pre>
  *
  * </blockquote>This macro would create labels until "someAction" result is greater than 9 (or longer than 9, in case
@@ -28,11 +28,11 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <blockquote>
  *
  * <pre>
- * &lt;@assign myArg 12 /&gt;
- * &lt;@while 9&lt;{myArg}&gt;
+ * &lt;:assign myArg 12 /&gt;
+ * &lt;:while 9&lt;{myArg}&gt;
  *     &lt;label&gt;Label: {while:index}&lt;/label&gt;
- *     &lt;@calculate myArg --{myArg}/&gt;
- * &lt;/@while&gt;
+ *     &lt;:calculate myArg --{myArg}/&gt;
+ * &lt;/:while&gt;
  * </pre>
  *
  * </blockquote>Even though "myArg" attribute would be decremented on each run, loop will never end, as it will be
@@ -41,10 +41,10 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <blockquote>
  *
  * <pre>
- * &lt;@while 9&lt;12&gt;
+ * &lt;:while 9&lt;12&gt;
  *     &lt;label&gt;Label: {while:index}&lt;/label&gt;
- *     &lt;@calculate myArg --{myArg}/&gt;
- * &lt;/@while&gt;
+ *     &lt;:calculate myArg --{myArg}/&gt;
+ * &lt;/:while&gt;
  * </pre>
  *
  * </blockquote>
