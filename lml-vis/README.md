@@ -1,16 +1,16 @@
-#[VisUI](https://github.com/kotcrab/VisEditor/wiki/VisUI) parser for [LML](http://github.com/czyzby/gdx-lml) templates
+# [VisUI](https://github.com/kotcrab/VisEditor/wiki/VisUI) parser for [LML](http://github.com/czyzby/gdx-lml) templates
 
 See [gdx-lml](https://github.com/czyzby/gdx-lml/tree/master/lml). This extension allows *LML* to create improved *VisUI* widgets instead of regular *Scene2D* actors.
 
 ## Examples
 
-Check [gdx-lml-vis-tests](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-lml-vis-tests) for examples of all tags and macros usage. Check [gdx-lml-vis-websocket](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-lml-vis-websocket) for a simple (yet practical) mock-up application.
+Check [gdx-lml-vis-tests](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-lml-vis-tests) for examples of all tags and macros usage. Check [gdx-lml-vis-websocket](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-lml-vis-websocket) for a simple (yet practical) mock-up application. [gdx-lml-serialization-tests](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-websocket-serialization-tests) is a tiny application that uses `gdx-lml-vis` to create GUI.
 
 See on-line demo [here](http://czyzby.github.io/gdx-lml/lml-vis). See application mock-up [here](http://czyzby.github.io/gdx-lml/lml-vis-websocket).
 
 ## Dependencies
 
-`gdx-lml-vis` is available through the official project creator tool: `gdx-setup` (in additional extensions). However, its version might not be up to date.
+`gdx-lml-vis` is available through the official project creator tool: `gdx-setup` (in third party extensions). However, its version might not be up to date.
 
 Gradle:
 ```

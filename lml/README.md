@@ -1,22 +1,24 @@
-#LibGDX Markup Language
+# LibGDX Markup Language
 Templates for LibGDX Scene2D with HTML-like syntax and FreeMarker-inspired macros.
 
-##Examples
+## Examples
 See [gdx-lml-tests](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-lml-tests) for example uses of all available tags and macros.
 
 Check it out [on-line](http://czyzby.github.io/gdx-lml/lml).
 
-###Documentation
-See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&t=18843), [example project](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-lml-tests), [tutorial](https://github.com/czyzby/gdx-lml/wiki/Tutorial), [DTD file](https://github.com/czyzby/gdx-lml/tree/master/lml/dtd) and [old syntax page (work in progress)](https://github.com/czyzby/gdx-lml/wiki/Syntax).
+[`gdx-lml-vis`](https://github.com/czyzby/gdx-lml/tree/master/lml-vis) is an extension that has multiple example projects. They might be helpful even if you plan on using plain `gdx-lml` - especially since syntax is pretty much the same.
 
-##Extensions
+### Documentation
+See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&t=18843), [example project](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-lml-tests), [tutorial](https://github.com/czyzby/gdx-lml/wiki/Tutorial), [DTD page](https://github.com/czyzby/gdx-lml/tree/master/lml/dtd) and [old syntax page (work in progress)](https://github.com/czyzby/gdx-lml/wiki/Syntax).
+
+## Extensions
 [VisUI](https://github.com/kotcrab/VisEditor/wiki/VisUI) syntax support is available through [gdx-lml-vis library](https://github.com/czyzby/gdx-lml/tree/master/lml-vis). Additionally to replacing standard Scene2D actors with improved VisUI widgets, it offers full support for other VisUI features - including color picker, file chooser, other new widgets, listeners and validators.
 
 Check it out [on-line](http://czyzby.github.io/gdx-lml/lml-vis).
 
 ## Dependencies
 
-`gdx-lml` is available through the official project creator tool: `gdx-setup` (in additional extensions). However, its version might not be up to date.
+`gdx-lml` is available through the official project creator tool: `gdx-setup` (in third party extensions). However, its version might not be up to date.
 
 To import LML with `Gradle`, add this dependency to your core project:
 ```
