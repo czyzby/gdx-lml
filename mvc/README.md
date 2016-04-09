@@ -90,7 +90,7 @@ These are the services that you might want or have to inject from time to time:
 All classes (and annotations) have nearly full javadocs of public API, so everything should be clear. If it isn't, don't hesitate to ask.
 
 ## Examples
-See [test project](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-autumn-mvc-tests).
+See [example project](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-autumn-mvc-simple). [Autumn tests project](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-autumn-tests) might also be helpful to get started with dependency injection.
 
 ## Contributions
 Automatic component scan on iOS is not implemented and it might take me some time before I finally force myself to do it, if ever. If someone already implemented this functionality and is willing to share, I won't mind integrating it into Autumn.
@@ -109,7 +109,7 @@ When used on GWT, make sure to inherit Autumn module:
 ```
         <inherits name='com.github.czyzby.autumn.mvc.GdxAutumnMvc' />
 ```
-Check out [gdx-autumn](https://github.com/czyzby/gdx-autumn) for platform-specific class scanners. [Sample app](https://github.com/czyzby/gdx-autumn-mvc-tests/tree/master/simple) might help you with the set up.
+Check out [gdx-autumn](https://github.com/czyzby/gdx-lml/tree/master/autumn) for platform-specific class scanners. [Sample app](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-autumn-mvc-simple) might help you with the initial set up.
 
 ## What's new
 1.5 -> 1.6:
