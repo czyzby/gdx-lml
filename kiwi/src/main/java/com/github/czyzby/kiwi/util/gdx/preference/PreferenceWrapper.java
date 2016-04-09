@@ -2,9 +2,9 @@ package com.github.czyzby.kiwi.util.gdx.preference;
 
 import com.badlogic.gdx.Preferences;
 
-/** "Abstract" implementation for the Preference interface, although the class itself is not abstract and can be
- * normally used in code. If you want to extend it though, you should know that all setter and extract methods use
- * getName method to put and get preference values from the preferences.
+/** "Abstract" implementation for the {@link Preference} interface, although the class itself is not abstract and can be
+ * normally used in your code. If you want to extend it though, you should know that all setter and get methods use
+ * {@link #getName()} method to put and get preference values from the preferences.
  *
  * Preferences are advised to be kept in an enum (which cannot extend), so this implementation might have to be copied.
  *
@@ -47,52 +47,52 @@ public class PreferenceWrapper implements Preference {
     }
 
     @Override
-    public String extractStringFrom(final Preferences preferences) {
+    public String getStringFrom(final Preferences preferences) {
         return preferences.getString(getName());
     }
 
     @Override
-    public String extractStringOrElse(final Preferences preferences, final String defaultValue) {
+    public String getStringOrElse(final Preferences preferences, final String defaultValue) {
         return preferences.getString(getName(), defaultValue);
     }
 
     @Override
-    public boolean extractBooleanFrom(final Preferences preferences) {
+    public boolean getBooleanFrom(final Preferences preferences) {
         return preferences.getBoolean(getName());
     }
 
     @Override
-    public boolean extractBooleanOrElse(final Preferences preferences, final boolean defaultValue) {
+    public boolean getBooleanOrElse(final Preferences preferences, final boolean defaultValue) {
         return preferences.getBoolean(getName(), defaultValue);
     }
 
     @Override
-    public int extractIntFrom(final Preferences preferences) {
+    public int getIntFrom(final Preferences preferences) {
         return preferences.getInteger(getName());
     }
 
     @Override
-    public int extractIntOrElse(final Preferences preferences, final int defaultValue) {
+    public int getIntOrElse(final Preferences preferences, final int defaultValue) {
         return preferences.getInteger(getName(), defaultValue);
     }
 
     @Override
-    public long extractLongFrom(final Preferences preferences) {
+    public long getLongFrom(final Preferences preferences) {
         return preferences.getLong(getName());
     }
 
     @Override
-    public long extractLongOrElse(final Preferences preferences, final long defaultValue) {
+    public long getLongOrElse(final Preferences preferences, final long defaultValue) {
         return preferences.getLong(getName(), defaultValue);
     }
 
     @Override
-    public float extractFloatFrom(final Preferences preferences) {
+    public float getFloatFrom(final Preferences preferences) {
         return preferences.getFloat(getName());
     }
 
     @Override
-    public float extractFloatOrElse(final Preferences preferences, final float defaultValue) {
+    public float getFloatOrElse(final Preferences preferences, final float defaultValue) {
         return preferences.getFloat(getName(), defaultValue);
     }
 

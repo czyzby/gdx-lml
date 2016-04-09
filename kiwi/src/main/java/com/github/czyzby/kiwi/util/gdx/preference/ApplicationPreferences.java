@@ -3,12 +3,14 @@ package com.github.czyzby.kiwi.util.gdx.preference;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.github.czyzby.kiwi.util.common.UtilitiesClass;
 import com.github.czyzby.kiwi.util.gdx.asset.Asset;
 
-/** Allows to easily access game's preferences. Contains cached accessed preferences.
+/** Allows to easily access game's {@link Preferences}. Contains cached {@link Preferences} instances to prevent
+ * multiple preference loadings on some platforms.
  *
  * @author MJ */
-public class ApplicationPreferences {
+public class ApplicationPreferences extends UtilitiesClass {
     private ApplicationPreferences() {
     }
 
@@ -17,8 +19,9 @@ public class ApplicationPreferences {
     /** If set, returns preferences with this path. */
     private static String defaultPreferences;
 
-    /** @return default user's preferences of the application. Note that default preferences had to be set before
-     *         calling this method. */
+    /** @return default preferences of the application. Note that default preferences had to be set before calling this
+     *         method.
+     * @see #setDefaultPreferences(String) */
     public static Preferences getPreferences() {
         if (defaultPreferences == null) {
             throw new IllegalStateException("Default preferences path was not set. Cannot access default preferences.");
@@ -38,7 +41,8 @@ public class ApplicationPreferences {
         defaultPreferences = preferencePath;
     }
 
-    /** @return preferences with the selected path. Will be cached in map - the next access returns the same object. */
+    /** @param preferencePath ID of the requested preferences. Cannot be empty.
+     * @return preferences with the selected path. Will be cached in map - the next access returns the same object. */
     public static Preferences getPreferences(final String preferencePath) {
         if (preferencePath == null) {
             throw new IllegalArgumentException("Path cannot be empty.");
@@ -51,20 +55,23 @@ public class ApplicationPreferences {
         return preferences;
     }
 
-    /** @return preferences with the selected path. Will be cached in map - the next access returns the same object. */
+    /** @param preference contains data of the selected preferences. Cannot be null.
+     * @return preferences with the selected path. Will be cached in map - the next access returns the same object. */
     public static Preferences getPreferences(final Asset preference) {
         return getPreferences(preference.getPath());
     }
 
-    /** Saves all preferences currently cached in the map. */
+    /** Saves all currently cached {@link Preferences}. */
     public static void saveAllPreferences() {
         for (final Preferences preferences : PREFERENCES.values()) {
             save(preferences);
         }
     }
 
-    /** @param preferences will be flushed. */
+    /** @param preferences will be flushed. Can be null. */
     public static void save(final Preferences preferences) {
-        preferences.flush();
+        if (preferences != null) {
+            preferences.flush();
+        }
     }
 }

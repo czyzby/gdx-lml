@@ -2,12 +2,11 @@ package com.github.czyzby.kiwi.util.gdx.preference;
 
 import com.badlogic.gdx.Preferences;
 
-/** A simple interface for a single game preferences. Advised to be implemented by an enum holding all relevant game
+/** A simple interface for a single game preference. Advised to be implemented by an enum holding all relevant game
  * preferences.
  *
  * @author MJ */
 public interface Preference {
-
     /** @return name of the preference. Used as key in the preference map. */
     public String getName();
 
@@ -33,48 +32,48 @@ public interface Preference {
 
     /** @param preferences must contain the parameter.
      * @return the value connected with the preference's key present in the passed preferences. */
-    public String extractStringFrom(Preferences preferences);
+    public String getStringFrom(Preferences preferences);
 
     /** @param preferences can contain the parameter.
      * @return the value connected with the preference's key present in the passed preferences or passed default value
      *         if not found. */
-    public String extractStringOrElse(Preferences preferences, String defaultValue);
+    public String getStringOrElse(Preferences preferences, String defaultValue);
 
     /** @param preferences must contain the parameter.
      * @return the value connected with the preference's key present in the passed preferences. */
-    public boolean extractBooleanFrom(Preferences preferences);
+    public boolean getBooleanFrom(Preferences preferences);
 
     /** @param preferences can contain the parameter.
      * @return the value connected with the preference's key present in the passed preferences or passed default value
      *         if not found. */
-    public boolean extractBooleanOrElse(Preferences preferences, boolean defaultValue);
+    public boolean getBooleanOrElse(Preferences preferences, boolean defaultValue);
 
     /** @param preferences must contain the parameter.
      * @return the value connected with the preference's key present in the passed preferences. */
-    public int extractIntFrom(Preferences preferences);
+    public int getIntFrom(Preferences preferences);
 
     /** @param preferences can contain the parameter.
      * @return the value connected with the preference's key present in the passed preferences or passed default value
      *         if not found. */
-    public int extractIntOrElse(Preferences preferences, int defaultValue);
+    public int getIntOrElse(Preferences preferences, int defaultValue);
 
     /** @param preferences must contain the parameter.
      * @return the value connected with the preference's key present in the passed preferences. */
-    public long extractLongFrom(Preferences preferences);
+    public long getLongFrom(Preferences preferences);
 
     /** @param preferences can contain the parameter.
      * @return the value connected with the preference's key present in the passed preferences or passed default value
      *         if not found. */
-    public long extractLongOrElse(Preferences preferences, long defaultValue);
+    public long getLongOrElse(Preferences preferences, long defaultValue);
 
     /** @param preferences must contain the parameter.
      * @return the value connected with the preference's key present in the passed preferences. */
-    public float extractFloatFrom(Preferences preferences);
+    public float getFloatFrom(Preferences preferences);
 
     /** @param preferences can contain the parameter.
      * @return the value connected with the preference's key present in the passed preferences or passed default value
      *         if not found. */
-    public float extractFloatOrElse(Preferences preferences, float defaultValue);
+    public float getFloatOrElse(Preferences preferences, float defaultValue);
 
     /** @return true if the preference is present in the passed preferences. */
     public boolean isPresentIn(Preferences preferences);
