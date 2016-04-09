@@ -44,13 +44,15 @@ public class Padding {
         this.right = right;
     }
 
-    /** @param padding will be set as padding for all directions. */
+    /** @param padding will be set as padding for all directions.
+     * @return a new {@link Padding} with the passed values. */
     public static Padding of(final float padding) {
         return new Padding(padding, padding, padding, padding);
     }
 
     /** @param horizontal will be set as left and right padding.
-     * @param vertical will be set as top and bottom padding. */
+     * @param vertical will be set as top and bottom padding.
+     * @return a new {@link Padding} with the passed values. */
     public static Padding of(final float horizontal, final float vertical) {
         return new Padding(vertical, horizontal, vertical, horizontal);
     }
@@ -58,7 +60,8 @@ public class Padding {
     /** @param top top padding value.
      * @param left left padding value.
      * @param bottom bottom padding value.
-     * @param right right padding value. */
+     * @param right right padding value.
+     * @return a new {@link Padding} with the passed values. */
     public static Padding of(final float top, final float left, final float bottom, final float right) {
         return new Padding(top, left, bottom, right);
     }

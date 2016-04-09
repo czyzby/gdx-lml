@@ -38,6 +38,7 @@ public class ColorRange {
         targetColor = new Color().set(initialColor);
     }
 
+    /** @param delta time passed since last update. */
     public void update(final float delta) {
         if (transitionInProgress) {
             updateRed(delta);
@@ -139,7 +140,7 @@ public class ColorRange {
         return targetColor;
     }
 
-    /** Sets initial color to current color, begins transition to passed targetColor. */
+    /** @param targetColor begins transition to this color. Sets initial color to current color value. */
     public void setTargetColor(final Color targetColor) {
         if (!targetColor.equals(this.targetColor)) {
             initialColor.set(currentColor);

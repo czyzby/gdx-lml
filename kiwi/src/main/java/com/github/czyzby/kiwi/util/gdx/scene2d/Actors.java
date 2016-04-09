@@ -6,18 +6,21 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.github.czyzby.kiwi.util.common.UtilitiesClass;
 
 /** Contains common methods for Scene2D actors.
  *
  * @author MJ */
-public class Actors {
-    /** Name of default style, commonly used by widgets constructed with Skin, but without a specified style name. */
+public class Actors extends UtilitiesClass {
+    /** Name of default style, commonly used by widgets constructed with {@link Skin}, but without a specified style
+     * name. */
     public static final String DEFAULT_STYLE = "default";
     /** Name of default vertical style, commonly used by widgets that have separate horizontal and vertical styles,
-     * constructed with Skin, but without a specified style name. */
+     * constructed with {@link Skin}, but without a specified style name. */
     public static final String DEFAULT_VERTICAL_STYLE = "default-vertical";
     /** Name of default horizontal style, commonly used by widgets that have separate horizontal and vertical styles,
-     * constructed with Skin, but without a specified style name. */
+     * constructed with {@link Skin}, but without a specified style name. */
     public static final String DEFAULT_HORIZONTAL_STYLE = "default-horizontal";
 
     private Actors() {
@@ -98,7 +101,7 @@ public class Actors {
 
     /** Null-safe method for clearing keyboard focus.
      *
-     * @param stage will have its keyboard focused actor cleared, if one is present. */
+     * @param stage will have its keyboard focused actor cleared, if one is present. Can be null. */
     public static void clearKeyboardFocus(final Stage stage) {
         if (stage != null) {
             stage.setKeyboardFocus(null);

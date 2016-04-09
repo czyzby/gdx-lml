@@ -12,8 +12,24 @@ import com.badlogic.gdx.utils.IntMap;
  * @author MJ
  * @see Align */
 public enum Alignment {
-    CENTER(Align.center), TOP(Align.top), BOTTOM(Align.bottom), LEFT(Align.left), RIGHT(Align.right), TOPLEFT(
-            Align.topLeft), TOPRIGHT(Align.topRight), BOTTOMLEFT(Align.bottomLeft), BOTTOMRIGHT(Align.bottomRight);
+    /** {@link Align#center} */
+    CENTER(Align.center),
+    /** {@link Align#top} */
+    TOP(Align.top),
+    /** {@link Align#bottom} */
+    BOTTOM(Align.bottom),
+    /** {@link Align#left} */
+    LEFT(Align.left),
+    /** {@link Align#right} */
+    RIGHT(Align.right),
+    /** {@link Align#topLeft} */
+    TOPLEFT(Align.topLeft),
+    /** {@link Align#topRight} */
+    TOPRIGHT(Align.topRight),
+    /** {@link Align#bottomLeft} */
+    BOTTOMLEFT(Align.bottomLeft),
+    /** {@link Align#bottomRight} */
+    BOTTOMRIGHT(Align.bottomRight);
 
     private final int alignment;
 

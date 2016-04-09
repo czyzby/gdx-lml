@@ -240,20 +240,23 @@ public class LmlUserObject {
             public Table extract(final Table table) {
                 return table instanceof Dialog ? ((Dialog) table).getContentTable() : table;
             }
-        }), /** Adds actors to the title table. Available only for windows. */
+        }),
+        /** Adds actors to the title table. Available only for windows. */
         TITLE(new TableExtractor() {
             @Override
             public Table extract(final Table table) {
                 return table instanceof Window ? ((Window) table).getTitleTable() : table;
             }
-        }), /** Adds actors to the buttons table. Available only for dialogs. */
+        }),
+        /** Adds actors to the buttons table. Available only for dialogs. */
         BUTTON(new TableExtractor() {
             @Override
             public Table extract(final Table table) {
                 return table instanceof Dialog ? ((Dialog) table).getButtonTable() : table;
             }
-        }), /** Adds actors directly to the table, even if actor has another main table (for example, {@link Dialog} has
-             * the {@link Dialog#getContentTable()}, which would be ignored using this attacher). */
+        }),
+        /** Adds actors directly to the table, even if actor has another main table (for example, {@link Dialog} has the
+         * {@link Dialog#getContentTable()}, which would be ignored using this attacher). */
         DIRECT(new TableExtractor() {
             @Override
             public Table extract(final Table table) {

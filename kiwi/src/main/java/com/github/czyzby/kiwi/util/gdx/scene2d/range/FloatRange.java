@@ -86,7 +86,9 @@ public class FloatRange {
         return currentValue;
     }
 
-    /** Ends transition. Immediately changes managed current value. */
+    /** Ends transition. Immediately changes managed current value.
+     *
+     * @param currentValue all colors will become this value. */
     public void setCurrentValue(final float currentValue) {
         this.currentValue = currentValue;
         initialValue = currentValue;
