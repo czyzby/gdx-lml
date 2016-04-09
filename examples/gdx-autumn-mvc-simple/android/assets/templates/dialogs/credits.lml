@@ -5,10 +5,10 @@
             authors range - author0, author1, author2.
             Current range value will replace {author}.
             See LML examples project for more info. -->
-        <@for author=@author[0,2]>
+        <:for author=@author[0,2]>
             <label padRight=5 align="right">{author}Description</label>
             <linkLabel url="{author}Link" row=true align="left">{author}</linkLabel>
-        </@for>
+        </:for>
         </table>
     </scrollPane>
     <!-- onResult attribute will cause the button to be automatically

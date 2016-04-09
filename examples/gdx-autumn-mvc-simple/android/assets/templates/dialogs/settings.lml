@@ -6,31 +6,31 @@
 
 <!-- This is a custom macro that displays a TabbedPane's tab. By defining this macro,
     we can save some time that we would waste copying (and modifying) tabs' settings. -->
-<@macro tab content title>
+<:macro tab content title>
 <tab title="{title}" closeable=false oneColumn=true defaultPad=1 bg="dialogDim">
     {content}
 </tab>
-</@macro>
+</:macro>
 
     <tabs selected=0 width=330 height=200>
-        <@tab title="@music">
+        <:tab title="@music">
             @musicVolume
             <slider id=musicVolume value=$getMusicVolume onChange=setMusicVolume growX=true />
             <checkBox onClick=toggleMusic isChecked=$musicOn padBottom=4>@toggleMusic</checkBox>
-        </@tab>
-        <@tab title="@sound">
+        </:tab>
+        <:tab title="@sound">
             @soundVolume
             <slider id=soundVolume value=$getSoundVolume onChange=setSoundVolume growX=true />
             <checkBox onClick=toggleSound isChecked=$soundOn>@toggleSound</checkBox>
-        </@tab>
-        <@tab title="@locale">
+        </:tab>
+        <:tab title="@locale">
         <!-- {locales} and {currentLocale} are LML arguments automatically added by
             LocaleService. "locale:name" action changes current locale and reloads UI. -->
-            <@each locale={locales}>
-                <@if {locale} != {currentLocale}>
+            <:each locale={locales}>
+                <:if {locale} != {currentLocale}>
                     <textButton onClick="locale:{locale}">@{locale}</textButton>
-                </@if>
-            </@each>
-        </@tab>
+                </:if>
+            </:each>
+        </:tab>
     </tabs>
 </dialog>
