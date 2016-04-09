@@ -1,6 +1,7 @@
 package com.github.czyzby.kiwi.util.common;
 
-/** Common exception utilities.
+/** Common exception utilities. Note: if desperate, you can locally override this class to handle all ignored
+ * exceptions.
  *
  * @author MJ */
 public class Exceptions extends UtilitiesClass {

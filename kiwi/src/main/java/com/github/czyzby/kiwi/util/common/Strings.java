@@ -1,6 +1,7 @@
 package com.github.czyzby.kiwi.util.common;
 
-/** Utility class for strings and CharSequences (sometimes expected or returned by Scene2D API).
+/** Utility class for {@link String} and {@link CharSequence} instances. The latter are sometimes expected or returned
+ * by Scene2D API.
  *
  * @author MJ */
 public class Strings extends UtilitiesClass {
@@ -23,12 +24,14 @@ public class Strings extends UtilitiesClass {
     private Strings() {
     }
 
-    /** @return true if passed char sequence is null or has no characters. */
+    /** @param charSequence can be null.
+     * @return true if passed char sequence is null or has no characters. */
     public static boolean isEmpty(final CharSequence charSequence) {
         return charSequence == null || charSequence.length() == 0;
     }
 
-    /** @return true if passed char sequence is not null and has at least one character. */
+    /** @param charSequence can be null.
+     * @return true if passed char sequence is not null and has at least one character. */
     public static boolean isNotEmpty(final CharSequence charSequence) {
         return charSequence != null && charSequence.length() > 0;
     }
@@ -40,7 +43,8 @@ public class Strings extends UtilitiesClass {
         return isWhitespace(charSequence);
     }
 
-    /** @return true if the passed sequence is null or contains only whitespace characters. */
+    /** @param charSequence can be null.
+     * @return true if the passed sequence is null or contains only whitespace characters. */
     public static boolean isWhitespace(final CharSequence charSequence) {
         if (isEmpty(charSequence)) {
             return true;
@@ -92,7 +96,8 @@ public class Strings extends UtilitiesClass {
         return isNotWhitespace(charSequence);
     }
 
-    /** @return true if the passed sequence is not null and contains at least one non-whitespace character. */
+    /** @param charSequence can be null.
+     * @return true if the passed sequence is not null and contains at least one non-whitespace character. */
     public static boolean isNotWhitespace(final CharSequence charSequence) {
         if (isEmpty(charSequence)) {
             return false;
@@ -106,26 +111,30 @@ public class Strings extends UtilitiesClass {
         return false;
     }
 
-    /** GWT utility. Character.isWhitespace not supported.
+    /** GWT utility. {@link Character#isWhitespace(char)} is not supported.
      *
+     * @param character will be validated.
      * @return true if character is a whitespace. */
     public static boolean isWhitespace(final char character) {
         return character == ' ' || character == '\t' || character == '\n' || character == '\r' || character == '\f';
     }
 
-    /** GWT utility. Character.isWhitespace not supported.
+    /** GWT utility. {@link Character#isWhitespace(char)} is not supported.
      *
+     * @param character will be validated.
      * @return true if character is not a whitespace. */
     public static boolean isNotWhitespace(final char character) {
         return character != ' ' && character != '\t' && character != '\n' && character != '\r' && character != '\f';
     }
 
-    /** @return true if passed character is a new line char. */
+    /** @param character will be validated.
+     * @return true if passed character is a new line char. */
     public static boolean isNewLine(final char character) {
         return character == '\n' || character == '\r';
     }
 
-    /** @return true if passed character is not a new line char. */
+    /** @param character will be validated.
+     * @return true if passed character is not a new line char. */
     public static boolean isNotNewLine(final char character) {
         return character != '\n' && character != '\r';
     }
@@ -144,25 +153,39 @@ public class Strings extends UtilitiesClass {
         return charSequence != null && charSequence.length() > length;
     }
 
-    /** @return true if the passed sequence starts with the given character. */
+    /** @param charSequence can be null.
+     * @param character will be validated.
+     * @return true if the passed sequence starts with the given character. */
     public static boolean startsWith(final CharSequence charSequence, final char character) {
         return charSequence != null && charSequence.length() > 0 && charSequence.charAt(0) == character;
     }
 
-    /** @return true if the passed sequence starts with the given characters. */
+    /** @param charSequence can be null.
+     * @param character0 will be validated.
+     * @param character1 will be validated.
+     * @return true if the passed sequence starts with the given characters. */
     public static boolean startsWith(final CharSequence charSequence, final char character0, final char character1) {
         return charSequence != null && charSequence.length() > 1 && charSequence.charAt(0) == character0
                 && charSequence.charAt(1) == character1;
     }
 
-    /** @return true if the passed sequence starts with the given characters. */
+    /** @param charSequence can be null.
+     * @param character0 will be validated.
+     * @param character1 will be validated.
+     * @param character2 will be validated.
+     * @return true if the passed sequence starts with the given characters. */
     public static boolean startsWith(final CharSequence charSequence, final char character0, final char character1,
             final char character2) {
         return charSequence != null && charSequence.length() > 2 && charSequence.charAt(0) == character0
                 && charSequence.charAt(1) == character1 && charSequence.charAt(2) == character2;
     }
 
-    /** @return true if the passed sequence starts with the given characters. */
+    /** @param charSequence can be null.
+     * @param character0 will be validated.
+     * @param character1 will be validated.
+     * @param character2 will be validated.
+     * @param character3 will be validated.
+     * @return true if the passed sequence starts with the given characters. */
     public static boolean startsWith(final CharSequence charSequence, final char character0, final char character1,
             final char character2, final char character3) {
         return charSequence != null && charSequence.length() > 3 && charSequence.charAt(0) == character0
@@ -170,7 +193,9 @@ public class Strings extends UtilitiesClass {
                 && charSequence.charAt(3) == character3;
     }
 
-    /** @return true if the passed sequence starts with the given characters. */
+    /** @param charSequence can be null.
+     * @param characters will be validated.
+     * @return true if the passed sequence starts with the given characters. */
     public static boolean startsWith(final CharSequence charSequence, final char... characters) {
         if (charSequence == null) {
             return false;
@@ -186,20 +211,29 @@ public class Strings extends UtilitiesClass {
         return false;
     }
 
-    /** @return true if the passed sequence ends with the given character. */
+    /** @param charSequence can be null.
+     * @param character will be validated.
+     * @return true if the passed sequence ends with the given character. */
     public static boolean endsWith(final CharSequence charSequence, final char character) {
         return charSequence != null && charSequence.length() > 0
                 && charSequence.charAt(charSequence.length() - 1) == character;
     }
 
-    /** @return true if the passed sequence ends with the given characters. */
+    /** @param charSequence can be null.
+     * @param character0 will be validated.
+     * @param character1 will be validated.
+     * @return true if the passed sequence ends with the given characters. */
     public static boolean endsWith(final CharSequence charSequence, final char character0, final char character1) {
         return charSequence != null && charSequence.length() > 1
                 && charSequence.charAt(charSequence.length() - 1) == character1
                 && charSequence.charAt(charSequence.length() - 2) == character0;
     }
 
-    /** @return true if the passed sequence ends with the given characters. */
+    /** @param charSequence can be null.
+     * @param character0 will be validated.
+     * @param character1 will be validated.
+     * @param character2 will be validated.
+     * @return true if the passed sequence ends with the given characters. */
     public static boolean endsWith(final CharSequence charSequence, final char character0, final char character1,
             final char character2) {
         return charSequence != null && charSequence.length() > 2
@@ -208,7 +242,12 @@ public class Strings extends UtilitiesClass {
                 && charSequence.charAt(charSequence.length() - 3) == character0;
     }
 
-    /** @return true if the passed sequence ends with the given characters. */
+    /** @param charSequence can be null.
+     * @param character0 will be validated.
+     * @param character1 will be validated.
+     * @param character2 will be validated.
+     * @param character3 will be validated.
+     * @return true if the passed sequence ends with the given characters. */
     public static boolean endsWith(final CharSequence charSequence, final char character0, final char character1,
             final char character2, final char character3) {
         return charSequence != null && charSequence.length() > 3
@@ -218,7 +257,9 @@ public class Strings extends UtilitiesClass {
                 && charSequence.charAt(charSequence.length() - 4) == character0;
     }
 
-    /** @return true if the passed sequence ends with the given characters. */
+    /** @param charSequence can be null.
+     * @param characters will be validated.
+     * @return true if the passed sequence ends with the given characters. */
     public static boolean endsWith(final CharSequence charSequence, final char... characters) {
         if (charSequence == null) {
             return false;
@@ -241,8 +282,13 @@ public class Strings extends UtilitiesClass {
         return charSequence.length() - 1;
     }
 
-    /** @return true if the given sequence contains selected character. */
+    /** @param charSequence can be null.
+     * @param character will be validated.
+     * @return true if the given sequence contains selected character. */
     public static boolean contains(final CharSequence charSequence, final char character) {
+        if (isEmpty(charSequence)) {
+            return false;
+        }
         for (int index = 0, length = charSequence.length(); index < length; index++) {
             if (charSequence.charAt(index) == character) {
                 return true;
@@ -251,21 +297,21 @@ public class Strings extends UtilitiesClass {
         return false;
     }
 
-    /** @param stringBuilder will have its length set as 0. */
+    /** @param stringBuilder will have its length set as 0. Cannot be null. */
     public static void clearBuilder(final com.badlogic.gdx.utils.StringBuilder stringBuilder) {
         stringBuilder.setLength(0);
     }
 
-    /** @param stringBuilder will have its length set as 0. */
+    /** @param stringBuilder will have its length set as 0. Cannot be null. */
     public static void clearBuilder(final StringBuilder stringBuilder) {
         stringBuilder.setLength(0);
     }
 
     /** As opposed to string's split, this method allows to split a char sequence without a regex, provided that the
      * separator is a single character. Since it does not require pattern compiling and is a simple iteration, this
-     * method is preferred if it can be used.
+     * method should be always preferred when it can be used.
      *
-     * @param charSequence will be split.
+     * @param charSequence will be split. Can be null.
      * @param separator character that will be used to split the sequence.
      * @return array of strings. Is never null - if an empty or null sequence is passed, empty array will be
      *         returned. */
@@ -318,11 +364,11 @@ public class Strings extends UtilitiesClass {
         return result;
     }
 
-    /** @param charSequence can contain the separators.
+    /** @param charSequence can contain the separators. Can be null.
      * @param separator will be searched for in the sequence.
      * @return sequence separated into parts between separators. As opposed to {@link #split(CharSequence, char)}, this
      *         method does not merge multiple separators next to each other - instead, it will add empty strings to the
-     *         result. This can be useful to separate files by new lines, for example. */
+     *         result. This can be useful to separate files by new lines to preserve line order, for example. */
     public static String[] separate(final CharSequence charSequence, final char separator) {
         if (isEmpty(charSequence)) {
             return EMPTY_ARRAY;
@@ -401,7 +447,7 @@ public class Strings extends UtilitiesClass {
     }
 
     /** @param charSequence may consist of a single repeated character.
-     * @return true if all characters in the sequence are equals or the sequence is empty. */
+     * @return true if all characters in the sequence are equal or the sequence is empty or null. */
     public static boolean isSameChar(final CharSequence charSequence) {
         if (Strings.isEmpty(charSequence)) {
             return true;
@@ -416,10 +462,13 @@ public class Strings extends UtilitiesClass {
         return true;
     }
 
-    /** @param charSequence may contain the passed character.
+    /** @param charSequence may contain the passed character. Can be null.
      * @param value character to look for.
      * @return amount of appearances of the selected character in the passed sequence. */
     public static int countCharAppearances(final CharSequence charSequence, final char value) {
+        if (isEmpty(charSequence)) {
+            return 0;
+        }
         int count = 0;
         for (int index = 0, length = charSequence.length(); index < length; index++) {
             if (charSequence.charAt(index) == value) {
@@ -429,12 +478,15 @@ public class Strings extends UtilitiesClass {
         return count;
     }
 
-    /** @param charSequence may contain the passed character.
+    /** @param charSequence may contain the passed character. Might be null.
      * @param value character to look for.
      * @return amount of appearances of the selected character in the passed sequence. If multiple characters with the
      *         same value are neighbors to each other, only one of them is counted. This method might be useful for
      *         splitting strings by characters rather than regexes. */
     public static int countSeparatedCharAppearances(final CharSequence charSequence, final char value) {
+        if (isEmpty(charSequence)) {
+            return 0;
+        }
         int count = 0;
         for (int index = 0, length = charSequence.length(); index < length; index++) {
             if (charSequence.charAt(index) == value && (index == 0 || charSequence.charAt(index - 1) != value)) {
@@ -565,18 +617,22 @@ public class Strings extends UtilitiesClass {
         return joinIgnoringNulls(null, objectsToMerge);
     }
 
-    /** @return nullable object converted to string. If parameter is null, empty string is returned. As long as toString
+    /** @param nullable can be null.
+     * @return nullable object converted to string. If parameter is null, empty string is returned. As long as toString
      *         is properly implemented in the object, this method never returns null. */
     public static String toString(final Object nullable) {
         return nullable == null ? EMPTY_STRING : nullable.toString();
     }
 
-    /** @return nullable object converted to string. If first parameter is null, onNull parameter is returned. */
+    /** @param nullable can be null.
+     * @param onNull will be returned if nullable is null.
+     * @return nullable object converted to string. If first parameter is null, onNull parameter is returned. */
     public static String toString(final Object nullable, final String onNull) {
         return nullable == null ? onNull : nullable.toString();
     }
 
-    /** @return true if the passed charSequence contains legal characters for an int. Note that the value of int is not
+    /** @param charSequence can be null.
+     * @return true if the passed charSequence contains legal characters for an int. Note that the value of int is not
      *         validated and can be too big or small. */
     public static boolean isInt(final CharSequence charSequence) {
         if (isEmpty(charSequence)) {
@@ -599,7 +655,8 @@ public class Strings extends UtilitiesClass {
         return true;
     }
 
-    /** @return true if the passed charSequence contains legal characters for a float. Note that the value of float is
+    /** @param charSequence can be null.
+     * @return true if the passed charSequence contains legal characters for a float. Note that the value of float is
      *         not validated and can be too big or small. */
     public static boolean isFloat(final CharSequence charSequence) {
         if (Strings.isEmpty(charSequence)) {
@@ -652,20 +709,34 @@ public class Strings extends UtilitiesClass {
         return false;
     }
 
-    /** @return a new array with the passed values. Can be empty, but is never null. */
+    /** @param values can be null.
+     * @return a new array with the passed values. Can be empty, but is never null. */
     public static String[] newArray(final String... values) {
         if (values == null) {
-            return new String[0];
+            return EMPTY_ARRAY;
         }
         return values;
     }
 
-    /** Null-safe compare.
+    /** Null-safe compare of characters stored in the sequences. This method does not invoke {@link #equals(Object)}
+     * methods and allows to compare different {@link CharSequence} implementations.
      *
      * @param first first value to check.
      * @param second second value to check.
-     * @return if both values are null or if values are equal to each other. */
+     * @return true if both values are null or if stored characters are equal to each other. */
     public static boolean equals(final CharSequence first, final CharSequence second) {
-        return first == second || first != null && first.equals(second);
+        if (first == null) {
+            return second == null;
+        } else if (first == second) {
+            return true;
+        } else if (first.length() != second.length()) {
+            return false;
+        }
+        for (int index = 0, length = first.length(); index < length; index++) {
+            if (first.charAt(index) != second.charAt(index)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
