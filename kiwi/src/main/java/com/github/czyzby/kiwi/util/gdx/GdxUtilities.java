@@ -39,40 +39,41 @@ public class GdxUtilities extends UtilitiesClass {
         Gdx.input.setInputProcessor(null);
     }
 
-    /** @param processors application's input processor will be set to a multiplexer with multiple passed processors. */
+    /** @param processors application's input processor will be set to a {@link InputMultiplexer} with passed processors
+     *            in the given order. */
     public static void setMultipleInputProcessors(final InputProcessor... processors) {
         Gdx.input.setInputProcessor(new InputMultiplexer(processors));
     }
 
-    /** @return a new vector2 storing windows' width and height as x and y. */
+    /** @return a new {@link Vector2} storing windows' width and height as x and y. */
     public static Vector2 getScreenSize() {
         return new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     /** @param result will be modified and returned.
-     * @return the passed vector2 storing windows' width and height as x and y. */
+     * @return the passed {@link Vector2} storing windows' width and height as x and y. */
     public static Vector2 getScreenSize(final Vector2 result) {
         return result.set(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
-    /** @return a new vector2 storing current cursor position. */
+    /** @return a new {@link Vector2} storing current cursor position. */
     public static Vector2 getCursorPosition() {
         return new Vector2(Gdx.input.getX(), Gdx.input.getY());
     }
 
     /** @param result will be modified and returned.
-     * @return the passed vector2 storing current cursor position. */
+     * @return the passed {@link Vector2} storing current cursor position. */
     public static Vector2 getCursorPosition(final Vector2 result) {
         return result.set(Gdx.input.getX(), Gdx.input.getY());
     }
 
-    /** @return a new vector3 storing current accelerometer data. */
+    /** @return a new {@link Vector3} storing current accelerometer data. */
     public static Vector3 getAccelerometerData() {
         return new Vector3(Gdx.input.getAccelerometerX(), Gdx.input.getAccelerometerY(), Gdx.input.getAccelerometerZ());
     }
 
     /** @param result will be modified and returned.
-     * @return the passed vector3 storing current accelerometer data. */
+     * @return the passed {@link Vector3} storing current accelerometer data. */
     public static Vector3 getAccelerometerData(final Vector3 result) {
         return result.set(Gdx.input.getAccelerometerX(), Gdx.input.getAccelerometerY(), Gdx.input.getAccelerometerZ());
     }

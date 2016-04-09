@@ -23,8 +23,8 @@ public abstract class AbstractApplicationListener implements ApplicationListener
         render(Gdx.graphics.getDeltaTime());
     }
 
-    /** Called after clearing the screen by default {@link #render()} implementation with Gdx.graphics.getDeltaTime() as
-     * parameter.
+    /** Called after clearing the screen by default {@link #render()} implementation with
+     * {@code Gdx.graphics.getDeltaTime()} as parameter.
      *
      * @param deltaTime time passed since the last render call. */
     protected abstract void render(float deltaTime);
