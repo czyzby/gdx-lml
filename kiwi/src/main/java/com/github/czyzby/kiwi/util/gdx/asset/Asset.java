@@ -29,6 +29,7 @@ public interface Asset {
 
     /** @param withType class of the loaded asset.
      * @param fromManager has to contain the loaded asset.
-     * @return asset represented by this container. */
+     * @return asset represented by this container.
+     * @param <Type> type of stored asset. */
     public <Type> Type get(Class<Type> withType, AssetManager fromManager);
 }

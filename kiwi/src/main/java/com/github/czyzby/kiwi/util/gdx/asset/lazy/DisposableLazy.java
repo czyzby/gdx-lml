@@ -9,7 +9,8 @@ import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
  * result in multiple provider method calls. Holds a disposable object and implements disposable interface for extra
  * utility - dispose on the wrapped object will be called only if the object was created.
  *
- * @author MJ */
+ * @author MJ
+ * @param <Type> wrapped object type. */
 public class DisposableLazy<Type extends Disposable> extends Lazy<Type>implements Disposable {
     /** Constructs an empty lazy object with no provider. Stored variable has to be set manually. */
     public DisposableLazy() {
@@ -30,6 +31,6 @@ public class DisposableLazy<Type extends Disposable> extends Lazy<Type>implement
 
     @Override
     public String toString() {
-        return "DisposableLazy [" + getObject() + "]";
+        return "DisposableLazy[" + getObject() + "]";
     }
 }

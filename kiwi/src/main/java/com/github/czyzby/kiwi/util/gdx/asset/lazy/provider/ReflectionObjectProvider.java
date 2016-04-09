@@ -4,11 +4,12 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
 
-/** A simple implementation of ObjectProvider that invokes no-argument constructor of passed class on call. For more
- * complex objects providers, you still need custom implementations. Note that the class handled by the provider has to
- * be included for reflection on GWT.
+/** A simple implementation of {@link ObjectProvider} that invokes no-argument constructor of passed class on call. For
+ * more complex objects providers, you still need custom implementations. Note that the class handled by the provider
+ * has to be included for reflection on GWT.
  *
- * @author MJ */
+ * @author MJ
+ * @param <Type> type of produced values. */
 public class ReflectionObjectProvider<Type> implements ObjectProvider<Type> {
     private final Class<Type> type;
 
@@ -18,7 +19,9 @@ public class ReflectionObjectProvider<Type> implements ObjectProvider<Type> {
         this.type = type;
     }
 
-    /** @return a new ReflectionObjectProvider creating new instances of object of the given class. */
+    /** @param type type of produced values.
+     * @return a new ReflectionObjectProvider creating new instances of object of the given class.
+     * @param <Type> type of produced values. */
     public static <Type> ObjectProvider<Type> forClass(final Class<Type> type) {
         return new ReflectionObjectProvider<Type>(type);
     }

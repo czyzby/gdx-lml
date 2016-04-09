@@ -48,6 +48,7 @@ Utility classes for lazy objects. Create - or give access to, depending on imple
 - **ObjectProvider**: functional interface with one, no-parameter method - provide. Implementation of this interface is often required by lazy objects and allows to initiate an object as soon as its needed, rather than at once.
 - **ReflectionObjectProvider**: an implementation of ObjectProvider that uses reflection to construct objects with public, no-argument constructors. Note that the objects have to be reflected and this implementation might not be the best choice if the provider is used very often (for example, when it comes to lazy collections). Works on GWT, but you do have to include used classes for reflection.
 - **ArrayObjectProvider**, **MapObjectProvider**, **SetObjectProvider**: stateless implementations of ObjectProvider interface that do not use reflection. They allow to create LibGDX collections.
+- **SingletonProvider**: wraps around a single object, returning it on each `provide()` call. Utility for creating local singletons.
 
 ### Collections
 LibGDX collections utilities. To avoid collisions with Guava and Java API, these classes start with Gdx.

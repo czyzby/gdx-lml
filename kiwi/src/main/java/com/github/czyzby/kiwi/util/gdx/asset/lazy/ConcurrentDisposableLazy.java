@@ -10,7 +10,8 @@ import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
  * disposable interface for extra utility - dispose on the wrapped object will be called only if the object was created.
  * Note that this class extends DisposableLazy rather than ConcurrentLazy.
  *
- * @author MJ */
+ * @author MJ
+ * @param <Type> wrapped object type. */
 public class ConcurrentDisposableLazy<Type extends Disposable> extends DisposableLazy<Type> {
     /** Constructs an empty lazy object with no provider. Stored variable has to be set manually. */
     public ConcurrentDisposableLazy() {
@@ -37,7 +38,11 @@ public class ConcurrentDisposableLazy<Type extends Disposable> extends Disposabl
     public void set(final Type object) throws IllegalStateException {
         if (getObject() == null) {
             synchronized (this) {
-                super.set(object);
+                if (getObject() == null) {
+                    super.set(object);
+                } else {
+                    throw new IllegalStateException("Cannot set lazy variable - already initiated.");
+                }
                 return;
             }
         }
@@ -46,6 +51,6 @@ public class ConcurrentDisposableLazy<Type extends Disposable> extends Disposabl
 
     @Override
     public String toString() {
-        return "ConcurrentDisposableLazy [" + getObject() + "]";
+        return "ConcurrentDisposableLazy[" + getObject() + "]";
     }
 }

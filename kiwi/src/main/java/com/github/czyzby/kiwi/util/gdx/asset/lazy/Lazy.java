@@ -11,7 +11,8 @@ import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
  * be used for nullable objects - if the wrapped object is null, lazy considers that it was not initiated yet, so make
  * sure that your providers never return null.
  *
- * @author MJ */
+ * @author MJ
+ * @param <Type> type of wrapped value. */
 public class Lazy<Type> {
     private ObjectProvider<? extends Type> provider;
     private Type object;
@@ -26,28 +27,33 @@ public class Lazy<Type> {
         this.provider = provider;
     }
 
-    /** @return a new instance of empty provider which can be managed manually. */
+    /** @return a new instance of empty provider which can be managed manually.
+     * @param <Type> type of wrapped value. */
     public static <Type> Lazy<Type> empty() {
         return new Lazy<Type>();
     }
 
-    /** @param provider will provide wrapped object on first call. */
+    /** @param provider will provide wrapped object on first call.
+     * @param <Type> type of wrapped value. */
     public static <Type> Lazy<Type> providedBy(final ObjectProvider<? extends Type> provider) {
         return new Lazy<Type>(provider);
     }
 
-    /** @param provider will provide wrapped object on first call. Thread-safe. */
+    /** @param provider will provide wrapped object on first call. Thread-safe.
+     * @param <Type> type of wrapped value. */
     public static <Type> ConcurrentLazy<Type> concurrentProvidedBy(final ObjectProvider<? extends Type> provider) {
         return new ConcurrentLazy<Type>(provider);
     }
 
-    /** @param provider will provide wrapped disposable object on first call. */
+    /** @param provider will provide wrapped disposable object on first call.
+     * @param <Type> type of wrapped value. */
     public static <Type extends Disposable> DisposableLazy<Type> disposableProvidedBy(
             final ObjectProvider<? extends Type> provider) {
         return new DisposableLazy<Type>(provider);
     }
 
-    /** @param provider will provide wrapped disposable object on first call. Thread-safe. */
+    /** @param provider will provide wrapped disposable object on first call. Thread-safe.
+     * @param <Type> type of wrapped value. */
     public static <Type extends Disposable> ConcurrentDisposableLazy<Type> concurrentDisposableProvidedBy(
             final ObjectProvider<? extends Type> provider) {
         return new ConcurrentDisposableLazy<Type>(provider);
@@ -95,6 +101,7 @@ public class Lazy<Type> {
         return provider.provide();
     }
 
+    /** @throws IllegalStateException if provider is not set. */
     protected void validateProvider() {
         if (provider == null) {
             throw new IllegalStateException(
@@ -122,7 +129,7 @@ public class Lazy<Type> {
         return object instanceof Lazy<?> && Nullables.areEqual(this.object, ((Lazy<?>) object).object);
     }
 
-    /** @return 0 if object was not initiated. Wrapped object's hash code if its present. */
+    /** @return 0 if object was not initiated. Wrapped object's hash code otherwise. */
     @Override
     public int hashCode() {
         if (object == null) {
@@ -133,6 +140,6 @@ public class Lazy<Type> {
 
     @Override
     public String toString() {
-        return "Lazy [" + object + "]";
+        return "Lazy[" + object + "]";
     }
 }
