@@ -5,11 +5,12 @@ import java.util.Map;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.github.czyzby.kiwi.util.common.UtilitiesClass;
 
 /** Provides some simple utility methods for disposable objects.
  *
  * @author MJ */
-public class Disposables {
+public class Disposables extends UtilitiesClass {
     private Disposables() {
     }
 
