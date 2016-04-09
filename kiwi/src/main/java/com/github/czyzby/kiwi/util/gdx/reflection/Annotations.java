@@ -3,12 +3,13 @@ package com.github.czyzby.kiwi.util.gdx.reflection;
 import com.badlogic.gdx.utils.reflect.Annotation;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.github.czyzby.kiwi.util.common.Exceptions;
+import com.github.czyzby.kiwi.util.common.UtilitiesClass;
 
 /** Utilities for LibGDX annotation processing.
  *
  * @author MJ
  * @see Reflection */
-public class Annotations {
+public class Annotations extends UtilitiesClass {
     private Annotations() {
     }
 
