@@ -107,10 +107,10 @@ public interface LmlSyntax {
     char getArgumentClosing();
 
     /** @return character following tag opening that indicates that this tag should be parsed as a macro, not an actor.
-     *         Defaults to '@'. For example:<blockquote>
+     *         Defaults to ':'. For example:<blockquote>
      *
      *         <pre>
-     * &lt;@macro&gt;...&lt;/@macro&gt;
+     * &lt;:macro&gt;...&lt;/:macro&gt;
      *         </pre>
      *
      *         </blockquote> */

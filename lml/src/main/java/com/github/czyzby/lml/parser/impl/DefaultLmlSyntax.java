@@ -817,7 +817,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
 
     @Override
     public char getMacroMarker() {
-        return '@';
+        return ':';
     }
 
     @Override
