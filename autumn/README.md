@@ -9,6 +9,8 @@ Get used to annotations. So-called stereotype annotations on classes allow the c
 Everything comes down to a few annotations and classes that might make your life much easier as soon as you get used to the structure.
 
 ### Getting started
+See [tests project](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-autumn-tests) for usage examples of huge part of Autumn API, including custom annotation processor.
+
 Autumn's main goal is to let you quickly set up your application. It does that by creating a "context" in which every of your registered classes is a "component". To create a new context, you need an instance of `ContextInitializer` (you can get that with convenience factory methods: `Context.builder()` or `ContextInitializer.newContext`). After getting an initializer, you should:
 
 - Register your components (`addComponent`, `addComponents`). Autumn aims to remove context meta-data after initiation, which means that no references are kept to uninjected components and they are hopefully garbage-collected. This basically means that if you don't provide your own components that you want to keep, the context will be constructed and... immediately destroyed. Don't worry though - usually you need only one component (which will inject others, preserving their references) and all you need to do is invoke its constructor; its annotated fields and methods will still be processed.
