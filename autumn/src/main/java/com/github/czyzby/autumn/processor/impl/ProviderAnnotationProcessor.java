@@ -1,6 +1,5 @@
 package com.github.czyzby.autumn.processor.impl;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Method;
 import com.github.czyzby.autumn.annotation.Provider;
@@ -29,7 +28,6 @@ public class ProviderAnnotationProcessor extends AbstractAnnotationProcessor<Pro
     @Override
     public void processType(final Class<?> type, final Provider annotation, final Object component,
             final Context context, final ContextInitializer initializer, final ContextDestroyer contextDestroyer) {
-        Gdx.app.log("Autumn", component.getClass().getName());
         if (component instanceof DependencyProvider<?>) {
             context.addProvider((DependencyProvider<?>) component);
         } else {

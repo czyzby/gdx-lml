@@ -1,6 +1,8 @@
 package com.github.czyzby.kiwi.util.gdx;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
@@ -108,5 +110,23 @@ public class GdxUtilities extends UtilitiesClass {
     /** @return true if application type equals {@link ApplicationType#HeadlessDesktop}. */
     public static boolean isHeadless() {
         return Gdx.app.getType() == ApplicationType.HeadlessDesktop;
+    }
+
+    /** Attempts to close the application on each platform. Calls {@link Application#exit()} on regular platforms and
+     * manually calls {@link ApplicationListener#dispose()} on GWT, as it doesn't implement exit method properly.
+     * Null-safe, this method will have an effect only if both {@link Application} and {@link ApplicationListener} are
+     * created and assigned. */
+    public static void exit() {
+        final Application application = Gdx.app;
+        if (application == null) {
+            return;
+        } else if (isRunningOnGwt()) {
+            // GWT Application#exit() implementation is empty. Disposing manually.
+            if (application.getApplicationListener() != null) {
+                application.getApplicationListener().dispose();
+            }
+        } else {
+            application.exit();
+        }
     }
 }
