@@ -84,6 +84,16 @@ public interface LmlSyntax {
      *         </blockquote> */
     char getCommentClosing();
 
+    /** @return value that begins DTD schema comment. Defaults to "DOCTYPE". When this value is detected at the
+     *         beginning of a comment (started with !), parser treats it differently. For example: <blockquote>
+     *
+     *         <pre>
+     * &lt;!DOCTYPE table SYSTEM "lml.dtd"&gt;
+     *         </pre>
+     *
+     *         </blockquote> */
+    String getDocumentTypeOpening();
+
     /** @return character that indicates that the following text is an ID of LML parser argument. Defaults to '{'. For
      *         example: <blockquote>
      *

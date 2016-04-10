@@ -6,6 +6,7 @@ import com.github.czyzby.kiwi.util.common.Nullables;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.lml.parser.LmlData;
+import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.LmlSyntax;
 import com.github.czyzby.lml.parser.LmlTemplateReader;
 import com.github.czyzby.lml.parser.impl.tag.macro.util.Equation;
@@ -14,7 +15,7 @@ import com.github.czyzby.lml.parser.tag.LmlTagProvider;
 import com.github.czyzby.lml.util.LmlParsingException;
 import com.github.czyzby.lml.util.LmlUtilities;
 
-/** Default implementation of LML parser.
+/** Default implementation of {@link LmlParser}.
  *
  * @author MJ */
 public class DefaultLmlParser extends AbstractLmlParser {
@@ -145,7 +146,10 @@ public class DefaultLmlParser extends AbstractLmlParser {
     /** Found an open tag starting with comment sign. Burning through characters up to the comment's end. */
     private void processComment() {
         templateReader.nextCharacter(); // Burning comment opening char.
-        if (nestedComments) {
+        if (templateReader.startsWith(syntax.getDocumentTypeOpening())) {
+            processSchemaComment();
+            return;
+        } else if (nestedComments) {
             processNestedComment();
             return;
         }
@@ -156,6 +160,24 @@ public class DefaultLmlParser extends AbstractLmlParser {
                 // Character was a comment closing sign and the next tag closed the comment.
                 templateReader.nextCharacter(); // Polling tag closing.
                 break;
+            }
+        }
+    }
+
+    /** Found a comment starting with DOCTYPE. Burning through the characters. */
+    private void processSchemaComment() {
+        // Removing DOCTYPE:
+        burnCharacters(syntax.getDocumentTypeOpening().length());
+        int tagsOpened = 1;
+        while (templateReader.hasNextCharacter()) {
+            final char character = templateReader.nextCharacter();
+            // Schema comment can define new entities, see http://www.w3schools.com/xml/xml_dtd.asp
+            if (character == syntax.getTagOpening()) {
+                tagsOpened++;
+            } else if (character == syntax.getTagClosing()) {
+                if (--tagsOpened == 0) {
+                    break;
+                }
             }
         }
     }

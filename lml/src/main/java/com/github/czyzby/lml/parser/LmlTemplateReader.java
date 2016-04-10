@@ -103,4 +103,7 @@ public interface LmlTemplateReader {
      * @return true if template reader currently parses the original, first template rather than some nested value. */
     boolean isParsingOriginalTemplate();
 
+    /** @param value cannot be empty or null.
+     * @return true if currently stored text starts with the passed value. */
+    boolean startsWith(CharSequence value);
 }

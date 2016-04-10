@@ -801,6 +801,11 @@ public class DefaultLmlSyntax implements LmlSyntax {
     }
 
     @Override
+    public String getDocumentTypeOpening() {
+        return "DOCTYPE";
+    }
+
+    @Override
     public char getCommentClosing() {
         return '-';
     }
