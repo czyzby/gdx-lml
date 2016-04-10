@@ -1,0 +1,40 @@
+<!-- You don't have to register macros in Java. LML-made macros
+    append their initial text between tags on invocation.
+    Their first attribute is an array of macro aliases. -->
+<@macro myMacro;someAlias><textButton/></@macro>
+<@myMacro/>
+<@someAlias/>
+
+<!-- Second, optional macro definition attribute is the
+    name of the argument that will be replaced by text
+    between invocation's macro tags. -->
+<@macro myMacro content>
+    <textButton>{content}</textButton>
+</@macro>
+<@myMacro>Becomes button's text.</@myMacro>
+
+<!-- The rest of declaration's attributes are the names of
+    additional attributes that might be passed during
+    macro invocation. -->
+<@macro myMacro content size>
+    <container size={size}>
+        <textButton>
+            {content}
+        </textButton>
+    </container>
+</@macro>
+<@myMacro 150>Unnamed params.</@myMacro>
+<@myMacro size=125>Named params.</@myMacro>
+
+<!-- Attributes can be unnamed (passing order must match
+    declaration order) or named (any order allowed).
+    Attributes be also given a default value. -->
+<@macro myMacro content width=150 height=30>
+    <container width={width} height={height}>
+        <textButton>
+            {content}
+        </textButton>
+    </container>
+</@macro>
+<@myMacro>Using defaults.</@myMacro>
+<@myMacro width=200>Custom width.</@myMacro>

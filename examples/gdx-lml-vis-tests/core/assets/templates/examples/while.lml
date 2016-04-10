@@ -1,0 +1,31 @@
+<!-- LML has a pretty powerful equation parser that handles
+    int, float, boolean and String types (determined at
+    runtime) and a number of operators. While macro repeats
+    text passed between its tags until the condition returns
+    true. -->
+
+<label color=vis-blue>Random numbers above 0.25:</label>
+<@while 0.25 < $random>
+    <label>{while:index}: random higher than 0.25!</label>
+</@while>
+
+<!-- Iteration index is available through
+    {tagName:index} argument, where "tagName"
+    is the alias of macro tag you used. -->
+
+<!-- Note that arguments are parsed BEFORE the macro is
+    evaluated, so they should not be used in loops.
+    The following example would create an endless loop -
+    "myArg" would be decremented each time, but the
+    {myArg} occurrence in "while" macro would be parsed
+    to 12 in the first place, creating "9<12" condition. -->
+
+<@comment>
+<@assign myArg 12 />
+<@while 9<{myArg}>
+    <label>Label: {while:index}</label>
+    <@calculate myArg --{myArg}/>
+</@while>
+</@comment>
+
+<!-- Uncomment for a very nasty exception. -->

@@ -1,0 +1,5 @@
+<label>Imported template:</label>
+<container size=200>
+    <!-- We expect foreign content here: -->
+    {content}
+</container>

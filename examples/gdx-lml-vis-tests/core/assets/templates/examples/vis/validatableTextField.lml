@@ -1,0 +1,53 @@
+<!-- You can create a text field that validates its input
+    with LML. Attaching validators is pretty straightforward:
+    you just have to add a validator child to a text field/
+    Only VisValidatableTextFields can handle validators, so
+    make sure you use correct text field tag before adding
+    a validator. -->
+
+<table oneColumn=true>
+    Int:
+    <validatable>
+        15
+        <intValidator/>
+    </validatable>
+    Float:
+    <validatable>
+        15.0
+        <floatValidator/>
+    </validatable>
+    Greater than 8:
+    <validatable>
+        15
+        <greaterThan value=8 />
+    </validatable>
+    Lesser than or equal to 12:
+    <validatable>
+        15
+        <lesserThan value=12 orEqual=true />
+    </validatable>
+
+<!-- Multiple validators are supported. -->
+    Between 0 (including) and 1 (excluding):
+    <validatableTextField text="0.15">
+        <isFloat/>
+        <greaterThan value=0 orEqual=true />
+        <lesserThan value=1 orEqual=false />
+    </validatableTextField>
+
+<!-- You can attach a custom validator by suppling a name of
+    a method that consumes a string and returns a boolean: -->
+    Custom - is not blank:
+    <validatable>
+        Delete me.
+        <validator validate=isNotBlank />
+    </validatable>
+</table>
+
+<!-- This would fail, as regular text fields cannot have
+    validators. You can try uncommenting code below. -->
+<@comment>
+<textField>
+    <isInt/>
+</textField>
+</@comment>

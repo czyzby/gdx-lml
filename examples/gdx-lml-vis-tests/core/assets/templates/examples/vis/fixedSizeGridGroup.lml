@@ -1,0 +1,31 @@
+<!-- FixedSizeGridGroup is a specialized GridGroup,
+    that keeps its children count constant thanks to
+    mock-up actors in "empty" cells. It also comes
+    with a custom Draggable, which allows to swap its
+    children, rather than just move them around. In
+    LML, it is available through dragPane tag - use
+    type=fixed attribute to switch to this group. --> 
+
+<table oneColumn=true>
+    <label color=vis-blue>Primary:</label>
+    <dragPane type=fixed itemsAmount=12 itemSize=22
+            background=button-over width=66 height=88>
+        <image style=icon-arrow-left/>
+        <image style=icon-arrow-right/>
+        <image style=icon-trash/>
+        <image style=icon-close/>
+        <image style=icon-file-image/>
+        <image style=icon-file-audio/>
+        <image style=icon-file-pdf/>
+    </dragPane>
+    <label color=vis-red>Secondary:</label>
+    <dragPane type=fixed itemsAmount=6 itemSize=22
+            background=button width=66 height=44>
+        <image style=icon-folder/>
+    </dragPane>
+</table>
+
+<!-- Note that all icons are draggable and swapable.
+    With a more appropriate, customized background,
+    this would look and feel very much alike a RPG-
+    style inventory. -->

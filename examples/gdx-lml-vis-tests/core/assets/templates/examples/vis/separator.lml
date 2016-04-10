@@ -1,0 +1,16 @@
+<!-- Separators are simple actors used for - as you
+    might guess - separating widgets in groups. They
+    have no extra attributes and cannot be parents. -->
+
+<table defaultGrowX=true oneColumn=true>
+    <table>
+        <textButton grow=true>Button</textButton>
+        <separator growY=true pad=2/>
+        <textButton grow=true>Button</textButton>
+    </table>
+    <separator padTop=3 padBottom=3/>
+    <textButton>Button</textButton>
+</table>
+
+<!-- For specialized menu separator style, use
+    "menuSeparator" tag. See menu.lml example. -->

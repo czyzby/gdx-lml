@@ -1,0 +1,17 @@
+<!-- Regular for-each macro can be used to iterate
+    over multiple LML arrays at once. To nest multiple
+    iterations, you can literally nest for-each macros.
+    But sometimes you need a common iteration index -
+    the easiest way to achieve this is using a nested
+    for-each macro. -->
+
+<@eachNested color=white;vis-blue
+        value=First;Second;Third range=[-1,-3]>
+    <label color={color}>
+        {eachNested:index}: {value}{range}
+    </label>
+</@eachNested>
+
+<!-- Iteration index is available through
+    {tagName:index} argument, where "tagName"
+    is the alias of macro tag you used. -->

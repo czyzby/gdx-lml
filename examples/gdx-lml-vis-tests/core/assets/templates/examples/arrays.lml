@@ -1,0 +1,32 @@
+<!-- LML supports array types, which are usually
+    used only by loop macros. Typically, array
+    values are separated with ';'. -->
+
+<@for element="first;second;third">
+    <label>{element}</label>
+</@for>
+
+<!-- Any object array (or Iterable) can be converted
+    to a string array and iterated over in LML. You can
+    reference Java arrays thanks to methods - as usual,
+    '$' marker is used to reference an action. -->
+ 
+<@for value=$someMethodReturningArray>
+    <label color=vis-blue>{value}</label>
+</@for>
+
+<!-- Arrays also parse ranges. Ranges are useful to
+    iterate over certain numbers or sequences of
+    strings (for example: bundle line names). -->
+
+<@for value=range[0,2]>
+    <label>{value}</label>
+</@for>
+
+<!-- Ranges and regular array elements can be used
+    together. Ranges can parse their start and end
+    values from i18n bundles or preferences. -->
+
+<@for value=Complex;array:;range[-1,@endFromBundle];$someMethodReturningArray>
+    <label color=vis-blue>{value}</label>
+</@for>

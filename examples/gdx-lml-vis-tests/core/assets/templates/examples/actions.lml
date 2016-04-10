@@ -1,0 +1,35 @@
+<!-- Actions are another powerful way of interacting
+    with LML from Java. Before parsing, you can register
+    ActorConsumers (single action functional interface)
+    and ActionContainers (reflected classes with their
+    methods available in LML templates). By using '$'
+    marker, you can access your registered methods. -->
+
+<label>$someAction</label>
+<label>$someNamedAction</label>
+
+<!-- Methods can consume no arguments or one argument.
+    If one argument action is found, it will be invoked
+    with the actor that contains the action. For example,
+    This will be invoked with the container: -->
+
+<container size=$size>
+    <textButton>
+        Random-sized thanks to a method.
+    </textButton>
+</container>
+
+<!-- Invoked with the label: -->
+<label>$labelConsumer</label>
+
+<!-- Some attributes expect a method reference. If that's
+    the case, '$' marker is not required. -->
+<textButton onClick=pressButton>Click me!</textButton>
+<progressBar onCreate=setInitialValue />
+
+<!-- If multiple ActionContainers are registered, proceeding
+    method invocation with container's ID and a dot will
+    select a specific container. Otherwise, the first found
+    method is chosen - order is undetermined. -->
+
+<label>$custom.someMethod</label>

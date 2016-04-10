@@ -1,0 +1,16 @@
+<!-- Any actor can have the Draggable listener
+    attached with draggable tag. -->
+    
+<label>Draggable.
+    <draggable invisible=true/>
+</label>
+
+<textButton>Drag me!
+    <draggable alpha=0.6 movingTime=0.5 />
+</textButton>
+
+<!-- Draggable behavior can be modified with a
+    DragListener instance. Custom DragListener
+    implementation can be attached with listener
+    attribute: "listener=methodReturningDragListener".
+    Method can consume no arguments or a Draggable. -->

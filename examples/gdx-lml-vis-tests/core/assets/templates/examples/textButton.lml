@@ -1,0 +1,21 @@
+<!-- Text buttons are buttons extended with an
+    internal label. Additionally to button attributes,
+    they can also have attributes of labels that
+    will affect their text. -->
+
+<textButton>Hello.</textButton>
+
+<!-- Since buttons extend table, they can have any
+    children. On contrary to tables and regular
+    buttons, textButtons will append plain text
+    between their tags to their internal label. -->
+
+<textButton text="Initial." multiline=true>
+    This will be also
+    appended to button text.
+    No new labels are created.
+    <mock row=true/>
+    <label color="vis-blue">
+        This is a separate label.
+    </label>
+</textButton>
