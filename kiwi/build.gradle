@@ -1,0 +1,101 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+sourceSets.main.java.srcDirs = [ "src/" ]
+sourceCompatibility = 1.6
+
+ext {
+    libVersion = '1.6'
+    gdxVersion = '1.9.2'
+    isSnapshot = '-SNAPSHOT'
+}
+
+group = "com.github.czyzby"
+archivesBaseName = "gdx-kiwi"
+version = "$libVersion.$gdxVersion$isSnapshot"
+
+configurations {
+    deployerJars
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+jar {
+    from project.sourceSets.main.allSource
+    from project.sourceSets.main.output
+    baseName = 'gdx-kiwi'
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+dependencies {
+    compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    deployerJars "org.apache.maven.wagon:wagon-ssh:2.2"
+    deployerJars "org.apache.maven.wagon:wagon-http:2.2"
+}
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+        authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+        authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      pom.project {
+        name 'Gdx Kiwi'
+        packaging 'jar'
+        description 'Guava-inspired set of utilities for LibGDX.'
+        url 'http://github.com/czyzby/gdx-lml'
+
+        licenses {
+          license {
+            name 'The Apache License, Version 2.0'
+            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+          }
+        }
+        
+        scm {
+          connection 'scm:git:git@github.com:czyzby/gdx-kiwi.git'
+          developerConnection 'scm:git:git@github.com:czyzby/gdx-kiwi.git'
+          url 'http://github.com/czyzby/gdx-kiwi/'
+        }
+
+        developers {
+          developer {
+            id 'mj'
+            name 'MJ'
+            email 'john.hervicc@gmail.com'
+          }
+        }
+      }
+    }
+  }
+}
