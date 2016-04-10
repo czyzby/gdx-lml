@@ -8,7 +8,7 @@ import com.github.czyzby.lml.parser.tag.LmlTagProvider;
 /** Provides assign macro tags.
  *
  * @author MJ */
-public class AssignLmlMarcoTagProvider implements LmlTagProvider {
+public class AssignLmlMacroTagProvider implements LmlTagProvider {
     @Override
     public LmlTag create(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         return new AssignLmlMacroTag(parser, parentTag, rawTagData);

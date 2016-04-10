@@ -3,6 +3,7 @@ package com.github.czyzby.lml.parser.impl.tag.macro;
 import com.github.czyzby.kiwi.util.common.Nullables;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
+import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.action.ActorConsumer;
 import com.github.czyzby.lml.parser.impl.tag.AbstractMacroLmlTag;
@@ -34,8 +35,22 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * other LML argument: {argumentName}. Note that tags between evaluate macro tags are NOT parsed and will be sent as
  * plain text to the method; LML arguments, on the other hand, will be properly replaced.
  *
+ * <p>
+ * This macro can be also used with named parameters: <blockquote>
+ *
+ * <pre>
+ * &lt;:evaluate method="methodId" id="argumentName"&gt;Method argument&lt;/:evaluate&gt;
+ * </pre>
+ *
+ * </blockquote>
+ *
  * @author MJ */
 public class EvaluateLmlMacroTag extends AbstractMacroLmlTag {
+    /** Optional name of first attribute: method name. */
+    public static final String METHOD_ATTRIBUTE = "method";
+    /** Optional name of second attribute: argument ID. */
+    public static final String ID_ATTRIBUTE = "id";
+
     private String methodArgument;
 
     public EvaluateLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
@@ -86,6 +101,11 @@ public class EvaluateLmlMacroTag extends AbstractMacroLmlTag {
 
     /** @return attribute assigned to method ID. */
     protected String getMethodId() {
+        if (hasAttribute(METHOD_ATTRIBUTE)) {
+            return getAttribute(METHOD_ATTRIBUTE);
+        } else if (GdxMaps.isNotEmpty(getNamedAttributes())) {
+            getParser().throwError("Evaluate macro needs 'method' attribute. Got: " + getNamedAttributes());
+        }
         return getAttributes().get(0);
     }
 
@@ -96,6 +116,14 @@ public class EvaluateLmlMacroTag extends AbstractMacroLmlTag {
 
     /** @return name of the argument that should be assigned to the result of the evaluated method. */
     protected String getAssignmentArgumentName() {
+        if (hasAttribute(ID_ATTRIBUTE)) {
+            return getAttribute(ID_ATTRIBUTE);
+        }
         return getAttributes().get(1);
+    }
+
+    @Override
+    public String[] getExpectedAttributes() {
+        return new String[] { METHOD_ATTRIBUTE, ID_ATTRIBUTE };
     }
 }

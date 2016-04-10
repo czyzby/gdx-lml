@@ -26,6 +26,16 @@ public abstract class AbstractMacroLmlTag extends AbstractLmlTag {
         return false;
     }
 
+    @Override
+    protected boolean supportsOptionalNamedAttributes() {
+        return true;
+    }
+
+    /** @return array of default attributes that the macro is prepared to handle. For debugging purposes. */
+    public String[] getExpectedAttributes() {
+        return Strings.EMPTY_ARRAY;
+    }
+
     /** @param content will have the arguments replaced.
      * @param macroArguments map of private macro arguments. This should be a separate map than these managed by LML
      *            data container, as regular LML arguments should not be parsed directly by the macro - marco replaces
@@ -104,6 +114,6 @@ public abstract class AbstractMacroLmlTag extends AbstractLmlTag {
 
     /** @return macro tag attributes converted to a single equation, with escaped characters properly converted. */
     protected String convertAttributesToEquation() {
-        return Strings.merge((Object[]) getAttributes().toArray()).replace("&gt;", ">");
+        return Strings.merge((Object[]) getAttributes().toArray());
     }
 }

@@ -53,6 +53,9 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <li>Rule 8: it does.
  * </ul>
  * Total runs amount is equal to multiplied sizes of passed arrays.
+ * <p>
+ * When using default DTD settings, "element" is the only recognized macro attribute. As this does not allow you to
+ * create nested loops or iterate over multiple arrays at once, you might want to modify DTD files manually.
  *
  * @author MJ */
 public class NestedForEachLmlMacroTag extends AbstractLoopLmlMacroTag {
@@ -120,5 +123,10 @@ public class NestedForEachLmlMacroTag extends AbstractLoopLmlMacroTag {
             indexes.set(arrayId, 0);
             incrementIndex(arrayId - 1);
         }
+    }
+
+    @Override
+    public String[] getExpectedAttributes() {
+        return new String[] { ELEMENT_ATTRIBUTE };
     }
 }

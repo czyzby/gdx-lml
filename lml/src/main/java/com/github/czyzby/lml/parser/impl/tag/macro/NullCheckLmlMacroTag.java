@@ -30,6 +30,15 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * other hand, fails if the argument is null, as macro will receive "nullnull" and evaluate to true. Yeah, stick to
  * nested tags.
  *
+ * <p>
+ * Note that his macro can be also used with named parameters:<blockquote>
+ *
+ * <pre>
+ * &lt;:notNull test="{arg0} {arg1}"&gt;
+ * </pre>
+ *
+ * </blockquote>
+ *
  * @author MJ */
 public class NullCheckLmlMacroTag extends AbstractConditionalLmlMacroTag {
     public NullCheckLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
@@ -43,17 +52,29 @@ public class NullCheckLmlMacroTag extends AbstractConditionalLmlMacroTag {
             // empty string, for example. Assuming that no params = received null.
             return false;
         }
+        if (hasAttribute(TEST_ATTRIBUTE)) {
+            return testAttribute(getAttribute(TEST_ATTRIBUTE));
+        }
         for (final String attribute : getAttributes()) {
-            if (isAction(attribute)) {
-                final Object result = invokeAction(attribute);
-                if (isNullOrFalse(result)) {
-                    // Method result is empty or false.
-                    return false;
-                }
-            } else if (isNullOrFalse(attribute)) {
-                // Attribute is blank, equals "null" or "false" - assuming the attribute is null.
+            if (!testAttribute(attribute)) {
                 return false;
             }
+        }
+        return true;
+    }
+
+    /** @param attribute will be tested.
+     * @return true if is null. */
+    private boolean testAttribute(final String attribute) {
+        if (isAction(attribute)) {
+            final Object result = invokeAction(attribute);
+            if (isNullOrFalse(result)) {
+                // Method result is empty or false.
+                return false;
+            }
+        } else if (isNullOrFalse(attribute)) {
+            // Attribute is blank, equals "null" or "false" - assuming the attribute is null.
+            return false;
         }
         return true;
     }

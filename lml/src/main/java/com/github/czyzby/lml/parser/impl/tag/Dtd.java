@@ -1,15 +1,21 @@
 package com.github.czyzby.lml.parser.impl.tag;
 
+import java.io.IOException;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.github.czyzby.kiwi.util.common.Exceptions;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.lml.parser.LmlParser;
+import com.github.czyzby.lml.parser.impl.attribute.table.cell.AbstractCellLmlAttribute;
 import com.github.czyzby.lml.parser.impl.tag.macro.AbstractConditionalLmlMacroTag;
+import com.github.czyzby.lml.parser.impl.tag.macro.TableRowLmlMacroTag;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
+import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.parser.tag.LmlTagProvider;
 import com.github.czyzby.lml.util.Lml;
@@ -25,9 +31,30 @@ public class Dtd {
      *            all used actors' styles for the generator to work properly.
      * @return DTD schema file containing all possible tags and their attributes. Any problems with the generation will
      *         be logged. This is a relatively heavy operation and should be done only during development.
-     * @see #getDtdSchema(LmlParser) */
+     * @see #getDtdSchema(LmlParser, Appendable) */
     public static String getSchema(final LmlParser parser) {
-        return new Dtd().getDtdSchema(parser);
+        final StringBuilder builder = new StringBuilder();
+        try {
+            new Dtd().getDtdSchema(parser, builder);
+        } catch (final IOException exception) {
+            throw new GdxRuntimeException("Unexpected: unable to append.", exception);
+        }
+        return builder.toString();
+    }
+
+    /** Saves DTD schema file containing all possible tags and their attributes. Any problems with the generation will
+     * be logged. This is a relatively heavy operation and should be done only during development.
+     *
+     * @param parser contains parsing data. Used to create mock-up actors. The skin MUST be fully loaded and contain all
+     *            used actors' styles for the generator to work properly.
+     * @param appendable a reference to the file.
+     * @see #getDtdSchema(LmlParser, Appendable) */
+    public static void saveSchema(final LmlParser parser, final Appendable appendable) {
+        try {
+            new Dtd().getDtdSchema(parser, appendable);
+        } catch (final IOException exception) {
+            throw new GdxRuntimeException("Unable to append to file.", exception);
+        }
     }
 
     /** @param displayLogs defaults to true. If set to false, parsing messages will not be shown in the console. */
@@ -42,29 +69,32 @@ public class Dtd {
         }
     }
 
-    /** @param parser contains parsing data. Used to create mock-up actors. The skin MUST be fully loaded and contain
-     *            all used actors' styles for the generator to work properly.
-     * @return DTD schema file containing all possible tags and their attributes. Any problems with the generation will
-     *         be logged. This is a relatively heavy operation and should be done only during development. */
-    public String getDtdSchema(final LmlParser parser) {
-        final StringBuilder builder = new StringBuilder();
+    /** Creates DTD schema file containing all possible tags and their attributes. Any problems with the generation will
+     * be logged. This is a relatively heavy operation and should be done only during development.
+     *
+     * @param parser contains parsing data. Used to create mock-up actors. The skin MUST be fully loaded and contain all
+     *            used actors' styles for the generator to work properly.
+     * @param builder values will be appended to this object.
+     * @throws IOException when unable to append. */
+    public void getDtdSchema(final LmlParser parser, final Appendable builder) throws IOException {
         appendActorTags(builder, parser);
         appendActorAttributes(parser, builder);
         appendMacroTags(builder, parser);
-        return builder.toString();
+        appendMacroAttributes(parser, builder);
     }
 
-    protected void appendDtdElement(final StringBuilder builder, final String comment, final String name) {
+    protected void appendDtdElement(final Appendable builder, final String comment, final String name)
+            throws IOException {
         appendDtdElement(builder, comment, Strings.EMPTY_STRING, name);
     }
 
-    protected void appendDtdElement(final StringBuilder builder, final String comment, final String prefix,
-            final String name) {
+    protected void appendDtdElement(final Appendable builder, final String comment, final String prefix,
+            final String name) throws IOException {
         appendDtdElement(builder, comment, prefix, name, "ANY");
     }
 
-    protected void appendDtdElement(final StringBuilder builder, final String comment, final String prefix,
-            final String name, final String type) {
+    protected void appendDtdElement(final Appendable builder, final String comment, final String prefix,
+            final String name, final String type) throws IOException {
         if (!name.matches(XML_ELEMENT_REGEX)) {
             log("Warning: '" + name + "' tag might contain invalid XML characters.");
         }
@@ -72,8 +102,8 @@ public class Dtd {
         builder.append("<!ELEMENT ").append(prefix).append(name).append(' ').append(type).append(">\n");
     }
 
-    protected void appendDtdAttributes(final StringBuilder builder, final String tagName,
-            final ObjectMap<String, Object> attributes) {
+    protected void appendDtdAttributes(final Appendable builder, final String tagName,
+            final ObjectMap<String, Object> attributes) throws IOException {
         builder.append("<!ATTLIST ").append(tagName);
         for (final Entry<String, Object> attribute : attributes) {
             if (!attribute.key.matches(XML_ELEMENT_REGEX)) {
@@ -85,7 +115,7 @@ public class Dtd {
         builder.append(">\n");
     }
 
-    protected void appendActorTags(final StringBuilder builder, final LmlParser parser) {
+    protected void appendActorTags(final Appendable builder, final LmlParser parser) throws IOException {
         builder.append("<!-- Actor tags: -->\n");
         final ObjectMap<String, LmlTagProvider> actorTags = parser.getSyntax().getTags();
         for (final Entry<String, LmlTagProvider> actorTag : actorTags) {
@@ -100,7 +130,7 @@ public class Dtd {
     }
 
     @SuppressWarnings("unchecked")
-    protected void appendActorAttributes(final LmlParser parser, final StringBuilder builder) {
+    protected void appendActorAttributes(final LmlParser parser, final Appendable builder) throws IOException {
         builder.append("<!-- Actor tags' attributes: -->\n");
         final ObjectMap<String, LmlTagProvider> actorTags = parser.getSyntax().getTags();
         for (final Entry<String, LmlTagProvider> actorTag : actorTags) {
@@ -141,7 +171,7 @@ public class Dtd {
         }
     }
 
-    protected void appendMacroTags(final StringBuilder builder, final LmlParser parser) {
+    protected void appendMacroTags(final Appendable builder, final LmlParser parser) throws IOException {
         builder.append("<!-- Macro tags: -->\n");
         final String macroMarker = String.valueOf(parser.getSyntax().getMacroMarker());
         if (!macroMarker.matches(XML_ELEMENT_REGEX)) {
@@ -157,6 +187,42 @@ public class Dtd {
                 if (tag instanceof AbstractConditionalLmlMacroTag) {
                     appendDtdElement(builder, "'Else' helper tag of: " + macroTag.key, macroMarker,
                             macroTag.key + AbstractConditionalLmlMacroTag.ELSE_SUFFIX, "EMPTY");
+                }
+            } catch (final Exception expected) {
+                // Tag might need a parent or additional attributes and cannot be checked. It's OK.
+                Exceptions.ignore(expected);
+            }
+        }
+    }
+
+    protected void appendMacroAttributes(final LmlParser parser, final Appendable builder) throws IOException {
+        builder.append("<!-- Expected macro tags' attributes: -->\n");
+        final String macroMarker = String.valueOf(parser.getSyntax().getMacroMarker());
+        final ObjectMap<String, LmlTagProvider> macroTags = parser.getSyntax().getMacroTags();
+        for (final Entry<String, LmlTagProvider> macroTag : macroTags) {
+            try {
+                final LmlTag tag = macroTag.value.create(parser, null, new StringBuilder(macroTag.key));
+                if (tag instanceof TableRowLmlMacroTag) {
+                    // Special case: listing all cell attributes:
+                    final Actor mockUp = new Actor();
+                    final ObjectMap<String, Object> attributes = GdxMaps.newObjectMap();
+                    for (final Entry<String, LmlAttribute<?>> attribute : parser.getSyntax()
+                            .getAttributesForActor(mockUp)) {
+                        if (attribute.value instanceof AbstractCellLmlAttribute) {
+                            attributes.put(attribute.key, attribute.value);
+                        }
+                    }
+                    appendDtdAttributes(builder, macroMarker + macroTag.key, attributes);
+                } else if (tag instanceof AbstractMacroLmlTag) {
+                    final String[] attributeNames = ((AbstractMacroLmlTag) tag).getExpectedAttributes();
+                    if (attributeNames == null || attributeNames.length == 0) {
+                        continue;
+                    }
+                    final ObjectMap<String, Object> attributes = GdxMaps.newObjectMap();
+                    for (final String attributeName : attributeNames) {
+                        attributes.put(attributeName, tag);
+                    }
+                    appendDtdAttributes(builder, macroMarker + macroTag.key, attributes);
                 }
             } catch (final Exception expected) {
                 // Tag might need a parent or additional attributes and cannot be checked. It's OK.

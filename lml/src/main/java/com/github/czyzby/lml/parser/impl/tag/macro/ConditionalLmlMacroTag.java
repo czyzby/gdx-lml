@@ -69,6 +69,17 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * argument value or if the "marker" argument equals ignore case "continue" string. As you can see, parenthesis support
  * is available.
  *
+ * <p>
+ * This macro can also be used with named attributes: <blockquote>
+ *
+ * <pre>
+ * &lt;:if test="{loop:index}%4=0"&gt;
+ *      &lt;label row="true"/&gt;
+ * &lt;/:if&gt;
+ * </pre>
+ *
+ * </blockquote>
+ *
  * @author MJ */
 public class ConditionalLmlMacroTag extends AbstractConditionalLmlMacroTag {
     public ConditionalLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
@@ -80,7 +91,8 @@ public class ConditionalLmlMacroTag extends AbstractConditionalLmlMacroTag {
         if (GdxArrays.isEmpty(getAttributes())) {
             return false;
         }
-        final String conditionContent = convertAttributesToEquation();
+        final String conditionContent = hasAttribute(TEST_ATTRIBUTE) ? getAttribute(TEST_ATTRIBUTE)
+                : convertAttributesToEquation();
         return new Equation(getParser(), getActor()).getBooleanResult(conditionContent);
     }
 }

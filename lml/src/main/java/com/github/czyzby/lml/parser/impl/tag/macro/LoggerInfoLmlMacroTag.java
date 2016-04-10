@@ -11,6 +11,7 @@ import com.github.czyzby.lml.util.Lml;
  * &lt;:log Info: {arg} /&gt;
  * &lt;:log Info:&gt;{arg}&lt;/:log&gt;
  * &lt;:log&gt;Info: {arg}&lt;/:log&gt;
+ * &lt;:log log="Info: {arg}" /&gt;
  * </pre>
  *
  * </blockquote>All of these macro invocations will log "Info:" string joined with the current value assigned to "arg"

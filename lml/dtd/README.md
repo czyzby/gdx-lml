@@ -12,9 +12,12 @@ To generate a *DTD* file, fully create your parser (including the loaded skin!) 
 
 ```
         LmlParser parser = Lml.parser(getMySkin()).build();
+        parser.setStrict(false); // This will prevent some possible exceptions -
+                                 // DTD schema will contain more tags and attributes.
         // TODO If you have any custom tags or attributes, add them before generating!
+        // Also, parse your custom macro templates - they will also be added.
         try (PrintStream out = new PrintStream(new FileOutputStream("lml.dtd"))) {
-            out.print(Dtd.getSchema(parser));
+            Dtd.saveSchema(parser, out);
         } catch (final Exception exception) {
             // Should never happen for valid files.
         }
@@ -59,11 +62,7 @@ There are no *XML* comments in content assist, not really. However, all elements
 
 Some attributes are marked as allowed for certain tags, but available only under some conditions. For example, all tags can have table cell attributes, but if they are not actually in a table, an exception will be thrown in runtime rather than by the IDE.
 
-Also, there is no way to allow an element to have any attributes in *DTD*. Of course, things like this:
-```
-        <:if {argument} < 13 || {argument} != 20>
-```
-...are invalid *XML* tags no matter how hard we try, but there are some macros that *could* be valid if only they could use any attributes. *XSD* schema generator might be provided some day, but for now - you can either accept that most of your macro tags will be marked red, or modify *DTD* files to add your attributes manually.
+Also, there is no way to allow an element to have *any* attributes in *DTD*. There are some macros where you can enter any attribute names and would work as expected - they *could* be valid if only attribute name validation could be turned off for them. *XSD* schema generator might be provided some day, but for now - you can either accept that most of your macro tags will be marked red, or modify *DTD* files to add your attributes manually.
 
 So, why would you even want to use *DTD*? Two words: content assist. And comments in *XML* (kinda, sorta). Who knows, if you don't use advanced macros much, your templates might even be valid *XML*.
 

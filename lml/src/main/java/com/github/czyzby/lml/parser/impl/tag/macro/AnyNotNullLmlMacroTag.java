@@ -19,19 +19,30 @@ public class AnyNotNullLmlMacroTag extends AbstractConditionalLmlMacroTag {
             // No arguments - this might happen even if the macro was properly invoked - with an argument that returns
             // empty string, for example. Assuming that no params = received null.
             return false;
+        } else if (hasAttribute(TEST_ATTRIBUTE)) {
+            return testAttribute(getAttribute(TEST_ATTRIBUTE));
         }
         for (final String attribute : getAttributes()) {
-            if (isAction(attribute)) {
-                final Object result = invokeAction(attribute);
-                if (!isNullOrFalse(result)) {
-                    // Method result not empty or "false".
-                    return true;
-                }
-            }
-            if (!isNullOrFalse(attribute)) {
-                // Attribute is not blank, not equals "null" or "false" - assuming the attribute is valid.
+            if (testAttribute(attribute)) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    /** @param attribute will be tested.
+     * @return true if attribute is considered blank. */
+    protected boolean testAttribute(final String attribute) {
+        if (isAction(attribute)) {
+            final Object result = invokeAction(attribute);
+            if (!isNullOrFalse(result)) {
+                // Method result not empty or "false".
+                return true;
+            }
+        }
+        if (!isNullOrFalse(attribute)) {
+            // Attribute is not blank, not equals "null" or "false" - assuming the attribute is valid.
+            return true;
         }
         return false;
     }

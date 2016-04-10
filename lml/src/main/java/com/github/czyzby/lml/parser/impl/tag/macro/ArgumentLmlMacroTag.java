@@ -20,6 +20,15 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <li>{arg1}: {@code "Value extracted from .properties file mapped to 'bundle'."}
  * <li>{arg2}: {@code "Value extracted from Preferences object mapped to 'preference'."}
  * </ul>
+ * <p>
+ * This macro can be also used with named parameters:<blockquote>
+ *
+ * <pre>
+ * &lt;:argument key="arg0" value="Value"/&gt;
+ * </pre>
+ *
+ * </blockquote>
+ *
  *
  * @author MJ */
 public class ArgumentLmlMacroTag extends AssignLmlMacroTag {

@@ -30,6 +30,14 @@ import com.github.czyzby.lml.util.LmlUtilities;
  * "Method argument" (which was between macro tags). The actor's ID will be set as "actorId", as specified by second
  * macro attribute. Since this macro is not in another tag, this actor will be added directly to the result collection
  * and will not be appended by any parent.
+ * <p>
+ * This macro can be also used with named parameters: <blockquote>
+ *
+ * <pre>
+ * &lt;:actor method="methodId" id="actorId"&gt;Method argument&lt;/:actor&gt;
+ * </pre>
+ *
+ * </blockquote>
  *
  * @author MJ */
 public class ActorLmlMacroTag extends EvaluateLmlMacroTag {

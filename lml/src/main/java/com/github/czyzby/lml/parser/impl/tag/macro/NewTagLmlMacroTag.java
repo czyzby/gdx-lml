@@ -108,6 +108,11 @@ public class NewTagLmlMacroTag extends AbstractMacroLmlTag {
     }
 
     @Override
+    protected boolean supportsOptionalNamedAttributes() {
+        return false;
+    }
+
+    @Override
     @SuppressWarnings("unchecked") // Casting actions, the usual stuff.
     public void closeTag() {
         final Array<String> attributes = getAttributes();

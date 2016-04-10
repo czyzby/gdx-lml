@@ -40,7 +40,12 @@ public class LoopLmlMacroTag extends AbstractLoopLmlMacroTag {
             getParser().throwErrorIfStrict("Loop macro needs at least one attribute: runs amount.");
             return 0;
         }
-        final int amount = getParser().parseInt(getAttributes().first(), getActor());
+        final int amount;
+        if (hasAttribute(TIMES_ATTRIBUTE)) {
+            amount = getParser().parseInt(getAttribute(TIMES_ATTRIBUTE), getActor());
+        } else {
+            amount = getParser().parseInt(getAttributes().first(), getActor());
+        }
         if (amount < 0) {
             getParser().throwErrorIfStrict("Loop macro runs amount cannot be negative.");
             return 0;
@@ -61,5 +66,10 @@ public class LoopLmlMacroTag extends AbstractLoopLmlMacroTag {
     @Override
     protected void next(final ObjectMap<String, String> arguments) {
         currentIndex++;
+    }
+
+    @Override
+    public String[] getExpectedAttributes() {
+        return new String[] { TIMES_ATTRIBUTE };
     }
 }

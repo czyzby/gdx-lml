@@ -31,11 +31,24 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * (ignoring case) + closedTagMarker (/) + tagClosing (&gt;). Typos or whitespaces in else tags might result in invalid
  * parsing.
  *
+ * <p>
+ * All conditional tags can be used with named attributes:<blockquote>
+ *
+ * <pre>
+ * &lt;:if test="5!=3"&gt;
+ *      Added on true.
+ * &lt;/:if&gt;
+ * </pre>
+ *
+ * </blockquote>
+ *
  * @author MJ */
 public abstract class AbstractConditionalLmlMacroTag extends AbstractMacroLmlTag {
     /** This value is appended to original macro tag name to create if-else functionality. {@literal <name:else/>} tag
      * should separate value appended on true "true" from "false". */
     public static final String ELSE_SUFFIX = ":else";
+    /** When using named parameters, this value is used to construct the condition instead of other attributes. */
+    public static final String TEST_ATTRIBUTE = "test";
 
     public AbstractConditionalLmlMacroTag(final LmlParser parser, final LmlTag parentTag,
             final StringBuilder rawTagData) {
@@ -97,5 +110,10 @@ public abstract class AbstractConditionalLmlMacroTag extends AbstractMacroLmlTag
     protected boolean isNullOrFalse(final String value) {
         return value == null || Strings.isWhitespace(value) || Nullables.DEFAULT_NULL_STRING.equalsIgnoreCase(value)
                 || Boolean.FALSE.toString().equalsIgnoreCase(value);
+    }
+
+    @Override
+    public String[] getExpectedAttributes() {
+        return new String[] { TEST_ATTRIBUTE };
     }
 }

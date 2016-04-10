@@ -71,6 +71,7 @@ public abstract class AbstractLmlTag implements LmlTag {
 
     private static String[] extractTagEntities(final StringBuilder rawTagData, final LmlParser parser) {
         Strings.replace(rawTagData, "\\n", "\n");
+        Strings.replace(rawTagData, "&gt;", ">");
         // Counting separate entities:
         int entitiesAmount = 0;
         boolean inQuotation = false, inDoubleQuotation = false, lastCharWhitespace = true;

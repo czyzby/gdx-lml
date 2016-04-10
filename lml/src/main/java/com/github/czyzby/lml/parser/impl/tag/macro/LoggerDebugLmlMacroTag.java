@@ -11,6 +11,7 @@ import com.github.czyzby.lml.util.Lml;
  * &lt;:debug Debug: {arg} /&gt;
  * &lt;:debug Debug:&gt;{arg}&lt;/:debug&gt;
  * &lt;:debug&gt;Debug: {arg}&lt;/:debug&gt;
+ * &lt;:debug log="Debug: {arg}" /&gt;
  * </pre>
  *
  * </blockquote>All of these macro invocations will log "Debug:" string joined with the current value assigned to "arg"

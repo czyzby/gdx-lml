@@ -8,7 +8,7 @@ import com.github.czyzby.lml.parser.tag.LmlTagProvider;
 /** Provides exception macro tags.
  *
  * @author MJ */
-public class ExceptionLmlMactoTagProvider implements LmlTagProvider {
+public class ExceptionLmlMacroTagProvider implements LmlTagProvider {
     @Override
     public LmlTag create(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         return new ExceptionLmlMacroTag(parser, parentTag, rawTagData);

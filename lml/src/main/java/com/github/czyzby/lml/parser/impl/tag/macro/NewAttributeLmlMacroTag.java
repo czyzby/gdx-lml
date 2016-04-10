@@ -71,6 +71,11 @@ public class NewAttributeLmlMacroTag extends AbstractMacroLmlTag {
     }
 
     @Override
+    protected boolean supportsOptionalNamedAttributes() {
+        return false;
+    }
+
+    @Override
     public void closeTag() {
         final Array<String> attributes = getAttributes();
         if (GdxArrays.sizeOf(attributes) < 2) {

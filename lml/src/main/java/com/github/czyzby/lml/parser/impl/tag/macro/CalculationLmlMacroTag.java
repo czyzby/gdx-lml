@@ -81,6 +81,15 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * {@link com.github.czyzby.lml.parser.LmlSyntax#getEquationMarker() Equation marker} is a simplified alternative to
  * this macro.
  *
+ * <p>
+ * This macro can also be used with named attributes: <blockquote>
+ *
+ * <pre>
+ * &lt;:calculate key="meaningOfLife" value="40+2"/&gt;
+ * </pre>
+ *
+ * </blockquote>
+ *
  * @author MJ */
 public class CalculationLmlMacroTag extends AssignLmlMacroTag {
     public CalculationLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
@@ -90,7 +99,6 @@ public class CalculationLmlMacroTag extends AssignLmlMacroTag {
     @Override
     protected String processArgumentValue(final String argumentValue) {
         return new Equation(getParser(), getActor())
-                .getResult(replaceArguments(argumentValue.replace("&gt;", ">"), getParser().getData().getArguments()));
-
+                .getResult(replaceArguments(argumentValue, getParser().getData().getArguments()));
     }
 }

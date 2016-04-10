@@ -103,6 +103,11 @@ public class MetaLmlMacroTag extends AbstractMacroLmlTag {
     }
 
     @Override
+    protected boolean supportsOptionalNamedAttributes() {
+        return false;
+    }
+
+    @Override
     public void handleDataBetweenTags(final String rawMacroContent) {
         if (GdxArrays.isEmpty(getAttributes())) {
             getParser().throwErrorIfStrict("Custom macro tag needs at least one attribute: tag names array.");
@@ -274,6 +279,14 @@ public class MetaLmlMacroTag extends AbstractMacroLmlTag {
                 arguments.put(attributeNames.get(index),
                         index < attributes.size ? attributes.get(index) : defaultAttributeValues.get(index));
             }
+        }
+
+        @Override
+        public String[] getExpectedAttributes() {
+            // Creating typed array. This is a debugging method anyway.
+            final Array<String> typedArray = GdxArrays.newArray(String.class);
+            typedArray.addAll(attributeNames);
+            return typedArray.toArray();
         }
     }
 }
