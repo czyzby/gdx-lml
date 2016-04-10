@@ -39,6 +39,7 @@ If you want to use LML with GWT, you have to add this module to your `GdxDefinit
 - Macro marker was changed from `@` to `:`. While it required to switch a single character in the actual source code, this is actually a major update. This change breaks all LML templates that used any macro tags. `@` was a poor choice in the first place: it can be confused with the i18n bundle marker (also `@`) and is not a valid XML character. Since `DTD` supported was added, invalid macro sign was no longer an option. Quick conversion tip: replace `<@` and `</@` with `<:` and `</:` in all `*.lml` files.
 - Removed `/*` alias for comment macro. Since `DTD` creator was added to LML, now it is possible to create templates that are somewhat-valid `XML` files. `/*` was the only default tag that used forbidden `XML` characters.
 - New actor: `AnimatedImage`. Extends the regular `Image`; manages an array of drawables updated on `act` method. Allows to display a set of images in the specified way. Available through `animate, animation, animatedImage` tags.
+- Proper `<!DOCTYPE>` tag parsing according to the XML standards. Added helper methods: `LmlSyntax#getDocumentTypeOpening()`, `LmlTemplateReader#startsWith(CharSequence)`. These interface modifications will not affect your applications unless you modified or extended LML internals.
 
 1.5.1.8.0 -> 1.5.1.9.2
 
