@@ -1,0 +1,137 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+sourceSets.main.java.srcDirs = [ "src/" ]
+sourceCompatibility = 1.6
+
+ext {
+    libVersion = '1.6'
+    gdxVersion = '1.9.2'
+    isSnapshot = '-SNAPSHOT'
+    androidVersion = '4.1.1.4'
+}
+
+group = "com.github.czyzby"
+archivesBaseName = "gdx-autumn-android"
+version = "$libVersion.$gdxVersion$isSnapshot"
+
+configurations {
+    optional
+    compile.extendsFrom optional
+    deployerJars
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+jar {
+    from project.sourceSets.main.allSource
+    from project.sourceSets.main.output
+    baseName = 'gdx-autumn-android'
+}
+
+javadoc {
+    options.addStringOption("sourcepath", "")
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+dependencies {
+    compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
+    compile "com.github.czyzby:gdx-autumn:$libVersion.$gdxVersion$isSnapshot"
+    optional "com.google.android:android:$androidVersion"
+    deployerJars "org.apache.maven.wagon:wagon-ssh:2.2"
+    deployerJars "org.apache.maven.wagon:wagon-http:2.2"
+}
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+        repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+          authentication(userName: ossrhUsername, password: ossrhPassword)
+        }
+
+        snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+          authentication(userName: ossrhUsername, password: ossrhPassword)
+        }
+      
+      pom.withXml {
+        asNode().dependencies.dependency.findAll { xmlDep ->
+          // mark optional dependencies
+          if ( project.configurations.optional.allDependencies.findAll { dep ->
+            xmlDep.groupId.text() == dep.group && xmlDep.artifactId.text() == dep.name
+          } ) {
+            def xmlOptional = xmlDep.optional[ 0 ];
+            if ( !xmlOptional ) {
+              xmlOptional = xmlDep.appendNode( 'optional' )
+            }
+            xmlOptional.value = 'true';
+          }
+
+          // fix maven-publish issue when all maven dependencies are placed into runtime scope
+          if ( project.configurations.compile.allDependencies.findAll { dep ->
+            xmlDep.groupId.text() == dep.group && xmlDep.artifactId.text() == dep.name
+          } ) {
+            def xmlScope = xmlDep.scope[ 0 ];
+            if ( !xmlScope ) {
+              xmlScope = xmlDep.appendNode( 'scope' )
+            }
+            xmlScope.value = 'compile';
+          }
+        }
+      }
+
+      pom.project {
+        name 'Gdx Autumn Android'
+        packaging 'jar'
+        description 'Autumn component scanner for Android.'
+        url 'http://github.com/czyzby/gdx-autumn-android'
+
+        licenses {
+          license {
+            name 'The Apache License, Version 2.0'
+            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+          }
+        }
+        
+        scm {
+          connection 'scm:git:git@github.com:czyzby/gdx-autumn-android.git'
+          developerConnection 'scm:git:git@github.com:czyzby/gdx-autumn-android.git'
+          url 'http://github.com/czyzby/gdx-autumn-android/'
+        }
+
+        developers {
+          developer {
+            id 'mj'
+            name 'MJ'
+            email 'john.hervicc@gmail.com'
+          }
+        }
+      }
+    }
+  }
+}
+
+
