@@ -13,7 +13,7 @@ import com.kotcrab.vis.ui.widget.VisWindow;
  *
  * @author MJ */
 public class VisWindowLmlTag extends WindowLmlTag {
-    public VisWindowLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public VisWindowLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

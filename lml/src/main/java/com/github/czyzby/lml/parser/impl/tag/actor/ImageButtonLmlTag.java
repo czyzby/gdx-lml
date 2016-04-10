@@ -11,7 +11,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * @author MJ */
 public class ImageButtonLmlTag extends ButtonLmlTag {
-    public ImageButtonLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public ImageButtonLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

@@ -9,7 +9,7 @@ import com.kotcrab.vis.ui.util.Validators;
  *
  * @author MJ */
 public class FloatValidatorLmlTag extends AbstractValidatorLmlTag {
-    public FloatValidatorLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public FloatValidatorLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

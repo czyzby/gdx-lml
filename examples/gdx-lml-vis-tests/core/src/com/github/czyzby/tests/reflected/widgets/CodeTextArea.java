@@ -52,7 +52,7 @@ public class CodeTextArea extends VisTextArea {
      * @author Kotcrab */
     public static class CodeTextAreaLmlTagProvider implements LmlTagProvider {
         @Override
-        public LmlTag create(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+        public LmlTag create(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
             return new CodeTextAreaLmlTag(parser, parentTag, rawTagData);
         }
     }
@@ -61,7 +61,7 @@ public class CodeTextArea extends VisTextArea {
      *
      * @author Kotcrab */
     public static class CodeTextAreaLmlTag extends VisTextAreaLmlTag {
-        public CodeTextAreaLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+        public CodeTextAreaLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
             super(parser, parentTag, rawTagData);
         }
 

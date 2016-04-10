@@ -41,7 +41,7 @@ import com.kotcrab.vis.ui.widget.ListView.UpdatePolicy;
  *
  * @author MJ */
 public class ListViewLmlTag extends TableLmlTag {
-    public ListViewLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public ListViewLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

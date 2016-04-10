@@ -37,7 +37,8 @@ public abstract class AbstractConditionalLmlMacroTag extends AbstractMacroLmlTag
      * should separate value appended on true "true" from "false". */
     public static final String ELSE_SUFFIX = ":else";
 
-    public AbstractConditionalLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public AbstractConditionalLmlMacroTag(final LmlParser parser, final LmlTag parentTag,
+            final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

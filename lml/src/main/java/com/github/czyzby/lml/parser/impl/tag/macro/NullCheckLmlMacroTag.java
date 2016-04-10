@@ -32,7 +32,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * @author MJ */
 public class NullCheckLmlMacroTag extends AbstractConditionalLmlMacroTag {
-    public NullCheckLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public NullCheckLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

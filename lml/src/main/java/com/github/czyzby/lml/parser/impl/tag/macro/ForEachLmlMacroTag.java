@@ -35,7 +35,7 @@ public class ForEachLmlMacroTag extends AbstractLoopLmlMacroTag {
     private final int size;
     private int currentIndex;
 
-    public ForEachLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public ForEachLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
         if (GdxArrays.isEmpty(getAttributes())) {
             parser.throwErrorIfStrict("For each macro needs array attributes to iterate over.");

@@ -106,7 +106,7 @@ public class Dtd {
         for (final Entry<String, LmlTagProvider> actorTag : actorTags) {
             final ObjectMap<String, Object> attributes = GdxMaps.newObjectMap();
             try {
-                final LmlTag tag = actorTag.value.create(parser, null, actorTag.key);
+                final LmlTag tag = actorTag.value.create(parser, null, new StringBuilder(actorTag.key));
                 LmlActorBuilder actorBuilder;
                 final boolean usesAbstractBase = tag instanceof AbstractActorLmlTag;
                 if (usesAbstractBase) {
@@ -153,7 +153,7 @@ public class Dtd {
             appendDtdElement(builder, getTagClassName(macroTag.value), macroMarker, macroTag.key);
             // If the tag is conditional, it should provide an extra name:else tag:
             try {
-                final LmlTag tag = macroTag.value.create(parser, null, macroTag.key);
+                final LmlTag tag = macroTag.value.create(parser, null, new StringBuilder(macroTag.key));
                 if (tag instanceof AbstractConditionalLmlMacroTag) {
                     appendDtdElement(builder, "'Else' helper tag of: " + macroTag.key, macroMarker,
                             macroTag.key + AbstractConditionalLmlMacroTag.ELSE_SUFFIX, "EMPTY");

@@ -11,7 +11,7 @@ import com.kotcrab.vis.ui.layout.VerticalFlowGroup;
  *
  * @author MJ */
 public class VerticalFlowGroupLmlTag extends AbstractGroupLmlTag {
-    public VerticalFlowGroupLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public VerticalFlowGroupLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

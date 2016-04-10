@@ -15,7 +15,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * @author MJ */
 public class SelectBoxLmlTag extends AbstractActorLmlTag {
-    public SelectBoxLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public SelectBoxLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

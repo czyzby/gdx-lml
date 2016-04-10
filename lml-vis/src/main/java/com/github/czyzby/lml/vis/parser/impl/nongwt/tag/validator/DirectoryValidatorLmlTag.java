@@ -12,7 +12,7 @@ import com.kotcrab.vis.ui.util.form.FormValidator;
  *
  * @author MJ */
 public class DirectoryValidatorLmlTag extends AbstractValidatorLmlTag {
-    public DirectoryValidatorLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public DirectoryValidatorLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

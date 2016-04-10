@@ -33,7 +33,7 @@ import com.github.czyzby.lml.util.LmlUtilities;
  *
  * @author MJ */
 public class ActorLmlMacroTag extends EvaluateLmlMacroTag {
-    public ActorLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public ActorLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

@@ -99,7 +99,7 @@ import com.github.czyzby.lml.util.LmlUtilities;
  *
  * @author MJ */
 public class NewTagLmlMacroTag extends AbstractMacroLmlTag {
-    public NewTagLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public NewTagLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 
@@ -144,7 +144,7 @@ public class NewTagLmlMacroTag extends AbstractMacroLmlTag {
             final ActorConsumer<LmlActorBuilder, Actor> builderCreator) {
         return new LmlTagProvider() {
             @Override
-            public LmlTag create(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+            public LmlTag create(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
                 return new CustomLmlTag(parser, parentTag, rawTagData) {
                     @Override
                     protected Actor getNewInstanceOfActor(final LmlActorBuilder builder) {
@@ -171,7 +171,7 @@ public class NewTagLmlMacroTag extends AbstractMacroLmlTag {
      *
      * @author MJ */
     public static abstract class CustomLmlTag extends AbstractActorLmlTag {
-        public CustomLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+        public CustomLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
             super(parser, parentTag, rawTagData);
         }
 

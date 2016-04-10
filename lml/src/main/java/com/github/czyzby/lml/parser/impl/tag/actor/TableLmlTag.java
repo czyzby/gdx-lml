@@ -13,7 +13,7 @@ import com.github.czyzby.lml.util.LmlUtilities;
  *
  * @author MJ */
 public class TableLmlTag extends AbstractActorLmlTag {
-    public TableLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public TableLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

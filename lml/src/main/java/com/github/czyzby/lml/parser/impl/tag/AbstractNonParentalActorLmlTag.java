@@ -8,7 +8,8 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * @author MJ */
 public abstract class AbstractNonParentalActorLmlTag extends AbstractActorLmlTag {
-    public AbstractNonParentalActorLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public AbstractNonParentalActorLmlTag(final LmlParser parser, final LmlTag parentTag,
+            final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

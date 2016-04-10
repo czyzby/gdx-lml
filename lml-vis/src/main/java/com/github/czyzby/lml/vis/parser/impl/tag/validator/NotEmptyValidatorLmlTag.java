@@ -11,7 +11,7 @@ import com.kotcrab.vis.ui.util.form.SimpleFormValidator.EmptyInputValidator;
  *
  * @author MJ */
 public class NotEmptyValidatorLmlTag extends AbstractValidatorLmlTag {
-    public NotEmptyValidatorLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public NotEmptyValidatorLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

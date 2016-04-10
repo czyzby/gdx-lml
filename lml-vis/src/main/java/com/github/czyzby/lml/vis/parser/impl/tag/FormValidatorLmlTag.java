@@ -13,7 +13,7 @@ import com.kotcrab.vis.ui.util.form.SimpleFormValidator;
  *
  * @author MJ */
 public class FormValidatorLmlTag extends VisTableLmlTag {
-    public FormValidatorLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public FormValidatorLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

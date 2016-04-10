@@ -10,7 +10,7 @@ import com.github.czyzby.lml.vis.parser.impl.nongwt.tag.validator.EmptyDirectory
  * @author MJ */
 public class EmptyDirectoryContentValidatorLmlTagProvider implements LmlTagProvider {
     @Override
-    public LmlTag create(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public LmlTag create(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         return new EmptyDirectoryContentValidatorLmlTag(parser, parentTag, rawTagData);
     }
 }

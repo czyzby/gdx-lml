@@ -11,7 +11,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * @author MJ */
 public class StackLmlTag extends AbstractGroupLmlTag {
-    public StackLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public StackLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

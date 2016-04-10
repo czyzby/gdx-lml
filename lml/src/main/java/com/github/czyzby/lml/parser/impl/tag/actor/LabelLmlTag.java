@@ -16,7 +16,7 @@ import com.github.czyzby.lml.util.LmlUtilities;
  *
  * @author MJ */
 public class LabelLmlTag extends AbstractNonParentalActorLmlTag {
-    public LabelLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public LabelLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

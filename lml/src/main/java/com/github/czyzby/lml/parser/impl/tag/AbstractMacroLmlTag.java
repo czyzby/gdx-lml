@@ -12,7 +12,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * @author MJ */
 public abstract class AbstractMacroLmlTag extends AbstractLmlTag {
-    public AbstractMacroLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public AbstractMacroLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

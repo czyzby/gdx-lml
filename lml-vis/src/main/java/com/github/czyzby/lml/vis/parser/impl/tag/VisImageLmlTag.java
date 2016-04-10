@@ -8,10 +8,10 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.kotcrab.vis.ui.widget.VisImage;
 
 /** Handles {@link VisImage} actor. Mapped to "image", "img", "icon".
- * 
+ *
  * @author Kotcrab */
 public class VisImageLmlTag extends ImageLmlTag {
-    public VisImageLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public VisImageLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

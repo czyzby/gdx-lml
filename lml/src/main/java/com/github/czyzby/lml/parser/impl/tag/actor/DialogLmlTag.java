@@ -12,7 +12,7 @@ import com.github.czyzby.lml.util.LmlUtilities;
  *
  * @author MJ */
 public class DialogLmlTag extends WindowLmlTag {
-    public DialogLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public DialogLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

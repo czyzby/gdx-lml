@@ -71,7 +71,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * @author MJ */
 public class ConditionalLmlMacroTag extends AbstractConditionalLmlMacroTag {
-    public ConditionalLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public ConditionalLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

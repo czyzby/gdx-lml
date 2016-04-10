@@ -10,7 +10,7 @@ import com.github.czyzby.lml.vis.parser.impl.tag.FormValidatorLmlTag;
  * @author MJ */
 public class FormValidatorLmlTagProvider implements LmlTagProvider {
     @Override
-    public LmlTag create(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public LmlTag create(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         return new FormValidatorLmlTag(parser, parentTag, rawTagData);
     }
 }

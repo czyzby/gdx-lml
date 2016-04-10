@@ -12,7 +12,7 @@ import com.github.czyzby.lml.vis.ui.VisTabTable;
  *
  * @author MJ */
 public class TabLmlTag extends VisTableLmlTag {
-    public TabLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public TabLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
         if (!(parentTag instanceof TabbedPaneLmlTag)) {
             parser.throwErrorIfStrict("Only tabbed panes can be parents of tabs. Found parent: " + parentTag);

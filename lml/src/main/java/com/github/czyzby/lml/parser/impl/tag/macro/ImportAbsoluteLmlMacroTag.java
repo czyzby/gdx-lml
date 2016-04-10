@@ -10,7 +10,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * @author MJ
  * @see AbstractImportLmlMacroTag */
 public class ImportAbsoluteLmlMacroTag extends AbstractImportLmlMacroTag {
-    public ImportAbsoluteLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public ImportAbsoluteLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

@@ -10,7 +10,7 @@ import com.github.czyzby.lml.vis.parser.impl.tag.ExtendedColorPickerLmlTag;
  * @author MJ */
 public class ExtendedColorPickerLmlTagProvider implements LmlTagProvider {
     @Override
-    public LmlTag create(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public LmlTag create(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         return new ExtendedColorPickerLmlTag(parser, parentTag, rawTagData);
     }
 }

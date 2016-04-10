@@ -16,7 +16,7 @@ import com.kotcrab.vis.ui.widget.VisTable;
  *
  * @author MJ */
 public class CollapsibleWidgetLmlTag extends AbstractActorLmlTag {
-    public CollapsibleWidgetLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public CollapsibleWidgetLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

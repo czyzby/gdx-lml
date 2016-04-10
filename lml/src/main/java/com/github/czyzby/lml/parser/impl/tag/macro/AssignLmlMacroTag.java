@@ -32,7 +32,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
 public class AssignLmlMacroTag extends AbstractMacroLmlTag {
     private String argument;
 
-    public AssignLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public AssignLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

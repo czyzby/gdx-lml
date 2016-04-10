@@ -89,6 +89,82 @@ public class Strings extends UtilitiesClass {
         return resultOfIndexOf <= CHARACTER_UNAVAILABLE;
     }
 
+    /** @param valueToModify will be modified internally. Can be null.
+     * @param valueToReplace all occurrences will be replaced.
+     * @param replacement will replace all occurrences of valueToReplace.
+     * @return valueToModify with properly replaced occurrences of valueToReplace. */
+    public static StringBuilder replace(final StringBuilder valueToModify, final char valueToReplace,
+            final char replacement) {
+        if (Strings.isEmpty(valueToModify)) {
+            return valueToModify;
+        }
+        for (int index = 0, length = valueToModify.length(); index < length; index++) {
+            if (valueToModify.charAt(index) == valueToReplace) {
+                valueToModify.setCharAt(index, replacement);
+            }
+        }
+        return valueToModify;
+    }
+
+    /** @param valueToModify will be modified internally. Can be null.
+     * @param valueToReplace all occurrences will be replaced.
+     * @param replacement will replace all occurrences of valueToReplace.
+     * @return valueToModify with properly replaced occurrences of valueToReplace. */
+    public static StringBuilder replace(final StringBuilder valueToModify, final char valueToReplace,
+            final CharSequence replacement) {
+        if (Strings.isEmpty(valueToModify)) {
+            return valueToModify;
+        } else if (replacement.length() == 1) {
+            return replace(valueToModify, valueToReplace, replacement.charAt(0));
+        }
+        final CharSequence rest = replacement.subSequence(1, replacement.length());
+        for (int index = 0, length = valueToModify.length(); index < length; index++) {
+            if (valueToModify.charAt(index) == valueToReplace) {
+                valueToModify.setCharAt(index, replacement.charAt(0));
+                valueToModify.insert(index + 1, rest);
+                length += rest.length();
+            }
+        }
+        return valueToModify;
+    }
+
+    /** @param valueToModify will be modified internally. Can be null.
+     * @param valueToReplace all occurrences will be replaced.
+     * @param replacement will replace all occurrences of valueToReplace.
+     * @return valueToModify with properly replaced occurrences of valueToReplace. */
+    public static StringBuilder replace(final StringBuilder valueToModify, final CharSequence valueToReplace,
+            final CharSequence replacement) {
+        if (valueToReplace.length() == 1) {
+            return replace(valueToModify, valueToReplace.charAt(0), replacement);
+        } else if (Strings.isEmpty(valueToModify)) {
+            return valueToModify;
+        }
+        final String replace = replacement.toString(); // String returns this.
+        for (int index = 0, length = valueToModify.length(); index < length; index++) {
+            if (contains(valueToModify, valueToReplace, index)) {
+                valueToModify.replace(index, index + valueToReplace.length(), replace);
+                index += replace.length();
+            }
+        }
+        return valueToModify;
+    }
+
+    /** @param parent cannot be null. Might contain child sequence.
+     * @param child cannot be null. Might be a part of parent.
+     * @param at starting index at which child should be located in the parent.
+     * @return true if parent contains child in the selected position. */
+    public static boolean contains(final CharSequence parent, final CharSequence child, final int at) {
+        if (at + child.length() > parent.length()) {
+            return false;
+        }
+        for (int index = 0, length = child.length(); index < length; index++) {
+            if (parent.charAt(at + index) != child.charAt(index)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /** @param charSequence will be checked.
      * @return false if the passed sequence is null or contains only whitespace characters.
      * @see Strings#isNotWhitespace(CharSequence) */

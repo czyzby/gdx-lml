@@ -30,7 +30,7 @@ public class LoopLmlMacroTag extends AbstractLoopLmlMacroTag {
     private final int stepsAmount;
     private int currentIndex;
 
-    public LoopLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public LoopLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
         stepsAmount = getStepsAmount();
     }

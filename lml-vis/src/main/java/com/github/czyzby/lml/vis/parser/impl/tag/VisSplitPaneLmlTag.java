@@ -16,7 +16,7 @@ import com.kotcrab.vis.ui.widget.VisSplitPane;
 public class VisSplitPaneLmlTag extends AbstractActorLmlTag {
     private int appendedActors;
 
-    public VisSplitPaneLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public VisSplitPaneLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

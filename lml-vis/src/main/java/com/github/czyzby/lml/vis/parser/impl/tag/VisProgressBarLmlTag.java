@@ -11,7 +11,7 @@ import com.kotcrab.vis.ui.widget.VisProgressBar;
  *
  * @author MJ */
 public class VisProgressBarLmlTag extends ProgressBarLmlTag {
-    public VisProgressBarLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public VisProgressBarLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

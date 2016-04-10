@@ -12,7 +12,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * @author MJ */
 public class HorizontalGroupLmlTag extends AbstractGroupLmlTag {
-    public HorizontalGroupLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public HorizontalGroupLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

@@ -11,7 +11,7 @@ import com.kotcrab.vis.ui.widget.VisSlider;
  *
  * @author MJ */
 public class VisSliderLmlTag extends SliderLmlTag {
-    public VisSliderLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public VisSliderLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

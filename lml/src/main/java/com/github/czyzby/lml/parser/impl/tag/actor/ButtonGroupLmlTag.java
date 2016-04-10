@@ -14,7 +14,7 @@ import com.github.czyzby.lml.scene2d.ui.reflected.ButtonTable;
  *
  * @author MJ */
 public class ButtonGroupLmlTag extends TableLmlTag {
-    public ButtonGroupLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public ButtonGroupLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

@@ -26,7 +26,7 @@ import com.github.czyzby.lml.util.collection.IgnoreCaseStringMap;
 public abstract class AbstractImportLmlMacroTag extends AbstractMacroLmlTag {
     private String content;
 
-    public AbstractImportLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public AbstractImportLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

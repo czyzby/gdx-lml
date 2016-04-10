@@ -10,7 +10,7 @@ import com.github.czyzby.lml.vis.parser.impl.tag.MenuPopupLmlTag;
  * @author MJ */
 public class MenuPopupLmlTagProvider implements LmlTagProvider {
     @Override
-    public LmlTag create(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public LmlTag create(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         return new MenuPopupLmlTag(parser, parentTag, rawTagData);
     }
 }

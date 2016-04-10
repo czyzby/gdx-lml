@@ -14,7 +14,7 @@ import com.github.czyzby.lml.util.LmlUtilities;
  * @author MJ
  * @see com.github.czyzby.lml.parser.impl.attribute.TreeNodeLmlAttribute */
 public class TreeLmlTag extends AbstractActorLmlTag {
-    public TreeLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public TreeLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

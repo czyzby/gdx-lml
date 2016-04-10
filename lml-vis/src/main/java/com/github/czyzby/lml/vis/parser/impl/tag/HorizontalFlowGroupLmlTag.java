@@ -11,7 +11,7 @@ import com.kotcrab.vis.ui.layout.HorizontalFlowGroup;
  *
  * @author MJ */
 public class HorizontalFlowGroupLmlTag extends AbstractGroupLmlTag {
-    public HorizontalFlowGroupLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public HorizontalFlowGroupLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

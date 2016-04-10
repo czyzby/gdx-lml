@@ -25,7 +25,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
 public class ExceptionLmlMacroTag extends AbstractMacroLmlTag {
     private String content = "Exception thrown by invoking exception macro.";
 
-    public ExceptionLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public ExceptionLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

@@ -61,7 +61,7 @@ public class NestedForEachLmlMacroTag extends AbstractLoopLmlMacroTag {
     private final Array<String[]> values;
     private int currentIndex;
 
-    public NestedForEachLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public NestedForEachLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
         final int argumentsAmount = GdxArrays.sizeOf(getAttributes());
         if (argumentsAmount <= 0) {

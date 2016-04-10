@@ -10,11 +10,11 @@ import com.kotcrab.vis.ui.widget.VisTree;
 
 /** Handles {@link Tree} actor. Mapped to "tree", "root". Allows the use of "node" attribute in children tags. Adds
  * plain text between tags as new label nodes. Mapped to "tree", "node".
- * 
+ *
  * @author Kotcrab
  * @see com.github.czyzby.lml.parser.impl.attribute.TreeNodeLmlAttribute */
 public class VisTreeLmlTag extends TreeLmlTag {
-    public VisTreeLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public VisTreeLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

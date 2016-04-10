@@ -67,7 +67,7 @@ import com.github.czyzby.lml.util.LmlUserObject.TableTarget;
 public class TableRowLmlMacroTag extends AbstractMacroLmlTag {
     private String content;
 
-    public TableRowLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public TableRowLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

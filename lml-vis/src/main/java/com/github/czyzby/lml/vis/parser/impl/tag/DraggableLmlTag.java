@@ -18,7 +18,7 @@ import com.kotcrab.vis.ui.widget.Draggable;
 public class DraggableLmlTag extends AbstractLmlTag {
     private final Draggable draggable = new Draggable();
 
-    public DraggableLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public DraggableLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
         LmlUtilities.processAttributes(draggable, this, parser, null, true);
     }

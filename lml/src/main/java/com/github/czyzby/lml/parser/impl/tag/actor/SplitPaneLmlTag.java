@@ -16,7 +16,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
 public class SplitPaneLmlTag extends AbstractActorLmlTag {
     private int appendedActors;
 
-    public SplitPaneLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public SplitPaneLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

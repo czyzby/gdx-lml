@@ -38,7 +38,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
 public class EvaluateLmlMacroTag extends AbstractMacroLmlTag {
     private String methodArgument;
 
-    public EvaluateLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public EvaluateLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

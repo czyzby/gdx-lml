@@ -18,7 +18,7 @@ import com.kotcrab.vis.ui.widget.MenuBar;
 public class MenuBarLmlTag extends TableLmlTag {
     private MenuBar menuBar;
 
-    public MenuBarLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public MenuBarLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

@@ -23,7 +23,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * @author MJ */
 public class ArgumentLmlMacroTag extends AssignLmlMacroTag {
-    public ArgumentLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public ArgumentLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

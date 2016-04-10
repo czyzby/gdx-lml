@@ -13,7 +13,7 @@ import com.github.czyzby.lml.util.collection.IgnoreCaseStringMap;
 public abstract class AbstractLoopLmlMacroTag extends AbstractMacroLmlTag {
     private final String indexArgument;
 
-    public AbstractLoopLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public AbstractLoopLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
         indexArgument = getTagName() + ":index";
     }

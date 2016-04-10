@@ -18,7 +18,7 @@ import com.github.czyzby.lml.util.Lml;
  *
  * @author MJ */
 public class LoggerDebugLmlMacroTag extends AbstractLoggerLmlMacroTag {
-    public LoggerDebugLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public LoggerDebugLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

@@ -22,7 +22,7 @@ import com.kotcrab.vis.ui.widget.file.FileChooser.Mode;
  * @author MJ
  * @see com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file.FileChooserLmlAttribute */
 public class FileChooserLmlTag extends VisWindowLmlTag {
-    public FileChooserLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public FileChooserLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

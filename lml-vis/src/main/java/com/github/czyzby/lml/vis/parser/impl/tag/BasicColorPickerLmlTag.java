@@ -11,7 +11,7 @@ import com.kotcrab.vis.ui.widget.color.BasicColorPicker;
  *
  * @author MJ */
 public class BasicColorPickerLmlTag extends VisTableLmlTag {
-    public BasicColorPickerLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public BasicColorPickerLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

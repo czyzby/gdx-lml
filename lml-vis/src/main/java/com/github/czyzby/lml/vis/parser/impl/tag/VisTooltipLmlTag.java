@@ -10,7 +10,7 @@ import com.kotcrab.vis.ui.widget.Tooltip;
  *
  * @author MJ */
 public class VisTooltipLmlTag extends VisTableLmlTag {
-    public VisTooltipLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public VisTooltipLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

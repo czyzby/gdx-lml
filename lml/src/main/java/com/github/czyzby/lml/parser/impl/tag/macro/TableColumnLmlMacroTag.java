@@ -28,7 +28,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * @author MJ */
 public class TableColumnLmlMacroTag extends TableRowLmlMacroTag {
-    public TableColumnLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public TableColumnLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

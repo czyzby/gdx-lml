@@ -15,7 +15,7 @@ import com.kotcrab.vis.ui.widget.MenuItem;
  *
  * @author MJ */
 public class MenuLmlTag extends MenuPopupLmlTag {
-    public MenuLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public MenuLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

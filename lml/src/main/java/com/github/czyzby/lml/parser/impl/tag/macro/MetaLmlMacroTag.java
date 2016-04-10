@@ -98,7 +98,7 @@ import com.github.czyzby.lml.util.collection.IgnoreCaseStringMap;
  *
  * @author MJ */
 public class MetaLmlMacroTag extends AbstractMacroLmlTag {
-    public MetaLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public MetaLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 
@@ -174,7 +174,7 @@ public class MetaLmlMacroTag extends AbstractMacroLmlTag {
         }
 
         @Override
-        public LmlTag create(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+        public LmlTag create(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
             return new CustomLmlMacroTag(parser, parentTag, rawTagData, contentAttributeName, attributeNames,
                     defaultAttributeValues, macroContent);
         }
@@ -190,7 +190,7 @@ public class MetaLmlMacroTag extends AbstractMacroLmlTag {
         private final String macroContent;
         private String contentBetweenTags;
 
-        public CustomLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData,
+        public CustomLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData,
                 final String contentAttributeName, final Array<String> attributeNames,
                 final Array<String> defaultAttributeValues, final String macroContent) {
             super(parser, parentTag, rawTagData);

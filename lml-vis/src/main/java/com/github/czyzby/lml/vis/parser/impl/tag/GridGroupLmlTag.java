@@ -12,7 +12,7 @@ import com.kotcrab.vis.ui.layout.GridGroup;
  *
  * @author MJ */
 public class GridGroupLmlTag extends AbstractGroupLmlTag {
-    public GridGroupLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public GridGroupLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

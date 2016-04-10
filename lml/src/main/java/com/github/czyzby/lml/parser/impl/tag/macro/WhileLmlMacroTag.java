@@ -55,7 +55,7 @@ public class WhileLmlMacroTag extends AbstractLoopLmlMacroTag {
     private final String equation;
     private int currentIndex;
 
-    public WhileLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public WhileLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
         equation = getEquation();
         equationParser = getEquationParser();

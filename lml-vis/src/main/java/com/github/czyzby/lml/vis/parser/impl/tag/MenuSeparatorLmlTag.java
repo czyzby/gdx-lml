@@ -9,7 +9,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * @author MJ */
 public class MenuSeparatorLmlTag extends SeparatorLmlTag {
-    public MenuSeparatorLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public MenuSeparatorLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

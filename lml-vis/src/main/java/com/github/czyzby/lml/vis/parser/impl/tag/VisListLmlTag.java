@@ -9,10 +9,10 @@ import com.kotcrab.vis.ui.widget.VisList;
 
 /** Handles {@link VisList} actors. Converts label and text button children to items by extracting their text; does not
  * accept any other child tags. Appends plain text lines between tags as its list items. Mapped to "list", "ul".
- * 
+ *
  * @author Kotcrab */
 public class VisListLmlTag extends ListLmlTag {
-    public VisListLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public VisListLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

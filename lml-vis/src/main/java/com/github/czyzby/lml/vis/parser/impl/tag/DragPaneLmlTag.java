@@ -18,7 +18,7 @@ import com.kotcrab.vis.ui.widget.Draggable;
  * @author MJ
  * @see DragPaneLmlActorBuilder.GroupType */
 public class DragPaneLmlTag extends AbstractGroupLmlTag {
-    public DragPaneLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public DragPaneLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

@@ -14,7 +14,7 @@ import com.github.czyzby.lml.scene2d.ui.reflected.AnimatedImage;
  *
  * @author MJ */
 public class AnimatedImageLmlTag extends ImageLmlTag {
-    public AnimatedImageLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public AnimatedImageLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

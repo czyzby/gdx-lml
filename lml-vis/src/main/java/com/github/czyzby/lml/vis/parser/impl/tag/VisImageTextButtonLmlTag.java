@@ -16,7 +16,7 @@ import com.kotcrab.vis.ui.widget.VisImageTextButton;
  *
  * @author MJ */
 public class VisImageTextButtonLmlTag extends ButtonLmlTag {
-    public VisImageTextButtonLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public VisImageTextButtonLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

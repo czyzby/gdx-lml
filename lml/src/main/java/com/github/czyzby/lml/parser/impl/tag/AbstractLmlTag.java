@@ -16,10 +16,6 @@ import com.github.czyzby.lml.util.collection.IgnoreCaseStringMap;
  * @author MJ
  * @see AbstractMacroLmlTag */
 public abstract class AbstractLmlTag implements LmlTag {
-    private static final CharSequence ESCAPED_SPACE = "\\ ";
-    private static final CharSequence SPACE = " ";
-    private static final CharSequence UNUSUAL_ENOUGH = "%$&";
-
     private final LmlParser parser;
     private final Array<String> attributes;
     private final ObjectMap<String, String> namedAttributes;
@@ -27,10 +23,10 @@ public abstract class AbstractLmlTag implements LmlTag {
     private final LmlTag parentTag;
     private final boolean parent, macro;
 
-    public AbstractLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public AbstractLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         this.parser = parser;
         this.parentTag = parentTag;
-        final String[] entities = extractTagEntities(rawTagData);
+        final String[] entities = extractTagEntities(rawTagData, parser);
         final String tagName = entities[0];
         macro = Strings.startsWith(tagName, parser.getSyntax().getMacroMarker());
         this.tagName = LmlUtilities.stripMarker(tagName, parser.getSyntax().getMacroMarker());
@@ -73,12 +69,75 @@ public abstract class AbstractLmlTag implements LmlTag {
                 || Strings.isEmpty(entities[entities.length - 1]) && entities.length > 2;
     }
 
-    private static String[] extractTagEntities(final String rawTagData) {
-        // No pattern-matcher on GWT.
-        final String[] entities = rawTagData.replace(ESCAPED_SPACE, UNUSUAL_ENOUGH)
-                .split(Strings.WHITESPACE_SPLITTER_REGEX);
-        for (int index = 0, length = entities.length; index < length; index++) {
-            entities[index] = entities[index].replace(UNUSUAL_ENOUGH, SPACE);
+    private static String[] extractTagEntities(final StringBuilder rawTagData, final LmlParser parser) {
+        Strings.replace(rawTagData, "\\n", "\n");
+        // Counting separate entities:
+        int entitiesAmount = 0;
+        boolean inQuotation = false, inDoubleQuotation = false, lastCharWhitespace = true;
+        for (int index = 0, length = rawTagData.length(); index < length; index++) {
+            final char character = rawTagData.charAt(index);
+            if (Strings.isWhitespace(character)) {
+                if (inQuotation || inDoubleQuotation || lastCharWhitespace) {
+                    continue;
+                }
+                lastCharWhitespace = true;
+                entitiesAmount++;
+            } else if (character == '\'') {
+                lastCharWhitespace = false;
+                if (!inDoubleQuotation) {
+                    inQuotation = !inQuotation;
+                }
+            } else if (character == '"') {
+                lastCharWhitespace = false;
+                if (!inQuotation) {
+                    inDoubleQuotation = !inDoubleQuotation;
+                }
+            } else {
+                lastCharWhitespace = false;
+            }
+        }
+        if (!lastCharWhitespace) {
+            entitiesAmount++;
+        }
+        if (inQuotation || inDoubleQuotation) {
+            parser.throwError("Invalid quotation in tag data: " + rawTagData);
+        }
+        final String[] entities = new String[entitiesAmount];
+        final StringBuilder builder = new StringBuilder();
+        lastCharWhitespace = true;
+        entitiesAmount = 0;
+        for (int index = 0, length = rawTagData.length(); index < length; index++) {
+            final char character = rawTagData.charAt(index);
+            if (Strings.isWhitespace(character)) {
+                if (inQuotation || inDoubleQuotation) {
+                    builder.append(character);
+                    continue;
+                } else if (lastCharWhitespace) {
+                    continue;
+                }
+                lastCharWhitespace = true;
+                entities[entitiesAmount] = builder.toString();
+                Strings.clearBuilder(builder);
+                entitiesAmount++;
+            } else if (character == '\'') {
+                lastCharWhitespace = false;
+                builder.append(character);
+                if (!inDoubleQuotation) {
+                    inQuotation = !inQuotation;
+                }
+            } else if (character == '"') {
+                lastCharWhitespace = false;
+                builder.append(character);
+                if (!inQuotation) {
+                    inDoubleQuotation = !inDoubleQuotation;
+                }
+            } else {
+                lastCharWhitespace = false;
+                builder.append(character);
+            }
+        }
+        if (!lastCharWhitespace) {
+            entities[entitiesAmount] = builder.toString();
         }
         return entities;
     }
