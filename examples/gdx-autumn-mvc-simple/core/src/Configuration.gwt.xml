@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit trunk//EN" "http://google-web-toolkit.googlecode.com/svn/trunk/distro-source/core/src/gwt-module.dtd">
+<module>
+	<source path="com/github/czyzby" />
+	<!-- Remember to include your components for reflection! Otherwise they will not be available for GWT class scanner. -->
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.Root" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.config" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.controller" />
+	<!-- Sometimes you'll get a cryptic "Couldn't find Type for class" GWT error - this is because Autumn relies on reflection:
+		some class is expected in the reflection pool, but cannot be found. Simply including the class should solve the issue. -->
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.audio.Sound" />
+</module>
