@@ -26,6 +26,7 @@ import com.github.czyzby.lml.util.Lml;
 public class Dtd {
     protected static final String XML_ELEMENT_REGEX = "[\\w:.-]+";
     private boolean displayLogs = true;
+    private boolean appendComments = true;
 
     /** @param parser contains parsing data. Used to create mock-up actors. The skin MUST be fully loaded and contain
      *            all used actors' styles for the generator to work properly.
@@ -48,7 +49,8 @@ public class Dtd {
      * @param parser contains parsing data. Used to create mock-up actors. The skin MUST be fully loaded and contain all
      *            used actors' styles for the generator to work properly.
      * @param appendable a reference to the file.
-     * @see #getDtdSchema(LmlParser, Appendable) */
+     * @see #getDtdSchema(LmlParser, Appendable)
+     * @see #saveMinifiedSchema(LmlParser, Appendable) */
     public static void saveSchema(final LmlParser parser, final Appendable appendable) {
         try {
             new Dtd().getDtdSchema(parser, appendable);
@@ -57,9 +59,36 @@ public class Dtd {
         }
     }
 
-    /** @param displayLogs defaults to true. If set to false, parsing messages will not be shown in the console. */
-    public void setDisplayLogs(final boolean displayLogs) {
+    /** Saves DTD schema file containing all possible tags and their attributes. Any problems with the generation will
+     * be logged. This is a relatively heavy operation and should be done only during development. Comments will not be
+     * appended, which will reduce the size of DTD file.
+     *
+     * @param parser contains parsing data. Used to create mock-up actors. The skin MUST be fully loaded and contain all
+     *            used actors' styles for the generator to work properly.
+     * @param appendable a reference to the file.
+     * @see #getDtdSchema(LmlParser, Appendable)
+     * @see #saveSchema(LmlParser, Appendable) */
+    public static void saveMinifiedSchema(final LmlParser parser, final Appendable appendable) {
+        try {
+            new Dtd().setAppendComments(false).getDtdSchema(parser, appendable);
+        } catch (final IOException exception) {
+            throw new GdxRuntimeException("Unable to append to file.", exception);
+        }
+    }
+
+    /** @param displayLogs defaults to true. If set to false, parsing messages will not be shown in the console.
+     * @return this, for chaining. */
+    public Dtd setDisplayLogs(final boolean displayLogs) {
         this.displayLogs = displayLogs;
+        return this;
+    }
+
+    /** @param appendComments defaults to true. If false, corresponding Java classes will not be added as comments to
+     *            the DTD file.
+     * @return this, for chaining. */
+    public Dtd setAppendComments(final boolean appendComments) {
+        this.appendComments = appendComments;
+        return this;
     }
 
     /** @param message will be displayed in the console. */
@@ -98,25 +127,39 @@ public class Dtd {
         if (!name.matches(XML_ELEMENT_REGEX)) {
             log("Warning: '" + name + "' tag might contain invalid XML characters.");
         }
-        builder.append("<!-- ").append(comment).append(" -->\n");
+        if (appendComments) {
+            builder.append("<!-- ").append(comment).append(" -->\n");
+        }
         builder.append("<!ELEMENT ").append(prefix).append(name).append(' ').append(type).append(">\n");
     }
 
     protected void appendDtdAttributes(final Appendable builder, final String tagName,
             final ObjectMap<String, Object> attributes) throws IOException {
+        if (appendComments) {
+            for (final Entry<String, Object> attribute : attributes) {
+                if (!attribute.key.matches(XML_ELEMENT_REGEX)) {
+                    log("Warning: '" + attribute + "' attribute might contain invalid XML characters.");
+                }
+                builder.append("<!-- ").append(attribute.value.getClass().getSimpleName()).append(" -->\n");
+                builder.append("<!ATTLIST ").append(tagName).append(' ').append(attribute.key)
+                        .append(" CDATA #IMPLIED>\n");
+            }
+            return;
+        }
         builder.append("<!ATTLIST ").append(tagName);
         for (final Entry<String, Object> attribute : attributes) {
             if (!attribute.key.matches(XML_ELEMENT_REGEX)) {
                 log("Warning: '" + attribute + "' attribute might contain invalid XML characters.");
             }
-            builder.append("\n\t<!-- ").append(attribute.value.getClass().getSimpleName()).append(" -->\n");
-            builder.append('\t').append(attribute.key).append(" CDATA #IMPLIED");
+            builder.append("\n\t").append(attribute.key).append(" CDATA #IMPLIED");
         }
         builder.append(">\n");
     }
 
     protected void appendActorTags(final Appendable builder, final LmlParser parser) throws IOException {
-        builder.append("<!-- Actor tags: -->\n");
+        if (appendComments) {
+            builder.append("<!-- Actor tags: -->\n");
+        }
         final ObjectMap<String, LmlTagProvider> actorTags = parser.getSyntax().getTags();
         for (final Entry<String, LmlTagProvider> actorTag : actorTags) {
             appendDtdElement(builder, getTagClassName(actorTag.value), actorTag.key);
@@ -131,7 +174,9 @@ public class Dtd {
 
     @SuppressWarnings("unchecked")
     protected void appendActorAttributes(final LmlParser parser, final Appendable builder) throws IOException {
-        builder.append("<!-- Actor tags' attributes: -->\n");
+        if (appendComments) {
+            builder.append("<!-- Actor tags' attributes: -->\n");
+        }
         final ObjectMap<String, LmlTagProvider> actorTags = parser.getSyntax().getTags();
         for (final Entry<String, LmlTagProvider> actorTag : actorTags) {
             final ObjectMap<String, Object> attributes = GdxMaps.newObjectMap();
@@ -172,7 +217,9 @@ public class Dtd {
     }
 
     protected void appendMacroTags(final Appendable builder, final LmlParser parser) throws IOException {
-        builder.append("<!-- Macro tags: -->\n");
+        if (appendComments) {
+            builder.append("<!-- Macro tags: -->\n");
+        }
         final String macroMarker = String.valueOf(parser.getSyntax().getMacroMarker());
         if (!macroMarker.matches(XML_ELEMENT_REGEX)) {
             log("Error: current macro marker (" + macroMarker
@@ -196,7 +243,9 @@ public class Dtd {
     }
 
     protected void appendMacroAttributes(final LmlParser parser, final Appendable builder) throws IOException {
-        builder.append("<!-- Expected macro tags' attributes: -->\n");
+        if (appendComments) {
+            builder.append("<!-- Expected macro tags' attributes: -->\n");
+        }
         final String macroMarker = String.valueOf(parser.getSyntax().getMacroMarker());
         final ObjectMap<String, LmlTagProvider> macroTags = parser.getSyntax().getMacroTags();
         for (final Entry<String, LmlTagProvider> macroTag : macroTags) {

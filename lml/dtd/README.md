@@ -17,7 +17,7 @@ To generate a *DTD* file, fully create your parser (including the loaded skin!) 
         // TODO If you have any custom tags or attributes, add them before generating!
         // Also, parse your custom macro templates - they will also be added.
         try (PrintStream out = new PrintStream(new FileOutputStream("lml.dtd"))) {
-            Dtd.saveSchema(parser, out);
+            Dtd.saveSchema(parser, out); // Use saveMinifiedSchema for no comments.
         } catch (final Exception exception) {
             // Should never happen for valid files.
         }

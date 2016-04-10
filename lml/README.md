@@ -43,7 +43,7 @@ If you want to use LML with GWT, you have to add this module to your `GdxDefinit
 - Major API change: `AbstractLmlTag` now consumes `StringBuilder` instead of `String` in its constructor. If you had any custom tags created in Java, this change will break your classes.
 - Proper attribute parsing. To use a space character in attributes before you had to escape it with `\`. Valid attributes with whitespaces - like `message="You have died!"` would have to look as awkward as this: `message="You\ have\ died!"`, otherwise parser would separate it into 3 parts: `message="You, have, died!"`. Now whitespace escaping is removed: instead, all you have to do is use attribute quotations. The good news: using `StringBuilders` should slightly limit the amount of created objects (less garbage to collect!).
 - Most macros now support named parameters: conditional macros support `test`, import macros - `path`, `replace`, logging macros - `log`, loop macro: `times`, assignment macros - `key`, `value`, evaluation macros - `method`, `id`, exception macro - `message`, `strict`. DTD creator will now extract expected macro and put them in the file. This does *not* break existing templates, as named parameters are optional. This change was made to make LML more XML-friendly.
-- Added `Dtd#saveSchema` method, which should be preferred to `getSchema`.
+- Added `Dtd#saveSchema` and `Dtd#saveMinifiedSchema` methods, which should be preferred over `getSchema`.
 
 1.5.1.8.0 -> 1.5.1.9.2
 
