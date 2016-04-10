@@ -1,0 +1,23 @@
+<!-- Registering LML attributes in Java is very simple,
+    as LmlAttribute is a trivial interface to implement.
+    However, if you want to modify, replace or add
+    attributes during LML parsing, you might want to
+    use new attribute macro. -->
+
+<!-- This macro requires two attributes: array of
+    attribute aliases and ID of a method that consumes
+    AttributeParsingData. This object contains all
+    necessary data to parse an attribute (basically,
+    it has all method arguments from LmlAttribute).
+    The new attribute will be available for all tags,
+    so you have to make sure that your method performs
+    necessary checks (instanceof) - this is quite a
+    disadvantage compared to Java-made LmlAttributes,
+    which are properly typed with generics. That's why
+    this macro should be used only in specific cases. -->
+
+<@attribute myAttribute;myAtt upperCaseAttribute />
+<label myAtt="text." />
+<label myAttribute=@bundleLine/>
+
+<!-- The attribute above converts text to upper case. -->

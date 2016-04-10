@@ -1,0 +1,32 @@
+<!-- Plain text in LML templates is problematic to use
+    in tags - where it needs to be escaped - and would
+    create the need of directly translating templates
+    to other languages for different game versions.
+    However, I18NBundle objects can be registered in
+    parser and localized text might (and should) be
+    used instead. Bundle text marker is '@' by default. -->
+
+<label>@bundleLine</label>
+<textButton text=@bundleLine/>
+
+<!-- Bundle lines can be used pretty much anywhere.
+    They can even hold numeric and boolean values. -->
+
+<container size=@size>
+    <textButton>Sized with bundle!</textButton>
+</container>
+
+<!-- Bundle lines support arguments with '|' operator. -->
+<label>@bundleLineWithArgument|value</label>
+
+<!-- Arguments can contain other bundle lines as well! -->
+<label>@bundleLineWithArgument|@size</label>
+
+<!-- If you register multiple bundles, proceed the line
+    with the name of the specific bundle and a dot.
+    Otherwise default bundle will be used. -->
+
+<label>@custom.bundleLine</label>
+
+<!-- Check i18n/bundle.properties and i18n/custom.properties
+    for original bundle texts. -->

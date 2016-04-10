@@ -1,0 +1,17 @@
+<!-- Simple looping macro allows you to repeat
+    some part of template any number of times
+    (lower than Integer#MAX_VALUE, that is). -->
+
+<@loop 3>
+    <label>One of three</label>
+</@loop>
+
+<!-- Iteration index is available through
+    {tagName:index} argument, where "tagName"
+    is the alias of macro tag you used. -->
+
+<table defaultSize=24>
+    <@loop 3>
+        <textButton>{loop:index}</textButton>
+    </@loop>
+</table>

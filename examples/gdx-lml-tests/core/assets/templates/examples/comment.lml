@@ -1,0 +1,14 @@
+<!-- This is a regular comment. It has its uses,
+    but it cannot be nested (unless nesting option
+    is on, but then again - you have to keep your
+    commented-out comments valid...). If you want
+    to comment large portions of templates, comment
+    macro might be the best choice. -->
+
+<@comment>
+    <!-- Comment inside a comment. -->
+    <label>Ignored tag</label>
+    <!-- Invalid, unclosed comment
+        which will be ignored.
+</@comment>
+<label>Outside of comment.</label>
