@@ -96,10 +96,10 @@ tree-minus
   index: -1
 tree-plus
   rotate: false
-  xy: 24, 30
-  size: 7, 11
+  xy: 24, 32
+  size: 6, 9
   orig: 20, 20
-  offset: 7, 5
+  offset: 8, 6
   index: -1
 warn
   rotate: false
