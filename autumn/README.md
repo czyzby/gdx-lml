@@ -59,9 +59,11 @@ To include Autumn on Android, see [Autumn Android](https://github.com/czyzby/gdx
 For efficient class scanning on desktop, see [Autumn FCS](https://github.com/czyzby/gdx-lml/tree/master/autumn/natives/fcs).
 
 ##What's new
+
 1.5 -> 1.6
 
 - Fixed `@Dispose` annotation behavior.
+- Added [`gdx-autumn-tests` project](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-autumn-tests), using a considerate part of Autumn API. Make sure to check it out.
 
 1.3 -> 1.5
 

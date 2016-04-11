@@ -2,6 +2,17 @@ Newest change logs are in the `README.md` file.
 
 # LML 1.X
 
+1.4 -> 1.5
+
+- `argument` macro added. Contrary to `assign` macro, this macro evaluates passed arguments. For example, `assign` macro would assign `@someBundleLine` to argument name, while `argument` value would convert it to `Actual bundle line value in .properties file.` and assign it to the argument. See `ArgumentLmlMacroTag` for more informations.
+- Ranges now accept bundle lines, preferences and methods. For example, now you can customize range size with i18n bundle file: `range[@start,@end]`, provided that `.properties` file has numeric `start` and `end` lines.
+- Equations (available through `if`, `while` and `calculate` macros) now parse bundle lines and preferences. For example, `<@if @someLine < 20>` will check if bundle line mapped to `someLine` is shorter than 20 characters in the current locale.
+- Equation marker. Now equations can be used pretty much anywhere, using mechanism similar to arguments. Normally, you insert parser arguments `{likeThat}` - this will look for an argument named `likeThat` and replace the braces block with its value (or `null`). To use equation instead, add `=` character at the beginning. For example, `{=3+5}` will replace the block with `8`. Bundle lines, preferences and methods are also supported by these equations. Equation marker aims to be a simplified alternative to `calculate` macro. As usual: to change equation marker, extend `DefaultLmlSyntax` class and override appropriate method. See new equations example in `gdx-lml-tests`.
+
+1.3 -> 1.4
+
+- `PooledList` is now used instead of `LinkedList`, which should slightly speed up the parsing (as in: limit its garbage collection) thanks to cached nodes and iterators.
+
 1.2 -> 1.3
 
 - `ButtonGroup` support through specialized `Table` extension: `ButtonTable`. `<buttonTable>` tag works like a regular table (can have any children), except it adds all its direct `Button`-extending children to an internal `ButtonGroup` instance, validating their checked status. This allows to easily build groups of widgets with min and max amounts of checked buttons.

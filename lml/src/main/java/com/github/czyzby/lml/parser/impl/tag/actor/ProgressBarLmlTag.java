@@ -7,8 +7,11 @@ import com.github.czyzby.lml.parser.impl.tag.AbstractNonParentalActorLmlTag;
 import com.github.czyzby.lml.parser.impl.tag.builder.FloatRangeLmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
+import com.github.czyzby.lml.util.LmlParsingException;
 
-/** Handles {@link ProgressBar} actor. Mapped to "progress", "progressBar", "loading", "loadingBar".
+/** Handles {@link ProgressBar} actor. Expects that the text between its tags is a valid float - it will be set as bar's
+ * value. Be careful though, as changing the value in such way might trigger registered change listeners. Mapped to
+ * "progress", "progressBar", "loading", "loadingBar".
  *
  * @author MJ */
 public class ProgressBarLmlTag extends AbstractNonParentalActorLmlTag {
@@ -19,6 +22,24 @@ public class ProgressBarLmlTag extends AbstractNonParentalActorLmlTag {
     @Override
     protected FloatRangeLmlActorBuilder getNewInstanceOfBuilder() {
         return new FloatRangeLmlActorBuilder();
+    }
+
+    @Override
+    protected void handlePlainTextLine(final String plainTextLine) {
+        try {
+            final float value = getParser().parseFloat(plainTextLine);
+            getProgessBar().setValue(value);
+        } catch (final LmlParsingException exception) {
+            // Expected if input is not a float.
+            if (getParser().isStrict()) {
+                throw exception;
+            }
+        }
+    }
+
+    /** @return actor instance, casted for convenience. */
+    protected ProgressBar getProgessBar() {
+        return (ProgressBar) getActor();
     }
 
     @Override

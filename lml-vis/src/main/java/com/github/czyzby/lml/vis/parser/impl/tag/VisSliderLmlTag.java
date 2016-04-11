@@ -7,7 +7,9 @@ import com.github.czyzby.lml.parser.impl.tag.builder.FloatRangeLmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.kotcrab.vis.ui.widget.VisSlider;
 
-/** Handles {@link Slider} actor. Cannot have children. Mapped to "slider". "visSlider".
+/** Handles {@link Slider} actor. Cannot have children. Expects that the text between its tags is a valid float - it
+ * will be set as bar's value. Be careful though, as changing the value in such way might trigger registered change
+ * listeners. Mapped to "slider". "visSlider".
  *
  * @author MJ */
 public class VisSliderLmlTag extends SliderLmlTag {

@@ -6,7 +6,9 @@ import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.tag.builder.FloatRangeLmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
-/** Handles {@link Slider} actor. Mapped to "slider".
+/** Handles {@link Slider} actor. Expects that the text between its tags is a valid float - it will be set as bar's
+ * value. Be careful though, as changing the value in such way might trigger registered change listeners. Mapped to
+ * "slider".
  *
  * @author MJ */
 public class SliderLmlTag extends ProgressBarLmlTag {

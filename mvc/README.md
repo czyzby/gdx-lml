@@ -112,6 +112,8 @@ When used on GWT, make sure to inherit Autumn module:
 Check out [gdx-autumn](https://github.com/czyzby/gdx-lml/tree/master/autumn) for platform-specific class scanners. [Sample app](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-autumn-mvc-simple) might help you with the initial set up.
 
 ## What's new
+Make sure to check `gdx-autumn` and `gdx-lml` changes as well - both of these projects are heavily used by the `gdx-autumn-mvc`.
+
 1.5 -> 1.6:
 
 - `AssetService` API extended with: `getTotalLoadingProgress`, `getAssetManager`, `getEagerAssetManager`, `registerLoader`.
