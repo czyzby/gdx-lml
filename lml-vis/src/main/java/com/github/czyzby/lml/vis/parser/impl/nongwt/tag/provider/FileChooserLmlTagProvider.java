@@ -10,7 +10,7 @@ import com.github.czyzby.lml.vis.parser.impl.nongwt.tag.FileChooserLmlTag;
  * @author MJ */
 public class FileChooserLmlTagProvider implements LmlTagProvider {
     @Override
-    public LmlTag create(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public LmlTag create(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         return new FileChooserLmlTag(parser, parentTag, rawTagData);
     }
 }

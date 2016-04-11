@@ -8,7 +8,7 @@ import com.kotcrab.vis.ui.util.InputValidator;
 import com.kotcrab.vis.ui.util.form.FormValidator;
 
 public class FileValidatorLmlTag extends AbstractValidatorLmlTag {
-    public FileValidatorLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public FileValidatorLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

@@ -1,4 +1,4 @@
-<!-- @column macro can be used only inside
+<!-- :column macro can be used only inside
     table tags. It allows to specify cell
     defaults of a selected column. In case
     of multi-table widgets (window, dialog),
@@ -7,18 +7,18 @@
     toDialogTable (etc). -->
 
 <!-- Defining button-spamming macro: -->
-<@macro buttons><button/><button/><button/><button/></@macro>
+<:macro buttons><button/><button/><button/><button/></:macro>
 
 <table>
-    <@column 2 size=40 />
-    <@buttons/>
-    <@row/>
-    <@buttons/>
+    <:column 2 size=40 />
+    <:buttons/>
+    <:row/>
+    <:buttons/>
     <!-- Also using row defaults in 3rd row: -->
-    <@row size=40/>
-    <@buttons/>
-    <@row/>
-    <@buttons/>
+    <:row size=40/>
+    <:buttons/>
+    <:row/>
+    <:buttons/>
 </table>
 
 <!-- Column defaults have to be set BEFORE

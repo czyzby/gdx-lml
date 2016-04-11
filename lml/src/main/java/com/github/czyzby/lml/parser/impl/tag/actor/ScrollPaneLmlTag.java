@@ -13,7 +13,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * @author MJ */
 public class ScrollPaneLmlTag extends AbstractActorLmlTag {
-    public ScrollPaneLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public ScrollPaneLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

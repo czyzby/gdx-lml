@@ -6,23 +6,23 @@
     multiple values at once and evaluates to true if at
     least one of them is not null or false. -->
 
-<@anyNotNull $someMethod>
+<:anyNotNull $someMethod>
     <label>someMethod returns non-null value.</label>
-</@anyNotNull>
+</:anyNotNull>
 
-<@anyNotNull {unknownArg} {unknown}>
-    <@exception>These argument should be unknown.</@exception>
-<@anyNotNull:else/>
+<:anyNotNull {unknownArg} {unknown}>
+    <:exception>These argument should be unknown.</:exception>
+<:anyNotNull:else/>
     <label>Unknown arguments.</label>
-</@anyNotNull>
+</:anyNotNull>
 
 <!-- As with any conditional macro, "else" tag is optional and
-    follows this syntax: <@tagName:else/>, where "tagName" is
+    follows this syntax: <:tagName:else/>, where "tagName" is
     the name of conditional macro tag you used. -->
 
 <!-- This method can validate multiple values at once. -->
-<@anyNotNull {unknownArg} $someMethod>
+<:anyNotNull {unknownArg} $someMethod>
     <label>At least one value not null.</label>
-<@anyNotNull:else/>
-    <@exception>someMethod should return non-null.</@exception>
-</@anyNotNull>
+<:anyNotNull:else/>
+    <:exception>someMethod should return non-null.</:exception>
+</:anyNotNull>

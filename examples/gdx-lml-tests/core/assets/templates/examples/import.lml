@@ -4,24 +4,24 @@
     probably - import macro is internal. -->
 
 <!-- This will append all widgets from stack example: -->
-<@import templates/examples/stack.lml />
+<:import templates/examples/stack.lml />
 
 <!-- You can replace argument in imported macro with
     data between import macro tags by supplying 
     second attribute: argument name. -->
 
 <!-- This is importExample.lml: -->
-<@comment>
+<:comment>
 <label>Imported template:</label>
 <container size=200>
     <!-- We expect foreign content here: -->
     {content}
 </container>
-</@comment>
+</:comment>
 
 <!-- This is how to import it and replace {content}: -->
 
-<@import templates/examples/importExample.lml content>
+<:import templates/examples/importExample.lml content>
 	<!-- This will replace {content} in imported macro. -->
     <image style=default-rect />
-</@import>
+</:import>

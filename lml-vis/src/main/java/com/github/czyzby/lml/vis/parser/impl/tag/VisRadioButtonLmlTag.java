@@ -13,7 +13,7 @@ import com.kotcrab.vis.ui.widget.VisRadioButton;
  * @author MJ
  * @see VisCheckBoxLmlTag */
 public class VisRadioButtonLmlTag extends VisCheckBoxLmlTag {
-    public VisRadioButtonLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public VisRadioButtonLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

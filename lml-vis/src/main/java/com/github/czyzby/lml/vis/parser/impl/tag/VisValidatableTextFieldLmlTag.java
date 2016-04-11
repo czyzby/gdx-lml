@@ -11,7 +11,8 @@ import com.kotcrab.vis.ui.widget.VisValidatableTextField;
  *
  * @author MJ */
 public class VisValidatableTextFieldLmlTag extends VisTextFieldLmlTag {
-    public VisValidatableTextFieldLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public VisValidatableTextFieldLmlTag(final LmlParser parser, final LmlTag parentTag,
+            final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

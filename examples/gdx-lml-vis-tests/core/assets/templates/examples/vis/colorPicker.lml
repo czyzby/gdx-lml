@@ -30,7 +30,7 @@
     "responsiveListener". -->
     <colorPicker title=Custom. tablePad=40 listener=customColor
             color=red allowAlpha=false onCreate=scheduleDispose>
-        Can handle children. <@row/>
+        Can handle children. <:row/>
         <textButton growX=true>
             Like a window (or a table).
         </textButton>

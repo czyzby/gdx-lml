@@ -252,12 +252,12 @@ import com.github.czyzby.lml.parser.impl.tag.macro.provider.ActorLmlMacroTagProv
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.AnyNotNullLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.ArgumentLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.ArgumentReplacementLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.AssignLmlMarcoTagProvider;
+import com.github.czyzby.lml.parser.impl.tag.macro.provider.AssignLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.CalculationLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.CommentLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.ConditionalLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.EvaluateLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.ExceptionLmlMactoTagProvider;
+import com.github.czyzby.lml.parser.impl.tag.macro.provider.ExceptionLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.ForEachLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.ImportAbsoluteLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.ImportClasspathLmlMacroTagProvider;
@@ -374,14 +374,14 @@ public class DefaultLmlSyntax implements LmlSyntax {
         addMacroTagProvider(new ArgumentLmlMacroTagProvider(), "nls", "argument", "preference", "i18n", "bundle");
         addMacroTagProvider(new ArgumentReplacementLmlMacroTagProvider(), "replace", "replaceArguments", "replaceArgs",
                 "argumentsReplace", "argsReplace", "noOp", "noOperation", "doNothing", "root");
-        addMacroTagProvider(new AssignLmlMarcoTagProvider(), "assign", "var", "val", "toArgument");
+        addMacroTagProvider(new AssignLmlMacroTagProvider(), "assign", "var", "val", "toArgument");
         addMacroTagProvider(new CalculationLmlMacroTagProvider(), "calculate", "calculation", "equation", "calc");
         addMacroTagProvider(new CommentLmlMacroTagProvider(), "comment", "FIXME", "TODO");
         addMacroTagProvider(new ConditionalLmlMacroTagProvider(), "if", "test", "check", "try", "verify", "inspect",
                 "validate", "onCondition", "condition", "conditional");
         addMacroTagProvider(new EvaluateLmlMacroTagProvider(), "eval", "evaluate", "invoke", "invokeAndAssign",
                 "evaluateAndAssign");
-        addMacroTagProvider(new ExceptionLmlMactoTagProvider(), "exception", "throw", "throwException", "error",
+        addMacroTagProvider(new ExceptionLmlMacroTagProvider(), "exception", "throw", "throwException", "error",
                 "throwError", "system.exit");
         addMacroTagProvider(new ForEachLmlMacroTagProvider(), "forEach", "for", "each", "iterate", "iterateOver");
         addMacroTagProvider(new ImportAbsoluteLmlMacroTagProvider(), "absoluteImport", "absoluteInclude",
@@ -801,6 +801,11 @@ public class DefaultLmlSyntax implements LmlSyntax {
     }
 
     @Override
+    public String getDocumentTypeOpening() {
+        return "DOCTYPE";
+    }
+
+    @Override
     public char getCommentClosing() {
         return '-';
     }
@@ -817,7 +822,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
 
     @Override
     public char getMacroMarker() {
-        return '@';
+        return ':';
     }
 
     @Override

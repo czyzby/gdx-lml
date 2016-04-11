@@ -14,7 +14,7 @@ import com.kotcrab.vis.ui.widget.VisImageButton.VisImageButtonStyle;
  *
  * @author MJ */
 public class VisImageButtonLmlTag extends ButtonLmlTag {
-    public VisImageButtonLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public VisImageButtonLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

@@ -16,10 +16,6 @@ import com.github.czyzby.lml.util.collection.IgnoreCaseStringMap;
  * @author MJ
  * @see AbstractMacroLmlTag */
 public abstract class AbstractLmlTag implements LmlTag {
-    private static final CharSequence ESCAPED_SPACE = "\\ ";
-    private static final CharSequence SPACE = " ";
-    private static final CharSequence UNUSUAL_ENOUGH = "%$&";
-
     private final LmlParser parser;
     private final Array<String> attributes;
     private final ObjectMap<String, String> namedAttributes;
@@ -27,23 +23,28 @@ public abstract class AbstractLmlTag implements LmlTag {
     private final LmlTag parentTag;
     private final boolean parent, macro;
 
-    public AbstractLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public AbstractLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         this.parser = parser;
         this.parentTag = parentTag;
-        final String[] entities = extractTagEntities(rawTagData);
-        final String tagName = entities[0];
+        final Array<String> entities = extractTagEntities(rawTagData, parser);
+        final String tagName = entities.first();
         macro = Strings.startsWith(tagName, parser.getSyntax().getMacroMarker());
         this.tagName = LmlUtilities.stripMarker(tagName, parser.getSyntax().getMacroMarker());
-        final String lastAttribute = entities[entities.length - 1];
+        final String lastAttribute = GdxArrays.getLast(entities);
         if (Strings.endsWith(lastAttribute, parser.getSyntax().getClosedTagMarker())) {
             // The tag ends with a closing marker, which means it is a child.
             parent = false;
-            entities[entities.length - 1] = LmlUtilities.stripEnding(lastAttribute);
+            if (lastAttribute.length() == 1) {
+                GdxArrays.removeLast(entities);
+            } else {
+                entities.set(GdxArrays.sizeOf(entities) - 1, LmlUtilities.stripEnding(lastAttribute));
+            }
         } else {
             parent = true;
         }
         if (hasAttributes(entities)) {
-            attributes = GdxArrays.newArray(String.class);
+            entities.removeIndex(0); // Removing tag name from attributes.
+            attributes = entities;
             if (supportsNamedAttributes() || supportsOptionalNamedAttributes()) {
                 namedAttributes = new IgnoreCaseStringMap<String>();
             } else {
@@ -66,32 +67,63 @@ public abstract class AbstractLmlTag implements LmlTag {
         return false;
     }
 
-    private static boolean hasAttributes(final String[] entities) {
-        return // The first entity is name, so at least 2 entities are required:
-        entities.length > 1
-                // The last entity might be empty if it was tag closing marker:
-                || Strings.isEmpty(entities[entities.length - 1]) && entities.length > 2;
+    private static boolean hasAttributes(final Array<String> entities) {
+        // The first entity is name, so at least 2 entities are required:
+        return entities.size > 1;
     }
 
-    private static String[] extractTagEntities(final String rawTagData) {
-        // No pattern-matcher on GWT.
-        final String[] entities = rawTagData.replace(ESCAPED_SPACE, UNUSUAL_ENOUGH)
-                .split(Strings.WHITESPACE_SPLITTER_REGEX);
-        for (int index = 0, length = entities.length; index < length; index++) {
-            entities[index] = entities[index].replace(UNUSUAL_ENOUGH, SPACE);
+    private static Array<String> extractTagEntities(final StringBuilder rawTagData, final LmlParser parser) {
+        Strings.replace(rawTagData, "\\n", "\n");
+        Strings.replace(rawTagData, "&gt;", ">");
+        boolean inQuotation = false, inDoubleQuotation = false, lastCharWhitespace = true;
+        final Array<String> entities = GdxArrays.newArray(String.class);
+        final StringBuilder builder = new StringBuilder();
+        lastCharWhitespace = true;
+        for (int index = 0, length = rawTagData.length(); index < length; index++) {
+            final char character = rawTagData.charAt(index);
+            if (Strings.isWhitespace(character)) {
+                if (inQuotation || inDoubleQuotation) {
+                    builder.append(character);
+                    continue;
+                } else if (lastCharWhitespace) {
+                    continue;
+                }
+                lastCharWhitespace = true;
+                entities.add(builder.toString());
+                Strings.clearBuilder(builder);
+            } else if (character == '\'') {
+                lastCharWhitespace = false;
+                builder.append(character);
+                if (!inDoubleQuotation) {
+                    inQuotation = !inQuotation;
+                }
+            } else if (character == '"') {
+                lastCharWhitespace = false;
+                builder.append(character);
+                if (!inQuotation) {
+                    inDoubleQuotation = !inDoubleQuotation;
+                }
+            } else {
+                lastCharWhitespace = false;
+                builder.append(character);
+            }
+        }
+        if (!lastCharWhitespace) {
+            entities.add(builder.toString());
         }
         return entities;
     }
 
-    private void fillAttributes(final LmlParser parser, final String[] entities) {
+    private void fillAttributes(final LmlParser parser, final Array<String> entities) {
         // Starting from 1, since 0 index is the tag name.
-        for (int index = 1, length = entities.length; index < length; index++) {
-            final String rawAttribute = entities[index];
+        for (int index = entities.size - 1; index >= 0; index--) { // Iterating backwards to take removal into account.
+            final String rawAttribute = entities.get(index);
             if (Strings.isBlank(rawAttribute)) {
+                entities.removeIndex(index);
                 continue;
             }
             final String entity = LmlUtilities.stripQuotation(rawAttribute);
-            attributes.add(entity);
+            entities.set(index, entity);
             if ((supportsNamedAttributes() || supportsOptionalNamedAttributes()) && Strings.isNotEmpty(entity)) {
                 final int separatorIndex = entity.indexOf(parser.getSyntax().getAttributeSeparator());
                 if (Strings.isCharacterAbsent(separatorIndex)) {

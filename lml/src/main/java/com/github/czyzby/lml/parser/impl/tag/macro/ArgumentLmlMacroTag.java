@@ -9,9 +9,9 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * {@link LmlParser#parseString(String, Object)}. For example (macro aliases used):<blockquote>
  *
  * <pre>
- * &lt;@argument arg0 Value/&gt;
- * &lt;@nls arg1 {@literal @}bundle/&gt;
- * &lt;@preference arg2&gt;#preference&lt;/@preference&gt;
+ * &lt;:argument arg0 Value/&gt;
+ * &lt;:nls arg1 {@literal @}bundle/&gt;
+ * &lt;:preference arg2&gt;#preference&lt;/:preference&gt;
  * </pre>
  *
  * </blockquote>Assigned values:
@@ -20,10 +20,19 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <li>{arg1}: {@code "Value extracted from .properties file mapped to 'bundle'."}
  * <li>{arg2}: {@code "Value extracted from Preferences object mapped to 'preference'."}
  * </ul>
+ * <p>
+ * This macro can be also used with named parameters:<blockquote>
+ *
+ * <pre>
+ * &lt;:argument key="arg0" value="Value"/&gt;
+ * </pre>
+ *
+ * </blockquote>
+ *
  *
  * @author MJ */
 public class ArgumentLmlMacroTag extends AssignLmlMacroTag {
-    public ArgumentLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public ArgumentLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

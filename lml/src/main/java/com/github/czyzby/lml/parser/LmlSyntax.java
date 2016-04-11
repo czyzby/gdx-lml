@@ -84,6 +84,16 @@ public interface LmlSyntax {
      *         </blockquote> */
     char getCommentClosing();
 
+    /** @return value that begins DTD schema comment. Defaults to "DOCTYPE". When this value is detected at the
+     *         beginning of a comment (started with !), parser treats it differently. For example: <blockquote>
+     *
+     *         <pre>
+     * &lt;!DOCTYPE table SYSTEM "lml.dtd"&gt;
+     *         </pre>
+     *
+     *         </blockquote> */
+    String getDocumentTypeOpening();
+
     /** @return character that indicates that the following text is an ID of LML parser argument. Defaults to '{'. For
      *         example: <blockquote>
      *
@@ -107,10 +117,10 @@ public interface LmlSyntax {
     char getArgumentClosing();
 
     /** @return character following tag opening that indicates that this tag should be parsed as a macro, not an actor.
-     *         Defaults to '@'. For example:<blockquote>
+     *         Defaults to ':'. For example:<blockquote>
      *
      *         <pre>
-     * &lt;@macro&gt;...&lt;/@macro&gt;
+     * &lt;:macro&gt;...&lt;/:macro&gt;
      *         </pre>
      *
      *         </blockquote> */
@@ -200,7 +210,7 @@ public interface LmlSyntax {
      *         For example: <blockquote>
      *
      *         <pre>
-     * &lt;@forEach elem=val1;val2;val3&gt; &lt;label&gt;{elem}&lt;/label&gt; &lt;/@forEach&gt;.
+     * &lt;:forEach elem=val1;val2;val3&gt; &lt;label&gt;{elem}&lt;/label&gt; &lt;/:forEach&gt;.
      *         </pre>
      *
      *         </blockquote> This macro will iterate over array consisting of "val1", "val2" and "val3", assigning each
@@ -213,7 +223,7 @@ public interface LmlSyntax {
      *         might be used in conjunction with i18n bundles for long texts. For example: <blockquote>
      *
      *         <pre>
-     * &lt;@forEach elem=line[0,2]&gt; &lt;label&gt;@{elem}&lt;/label&gt; &lt;/@forEach&gt;.
+     * &lt;:forEach elem=line[0,2]&gt; &lt;label&gt;@{elem}&lt;/label&gt; &lt;/:forEach&gt;.
      *         </pre>
      *
      *         </blockquote> This macro will iterate over array consisting of "line0", "line1" and "val2", assigning
@@ -228,7 +238,7 @@ public interface LmlSyntax {
      *         <blockquote>
      *
      *         <pre>
-     * &lt;@forEach elem=line[0,2]&gt; &lt;label&gt;@{elem}&lt;/label&gt; &lt;/@forEach&gt;.
+     * &lt;:forEach elem=line[0,2]&gt; &lt;label&gt;@{elem}&lt;/label&gt; &lt;/:forEach&gt;.
      *         </pre>
      *
      *         </blockquote> This macro will iterate over array consisting of "line0", "line1" and "val2", assigning
@@ -242,7 +252,7 @@ public interface LmlSyntax {
      *         might be used in conjunction with i18n bundles for long texts. For example: <blockquote>
      *
      *         <pre>
-     * &lt;@forEach elem=line[0,2]&gt; &lt;label&gt;@{elem}&lt;/label&gt; &lt;/@forEach&gt;.
+     * &lt;:forEach elem=line[0,2]&gt; &lt;label&gt;@{elem}&lt;/label&gt; &lt;/:forEach&gt;.
      *         </pre>
      *
      *         </blockquote> This macro will iterate over array consisting of "line0", "line1" and "val2", assigning

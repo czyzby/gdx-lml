@@ -14,7 +14,7 @@ import com.kotcrab.vis.ui.widget.VisWindow;
  *
  * @author MJ */
 public class VisDialogLmlTag extends VisWindowLmlTag {
-    public VisDialogLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public VisDialogLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

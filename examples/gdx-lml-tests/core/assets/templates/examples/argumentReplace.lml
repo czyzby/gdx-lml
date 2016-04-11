@@ -4,10 +4,10 @@
     to use local arguments and locally override
     global argument values. -->
 
-<@replace someArgument="Custom." customMacroArgument="Macro!">
+<:replace someArgument="Custom." customMacroArgument="Macro!">
     <label color=red>{someArgument}</label>
     <label color=red>{customMacroArgument}</label>
-</@replace>
+</:replace>
 <!-- Global arguments: -->
 <label>{someArgument}</label>
 <label>{customMacroArgument}</label>
@@ -18,6 +18,6 @@
     "root" and "noOp" aliases of replacement were added
     exactly for this purpose. -->
 
-<@noOp>
+<:noOp>
     <label color=green>Remains unchanged.</label>
-</@noOp>
+</:noOp>

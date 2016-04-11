@@ -11,7 +11,7 @@ import com.kotcrab.vis.ui.widget.VisTable;
  *
  * @author MJ */
 public class VisTableLmlTag extends TableLmlTag {
-    public VisTableLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public VisTableLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

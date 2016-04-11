@@ -9,7 +9,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * iteration index. For example: <blockquote>
  *
  * <pre>
- * &lt;@loop 3&gt;txt{loop:index} &lt;/@loop&gt;
+ * &lt;:loop 3&gt;txt{loop:index} &lt;/:loop&gt;
  * </pre>
  *
  * </blockquote>This loop will print: "txt0 txt1 txt2 ".
@@ -19,7 +19,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * instead: <blockquote>
  *
  * <pre>
- * &lt;@each index=[4,-2]&gt;{index} &lt;/@each&gt;
+ * &lt;:each index=[4,-2]&gt;{index} &lt;/:each&gt;
  * </pre>
  *
  * </blockquote>This will prints: "4 3 2 1 0 -1 -2 ". (If the start of the range is bigger than the end, value will be
@@ -30,7 +30,7 @@ public class LoopLmlMacroTag extends AbstractLoopLmlMacroTag {
     private final int stepsAmount;
     private int currentIndex;
 
-    public LoopLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public LoopLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
         stepsAmount = getStepsAmount();
     }
@@ -40,7 +40,12 @@ public class LoopLmlMacroTag extends AbstractLoopLmlMacroTag {
             getParser().throwErrorIfStrict("Loop macro needs at least one attribute: runs amount.");
             return 0;
         }
-        final int amount = getParser().parseInt(getAttributes().first(), getActor());
+        final int amount;
+        if (hasAttribute(TIMES_ATTRIBUTE)) {
+            amount = getParser().parseInt(getAttribute(TIMES_ATTRIBUTE), getActor());
+        } else {
+            amount = getParser().parseInt(getAttributes().first(), getActor());
+        }
         if (amount < 0) {
             getParser().throwErrorIfStrict("Loop macro runs amount cannot be negative.");
             return 0;
@@ -61,5 +66,10 @@ public class LoopLmlMacroTag extends AbstractLoopLmlMacroTag {
     @Override
     protected void next(final ObjectMap<String, String> arguments) {
         currentIndex++;
+    }
+
+    @Override
+    public String[] getExpectedAttributes() {
+        return new String[] { TIMES_ATTRIBUTE };
     }
 }

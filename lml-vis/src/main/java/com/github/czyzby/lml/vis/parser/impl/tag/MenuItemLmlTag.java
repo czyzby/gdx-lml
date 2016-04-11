@@ -20,7 +20,7 @@ import com.kotcrab.vis.ui.widget.MenuItem.MenuItemStyle;
  *
  * @author MJ */
 public class MenuItemLmlTag extends ButtonLmlTag {
-    public MenuItemLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public MenuItemLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

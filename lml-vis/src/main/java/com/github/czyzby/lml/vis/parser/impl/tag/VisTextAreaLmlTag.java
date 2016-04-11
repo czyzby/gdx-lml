@@ -12,7 +12,7 @@ import com.kotcrab.vis.ui.widget.VisTextField;
  *
  * @author MJ */
 public class VisTextAreaLmlTag extends VisTextFieldLmlTag {
-    public VisTextAreaLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public VisTextAreaLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

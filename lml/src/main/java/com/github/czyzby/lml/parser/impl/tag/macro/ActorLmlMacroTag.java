@@ -14,7 +14,7 @@ import com.github.czyzby.lml.util.LmlUtilities;
  * For example: <blockquote>
  *
  * <pre>
- * &lt;table&gt;&lt;@actor methodName/&gt;&lt;/table&gt;
+ * &lt;table&gt;&lt;:actor methodName/&gt;&lt;/table&gt;
  * </pre>
  *
  * </blockquote> This will look for a method mapped to "methodName" and invoke it with the Table (parent's actor) as its
@@ -23,17 +23,25 @@ import com.github.czyzby.lml.util.LmlUtilities;
  * <blockquote>
  *
  * <pre>
- * &lt;@actor methodId actorId&gt;Method argument&lt;/@actor&gt;
+ * &lt;:actor methodId actorId&gt;Method argument&lt;/:actor&gt;
  * </pre>
  *
  * </blockquote>This will look for a method mapped to "methodId" and invoke it with a string parameter:
  * "Method argument" (which was between macro tags). The actor's ID will be set as "actorId", as specified by second
  * macro attribute. Since this macro is not in another tag, this actor will be added directly to the result collection
  * and will not be appended by any parent.
+ * <p>
+ * This macro can be also used with named parameters: <blockquote>
+ *
+ * <pre>
+ * &lt;:actor method="methodId" id="actorId"&gt;Method argument&lt;/:actor&gt;
+ * </pre>
+ *
+ * </blockquote>
  *
  * @author MJ */
 public class ActorLmlMacroTag extends EvaluateLmlMacroTag {
-    public ActorLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public ActorLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

@@ -12,7 +12,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * @author MJ */
 public class ImageLmlTag extends AbstractNonParentalActorLmlTag {
-    public ImageLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public ImageLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

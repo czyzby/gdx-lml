@@ -10,7 +10,7 @@ import com.github.czyzby.lml.vis.parser.impl.tag.VisTextButtonLmlTag;
  * @author MJ */
 public class VisTextButtonLmlTagProvider implements LmlTagProvider {
     @Override
-    public LmlTag create(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public LmlTag create(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         return new VisTextButtonLmlTag(parser, parentTag, rawTagData);
     }
 }

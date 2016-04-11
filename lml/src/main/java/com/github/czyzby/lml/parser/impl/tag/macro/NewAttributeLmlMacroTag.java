@@ -3,6 +3,7 @@ package com.github.czyzby.lml.parser.impl.tag.macro;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
+import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.action.ActorConsumer;
 import com.github.czyzby.lml.parser.impl.tag.AbstractMacroLmlTag;
@@ -31,7 +32,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * </blockquote> Now you can register it in the templates an enjoy the new attribute: <blockquote>
  *
  * <pre>
- * &lt;newAttribute upper;upperCase setUpperCaseText&gt;
+ * &lt;:newAttribute upper;upperCase setUpperCaseText/&gt;
  * &lt;label upper="value" /&gt;
  * &lt;label upperCase=@bundleLine&gt;
  * </pre>
@@ -60,9 +61,23 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * </blockquote>
  *
+ * <p>
+ * Note that this macro supports named attributes:<blockquote>
+ *
+ * <pre>
+ * &lt;:newAttribute alias="upper;upperCase" method="setUpperCaseText" /&gt;
+ * </pre>
+ *
+ * </blockquote>
+ *
  * @author MJ */
 public class NewAttributeLmlMacroTag extends AbstractMacroLmlTag {
-    public NewAttributeLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    /** Alias for the first macro attribute: list of attribute aliases. */
+    public static final String ALIAS_ATTRIBUTE = "alias";
+    /** Alias for the second macro attribute: name of the method that consumes {@link AttributeParsingData} instance. */
+    public static final String METHOD_ATTRIBUTE = "method";
+
+    public NewAttributeLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 
@@ -78,16 +93,40 @@ public class NewAttributeLmlMacroTag extends AbstractMacroLmlTag {
                     "Unable to create a new atrribute with less than two macro attributes: attribute aliases array and setter method consuming AttributeParsingData.");
         }
         // Possible tag names:
-        final String[] tagNames = getParser().parseArray(attributes.first(), getActor());
+        final String[] tagNames = getAttributeNames();
         // Processes attribute parsing:
-        final ActorConsumer<?, AttributeParsingData> parser = getParser().parseAction(attributes.get(1),
-                new AttributeParsingData());
+        final ActorConsumer<?, AttributeParsingData> parser = getAttributeParser();
         if (parser == null) {
             getParser().throwError(
                     "Unable to add new attribute. Action consuming AttributeParsingData not found for name: "
                             + attributes.get(1));
         }
         getParser().getSyntax().addAttributeProcessor(new CustomLmlAttribute(parser), tagNames);
+    }
+
+    /** @return {@link ActorConsumer} consuming {@link AttributeParsingData}. */
+    protected ActorConsumer<?, AttributeParsingData> getAttributeParser() {
+        if (hasAttribute(METHOD_ATTRIBUTE)) {
+            return getParser().parseAction(getAttribute(METHOD_ATTRIBUTE), new AttributeParsingData());
+        }
+        return getParser().parseAction(getAttributes().get(1), new AttributeParsingData());
+    }
+
+    /** @return list of attribute aliases. */
+    protected String[] getAttributeNames() {
+        if (hasAttribute(ALIAS_ATTRIBUTE)) {
+            return getParser().parseArray(getAttribute(ALIAS_ATTRIBUTE), getActor());
+        } else if (GdxMaps.isNotEmpty(getNamedAttributes())) {
+            getParser().throwError(
+                    "When using named attributes, new attribute macro needs at least two attributes: 'method' (name of the method that consumes AttributeParsingData) and 'attribute' (array of new attribute aliases). Found attributes: "
+                            + getNamedAttributes());
+        }
+        return getParser().parseArray(getAttributes().first(), getActor());
+    }
+
+    @Override
+    public String[] getExpectedAttributes() {
+        return new String[] { ALIAS_ATTRIBUTE, METHOD_ATTRIBUTE };
     }
 
     /** Allows to register new attributes from within LML templates using new attribute macro.

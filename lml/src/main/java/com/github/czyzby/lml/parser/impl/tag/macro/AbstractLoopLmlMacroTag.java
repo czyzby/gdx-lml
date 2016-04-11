@@ -11,9 +11,15 @@ import com.github.czyzby.lml.util.collection.IgnoreCaseStringMap;
  *
  * @author MJ */
 public abstract class AbstractLoopLmlMacroTag extends AbstractMacroLmlTag {
+    /** Optional name of iteration argument. Note that when always using this name, nested loops (or multi-argument
+     * loops) are impossible to create. Used for iteration macros. */
+    public static final String ELEMENT_ATTRIBUTE = "element";
+    /** Optional name of the loop times argument. Used for loop macros. */
+    public static final String TIMES_ATTRIBUTE = "times";
+
     private final String indexArgument;
 
-    public AbstractLoopLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public AbstractLoopLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
         indexArgument = getTagName() + ":index";
     }

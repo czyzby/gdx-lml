@@ -14,9 +14,9 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * can be the data between macro tags. For example: <blockquote>
  *
  * <pre>
- * &lt;@assign arg0 Value/&gt;
- * &lt;@assign arg1 Complex value  with many   parts./&gt;
- * &lt;@assign arg2&gt;Data between macro tags.&lt;/@assign&gt;
+ * &lt;:assign arg0 Value/&gt;
+ * &lt;:assign arg1 Complex value  with many   parts./&gt;
+ * &lt;:assign arg2&gt;Data between macro tags.&lt;/:assign&gt;
  * </pre>
  *
  * </blockquote>Assigned values:
@@ -30,9 +30,13 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * @author MJ */
 public class AssignLmlMacroTag extends AbstractMacroLmlTag {
+    /** Optional name of the first attribute: name of the argument to set. */
+    public static final String KEY_ATTRIBUTE = "key";
+    /** Optional name of the second attribute: value to assign. */
+    public static final String VALUE_ATTRIBUTE = "value";
     private String argument;
 
-    public AssignLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public AssignLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 
@@ -49,7 +53,7 @@ public class AssignLmlMacroTag extends AbstractMacroLmlTag {
             getParser().getData().addArgument(getArgumentName(), processArgumentValue(getArgumentValue()));
         } else {
             getParser().throwErrorIfStrict(
-                    "Assignment macro needs at least one attribute: name of the argument to assign.");
+                    "Assignment macro needs at least one attribute: name of the argument to assign. If you use named attributes, use 'key' attribute to set the argument name.");
         }
     }
 
@@ -84,16 +88,19 @@ public class AssignLmlMacroTag extends AbstractMacroLmlTag {
 
     /** @return true if has the argument value to assign. */
     protected boolean hasArgumentValue() {
-        return GdxArrays.isNotEmpty(getAttributes()) && GdxArrays.sizeOf(getAttributes()) > 1;
+        return hasAttribute(VALUE_ATTRIBUTE) || GdxArrays.sizeOf(getAttributes()) > 1;
     }
 
     /** @return attribute assigned to argument name. */
     protected String getArgumentName() {
-        return getAttributes().get(0);
+        return hasAttribute(KEY_ATTRIBUTE) ? getAttribute(KEY_ATTRIBUTE) : getAttributes().get(0);
     }
 
     /** @return attribute assigned to argument value. */
     protected String getArgumentValueFromAttributes() {
+        if (hasAttribute(VALUE_ATTRIBUTE)) {
+            return getAttribute(VALUE_ATTRIBUTE);
+        }
         final Array<String> attributes = getAttributes();
         if (GdxArrays.sizeOf(attributes) == 2) {
             return attributes.get(1);
@@ -106,5 +113,10 @@ public class AssignLmlMacroTag extends AbstractMacroLmlTag {
             builder.append(attributes.get(index));
         }
         return builder.toString();
+    }
+
+    @Override
+    public String[] getExpectedAttributes() {
+        return new String[] { KEY_ATTRIBUTE, VALUE_ATTRIBUTE };
     }
 }

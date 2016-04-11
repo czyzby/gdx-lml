@@ -20,11 +20,11 @@
     equations, but outside of macros, argument nesting
     is not possible (nor is it usually desired). -->
 
-<@for number=[0,2]>
+<:for number=[0,2]>
     <label multiline=true>
         Index: {for:index}
         Result: {= ({number} * 2 + 3) * 10}
     </label>
-</@for>
+</:for>
 
 <!-- {=this + {wouldNotBeParsedCorrectly}} -->

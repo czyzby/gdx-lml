@@ -18,7 +18,7 @@ import com.github.czyzby.lml.util.LmlParsingException;
 public class TooltipLmlTag extends TableLmlTag {
     private Tooltip<TooltipTable> tooltip;
 
-    public TooltipLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public TooltipLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

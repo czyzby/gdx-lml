@@ -12,7 +12,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * @author MJ */
 public abstract class AbstractMacroLmlTag extends AbstractLmlTag {
-    public AbstractMacroLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public AbstractMacroLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 
@@ -24,6 +24,16 @@ public abstract class AbstractMacroLmlTag extends AbstractLmlTag {
     @Override
     protected boolean supportsNamedAttributes() {
         return false;
+    }
+
+    @Override
+    protected boolean supportsOptionalNamedAttributes() {
+        return true;
+    }
+
+    /** @return array of default attributes that the macro is prepared to handle. For debugging purposes. */
+    public String[] getExpectedAttributes() {
+        return Strings.EMPTY_ARRAY;
     }
 
     /** @param content will have the arguments replaced.
@@ -104,6 +114,6 @@ public abstract class AbstractMacroLmlTag extends AbstractLmlTag {
 
     /** @return macro tag attributes converted to a single equation, with escaped characters properly converted. */
     protected String convertAttributesToEquation() {
-        return Strings.merge((Object[]) getAttributes().toArray()).replace("&gt;", ">");
+        return Strings.merge((Object[]) getAttributes().toArray());
     }
 }

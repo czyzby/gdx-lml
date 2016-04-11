@@ -10,7 +10,7 @@ import com.kotcrab.vis.ui.util.Validators;
  *
  * @author MJ */
 public class LesserThanValidatorLmlTag extends AbstractValidatorLmlTag {
-    public LesserThanValidatorLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public LesserThanValidatorLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

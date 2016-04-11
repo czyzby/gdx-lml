@@ -22,7 +22,7 @@ import com.github.czyzby.lml.util.LmlUtilities;
 public abstract class AbstractActorLmlTag extends AbstractLmlTag {
     private final Actor actor;
 
-    public AbstractActorLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public AbstractActorLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
         actor = prepareActor();
     }

@@ -18,7 +18,7 @@ import com.kotcrab.vis.ui.widget.VisValidatableTextField;
  *
  * @author MJ */
 public abstract class AbstractValidatorLmlTag extends AbstractLmlTag {
-    public AbstractValidatorLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public AbstractValidatorLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
         if (parentTag == null) {
             parser.throwError("Validators need to be attached to a tag. No parent found for tag: " + getTagName());

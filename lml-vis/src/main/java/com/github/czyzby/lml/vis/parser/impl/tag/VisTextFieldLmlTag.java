@@ -15,7 +15,7 @@ import com.kotcrab.vis.ui.widget.VisTextField;
  *
  * @author MJ */
 public class VisTextFieldLmlTag extends AbstractNonParentalActorLmlTag {
-    public VisTextFieldLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public VisTextFieldLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

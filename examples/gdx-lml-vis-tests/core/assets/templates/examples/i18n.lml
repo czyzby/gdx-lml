@@ -1,5 +1,6 @@
-<!-- Plain text in LML templates is problematic to use
-    in tags - where it needs to be escaped - and would
+<!-- Plain text in LML templates is not advised to be
+    used in tags and attributes, as it's hard to replace,
+    modify and translate everywhere at once - it would
     create the need of directly translating templates
     to other languages for different game versions.
     However, I18NBundle objects can be registered in

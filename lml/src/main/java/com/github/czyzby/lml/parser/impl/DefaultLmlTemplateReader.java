@@ -158,6 +158,16 @@ public class DefaultLmlTemplateReader implements LmlTemplateReader {
     }
 
     @Override
+    public boolean startsWith(final CharSequence value) {
+        for (int index = 0, length = value.length(); index < length; index++) {
+            if (peekCharacter(index) != value.charAt(index)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
     public int getCurrentLine() {
         return originalSequence == null ? 0 : originalSequence.getLine();
     }
@@ -204,8 +214,8 @@ public class DefaultLmlTemplateReader implements LmlTemplateReader {
         final StringBuilder builder = new StringBuilder();
         builder.append("Currently parsing: ");
         appendDebugMessage(builder, originalSequence);
-        final Array<CharSequenceEntry> sequences = GdxArrays.newArray(sequencesQueue);// Slow, but this is for debug
-                                                                                      // only.
+        // Slow, but this is for debug only.
+        final Array<CharSequenceEntry> sequences = GdxArrays.newArray(sequencesQueue);
         for (int index = sequencesQueue.size() - 2; index >= 0; index--) {
             builder.append("\nWhich spawned:");
             appendDebugMessage(builder, sequences.get(index));

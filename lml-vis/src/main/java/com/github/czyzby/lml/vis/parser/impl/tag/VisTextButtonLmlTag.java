@@ -13,7 +13,7 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
  *
  * @author MJ */
 public class VisTextButtonLmlTag extends TextButtonLmlTag {
-    public VisTextButtonLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public VisTextButtonLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

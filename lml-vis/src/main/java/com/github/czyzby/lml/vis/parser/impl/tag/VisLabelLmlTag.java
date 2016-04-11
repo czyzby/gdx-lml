@@ -13,7 +13,7 @@ import com.kotcrab.vis.ui.widget.VisLabel;
  *
  * @author MJ */
 public class VisLabelLmlTag extends LabelLmlTag {
-    public VisLabelLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public VisLabelLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

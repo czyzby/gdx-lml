@@ -13,7 +13,7 @@ import com.kotcrab.vis.ui.widget.VisSelectBox;
  *
  * @author Kotcrab */
 public class VisSelectBoxLmlTag extends SelectBoxLmlTag {
-    public VisSelectBoxLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public VisSelectBoxLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

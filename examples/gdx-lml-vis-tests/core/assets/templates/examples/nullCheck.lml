@@ -4,23 +4,23 @@
     uses. One of them being checking method results and
     validating LML arguments. -->
 
-<@notNull $someMethod>
+<:notNull $someMethod>
     <label>someMethod returns non-null value.</label>
-</@notNull>
+</:notNull>
 
-<@notNull {unknownArg}>
-    <@exception>This argument should be unknown.</@exception>
-<@notNull:else/>
+<:notNull {unknownArg}>
+    <:exception>This argument should be unknown.</:exception>
+<:notNull:else/>
     <label>No such argument: "unknownArg"</label>
-</@notNull>
+</:notNull>
 
 <!-- As with any conditional macro, "else" tag is optional and
-    follows this syntax: <@tagName:else/>, where "tagName" is
+    follows this syntax: <:tagName:else/>, where "tagName" is
     the name of conditional macro tag you used. -->
 
 <!-- This method can validate multiple values at once. -->
-<@notNull {unknownArg} $someMethod>
-    <@exception>Argument should be unknown.</@exception>
-<@notNull:else/>
+<:notNull {unknownArg} $someMethod>
+    <:exception>Argument should be unknown.</:exception>
+<:notNull:else/>
     <label>At least one value unknown.</label>
-</@notNull>
+</:notNull>

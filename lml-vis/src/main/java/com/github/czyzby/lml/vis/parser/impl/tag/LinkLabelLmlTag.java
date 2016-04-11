@@ -12,7 +12,7 @@ import com.kotcrab.vis.ui.widget.LinkLabel;
  *
  * @author Kotcrab */
 public class LinkLabelLmlTag extends VisLabelLmlTag {
-    public LinkLabelLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public LinkLabelLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

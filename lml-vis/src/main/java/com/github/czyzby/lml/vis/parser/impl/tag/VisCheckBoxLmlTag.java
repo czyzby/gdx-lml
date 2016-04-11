@@ -13,7 +13,7 @@ import com.kotcrab.vis.ui.widget.VisCheckBox;
  *
  * @author MJ */
 public class VisCheckBoxLmlTag extends VisTextButtonLmlTag {
-    public VisCheckBoxLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public VisCheckBoxLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

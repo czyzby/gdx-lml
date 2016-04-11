@@ -165,9 +165,9 @@ Example logs:
 
 Loggers delegate logging calls to current `Application` instance, so they should work on every platform.
 
-## Dependency
+## Dependencies
 
-`gdx-kiwi` is available through the official project creator tool: `gdx-setup` (in additional extensions). However, its version might not be up to date.
+`gdx-kiwi` is available through the official project creator tool: `gdx-setup` (in third party extensions). However, its version might not be up to date.
 
 Core project Gradle dependency:
 ```

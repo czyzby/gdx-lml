@@ -6,6 +6,7 @@ import com.github.czyzby.kiwi.util.common.Nullables;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.lml.parser.LmlData;
+import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.LmlSyntax;
 import com.github.czyzby.lml.parser.LmlTemplateReader;
 import com.github.czyzby.lml.parser.impl.tag.macro.util.Equation;
@@ -14,7 +15,7 @@ import com.github.czyzby.lml.parser.tag.LmlTagProvider;
 import com.github.czyzby.lml.util.LmlParsingException;
 import com.github.czyzby.lml.util.LmlUtilities;
 
-/** Default implementation of LML parser.
+/** Default implementation of {@link LmlParser}.
  *
  * @author MJ */
 public class DefaultLmlParser extends AbstractLmlParser {
@@ -145,7 +146,10 @@ public class DefaultLmlParser extends AbstractLmlParser {
     /** Found an open tag starting with comment sign. Burning through characters up to the comment's end. */
     private void processComment() {
         templateReader.nextCharacter(); // Burning comment opening char.
-        if (nestedComments) {
+        if (templateReader.startsWith(syntax.getDocumentTypeOpening())) {
+            processSchemaComment();
+            return;
+        } else if (nestedComments) {
             processNestedComment();
             return;
         }
@@ -156,6 +160,24 @@ public class DefaultLmlParser extends AbstractLmlParser {
                 // Character was a comment closing sign and the next tag closed the comment.
                 templateReader.nextCharacter(); // Polling tag closing.
                 break;
+            }
+        }
+    }
+
+    /** Found a comment starting with DOCTYPE. Burning through the characters. */
+    private void processSchemaComment() {
+        // Removing DOCTYPE:
+        burnCharacters(syntax.getDocumentTypeOpening().length());
+        int tagsOpened = 1;
+        while (templateReader.hasNextCharacter()) {
+            final char character = templateReader.nextCharacter();
+            // Schema comment can define new entities, see http://www.w3schools.com/xml/xml_dtd.asp
+            if (character == syntax.getTagOpening()) {
+                tagsOpened++;
+            } else if (character == syntax.getTagClosing()) {
+                if (--tagsOpened == 0) {
+                    break;
+                }
             }
         }
     }
@@ -188,8 +210,14 @@ public class DefaultLmlParser extends AbstractLmlParser {
      *
      * @param builder will be used to collect data. */
     private void processTag(final StringBuilder builder) {
+        boolean started = false;
         while (templateReader.hasNextCharacter()) {
             final char tagCharacter = templateReader.nextCharacter();
+            // Stripping whitespaces at the beginning of the tag data:
+            if (!started && Strings.isWhitespace(tagCharacter)) {
+                continue;
+            }
+            started = true;
             if (tagCharacter == syntax.getArgumentOpening()) {
                 // LML parser argument inside a tag. We want to convert these.
                 processArgument();
@@ -198,9 +226,7 @@ public class DefaultLmlParser extends AbstractLmlParser {
                 processComment();
             } else if (tagCharacter == syntax.getTagClosing()) {
                 // We're being closed.
-                final String rawTagData = builder.toString();
-                Strings.clearBuilder(builder);
-                processTagEntity(rawTagData, builder);
+                processTagEntity(builder);
                 return;
             } else {
                 builder.append(tagCharacter);
@@ -209,42 +235,52 @@ public class DefaultLmlParser extends AbstractLmlParser {
         throwError("Unclosed tag: " + builder.toString());
     }
 
-    /** @param rawTagData collected, unparsed LML tag data. Might be a macro or a widget.
-     * @param builder might be needed to process additional data. */
-    private void processTagEntity(String rawTagData, final StringBuilder builder) {
-        rawTagData = rawTagData.trim();
+    /** @param rawTagData collected, unparsed LML tag data. Might be a macro or a widget. Might be used to process
+     *            additional data. Will be cleared. */
+    private void processTagEntity(final StringBuilder rawTagData) {
         final int tagNameEndIndex = getTagNameEndIndex(rawTagData);
         if (Strings.startsWith(rawTagData, syntax.getClosedTagMarker())) {
-            // This is a closing tag (</tag>). Trying to close current parent. Starting with 1 char to strip marker.
-            final String closedTagName = rawTagData.substring(1, tagNameEndIndex).trim();
-            processClosedTag(closedTagName);
+            // This is a closing tag (</tag>). Trying to close current parent.
+            processClosedTag(rawTagData, tagNameEndIndex);
         } else if (Strings.startsWith(rawTagData, syntax.getMacroMarker())) {
             // Uh-oh, this is a macro. Macros handle their content themselves, so we need to process them differently.
-            final String macroName = LmlUtilities // Stripping last character if the tag is immediately closed: <@tag/>.
+            final String macroName = LmlUtilities // Stripping last character if the tag is immediately closed: <:tag/>.
                     .stripEnding(rawTagData.substring(1, tagNameEndIndex), syntax.getClosedTagMarker()).trim();
-            processMacro(macroName, rawTagData, builder);
+            processMacro(macroName, rawTagData);
         } else {
             // Regular tag.
             final String tagName = LmlUtilities // Stripping last character if the tag is immediately closed: <tag/>.
                     .stripEnding(rawTagData.substring(0, tagNameEndIndex), syntax.getClosedTagMarker()).trim();
             processRegularTag(tagName, rawTagData);
         }
+        Strings.clearBuilder(rawTagData);
     }
 
     /** @param rawTagData unparsed LML tag data.
      * @return index that marks the end of tag's name. */
-    private static int getTagNameEndIndex(final String rawTagData) {
-        final int spaceIndex = rawTagData.indexOf(' ');
-        if (Strings.isCharacterPresent(spaceIndex)) {
-            // At least one space is present in the string, so we assume that the data before first space is tag's name:
-            return spaceIndex;
+    private static int getTagNameEndIndex(final StringBuilder rawTagData) {
+        final int length = rawTagData.length();
+        int whitespaceIndex = Strings.CHARACTER_UNAVAILABLE;
+        for (int index = 0; index < length; index++) {
+            if (Strings.isWhitespace(rawTagData.charAt(index))) {
+                whitespaceIndex = index;
+                break;
+            }
         }
-        // There are no spaces, so we assume that the whole tag data is its name:
-        return rawTagData.length();
+        if (Strings.isCharacterPresent(whitespaceIndex)) {
+            // At least one whitespace is present in the string, so we assume that the data before first space is tag's
+            // name:
+            return whitespaceIndex;
+        }
+        // There are no whitespaces, so we assume that the whole tag data is its name:
+        return length;
     }
 
-    /** @param closedTagName is the currently closed tag. */
-    private void processClosedTag(final String closedTagName) {
+    /** @param rawTagData unprocessed data of the currently closed tag.
+     * @param tagNameEndIndex index in rawTagData at which tag name ends. */
+    private void processClosedTag(final StringBuilder rawTagData, final int tagNameEndIndex) {
+        // Starting with 1 char to strip '/' marker:
+        final String closedTagName = rawTagData.substring(1, tagNameEndIndex).trim();
         if (currentParentTag == null) {
             throwErrorIfStrict("There were no open tags, and yet: \"" + closedTagName + "\" is a closed parental tag.");
             return;
@@ -268,19 +304,20 @@ public class DefaultLmlParser extends AbstractLmlParser {
     }
 
     /** @param macroName name of the macro tag to be parsed.
-     * @param rawTagData raw data of the macro tag.
-     * @param builder used to append data between macro tags. Cleared afterwards. */
-    private void processMacro(final String macroName, final String rawTagData, final StringBuilder builder) {
+     * @param rawTagData raw data of the macro tag. Will be used to append data between macro tags. Cleared
+     *            afterwards. */
+    private void processMacro(final String macroName, final StringBuilder rawTagData) {
         final LmlTagProvider tagProvider = syntax.getMacroTagProvider(macroName);
         if (tagProvider == null) {
             throwError("No macro tag provider found for name: " + macroName);
         }
         final LmlTag macroTag = tagProvider.create(this, currentParentTag, rawTagData);
+        Strings.clearBuilder(rawTagData);
         if (macroTag.isChild()) { // Immediately closing the tag, since it's a child.
             macroTag.closeTag();
             return;
         }
-        int sameNameNestedMacrosAmount = 1; // We start with just our own macro.
+        int sameNameNestedMacrosAmount = 1; // We start with our own macro, hence 1.
         final StringBuilder helperBuilder = new StringBuilder();
         while (templateReader.hasNextCharacter()) {
             final char macroCharacter = templateReader.nextCharacter();
@@ -303,16 +340,15 @@ public class DefaultLmlParser extends AbstractLmlParser {
                 }
             }
             // No macro tag is currently being open or the opening is irrelevant. Appending character.
-            builder.append(macroCharacter);
+            rawTagData.append(macroCharacter);
         }
         if (sameNameNestedMacrosAmount > 0) {
             throwError("Macro tag not closed: " + macroTag.getTagName());
         }
-        final String content = builder.toString();
+        final String content = rawTagData.toString();
         if (Strings.isNotEmpty(content)) {
             macroTag.handleDataBetweenTags(content);
         }
-        Strings.clearBuilder(builder);
         macroTag.closeTag();
     }
 
@@ -346,7 +382,7 @@ public class DefaultLmlParser extends AbstractLmlParser {
                     || Strings.isWhitespace(character)) {
                 // Whitespaces separate tag name from attributes and cannot be escaped in tag names. If the tag is
                 // currently being closed or its a whitespace, we've got the whole tag name. But this can happen:
-                // <@macro><@macro attribute /></@macro>
+                // <:macro><:macro attribute /></:macro>
                 // If we return now, we tell the parser that a nested macro is inside this one, even though the macro
                 // itself was closed as soon as it was opened. We need to check if macro is not a child.
                 if ((Strings.isWhitespace(character) || character == syntax.getClosedTagMarker())
@@ -402,8 +438,8 @@ public class DefaultLmlParser extends AbstractLmlParser {
     }
 
     /** @param tagName name of the tag to be parsed.
-     * @param rawTagData raw data of a regular widget tag. */
-    private void processRegularTag(final String tagName, final String rawTagData) {
+     * @param rawTagData raw data of a regular widget tag. Will be cleared. */
+    private void processRegularTag(final String tagName, final StringBuilder rawTagData) {
         final LmlTagProvider tagProvider = syntax.getTagProvider(tagName);
         if (tagProvider == null) {
             throwError("No tag parser found for name: " + tagName);

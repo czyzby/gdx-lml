@@ -5,10 +5,10 @@
     to comment large portions of templates, comment
     macro might be the best choice. -->
 
-<@comment>
+<:comment>
     <!-- Comment inside a comment. -->
     <label>Ignored tag</label>
     <!-- Invalid, unclosed comment
         which will be ignored.
-</@comment>
+</:comment>
 <label>Outside of comment.</label>

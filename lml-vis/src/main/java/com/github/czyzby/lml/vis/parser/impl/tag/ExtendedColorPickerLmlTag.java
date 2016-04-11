@@ -11,7 +11,7 @@ import com.kotcrab.vis.ui.widget.color.ExtendedColorPicker;
  *
  * @author MJ */
 public class ExtendedColorPickerLmlTag extends BasicColorPickerLmlTag {
-    public ExtendedColorPickerLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public ExtendedColorPickerLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

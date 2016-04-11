@@ -36,7 +36,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <blockquote>
  *
  * <pre>
- * &lt;@calculate meaningOfLife 40+2/&gt;
+ * &lt;:calculate meaningOfLife 40+2/&gt;
  * </pre>
  *
  * </blockquote>This will assign "42" to {meaningOfLife} attribute.
@@ -44,7 +44,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <blockquote>
  *
  * <pre>
- * &lt;@calculate shouldContinue&gt;{loop:index}^2==4&lt;/@calculate&gt;
+ * &lt;:calculate shouldContinue&gt;{loop:index}^2==4&lt;/:calculate&gt;
  * </pre>
  *
  * </blockquote>This will assign "true" boolean value to {shouldContinue} if squared "loop:index" argument value equals
@@ -53,7 +53,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <blockquote>
  *
  * <pre>
- * &lt;@calculate concat should+be+joined+{index}/&gt;
+ * &lt;:calculate concat should+be+joined+{index}/&gt;
  * </pre>
  *
  * </blockquote>Will merge the arguments, assigning "shouldbejoinedN" (where N is the current value of "index") to
@@ -63,10 +63,10 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * <pre>
  *&lt;table&gt;
- *  &lt;@loop 4&gt;
- *    &lt;@calculate makeRow {loop:index}%2==1/&gt;
+ *  &lt;:loop 4&gt;
+ *    &lt;:calculate makeRow {loop:index}%2==1/&gt;
  *    &lt;label row={makeRow}&gt;@bundleLine{loop:index}&lt;/label&gt;
- *  &lt;/@loop&gt;
+ *  &lt;/:loop&gt;
  *&lt;/table&gt;
  * </pre>
  *
@@ -81,16 +81,24 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * {@link com.github.czyzby.lml.parser.LmlSyntax#getEquationMarker() Equation marker} is a simplified alternative to
  * this macro.
  *
+ * <p>
+ * This macro can also be used with named attributes: <blockquote>
+ *
+ * <pre>
+ * &lt;:calculate key="meaningOfLife" value="40+2"/&gt;
+ * </pre>
+ *
+ * </blockquote>
+ *
  * @author MJ */
 public class CalculationLmlMacroTag extends AssignLmlMacroTag {
-    public CalculationLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public CalculationLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 
     @Override
     protected String processArgumentValue(final String argumentValue) {
         return new Equation(getParser(), getActor())
-                .getResult(replaceArguments(argumentValue.replace("&gt;", ">"), getParser().getData().getArguments()));
-
+                .getResult(replaceArguments(argumentValue, getParser().getData().getArguments()));
     }
 }

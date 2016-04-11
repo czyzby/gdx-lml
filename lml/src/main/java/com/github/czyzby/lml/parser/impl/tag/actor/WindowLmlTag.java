@@ -13,7 +13,7 @@ import com.github.czyzby.lml.util.LmlUtilities;
  *
  * @author MJ */
 public class WindowLmlTag extends TableLmlTag {
-    public WindowLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public WindowLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

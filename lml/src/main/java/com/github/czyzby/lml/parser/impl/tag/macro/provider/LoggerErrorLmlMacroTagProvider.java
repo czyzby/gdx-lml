@@ -10,7 +10,7 @@ import com.github.czyzby.lml.parser.tag.LmlTagProvider;
  * @author MJ */
 public class LoggerErrorLmlMacroTagProvider implements LmlTagProvider {
     @Override
-    public LmlTag create(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public LmlTag create(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         return new LoggerErrorLmlMacroTag(parser, parentTag, rawTagData);
     }
 }

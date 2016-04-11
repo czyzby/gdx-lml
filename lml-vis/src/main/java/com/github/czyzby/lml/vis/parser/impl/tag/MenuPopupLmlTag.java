@@ -14,7 +14,7 @@ import com.kotcrab.vis.ui.widget.Separator;
  *
  * @author MJ */
 public class MenuPopupLmlTag extends AbstractActorLmlTag { // Name is inverted to keep the menu tags "family" together.
-    public MenuPopupLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public MenuPopupLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

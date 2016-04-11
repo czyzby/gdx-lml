@@ -180,14 +180,15 @@ public class Main extends AbstractApplicationListener {
         // LmlTagProvider is a simple functional interface that provides LmlTag instances.
         return new LmlTagProvider() {
             @Override
-            public LmlTag create(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+            public LmlTag create(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
                 return getCustomMacro(parser, parentTag, rawTagData);
             }
         };
     }
 
     // Changes text between tags into upper case.
-    private static LmlTag getCustomMacro(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    private static LmlTag getCustomMacro(final LmlParser parser, final LmlTag parentTag,
+            final StringBuilder rawTagData) {
         return new AbstractMacroLmlTag(parser, parentTag, rawTagData) {
             @Override
             public void handleDataBetweenTags(final String rawData) {
@@ -203,14 +204,14 @@ public class Main extends AbstractApplicationListener {
     private static LmlTagProvider getCustomTagProvider() {
         return new LmlTagProvider() {
             @Override
-            public LmlTag create(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+            public LmlTag create(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
                 return getCustomTag(parser, parentTag, rawTagData);
             }
         };
     }
 
     // Creates a custom Label that blinks.
-    private static LmlTag getCustomTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    private static LmlTag getCustomTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         return new AbstractActorLmlTag(parser, parentTag, rawTagData) {
             @Override
             protected LmlActorBuilder getNewInstanceOfBuilder() {

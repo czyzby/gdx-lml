@@ -11,21 +11,36 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <blockquote>
  *
  * <pre>
- * &lt;@notNull $myMethod&gt;
+ * &lt;:notNull $myMethod&gt;
  *      &lt;label text=$myMethod&gt;
- * &lt;@notNull:else/&gt;
- *      &lt;@exception&gt;MyMethod should never return null!&lt;/@exception&gt;
- * &lt;/@notNull&gt;
+ * &lt;:notNull:else/&gt;
+ *      &lt;:exception&gt;MyMethod should never return null!&lt;/:exception&gt;
+ * &lt;/:notNull&gt;
  * </pre>
  *
  * </blockquote>If method mapped to "myMethod" key returns null or false, this will throw an exception with a custom
  * reason message: "MyMethod should never return null!".
  *
+ * <p>
+ * This macro can be also used with named parameters:<blockquote>
+ *
+ * <pre>
+ * &lt;:exception message="MyMethod should never return null!" strict="true"/&gt;
+ * </pre>
+ *
+ * </blockquote>
+ *
+ *
  * @author MJ */
 public class ExceptionLmlMacroTag extends AbstractMacroLmlTag {
+    /** Optional name of the macro attribute - message to print. */
+    public static final String MESSAGE_ATTRIBUTE = "message";
+    /** Optional name of attribute - exception will be thrown only if strict. */
+    public static final String STRICT_ATTRIBUTE = "strict";
+
     private String content = "Exception thrown by invoking exception macro.";
 
-    public ExceptionLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public ExceptionLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 
@@ -40,12 +55,22 @@ public class ExceptionLmlMacroTag extends AbstractMacroLmlTag {
         if (GdxArrays.isEmpty(getAttributes())) {
             always = true;
         } else {
-            always = Boolean.valueOf(getParser().parseString(getAttributes().first(), getActor()));
+            if (hasAttribute(STRICT_ATTRIBUTE)) {
+                always = getParser().parseBoolean(getAttribute(STRICT_ATTRIBUTE), getActor());
+            } else {
+                always = getParser().parseBoolean(getAttributes().first(), getActor());
+            }
         }
+        content = hasAttribute(MESSAGE_ATTRIBUTE) ? getAttribute(MESSAGE_ATTRIBUTE) : content;
         if (always) {
             getParser().throwError(content);
         } else {
             getParser().throwErrorIfStrict(content);
         }
+    }
+
+    @Override
+    public String[] getExpectedAttributes() {
+        return new String[] { MESSAGE_ATTRIBUTE, STRICT_ATTRIBUTE };
     }
 }

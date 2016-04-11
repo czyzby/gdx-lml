@@ -3,6 +3,7 @@ package com.github.czyzby.lml.parser.impl.tag.macro;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
+import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.tag.AbstractMacroLmlTag;
 import com.github.czyzby.lml.parser.tag.LmlTag;
@@ -14,19 +15,33 @@ import com.github.czyzby.lml.util.collection.IgnoreCaseStringMap;
  * <blockquote>
  *
  * <pre>
- * &lt;@import file.lml /&gt;
- * &lt;@import file.lml contentArg&gt; Content &lt;/@import&gt;
+ * &lt;:import file.lml /&gt;
+ * &lt;:import file.lml contentArg&gt; Content &lt;/:import&gt;
  * </pre>
  *
  * </blockquote>In the first example, file.lml will be read and appended to the current template without any changes. In
  * the second, every argument named contentArg (by default, arguments are represented like this: {contentArg}) will be
  * replaced with the text between import tags: " Content ".
  *
+ * <p>
+ * Import macros can be also used with named parameters: <blockquote>
+ *
+ * <pre>
+ * &lt;:import path="file.lml" replace="contentArg"&gt; Content &lt;/:import&gt;
+ * </pre>
+ *
+ * </blockquote>
+ *
  * @author MJ */
 public abstract class AbstractImportLmlMacroTag extends AbstractMacroLmlTag {
+    /** Optional name of the first attribute. Path to the template. */
+    public static final String PATH_ATTRIBUTE = "path";
+    /** Optional name of the second attribute. Name of the argument to replace. */
+    public static final String REPLACE_ATTRIBUTE = "replace";
+
     private String content;
 
-    public AbstractImportLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public AbstractImportLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 
@@ -68,17 +83,31 @@ public abstract class AbstractImportLmlMacroTag extends AbstractMacroLmlTag {
 
     /** @return attribute with the name of the template file. Validate attributes list before usage. */
     protected String getTemplateFileName() {
+        if (hasAttribute(PATH_ATTRIBUTE)) {
+            return getAttribute(PATH_ATTRIBUTE);
+        } else if (GdxMaps.isNotEmpty(getNamedAttributes())) {
+            getParser().throwError(
+                    "Import macro has to have a 'path' attribute. Attributes found: " + getNamedAttributes());
+        }
         return getAttributes().get(0);
     }
 
     /** @return attribute with the name of the argument that should replace template's content. Validate attributes list
      *         before usage. */
     protected String getArgumentName() {
+        if (hasAttribute(REPLACE_ATTRIBUTE)) {
+            return getAttribute(REPLACE_ATTRIBUTE);
+        }
         return getAttributes().get(1);
     }
 
     /** @return true if contains at least 2 arguments: template file and content argument. */
     protected boolean isReplacingArguments() {
-        return GdxArrays.sizeOf(getAttributes()) > 1;
+        return hasAttribute(REPLACE_ATTRIBUTE) || GdxArrays.sizeOf(getAttributes()) > 1;
+    }
+
+    @Override
+    public String[] getExpectedAttributes() {
+        return new String[] { PATH_ATTRIBUTE, REPLACE_ATTRIBUTE };
     }
 }

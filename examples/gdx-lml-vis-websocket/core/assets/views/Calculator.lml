@@ -1,16 +1,16 @@
 <!-- Using window macro from Global.lml: -->
-<@window title="calculator" oneColumn=false>
+<:window title="calculator" oneColumn=false>
 <textArea id="input" message="@equationPrompt" grow=true width=250/>
 <grid width=100 itemSize=30 spacing=2 row=true>
 	<!-- This loop iterates over LML array. [1,9] is a range storing values 
 		from 1 to 9. ';' is the item separator. The other array values (., 0, -, 
 		+, *, /) are added manually, without a range. -->
-	<@for value="[1,9];.;0;-;+;*;/">
+	<:for value="[1,9];.;0;-;+;*;/">
 		<textButton onChange="add">{value}</textButton>
-	</@for>
+	</:for>
 </grid>
 <label id="result" style="small" color="vis-blue" textAlign="center"
 		colspan=2 row=true>@result</label>
 <textButton onChange="calculate" height=40 width=120>@calculate</textButton>
 <textButton onChange="toMenu" align="bottomRight" row=true>@toMenu</textButton>
-</@window>
+</:window>

@@ -17,7 +17,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * <pre>
  * &lt;table&gt;
- *     &lt;@column 2 pad=3 grow=true /&gt;
+ *     &lt;:column 2 pad=3 grow=true /&gt;
  * &lt;/table&gt;
  * </pre>
  *
@@ -28,7 +28,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * @author MJ */
 public class TableColumnLmlMacroTag extends TableRowLmlMacroTag {
-    public TableColumnLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public TableColumnLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

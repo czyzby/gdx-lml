@@ -8,9 +8,10 @@ import com.github.czyzby.lml.util.Lml;
 /** Logs passed messages with {@link com.badlogic.gdx.Application#debug(String, String)}. For example: <blockquote>
  *
  * <pre>
- * &lt;@debug Debug: {arg} /&gt;
- * &lt;@debug Debug:&gt;{arg}&lt;/@debug&gt;
- * &lt;@debug&gt;Debug: {arg}&lt;/@debug&gt;
+ * &lt;:debug Debug: {arg} /&gt;
+ * &lt;:debug Debug:&gt;{arg}&lt;/:debug&gt;
+ * &lt;:debug&gt;Debug: {arg}&lt;/:debug&gt;
+ * &lt;:debug log="Debug: {arg}" /&gt;
  * </pre>
  *
  * </blockquote>All of these macro invocations will log "Debug:" string joined with the current value assigned to "arg"
@@ -18,7 +19,7 @@ import com.github.czyzby.lml.util.Lml;
  *
  * @author MJ */
 public class LoggerDebugLmlMacroTag extends AbstractLoggerLmlMacroTag {
-    public LoggerDebugLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public LoggerDebugLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

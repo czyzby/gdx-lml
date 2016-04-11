@@ -8,9 +8,10 @@ import com.github.czyzby.lml.util.Lml;
 /** Logs passed messages with {@link com.badlogic.gdx.Application#error(String, String)}. For example: <blockquote>
  *
  * <pre>
- * &lt;@logError Error: {arg} /&gt;
- * &lt;@logError Error:&gt;{arg}&lt;/@logError&gt;
- * &lt;@logError&gt;Error: {arg}&lt;/@logError&gt;
+ * &lt;:logError Error: {arg} /&gt;
+ * &lt;:logError Error:&gt;{arg}&lt;/:logError&gt;
+ * &lt;:logError&gt;Error: {arg}&lt;/:logError&gt;
+ * &lt;:logError log="Error: {arg}" /&gt;
  * </pre>
  *
  * </blockquote>All of these macro invocations will log "Error:" string joined with the current value assigned to "arg"
@@ -18,7 +19,7 @@ import com.github.czyzby.lml.util.Lml;
  *
  * @author MJ */
 public class LoggerErrorLmlMacroTag extends AbstractLoggerLmlMacroTag {
-    public LoggerErrorLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public LoggerErrorLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

@@ -21,7 +21,7 @@ import com.kotcrab.vis.ui.widget.color.ColorPicker;
  * @see com.github.czyzby.lml.vis.parser.impl.attribute.ColorPickerLmlAttribute
  * @see com.github.czyzby.lml.vis.util.ColorPickerContainer */
 public class ColorPickerLmlTag extends VisWindowLmlTag {
-    public ColorPickerLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public ColorPickerLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

@@ -12,9 +12,11 @@ import com.github.czyzby.lml.util.Lml;
  *
  * @author MJ */
 public abstract class AbstractLoggerLmlMacroTag extends AbstractMacroLmlTag {
+    /** When using named parameters, this parameter allows to contain the message in tag. */
+    public static final String LOG_ATTRIBUTE = "log";
     private String content;
 
-    public AbstractLoggerLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public AbstractLoggerLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 
@@ -34,6 +36,8 @@ public abstract class AbstractLoggerLmlMacroTag extends AbstractMacroLmlTag {
                 // Only content between tags is given:
                 log(Lml.LOGGER_TAG, content);
             }
+        } else if (hasAttribute(LOG_ATTRIBUTE)) {
+            log(Lml.LOGGER_TAG, Strings.join(" ", getAttribute(LOG_ATTRIBUTE), content));
         } else {
             if (Strings.isNotBlank(content)) {
                 attributes.add(content);
@@ -48,4 +52,9 @@ public abstract class AbstractLoggerLmlMacroTag extends AbstractMacroLmlTag {
     /** @param loggerTag logging message tag. Usually used to indicate which application's component is problematic.
      * @param message will be logged. */
     protected abstract void log(String loggerTag, String message);
+
+    @Override
+    public String[] getExpectedAttributes() {
+        return new String[] { LOG_ATTRIBUTE };
+    }
 }

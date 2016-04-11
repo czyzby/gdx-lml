@@ -15,7 +15,7 @@ import com.kotcrab.vis.ui.util.form.FormInputValidator;
 public class CustomValidatorLmlTag extends AbstractValidatorLmlTag {
     private final CustomValidator validator = new CustomValidator();
 
-    public CustomValidatorLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public CustomValidatorLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

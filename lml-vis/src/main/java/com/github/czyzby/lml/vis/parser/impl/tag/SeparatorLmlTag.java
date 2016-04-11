@@ -12,7 +12,7 @@ import com.kotcrab.vis.ui.widget.Separator;
  * @author MJ
  * @see MenuSeparatorLmlTag */
 public class SeparatorLmlTag extends AbstractNonParentalActorLmlTag {
-    public SeparatorLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public SeparatorLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

@@ -27,7 +27,7 @@ import com.github.czyzby.lml.util.LmlUserObject.TableTarget;
  * <pre>
  * &lt;table&gt;
  *     First row.
- *     &lt;@row/&gt;
+ *     &lt;:row/&gt;
  *     Second row.
  * &lt;/table&gt;
  * </pre>
@@ -38,12 +38,12 @@ import com.github.czyzby.lml.util.LmlUserObject.TableTarget;
  *
  * <pre>
  * &lt;table&gt;
- *     &lt;@row pad=5&gt;
+ *     &lt;:row pad=5&gt;
  *         First row.
- *     &lt;/@row&gt;
- *     &lt;@row expandY=true&gt;
+ *     &lt;/:row&gt;
+ *     &lt;:row expandY=true&gt;
  *         Second row.
- *     &lt;/@row&gt;
+ *     &lt;/:row&gt;
  * &lt;/table&gt;
  * </pre>
  *
@@ -54,9 +54,9 @@ import com.github.czyzby.lml.util.LmlUserObject.TableTarget;
  *
  * <pre>
  * &lt;table&gt;
- *     &lt;@row pad=5&gt;
+ *     &lt;:row pad=5&gt;
  *         First row.
- *     &lt;/@row&gt;
+ *     &lt;/:row&gt;
  *     Same row.
  * &lt;/table&gt;
  * </pre>
@@ -67,7 +67,7 @@ import com.github.czyzby.lml.util.LmlUserObject.TableTarget;
 public class TableRowLmlMacroTag extends AbstractMacroLmlTag {
     private String content;
 
-    public TableRowLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public TableRowLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

@@ -13,9 +13,9 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * indexes. For example: <blockquote>
  *
  * <pre>
- * &lt;@forEach element=elem0;elem1 range=rang[0,2]&gt;
+ * &lt;:forEach element=elem0;elem1 range=rang[0,2]&gt;
  *      {forEach:index}: {element} {range}
- * &lt;/@forEach&gt;
+ * &lt;/:forEach&gt;
  * </pre>
  *
  * </blockquote>The first argument is a standard array with values separated with ';'. The second is a range. This will
@@ -28,6 +28,10 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * Be careful when using nested loop tags: its arguments should not overlap. If you need to access indexes of both
  * loops, use different tag aliases.
  *
+ * <p>
+ * When using default DTD settings, "element" is the only recognized macro attribute. As this does not allow you to
+ * create nested loops or iterate over multiple arrays at once, you might want to modify DTD files manually.
+ *
  * @author MJ */
 public class ForEachLmlMacroTag extends AbstractLoopLmlMacroTag {
     private final Array<String> argumentNames;
@@ -35,7 +39,7 @@ public class ForEachLmlMacroTag extends AbstractLoopLmlMacroTag {
     private final int size;
     private int currentIndex;
 
-    public ForEachLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public ForEachLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
         if (GdxArrays.isEmpty(getAttributes())) {
             parser.throwErrorIfStrict("For each macro needs array attributes to iterate over.");
@@ -94,5 +98,10 @@ public class ForEachLmlMacroTag extends AbstractLoopLmlMacroTag {
             return array[currentIndex];
         }
         return Nullables.DEFAULT_NULL_STRING;
+    }
+
+    @Override
+    public String[] getExpectedAttributes() {
+        return new String[] { ELEMENT_ATTRIBUTE };
     }
 }

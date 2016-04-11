@@ -14,9 +14,9 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <blockquote>
  *
  * <pre>
- * &lt;@while 9 &lt; $someAction&gt;
+ * &lt;:while 9 &lt; $someAction&gt;
  *     &lt;label&gt;Label: {while:index}&lt;/label&gt;
- * &lt;/@while&gt;
+ * &lt;/:while&gt;
  * </pre>
  *
  * </blockquote>This macro would create labels until "someAction" result is greater than 9 (or longer than 9, in case
@@ -28,11 +28,11 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <blockquote>
  *
  * <pre>
- * &lt;@assign myArg 12 /&gt;
- * &lt;@while 9&lt;{myArg}&gt;
+ * &lt;:assign myArg 12 /&gt;
+ * &lt;:while 9&lt;{myArg}&gt;
  *     &lt;label&gt;Label: {while:index}&lt;/label&gt;
- *     &lt;@calculate myArg --{myArg}/&gt;
- * &lt;/@while&gt;
+ *     &lt;:calculate myArg --{myArg}/&gt;
+ * &lt;/:while&gt;
  * </pre>
  *
  * </blockquote>Even though "myArg" attribute would be decremented on each run, loop will never end, as it will be
@@ -41,10 +41,21 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * <blockquote>
  *
  * <pre>
- * &lt;@while 9&lt;12&gt;
+ * &lt;:while 9&lt;12&gt;
  *     &lt;label&gt;Label: {while:index}&lt;/label&gt;
- *     &lt;@calculate myArg --{myArg}/&gt;
- * &lt;/@while&gt;
+ *     &lt;:calculate myArg --{myArg}/&gt;
+ * &lt;/:while&gt;
+ * </pre>
+ *
+ * </blockquote>
+ *
+ * <p>
+ * Note that this macro can be also used with named attributes:<blockquote>
+ *
+ * <pre>
+ * &lt;:while test="9 &lt; $someAction"&gt;
+ *     &lt;label&gt;Label: {while:index}&lt;/label&gt;
+ * &lt;/:while&gt;
  * </pre>
  *
  * </blockquote>
@@ -55,7 +66,7 @@ public class WhileLmlMacroTag extends AbstractLoopLmlMacroTag {
     private final String equation;
     private int currentIndex;
 
-    public WhileLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public WhileLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
         equation = getEquation();
         equationParser = getEquationParser();
@@ -67,6 +78,8 @@ public class WhileLmlMacroTag extends AbstractLoopLmlMacroTag {
                     "While macro needs tag attributes to determine condition. Found no attributes on tag: "
                             + getTagName());
             return null;
+        } else if (hasAttribute(AbstractConditionalLmlMacroTag.TEST_ATTRIBUTE)) {
+            return getAttribute(AbstractConditionalLmlMacroTag.TEST_ATTRIBUTE);
         }
         return convertAttributesToEquation();
     }
@@ -92,5 +105,10 @@ public class WhileLmlMacroTag extends AbstractLoopLmlMacroTag {
     protected void next(final ObjectMap<String, String> arguments) {
         // While macro does not replace any local arguments.
         currentIndex++;
+    }
+
+    @Override
+    public String[] getExpectedAttributes() {
+        return new String[] { AbstractConditionalLmlMacroTag.TEST_ATTRIBUTE };
     }
 }

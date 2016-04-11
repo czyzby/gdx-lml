@@ -12,7 +12,7 @@ import com.github.czyzby.lml.util.LmlUtilities;
  *
  * @author MJ */
 public class TextAreaLmlTag extends TextFieldLmlTag {
-    public TextAreaLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public TextAreaLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

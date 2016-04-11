@@ -38,7 +38,7 @@ public class TabbedPaneLmlTag extends AbstractActorLmlTag {
     private ActorConsumer<Action, Tab> showActionProvider;
     private ActorConsumer<Action, Tab> hideActionProvider;
 
-    public TabbedPaneLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public TabbedPaneLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

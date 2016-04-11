@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 import com.badlogic.gdx.utils.Array;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
+import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.action.ActorConsumer;
 import com.github.czyzby.lml.parser.impl.tag.AbstractActorLmlTag;
@@ -42,7 +43,7 @@ import com.github.czyzby.lml.util.LmlUtilities;
  * <blockquote>
  *
  * <pre>
- * &lt;@newTag myTable getMyTable&gt;
+ * &lt;:newTag myTable getMyTable /&gt;
  * &lt;!-- Now you can use: --&gt;
  * &lt;myTable&gt;
  *      &lt;label pad=3&gt;Will be properly added.&lt;/label&gt;
@@ -91,15 +92,32 @@ import com.github.czyzby.lml.util.LmlUtilities;
  * }
  *
  * &lt;!-- In template: --&gt;
- * &lt;@newTag myTable;myAlias getMyTable getMyBuilder&gt;
+ * &lt;:newTag myTable;myAlias getMyTable getMyBuilder /&gt;
  * </pre>
  *
  * </blockquote>Building attributes are mapped to builder types, so if you use one of custom widget builders (like the
  * text actor builder in the example above), your tag will automatically handle all its attributes.
  *
+ * <p>
+ * Note that this macro supports named attributes: <blockquote>
+ *
+ * <pre>
+ * &lt;:newTag alias="myTable" method="getMyTable" builder="getMyBuilder" /&gt;
+ * </pre>
+ *
+ * </blockquote>
+ *
  * @author MJ */
 public class NewTagLmlMacroTag extends AbstractMacroLmlTag {
-    public NewTagLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    /** Alias for the first macro attribute: list of tag aliases. */
+    public static final String ALIAS_ATTRIBUTE = "alias";
+    /** Alias for the second macro attribute: name of the method that returns an actor instance and optionally consumes
+     * a {@link LmlActorBuilder}. */
+    public static final String METHOD_ATTRIBUTE = "method";
+    /** Alias for the third macro attribute: name of the method that returns a customized {@link LmlActorBuilder}. */
+    public static final String BUILDER_ATTRIBUTE = "builder";
+
+    public NewTagLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 
@@ -108,7 +126,6 @@ public class NewTagLmlMacroTag extends AbstractMacroLmlTag {
     }
 
     @Override
-    @SuppressWarnings("unchecked") // Casting actions, the usual stuff.
     public void closeTag() {
         final Array<String> attributes = getAttributes();
         if (GdxArrays.sizeOf(attributes) < 2) {
@@ -116,14 +133,12 @@ public class NewTagLmlMacroTag extends AbstractMacroLmlTag {
                     "Cannot register a new tag without two attributes: tag names array and method ID (consuming LmlActorBuilder, providing Actor).");
         }
         // Possible tag names:
-        final String[] tagNames = getParser().parseArray(attributes.first(), getActor());
+        final String[] tagNames = getTagNames();
         // Creates actual actor:
-        final ActorConsumer<Actor, LmlActorBuilder> creator = (ActorConsumer<Actor, LmlActorBuilder>) getParser()
-                .parseAction(attributes.get(1), new LmlActorBuilder());
-        final ActorConsumer<LmlActorBuilder, Actor> builderCreator;
+        final ActorConsumer<Actor, LmlActorBuilder> creator = getActorCreator();
+        final ActorConsumer<LmlActorBuilder, ?> builderCreator;
         if (attributes.size > 2) { // Provides builders:
-            builderCreator = (ActorConsumer<LmlActorBuilder, Actor>) getParser().parseAction(attributes.get(2),
-                    getActor());
+            builderCreator = getBuilderCreator();
         } else { // Using default builders:
             builderCreator = null;
         }
@@ -137,14 +152,52 @@ public class NewTagLmlMacroTag extends AbstractMacroLmlTag {
         getParser().getSyntax().addTagProvider(getNewTagProvider(creator, builderCreator), tagNames);
     }
 
+    /** @return {@link ActorConsumer} returning {@link LmlActorBuilder}. */
+    @SuppressWarnings("unchecked")
+    private ActorConsumer<LmlActorBuilder, ?> getBuilderCreator() {
+        if (hasAttribute(BUILDER_ATTRIBUTE)) {
+            return (ActorConsumer<LmlActorBuilder, ?>) getParser().parseAction(getAttribute(BUILDER_ATTRIBUTE),
+                    getActor());
+        }
+        return (ActorConsumer<LmlActorBuilder, ?>) getParser().parseAction(getAttributes().get(2), getActor());
+    }
+
+    /** @return {@link ActorConsumer} returning an {@link Actor} and (optionally) consuming {@link LmlActorBuilder}. */
+    @SuppressWarnings("unchecked")
+    protected ActorConsumer<Actor, LmlActorBuilder> getActorCreator() {
+        if (hasAttribute(METHOD_ATTRIBUTE)) {
+            return (ActorConsumer<Actor, LmlActorBuilder>) getParser().parseAction(getAttribute(METHOD_ATTRIBUTE),
+                    new LmlActorBuilder());
+        }
+        return (ActorConsumer<Actor, LmlActorBuilder>) getParser().parseAction(getAttributes().get(1),
+                new LmlActorBuilder());
+    }
+
+    /** @return list of tag aliases. */
+    protected String[] getTagNames() {
+        if (hasAttribute(ALIAS_ATTRIBUTE)) {
+            return getParser().parseArray(getAttribute(ALIAS_ATTRIBUTE), getActor());
+        } else if (GdxMaps.isNotEmpty(getNamedAttributes())) {
+            getParser().throwError(
+                    "When using named attributes, new tag macro needs at least two attributes: 'method' (name of the method that returns an Actor and optionally consumes LmlActorBuilder) and 'tag' (array of new tag aliases). Found attributes: "
+                            + getNamedAttributes());
+        }
+        return getParser().parseArray(getAttributes().first(), getActor());
+    }
+
+    @Override
+    public String[] getExpectedAttributes() {
+        return new String[] { ALIAS_ATTRIBUTE, METHOD_ATTRIBUTE, BUILDER_ATTRIBUTE };
+    }
+
     /** @param creator method that spawns new actors.
      * @param builderCreator spawns actor builders. Optional.
      * @return an instance of {@link LmlTagProvider} that provides custom tags. */
     protected LmlTagProvider getNewTagProvider(final ActorConsumer<Actor, LmlActorBuilder> creator,
-            final ActorConsumer<LmlActorBuilder, Actor> builderCreator) {
+            final ActorConsumer<LmlActorBuilder, ?> builderCreator) {
         return new LmlTagProvider() {
             @Override
-            public LmlTag create(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+            public LmlTag create(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
                 return new CustomLmlTag(parser, parentTag, rawTagData) {
                     @Override
                     protected Actor getNewInstanceOfActor(final LmlActorBuilder builder) {
@@ -171,7 +224,7 @@ public class NewTagLmlMacroTag extends AbstractMacroLmlTag {
      *
      * @author MJ */
     public static abstract class CustomLmlTag extends AbstractActorLmlTag {
-        public CustomLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+        public CustomLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
             super(parser, parentTag, rawTagData);
         }
 

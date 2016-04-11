@@ -14,7 +14,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * @author MJ */
 public class ActorLmlTag extends AbstractActorLmlTag {
-    public ActorLmlTag(final LmlParser parser, final LmlTag parentTag, final String rawTagData) {
+    public ActorLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 

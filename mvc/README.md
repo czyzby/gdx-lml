@@ -1,4 +1,4 @@
-#LibGDX Autumn MVC
+# LibGDX Autumn MVC
 Totally not a Spring rip-off (TM).
 
 If you're used to Spring MVC, you may feel like home. Dependency injection, component scan, view templates and a lot of internals are handled for you. The goal of Autumn is to let you focus on game's logic rather than the overall project structure: you define the assets, views and their controllers - Autumn MVC makes it easy to connect and manage them with just a few lines of code and a whole lot of annotations.
@@ -7,7 +7,7 @@ The original idea was to make my first LibGDX utilities public, but after I real
 
 Autumn MVC tries to be as flexible as possible, but it does force a specific project structure and approach. If you want only some parts of the "framework", that's completely fine: [Kiwi](https://github.com/czyzby/gdx-lml/tree/master/kiwi) is a set of Guava-inspired utilities for general use (in LibGDX applications), [LML](https://github.com/czyzby/gdx-lml/tree/master/lml) is a pretty powerful HTML-like markup language that allows to easily build complex Scene2D UIs, and [Autumn](https://github.com/czyzby/gdx-lml/tree/master/autumn) provides annotation-processing mechanism that allows for dependency injection with component scan out of the box. You can use each and every of them in any combination (knowing that both LML and Autumn use Kiwi internally). However, excluding some of Autumn MVC components is usually not an option, as most of them depend on each other.
 
-##Why should you use Autumn MVC
+## Why should you use Autumn MVC
 Simply put - to save your time. While a pure Java application without reflection might start or even work slightly faster, it requires you to handle a lot of stuff... stuff that usually LibGDX makes pretty easy to implement, to be honest, but sometimes awkward to use or not fully supported out of the box. Autumn support goes a step further in - hopefully - the right direction. Autumn takes care of:
 
 - asset management,
