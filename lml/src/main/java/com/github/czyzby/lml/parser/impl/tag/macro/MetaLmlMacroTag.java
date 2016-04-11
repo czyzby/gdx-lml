@@ -26,7 +26,6 @@ import com.github.czyzby.lml.util.collection.IgnoreCaseStringMap;
  * &lt;:newActor/&gt;
  * </pre>
  *
- * row
  *
  * </blockquote>This is a very simple macro that adds a single tag on evaluation. It is not prepared to handle content
  * between tags and does not have any extra arguments. After invoking (second line in the example), it will spawn a
@@ -95,16 +94,45 @@ import com.github.czyzby.lml.util.collection.IgnoreCaseStringMap;
  * dialogs. Note that text proceeded with {@literal @} sign is extracted from i18n bundle. If you construct some kind of
  * widget multiple times with similar settings using plain LML tags, you should consider creating a macro instead for
  * simplified tags content.
+ * <p>
+ * Note that named attributes are supported by this macro, but it ALWAYS HAS TO start with "alias" and "replace"
+ * attributes if you want to add custom macro attributes. For example:<blockquote>
+ *
+ * <pre>
+ * &lt;:macro alias="mySimpleMacro"&gt;
+ *   &lt;label text="Hello."/&gt;
+ * &lt;/:macro&gt;
+ *
+ * &lt;:macro replace="content" alias="myContentMacro"&gt;
+ *   &lt;label&gt;{content}&lt;/label&gt;
+ * &lt;/:macro&gt;
+ *
+ * &lt;:macro alias="myMacro" replace="content" id="default" &gt;
+ *   &lt;table id="{id}"&gt;
+ *      {content}
+ *   &lt;/table&gt;
+ * &lt;/:macro&gt;
+ *
+ * &lt;!-- Macro invocations/; --&gt;
+ * &lt;:mySimpleMacro/&gt;
+ * &lt;:myContentMacro&gt;Hello.&lt;/:myContentMacro&gt;
+ * &lt;:myMacro id="custom"&gt;&lt;label text="Hello."/&gt;&lt;/:myMacro&gt;
+ * </pre>
+ *
+ * </blockquote>This meta-macro needs a way of detecting custom, user-added attributes to the new macro it creates -
+ * current implementation assumes that any third (or next) attribute is custom. First two attributes are reserved for
+ * "alias" and "replace". Note that DTD validation will not recognize your custom attributes in meta macro, so you might
+ * need to give up DTD in your macro files (that's why a global macro file is a good idea) or modify DTD files manually.
  *
  * @author MJ */
 public class MetaLmlMacroTag extends AbstractMacroLmlTag {
+    /** Alias of the first macro attribute: new macro aliases array. */
+    public static final String ALIAS_ATTRIBUTE = "alias";
+    /** Alias of the second macro attribute: name of the argument to replace in macro with the content between tags. */
+    public static final String REPLACE_ATTRIBUTE = "replace";
+
     public MetaLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
-    }
-
-    @Override
-    protected boolean supportsOptionalNamedAttributes() {
-        return false;
     }
 
     @Override
@@ -122,7 +150,9 @@ public class MetaLmlMacroTag extends AbstractMacroLmlTag {
 
     /** @return second macro attribute. */
     protected String getContentAttributeName() {
-        if (GdxArrays.sizeOf(getAttributes()) > 1) {
+        if (hasAttribute(REPLACE_ATTRIBUTE)) {
+            return getAttribute(REPLACE_ATTRIBUTE);
+        } else if (GdxArrays.sizeOf(getAttributes()) > 1) {
             return getAttributes().get(1);
         }
         return null;
@@ -153,12 +183,19 @@ public class MetaLmlMacroTag extends AbstractMacroLmlTag {
     /** @return first macro argument parsed as an array. */
     protected String[] getSupportedTagNames() {
         final Actor actor = getActor(); // Needed to parse raw LML data.
-        final String[] names = getParser().parseArray(getAttributes().first(), actor);
+        final String attribute = hasAttribute(ALIAS_ATTRIBUTE) ? getAttribute(ALIAS_ATTRIBUTE)
+                : getAttributes().first();
+        final String[] names = getParser().parseArray(attribute, actor);
         for (int index = 0, length = names.length; index < length; index++) {
             // Arrays might not be fully parsed, but in this case, we need absolute macro names.
             names[index] = getParser().parseString(names[index], actor);
         }
         return names;
+    }
+
+    @Override
+    public String[] getExpectedAttributes() {
+        return new String[] { ALIAS_ATTRIBUTE, REPLACE_ATTRIBUTE };
     }
 
     /** Provides a custom macro tag created in LML templates.
