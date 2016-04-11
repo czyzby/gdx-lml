@@ -7,7 +7,7 @@ See [gdx-lml-tests](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-l
 Check it out [on-line](http://czyzby.github.io/gdx-lml/lml).
 
 ###Documentation
-See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&t=18843), [example project](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-lml-tests), [tutorial](https://github.com/czyzby/gdx-lml/wiki/Tutorial), [DTD file](https://github.com/czyzby/gdx-lml/tree/master/lml/dtd) and [old syntax page (work in progress)](https://github.com/czyzby/gdx-lml/wiki/Syntax).
+See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&t=18843), [example project](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-lml-tests), [tutorial](https://github.com/czyzby/gdx-lml/wiki/LibGDX-Markup-Language), [DTD file](https://github.com/czyzby/gdx-lml/tree/master/lml/dtd) and [old syntax page (work in progress)](https://github.com/czyzby/gdx-lml/wiki/Syntax).
 
 ##Extensions
 [VisUI](https://github.com/kotcrab/VisEditor/wiki/VisUI) syntax support is available through [gdx-lml-vis library](https://github.com/czyzby/gdx-lml/tree/master/lml-vis). Additionally to replacing standard Scene2D actors with improved VisUI widgets, it offers full support for other VisUI features - including color picker, file chooser, other new widgets, listeners and validators.
