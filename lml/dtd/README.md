@@ -92,3 +92,26 @@ If you use `gdx-lml-vis`, you have to create a custom `VisLmlSyntax` instead:
 ```
 
 However, it's pretty easy to migrate to `1.6+`. Provided that you haven't used whitespace characters between `<` and `@`, all you have to do is replace `<@` and `</@` with `<:` and `</:` in all `*.lml` files.
+
+### DYI
+
+DTD schema is pretty straightforward. You can easily append your custom tags and attributes - and I'm not talking only about editing files by hand; I assume you're familiar with string concatenation and `Appendable` interface - you can easily add your custom, hard written lines to the DTD generation script. The generator *might* fail to find some tag, macro or attribute due to various reasons, like internal validation in their classes that prevents from creating mock-up instances needed to generate DTD data. If that's the case, you can always hook up to the generator and append the missing schema data yourself.
+
+Adding a new tag that can have any children:
+```
+        <!ELEMENT tagName ANY>
+```
+
+Adding a list of attributes:
+```
+        <!ATTLIST tagName
+	        attributeName CDATA #IMPLIED
+	        secondName CDATA #IMPLIED>
+```
+
+Adding a single attribute:
+```
+        <!ATTLIST tagName attributeName CDATA #IMPLIED>
+```
+
+Look up DTD syntax if you want more advanced schema features, like limiting the type of children a tag can have.
