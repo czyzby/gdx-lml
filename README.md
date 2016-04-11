@@ -6,6 +6,8 @@ This used to be `gdx-lml` library repository before I finally forced myself to m
 
 If you came here looking for `gdx-lml` documentation, [check this out](https://github.com/czyzby/gdx-lml/tree/master/lml). `gdx-lml-tests` project, which shows usage of all LML tags, was moved [here](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-lml-tests).
 
+Also, repository might include example project using latest snapshot versions and their new features. Before including the libraries in your project, make sure that you use the correct version.
+
 ## Projects
 
 ### gdx-kiwi
