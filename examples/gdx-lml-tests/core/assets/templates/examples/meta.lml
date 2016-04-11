@@ -7,15 +7,21 @@
 <!-- Second, optional macro definition attribute is the
     name of the argument that will be replaced by text
     between invocation's macro tags. -->
-<:macro myMacro content>
+<:macro alias="myMacro" replace="content">
     <textButton>{content}</textButton>
 </:macro>
 <:myMacro>Becomes button's text.</:myMacro>
 
+<!-- Note that named parameters are optional. Even if you
+    use named attributes, first and second attributes have
+    to be "alias" and "replace" (in any order), as the
+    rest becomes custom attributes available for the new
+    macro. -->
+
 <!-- The rest of declaration's attributes are the names of
     additional attributes that might be passed during
     macro invocation. -->
-<:macro myMacro content size>
+<:macro alias="myMacro" replace="content" size>
     <container size={size}><textButton>
         {content}
     </textButton></container>

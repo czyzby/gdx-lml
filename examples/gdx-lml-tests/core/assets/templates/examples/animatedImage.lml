@@ -1,33 +1,30 @@
 <!-- AnimatedImage is a new LML actor. Based on
     regular Image, this widget allows to display
     multiple animated frames in a specified order.
-    Instead of regular style, it expects an array
-    of drawable IDs in the skin. See arrays example
-    for more info about the syntax. -->
-
-<animatedImage style="default-round-down;default-round"/>
+    It expects an array of drawable IDs in its
+    style attribute. See arrays example for more
+    info about the syntax. -->
+<animatedImage style="black;gray;red;white"/>
 
 <!-- "frames" attribute also works, but its not
-    a mere alias of style. Style attribute is
-    parsed before the widget is created - frames
-    attribute is parsed after, so it can properly
+    a mere alias of "style". Style attribute is
+    parsed _before_ the widget is created - frames
+    attribute is parsed _after_, so it can properly
     invoke actions. It appends new frames, rather
     than replacing the old ones. -->
-
-<label>Backwards:</label>
-<container size=30>
+<label>Backwards:</label> <container size=30>
     <animatedImage backwards=true delay=1 currentFrame=1
-        frames="default-rect;default-round;default-window" />
+        frames="black;red;white" />
 </container>
-<label>Bouncing:</label>
-<container size=50>
+
+<label>Bouncing:</label> <container size=50>
     <!-- Images from style and frames will be joined. -->
-    <animatedImage bounce=true delay=1 style="default-window"
-        frames="default-round-down;default-round" />
+    <animatedImage bounce=true delay=1 style="black"
+        frames="gray;red;white" />
 </container>
-<label>Played once:</label>
-<container size=100>
-    <!-- Wait 2 seconds. The last frame becomes permanent. -->
+
+<label>Played once:</label> <container size=100>
+    <!-- Waits 2 seconds. The last frame becomes permanent. -->
     <animatedImage playOnce=true delay=2
-        frames="default-round;default-round-down" />
+        frames="white;gray;red" />
 </container>

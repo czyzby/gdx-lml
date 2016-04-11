@@ -4,7 +4,6 @@
     and ActionContainers (reflected classes with their
     methods available in LML templates). By using '$'
     marker, you can access your registered methods. -->
-
 <label>$someAction</label>
 <label>$someNamedAction</label>
 
@@ -12,14 +11,11 @@
     If one argument action is found, it will be invoked
     with the actor that contains the action. For example,
     This will be invoked with the container: -->
+<container size=$size><textButton>
+    Random-sized thanks to a method.
+</textButton></container>
 
-<container size=$size>
-    <textButton>
-        Random-sized thanks to a method.
-    </textButton>
-</container>
-
-<!-- Invoked with the label: -->
+<!-- Invoked with the label as method parameter: -->
 <label>$labelConsumer</label>
 
 <!-- Some attributes expect a method reference. If that's
@@ -31,5 +27,4 @@
     method invocation with container's ID and a dot will
     select a specific container. Otherwise, the first found
     method is chosen - order is undetermined. -->
-
 <label>$custom.someMethod</label>

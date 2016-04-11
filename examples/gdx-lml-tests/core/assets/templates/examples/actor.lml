@@ -5,7 +5,7 @@
 <!-- They can be used as mock-up
     elements of tables, for example. -->
 
-<!-- Parental actor tag creates a Group
+<!-- Parental actor tag creates a Group -
     simple container for multiple actors: -->
 <actor>
     <textButton>Children appended to group</textButton>

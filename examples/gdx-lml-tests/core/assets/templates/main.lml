@@ -1,12 +1,12 @@
-<window title="@mainTitle" titleAlign="center" fillParent=true defaultUniformX=true onShow=fadeIn>
+<window title="@mainTitle" titleAlign="center" fillParent=true defaultSpace=2 defaultUniformX=true onShow=fadeIn>
 
     <!-- Title addition: -->
     <label toTitleTable=true align="right" padRight=5 padTop=-2>@mainSubtitle</label>
     
     <!-- Template input: -->
     <table grow=true>
-        <textArea id="templateInput" class="technical" message="@textAreaPrompt" grow=true row=true />
-        <textButton onChange="parseTemplate" growX=true>@parsingButton|LML</textButton> 
+        <textArea id="templateInput" class="code" message="@textAreaPrompt" grow=true row=true />
+        <textButton onChange="parseTemplate" growX=true spaceTop=2>@parsingButton|LML</textButton> 
     </table>
 
     <!-- Buttons and parsing result: -->
@@ -16,7 +16,7 @@
         <table width=200 growY=true>
             <!-- This scroll pane contains buttons used to switch LML templates. -->
             <scrollPane grow=true fadeBars=false overscroll=false>
-                <table defaultWidth=175 tableAlign=left defaultExpandX=true defaultAlign=left>
+                <table defaultWidth=178 tableAlign=left defaultExpandX=true defaultAlign=left>
                     <:for example={examples}>
                         <textButton id={example} style="toggle" onChange="switch" row=true>@{example}</textButton>
                     </:for>
@@ -25,7 +25,7 @@
         </table>
         
         <!-- This table contains parsed template's actors after processing. -->
-        <table id="resultTable" expand=true />
+        <table id="resultTable" grow=true />
 
     </table>
 </window>

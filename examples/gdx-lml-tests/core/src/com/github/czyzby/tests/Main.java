@@ -88,7 +88,7 @@ public class Main extends AbstractApplicationListener {
 
     // This skin will be available through "default" ID and used if no ID is specified.
     private static Skin getDefaultSkin() {
-        return new Skin(Gdx.files.internal("ui/ui.json"));
+        return new Skin(Gdx.files.internal("skin.json"));
     }
 
     // This bundle will be available through "default" ID and used if no ID is specified.

@@ -5,8 +5,8 @@
     global argument values. -->
 
 <:replace someArgument="Custom." customMacroArgument="Macro!">
-    <label color=red>{someArgument}</label>
-    <label color=red>{customMacroArgument}</label>
+    <label color=green>{someArgument}</label>
+    <label color=green>{customMacroArgument}</label>
 </:replace>
 <!-- Global arguments: -->
 <label>{someArgument}</label>

@@ -4,7 +4,7 @@
     parent tags that allow they children to use cell
     attributes. -->
 
-<table background="default-rect">
+<table background="red-frame">
     Text converted to labels.
     <textButton row=true>Adds row.</textButton>
     <label color=green height=25>
@@ -20,7 +20,7 @@
     that overlap with cell (for example: pad) are
     proceeded with "table". -->
 
-<table background="default-round-down"
+<table background="frame"
     <!-- Try removing these attributes: -->
         defaultPad=4 tablePad=12>
     <button/>

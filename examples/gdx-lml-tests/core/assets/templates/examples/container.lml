@@ -8,6 +8,6 @@
 <!-- It can have only 1 child. If it finds text
     between its tag, it converts it to a label
     and sets it as its only child. -->
-<container background=default-rect>
+<container background=frame>
     Label managed by container.
 </container>

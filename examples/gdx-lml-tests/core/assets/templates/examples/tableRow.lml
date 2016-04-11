@@ -6,9 +6,8 @@
 <!-- Defining button-spamming macro: -->
 <:macro buttons><button/><button/><button/></:macro>
 
-<table bg="default-rect">
-    <:buttons/>
-    <:row/>
+<table bg="red-frame" defaultPad=4>
+    <:buttons/> <:row/>
     <:buttons/>
     <!-- This will set the defaults of the next row: -->
     <:row size=32/>
@@ -17,13 +16,11 @@
 
 <!-- Adding a row on the beginning of the table does
     not affect table's layout and allows you to specify
-    defaults of the first row. -->
-
-<!-- This macro parses the data inside its tags with no
-    modifications, so you can add actor tags inside
-    row macros for extra readability. -->
-
-<table bg="default-rect">
+    defaults of the first row. This macro parses the
+    data inside its tags with no modifications, so you
+    can add actor tags inside row macros for extra
+    readability. -->
+<table bg="frame">
     <:row>
         First
         <textButton>row</textButton>

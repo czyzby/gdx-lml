@@ -17,7 +17,7 @@
     Since :error macro throws an exception,
     "logError" alias must be used for logging
     errors. -->
-<:debug>Debug log: {someArgument}</:debug>
+<:debug log="Debug log: {someArgument}"></:debug>
 <:info>Info log: {someArgument}</:info>
 <:logError>Error log: {someArgument}</:logError>
 

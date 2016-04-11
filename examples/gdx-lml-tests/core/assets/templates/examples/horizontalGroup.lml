@@ -1,6 +1,6 @@
 <!-- Appends children horizontally. -->
 
-<horizontalGroup padding=2>
+<horizontalGroup space=5>
     Converts
     text
     to

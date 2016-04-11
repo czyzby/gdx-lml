@@ -12,26 +12,22 @@
 </:if>
 
 <!-- '>' sign as to be escaped with '&gt' in tags, as it
-    also marks the end of tag. -->
-
-<table defaultSize=24>
-    <:loop 9>
-        <:if {loop:index}%3 = 0>
-            <:row/>
-        </:if>
+    also marks the end of tag. Optional "test" attribute
+    can be used to create valid XML. -->
+<table defaultPad=4>
+    <:loop times="9">
+        <:if test="{loop:index}%3 = 0"><:row/></:if>
         <button/>
     </:loop>
 </table>
 
 <!-- Else tag can be supplied to provide an alternative
     if the equation evaluates to false. -->
-    
 <:if (7.4*1.2)^0.3 - 84>
     <label>Number is positive.</label>
 <:if:else/>
     <label>Number is negative.</label>
 </:if>
-    
 <!-- As with any conditional macro, "else" tag is optional and
     follows this syntax: <:tagName:else/>, where "tagName" is
     the name of conditional macro tag you used. -->

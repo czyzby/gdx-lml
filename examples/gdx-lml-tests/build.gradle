@@ -6,7 +6,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
+        classpath "de.richsource.gradle.plugins:gwt-gradle-plugin:0.6"
+        classpath "com.badlogicgames.gdx:gdx-tools:1.7.2"
     }
 }
 
@@ -56,6 +57,12 @@ project(":core") {
         compile "com.github.czyzby:gdx-lml:$libVersion"
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     }
+}
+
+task pack << {
+  // Packing raw assets into an atlas:
+  com.badlogic.gdx.tools.texturepacker.TexturePacker.process(project(":core")
+     .file("raw").absolutePath, project(":core").file("assets").absolutePath, "skin")
 }
 
 tasks.eclipse.doLast {

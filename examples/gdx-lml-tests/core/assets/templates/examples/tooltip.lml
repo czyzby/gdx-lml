@@ -5,20 +5,20 @@
     new TextTooltip. -->
 
 <container size=128>
-    <image tooltip="Content." style="default-rect"/>
+    <image tooltip="Content." style="red"/>
 </container>
 
 <!-- 2) Through tooltip tag, which can be a child of
     every tag, even these normally not-parental. -->
 
 <container size=128>
-    <image style="default-round">
-        <tooltip background="default-round-down" instant=true>
+    <image style="black">
+        <tooltip background="red" instant=true>
             Converts text to labels.
             <textButton row=true>
                 Can have any children.
             </textButton>
-            <slider />
+            <progressBar />
             Works like a table, except it's untouchable.
         </tooltip>
     </image>

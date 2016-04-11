@@ -14,7 +14,7 @@
     cannot be used in tags. -->
 
 <container size="{someNumber}">
-    <image style=default-rect/>
+    <image style=red/>
 </container>
 {lmlSnippet}
     

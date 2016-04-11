@@ -8,7 +8,7 @@
 <!-- Check boxes convert text between tags into
     their label, but since they are tables, they
     can append any other children. -->
-<checkBox text=Original.>
+<checkBox text="Original. ">
     <label row=true>Additional label.</label>
     <label colspan=3>Another row of labels.</label>
 </checkBox>

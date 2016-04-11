@@ -8,7 +8,9 @@
     <label>someMethod returns non-null value.</label>
 </:notNull>
 
-<:notNull {unknownArg}>
+<!-- You can optionally use "test" attribute to create
+    valid XML templates: -->
+<:notNull test="{unknownArg}">
     <:exception>This argument should be unknown.</:exception>
 <:notNull:else/>
     <label>No such argument: "unknownArg"</label>
