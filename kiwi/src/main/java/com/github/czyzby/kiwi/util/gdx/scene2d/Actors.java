@@ -26,6 +26,18 @@ public class Actors extends UtilitiesClass {
     private Actors() {
     }
 
+    /** Null-safe utility for adding multiple actors to the stage.
+     *
+     * @param stage will contain the actors.
+     * @param actors will be added to the stage. Can be null. */
+    public static void addActors(final Stage stage, final Iterable<Actor> actors) {
+        if (actors != null) {
+            for (final Actor actor : actors) {
+                stage.addActor(actor);
+            }
+        }
+    }
+
     /** Null-safe position update.
      *
      * @param actor will be centered on its assigned stage according to their sizes. Can be null. */

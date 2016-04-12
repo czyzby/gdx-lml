@@ -45,12 +45,15 @@ public class Main extends AbstractApplicationListener {
             "imageButton", "image", "imageTextButton", "label", "list", "progressBar", "scrollPane", "selectBox",
             "slider", "splitPane", "stack", "table", "textArea", "textButton", "textField", "tooltip", "touchpad",
             "tree", "verticalGroup", "window",
+            // Listeners:
+            "changeListener", "clickListener",
             // Syntax:
             "i18n", "preferences", "arguments", "actions", "arrays", "equations",
             // Macros:
-            "actorMacro", "anyNotNull", "argument", "argumentReplace", "assign", "calculate", "comment", "conditional",
-            "evaluate", "exception", "forEach", "import", "loop", "logger", "meta", "nestedForEach", "newAttribute",
-            "newTag", "nullCheck", "tableColumn", "tableRow", "while",
+            "actorMacro", "anyNotNull", "argument", "argumentReplace", "assign", "calculate", "changeListenerMacro",
+            "clickListenerMacro", "comment", "conditional", "evaluate", "exception", "forEach", "import", "loop",
+            "logger", "meta", "nestedForEach", "newAttribute", "newTag", "nullCheck", "tableColumn", "tableRow",
+            "while",
             // Custom elements:
             "customAttribute", "customMacro", "customTag",
             // Vis unique tags:

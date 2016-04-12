@@ -121,6 +121,7 @@ import com.github.czyzby.lml.parser.impl.attribute.list.RequiredLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.list.SelectedLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.list.SelectionDisabledLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.list.ToggleLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.listener.ConditionLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.progress.AnimateDurationLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.progress.OnCompleteLmlAtrribute;
 import com.github.czyzby.lml.parser.impl.attribute.scroll.ScrollBarsOnTopLmlAttribute;
@@ -248,12 +249,16 @@ import com.github.czyzby.lml.parser.impl.tag.actor.provider.TouchpadLmlTagProvid
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.TreeLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.VerticalGroupLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.WindowLmlTagProvider;
+import com.github.czyzby.lml.parser.impl.tag.listener.provider.ChangeListenerLmlTagProvider;
+import com.github.czyzby.lml.parser.impl.tag.listener.provider.ClickListenerLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.ActorLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.AnyNotNullLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.ArgumentLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.ArgumentReplacementLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.AssignLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.CalculationLmlMacroTagProvider;
+import com.github.czyzby.lml.parser.impl.tag.macro.provider.ChangeListenerLmlMacroTagProvider;
+import com.github.czyzby.lml.parser.impl.tag.macro.provider.ClickListenerLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.CommentLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.ConditionalLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.EvaluateLmlMacroTagProvider;
@@ -325,9 +330,11 @@ public class DefaultLmlSyntax implements LmlSyntax {
 
     /** Warning: invoked by the constructor. Registers known default tags. Since providers registration might override
      * previous settings, this method - if overridden - should call super BEFORE registering new tags (or replacing the
-     * old ones). */
+     * old ones). By default, invokes {@link #registerActorTags()}, {@link #registerListenerTags()} and
+     * {@link #registerMacroTags()}. */
     protected void registerTags() {
         registerActorTags();
+        registerListenerTags();
         registerMacroTags();
     }
 
@@ -365,6 +372,14 @@ public class DefaultLmlSyntax implements LmlSyntax {
         addTagProvider(new WindowLmlTagProvider(), "window");
     }
 
+    /** Registers listener tags, which manage mock-up actors and allow to attach specialized listeners to other tags.
+     *
+     * @see #registerTags() */
+    protected void registerListenerTags() {
+        addTagProvider(new ChangeListenerLmlTagProvider(), "onChange", "changeListener");
+        addTagProvider(new ClickListenerLmlTagProvider(), "onClick", "clickListener");
+    }
+
     /** Registers macro tags that manipulate templates' structures.
      *
      * @see #registerTags() */
@@ -376,6 +391,8 @@ public class DefaultLmlSyntax implements LmlSyntax {
                 "argumentsReplace", "argsReplace", "noOp", "noOperation", "doNothing", "root");
         addMacroTagProvider(new AssignLmlMacroTagProvider(), "assign", "var", "val", "toArgument");
         addMacroTagProvider(new CalculationLmlMacroTagProvider(), "calculate", "calculation", "equation", "calc");
+        addMacroTagProvider(new ChangeListenerLmlMacroTagProvider(), "onChange", "changeListener");
+        addMacroTagProvider(new ClickListenerLmlMacroTagProvider(), "onClick", "clickListener");
         addMacroTagProvider(new CommentLmlMacroTagProvider(), "comment", "FIXME", "TODO");
         addMacroTagProvider(new ConditionalLmlMacroTagProvider(), "if", "test", "check", "try", "verify", "inspect",
                 "validate", "onCondition", "condition", "conditional");
@@ -421,6 +438,8 @@ public class DefaultLmlSyntax implements LmlSyntax {
 
         // Regular attributes. Parsed after the actor is constructed.
         registerCommonAttributes();
+        registerListenerAttributes();
+
         registerAnimatedImageAttributes();
         registerButtonAttributes();
         registerButtonGroupAttributes();
@@ -504,6 +523,11 @@ public class DefaultLmlSyntax implements LmlSyntax {
 
         // Same goes for Disableable. Fails if the widget does not implement the interface.
         addAttributeProcessor(new DisabledLmlAttribute(), "disabled", "disable", "isDisabled"); // Disableable
+    }
+
+    /** Listener tags attributes. */
+    protected void registerListenerAttributes() {
+        addAttributeProcessor(new ConditionLmlAttribute(), "if");
     }
 
     /** Button widget attributes. */
