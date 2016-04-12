@@ -253,15 +253,7 @@ public class Dtd {
                 final LmlTag tag = macroTag.value.create(parser, null, new StringBuilder(macroTag.key));
                 if (tag instanceof TableRowLmlMacroTag) {
                     // Special case: listing all cell attributes:
-                    final Actor mockUp = new Actor();
-                    final ObjectMap<String, Object> attributes = GdxMaps.newObjectMap();
-                    for (final Entry<String, LmlAttribute<?>> attribute : parser.getSyntax()
-                            .getAttributesForActor(mockUp)) {
-                        if (attribute.value instanceof AbstractCellLmlAttribute) {
-                            attributes.put(attribute.key, attribute.value);
-                        }
-                    }
-                    appendDtdAttributes(builder, macroMarker + macroTag.key, attributes);
+                    appendTableDefaultsMacro(parser, builder, macroMarker, macroTag, tag);
                 } else if (tag instanceof AbstractMacroLmlTag) {
                     final String[] attributeNames = ((AbstractMacroLmlTag) tag).getExpectedAttributes();
                     if (attributeNames == null || attributeNames.length == 0) {
@@ -278,5 +270,24 @@ public class Dtd {
                 Exceptions.ignore(expected);
             }
         }
+    }
+
+    private void appendTableDefaultsMacro(final LmlParser parser, final Appendable builder, final String macroMarker,
+            final Entry<String, LmlTagProvider> macroTag, final LmlTag tag) throws IOException {
+        final Actor mockUp = new Actor();
+        final ObjectMap<String, Object> attributes = GdxMaps.newObjectMap();
+        for (final Entry<String, LmlAttribute<?>> attribute : parser.getSyntax()
+                .getAttributesForActor(mockUp)) {
+            if (attribute.value instanceof AbstractCellLmlAttribute) {
+                attributes.put(attribute.key, attribute.value);
+            }
+        }
+        final String[] attributeNames = ((AbstractMacroLmlTag) tag).getExpectedAttributes();
+        if (attributeNames != null && attributeNames.length > 0) {
+            for (final String attribute : attributeNames) {
+                attributes.put(attribute, tag);
+            }
+        }
+        appendDtdAttributes(builder, macroMarker + macroTag.key, attributes);
     }
 }

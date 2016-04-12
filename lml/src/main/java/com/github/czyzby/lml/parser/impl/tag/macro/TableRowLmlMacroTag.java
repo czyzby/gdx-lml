@@ -168,10 +168,19 @@ public class TableRowLmlMacroTag extends AbstractMacroLmlTag {
                 ((AbstractCellLmlAttribute) cellAttribute).process(getParser(), getParent(), targetTable, cell,
                         attribute.value);
             } else {
-                getParser().throwErrorIfStrict(
-                        getTagName() + " macro can process only cell attributes. Found unknown or invalid attribute: "
-                                + attribute.key);
+                if (!isInternalMacroAttribute(attribute.key)) {
+                    getParser().throwErrorIfStrict(getTagName()
+                            + " macro can process only cell attributes. Found unknown or invalid attribute: "
+                            + attribute.key);
+                }
             }
         }
+    }
+
+    /** @param key lower-case attribute name present in the tag.
+     * @return true if the attribute is used internally by the macro and should not be processed by the cell. */
+    protected boolean isInternalMacroAttribute(final String key) {
+        // Table row macro has no internal attributes.
+        return false;
     }
 }
