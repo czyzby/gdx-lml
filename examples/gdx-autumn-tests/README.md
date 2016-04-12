@@ -13,3 +13,5 @@ Things to consider:
 - Autumn events API solves the problem of communicating between components without direct references to each other.
 - Did you notice that there are about 20 components (basically local-scoped singletons) communicating with one another and `Core` class knows about, like, *one*?
 - Adding new components is super easy, as they are automatically scanned for, initiated and filled. No more manual object creation, yay.
+
+![gdx-autumn-tests](gdx-autumn-tests.png)

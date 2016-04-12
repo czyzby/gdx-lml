@@ -21,3 +21,5 @@ You can also check out application's behavior without an IDE thanks to Gradle ta
 - `gradle html:superDev` compiles GWT application and provides the web client version on `8080` port. Visit `http://localhost:8080` to check it out.
 
 Note that this example sends data as byte arrays. Although binary format might not be supported by some browsers, WebGL would probably be unavailable there anyway, so this is the preferred way. If you want to send data as string web socket frames, use `WebSocket#setSerializeAsString` method and check out `Base64Serializer`.
+
+![gdx-websocket-serialization-tests](gdx-websocket-serialization-tests.png)

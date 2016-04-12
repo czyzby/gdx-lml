@@ -7,11 +7,12 @@
     has to be escaped with '&gt' in tags, so if you prefer,
     you can pass the equation as data between macro tags
     rather than macro attributes. -->
-
 <:calculate maths (2.5*2)^2-17.5/>
 <label>{maths}</label>
 
-<!-- OUT will be removed from the joined strings: -->
+<!-- Attributes can be optionally named with "key" (name of
+    argument to assign) and "value" (equation). In this example,
+    OUT will be removed from the joined strings: -->
 <:calculate key="myLabelContent" value="(LabOUTe + lOUT.) - OUT"/>
 <label>{myLabelContent}</label>
 
@@ -22,8 +23,7 @@
 </table>
 
 <table defaultPad=4>
-    <:loop 9>
-        <!-- row=true attribute appends row after widget. -->
+    <:loop 9> <!-- row=true attribute appends row after widget. -->
         <:calc key="row" value="{loop:index}%3=2" />
         <button row={row}/>
     </:loop>
