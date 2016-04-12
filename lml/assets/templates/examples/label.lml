@@ -6,7 +6,7 @@
 <!-- Labels append their text between tags.
     to themselves. They cannot have children. -->
     
-<label multiline=true color=red>
+<label multiline=true color=green>
     Multiline
     label.
 </label>
@@ -21,10 +21,10 @@
 <!-- If you need to set the text directly in the
     constructor, use "text" or "value" attribute. -->
     
-<label text="It\ will\ become\ the\ text."/>
+<label text="It will become the text."/>
 
-<!-- You need to escape spaces in tags though,
-    so generally i18n bundles are preferred: -->
+<!-- Generally i18n bundles are preferred over
+    plan text in tags: -->
 
 <label text="@bundleLine"/>
 <label>@bundleLine</label>

@@ -12,7 +12,7 @@
     multiple components. -->
 
 <stack>
-    <image style="default-rect" />
-    <image style="default-round-down" />
+    <image style="red" />
+    <image style="tip" color=green />
     <label>Complex</label>
 </stack>

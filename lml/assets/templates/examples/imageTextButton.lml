@@ -7,7 +7,7 @@
 <imageTextButton>Hello.</imageTextButton>
 
 <container size=128>
-    <imageTextButton image="default-round-down">
+    <imageTextButton image="tip">
         Bigger button.
     </imageTextButton>
 </container>

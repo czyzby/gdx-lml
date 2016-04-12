@@ -5,7 +5,7 @@
     to easily position your buttons. -->
 
 <buttonGroup min=2 max=3 defaultPad=2 oneColumn=true
-        background=default-window>
+        background=frame tablePad=3>
     Text converted to labels.
     Can have any children:
     <slider/>
@@ -22,11 +22,9 @@
 <!-- If you want to inject the actor or use an
     onCreate/onClose action, remember that the
     actual class used by LML is ButtonTable. -->
-    
-<buttonTable bg=default-round min=1 max=1 defaultPad=3>
+<buttonTable bg=gray min=1 max=1 defaultPad=3>
     <label color=black colspan=2 row=true>
         Do you use button groups?
     </label>
-    <checkBox>Yes</checkBox>
-    <checkBox>No</checkBox>
+    <checkBox>Yes</checkBox><checkBox>No</checkBox>
 </buttonTable>

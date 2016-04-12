@@ -5,22 +5,22 @@
     allowing to quickly evaluate i18n bundle lines,
     preferences, etc. -->
 
-<@argument sampleArg Some value./>
+<:argument sampleArg Some value./>
 <label>{sampleArg}</label>
 
-<@argument sampleArg @bundleLine/>
+<:argument key="sampleArg" value="@bundleLine"/>
 <label>{sampleArg}</label>
 
 <!-- Instead of passing value in the attributes, you
     can use data between tags. -->
 
-<@argument sampleArg>#somePreference</@argument>
+<:argument sampleArg>#somePreference</:argument>
 <label>{sampleArg}</label>
 
 <!-- This macro can contain LML code snippets, although
     assignment macro is preferred in such case. See
     assign.lml example. -->
-<@argument sampleArg>
+<:argument sampleArg>
     <label>Code snippet.</label>
-</@argument>
+</:argument>
 {sampleArg}

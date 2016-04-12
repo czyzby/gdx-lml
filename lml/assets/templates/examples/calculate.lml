@@ -8,25 +8,23 @@
     you can pass the equation as data between macro tags
     rather than macro attributes. -->
 
-<@calculate maths (2.5*2)^2-17.5/>
+<:calculate maths (2.5*2)^2-17.5/>
 <label>{maths}</label>
 
 <!-- OUT will be removed from the joined strings: -->
-<@calculate myLabelContent (LabOUTe + lOUT.) - OUT/>
+<:calculate key="myLabelContent" value="(LabOUTe + lOUT.) - OUT"/>
 <label>{myLabelContent}</label>
 
-<@calculate shouldIMakeRow>
-    12 > (4%3) * 5
-</@calculate>
+<:calculate shouldIMakeRow>12 > (4%3) * 5</:calculate>
 <table>
     <label color=green row={shouldIMakeRow}>Well...</label>
     <label>should I?</label>
 </table>
 
-<table defaultSize=24>
-    <@loop 9>
+<table defaultPad=4>
+    <:loop 9>
         <!-- row=true attribute appends row after widget. -->
-        <@calc row {loop:index}%3=2 />
+        <:calc key="row" value="{loop:index}%3=2" />
         <button row={row}/>
-    </@loop>
+    </:loop>
 </table>

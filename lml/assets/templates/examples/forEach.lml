@@ -1,8 +1,8 @@
 <!-- For-each macro allows to iterate over LML arrays. -->
 
-<@each value=That;This;These;Those>
+<:each value=That;This;These;Those>
     <label color=green>{value}</label>
-</@each>
+</:each>
 
 <!-- Array elements are separated with ';'. If action
     (element proceeded with '$') is in an array, it
@@ -12,18 +12,18 @@
     string and added as array element. Ranges are also
     supported: -->
 
-<@each value=range[0,3]>
+<:each value="range[0,3]">
     <label>{value}</label>
-</@each>
+</:each>
 
 <!-- This macro can iterate over multiple arrays at
     once. Iteration index is available through
     {tagName:index} argument, where "tagName"
     is the alias of macro tag you used. -->
 
-<@each value=text;next;text range=[3,0]>
+<:each value=text;next;text range=[3,0]>
     <label color=green>{each:index}: {value}{range}</label>
-</@each>
+</:each>
 
 <!-- If one of the arrays is shorter than the
     others, its argument will be replaced with null. -->
