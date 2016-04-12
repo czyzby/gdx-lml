@@ -18,6 +18,6 @@
     for assigning LML snippets to arguments. -->
 
 <:assign key="myLabel">
-    <label color=green>Tag in LML argument.</label>
+    <label color="green">Tag in LML argument.</label>
 </:assign>
 {myLabel}

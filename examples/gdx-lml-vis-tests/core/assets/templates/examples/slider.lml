@@ -8,4 +8,13 @@
     animateDuration=0.5 />
 <slider vertical=true />
 
-<!-- Sliders cannot have children. -->
+<!-- Sliders cannot have tag children, altough they
+    can process plain text - as long as it is a valid
+    float, it will be set as slider's current value.
+    Note that it is _not_ a simple "value" attribute
+    alias: "value" is parser _before_ the actor is
+    created, so it will not trigger any change listeners.
+    Value between tags, on the other hand, is parsed
+    _after_ actor is created (and has processed all its
+    tags), so it can trigger registered listeners. -->
+<slider>0.5</slider>

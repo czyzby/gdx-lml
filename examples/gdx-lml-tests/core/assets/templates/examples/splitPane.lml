@@ -17,4 +17,8 @@
 
 <!-- Setting touchable=childrenOnly attribute
     SHOULD work, but doesn't seem to stop
-    split pane from being modifiable. Oh well. -->
+    split pane from being modifiable. Oh well.
+    This is a LibGDX issue though - the VisUI
+    SplitPane implementation is fixed, so you
+    can look into gdx-lml-vis if that bothers
+    you. -->

@@ -5,7 +5,7 @@
 
 <!-- Since they are Tables, they can parse
     any actors and append them to their cells.
-    Buttons' sizes will fit to show all their
+    Button's size will change to show all its
     children actors. -->
 <button><actor size=128/></button>
 

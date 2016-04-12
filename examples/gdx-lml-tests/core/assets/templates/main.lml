@@ -1,7 +1,7 @@
 <window title="@mainTitle" titleAlign="center" fillParent=true defaultSpace=2 defaultUniformX=true onShow=fadeIn>
 
     <!-- Title addition: -->
-    <label toTitleTable=true align="right" padRight=5 padTop=-2>@mainSubtitle</label>
+    <label toTitleTable=true align="right" padRight=10>@mainSubtitle</label>
     
     <!-- Template input: -->
     <table grow=true>

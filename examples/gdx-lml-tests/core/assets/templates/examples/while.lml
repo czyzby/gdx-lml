@@ -14,7 +14,7 @@
     Iteration index is available through
     {tagName:index} argument, where "tagName"
     is the alias of macro tag you used.
-     Note that arguments are parsed BEFORE the macro is
+    Note that arguments are parsed BEFORE the macro is
     evaluated, so they should not be used in loops.
     The following example would create an endless loop -
     "myArg" would be decremented each time, but the

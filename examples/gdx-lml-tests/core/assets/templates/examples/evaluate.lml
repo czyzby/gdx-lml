@@ -12,8 +12,10 @@
 <!-- Evaluate macro can be used to assign method
     results to arguments. If you pass second
     attribute to the macro, it will become the
-    name of result argument. -->
-<:evaluate someMethod methodResult />
+    name of result argument. This macro supports
+    named parameters: "method" (action reference)
+    and "id" (name of the argument to assign).  -->
+<:evaluate method="someMethod" id="methodResult" />
 <label>{methodResult}</label>
 
 <!-- You can also invoke a method with argument other

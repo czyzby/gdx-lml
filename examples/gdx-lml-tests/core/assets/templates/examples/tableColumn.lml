@@ -11,15 +11,20 @@
 
 <table>
     <:column 2 size=40 />
-    <:buttons/>
-    <:row/>
-    <:buttons/>
+    <:buttons/> <:row/> <:buttons/>
     <!-- Also using row defaults in 3rd row: -->
     <:row size=40/>
+    <:buttons/> <:row/> <:buttons/>
+</table>
+
+<!-- Column defaults have to be set BEFORE
+    widgets are appended to the chosen column.
+    This macro supports named parameters: you
+    can use "column" attribute to select column
+    ID rather than plain number. -->
+<table background="frame" tablePad="4" defaultPad=10>
+    <:column size="50" column="1" />
     <:buttons/>
     <:row/>
     <:buttons/>
 </table>
-
-<!-- Column defaults have to be set BEFORE
-    widgets are appended to the chosen column. -->

@@ -6,7 +6,7 @@
 <:actor getSomeActor customId/>
 <table>
     In a table:
-    <!-- You can also used named parameters: -->
+    <!-- You can also use named parameters: -->
     <:actor method="getSomeActor" id="otherId" />
 </table>
 

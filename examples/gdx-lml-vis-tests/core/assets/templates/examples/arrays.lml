@@ -1,5 +1,5 @@
 <!-- LML supports array types, which are usually
-    used only by loop macros. Typically, array
+    used only by iteration macros. Typically, array
     values are separated with ';'. -->
 
 <:for element="first;second;third">
@@ -27,6 +27,6 @@
     together. Ranges can parse their start and end
     values from i18n bundles or preferences. -->
 
-<:for value=Complex;array:;range[-1,@endFromBundle];$someMethodReturningArray>
+<:for value="Complex;array:;range[-1,@endFromBundle];$someMethodReturningArray">
     <label color=vis-blue>{value}</label>
 </:for>

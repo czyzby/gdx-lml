@@ -8,7 +8,7 @@
 <:argument sampleArg Some value./>
 <label>{sampleArg}</label>
 
-<:argument sampleArg @bundleLine/>
+<:argument key="sampleArg" value="@bundleLine"/>
 <label>{sampleArg}</label>
 
 <!-- Instead of passing value in the attributes, you

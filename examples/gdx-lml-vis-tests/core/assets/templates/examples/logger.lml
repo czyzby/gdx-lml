@@ -25,3 +25,9 @@
     Lml class. This class also allows to modify
     the logger tag, logged with all messages
     (defaults to "LML"). -->
+
+<!-- You can optionally use named attribute: "log".
+     It will allow you to create valid XML data,
+     while keeping logger tags closed. -->
+
+<:info log="Logged using named attribute." />

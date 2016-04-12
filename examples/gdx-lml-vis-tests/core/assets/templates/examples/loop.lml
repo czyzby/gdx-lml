@@ -8,10 +8,12 @@
 
 <!-- Iteration index is available through
     {tagName:index} argument, where "tagName"
-    is the alias of macro tag you used. -->
+    is the alias of macro tag you used. Macro
+    attribute can be optionally named using
+    "times". -->
 
 <table defaultSize=24>
-    <:loop 3>
+    <:loop times="3">
         <textButton>{loop:index}</textButton>
     </:loop>
 </table>

@@ -9,12 +9,15 @@
 <:assign myArgument This will become argument value./>
 <label>{myArgument}</label>
 
+<:assign key="newArgument" value="Named attributes also work."/>
+<label>{newArgument}</label>
+
 <!-- If the macro is parental and contains data between
     tags, the data will become argument value rather
     than leftover macro attributes. This is very useful
     for assigning LML snippets to arguments. -->
 
-<:assign myLabel>
-    <label color=vis-blue>Tag in LML argument.</label>
+<:assign key="myLabel">
+    <label color="vis-blue">Tag in LML argument.</label>
 </:assign>
 {myLabel}

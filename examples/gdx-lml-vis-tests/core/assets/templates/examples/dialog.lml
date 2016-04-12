@@ -25,8 +25,8 @@
 <!-- Dialogs are extended windows that can link their
     button children with actions (onResult attribute).
     If the action returns boolean "true", dialog hiding
-    is cancelled. Dialogs manage 4 tables: itself, title,
-    content and button table. Content table is default;
+    is cancelled. Each dialog manages 4 tables: itself, title,
+    content and button tables. Content table is default;
     to fill other tables, use toButtonTable, toDialogTable
     and toTitleTable attributes in dialog children tags.
     Since dialogs manage a label component (title), they

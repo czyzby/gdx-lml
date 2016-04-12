@@ -28,5 +28,9 @@
     can extract constructor attributes from tags.
     You can even pass your own builder with third
     attribute - ID of method that produces builders.
-    More about this macro in NewTagMacroLmlTag
+    More about this macro in NewTagLmlMacroTag
     (name of the century!) class docs. -->
+
+<!-- Attributes can be optionally named: -->
+<:tag alias="myBlinking" method="getBlinkingLabel"/>
+<myBlinking>Blinking label.</myBlinking>

@@ -9,6 +9,9 @@
     <label>{while:index}: random higher than 0.25!</label>
 </:while>
 
+<!-You can optionally wrap the condition with "test"
+    named attribute to create valid XML templates. -->
+
 <!-- Iteration index is available through
     {tagName:index} argument, where "tagName"
     is the alias of macro tag you used. -->

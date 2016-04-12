@@ -1,13 +1,13 @@
 <!-- Custom macros can be registered directly in Java.
-    Normally, to register a new tag (actor or macro),
-    you can to implement LmlTag interface - but it is
+    A new tag (both actor and macro), has to implement
+    LmlTag interface - but doing as at its whole is
     pretty complex. Fortunately, you can use abstract
     class: AbstractMacroLmlTag, which basically forces
     you to override only 1 method and focus on macro
     functionality. In Main class, we registered a macro
     that changes its data between tags to upper case. -->
 
-<label color=vis-red>
+<label color="vis-red">
     <:uppercase>
         no more shouting!
     </:uppercase>

@@ -12,14 +12,15 @@
 </:if>
 
 <!-- '>' sign as to be escaped with '&gt' in tags, as it
-    also marks the end of tag. -->
+    also marks the end of tag. Optional "test" attribute
+    can be used to create valid XML. -->
 
-<table defaultSize=24>
-    <:loop 9>
-        <:if {loop:index}%3 = 0>
+<table defaultSize=24 defaultPad=1>
+    <:loop times="9">
+        <:if test="{loop:index}%3 = 0">
             <:row/>
         </:if>
-        <button pad=1/>
+        <button/>
     </:loop>
 </table>
 

@@ -10,7 +10,8 @@
     <label>someMethod returns non-null value.</label>
 </:anyNotNull>
 
-<:anyNotNull {unknownArg} {unknown}>
+<!-- "test" attribute can be used to create valid XML tags. -->
+<:anyNotNull test="{unknownArg} {unknown}">
     <:exception>These argument should be unknown.</:exception>
 <:anyNotNull:else/>
     <label>Unknown arguments.</label>

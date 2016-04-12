@@ -20,4 +20,8 @@
 <label myAtt="text." />
 <label myAttribute=@bundleLine/>
 
+<!-- This macro can optionally use named attributes: -->
+<:attribute alias="newAtt" method="upperCaseAttribute" />
+<label newAtt="text." />
+
 <!-- The attribute above converts text to upper case. -->

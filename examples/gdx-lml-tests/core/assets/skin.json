@@ -74,7 +74,7 @@
     default: { background: gray, knob: black }
   },
   com.badlogic.gdx.scenes.scene2d.ui.Tree$TreeStyle: {
-    default: { minus: tree-minus, plus: tree-plus, selection: red-alpha }
+    default: { minus: tree-minus, plus: tree-plus, selection: red, over: gray }
   },
   com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
     default: { titleFont: default, background: window, titleFontColor: white },

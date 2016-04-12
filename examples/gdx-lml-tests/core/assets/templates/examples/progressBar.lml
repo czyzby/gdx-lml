@@ -8,4 +8,13 @@
     max=200 stepSize=5 animateDuration=0.5 />
 <progressBar onClick=load vertical=true />
 
-<!-- Progress bars cannot have children. -->
+<!-- Progress bars cannot have children, but they
+    can process plain text - as long as it is a valid
+    float, it will be set as bar's current progress.
+    Note that it is _not_ a simple "value" attribute
+    alias: "value" is parser _before_ the actor is
+    created, so it will not trigger any change listeners.
+    Value between tags, on the other hand, is parsed
+    _after_ actor is created (and has processed all its
+    tags), so it can trigger registered listeners. -->
+<progressBar onClick="load">0.5</progressBar>
