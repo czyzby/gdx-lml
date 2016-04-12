@@ -14,6 +14,7 @@ subprojects {
     isSnapshot = '-SNAPSHOT'
     libVersion = "$projectVersion.$gdxVersion$isSnapshot"
     wagonVersion = '2.10'
+    junitVersion = '4.12'
     isReleaseVersion = !libVersion.endsWith("SNAPSHOT")
   }
 
@@ -42,6 +43,7 @@ subprojects {
 
   dependencies {
     compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    testCompile "junit:junit:$junitVersion"
     deployerJars "org.apache.maven.wagon:wagon-ssh:$wagonVersion"
     deployerJars "org.apache.maven.wagon:wagon-http:$wagonVersion"
   }
