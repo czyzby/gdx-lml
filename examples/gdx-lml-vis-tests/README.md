@@ -1,5 +1,5 @@
 # LibGDX Markup Language with VisUI widgets
-See [gdx-lml-vis](https://github.com/czyzby/gdx-lml/tree/master/lml-vis).
+See [gdx-lml-vis](../../lml-vis).
 
 This is a sample project with some template examples.
 

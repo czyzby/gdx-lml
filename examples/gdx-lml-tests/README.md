@@ -1,5 +1,5 @@
 # LibGDX Markup Language
-See [gdx-lml](https://github.com/czyzby/gdx-lml/tree/master/lml).
+See [gdx-lml](../../lml).
 
 This is a sample project with some template examples.
 

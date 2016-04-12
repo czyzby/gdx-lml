@@ -1,7 +1,7 @@
 # LibGDX Autumn
 Dependency injection mechanism with component scan for LibGDX applications.
 
-Actually, this library is the core of [Autumn MVC](https://github.com/czyzby/gdx-lml/tree/master/mvc), extracted as a separate library for those who want to use the functionality without the overhead of additional components and forced application structure.
+Actually, this library is the core of [Autumn MVC](../mvc), extracted as a separate library for those who want to use the functionality without the overhead of additional components and forced application structure.
 
 ## Basics
 Get used to annotations. So-called stereotype annotations on classes allow the context manager to find your application components among other classes and store them in the context, so they can be used (and injected) later. Method annotations can cause the selected methods to be invoked under met conditions with parameters taken directly from the context. Field annotations are used to inject objects from context or invoke specific actions (like automatic destruction of disposable objects).
@@ -9,7 +9,7 @@ Get used to annotations. So-called stereotype annotations on classes allow the c
 Everything comes down to a few annotations and classes that might make your life much easier as soon as you get used to the structure.
 
 ### Getting started
-See [tests project](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-autumn-tests) for usage examples of huge part of Autumn API, including custom annotation processor.
+See [tests project](../examples/gdx-autumn-tests) for usage examples of huge part of Autumn API, including custom annotation processor.
 
 Autumn's main goal is to let you quickly set up your application. It does that by creating a "context" in which every of your registered classes is a "component". To create a new context, you need an instance of `ContextInitializer` (you can get that with convenience factory methods: `Context.builder()` or `ContextInitializer.newContext`). After getting an initializer, you should:
 
@@ -24,9 +24,9 @@ As you might guess, they are used to scan for annotated classes. Each platform r
 
 - **FixedClassScanner** - well, it *can* be used on any platform, but you have to manually select the classes it has access to, so it basically removes the concept of true component scan.
 - **FallbackDesktopClassScanner** - scans binary classes (run from IDE) or jars in the class loader base location (run from a jar). No external dependencies, but it relies on reflection and class loading to scan packages. Use when necessary.
-- **DesktopClassScanner** - uses `fast-classpath-scanner` library for non-reflection-based, efficient component scanning. Does not load tested classes. Works only on desktop. Available in `gdx-autumn-fcs` [library](https://github.com/czyzby/gdx-lml/tree/master/autumn/natives/fcs).
-- **GwtClassScanner** - scans through all classes registered for GWT LibGDX reflection pool. Available in `gdx-autumn-gwt` [library](https://github.com/czyzby/gdx-lml/tree/master/autumn/natives/gwt).
-- **AndroidClassScanner** - uses Android Java API to scan through all available classes. Available in `gdx-autumn-android` [library](https://github.com/czyzby/gdx-lml/tree/master/autumn/natives/android).
+- **DesktopClassScanner** - uses `fast-classpath-scanner` library for non-reflection-based, efficient component scanning. Does not load tested classes. Works only on desktop. Available in `gdx-autumn-fcs` [library](natives/fcs).
+- **GwtClassScanner** - scans through all classes registered for GWT LibGDX reflection pool. Available in `gdx-autumn-gwt` [library](natives/gwt).
+- **AndroidClassScanner** - uses Android Java API to scan through all available classes. Available in `gdx-autumn-android` [library](natives/android).
 
 Unfortunately, class scanner iOS is not implemented yet. For now, you might try to make your own implementation (based on Android scanner?) or use *FixedClassScanner*. Sorry.
 
@@ -54,16 +54,16 @@ Gradle dependency:
 ```
 `$libVersion` is the current version of the library, usually following `MAJOR.MINOR` schema. `$gdxVersion` is the LibGDX version used to build (and required by) the library. You can check the current library version [here](http://search.maven.org/#search|ga|1|g%3A%22com.github.czyzby%22) - or you can use the [snapshots](https://oss.sonatype.org/content/repositories/snapshots/com/github/czyzby/).
 
-To include Autumn in GWT, see [Autumn GWT](https://github.com/czyzby/gdx-lml/tree/master/autumn/natives/gwt).
-To include Autumn on Android, see [Autumn Android](https://github.com/czyzby/gdx-lml/tree/master/autumn/natives/android).
-For efficient class scanning on desktop, see [Autumn FCS](https://github.com/czyzby/gdx-lml/tree/master/autumn/natives/fcs).
+To include Autumn in GWT, see [Autumn GWT](natives/gwt).
+To include Autumn on Android, see [Autumn Android](natives/android).
+For efficient class scanning on desktop, see [Autumn FCS](natives/fcs).
 
 ##What's new
 
 1.5 -> 1.6
 
 - Fixed `@Dispose` annotation behavior.
-- Added [`gdx-autumn-tests` project](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-autumn-tests), using a considerate part of Autumn API. Make sure to check it out.
+- Added [`gdx-autumn-tests` project](../examples/gdx-autumn-tests), using a considerate part of Autumn API. Make sure to check it out.
 
 1.3 -> 1.5
 
@@ -73,7 +73,7 @@ For efficient class scanning on desktop, see [Autumn FCS](https://github.com/czy
 1.2 -> 1.3
 
 - Annotated methods (`@Initiate`, `@Destroy`) no longer keep component references for invocation if they are static. If your static `@Destroy` method is annotated, you can safely assume that the component will still be properly garbage collected after context initiation, as long as you didn't keep its reference anywhere.
-- Android class scanner in [Autumn Android](https://github.com/czyzby/gdx-lml/tree/master/autumn/natives/android).
+- Android class scanner in [Autumn Android](natives/android).
 
 ### Archive
 Older change logs are available in `CHANGES.md` file.

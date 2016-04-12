@@ -1,5 +1,5 @@
 #LibGDX Autumn Android
-Android "natives" for [LibGDX Autumn](https://github.com/czyzby/gdx-lml/tree/master/autumn) - dependency injection with component scan mechanism.
+Android "natives" for [LibGDX Autumn](../..) - dependency injection with component scan mechanism.
 
 ## Scanner
 `AndroidClassScanner` implements Autumn's `ClassScanner` interface and is the default scanner for Android applications.

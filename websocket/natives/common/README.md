@@ -1,5 +1,5 @@
 # LibGDX Web Sockets
-Desktop and Android natives for [LibGDX Web Sockets](https://github.com/czyzby/gdx-lml/tree/master/websocket). Based on [nv-websocket-client](https://github.com/TakahikoKawasaki/nv-websocket-client). Make sure to call `CommonWebSockets.initiate()` before creating web sockets:
+Desktop and Android natives for [LibGDX Web Sockets](../..). Based on [nv-websocket-client](https://github.com/TakahikoKawasaki/nv-websocket-client). Make sure to call `CommonWebSockets.initiate()` before creating web sockets:
 ```
         // Initiating web sockets module - safe to call before creating application:
         CommonWebSockets.initiate();

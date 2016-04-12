@@ -1,8 +1,8 @@
 # gdx-websocket-serialization
 
-This is a simple example of a web socket based communication between the server and the clients, exchanging packets serialized with [`gdx-websocket-serialization`](https://github.com/czyzby/gdx-lml/tree/master/websocket/natives/serialization). Note that it does not come packed with Gradle wrapper, so make sure to install it on your own.
+This is a simple example of a web socket based communication between the server and the clients, exchanging packets serialized with [`gdx-websocket-serialization`](../../websocket/natives/serialization). Note that it does not come packed with Gradle wrapper, so make sure to install it on your own.
 
-Client uses *LibGDX* (obviously) along with [`gdx-websocket`](https://github.com/czyzby/gdx-lml/tree/master/websocket) to communicate with the server and [`gdx-lml-vis`](https://github.com/czyzby/gdx-lml/tree/master/lml-vis) to create GUI. Desktop uses `gdx-websocket-common` natives library, while GWT project depends on `gdx-websocket-gwt`. Server is built with a few lines of code thanks to the amazing *Vert.x* framework.
+Client uses *LibGDX* (obviously) along with [`gdx-websocket`](../../websocket) to communicate with the server and [`gdx-lml-vis`](../../lml-vis) to create GUI. Desktop uses `gdx-websocket-common` natives library, while GWT project depends on `gdx-websocket-gwt`. Server is built with a few lines of code thanks to the amazing *Vert.x* framework.
 
 ### Running the application
 

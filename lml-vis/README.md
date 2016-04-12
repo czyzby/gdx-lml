@@ -1,10 +1,10 @@
 # [VisUI](https://github.com/kotcrab/VisEditor/wiki/VisUI) parser for [LML](http://github.com/czyzby/gdx-lml) templates
 
-See [gdx-lml](https://github.com/czyzby/gdx-lml/tree/master/lml). This extension allows *LML* to create improved *VisUI* widgets instead of regular *Scene2D* actors.
+See [gdx-lml](../lml). This extension allows *LML* to create improved *VisUI* widgets instead of regular *Scene2D* actors.
 
 ## Examples
 
-Check [gdx-lml-vis-tests](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-lml-vis-tests) for examples of all tags and macros usage. Check [gdx-lml-vis-websocket](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-lml-vis-websocket) for a simple (yet practical) mock-up application. [gdx-lml-serialization-tests](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-websocket-serialization-tests) is a tiny application that uses `gdx-lml-vis` to create GUI.
+Check [gdx-lml-vis-tests](../examples/gdx-lml-vis-tests) for examples of all tags and macros usage. Check [gdx-lml-vis-websocket](../examples/gdx-lml-vis-websocket) for a simple (yet practical) mock-up application. [gdx-lml-serialization-tests](../examples/gdx-websocket-serialization-tests) is a tiny application that uses `gdx-lml-vis` to create GUI.
 
 See on-line demo [here](http://czyzby.github.io/gdx-lml/lml-vis). See application mock-up [here](http://czyzby.github.io/gdx-lml/lml-vis-websocket).
 
@@ -26,7 +26,7 @@ On GWT, you might also want to include sources of `gdx-lml-vis` and currently us
 
 ## Usage
 
-Start with [LML tutorial](https://github.com/czyzby/gdx-lml/wiki/Tutorial) - *gdx-lml-vis* works pretty much like regular LML, it just parses templates to different actors, provides additional widgets and contains default skins. Make sure to check out the [example project](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-lml-vis-tests) and [VisUI features](https://github.com/kotcrab/VisEditor/wiki/VisUI).
+Start with [LML tutorial](https://github.com/czyzby/gdx-lml/wiki/LibGDX-Markup-Language) - *gdx-lml-vis* works pretty much like regular LML, it just parses templates to different actors, provides additional widgets and contains default skins. Make sure to check out the [example project](../examples/gdx-lml-vis-tests) and [VisUI features](https://github.com/kotcrab/VisEditor/wiki/VisUI).
 
 ### Upgrading regular *gdx-lml* to *gdx-lml-vis*
 
@@ -36,7 +36,7 @@ Instead of building your parser with `Lml` class (or `LmlParserBuilder`), use `V
 
 To add non-GWT features (like the `FileChooser` support or various file validators from `FormValidator` class), use `ExtendedVisLml#extend(LmlParser)` method. This will register all the extra attributes and tags at the cost of nasty compilation errors on GWT platform.
 
-### Including *gdx-lml-vis* in [Autumn MVC](https://github.com/czyzby/gdx-lml/tree/master/mvc)
+### Including *gdx-lml-vis* in [Autumn MVC](../mvc)
 
 In one of your components (possibly in a configuration component, if you have one), include an annotated field with syntax instance:
 

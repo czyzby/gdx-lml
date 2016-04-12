@@ -5,7 +5,7 @@ If you're used to Spring MVC, you may feel like home. Dependency injection, comp
 
 The original idea was to make my first LibGDX utilities public, but after I realized how much effort it takes to actually set up all of my managers, I decided that I *need* to make it simpler to use for everyone - including myself. This is the result.
 
-Autumn MVC tries to be as flexible as possible, but it does force a specific project structure and approach. If you want only some parts of the "framework", that's completely fine: [Kiwi](https://github.com/czyzby/gdx-lml/tree/master/kiwi) is a set of Guava-inspired utilities for general use (in LibGDX applications), [LML](https://github.com/czyzby/gdx-lml/tree/master/lml) is a pretty powerful HTML-like markup language that allows to easily build complex Scene2D UIs, and [Autumn](https://github.com/czyzby/gdx-lml/tree/master/autumn) provides annotation-processing mechanism that allows for dependency injection with component scan out of the box. You can use each and every of them in any combination (knowing that both LML and Autumn use Kiwi internally). However, excluding some of Autumn MVC components is usually not an option, as most of them depend on each other.
+Autumn MVC tries to be as flexible as possible, but it does force a specific project structure and approach. If you want only some parts of the "framework", that's completely fine: [Kiwi](../kiwi) is a set of Guava-inspired utilities for general use (in LibGDX applications), [LML](../lml) is a pretty powerful HTML-like markup language that allows to easily build complex Scene2D UIs, and [Autumn](../autumn) provides annotation-processing mechanism that allows for dependency injection with component scan out of the box. You can use each and every of them in any combination (knowing that both LML and Autumn use Kiwi internally). However, excluding some of Autumn MVC components is usually not an option, as most of them depend on each other.
 
 ## Why should you use Autumn MVC
 Simply put - to save your time. While a pure Java application without reflection might start or even work slightly faster, it requires you to handle a lot of stuff... stuff that usually LibGDX makes pretty easy to implement, to be honest, but sometimes awkward to use or not fully supported out of the box. Autumn support goes a step further in - hopefully - the right direction. Autumn takes care of:
@@ -34,7 +34,7 @@ However, Autumn was written with LibGDX in mind, so it provides a lot of extra f
 To sum up - give it a go and find out if it suits your style.
 
 ## How to start
-Read on [LML](https://github.com/czyzby/gdx-lml/tree/master/lml) to see how the views are created. Check out [Autumn](https://github.com/czyzby/gdx-lml/tree/master/autumn) to find out more about the components system. You may also want to know a thing or two about [Kiwi](https://github.com/czyzby/gdx-lml/tree/master/kiwi), as these utilities might make your programming a bit easier. Then check out [example project](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-autumn-mvc-simple).
+Read on [LML](../lml) to see how the views are created. Check out [Autumn](../autumn) to find out more about the components system. You may also want to know a thing or two about [Kiwi](../kiwi), as these utilities might make your programming a bit easier. Then check out [example project](../examples/gdx-autumn-mvc-simple).
 
 ### Application
 Instead of implementing `ApplicationListener` or extending `ApplicationAdapter`, use `AutumnApplication`. Actually, you can even use it without extending - this is not an abstract class. Initiating this object requires you to pass a root scanning class (which will usually be the class in the bottom of your package hierarchy) and a class scanner, which is (usually) platform-specific.
@@ -74,7 +74,7 @@ In views you can also use these utility annotations:
   - when false: asset is scheduled for loading when the component is being processed and is injected into the lazy field as soon as loading is done. This is similar to non-wrapped lazy variable with loadOnDemand set to false with one significant difference - if Lazy.get() is called and asset is not loaded, it will be loaded synchronously, never returning null. This is a safer variant (especially on initial screens or views with delayed asset loading) at a cost of a small overhead.
 - Note that assets injection are processed when the components are constructed, so you can delay asset loading by storing asset references in classes annotated with `@Component(lazy = true)` and injecting these components into `Lazy<ComponentClass>` fields. If you want to store a collection of assets in a lazy wrapper (it is supported), you have to specify lazyCollection type. For example, `Lazy<Array<Texture>>` would set `type=Texture.class` and `lazyCollection=Array.class`. `Array`, `ObjectSet` and `ObjectMap` are supported.
 - `@SkinAsset` - after application's Skin is fully loaded (as in: contains data specified with @Skin annotation), all fields annotated with @SkinAssets will have specific objects from the skin injected as their current values. Class of the annotated field has to match the Skin's mapped object class to be properly injected. You can specify asset key (String) in the Skin with value() annotation parameter - if you won't, it will default to "default".
-- `@Inject` - while not unique to Autumn MVC (this is actually a standard Autumn annotation), this is one of the annotations you will use the most. It allows to you inject any component - be it classes annotated with @Component or @View (among others), standard Autumn services, meta annotation processors or even the ContextContainer itself. See [Autumn](https://github.com/czyzby/gdx-lml/tree/master/autumn) docs for more info and more useful annotations.
+- `@Inject` - while not unique to Autumn MVC (this is actually a standard Autumn annotation), this is one of the annotations you will use the most. It allows to you inject any component - be it classes annotated with @Component or @View (among others), standard Autumn services, meta annotation processors or even the ContextContainer itself. See [Autumn](../autumn) docs for more info and more useful annotations.
 - `@Dispose` - again, this is Autumn annotation that allows to automate the disposal of heavy objects. Basically, when the annotated object is removed from context (which usually takes place when the application is being closed), it will be automatically disposed of. This does not have to annotate injected assets, as AssetService already takes care of asset disposing.
 - `@ViewStage` - when used in @View or @ViewDialog, injects current Stage object into the field. MIGHT be null or TURN null, as screens are sometimes reloaded and stages references might be cleared.
 - `@LmlActor`, `@LmlAction` - injects actors from LML templates; allows to invoke actions in LML templates. See LML docs.
@@ -90,7 +90,7 @@ These are the services that you might want or have to inject from time to time:
 All classes (and annotations) have nearly full javadocs of public API, so everything should be clear. If it isn't, don't hesitate to ask.
 
 ## Examples
-See [example project](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-autumn-mvc-simple). [Autumn tests project](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-autumn-tests) might also be helpful to get started with dependency injection.
+See [example project](../examples/gdx-autumn-mvc-simple). [Autumn tests project](../examples/gdx-autumn-tests) might also be helpful to get started with dependency injection.
 
 ## Contributions
 Automatic component scan on iOS is not implemented and it might take me some time before I finally force myself to do it, if ever. If someone already implemented this functionality and is willing to share, I won't mind integrating it into Autumn.
@@ -109,7 +109,7 @@ When used on GWT, make sure to inherit Autumn module:
 ```
         <inherits name='com.github.czyzby.autumn.mvc.GdxAutumnMvc' />
 ```
-Check out [gdx-autumn](https://github.com/czyzby/gdx-lml/tree/master/autumn) for platform-specific class scanners. [Sample app](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-autumn-mvc-simple) might help you with the initial set up.
+Check out [gdx-autumn](../autumn) for platform-specific class scanners. [Sample app](../examples/gdx-autumn-mvc-simple) might help you with the initial set up.
 
 ## What's new
 Make sure to check `gdx-autumn` and `gdx-lml` changes as well - both of these projects are heavily used by the `gdx-autumn-mvc`.

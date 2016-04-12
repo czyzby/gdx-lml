@@ -1,5 +1,5 @@
 # LibGDX Web Sockets for GWT
-GWT natives for [LibGDX Web Sockets](https://github.com/czyzby/gdx-lml/tree/master/websocket). Make sure to call `GwtWebSockets.initiate()` before creating web sockets:
+GWT natives for [LibGDX Web Sockets](../..). Make sure to call `GwtWebSockets.initiate()` before creating web sockets:
 ```
         @Override
         public ApplicationListener createApplicationListener() {

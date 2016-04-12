@@ -2,22 +2,15 @@
 Templates for LibGDX Scene2D with HTML-like syntax and FreeMarker-inspired macros.
 
 ## Examples
-See [gdx-lml-tests](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-lml-tests) for example uses of all available tags and macros.
+See [gdx-lml-tests](../examples/gdx-lml-tests) for example uses of all available tags and macros.
 
 Check it out [on-line](http://czyzby.github.io/gdx-lml/lml).
 
-<<<<<<< HEAD
-###Documentation
-See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&t=18843), [example project](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-lml-tests), [tutorial](https://github.com/czyzby/gdx-lml/wiki/LibGDX-Markup-Language) and [DTD support](https://github.com/czyzby/gdx-lml/tree/master/lml/dtd).
-=======
-[`gdx-lml-vis`](https://github.com/czyzby/gdx-lml/tree/master/lml-vis) is an extension that has multiple example projects. They might be helpful even if you plan on using plain `gdx-lml` - especially since syntax is pretty much the same.
->>>>>>> new-macro-sign
-
 ### Documentation
-See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&t=18843), [example project](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-lml-tests), [tutorial](https://github.com/czyzby/gdx-lml/wiki/Tutorial), [DTD page](https://github.com/czyzby/gdx-lml/tree/master/lml/dtd) and [old syntax page (work in progress)](https://github.com/czyzby/gdx-lml/wiki/Syntax).
+See [LibGDX forum thread](http://www.badlogicgames.com/forum/viewtopic.php?f=17&t=18843), [example project](../examples/gdx-lml-tests), [tutorial](https://github.com/czyzby/gdx-lml/wiki/LibGDX-Markup-Language) and [DTD schema section](dtd).
 
 ## Extensions
-[VisUI](https://github.com/kotcrab/VisEditor/wiki/VisUI) syntax support is available through [gdx-lml-vis library](https://github.com/czyzby/gdx-lml/tree/master/lml-vis). Additionally to replacing standard Scene2D actors with improved VisUI widgets, it offers full support for other VisUI features - including color picker, file chooser, other new widgets, listeners and validators.
+[VisUI](https://github.com/kotcrab/VisEditor/wiki/VisUI) syntax support is available through [gdx-lml-vis library](../lml-vis). Additionally to replacing standard Scene2D actors with improved VisUI widgets, it offers full support for other VisUI features - including color picker, file chooser, other new widgets, listeners and validators.
 
 Check it out [on-line](http://czyzby.github.io/gdx-lml/lml-vis).
 

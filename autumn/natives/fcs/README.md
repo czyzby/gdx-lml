@@ -1,5 +1,5 @@
 # LibGDX Autumn FCS
-Desktop "natives" for [LibGDX Autumn](https://github.com/czyzby/gdx-lml/tree/master/autumn) - dependency injection with component scan mechanism.
+Desktop "natives" for [LibGDX Autumn](../..) - dependency injection with component scan mechanism.
 
 ## Scanner
 `DesktopClassScanner` implements Autumn's `ClassScanner` interface and is the default scanner for desktop applications. It uses [`fast-classpath-scanner`](https://github.com/lukehutch/fast-classpath-scanner) library for efficient scanning that does not depend on reflection. Basically, it is a thin wrapper over `FastClasspathScanner` class, satisfying Autumn's needs.

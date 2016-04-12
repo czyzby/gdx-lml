@@ -1,5 +1,5 @@
 # LibGDX Autumn GWT
-GWT natives for [LibGDX Autumn](https://github.com/czyzby/gdx-lml/tree/master/autumn) - dependency injection with component scan mechanism.
+GWT natives for [LibGDX Autumn](../..) - dependency injection with component scan mechanism.
 
 ## Scanner
 Autumn GWT generates an object aware of all LibGDX-reflected classes, registered with standard `gdx.reflect.include` (and omitted with `gdx.reflect.exclude`) GWT definition property. `GwtClassScanner` is the default Autumn's `ClassScanner` implementation for GWT - it will detect all annotated classes that were included for LibGDX reflection.
