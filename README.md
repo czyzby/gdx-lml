@@ -4,50 +4,50 @@ This repository contains most of my libraries aimed at improving LibGDX framewor
 ### Note
 This used to be `gdx-lml` library repository before I finally forced myself to merge all my LibGDX extensions into one huge Gradle project. This repository one was chosen, as `gdx-lml` is (or used to be) my most popular library. (Yeah, you got me: I wanted to keep the stars - sue me.) Switching to the previous setup is highly unlikely, so if you watched some of my other repositories, it's time to do the same with this one. Sorry.
 
-If you came here looking for `gdx-lml` documentation, [check this out](https://github.com/czyzby/gdx-lml/tree/master/lml). `gdx-lml-tests` project, which shows usage of all LML tags, was moved [here](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-lml-tests).
+If you came here looking for `gdx-lml` documentation, [check this out](lml). `gdx-lml-tests` project, which shows usage of all LML tags, was moved [here](examples/gdx-lml-tests).
 
 Also, repository might include example project using latest snapshot versions and their new features. Before including the libraries in your project, make sure that you use the correct version.
 
 ## Projects
 
 ### gdx-kiwi
-[Kiwi](https://github.com/czyzby/gdx-lml/tree/master/kiwi) is a Guava-inspired set of utilities for pretty much any LibGDX-based application. It makes it easier to use LibGDX collections, assets and its API in general. While there are no `gdx-kiwi`-specific test projects, most of examples use Kiwi utilities to handle heavy assets and collections.
+[Kiwi](kiwi) is a Guava-inspired set of utilities for pretty much any LibGDX-based application. It makes it easier to use LibGDX collections, assets and its API in general. While there are no `gdx-kiwi`-specific test projects, most of examples use Kiwi utilities to handle heavy assets and collections.
 
 ### gdx-lml
-[LML](https://github.com/czyzby/gdx-lml/tree/master/lml) (*LibGDX Markup Language*) allows to parse HTML-like templates with FreeMarker-inspired macros into Scene2D actors. Since making your UI in Java can become unreadable and tedious thanks to this language's verbosity, LML can be a useful alternative. Especially since LML templates can be modified or reloaded without having to recompile the whole application. Comes with extra support for managing preferences, assets and internationalization.
+[LML](lml) (*LibGDX Markup Language*) allows to parse HTML-like templates with FreeMarker-inspired macros into Scene2D actors. Since making your UI in Java can become unreadable and tedious thanks to this language's verbosity, LML can be a useful alternative. Especially since LML templates can be modified or reloaded without having to recompile the whole application. Comes with extra support for managing preferences, assets and internationalization.
 
 #### gdx-lml-vis
-[VisUI](https://github.com/kotcrab/VisEditor/wiki/VisUI) is a superb library, extending Scene2D with additional widgets and a modern skin. [LML Vis](https://github.com/czyzby/gdx-lml/tree/master/lml-vis) allows to parse LML templates into VisUI widgets, instead of standard Scene2D ones and extends the syntax with ways to construct the new actors. Even if you want to have a custom skin in your application, consider using this library for the improved widgets.
+[VisUI](https://github.com/kotcrab/VisEditor/wiki/VisUI) is a superb library, extending Scene2D with additional widgets and a modern skin. [LML Vis](lml-vis) allows to parse LML templates into VisUI widgets, instead of standard Scene2D ones and extends the syntax with ways to construct the new actors. Even if you want to have a custom skin in your application, consider using this library for the improved widgets.
 
 ### gdx-autumn
-[Autumn](https://github.com/czyzby/gdx-lml/tree/master/autumn) is a dependency injection mechanism with component scanning. Using a set of annotations and class scanners, it allows you to build your application without singletons, global variables or even direct calls to constructors. Base for `gdx-autumn-mvc` framework.
+[Autumn](autumn) is a dependency injection mechanism with component scanning. Using a set of annotations and class scanners, it allows you to build your application without singletons, global variables or even direct calls to constructors. Base for `gdx-autumn-mvc` framework.
 
 #### gdx-autumn-android
-[Autumn Android](https://github.com/czyzby/gdx-lml/tree/master/autumn/natives/android) provides class scanner for Android applications.
+[Autumn Android](autumn/natives/android) provides class scanner for Android applications.
 
 #### gdx-autumn-fcs
-[Autumn FCS](https://github.com/czyzby/gdx-lml/tree/master/autumn/natives/fcs) provides class scanner for desktop applications using lightweight [`fast-classpath-scanner`](https://github.com/lukehutch/fast-classpath-scanner).
+[Autumn FCS](autumn/natives/fcs) provides class scanner for desktop applications using lightweight [`fast-classpath-scanner`](https://github.com/lukehutch/fast-classpath-scanner).
 
 #### gdx-autumn-gwt
-[Autumn GWT](https://github.com/czyzby/gdx-lml/tree/master/autumn/natives/gwt) provides class scanner for GWT applications.
+[Autumn GWT](autumn/natives/gwt) provides class scanner for GWT applications.
 
 ### gdx-autumn-mvc
-[Autumn MVC](https://github.com/czyzby/gdx-lml/tree/master/mvc) is a model-view-controller framework on top of LibGDX. It uses **Autumn** to manage components and **LML** as view templates. Makes it easier to maintain assets, internationalization, preferences, music, screen transitions, and so on. While other libraries are rather general-purpose, this one forces its structure upon your application - but should be still worth it, considering the amount of things it handles for you.
+[Autumn MVC](mvc) is a model-view-controller framework on top of LibGDX. It uses **Autumn** to manage components and **LML** as view templates. Makes it easier to maintain assets, internationalization, preferences, music, screen transitions, and so on. While other libraries are rather general-purpose, this one forces its structure upon your application - but should be still worth it, considering the amount of things it handles for you.
 
 ### gdx-websocket
-[LibGDX web sockets library](https://github.com/czyzby/gdx-lml/tree/master/websocket) aims to extend the default `Net` implementations with cross-platform client-side web sockets. Rather than being a huge framework with server-side libraries, this set of libraries offers a simple and somewhat low level, yet pretty powerful client networking API.
+[LibGDX web sockets library](websocket) aims to extend the default `Net` implementations with cross-platform client-side web sockets. Rather than being a huge framework with server-side libraries, this set of libraries offers a simple and somewhat low level, yet pretty powerful client networking API.
 
 #### gdx-websocket-common
-[Common web sockets library](https://github.com/czyzby/gdx-lml/tree/master/websocket/natives/common) contains web socket natives for desktop and Android applications using high quality [nv-websocket-client](https://github.com/TakahikoKawasaki/nv-websocket-client) library.
+[Common web sockets library](websocket/natives/common) contains web socket natives for desktop and Android applications using high quality [nv-websocket-client](https://github.com/TakahikoKawasaki/nv-websocket-client) library.
 
 #### gdx-websocket-gwt
-[GWT web sockets library](https://github.com/czyzby/gdx-lml/tree/master/websocket/natives/gwt) contains web socket natives for GWT applications.
+[GWT web sockets library](websocket/natives/gwt) contains web socket natives for GWT applications.
 
 #### gdx-websocket-serialization
-[Serialization library for LibGDX web sockets](https://github.com/czyzby/gdx-lml/tree/master/websocket/natives/serialization) contains serialization mechanism that works on every LibGDX platform. While default object serialization (using LibGDX `Json` API, based on reflection) is fine for most project, some performance-critical applications might require a different solution. Since most popular and tested serialization libraries are rarely GWT-compatible, `gdx-websocket` comes with its own alternative - this library. Warning: JSON-based communication is much easier to use, switch to this serialization only when necessary.
+[Serialization library for LibGDX web sockets](websocket/natives/serialization) contains serialization mechanism that works on every LibGDX platform. While default object serialization (using LibGDX `Json` API, based on reflection) is fine for most project, some performance-critical applications might require a different solution. Since most popular and tested serialization libraries are rarely GWT-compatible, `gdx-websocket` comes with its own alternative - this library. Warning: JSON-based communication is much easier to use, switch to this serialization only when necessary.
 
 ### Examples
-See [examples section](https://github.com/czyzby/gdx-lml/tree/master/examples) to check out some simple applications using presented libraries.
+See [examples section](examples) to check out some simple applications using presented libraries.
 
 ## Dependencies
 All libraries follow the same schema:
