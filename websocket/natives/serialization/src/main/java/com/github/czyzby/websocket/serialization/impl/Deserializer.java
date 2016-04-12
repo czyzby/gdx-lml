@@ -10,7 +10,6 @@ import com.github.czyzby.websocket.serialization.Transferable;
  *
  * @author MJ */
 public class Deserializer {
-    private final ArrayProvider<?> defaultArrayProvider = new ObjectArrayProvider();
     // Package-private as most deserialization methods are in Size enum.
     byte[] serializedData;
     int currentByteArrayIndex;
@@ -628,19 +627,6 @@ public class Deserializer {
     }
 
     /** @param transferable example instance of transferable, used to invoke deserialization method.
-     * @return deserialized untyped transferables array, using 4 bytes to determine array length. The actual type of
-     *         array will be {@code Object[]}.
-     * @param <Type> type of transferable.
-     * @throws SerializationException if too few bytes to deserialize array or unable to deserialize any of its
-     *             elements. */
-    @SuppressWarnings("unchecked")
-    public <Type extends Transferable<Type>> Type[] deserializeTransferableArray(final Transferable<Type> transferable)
-            throws SerializationException {
-        return deserializeTransferableArray(transferable, (ArrayProvider<Type>) defaultArrayProvider,
-                Size.getDefaultArrayLengthSize());
-    }
-
-    /** @param transferable example instance of transferable, used to invoke deserialization method.
      * @param arrayProvider provides typed arrays. Utility class which allows to return something more specific than
      *            Object or Transferable array.
      * @return deserialized transferables array, using 4 bytes to determine array length.
@@ -705,19 +691,6 @@ public class Deserializer {
         }
         clearArray(result, index);
         return arraySize;
-    }
-
-    /** @param transferable example instance of transferable, used to invoke deserialization method.
-     * @return deserialized transferables untyped array, using 4 bytes to determine array length. The actual type of
-     *         array will be {@code Object[]}.
-     * @param <Type> type of transferable.
-     * @throws SerializationException if too few bytes to deserialize array or unable to deserialize any of its
-     *             elements. */
-    @SuppressWarnings("unchecked")
-    public <Type extends Transferable<Type>> Type[] deserializeTransferableArrayWithPossibleNulls(
-            final Transferable<Type> transferable) throws SerializationException {
-        return deserializeTransferableArrayWithPossibleNulls(transferable, (ArrayProvider<Type>) defaultArrayProvider,
-                Size.getDefaultArrayLengthSize());
     }
 
     /** @param transferable example instance of transferable, used to invoke deserialization method.

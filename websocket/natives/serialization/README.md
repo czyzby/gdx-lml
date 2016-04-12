@@ -4,7 +4,7 @@ Most simple projects will do just fine using JSON-based communication thanks to 
 
 ## Including `gdx-websocket-serialization`
 
-See [example project](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-websocket-serialization-tests).
+See [example project](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-websocket-serialization-tests). This [project](https://github.com/czyzby/gdx-lml/tree/master/examples/gdx-websocket-serialization-compare) allows you to compare basic string communication, JSON messages and our custom serialization.
 
 ### Dependencies
 `Gradle` dependency (for LibGDX core project):

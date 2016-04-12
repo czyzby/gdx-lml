@@ -1,0 +1,13 @@
+<window title="gdx-websocket-serialization" titleAlign="center"
+	oneColumn=true defaultPad=3>
+	Enter a string and send it to the server:
+	<textField id="input" growX=true width=500 message="Enter your message." />
+	<label id="response" style="small" color="vis-blue">Server response appears here.</label>
+	<buttonGroup min=0 max=1 oneColumn=true>
+		<checkBox id="array">Send as 100-element array of strings.</checkBox>
+		<checkBox id="list">Send as 100-element list of packets.</checkBox>
+	</buttonGroup>
+	<textButton growX=true onChange="sendString">Send as string</textButton>
+	<textButton growX=true onChange="sendJson">Send as JSON</textButton>
+	<textButton growX=true onChange="sendSerialization">Send using websocket-serialization</textButton>
+</window>

@@ -1,5 +1,7 @@
 package com.github.czyzby.websocket.serialization.impl;
 
+import java.io.UnsupportedEncodingException;
+
 import com.github.czyzby.websocket.serialization.SerializationException;
 import com.github.czyzby.websocket.serialization.Transferable;
 
@@ -399,7 +401,12 @@ public class Serializer {
      * @throws SerializationException if string's byte array is longer than the estimated max size.
      * @return this (for chaining). */
     public Serializer serializeString(final String value, final Size stringLengthSize) throws SerializationException {
-        final byte[] stringAsBytes = value == null ? null : value.getBytes();
+        byte[] stringAsBytes;
+        try {
+            stringAsBytes = value == null ? null : value.getBytes("UTF-8");
+        } catch (final UnsupportedEncodingException exception) {
+            throw new SerializationException("Unexpected: UTF-8 not supported.", exception);
+        }
         return serializeByteArray(stringAsBytes, stringLengthSize);
     }
 
@@ -447,6 +454,31 @@ public class Serializer {
         return this;
     }
 
+    /** @param array will be serialized as array of byte arrays.
+     * @param arrayLengthSize estimated maximum amount of bytes needed to store array's length. Array length cannot
+     *            exceed {@link Size#getMaxArrayLength()} .
+     * @param stringLengthSize estimated size needed to store maximum amount of bytes needed to store each string. Each
+     *            character translates roughly to 1 byte.
+     * @param start first index from which strings should be serialized.
+     * @param count amount of strings to serialize.
+     * @throws SerializationException if string's byte array is longer than the estimated max size or any of the strings
+     *             is too long for the given string length size.
+     * @return this (for chaining). */
+    public Serializer serializeStringArray(final String[] array, final Size arrayLengthSize,
+            final Size stringLengthSize, final int start, final int count) throws SerializationException {
+        if (array == null) {
+            serializeInt(Size.NULL_ARRAY_ID, arrayLengthSize);
+            return this;
+        }
+        final int length = start + count;
+        arrayLengthSize.validateArrayLengthToSerialize(length);
+        serializeInt(length, arrayLengthSize);
+        for (int index = start; index < length; index++) {
+            serializeString(array[index], stringLengthSize);
+        }
+        return this;
+    }
+
     /** @param transferable will be serialized. Cannot be null.
      * @throws SerializationException if unable to serialize object or the object is null.
      * @return this (for chaining). */
@@ -464,7 +496,7 @@ public class Serializer {
      * @throws SerializationException if unable to serialize any of the transferables.
      * @return this (for chaining). */
     public Serializer serializeTransferableArray(final Transferable<?>[] transferables) throws SerializationException {
-        return serializeTransferableArray(transferables, Size.getDefaultArrayLengthSize());
+        return serializeTransferableArray(transferables, 0, transferables.length, Size.getDefaultArrayLengthSize());
     }
 
     /** @param transferables will be serialized. None of the transferables can be null.
@@ -474,14 +506,27 @@ public class Serializer {
      * @return this (for chaining). */
     public Serializer serializeTransferableArray(final Transferable<?>[] transferables, final Size arrayLengthSize)
             throws SerializationException {
+        return serializeTransferableArray(transferables, 0, transferables.length, arrayLengthSize);
+    }
+
+    /** @param transferables will be serialized. None of the transferables can be null.
+     * @param start index from which the transferables should be serialized.
+     * @param count amount of transferables to serialize.
+     * @param arrayLengthSize estimated amount of bytes needed to store length of the array.
+     * @throws SerializationException is array length size is too small to store array's length or if unable to
+     *             serialize any of the transferables.
+     * @return this (for chaining). */
+    public Serializer serializeTransferableArray(final Transferable<?>[] transferables, final int start,
+            final int count, final Size arrayLengthSize) throws SerializationException {
         if (transferables == null) {
             serializeInt(Size.NULL_ARRAY_ID, arrayLengthSize);
             return this;
         }
-        arrayLengthSize.validateArrayLengthToSerialize(transferables.length);
-        serializeInt(transferables.length, arrayLengthSize);
-        for (final Transferable<?> transferable : transferables) {
-            serializeTransferable(transferable);
+        final int length = start + count;
+        arrayLengthSize.validateArrayLengthToSerialize(length);
+        serializeInt(length, arrayLengthSize);
+        for (int index = start; index < length; index++) {
+            serializeTransferable(transferables[index]);
         }
         return this;
     }
@@ -509,6 +554,34 @@ public class Serializer {
         arrayLengthSize.validateArrayLengthToSerialize(transferables.length);
         serializeInt(transferables.length, arrayLengthSize);
         for (final Transferable<?> transferable : transferables) {
+            if (transferable != null) {
+                serializeByte(Byte.MAX_VALUE);
+                serializeTransferable(transferable);
+            } else {
+                serializeInt(Size.NULL_ARRAY_ID, Size.BYTE);
+            }
+        }
+        return this;
+    }
+
+    /** @param transferables will be serialized. Will use 1 extra byte for each transferable to detect nullability.
+     * @param start index from which the transferables should be serialized.
+     * @param count amount of transferables to serialize.
+     * @param arrayLengthSize estimated amount of bytes needed to store length of the array.
+     * @throws SerializationException is array length size is too small to store array's length or if unable to
+     *             serialize any of the transferables.
+     * @return this (for chaining). */
+    public Serializer serializeTransferableArrayWithPossibleNulls(final Transferable<?>[] transferables,
+            final int start, final int count, final Size arrayLengthSize) throws SerializationException {
+        if (transferables == null) {
+            serializeInt(Size.NULL_ARRAY_ID, arrayLengthSize);
+            return this;
+        }
+        final int length = start + count;
+        arrayLengthSize.validateArrayLengthToSerialize(length);
+        serializeInt(length, arrayLengthSize);
+        for (int index = start; index < length; index++) {
+            final Transferable<?> transferable = transferables[index];
             if (transferable != null) {
                 serializeByte(Byte.MAX_VALUE);
                 serializeTransferable(transferable);

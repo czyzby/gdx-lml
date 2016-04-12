@@ -5,7 +5,6 @@ package com.github.czyzby.websocket.serialization;
  * @author MJ
  *
  * @param <Type> base class of the array.
- * @see com.github.czyzby.websocket.serialization.impl.ObjectArrayProvider
  * @see com.github.czyzby.websocket.serialization.impl.ReflectionArrayProvider */
 public interface ArrayProvider<Type> {
     /** @param size size of the array to create.
