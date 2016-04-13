@@ -8,7 +8,7 @@ import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
 /** See {@link Actor#addAction(Action)}. Expects a method ID. Invokes found method, expecting an {@link Action} result.
- * Adds the action to the actor. By default, mapped to "action", "act", "initialAction", "initialAct", "onShow".
+ * Adds the action to the actor. By default, mapped to "action", "onShow".
  *
  * @author MJ */
 public class ActionLmlAttribute implements LmlAttribute<Actor> {

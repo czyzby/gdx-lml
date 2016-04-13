@@ -36,6 +36,14 @@ public abstract class AbstractListenerLmlTag extends AbstractActorLmlTag {
     }
 
     @Override
+    protected void doOnTagClose() {
+        if (getParent() == null) {
+            getParser().throwErrorIfStrict(
+                    "This tag should be attached to other actors. Listener tags produce mock-up actors and cannot be root tags.");
+        }
+    }
+
+    @Override
     protected void handlePlainTextLine(final String plainTextLine) {
         getActorStorage().addActor(toLabel(plainTextLine));
     }
@@ -64,7 +72,7 @@ public abstract class AbstractListenerLmlTag extends AbstractActorLmlTag {
     /** @param actor has the listener attached. Its stage will be used to display stored actors. */
     protected void doOnEvent(final Actor actor) {
         if (condition != null) {
-            final boolean shouldDisplay = new Equation(getParser(), actor).getBooleanResult(condition);
+            final boolean shouldDisplay = new Equation(getParser(), getParent().getActor()).getBooleanResult(condition);
             if (!shouldDisplay) {
                 return;
             }

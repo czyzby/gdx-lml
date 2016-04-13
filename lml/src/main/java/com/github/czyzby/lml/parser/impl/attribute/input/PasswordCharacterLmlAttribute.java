@@ -7,7 +7,7 @@ import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
 /** See {@link TextField#setPasswordCharacter(char)}. Expects a string with length of 1. Mapped to "passwordChar",
- * "passwordCharacter", "passChar", "passCharacter".
+ * "passwordCharacter".
  *
  * @author MJ */
 public class PasswordCharacterLmlAttribute implements LmlAttribute<TextField> {

@@ -10,8 +10,7 @@ import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.util.LmlUtilities;
 
-/** Handles {@link TextField} actor. Appends plain text between tags to itself. Mapped to "textField", "input",
- * "textInput".
+/** Handles {@link TextField} actor. Appends plain text between tags to itself. Mapped to "textField".
  *
  * @author MJ */
 public class TextFieldLmlTag extends AbstractNonParentalActorLmlTag {

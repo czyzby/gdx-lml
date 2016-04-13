@@ -9,7 +9,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.util.LmlUtilities;
 
 /** Handles {@link Table} actor. Allows its children tags to use cell attributes. Adds plain text as labels created with
- * the same skin that was used to construct the table. Mapped to "table", "div", "td", "th".
+ * the same skin that was used to construct the table. Mapped to "table".
  *
  * @author MJ */
 public class TableLmlTag extends AbstractActorLmlTag {

@@ -28,7 +28,7 @@
 <table defaultSize=24>
     <:loop 9>
         <!-- row=true attribute appends row after widget. -->
-        <:calc row {loop:index}%3=2 />
+        <:calculate row {loop:index}%3=2 />
         <button row={row}/>
     </:loop>
 </table>

@@ -24,7 +24,7 @@
 
 <table defaultPad=4>
     <:loop 9> <!-- row=true attribute appends row after widget. -->
-        <:calc key="row" value="{loop:index}%3=2" />
+        <:calculate key="row" value="{loop:index}%3=2" />
         <button row={row}/>
     </:loop>
 </table>

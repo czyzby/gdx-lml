@@ -7,8 +7,7 @@ import com.github.czyzby.lml.parser.impl.tag.AbstractGroupLmlTag;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
-/** Handles {@link VerticalGroup} actor. Appends plain text between tags as labels. Mapped to "vertical",
- * "verticalGroup".
+/** Handles {@link VerticalGroup} actor. Appends plain text between tags as labels. Mapped to "verticalGroup".
  *
  * @author MJ */
 public class VerticalGroupLmlTag extends AbstractGroupLmlTag {

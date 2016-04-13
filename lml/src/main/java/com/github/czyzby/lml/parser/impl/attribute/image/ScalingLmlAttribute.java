@@ -8,8 +8,7 @@ import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
 /** See {@link Image#setScaling(Scaling)}. Expects a string that matches {@link Scaling} enum constant (ideally - it
- * should be the same as enum constant name, but can be equal ignoring case). Mapped to "scaling", "imageScaling",
- * "iconScaling", "imgScaling".
+ * should be the same as enum constant name, but can be equal ignoring case). Mapped to "scaling", "imageScaling".
  *
  * @author MJ */
 public class ScalingLmlAttribute implements LmlAttribute<Image> {

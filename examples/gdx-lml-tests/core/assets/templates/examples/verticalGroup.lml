@@ -7,8 +7,8 @@
 
 <!-- Groups can be reversed: -->
 
-<vertical reverse=true>
+<verticalGroup reverse=true>
     <label>Last</label>
     <button/>
     <checkBox>First</checkBox>
-</vertical>
+</verticalGroup>

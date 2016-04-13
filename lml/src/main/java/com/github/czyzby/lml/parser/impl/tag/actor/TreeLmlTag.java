@@ -8,8 +8,8 @@ import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.util.LmlUtilities;
 
-/** Handles {@link Tree} actor. Mapped to "tree", "root". Allows the use of "node" attribute in children tags. Adds
- * plain text between tags as new label nodes. Mapped to "tree", "node".
+/** Handles {@link Tree} actor. Allows the use of "node" attribute in children tags. Adds plain text between tags as new
+ * label nodes. Mapped to "tree".
  *
  * @author MJ
  * @see com.github.czyzby.lml.parser.impl.attribute.TreeNodeLmlAttribute */

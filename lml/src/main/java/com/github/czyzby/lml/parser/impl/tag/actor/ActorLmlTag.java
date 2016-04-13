@@ -10,7 +10,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
 /** Simple actor tag parser. If the tag is parental, {@link Group} is created instead of {@code Actor} to handle
  * children tags and plain text. This widget is advised to be used only as a child when, for example, a cell in a table
  * needs to be filled with a mock-up actor. Text between tags is added to the group as a label. Mapped to "actor",
- * "empty", "mock", "blank", "placeholder".
+ * "group".
  *
  * @author MJ */
 public class ActorLmlTag extends AbstractActorLmlTag {

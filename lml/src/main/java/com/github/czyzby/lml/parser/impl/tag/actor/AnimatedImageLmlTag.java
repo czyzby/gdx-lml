@@ -9,8 +9,7 @@ import com.github.czyzby.lml.scene2d.ui.reflected.AnimatedImage;
 
 /** Handles {@link AnimatedImage} actor. Cannot have children. Expects an array (following LML syntax standards) of
  * names of drawables stored in the chosen skin as the style attribute. If style attribute is not set, image will
- * contain no frames and work as an empty {@link com.badlogic.gdx.scenes.scene2d.ui.Image} Mapped to "animate",
- * "animation", "animatedImage".
+ * contain no frames and work as an empty {@link com.badlogic.gdx.scenes.scene2d.ui.Image} Mapped to "animatedImage".
  *
  * @author MJ */
 public class AnimatedImageLmlTag extends ImageLmlTag {

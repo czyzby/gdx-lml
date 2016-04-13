@@ -5,7 +5,7 @@ import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
-/** See {@link Button#setChecked(boolean)}. Mapped to "checked", "isChecked".
+/** See {@link Button#setChecked(boolean)}. Mapped to "checked".
  *
  * @author MJ */
 public class CheckedLmlAttribute implements LmlAttribute<Button> {

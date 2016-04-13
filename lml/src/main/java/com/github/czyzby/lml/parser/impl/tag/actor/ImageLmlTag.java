@@ -7,8 +7,7 @@ import com.github.czyzby.lml.parser.impl.tag.AbstractNonParentalActorLmlTag;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
-/** Handles {@link Image} actor. Cannot have children. Expects drawable name in style attribute. Mapped to "image",
- * "img", "icon".
+/** Handles {@link Image} actor. Cannot have children. Expects drawable name in style attribute. Mapped to "image".
  *
  * @author MJ */
 public class ImageLmlTag extends AbstractNonParentalActorLmlTag {

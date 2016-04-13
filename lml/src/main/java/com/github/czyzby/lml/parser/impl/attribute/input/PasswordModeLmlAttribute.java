@@ -5,7 +5,7 @@ import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
-/** See {@link TextField#setPasswordMode(boolean)}. Mapped to "password", "passwordMode", "pass", "passMode".
+/** See {@link TextField#setPasswordMode(boolean)}. Mapped to "password", "passwordMode".
  *
  * @author MJ */
 public class PasswordModeLmlAttribute implements LmlAttribute<TextField> {

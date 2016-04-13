@@ -8,7 +8,7 @@ import com.kotcrab.vis.ui.widget.VisProgressBar;
 
 /** Handles {@link VisProgressBar} actor. Expects that the text between its tags is a valid float - it will be set as
  * bar's value. Be careful though, as changing the value in such way might trigger registered change listeners. Mapped
- * to "progressBar", "visProgressBar", "progress", "loading", "loadingBar".
+ * to "progressBar", "visProgressBar".
  *
  * @author MJ */
 public class VisProgressBarLmlTag extends ProgressBarLmlTag {

@@ -10,9 +10,8 @@ import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.util.LmlUtilities;
 
-/** Handles {@link Label} actor. Mapped to "label", "text", "txt", "li" ("li" matches HTML list element and labels can
- * be used as elements of LibGDX List widget). Note that most parental tags will add their plain text between tags as
- * labels with default style.
+/** Handles {@link Label} actor. Mapped to "label". Note that most parental tags will add their plain text between tags
+ * as labels with default style.
  *
  * @author MJ */
 public class LabelLmlTag extends AbstractNonParentalActorLmlTag {

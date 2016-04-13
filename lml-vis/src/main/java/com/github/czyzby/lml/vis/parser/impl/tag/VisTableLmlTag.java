@@ -7,7 +7,7 @@ import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.kotcrab.vis.ui.widget.VisTable;
 
-/** Handles {@link VisTable} actor. Appends children like a table tag. Mapped to "table", "visTable", "div", "td", "th".
+/** Handles {@link VisTable} actor. Appends children like a table tag. Mapped to "table", "visTable".
  *
  * @author MJ */
 public class VisTableLmlTag extends TableLmlTag {

@@ -10,7 +10,7 @@ import com.kotcrab.vis.ui.widget.VisDialog;
 import com.kotcrab.vis.ui.widget.VisWindow;
 
 /** Handles {@link VisDialog} actor. Works like a window, except it supports on result action and is attached to the
- * stage with {@link VisDialog#show(com.badlogic.gdx.scenes.scene2d.Stage)}. Mapped to "dialog", "visDialog", "popup".
+ * stage with {@link VisDialog#show(com.badlogic.gdx.scenes.scene2d.Stage)}. Mapped to "dialog", "visDialog".
  *
  * @author MJ */
 public class VisDialogLmlTag extends VisWindowLmlTag {

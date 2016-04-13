@@ -7,7 +7,7 @@ import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
 /** Allows to disable {@code Disableable} widgets using {@code Disableable#setDisabled(boolean)} method. Expects a
- * boolean. By default, mapped to "disabled", "disable" and "isDisabled" attribute names.
+ * boolean. By default, mapped to "disabled", "disable" attribute names.
  *
  * @author MJ */
 public class DisabledLmlAttribute implements LmlAttribute<Actor> {

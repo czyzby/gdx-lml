@@ -8,8 +8,7 @@ import com.github.czyzby.lml.util.LmlUserObject.StandardTableTarget;
 
 /** Expends a boolean. Normally, dialog children are added to the content table. By setting this attribute to true,
  * dialog child will be forced directly to the dialog table with
- * {@code com.badlogic.gdx.scenes.scene2d.ui.Dialog#add(Actor)}. By default, mapped to "toDialogTable",
- * "addDirectlyToTable".
+ * {@code com.badlogic.gdx.scenes.scene2d.ui.Dialog#add(Actor)}. By default, mapped to "toDialogTable".
  *
  * @author MJ */
 public class ToDialogTableLmlAttribute implements LmlBuildingAttribute<LmlActorBuilder> {

@@ -8,7 +8,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.util.LmlUtilities;
 
 /** Handles {@link TextArea} actor. Text areas are set as multiline by default. Appends plain text between tags to
- * itself. Mapped to "textArea", "inputArea", "multilineInput".
+ * itself. Mapped to "textArea".
  *
  * @author MJ */
 public class TextAreaLmlTag extends TextFieldLmlTag {

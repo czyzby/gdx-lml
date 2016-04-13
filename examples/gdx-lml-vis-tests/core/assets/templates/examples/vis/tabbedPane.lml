@@ -19,10 +19,10 @@
             Plain text is converted to labels.
         </tab>
         <tab text=Tab background=window>
-            <split>
+            <splitPane>
                 <slider/>
                 <textButton>Click me</textButton>
-            </split>
+            </splitPane>
         </tab>
 <!-- Note that the last tab has an on-show action attached. Both
     on-show and on-hide actions are supported for individual tabs

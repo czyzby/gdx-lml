@@ -9,7 +9,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.kotcrab.vis.ui.widget.VisLabel;
 
 /** Handles {@link VisLabel} actors. Cannot have actor children. Appends plain text between tags to itself. Mapped to
- * "label", "visLabel", "text", "txt", "li".
+ * "label", "visLabel".
  *
  * @author MJ */
 public class VisLabelLmlTag extends LabelLmlTag {

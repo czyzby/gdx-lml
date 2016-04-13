@@ -8,7 +8,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.kotcrab.vis.ui.widget.VisList;
 
 /** Handles {@link VisList} actors. Converts label and text button children to items by extracting their text; does not
- * accept any other child tags. Appends plain text lines between tags as its list items. Mapped to "list", "ul".
+ * accept any other child tags. Appends plain text lines between tags as its list items. Mapped to "list".
  *
  * @author Kotcrab */
 public class VisListLmlTag extends ListLmlTag {

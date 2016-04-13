@@ -9,8 +9,7 @@ import com.github.czyzby.lml.util.LmlUtilities;
 /** Allows to specify initial position of the actor on the stage. Works ONLY if the actor is a root - has no parent and
  * is attached to a stage by the parser, not manually. Expends either a float (absolute position) or a float ending with
  * a '%' (for example, "0.5%"). If a percent is passed, it will set the X position as a percent of stage's initial
- * width. For the most predictable results, set both x and y attributes. By default, mapped to "x", "positionX", "posX",
- * "xPos", "xPosition".
+ * width. For the most predictable results, set both x and y attributes. By default, mapped to "x".
  *
  * @author MJ
  * @see YLmlAttribute */

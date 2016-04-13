@@ -5,8 +5,7 @@ import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
-/** See {@link com.badlogic.gdx.scenes.scene2d.utils.Selection#setDisabled(boolean)}. Mapped to "disabled", "disable",
- * "isDisabled".
+/** See {@link com.badlogic.gdx.scenes.scene2d.utils.Selection#setDisabled(boolean)}. Mapped to "disabled", "disable".
  *
  * @author MJ */
 public class SelectionDisabledLmlAttribute implements LmlAttribute<List<?>> {

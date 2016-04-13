@@ -10,7 +10,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.util.LmlUtilities;
 
 /** Handles {@link TextButton} actor. Allows its children tags to use cell attributes. As opposed to a table, it appends
- * plain text data to its label rather than create and add a new label for each line. Mapped to "textButton", "a".
+ * plain text data to its label rather than create and add a new label for each line. Mapped to "textButton".
  *
  * @author MJ */
 public class TextButtonLmlTag extends ButtonLmlTag {

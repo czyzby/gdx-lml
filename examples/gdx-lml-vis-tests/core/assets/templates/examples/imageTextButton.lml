@@ -22,7 +22,7 @@
     This will be also
     appended to button text.
     No new labels are created.
-    <mock row=true/>
+    <actor row=true/>
     <!-- Adding colspan=2, as internal image and
         label are also in cells. --> 
     <label color="vis-blue" colspan=2>

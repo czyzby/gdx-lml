@@ -7,7 +7,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.util.LmlUtilities;
 
 /** See {@link Image#setAlign(int)}. Expects a string matching (equal or equal ignoring case) enum constant of
- * {@link com.github.czyzby.kiwi.util.gdx.scene2d.Alignment}. Mapped to "imageAlign", "imgAlign", "iconAlign".
+ * {@link com.github.czyzby.kiwi.util.gdx.scene2d.Alignment}. Mapped to "imageAlign".
  *
  * @author MJ */
 public class ImageAlignmentLmlAttribute implements LmlAttribute<Image> {

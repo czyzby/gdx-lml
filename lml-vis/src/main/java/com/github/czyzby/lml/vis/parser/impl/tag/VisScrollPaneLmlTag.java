@@ -8,8 +8,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.kotcrab.vis.ui.widget.VisScrollPane;
 
 /** Handles {@link VisScrollPane} actor. Can have a single child tag which will be set as scroll pane's managed widget.
- * Parses plain text between tags to a label and sets it as its managed widget. Mapped to "scrollPane", "scroll",
- * "scrollable".
+ * Parses plain text between tags to a label and sets it as its managed widget. Mapped to "scrollPane", "visScrollPane".
  *
  * @author Kotcrab */
 public class VisScrollPaneLmlTag extends ScrollPaneLmlTag {

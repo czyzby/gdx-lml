@@ -5,8 +5,8 @@ import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
-/** See {@link Actor#setRotation(float)}. Expects a float - angle in degrees. By default, mapped to "rotate", "angle",
- * "degrees" and "rotation" attribute names.
+/** See {@link Actor#setRotation(float)}. Expects a float - angle in degrees. By default, mapped to "rotation" and
+ * "angle" attribute names.
  *
  * @author MJ */
 public class RotationLmlAttribute implements LmlAttribute<Actor> {

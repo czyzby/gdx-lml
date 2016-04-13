@@ -75,6 +75,7 @@ Make sure to check `gdx-lml` changes as well!
 - Removed `/*` alias for comment macro. Since `DTD` creator was added to LML, now it is possible to create templates that are somewhat-valid `XML` files. `/*` was the only default tag that used forbidden `XML` characters.
 - This version brought a lot of syntax additions to make LML more XML-friendly. Thanks to the new named macro attributes, LML templates can now be valid XML without sacrificing the utility that macros bring. Make sure to go through `gdx-lml` changes for more info.
 - `progressBar` and `slider` tags, previously completely non-parental, can parse text between their tags - provided that it's a valid float. The parsed number will be set their initial value. Note that it's *not* a simple `value` attribute alias: `value` attribute is parsed *before* the actor is created, so it cannot trigger any registered change listeners. On the other hand, data between tags is parsed *after* actor is created (and has processed its attributes), so it *can* trigger the listeners.
+- Note that many tag aliases were removed in `gdx-lml` in this version. `VisLmlSyntax` was updated to reflect the changes. Go through its sources to check current tag, macro and attribute aliases. Thanks to the aliases removal, DTD file went down to about 30000 lines (with comments generated).
 
 1.4 -> 1.5
 

@@ -25,8 +25,7 @@ import com.github.czyzby.lml.util.LmlUtilities;
  * Normally, label would append any text between tags as its own label text and throw an exception for any widget
  * children (such as text button in the example), as it cannot append any actors to itself. However, thanks to node
  * attribute set to true and being in a tree tag, it will instead have two leafs: text button and a default style label
- * created with "Leaf." text. This attribute expects a boolean. By default, it is mapped to "node" and "treeNode"
- * attribute names.
+ * created with "Leaf." text. This attribute expects a boolean. By default, it is mapped to "node" attribute names.
  *
  * </blockquote>
  *

@@ -11,7 +11,7 @@ import com.github.czyzby.lml.util.LmlUtilities;
 import com.kotcrab.vis.ui.widget.VisTextField;
 
 /** Handles {@link VisTextField} actor. Appends plain text between tags to itself. Mapped to "textField",
- * "visTextField", "input", "textInput".
+ * "visTextField".
  *
  * @author MJ */
 public class VisTextFieldLmlTag extends AbstractNonParentalActorLmlTag {

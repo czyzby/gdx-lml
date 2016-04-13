@@ -8,7 +8,7 @@ import com.kotcrab.vis.ui.widget.VisTextArea;
 import com.kotcrab.vis.ui.widget.VisTextField;
 
 /** Handles {@link VisTextArea} actor. Text areas are set as multiline by default. Appends plain text between tags to
- * itself. Mapped to "textArea", "inputArea", "multilineInput".
+ * itself. Mapped to "textArea", "visTextArea".
  *
  * @author MJ */
 public class VisTextAreaLmlTag extends VisTextFieldLmlTag {

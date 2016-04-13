@@ -1,4 +1,4 @@
-<window title="@mainTitle" titleAlign="center" fillParent=true defaultUniformX=true onShow=fadeIn visDefaults=true>
+<window title="@mainTitle" titleAlign="center" fillParent=true defaultUniformX=true onShow=fadeIn useVisDefaults=true>
 
     <!-- Title addition: -->
     <label toTitleTable=true align="right" padRight=5 padTop=-2>@mainSubtitle</label>

@@ -238,6 +238,7 @@ public class Dtd {
             } catch (final Exception expected) {
                 // Tag might need a parent or additional attributes and cannot be checked. It's OK.
                 Exceptions.ignore(expected);
+                log("Unable to create a macro tag instance using: " + macroTag.value.getClass().getSimpleName());
             }
         }
     }
@@ -276,8 +277,7 @@ public class Dtd {
             final Entry<String, LmlTagProvider> macroTag, final LmlTag tag) throws IOException {
         final Actor mockUp = new Actor();
         final ObjectMap<String, Object> attributes = GdxMaps.newObjectMap();
-        for (final Entry<String, LmlAttribute<?>> attribute : parser.getSyntax()
-                .getAttributesForActor(mockUp)) {
+        for (final Entry<String, LmlAttribute<?>> attribute : parser.getSyntax().getAttributesForActor(mockUp)) {
             if (attribute.value instanceof AbstractCellLmlAttribute) {
                 attributes.put(attribute.key, attribute.value);
             }

@@ -209,39 +209,38 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     @Override
     protected void registerActorTags() {
         // Standard Scene2D tags - abstract bases for Vis widgets or actors with no VisUI equivalents:
-        addTagProvider(new ActorLmlTagProvider(), "actor", "group", "empty", "mock", "blank", "placeholder");
+        addTagProvider(new ActorLmlTagProvider(), "actor");
         addTagProvider(new ButtonGroupLmlTagProvider(), "buttonGroup", "buttonTable");
         addTagProvider(new ButtonLmlTagProvider(), "button");
-        addTagProvider(new ContainerLmlTagProvider(), "container", "single");
-        addTagProvider(new HorizontalGroupLmlTagProvider(), "horizontal", "horizontalGroup");
+        addTagProvider(new ContainerLmlTagProvider(), "container");
+        addTagProvider(new HorizontalGroupLmlTagProvider(), "horizontalGroup");
         addTagProvider(new StackLmlTagProvider(), "stack");
         addTagProvider(new TooltipLmlTagProvider(), "tooltip"); // VisTooltipLmlTagProvider supports Vis tooltips.
         addTagProvider(new TouchpadLmlTagProvider(), "touchpad", "touch");
-        addTagProvider(new VerticalGroupLmlTagProvider(), "vertical", "verticalGroup");
+        addTagProvider(new VerticalGroupLmlTagProvider(), "verticalGroup");
 
         // LML unique actors:
-        addTagProvider(new AnimatedImageLmlTagProvider(), "animate", "animation", "animatedImage");
+        addTagProvider(new AnimatedImageLmlTagProvider(), "animatedImage");
 
         // Vis actor equivalents:
-        addTagProvider(new VisCheckBoxLmlTagProvider(), "checkBox", "visCheckBox", "check");
-        addTagProvider(new VisDialogLmlTagProvider(), "dialog", "visDialog", "popup");
+        addTagProvider(new VisCheckBoxLmlTagProvider(), "checkBox", "visCheckBox");
+        addTagProvider(new VisDialogLmlTagProvider(), "dialog", "visDialog");
         addTagProvider(new VisImageButtonLmlTagProvider(), "imageButton", "visImageButton");
-        addTagProvider(new VisImageLmlTagProvider(), "image", "visImage", "img", "icon");
+        addTagProvider(new VisImageLmlTagProvider(), "image", "visImage");
         addTagProvider(new VisImageTextButtonLmlTagProvider(), "imageTextButton", "visImageTextButton");
-        addTagProvider(new VisLabelLmlTagProvider(), "label", "visLabel", "text", "txt", "li");
-        addTagProvider(new VisListLmlTagProvider(), "list", "visList", "ul");
-        addTagProvider(new VisProgressBarLmlTagProvider(), "progressBar", "visProgressBar", "progress", "loading",
-                "loadingBar");
-        addTagProvider(new VisRadioButtonLmlTagProvider(), "radioButton", "visRadioButton", "radio");
-        addTagProvider(new VisScrollPaneLmlTagProvider(), "scrollPane", "visScrollPane", "scroll", "scrollable");
-        addTagProvider(new VisSelectBoxLmlTagProvider(), "select", "selectBox", "visSelectBox");
+        addTagProvider(new VisLabelLmlTagProvider(), "label", "visLabel");
+        addTagProvider(new VisListLmlTagProvider(), "list", "visList");
+        addTagProvider(new VisProgressBarLmlTagProvider(), "progressBar", "visProgressBar");
+        addTagProvider(new VisRadioButtonLmlTagProvider(), "radioButton", "visRadioButton");
+        addTagProvider(new VisScrollPaneLmlTagProvider(), "scrollPane", "visScrollPane");
+        addTagProvider(new VisSelectBoxLmlTagProvider(), "selectBox", "visSelectBox");
         addTagProvider(new VisSliderLmlTagProvider(), "slider", "visSlider");
-        addTagProvider(new VisSplitPaneLmlTagProvider(), "splitPane", "visSplitPane", "split", "splitable");
-        addTagProvider(new VisTableLmlTagProvider(), "table", "visTable", "div", "td", "th");
-        addTagProvider(new VisTextAreaLmlTagProvider(), "textArea", "inputArea", "multilineInput");
-        addTagProvider(new VisTextButtonLmlTagProvider(), "textButton", "visTextButton", "a");
-        addTagProvider(new VisTextFieldLmlTagProvider(), "textField", "visTextField", "input", "textInput");
-        addTagProvider(new VisTreeLmlTagProvider(), "tree", "visTree", "root");
+        addTagProvider(new VisSplitPaneLmlTagProvider(), "splitPane", "visSplitPane");
+        addTagProvider(new VisTableLmlTagProvider(), "table", "visTable");
+        addTagProvider(new VisTextAreaLmlTagProvider(), "textArea", "visTextArea");
+        addTagProvider(new VisTextButtonLmlTagProvider(), "textButton", "visTextButton");
+        addTagProvider(new VisTextFieldLmlTagProvider(), "textField", "visTextField");
+        addTagProvider(new VisTreeLmlTagProvider(), "tree", "visTree");
         addTagProvider(new VisWindowLmlTagProvider(), "window", "visWindow");
 
         // Vis unique actors:
@@ -261,7 +260,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new MenuLmlTagProvider(), "menu");
         addTagProvider(new MenuPopupLmlTagProvider(), "popupMenu", "subMenu");
         addTagProvider(new MenuSeparatorLmlTagProvider(), "menuSeparator");
-        addTagProvider(new NumberSelectorLmlTagProvider(), "numberSelector", "numSelector", "selector");
+        addTagProvider(new NumberSelectorLmlTagProvider(), "numberSelector", "selector");
         addTagProvider(new SeparatorLmlTagProvider(), "separator");
         addTagProvider(new TabbedPaneLmlTagProvider(), "tabbedPane", "tabs");
         addTagProvider(new TabLmlTagProvider(), "tab");
@@ -276,8 +275,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new GreaterThanValidatorLmlTagProvider(), "greaterThan", "greaterThanValidator");
         addTagProvider(new IntegerValidatorLmlTagProvider(), "integerValidator", "intValidator", "isInt", "isInteger");
         addTagProvider(new LesserThanValidatorLmlTagProvider(), "lesserThan", "lesserThanValidator");
-        addTagProvider(new NotEmptyValidatorLmlTagProvider(), "notEmpty", "notEmptyValidator", "nonEmpty",
-                "isNotEmpty");
+        addTagProvider(new NotEmptyValidatorLmlTagProvider(), "notEmpty", "notEmptyValidator", "isNotEmpty");
     }
 
     @Override
@@ -371,8 +369,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     protected void registerTableAttributes() {
         super.registerTableAttributes();
         // Table:
-        addAttributeProcessor(new UseCellDefaultsLmlAttribute(), "useCellDefaults", "useVisDefaults",
-                "useSpacingDefaults", "visDefaults");
+        addAttributeProcessor(new UseCellDefaultsLmlAttribute(), "useCellDefaults", "useVisDefaults");
     }
 
     @Override
@@ -384,9 +381,8 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addAttributeProcessor(new InputAlignLmlAttribute(), "textAlign", "inputAlign", "textAlignment");
         addAttributeProcessor(new MaxLengthLmlAttribute(), "max", "maxLength");
         addAttributeProcessor(new MessageLmlAttribute(), "message", "messageText");
-        addAttributeProcessor(new PasswordCharacterLmlAttribute(), "passwordCharacter", "passwordChar", "passChar",
-                "passCharacter");
-        addAttributeProcessor(new PasswordModeLmlAttribute(), "passwordMode", "password", "passMode", "pass");
+        addAttributeProcessor(new PasswordCharacterLmlAttribute(), "passwordCharacter", "passCharacter");
+        addAttributeProcessor(new PasswordModeLmlAttribute(), "passwordMode", "password");
         addAttributeProcessor(new SelectAllLmlAttribute(), "selectAll");
         addAttributeProcessor(new TextFieldFilterLmlAttribute(), "filter", "textFilter", "textFieldFilter");
         addAttributeProcessor(new TextFieldListenerLmlAttribute(), "listener", "textListener", "textFieldListener");

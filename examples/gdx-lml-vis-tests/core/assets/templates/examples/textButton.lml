@@ -14,7 +14,7 @@
     This will be also
     appended to button text.
     No new labels are created.
-    <mock row=true/>
+    <actor row=true/>
     <label color="vis-blue">
         This is a separate label.
     </label>

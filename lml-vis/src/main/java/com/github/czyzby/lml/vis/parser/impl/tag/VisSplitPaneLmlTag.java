@@ -10,7 +10,7 @@ import com.kotcrab.vis.ui.widget.VisSplitPane;
 
 /** Handles {@link VisSplitPane} actor. Can manage two children - they will be set as the first and second managed
  * widgets in order in which they appeared in the template. Converts plain text between its tags to a label and assumes
- * it is one of its actors to manage. Mapped to "splitPane", "visSplitPane", "split", "splitable".
+ * it is one of its actors to manage. Mapped to "splitPane", "visSplitPane".
  *
  * @author MJ */
 public class VisSplitPaneLmlTag extends AbstractActorLmlTag {

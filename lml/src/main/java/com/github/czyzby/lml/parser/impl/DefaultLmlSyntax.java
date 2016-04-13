@@ -342,33 +342,33 @@ public class DefaultLmlSyntax implements LmlSyntax {
      *
      * @see #registerTags() */
     protected void registerActorTags() {
-        addTagProvider(new ActorLmlTagProvider(), "actor", "group", "empty", "mock", "blank", "placeholder");
-        addTagProvider(new AnimatedImageLmlTagProvider(), "animate", "animation", "animatedImage");
+        addTagProvider(new ActorLmlTagProvider(), "actor", "group");
+        addTagProvider(new AnimatedImageLmlTagProvider(), "animatedImage");
         addTagProvider(new ButtonGroupLmlTagProvider(), "buttonGroup", "buttonTable");
         addTagProvider(new ButtonLmlTagProvider(), "button");
-        addTagProvider(new CheckBoxLmlTagProvider(), "checkBox", "check");
-        addTagProvider(new ContainerLmlTagProvider(), "container", "single");
-        addTagProvider(new DialogLmlTagProvider(), "dialog", "popup");
-        addTagProvider(new HorizontalGroupLmlTagProvider(), "horizontal", "horizontalGroup");
+        addTagProvider(new CheckBoxLmlTagProvider(), "checkBox");
+        addTagProvider(new ContainerLmlTagProvider(), "container");
+        addTagProvider(new DialogLmlTagProvider(), "dialog");
+        addTagProvider(new HorizontalGroupLmlTagProvider(), "horizontalGroup");
         addTagProvider(new ImageButtonLmlTagProvider(), "imageButton");
-        addTagProvider(new ImageLmlTagProvider(), "image", "img", "icon");
+        addTagProvider(new ImageLmlTagProvider(), "image");
         addTagProvider(new ImageTextButtonLmlTagProvider(), "imageTextButton");
-        addTagProvider(new LabelLmlTagProvider(), "label", "text", "txt", "li");
-        addTagProvider(new ListLmlTagProvider(), "list", "ul");
-        addTagProvider(new ProgressBarLmlTagProvider(), "progressBar", "progress", "loadingBar", "loading");
-        addTagProvider(new ScrollPaneLmlTagProvider(), "scrollPane", "scroll", "scrollable");
-        addTagProvider(new SelectBoxLmlTagProvider(), "selectBox", "select");
+        addTagProvider(new LabelLmlTagProvider(), "label");
+        addTagProvider(new ListLmlTagProvider(), "list");
+        addTagProvider(new ProgressBarLmlTagProvider(), "progressBar");
+        addTagProvider(new ScrollPaneLmlTagProvider(), "scrollPane");
+        addTagProvider(new SelectBoxLmlTagProvider(), "selectBox");
         addTagProvider(new SliderLmlTagProvider(), "slider");
-        addTagProvider(new SplitPaneLmlTagProvider(), "splitPane", "split", "splitable");
+        addTagProvider(new SplitPaneLmlTagProvider(), "splitPane");
         addTagProvider(new StackLmlTagProvider(), "stack");
-        addTagProvider(new TableLmlTagProvider(), "table", "div", "td", "th", "tr");
-        addTagProvider(new TextAreaLmlTagProvider(), "textArea", "inputArea", "multilineInput");
-        addTagProvider(new TextButtonLmlTagProvider(), "textButton", "a");
-        addTagProvider(new TextFieldLmlTagProvider(), "textField", "input", "textInput");
+        addTagProvider(new TableLmlTagProvider(), "table");
+        addTagProvider(new TextAreaLmlTagProvider(), "textArea");
+        addTagProvider(new TextButtonLmlTagProvider(), "textButton");
+        addTagProvider(new TextFieldLmlTagProvider(), "textField");
         addTagProvider(new TooltipLmlTagProvider(), "tooltip");
-        addTagProvider(new TouchpadLmlTagProvider(), "touchpad", "touch");
-        addTagProvider(new TreeLmlTagProvider(), "tree", "root");
-        addTagProvider(new VerticalGroupLmlTagProvider(), "vertical", "verticalGroup");
+        addTagProvider(new TouchpadLmlTagProvider(), "touchpad");
+        addTagProvider(new TreeLmlTagProvider(), "tree");
+        addTagProvider(new VerticalGroupLmlTagProvider(), "verticalGroup");
         addTagProvider(new WindowLmlTagProvider(), "window");
     }
 
@@ -384,49 +384,37 @@ public class DefaultLmlSyntax implements LmlSyntax {
      *
      * @see #registerTags() */
     protected void registerMacroTags() {
-        addMacroTagProvider(new ActorLmlMacroTagProvider(), "actor", "widget");
-        addMacroTagProvider(new AnyNotNullLmlMacroTagProvider(), "anyNotNull", "any", "anyExists", "anyPresent");
-        addMacroTagProvider(new ArgumentLmlMacroTagProvider(), "nls", "argument", "preference", "i18n", "bundle");
-        addMacroTagProvider(new ArgumentReplacementLmlMacroTagProvider(), "replace", "replaceArguments", "replaceArgs",
-                "argumentsReplace", "argsReplace", "noOp", "noOperation", "doNothing", "root");
-        addMacroTagProvider(new AssignLmlMacroTagProvider(), "assign", "var", "val", "toArgument");
-        addMacroTagProvider(new CalculationLmlMacroTagProvider(), "calculate", "calculation", "equation", "calc");
+        addMacroTagProvider(new ActorLmlMacroTagProvider(), "actor");
+        addMacroTagProvider(new AnyNotNullLmlMacroTagProvider(), "anyNotNull", "any");
+        addMacroTagProvider(new ArgumentLmlMacroTagProvider(), "nls", "argument", "preference");
+        addMacroTagProvider(new ArgumentReplacementLmlMacroTagProvider(), "replace", "replaceArguments", "noOp",
+                "root");
+        addMacroTagProvider(new AssignLmlMacroTagProvider(), "assign", "var", "val");
+        addMacroTagProvider(new CalculationLmlMacroTagProvider(), "calculate", "calculation");
         addMacroTagProvider(new ChangeListenerLmlMacroTagProvider(), "onChange", "changeListener");
         addMacroTagProvider(new ClickListenerLmlMacroTagProvider(), "onClick", "clickListener");
         addMacroTagProvider(new CommentLmlMacroTagProvider(), "comment", "FIXME", "TODO");
-        addMacroTagProvider(new ConditionalLmlMacroTagProvider(), "if", "test", "check", "try", "verify", "inspect",
-                "validate", "onCondition", "condition", "conditional");
-        addMacroTagProvider(new EvaluateLmlMacroTagProvider(), "eval", "evaluate", "invoke", "invokeAndAssign",
-                "evaluateAndAssign");
-        addMacroTagProvider(new ExceptionLmlMacroTagProvider(), "exception", "throw", "throwException", "error",
-                "throwError", "system.exit");
-        addMacroTagProvider(new ForEachLmlMacroTagProvider(), "forEach", "for", "each", "iterate", "iterateOver");
-        addMacroTagProvider(new ImportAbsoluteLmlMacroTagProvider(), "absoluteImport", "absoluteInclude",
-                "absoluteRequire", "absoluteTemplate");
-        addMacroTagProvider(new ImportClasspathLmlMacroTagProvider(), "classpathImport", "classpathInclude",
-                "classpathRequire", "classpathTemplate");
-        addMacroTagProvider(new ImportExternallLmlMacroTagProvider(), "externalImport", "externalInclude",
-                "externalRequire", "externalTemplate");
-        addMacroTagProvider(new ImportInternalLmlMacroTagProvider(), "import", "include", "require", "template",
-                "internalImport", "internalInclude", "internalRequire", "internalTemplate");
-        addMacroTagProvider(new ImportLocalLmlMacroTagProvider(), "localImport", "localInclude", "localRequire",
-                "localTemplate");
+        addMacroTagProvider(new ConditionalLmlMacroTagProvider(), "if", "test", "check");
+        addMacroTagProvider(new EvaluateLmlMacroTagProvider(), "eval", "evaluate", "invoke");
+        addMacroTagProvider(new ExceptionLmlMacroTagProvider(), "exception", "throw", "error");
+        addMacroTagProvider(new ForEachLmlMacroTagProvider(), "forEach", "for", "each");
+        addMacroTagProvider(new ImportAbsoluteLmlMacroTagProvider(), "absoluteImport");
+        addMacroTagProvider(new ImportClasspathLmlMacroTagProvider(), "classpathImport");
+        addMacroTagProvider(new ImportExternallLmlMacroTagProvider(), "externalImport");
+        addMacroTagProvider(new ImportInternalLmlMacroTagProvider(), "import", "internalImport");
+        addMacroTagProvider(new ImportLocalLmlMacroTagProvider(), "localImport");
         addMacroTagProvider(new LoggerDebugLmlMacroTagProvider(), "debug", "logDebug", "trace", "logTrace");
         addMacroTagProvider(new LoggerErrorLmlMacroTagProvider(), "logError");
         addMacroTagProvider(new LoggerInfoLmlMacroTagProvider(), "log", "logInfo", "info");
-        addMacroTagProvider(new LoopLmlMacroTagProvider(), "loop", "times", "repeat");
+        addMacroTagProvider(new LoopLmlMacroTagProvider(), "loop", "times");
         addMacroTagProvider(new MetaLmlMacroTagProvider(), "macro");
-        addMacroTagProvider(new NestedForEachLmlMacroTagProvider(), "forEachNested", "nested", "nestedForEach",
-                "eachNested", "nest", "nestedLoop");
-        addMacroTagProvider(new NewAttributeLmlMacroTagProvider(), "newAttribute", "attribute", "createAttribute",
-                "newProperty");
-        addMacroTagProvider(new NewTagLmlMacroTagProvider(), "newTag", "newActor", "tag", "createTag");
-        addMacroTagProvider(new NullCheckLmlMacroTagProvider(), "notNull", "ifNotNull", "allNotNull", "ifPresent",
-                "exists", "ifExists", "nullCheck", "ifTrue");
-        addMacroTagProvider(new TableColumnLmlMacroTagProvider(), "column", "tableColumn", "columnDefaults");
-        addMacroTagProvider(new TableRowLmlMacroTagProvider(), "row", "addRow", "newRow", "nextLine", "nextRow", "tr",
-                "tableRow", "rowDefaults");
-        addMacroTagProvider(new WhileLmlMacroTagProvider(), "while", "whileTrue", "repeatWhile", "until", "untilTrue");
+        addMacroTagProvider(new NestedForEachLmlMacroTagProvider(), "forEachNested", "nested", "eachNested");
+        addMacroTagProvider(new NewAttributeLmlMacroTagProvider(), "newAttribute", "attribute");
+        addMacroTagProvider(new NewTagLmlMacroTagProvider(), "newTag", "tag");
+        addMacroTagProvider(new NullCheckLmlMacroTagProvider(), "notNull", "ifNotNull", "exists");
+        addMacroTagProvider(new TableColumnLmlMacroTagProvider(), "column", "tableColumn");
+        addMacroTagProvider(new TableRowLmlMacroTagProvider(), "row", "tableRow");
+        addMacroTagProvider(new WhileLmlMacroTagProvider(), "while", "until");
     }
 
     /** Warning: invoked by the constructor. Registers known default attributes. Since processors registration might
@@ -467,12 +455,12 @@ public class DefaultLmlSyntax implements LmlSyntax {
         // Default LmlActorBuilder:
         addBuildingAttributeProcessor(new SkinLmlAttribute(), "skin");
         addBuildingAttributeProcessor(new StyleLmlAttribute(), "style", "class");
-        addBuildingAttributeProcessor(new OnResultInitialLmlAttribute(), "result", "onResult", "onDialogResult");
+        addBuildingAttributeProcessor(new OnResultInitialLmlAttribute(), "result", "onResult");
         addBuildingAttributeProcessor(new ToButtonTableLmlAttribute(), "toButtonTable");
-        addBuildingAttributeProcessor(new ToDialogTableLmlAttribute(), "toDialogTable", "addDirectlyToTable");
+        addBuildingAttributeProcessor(new ToDialogTableLmlAttribute(), "toDialogTable");
         addBuildingAttributeProcessor(new ToTitleTableLmlAttribute(), "toTitleTable");
         // Text:
-        addBuildingAttributeProcessor(new TextLmlAttribute(), "text", "txt", "value");
+        addBuildingAttributeProcessor(new TextLmlAttribute(), "text", "value");
         // Aligned:
         addBuildingAttributeProcessor(new HorizontalLmlAttribute(), "horizontal");
         addBuildingAttributeProcessor(new VerticalLmlAttribute(), "vertical");
@@ -487,7 +475,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
 
     /** Attributes applied to all actors. */
     protected void registerCommonAttributes() {
-        addAttributeProcessor(new ActionLmlAttribute(), "action", "act", "initialAction", "initialAct", "onShow");
+        addAttributeProcessor(new ActionLmlAttribute(), "action", "onShow");
         addAttributeProcessor(new ColorAlphaLmlAttribute(), "alpha", "a"); // Actor
         addAttributeProcessor(new ColorBlueLmlAttribute(), "blue", "b");
         addAttributeProcessor(new ColorGreenLmlAttribute(), "green", "g");
@@ -500,20 +488,19 @@ public class DefaultLmlSyntax implements LmlSyntax {
         addAttributeProcessor(new OnClickLmlAttribute(), "onClick", "click");
         addAttributeProcessor(new OnCloseLmlAttribute(), "onClose", "close", "onTagClose", "tagClose");
         addAttributeProcessor(new OnCreateLmlAttribute(), "onCreate", "create", "onInit", "init");
-        addAttributeProcessor(new RotationLmlAttribute(), "rotation", "rotate", "angle", "degrees");
+        addAttributeProcessor(new RotationLmlAttribute(), "rotation", "angle");
         addAttributeProcessor(new ScaleLmlAttribute(), "scale");
         addAttributeProcessor(new ScaleXLmlAttribute(), "scaleX");
         addAttributeProcessor(new ScaleYLmlAttribute(), "scaleY");
         addAttributeProcessor(new TooltipLmlAttribute(), "tooltip");
         addAttributeProcessor(new TouchableLmlAttribute(), "touchable");
-        addAttributeProcessor(new TreeNodeLmlAttribute(), "node", "treeNode");
+        addAttributeProcessor(new TreeNodeLmlAttribute(), "node");
         addAttributeProcessor(new VisibleLmlAttribute(), "visible");
-        addAttributeProcessor(new XLmlAttribute(), "x", "positionX", "posX", "xPos", "xPosition");
-        addAttributeProcessor(new YLmlAttribute(), "y", "positionY", "posY", "yPos", "yPosition");
+        addAttributeProcessor(new XLmlAttribute(), "x");
+        addAttributeProcessor(new YLmlAttribute(), "y");
 
         addAttributeProcessor(new TransformLmlAttribute(), "transform"); // Group
-        addAttributeProcessor(new DebugRecursivelyLmlAttribute(), "debugRecursively", "recursiveDebug",
-                "debugChildren");
+        addAttributeProcessor(new DebugRecursivelyLmlAttribute(), "debugRecursively");
 
         // Since Layout is an interface and interfaces listing is not supported on GWT, widgets can be mapped only to
         // their superclasses. This requires Layout-based attributes to be registered to a class that can apply to any
@@ -522,7 +509,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
         addAttributeProcessor(new LayoutEnabledLmlAttribute(), "layout", "layoutEnabled");
 
         // Same goes for Disableable. Fails if the widget does not implement the interface.
-        addAttributeProcessor(new DisabledLmlAttribute(), "disabled", "disable", "isDisabled"); // Disableable
+        addAttributeProcessor(new DisabledLmlAttribute(), "disabled", "disable"); // Disableable
     }
 
     /** Listener tags attributes. */
@@ -533,7 +520,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
     /** Button widget attributes. */
     protected void registerButtonAttributes() {
         addAttributeProcessor(new ButtonImageLmlAttribute(), "image", "icon"); // ImageButton
-        addAttributeProcessor(new CheckedLmlAttribute(), "checked", "isChecked"); // Button
+        addAttributeProcessor(new CheckedLmlAttribute(), "checked"); // Button
         addAttributeProcessor(new TextButtonImageLmlAttribute(), "image", "icon"); // ImageTextButton
     }
 
@@ -582,7 +569,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
     /** Dialog-related attributes. */
     protected void registerDialogAttributes() {
         // Dialog children attributes:
-        addAttributeProcessor(new OnResultLmlAttribute(), "result", "onResult", "onDialogResult");
+        addAttributeProcessor(new OnResultLmlAttribute(), "result", "onResult");
     }
 
     /** HorizontalGroup widget attributes. */
@@ -600,8 +587,8 @@ public class DefaultLmlSyntax implements LmlSyntax {
 
     /** Image widget attributes. */
     protected void registerImageAttributes() {
-        addAttributeProcessor(new ImageAlignmentLmlAttribute(), "imageAlign", "imgAlign", "iconAlign");
-        addAttributeProcessor(new ScalingLmlAttribute(), "scaling", "imageScaling", "iconScaling", "imgScaling");
+        addAttributeProcessor(new ImageAlignmentLmlAttribute(), "imageAlign");
+        addAttributeProcessor(new ScalingLmlAttribute(), "scaling", "imageScaling");
     }
 
     /** Label widget attributes. */
@@ -619,7 +606,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
         addAttributeProcessor(new RangeSelectLmlAttribute(), "rangeSelect");
         addAttributeProcessor(new RequiredLmlAttribute(), "required");
         addAttributeProcessor(new SelectedLmlAttribute(), "selected", "select", "value");
-        addAttributeProcessor(new SelectionDisabledLmlAttribute(), "disabled", "disable", "isDisabled");
+        addAttributeProcessor(new SelectionDisabledLmlAttribute(), "disabled", "disable");
         addAttributeProcessor(new ToggleLmlAttribute(), "toggle");
     }
 
@@ -742,14 +729,13 @@ public class DefaultLmlSyntax implements LmlSyntax {
     /** TextField widget attributes. */
     protected void registerTextFieldAttributes() {
         addAttributeProcessor(new BlinkTimeLmlAttribute(), "blink", "blinkTime");
-        addAttributeProcessor(new CursorLmlAttribute(), "cursor", "cursorPos", "cursorPosition");
+        addAttributeProcessor(new CursorLmlAttribute(), "cursor", "cursorPosition");
         addAttributeProcessor(new DigitsOnlyLmlAttribute(), "digitsOnly", "numeric");
         addAttributeProcessor(new InputAlignLmlAttribute(), "textAlign", "inputAlign", "textAlignment");
         addAttributeProcessor(new MaxLengthLmlAttribute(), "max", "maxLength");
         addAttributeProcessor(new MessageLmlAttribute(), "message", "messageText");
-        addAttributeProcessor(new PasswordCharacterLmlAttribute(), "passwordCharacter", "passwordChar", "passChar",
-                "passCharacter");
-        addAttributeProcessor(new PasswordModeLmlAttribute(), "passwordMode", "password", "passMode", "pass");
+        addAttributeProcessor(new PasswordCharacterLmlAttribute(), "passwordCharacter", "passwordChar");
+        addAttributeProcessor(new PasswordModeLmlAttribute(), "passwordMode", "password");
         addAttributeProcessor(new SelectAllLmlAttribute(), "selectAll");
         addAttributeProcessor(new TextFieldFilterLmlAttribute(), "filter", "textFilter", "textFieldFilter");
         addAttributeProcessor(new TextFieldListenerLmlAttribute(), "listener", "textListener", "textFieldListener");

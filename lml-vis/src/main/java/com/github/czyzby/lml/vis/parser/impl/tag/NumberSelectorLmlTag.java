@@ -7,7 +7,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.vis.parser.impl.tag.builder.NumberSelectorLmlActorBuilder;
 import com.kotcrab.vis.ui.widget.NumberSelector;
 
-/** Handles {@link NumberSelector} actor. Mapped to "numberSelector", "numSelector", "selector".
+/** Handles {@link NumberSelector} actor. Mapped to "numberSelector", "selector".
  *
  * @author Kotcrab */
 public class NumberSelectorLmlTag extends VisTableLmlTag {

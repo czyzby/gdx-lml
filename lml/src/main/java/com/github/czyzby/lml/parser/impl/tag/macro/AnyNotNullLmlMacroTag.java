@@ -1,5 +1,6 @@
 package com.github.czyzby.lml.parser.impl.tag.macro;
 
+import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlTag;
@@ -20,11 +21,16 @@ public class AnyNotNullLmlMacroTag extends AbstractConditionalLmlMacroTag {
             // empty string, for example. Assuming that no params = received null.
             return false;
         } else if (hasAttribute(TEST_ATTRIBUTE)) {
-            return testAttribute(getAttribute(TEST_ATTRIBUTE));
-        }
-        for (final String attribute : getAttributes()) {
-            if (testAttribute(attribute)) {
-                return true;
+            for (final String attribute : Strings.split(getAttribute(TEST_ATTRIBUTE), ' ')) {
+                if (testAttribute(attribute)) {
+                    return true;
+                }
+            }
+        } else {
+            for (final String attribute : getAttributes()) {
+                if (testAttribute(attribute)) {
+                    return true;
+                }
             }
         }
         return false;

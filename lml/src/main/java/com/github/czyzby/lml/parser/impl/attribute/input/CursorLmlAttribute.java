@@ -9,7 +9,7 @@ import com.github.czyzby.lml.util.LmlUtilities;
 
 /** See {@link TextField#setCursorPosition(int)}. Cursor position will be set after the actor is fully constructed and
  * its tag is closed, so if you keep text field data between its tags, cursor position setting will still work. Mapped
- * to "cursor", "cursorPos", "cursorPosition".
+ * to "cursor", "cursorPosition".
  *
  * @author MJ */
 public class CursorLmlAttribute implements LmlAttribute<TextField> {

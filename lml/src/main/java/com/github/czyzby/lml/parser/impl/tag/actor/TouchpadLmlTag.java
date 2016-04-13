@@ -7,7 +7,7 @@ import com.github.czyzby.lml.parser.impl.tag.AbstractNonParentalActorLmlTag;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
-/** Handles {@link Touchpad} actor. Cannot handle children tags or data between tags. Mapped to "touchpad", "touch".
+/** Handles {@link Touchpad} actor. Cannot handle children tags or data between tags. Mapped to "touchpad".
  *
  * @author MJ */
 public class TouchpadLmlTag extends AbstractNonParentalActorLmlTag {

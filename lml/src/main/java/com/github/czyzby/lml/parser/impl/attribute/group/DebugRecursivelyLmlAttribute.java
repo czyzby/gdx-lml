@@ -6,8 +6,7 @@ import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
 /** See {@link Group#setDebug(boolean, boolean)}. Second method argument is always true, so this method sets debug for
- * all children; for non-recursive debug, use default debug attribute. Mapped to "debugRecursively", "recursiveDebug",
- * "debugChildren".
+ * all children; for non-recursive debug, use default debug attribute. Mapped to "debugRecursively".
  *
  * @author MJ */
 public class DebugRecursivelyLmlAttribute implements LmlAttribute<Group> {

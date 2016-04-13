@@ -7,7 +7,7 @@ import com.kotcrab.vis.ui.util.InputValidator;
 import com.kotcrab.vis.ui.util.form.SimpleFormValidator.EmptyInputValidator;
 
 /** Provider {@link EmptyInputValidator}s. Returns false if input is empty. Mapped to "notEmpty", "notEmptyValidator",
- * "nonEmpty", "isNotEmpty".
+ * "isNotEmpty".
  *
  * @author MJ */
 public class NotEmptyValidatorLmlTag extends AbstractValidatorLmlTag {

@@ -7,7 +7,7 @@ import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.kotcrab.vis.ui.widget.VisImage;
 
-/** Handles {@link VisImage} actor. Mapped to "image", "img", "icon".
+/** Handles {@link VisImage} actor. Mapped to "image", "visImage".
  *
  * @author Kotcrab */
 public class VisImageLmlTag extends ImageLmlTag {

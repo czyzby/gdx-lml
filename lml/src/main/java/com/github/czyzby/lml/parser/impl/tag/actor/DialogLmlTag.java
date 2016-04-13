@@ -8,7 +8,7 @@ import com.github.czyzby.lml.scene2d.ui.reflected.ReflectedLmlDialog;
 import com.github.czyzby.lml.util.LmlUtilities;
 
 /** Handles {@link Dialog} actor. Works like a window, except it supports on result action and is attached to the stage
- * with {@link Dialog#show(com.badlogic.gdx.scenes.scene2d.Stage)}. Mapped to "dialog", "popup".
+ * with {@link Dialog#show(com.badlogic.gdx.scenes.scene2d.Stage)}. Mapped to "dialog".
  *
  * @author MJ */
 public class DialogLmlTag extends WindowLmlTag {

@@ -9,7 +9,7 @@ import com.kotcrab.vis.ui.widget.VisCheckBox;
 
 /** Handles {@code VisCheckBox} actor. Allows its children tags to use cell attributes. As opposed to a table, it
  * appends plain text data to its label rather than create and add a new label for each line. Mapped to "checkBox",
- * "visCheckBox", "check".
+ * "visCheckBox".
  *
  * @author MJ */
 public class VisCheckBoxLmlTag extends VisTextButtonLmlTag {

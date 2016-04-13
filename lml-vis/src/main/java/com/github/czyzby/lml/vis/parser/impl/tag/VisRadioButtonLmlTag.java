@@ -8,7 +8,7 @@ import com.kotcrab.vis.ui.widget.VisCheckBox.VisCheckBoxStyle;
 import com.kotcrab.vis.ui.widget.VisRadioButton;
 
 /** Handles {@link VisRadioButton} actors. Treats children as a check box parent. Mapped to "radioButton",
- * "visRadioButton", "radio".
+ * "visRadioButton".
  *
  * @author MJ
  * @see VisCheckBoxLmlTag */

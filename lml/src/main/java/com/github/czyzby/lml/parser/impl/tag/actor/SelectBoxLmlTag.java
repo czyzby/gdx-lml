@@ -11,7 +11,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
 
 /** Handles {@link SelectBox} actor. Like the List widget it wraps, select box can handle only string data. Converts
  * label and text button children to items by extracting their text; does not accept any other child tags. Appends plain
- * text lines between tags as its items. Mapped to "select", "selectBox".
+ * text lines between tags as its items. Mapped to "selectBox".
  *
  * @author MJ */
 public class SelectBoxLmlTag extends AbstractActorLmlTag {

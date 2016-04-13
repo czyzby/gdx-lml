@@ -8,8 +8,7 @@ import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
 /** Handles {@link ScrollPane} actor. Can have a single child tag which will be set as scroll pane's managed widget.
- * Parses plain text between tags to a label and sets it as its managed widget. Mapped to "scrollPane", "scroll",
- * "scrollable".
+ * Parses plain text between tags to a label and sets it as its managed widget. Mapped to "scrollPane".
  *
  * @author MJ */
 public class ScrollPaneLmlTag extends AbstractActorLmlTag {

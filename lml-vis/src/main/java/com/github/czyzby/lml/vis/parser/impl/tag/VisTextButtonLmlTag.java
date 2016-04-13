@@ -9,7 +9,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 
 /** Handles {@link VisTextButton} actors. Appends children as {@link Table}. Converts plain text between tags into its
- * label text. Mapped to "textButton", "visTextButton", "a".
+ * label text. Mapped to "textButton", "visTextButton".
  *
  * @author MJ */
 public class VisTextButtonLmlTag extends TextButtonLmlTag {

@@ -7,7 +7,7 @@ import com.github.czyzby.lml.parser.impl.tag.builder.TextLmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
 /** Handles {@code CheckBox} actor. Allows its children tags to use cell attributes. As opposed to a table, it appends
- * plain text data to its label rather than create and add a new label for each line. Mapped to "checkBox", "check".
+ * plain text data to its label rather than create and add a new label for each line. Mapped to "checkBox".
  *
  * @author MJ */
 public class CheckBoxLmlTag extends TextButtonLmlTag {

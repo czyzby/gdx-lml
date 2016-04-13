@@ -8,7 +8,7 @@ import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
 /** Handles {@link Container} actor. Can manage a single child - works as a simplified Table. Converts plain text
- * between tags to a label and adds it as its child. Mapped to "container", "single".
+ * between tags to a label and adds it as its child. Mapped to "container".
  *
  * @author MJ */
 public class ContainerLmlTag extends AbstractActorLmlTag {

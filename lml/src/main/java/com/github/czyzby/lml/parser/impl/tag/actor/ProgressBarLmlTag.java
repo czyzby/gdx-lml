@@ -11,7 +11,7 @@ import com.github.czyzby.lml.util.LmlParsingException;
 
 /** Handles {@link ProgressBar} actor. Expects that the text between its tags is a valid float - it will be set as bar's
  * value. Be careful though, as changing the value in such way might trigger registered change listeners. Mapped to
- * "progress", "progressBar", "loading", "loadingBar".
+ * "progressBar".
  *
  * @author MJ */
 public class ProgressBarLmlTag extends AbstractNonParentalActorLmlTag {

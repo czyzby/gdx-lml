@@ -1,11 +1,16 @@
 package com.github.czyzby.lml.util;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
@@ -17,6 +22,7 @@ import com.github.czyzby.lml.parser.LmlData;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.action.ActorConsumer;
 import com.github.czyzby.lml.parser.impl.AbstractLmlView;
+import com.github.czyzby.lml.parser.impl.tag.Dtd;
 
 /** An {@link ApplicationListener} implementation that manages a list of {@link AbstractLmlView LML views}. Forces the
  * user to prepare a {@link LmlParser} with {@link #createParser()} method. Ensures smooth view transitions. Adds
@@ -52,10 +58,39 @@ public abstract class LmlApplicationListener implements ApplicationListener {
         return currentView;
     }
 
+    /** @param currentView will be immediately set as {@link #getCurrentView() current view}. Note that this is not a
+     *            part of public API: to ensure smooth view transitions, use {@link #setView(AbstractLmlView)}
+     *            method. */
+    protected void setCurrentView(final AbstractLmlView currentView) {
+        this.currentView = currentView;
+    }
+
     /** @return direct reference to {@link AbstractLmlView} instances cache. Views (map values) are mapped by their
      *         classes (map keys). */
     protected ObjectMap<Class<?>, AbstractLmlView> getViews() {
         return views;
+    }
+
+    /** Uses current {@link LmlParser} to generate a DTD schema file with all supported tags, macros and attributes.
+     * Should be used only during development: DTD allows to validate LML templates (and have content assign thanks to
+     * your IDE) during creation, but is not used by the {@link LmlParser} in runtime.
+     *
+     * @param file path to the file where DTD schema should be saved. Advised to be local or absolute. Note that some
+     *            platforms (GWT) do not support file saving - this method should be used on desktop platform and only
+     *            during development.
+     * @throws GdxRuntimeException if unable to save DTD schema.
+     * @see Dtd */
+    public void saveDtdSchema(final FileHandle file) {
+        try {
+            final Writer appendable = file.writer(false, "UTF-8");
+            final boolean strict = lmlParser.isStrict();
+            lmlParser.setStrict(false); // Temporary setting to non-strict to generate as much tags as possible.
+            Dtd.saveSchema(lmlParser, appendable);
+            appendable.close();
+            lmlParser.setStrict(strict);
+        } catch (final IOException exception) {
+            throw new GdxRuntimeException("Unable to save DTD schema.", exception);
+        }
     }
 
     /** Called when application is created.
@@ -133,7 +168,7 @@ public abstract class LmlApplicationListener implements ApplicationListener {
     }
 
     /** Clears the screen using {@link GdxUtilities#clearScreen()}. Calls {@link AbstractLmlView#render(float)} on
-     * current view if it isn't empty. */
+     * current view (if it isn't empty) with current delta time. */
     @Override
     public void render() {
         GdxUtilities.clearScreen();
@@ -158,7 +193,8 @@ public abstract class LmlApplicationListener implements ApplicationListener {
         }
     }
 
-    /** Calls {@link AbstractLmlView#dispose()} on each stored view. */
+    /** Calls {@link AbstractLmlView#dispose()} on each stored view. When overriding this method, make sure to call
+     * super or dispose your views manually. */
     @Override
     public void dispose() {
         Disposables.disposeOf(views.values());
@@ -199,8 +235,9 @@ public abstract class LmlApplicationListener implements ApplicationListener {
         }
     }
 
-    private void validateCurrentView(final AbstractLmlView view) {
-        if (view == currentView) {
+    /** @param removedView is being removed. If it is currently displayed, current view will be set to null. */
+    private void validateCurrentView(final AbstractLmlView removedView) {
+        if (removedView == currentView) {
             currentView = null;
         }
     }
@@ -241,7 +278,7 @@ public abstract class LmlApplicationListener implements ApplicationListener {
 
     /** @param viewClass {@link AbstractLmlView} extension that represents a single view. Its instance is requested.
      * @return a new instance of the passed class. By default, the instance is created using the default no-argument
-     *         constructor using reflection. */
+     *         constructor using reflection. Override this method to change the view creation way. */
     protected AbstractLmlView getInstanceOf(final Class<? extends AbstractLmlView> viewClass) {
         return Reflection.newInstance(viewClass);
     }

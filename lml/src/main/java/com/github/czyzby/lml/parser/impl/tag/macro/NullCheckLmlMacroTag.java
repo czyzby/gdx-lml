@@ -1,5 +1,6 @@
 package com.github.czyzby.lml.parser.impl.tag.macro;
 
+import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlTag;
@@ -53,11 +54,16 @@ public class NullCheckLmlMacroTag extends AbstractConditionalLmlMacroTag {
             return false;
         }
         if (hasAttribute(TEST_ATTRIBUTE)) {
-            return testAttribute(getAttribute(TEST_ATTRIBUTE));
-        }
-        for (final String attribute : getAttributes()) {
-            if (!testAttribute(attribute)) {
-                return false;
+            for (final String attribute : Strings.split(getAttribute(TEST_ATTRIBUTE), ' ')) {
+                if (!testAttribute(attribute)) {
+                    return false;
+                }
+            }
+        } else {
+            for (final String attribute : getAttributes()) {
+                if (!testAttribute(attribute)) {
+                    return false;
+                }
             }
         }
         return true;
