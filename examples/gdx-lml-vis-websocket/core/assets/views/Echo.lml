@@ -1,13 +1,14 @@
+<!-- Using :window macro from Global.lml: -->
 <:window title="echo">
-	<table defaultWidth=120 defaultHeight=40 defaultPad=4>
+	<table defaultWidth="120" defaultHeight="40" defaultPad="4">
 		<textButton id="open" onChange="open">@connect</textButton>
-		<textButton id="send" onChange="send" disabled=true>@send</textButton>
-		<textButton id="close" onChange="close" disabled=true>@disconnect</textButton>
+		<textButton id="send" onChange="send" disabled="true">@send</textButton>
+		<textButton id="close" onChange="close" disabled="true">@disconnect</textButton>
 	</table>
 	<!-- The chars limit is there to make sure the view looks OK,
 		not because of web socket limitations. -->
-	<textField id="input" growX=true message="@messagePrompt" maxLength=200
-		 disabled=true/>
+	<textField id="input" growX="true" message="@messagePrompt" maxLength="200"
+		 disabled="true"/>
 	<label id="status" style="small" color="vis-blue">@status</label>
-	<textButton onChange="toMenu" expandX=true align="right">@toMenu</textButton>
+	<textButton onChange="toMenu" expandX="true" align="right">@toMenu</textButton>
 </:window>

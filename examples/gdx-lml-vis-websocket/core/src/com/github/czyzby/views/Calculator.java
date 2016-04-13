@@ -1,9 +1,11 @@
 package com.github.czyzby.views;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.github.czyzby.Core;
+import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.lml.annotation.LmlAction;
 import com.github.czyzby.lml.annotation.LmlActor;
 import com.github.czyzby.lml.parser.impl.AbstractLmlView;
@@ -28,6 +30,11 @@ public class Calculator extends AbstractLmlView {
         super(Core.newStage());
     }
 
+    @Override
+    public FileHandle getTemplateFile() {
+        return Gdx.files.internal("views/Calculator.lml");
+    }
+
     @LmlAction("add")
     void addEquasionSign(final TextButton button) {
         // Inserting sign in current cursor position:
@@ -45,6 +52,12 @@ public class Calculator extends AbstractLmlView {
             result.setText(":C");
             Gdx.app.error("Calculator", exception.getMessage());
         }
+    }
+
+    @Override
+    public void show() {
+        // Clearing input on each view showing.
+        equationInput.setText(Strings.EMPTY_STRING);
     }
 
     @Override

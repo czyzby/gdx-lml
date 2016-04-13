@@ -1,11 +1,9 @@
 package com.github.czyzby.actions;
 
+import com.badlogic.gdx.Gdx;
 import com.github.czyzby.Core;
 import com.github.czyzby.lml.annotation.LmlAction;
 import com.github.czyzby.lml.parser.action.ActionContainer;
-import com.github.czyzby.views.Calculator;
-import com.github.czyzby.views.Echo;
-import com.github.czyzby.views.Images;
 import com.github.czyzby.views.Menu;
 
 /** This is a utility class with methods available in all LML views.
@@ -17,23 +15,9 @@ public class GlobalActions implements ActionContainer {
     // LML templates, B) it makes it clear that the method is reserved for LML views and not a part of public API, C) it
     // significantly speeds up method look-up during parsing phase.
 
+    /** Begins view transition to {@link Menu}. */
     @LmlAction("toMenu")
     void setViewToMenu() {
-        Core.changeView(Menu.class);
-    }
-
-    @LmlAction("toCalculator")
-    void setViewToCalculator() {
-        Core.changeView(Calculator.class);
-    }
-
-    @LmlAction("toEcho")
-    void setViewToEcho() {
-        Core.changeView(Echo.class);
-    }
-
-    @LmlAction("toImages")
-    void setViewToImages() {
-        Core.changeView(Images.class);
+        ((Core) Gdx.app.getApplicationListener()).setView(Menu.class);
     }
 }

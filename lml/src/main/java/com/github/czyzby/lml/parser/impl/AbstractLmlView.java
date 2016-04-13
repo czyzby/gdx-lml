@@ -1,5 +1,6 @@
 package com.github.czyzby.lml.parser.impl;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.github.czyzby.kiwi.util.gdx.asset.Disposables;
@@ -82,6 +83,36 @@ public abstract class AbstractLmlView implements LmlView, ActionContainer, State
      *            by setting a new stage with {@link #setStage(Stage)}, as disposed stage often cannot be used. */
     public void setDisposed(final boolean disposed) {
         this.disposed = disposed;
+    }
+
+    /** Optional method that returns path to the LML template file that represents this view. This method might return
+     * null if file is unknown or not used at all.
+     *
+     * @return {@link FileHandle} pointing to a .lml file. */
+    public FileHandle getTemplateFile() {
+        return null;
+    }
+
+    /** Optional method that should be called by the view manager when the application is paused. Default implementation
+     * is empty. */
+    public void pause() {
+    }
+
+    /** Optional method that should be called by the view manager when the application is resumed. Default
+     * implementation is empty. */
+    public void resume() {
+    }
+
+    /** Optional method that should be called by the view manager when the view is about to be hidden. */
+    public void hide() {
+    }
+
+    /** Optional method that should be called by the view manager when the view is about to be shown. */
+    public void show() {
+    }
+
+    /** Optional method that should be called by the view manager when the view is reloaded. */
+    public void clear() {
     }
 
     @Override

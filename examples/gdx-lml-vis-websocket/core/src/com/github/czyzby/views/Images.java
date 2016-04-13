@@ -2,6 +2,7 @@ package com.github.czyzby.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -23,10 +24,17 @@ public class Images extends AbstractLmlView {
     }
 
     @Override
+    public FileHandle getTemplateFile() {
+        return Gdx.files.internal("views/Images.lml");
+    }
+
+    @Override
     public void render(final float delta) {
         super.render(delta);
         final Batch batch = getStage().getBatch();
         final Viewport viewport = getStage().getViewport();
+
+        // Drawing logo image 3 times in different parts of the screen:
         batch.begin();
         batch.draw(logo, 0, 0);
         batch.draw(logo, (int) (viewport.getWorldWidth() / 2f - logo.getWidth() / 2f),

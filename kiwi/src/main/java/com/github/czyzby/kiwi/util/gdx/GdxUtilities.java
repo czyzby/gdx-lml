@@ -130,4 +130,14 @@ public class GdxUtilities extends UtilitiesClass {
             application.exit();
         }
     }
+
+    /** @return a new {@link Runnable} instance that calls {@link #exit()} on {@link Runnable#run()} call. */
+    public static Runnable getApplicationClosingRunnable() {
+        return new Runnable() {
+            @Override
+            public void run() {
+                exit();
+            }
+        };
+    }
 }

@@ -44,6 +44,9 @@ If you want to use LML with GWT, you have to add this module to your `GdxDefinit
 - Added `Dtd#saveSchema` and `Dtd#saveMinifiedSchema` methods, which should be preferred over `getSchema`.
 - Generated DTD files are now valid and should be properly recognized by most IDEs.
 - `progressBar` and `slider` tags, previously completely non-parental, can parse text between their tags - provided that it's a valid float. The parsed number will be set their initial value. Note that it's *not* a simple `value` attribute alias: `value` attribute is parsed *before* the actor is created, so it cannot trigger any registered change listeners. On the other hand, data between tags is parsed *after* actor is created (and has processed its attributes), so it *can* trigger the listeners.
+- Added `onClick`, `onChange` tags and `:onClick`, `:onChange` macros that allow to attach specialized listeners to actors. When the event occurs, children actor of the listener tags are added to the stage. Useful for displaying dialogs. See Javadocs or updated `gdx-lml-tests` and `gdx-lml-vis-tests` for more informations and usage examples.
+- Added `LmlApplicationListener` - an abstract `ApplicationListener` implementation that manages a set of `AbstractLmlViews`. What LibGDX `Game` is to `Screen`, this is the same thing to `AbstractLmlView`. Includes support for smooth view transitions and registers some default actions available in all templates. Highly customizable. See updated `gdx-lml-vis-websocket` example project that uses this utility class.
+- Expanded `AbstractLmlView` API with optional methods: `getTemplateFile(), pause(), resume(), hide(), show(), clear()`. By default, they do nothing (well, one of them returns `null`).
 
 1.5.1.8.0 -> 1.5.1.9.2
 

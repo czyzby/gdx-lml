@@ -1,7 +1,16 @@
-<window title="@menu" titleAlign="center"
-		defaultHeight=48 defaultPad=4 defaultGrowX=true oneColumn=true>
-	<textButton onChange="toCalculator">@toCalculator</textButton>
-	<textButton onChange="toEcho">@toEcho</textButton>
-	<textButton onChange="toImages">@toImages</textButton>
-	<label style="small" height=20 textAlign="right">@credits</label>
+<window title="@menu" titleAlign="center" defaultHeight="48" defaultPad="4"
+        defaultGrowX="true" oneColumn="true">
+    <!-- setView is a default action registered by LmlApplicationListener.
+		It changes the current view to an instance of the class referenced
+		in actor's ID. -->
+	<textButton onChange="setView" id="com.github.czyzby.views.Calculator">
+		@toCalculator
+	</textButton>
+	<textButton onChange="setView" id="com.github.czyzby.views.Echo">
+		@toEcho
+	</textButton>
+	<textButton onChange="setView" id="com.github.czyzby.views.Images">
+		@toImages
+	</textButton>
+	<label style="small" height="20" textAlign="right">@credits</label>
 </window>

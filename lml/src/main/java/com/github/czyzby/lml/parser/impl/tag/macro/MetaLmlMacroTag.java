@@ -12,6 +12,7 @@ import com.github.czyzby.lml.parser.LmlSyntax;
 import com.github.czyzby.lml.parser.impl.tag.AbstractMacroLmlTag;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.parser.tag.LmlTagProvider;
+import com.github.czyzby.lml.util.LmlUtilities;
 import com.github.czyzby.lml.util.collection.IgnoreCaseStringMap;
 
 /** Meta macro tag allows to create custom macros from within LML templates. It basically modifies LML syntax to include
@@ -170,7 +171,8 @@ public class MetaLmlMacroTag extends AbstractMacroLmlTag {
                 if (Strings.contains(rawAttribute, syntax.getAttributeSeparator())) {
                     final int separatorIndex = rawAttribute.indexOf(syntax.getAttributeSeparator());
                     attributeNames.add(rawAttribute.substring(0, separatorIndex).trim());
-                    defaultValues.add(rawAttribute.substring(separatorIndex + 1, rawAttribute.length()));
+                    defaultValues.add(LmlUtilities
+                            .stripQuotation(rawAttribute.substring(separatorIndex + 1, rawAttribute.length())));
                 } else {
                     attributeNames.add(rawAttribute.trim());
                     defaultValues.add(Nullables.DEFAULT_NULL_STRING);

@@ -1,6 +1,7 @@
 package com.github.czyzby.views;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.github.czyzby.Core;
@@ -40,6 +41,11 @@ public class Echo extends AbstractLmlView {
         webSocket.addListener(getListener());
     }
 
+    @Override
+    public FileHandle getTemplateFile() {
+        return Gdx.files.internal("views/Echo.lml");
+    }
+
     /** Invoked before Echo.lml template parsing. Extracts {@link I18NBundle} from current LML parser.
      *
      * @param parser used to parse LML template. */
@@ -58,7 +64,7 @@ public class Echo extends AbstractLmlView {
             webSocket.connect();
         } catch (final Exception exception) {
             status.setText(bundle.get("connectionError"));
-            Gdx.app.error("WebSocket", exception.getMessage());
+            Gdx.app.error("Echo", exception.getMessage());
         }
     }
 
