@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.ReflectionException;
+import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.GdxUtilities;
 import com.github.czyzby.kiwi.util.gdx.asset.Disposables;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
@@ -42,7 +43,8 @@ import com.github.czyzby.lml.parser.impl.tag.Dtd;
  *
  * @author MJ */
 public abstract class LmlApplicationListener implements ApplicationListener {
-    private final ObjectMap<Class<?>, AbstractLmlView> views = GdxMaps.newObjectMap();
+    private final ObjectMap<Class<? extends AbstractLmlView>, AbstractLmlView> views = GdxMaps.newObjectMap();
+    private final ObjectMap<String, Class<? extends AbstractLmlView>> aliases = GdxMaps.newObjectMap();
     private final ViewChangeRunnable viewChangeRunnable = new ViewChangeRunnable();
     private AbstractLmlView currentView;
     private LmlParser lmlParser;
@@ -65,9 +67,27 @@ public abstract class LmlApplicationListener implements ApplicationListener {
         this.currentView = currentView;
     }
 
+    /** This method is automatically invoked with {@link AbstractLmlView#getViewId()} (if it returns a non-empty value)
+     * on each view initiated with {@link #initiateView(AbstractLmlView)}. This method can be invoked manually for lazy
+     * views loading: they will be accessible through the chosen alias in LML templates even when their instance is not
+     * created yet.
+     *
+     * <p>
+     * If you initiate all views eagerly (in the correct order in which they reference one another), they are likely to
+     * already registered by the time {@link LmlParser} parses their templates. However, calling this method for each of
+     * your expected views in {@link #create()} is considered a good practice if you use {@code setView} LML method to
+     * switch between screens.
+     *
+     * @param alias name of the view in LML templates. It will be used by {@code setView} LML method to choose the
+     *            appropriate view class.
+     * @param viewClass will be mapped to the selected alias. */
+    protected void addClassAlias(final String alias, final Class<? extends AbstractLmlView> viewClass) {
+        aliases.put(alias, viewClass);
+    }
+
     /** @return direct reference to {@link AbstractLmlView} instances cache. Views (map values) are mapped by their
      *         classes (map keys). */
-    protected ObjectMap<Class<?>, AbstractLmlView> getViews() {
+    protected ObjectMap<Class<? extends AbstractLmlView>, AbstractLmlView> getViews() {
         return views;
     }
 
@@ -127,18 +147,32 @@ public abstract class LmlApplicationListener implements ApplicationListener {
         // Changes current view. Uses actor ID to determine view's class.
         data.addActorConsumer("setView", new ActorConsumer<Void, Actor>() {
             @Override
-            @SuppressWarnings("unchecked")
             public Void consume(final Actor actor) {
                 final String viewClassName = LmlUtilities.getActorId(actor);
-                try {
-                    final Class<? extends AbstractLmlView> viewClass = ClassReflection.forName(viewClassName);
-                    setView(viewClass);
-                } catch (final ReflectionException exception) {
-                    throw new LmlParsingException("Unable to determine view class: " + viewClassName, exception);
-                }
+                final Class<? extends AbstractLmlView> viewClass = LmlApplicationListener.this.getClass(viewClassName);
+                setView(viewClass);
                 return null;
             }
         });
+    }
+
+    /** @param viewClassName a qualified name of the view class (including package and class name) or a class alias
+     *            registered with {@link #addClassAlias(String, Class)}.
+     * @return the corresponding view class object.
+     * @throws GdxRuntimeException if unable to determine view class. */
+    @SuppressWarnings("unchecked")
+    protected Class<? extends AbstractLmlView> getClass(final String viewClassName) {
+        if (aliases.containsKey(viewClassName)) {
+            return aliases.get(viewClassName);
+        }
+        try {
+            return ClassReflection.forName(viewClassName);
+        } catch (final ReflectionException exception) {
+            throw new GdxRuntimeException(
+                    "Unable to determine view class: " + viewClassName
+                            + ". Does a class with such name exists? Was such class alias properly registered?",
+                    exception);
+        }
     }
 
     /** Smoothly hides the {@link #getCurrentView() current view} and closes the application.na */
@@ -278,11 +312,17 @@ public abstract class LmlApplicationListener implements ApplicationListener {
     }
 
     /** @param view its instance will be cached and returned each time it is requested with {@link #getView(Class)}
-     *            method. Its template file accessed by {@link AbstractLmlView#getTemplateFile()} will be parsed by the
-     *            {@link LmlParser} and used to fill the view. */
+     *            method. Its {@link AbstractLmlView#getViewId()} will be used to create a class alias with
+     *            {@link #addClassAlias(String, Class)}. Its template file accessed by
+     *            {@link AbstractLmlView#getTemplateFile()} will be parsed by the {@link LmlParser} and used to fill the
+     *            view. */
     protected void initiateView(final AbstractLmlView view) {
-        lmlParser.createView(view, view.getTemplateFile());
         views.put(view.getClass(), view);
+        final String viewId = view.getViewId();
+        if (Strings.isNotEmpty(viewId)) {
+            addClassAlias(viewId, view.getClass());
+        }
+        lmlParser.createView(view, view.getTemplateFile());
     }
 
     /** @param viewClass {@link AbstractLmlView} extension that represents a single view. Its instance is requested.
