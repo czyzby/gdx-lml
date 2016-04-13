@@ -4,7 +4,7 @@ See [gdx-lml](../lml). This extension allows *LML* to create improved *VisUI* wi
 
 ## Examples
 
-Check [gdx-lml-vis-tests](../examples/gdx-lml-vis-tests) for examples of all tags and macros usage. Check [gdx-lml-vis-websocket](../examples/gdx-lml-vis-websocket) for a simple (yet practical) mock-up application. [gdx-lml-serialization-tests](../examples/gdx-websocket-serialization-tests) is a tiny application that uses `gdx-lml-vis` to create GUI.
+Check [gdx-lml-vis-tests](../examples/gdx-lml-vis-tests) for examples of all tags and macros usage. Check [gdx-lml-vis-websocket](../examples/gdx-lml-vis-websocket) for a simple (yet practical) mock-up application. [gdx-lml-serialization-tests](../examples/gdx-websocket-serialization-tests) is a tiny application that uses `gdx-lml-vis` to create GUI. You can find a step-by-step tutorial how to include this library to create a simple application [here](https://github.com/czyzby/gdx-lml/wiki/Your-first-LML-application).
 
 See on-line demo [here](http://czyzby.github.io/gdx-lml/lml-vis). See application mock-up [here](http://czyzby.github.io/gdx-lml/lml-vis-websocket).
 
