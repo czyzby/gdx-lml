@@ -14,8 +14,9 @@ public interface LmlView {
     Stage getStage();
 
     /** @return ID of the view. Does not have to be unique - it just cannot collide with other action containers that
-     *         you use. If the LmlView implementation also implements
-     *         {@link com.github.czyzby.lml.parser.action.ActionContainer}, it will be added as an action container with
-     *         this ID. */
+     *         you use. If the {@link LmlView} implementation also implements
+     *         {@link com.github.czyzby.lml.parser.action.ActionContainer ActionContainer interface}, it will be added
+     *         as an action container with this ID when its template is parsed. It will be removed after parsing to make
+     *         sure that the actions are not available in other views. */
     String getViewId();
 }

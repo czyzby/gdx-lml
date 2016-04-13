@@ -113,8 +113,7 @@ public abstract class LmlApplicationListener implements ApplicationListener {
             @Override
             public Void consume(final Object actor) {
                 GdxUtilities.clearInputProcessor();
-                currentView.getStage().addAction(Actions.sequence(getViewHidingAction(currentView),
-                        Actions.run(GdxUtilities.getApplicationClosingRunnable())));
+                exit();
                 return null;
             }
         });
@@ -140,6 +139,16 @@ public abstract class LmlApplicationListener implements ApplicationListener {
                 return null;
             }
         });
+    }
+
+    /** Smoothly hides the {@link #getCurrentView() current view} and closes the application.na */
+    public void exit() {
+        if (currentView == null) {
+            GdxUtilities.exit();
+        } else {
+            currentView.getStage().addAction(Actions.sequence(getViewHidingAction(currentView),
+                    Actions.run(GdxUtilities.getApplicationClosingRunnable())));
+        }
     }
 
     /** @return a new customized instance of {@link LmlParser} used to process LML templates.
@@ -306,8 +315,8 @@ public abstract class LmlApplicationListener implements ApplicationListener {
         } else {
             currentView = view;
             currentView.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), isCenteringCameraOnResize());
-            currentView.show();
             Gdx.input.setInputProcessor(currentView.getStage());
+            currentView.show();
             currentView.getStage().addAction(getViewShowingAction(view));
         }
     }
