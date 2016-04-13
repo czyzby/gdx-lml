@@ -16,12 +16,12 @@
         <:tab title="@music">
             @musicVolume
             <slider id=musicVolume value=$getMusicVolume onChange=setMusicVolume growX=true />
-            <checkBox onClick=toggleMusic isChecked=$musicOn padBottom=4>@toggleMusic</checkBox>
+            <checkBox onClick=toggleMusic checked=$musicOn padBottom=4>@toggleMusic</checkBox>
         </:tab>
         <:tab title="@sound">
             @soundVolume
             <slider id=soundVolume value=$getSoundVolume onChange=setSoundVolume growX=true />
-            <checkBox onClick=toggleSound isChecked=$soundOn>@toggleSound</checkBox>
+            <checkBox onClick=toggleSound checked=$soundOn>@toggleSound</checkBox>
         </:tab>
         <:tab title="@locale">
         <!-- {locales} and {currentLocale} are LML arguments automatically added by
