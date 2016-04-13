@@ -303,11 +303,12 @@ public abstract class LmlApplicationListener implements ApplicationListener {
         }
     }
 
-    /** @param view will receive {@link AbstractLmlView#clear()} call. Its template file accessed by
-     *            {@link AbstractLmlView#getTemplateFile()} will be parsed by the {@link LmlParser} and used to fill the
-     *            view. */
+    /** @param view will receive {@link AbstractLmlView#clear()} call. Its actors will be removed. Its template file
+     *            accessed by {@link AbstractLmlView#getTemplateFile()} will be parsed by the {@link LmlParser} and used
+     *            to fill the view. */
     public void reloadView(final AbstractLmlView view) {
         view.clear();
+        view.getStage().getRoot().clearChildren();
         lmlParser.createView(view, view.getTemplateFile());
     }
 

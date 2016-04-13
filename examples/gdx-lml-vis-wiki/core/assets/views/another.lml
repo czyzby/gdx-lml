@@ -1,0 +1,15 @@
+<window title="@changeLanguage" defaultpad="5">
+  <table colspan="2" row="true">
+    <:for element="en;pl">
+      <textButton onchange="setLocale" id="{element}" pad="10">
+        {element}
+      </textButton>
+    </:for>
+  </table>
+  <textButton onchange="setView" id="first">
+    @back
+  </textButton>
+  <textButton onchange="exit">
+    @exit
+  </textButton>
+</window>
