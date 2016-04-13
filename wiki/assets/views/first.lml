@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!DOCTYPE window SYSTEM "../../lml.dtd">
+
+<window title="@firstTitle" onecolumn="true">
+  @helloWorld
+  <textbutton onclick="roll">@randomPrompt</textbutton>
+  <label id="random"/>
+  <textbutton onclick="setView" id="another">@changeScreen</textbutton>
+</window>
