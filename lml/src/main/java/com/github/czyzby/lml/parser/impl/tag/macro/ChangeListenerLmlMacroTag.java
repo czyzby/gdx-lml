@@ -38,17 +38,19 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * @author MJ */
 public class ChangeListenerLmlMacroTag extends AbstractListenerLmlMacroTag {
+    private final ChangeListener listener = new ChangeListener() {
+        @Override
+        public void changed(final ChangeEvent event, final Actor actor) {
+            doOnEvent(actor);
+        }
+    };
+
     public ChangeListenerLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 
     @Override
-    protected void attachListener(final Actor actor) {
-        actor.addListener(new ChangeListener() {
-            @Override
-            public void changed(final ChangeEvent event, final Actor actor) {
-                doOnEvent(actor);
-            }
-        });
+    protected ChangeListener getEventListener() {
+        return listener;
     }
 }

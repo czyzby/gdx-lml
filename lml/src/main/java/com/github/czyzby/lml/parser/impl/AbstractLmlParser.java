@@ -154,8 +154,9 @@ public abstract class AbstractLmlParser implements LmlParser {
         invokeListeners(postListeners, result);
     }
 
-    /** @param listeners will be invoked. Listeners returning false on {@link LmlParserListener#onEvent(LmlParser)} will
-     *            be removed. */
+    /** @param listeners will be invoked. Listeners returning false on
+     *            {@link LmlParserListener#onEvent(LmlParser, Array)} will be removed.
+     * @param result parsed actors array in its current state. */
     protected void invokeListeners(final PooledList<LmlParserListener> listeners, final Array<Actor> result) {
         for (final LmlParserListener listener : listeners) {
             if (!listener.onEvent(this, result)) {

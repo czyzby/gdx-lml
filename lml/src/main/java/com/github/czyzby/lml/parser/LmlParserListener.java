@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.Array;
  *
  * @author MJ */
 public interface LmlParserListener {
-    /** Return this value in {@link #onEvent()} method for code clarity. */
+    /** Return this value in {@link #onEvent(LmlParser, Array)} method for code clarity. */
     boolean KEEP = true, REMOVE = false;
 
     /** Invoked when the listened event occurs.

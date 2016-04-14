@@ -40,3 +40,23 @@
     If the number is lower than 0.5, dialog is shown.
     Needless to say, the dialog should be displayed roughly
     half of the times you click the button.-->
+
+<!-- Sometimes you might want to attach the same listener to
+    multiple actors. You may even want to create some complex
+    actors and share them across views. Thanks to "ids" and
+    "keep" arguments, you can. The listener will be attached
+    to all actors with the selected IDs. If "keep" is set to
+    true, the listener will not be removed after template
+    parsing and will be available in all views. Try adding
+    'keep="true"' attribute, parse the template, then remove
+    the whole listener and parse it again - you'll see that
+    listener will still get attached:  -->
+ 
+ <:onChange ids="targetA;targetB" cache="true">
+    <dialog style="dialog" title="$random">
+         Attached to multiple actors.
+         <textButton onResult="close">Great.</textButton>
+    </dialog>
+ </:onChange>
+ <textButton id="targetA">Same listener as next button.</textButton>
+ <textButton id="targetB">Same listener as previous button.</textButton>

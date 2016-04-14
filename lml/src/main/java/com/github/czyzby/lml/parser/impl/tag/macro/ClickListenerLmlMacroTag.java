@@ -1,6 +1,5 @@
 package com.github.czyzby.lml.parser.impl.tag.macro;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.github.czyzby.lml.parser.LmlParser;
@@ -41,28 +40,33 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * @author MJ */
 public class ClickListenerLmlMacroTag extends AbstractListenerLmlMacroTag {
     public static final String BUTTON_ATTRIBUTE = "button";
+    private final ClickListener listener = new ClickListener() {
+        @Override
+        public void clicked(final InputEvent event, final float x, final float y) {
+            doOnEvent(event.getListenerActor());
+        }
+    };
 
     public ClickListenerLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 
     @Override
-    protected void attachListener(final Actor actor) {
-        final ClickListener listener = new ClickListener() {
-            @Override
-            public void clicked(final InputEvent event, final float x, final float y) {
-                doOnEvent(actor);
-            }
-        };
+    public void closeTag() {
+        super.closeTag();
         if (hasAttribute(BUTTON_ATTRIBUTE)) {
-            final int button = getParser().parseInt(getAttribute(BUTTON_ATTRIBUTE), actor);
+            final int button = getParser().parseInt(getAttribute(BUTTON_ATTRIBUTE), getActor());
             listener.setButton(button);
         }
-        actor.addListener(listener);
+    }
+
+    @Override
+    protected ClickListener getEventListener() {
+        return listener;
     }
 
     @Override
     public String[] getExpectedAttributes() {
-        return new String[] { IF_ATTRIBUTE, CACHE_ATTRIBUTE, BUTTON_ATTRIBUTE };
+        return new String[] { IF_ATTRIBUTE, CACHE_ATTRIBUTE, IDS_ATTRIBUTE, BUTTON_ATTRIBUTE };
     }
 }

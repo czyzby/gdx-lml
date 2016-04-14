@@ -122,6 +122,8 @@ import com.github.czyzby.lml.parser.impl.attribute.list.SelectedLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.list.SelectionDisabledLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.list.ToggleLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.listener.ConditionLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.listener.KeepListenerLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.listener.ListenerIdsLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.progress.AnimateDurationLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.progress.OnCompleteLmlAtrribute;
 import com.github.czyzby.lml.parser.impl.attribute.scroll.ScrollBarsOnTopLmlAttribute;
@@ -515,6 +517,8 @@ public class DefaultLmlSyntax implements LmlSyntax {
     /** Listener tags attributes. */
     protected void registerListenerAttributes() {
         addAttributeProcessor(new ConditionLmlAttribute(), "if");
+        addAttributeProcessor(new KeepListenerLmlAttribute(), "keep");
+        addAttributeProcessor(new ListenerIdsLmlAttribute(), "ids");
     }
 
     /** Button widget attributes. */

@@ -1,6 +1,5 @@
 package com.github.czyzby.lml.parser.impl.tag.listener;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.github.czyzby.lml.parser.LmlParser;
@@ -22,17 +21,19 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * @author MJ
  * @see #setCondition(String) */
 public class ClickListenerLmlTag extends AbstractListenerLmlTag {
+    private final ClickListener listener = new ClickListener() {
+        @Override
+        public void clicked(final InputEvent event, final float x, final float y) {
+            doOnEvent(event.getListenerActor());
+        }
+    };
+
     public ClickListenerLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 
     @Override
-    protected void attachListener(final Actor actor) {
-        actor.addListener(new ClickListener() {
-            @Override
-            public void clicked(final InputEvent event, final float x, final float y) {
-                doOnEvent(actor);
-            }
-        });
+    protected ClickListener getEventListener() {
+        return listener;
     }
 }
