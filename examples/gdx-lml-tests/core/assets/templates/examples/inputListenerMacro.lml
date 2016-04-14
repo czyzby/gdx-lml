@@ -13,7 +13,8 @@
 
 <!-- "keys" attribute should be an array of string names
     matching values returned by Keys#toString(int) or the
-    exact int values of key codes.-->
+    exact int values of key codes. If no keys are passed,
+    event is triggered after any key. -->
 
 <!-- As you might notice, a new number is displayed each
     time you press space. This is because input listener
@@ -40,11 +41,11 @@
 <!-- You can use 'combined="true"' attribute to trigger the
     event only when all keys are pressed: -->
 
-<:inputListener keys="A;B;C" combined="true" ids="mySpecialField">
+<:onInput keys="A;B;C" combined="true" ids="mySpecialField">
     <dialog style="dialog" title="Thanks">Combination pressed!
          <textButton onResult="close">Now close me.</textButton>
     </dialog>
-</:inputListener>
+</:onInput>
 <textField id="mySpecialField" message="Press A + B + C." />
 
 <!-- Note that more complex listeners - which InputListener

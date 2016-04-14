@@ -1,12 +1,12 @@
 package com.github.czyzby.lml.parser.impl.tag.macro;
 
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.utils.IntSet;
-import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.lml.parser.LmlParser;
+import com.github.czyzby.lml.parser.impl.attribute.listener.ListenerKeysLmlAttribute;
+import com.github.czyzby.lml.parser.impl.tag.listener.InputListenerLmlTag.KeysListener;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
 /** Attaches {@link InputListener} to its actor parent. When the selected keys are typed, content between macro tags
@@ -45,41 +45,17 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  *
  * @author MJ */
 public class InputListenerLmlMacroTag extends AbstractListenerLmlMacroTag {
-    /** An array of keys that trigger the event. Names have to match exact values from {@link Keys}. This attribute is
-     * not optional. */
+    /** An array of keys that trigger the event. Names have to match exact values from {@link Keys}. Optional - if not
+     * set, event will be triggered for all keys. */
     public static final String KEYS_ATTRIBUTE = "keys";
     /** If this attribute is set to true, the event will be invoked only all selected keys are pressed at the same time.
      * Optional. */
     public static final String COMBINED_ATTRIBUTE = "combined";
     private final IntSet keys = new IntSet();
-    private boolean combined;
-    private final InputListener listener = new InputListener() {
-        private final IntSet pressed = new IntSet();
-
+    private final KeysListener listener = new KeysListener(keys) {
         @Override
-        public boolean keyDown(final InputEvent event, final int keycode) {
-            if (keys.contains(keycode)) {
-                if (!combined) {
-                    doOnEvent(event.getListenerActor());
-                    return true;
-                }
-                pressed.add(keycode);
-                if (keys.size == pressed.size) {
-                    doOnEvent(event.getListenerActor());
-                    pressed.clear();
-                }
-                return true;
-            }
-            return false;
-        }
-
-        @Override
-        public boolean keyUp(final InputEvent event, final int keycode) {
-            if (keys.contains(keycode)) {
-                pressed.remove(keycode);
-                return true;
-            }
-            return false;
+        protected void handleEvent(final Actor actor) {
+            doOnEvent(actor);
         }
     };
 
@@ -88,38 +64,24 @@ public class InputListenerLmlMacroTag extends AbstractListenerLmlMacroTag {
     }
 
     @Override
-    protected EventListener getEventListener() {
+    protected InputListener getEventListener() {
         return listener;
     }
 
     @Override
     public void closeTag() {
-        if (!hasAttribute(KEYS_ATTRIBUTE)) {
-            getParser().throwErrorIfStrict("Input listener cannot be attached without specified 'keys' attribute.");
-            return;
-        }
         extractKeys();
-        combined = hasAttribute(COMBINED_ATTRIBUTE)
-                && getParser().parseBoolean(getAttribute(COMBINED_ATTRIBUTE), getActor());
+        listener.setCombined(hasAttribute(COMBINED_ATTRIBUTE)
+                && getParser().parseBoolean(getAttribute(COMBINED_ATTRIBUTE), getActor()));
         super.closeTag();
     }
 
     /** Extract key codes from {@link #KEYS_ATTRIBUTE}. */
     protected void extractKeys() {
-        final String[] keyNames = getParser().parseArray(getAttribute(KEYS_ATTRIBUTE), getActor());
-        for (final String keyName : keyNames) {
-            final int key = Keys.valueOf(keyName);
-            if (key <= Keys.UNKNOWN) {
-                if (Strings.isInt(keyName)) {
-                    keys.add(Integer.parseInt(keyName));
-                } else {
-                    getParser().throwErrorIfStrict("Unable to determine key for name: " + keyName
-                            + ". Note that key name should match the EXACT name from Keys class (see Keys#valueOf(String)) or be the desired int value of key code.");
-                }
-            } else {
-                keys.add(key);
-            }
+        if (!hasAttribute(KEYS_ATTRIBUTE)) {
+            return;
         }
+        ListenerKeysLmlAttribute.processKeysAttribute(getParser(), getActor(), getAttribute(KEYS_ATTRIBUTE), keys);
     }
 
     @Override

@@ -121,9 +121,11 @@ import com.github.czyzby.lml.parser.impl.attribute.list.RequiredLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.list.SelectedLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.list.SelectionDisabledLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.list.ToggleLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.listener.CombinedKeysLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.listener.ConditionLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.listener.KeepListenerLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.listener.ListenerIdsLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.listener.ListenerKeysLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.progress.AnimateDurationLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.progress.OnCompleteLmlAtrribute;
 import com.github.czyzby.lml.parser.impl.attribute.scroll.ScrollBarsOnTopLmlAttribute;
@@ -253,6 +255,7 @@ import com.github.czyzby.lml.parser.impl.tag.actor.provider.VerticalGroupLmlTagP
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.WindowLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.listener.provider.ChangeListenerLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.listener.provider.ClickListenerLmlTagProvider;
+import com.github.czyzby.lml.parser.impl.tag.listener.provider.InputListenerLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.ActorLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.AnyNotNullLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.ArgumentLmlMacroTagProvider;
@@ -381,6 +384,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
     protected void registerListenerTags() {
         addTagProvider(new ChangeListenerLmlTagProvider(), "onChange", "changeListener");
         addTagProvider(new ClickListenerLmlTagProvider(), "onClick", "clickListener");
+        addTagProvider(new InputListenerLmlTagProvider(), "onInput", "inputListener");
     }
 
     /** Registers macro tags that manipulate templates' structures.
@@ -521,6 +525,9 @@ public class DefaultLmlSyntax implements LmlSyntax {
         addAttributeProcessor(new ConditionLmlAttribute(), "if");
         addAttributeProcessor(new KeepListenerLmlAttribute(), "keep");
         addAttributeProcessor(new ListenerIdsLmlAttribute(), "ids");
+        // InputListener:
+        addAttributeProcessor(new CombinedKeysLmlAttribute(), "combined");
+        addAttributeProcessor(new ListenerKeysLmlAttribute(), "keys");
     }
 
     /** Button widget attributes. */
