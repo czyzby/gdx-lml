@@ -79,9 +79,10 @@ public abstract class AbstractListenerLmlMacroTag extends AbstractMacroLmlTag {
     }
 
     /** @param actor has the listener attached.
-     * @param actors should be added to the stage. */
+     * @param actors should be added to the stage.
+     * @see #determineStage(Actor) */
     protected void addActors(final Actor actor, final Array<Actor> actors) {
-        LmlUtilities.appendActorsToStage(actor.getStage(), actors);
+        LmlUtilities.appendActorsToStage(determineStage(actor), actors);
     }
 
     /** @return current content between macro tags. */

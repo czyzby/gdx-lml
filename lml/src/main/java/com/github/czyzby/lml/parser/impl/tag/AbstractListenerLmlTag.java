@@ -77,6 +77,6 @@ public abstract class AbstractListenerLmlTag extends AbstractActorLmlTag {
                 return;
             }
         }
-        LmlUtilities.appendActorsToStage(actor.getStage(), getActorStorage().getActors());
+        LmlUtilities.appendActorsToStage(determineStage(actor), getActorStorage().getActors());
     }
 }

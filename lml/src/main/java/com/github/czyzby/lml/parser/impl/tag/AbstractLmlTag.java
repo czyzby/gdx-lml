@@ -1,5 +1,7 @@
 package com.github.czyzby.lml.parser.impl.tag;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -226,5 +228,24 @@ public abstract class AbstractLmlTag implements LmlTag {
     public void attachTo(final LmlTag tag) {
         // By default, both macros and simple widgets are not attachable.
         throw new IllegalStateException("This tag is not attachable: " + tagName);
+    }
+
+    /** Utility method. Allows to extract a {@link Stage} instance of either the passed actor or any of its parents.
+     *
+     * @param actor can be null. Its stage can be null.
+     * @return a {@link Stage} instance if any of the actors in hierarchy is added to one. */
+    protected Stage determineStage(final Actor actor) {
+        Stage stage = actor == null ? null : actor.getStage();
+        if (stage == null) {
+            LmlTag ancestorTag = getParent();
+            while (ancestorTag != null && stage == null) {
+                final Actor ancestor = ancestorTag.getActor();
+                if (ancestor != null) {
+                    stage = ancestor.getStage();
+                }
+                ancestorTag = ancestorTag.getParent();
+            }
+        }
+        return stage;
     }
 }
