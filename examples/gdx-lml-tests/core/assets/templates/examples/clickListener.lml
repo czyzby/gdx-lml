@@ -31,7 +31,7 @@
     is invoked. It returns a random number in range of [0, 1).
     If the number is lower than 0.5, dialog is shown.
     Needless to say, the dialog should be displayed roughly
-    half of the times you click the button.-->
+    half of the times you click the button. -->
 
 <!-- Sometimes you might want to attach the same listener to
     multiple actors. You may even want to create some complex
