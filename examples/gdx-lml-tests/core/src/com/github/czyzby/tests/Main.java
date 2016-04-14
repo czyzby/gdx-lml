@@ -40,14 +40,14 @@ public class Main extends AbstractApplicationListener {
             "slider", "splitPane", "stack", "table", "textArea", "textButton", "textField", "tooltip", "touchpad",
             "tree", "verticalGroup", "window",
             // Listeners:
-            "changeListener", "clickListener",
+            "changeListener", "clickListener", "inputListener",
             // Syntax:
             "i18n", "preferences", "arguments", "actions", "arrays", "equations",
             // Macros:
             "actorMacro", "anyNotNull", "argument", "argumentReplace", "assign", "calculate", "changeListenerMacro",
-            "clickListenerMacro", "comment", "conditional", "evaluate", "exception", "forEach", "import", "loop",
-            "logger", "meta", "nestedForEach", "newAttribute", "newTag", "nullCheck", "tableColumn", "tableRow",
-            "while",
+            "clickListenerMacro", "comment", "conditional", "evaluate", "exception", "forEach", "import",
+            "inputListenerMacro", "loop", "logger", "meta", "nestedForEach", "newAttribute", "newTag", "nullCheck",
+            "tableColumn", "tableRow", "while",
             // Custom elements:
             "customAttribute", "customMacro", "customTag");
     private static final String MAIN_VIEW_TEMPLATE = "templates/main.lml";

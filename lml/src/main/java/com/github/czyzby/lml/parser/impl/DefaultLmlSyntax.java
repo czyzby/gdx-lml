@@ -271,6 +271,7 @@ import com.github.czyzby.lml.parser.impl.tag.macro.provider.ImportClasspathLmlMa
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.ImportExternallLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.ImportInternalLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.ImportLocalLmlMacroTagProvider;
+import com.github.czyzby.lml.parser.impl.tag.macro.provider.InputListenerLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.LoggerDebugLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.LoggerErrorLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.LoggerInfoLmlMacroTagProvider;
@@ -405,6 +406,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
         addMacroTagProvider(new ImportExternallLmlMacroTagProvider(), "externalImport");
         addMacroTagProvider(new ImportInternalLmlMacroTagProvider(), "import", "internalImport");
         addMacroTagProvider(new ImportLocalLmlMacroTagProvider(), "localImport");
+        addMacroTagProvider(new InputListenerLmlMacroTagProvider(), "inputListener", "onInput");
         addMacroTagProvider(new LoggerDebugLmlMacroTagProvider(), "debug", "logDebug", "trace", "logTrace");
         addMacroTagProvider(new LoggerErrorLmlMacroTagProvider(), "logError");
         addMacroTagProvider(new LoggerInfoLmlMacroTagProvider(), "log", "logInfo", "info");

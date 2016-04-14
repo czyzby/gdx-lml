@@ -67,6 +67,6 @@ public class ClickListenerLmlMacroTag extends AbstractListenerLmlMacroTag {
 
     @Override
     public String[] getExpectedAttributes() {
-        return new String[] { IF_ATTRIBUTE, CACHE_ATTRIBUTE, IDS_ATTRIBUTE, BUTTON_ATTRIBUTE };
+        return new String[] { IF_ATTRIBUTE, CACHE_ATTRIBUTE, KEEP_ATTRIBUTE, IDS_ATTRIBUTE, BUTTON_ATTRIBUTE };
     }
 }
