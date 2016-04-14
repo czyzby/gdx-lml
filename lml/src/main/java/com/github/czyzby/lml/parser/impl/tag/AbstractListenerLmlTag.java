@@ -72,7 +72,7 @@ public abstract class AbstractListenerLmlTag extends AbstractActorLmlTag {
     /** @param actor has the listener attached. Its stage will be used to display stored actors. */
     protected void doOnEvent(final Actor actor) {
         if (condition != null) {
-            final boolean shouldDisplay = new Equation(getParser(), getParent().getActor()).getBooleanResult(condition);
+            final boolean shouldDisplay = new Equation(getParser(), actor).getBooleanResult(condition);
             if (!shouldDisplay) {
                 return;
             }

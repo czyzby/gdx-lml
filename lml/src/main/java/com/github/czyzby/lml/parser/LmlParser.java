@@ -202,7 +202,9 @@ public interface LmlParser {
     /** @return direct access to map containing all previously parsed actors that had their ID set with "id" tag
      *         attribute. This map is filled during template parsing. Since the actual, internal map is returned with
      *         this method, it can be used to clear the actors map if you no longer want to keep references to actors,
-     *         but need the parser itself for further use. */
+     *         but need the parser itself for further use. The map is not cleared internally: previously parsed actors
+     *         will be still available if not other widgets override their ID. Note that by default, this map ignores
+     *         string case - actor mapped to "myId" would be also returned for "myid", "MYID", "MyID", etc. */
     ObjectMap<String, Actor> getActorsMappedByIds();
 
     /** Constructs a complex and (hopefully) meaningful exception message with currently parsed line number.
@@ -234,4 +236,12 @@ public interface LmlParser {
      *
      * @param actor will be added to the result collection and optionally mapped by its ID, if it has one. */
     void addActor(Actor actor);
+
+    /** @param listener will be invoked after each parsed template. If returns {@link LmlParserListener#REMOVE}, will be
+     *            removed after invocation. */
+    void doBeforeParsing(LmlParserListener listener);
+
+    /** @param listener will be invoked after each parsed template. If returns {@link LmlParserListener#REMOVE}, will be
+     *            removed after invocation. */
+    void doAfterParsing(LmlParserListener listener);
 }

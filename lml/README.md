@@ -90,7 +90,7 @@ If you want to use LML with GWT, you have to add this module to your `GdxDefinit
   - Table column macro: `"columnDefaults"`.
   - Table row macro: `"addRow", "newRow", "nextLine", "nextRow", "tr", "rowDefaults"`.
   - Conditional loop (while) macro: `"whileTrue", "repeatWhile", "untilTrue"`.
-
+- Added `LmlParserListener` interface that allows you to hook up into `LmlParser` events. You can register this simple functional interface to listen to pre- or post-parsing events (or both).
 
 ### Archive
 Older change logs are available in `CHANGES.md` file.

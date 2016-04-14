@@ -93,6 +93,7 @@ public class DefaultLmlParser extends AbstractLmlParser {
      * @return actor parsed from LML template currently stored in the template reader. */
     protected Array<Actor> parse() {
         actors = GdxArrays.newArray(Actor.class);
+        invokePreListeners(actors);
         final StringBuilder builder = new StringBuilder();
         while (templateReader.hasNextCharacter()) {
             final char character = templateReader.nextCharacter();
@@ -118,6 +119,7 @@ public class DefaultLmlParser extends AbstractLmlParser {
         if (currentParentTag != null) {
             throwError('"' + currentParentTag.getTagName() + "\" tag was never closed.");
         }
+        invokePortListeners(actors);
         return actors;
     }
 

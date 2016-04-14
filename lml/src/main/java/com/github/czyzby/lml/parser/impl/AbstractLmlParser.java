@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.reflect.ReflectionException;
 import com.github.czyzby.kiwi.util.common.Nullables;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
+import com.github.czyzby.kiwi.util.gdx.collection.pooled.PooledList;
 import com.github.czyzby.kiwi.util.gdx.reflection.Annotations;
 import com.github.czyzby.kiwi.util.gdx.reflection.Reflection;
 import com.github.czyzby.lml.annotation.LmlActor;
@@ -28,6 +29,7 @@ import com.github.czyzby.lml.annotation.OnChange;
 import com.github.czyzby.lml.annotation.processor.OnChangeProcessor;
 import com.github.czyzby.lml.parser.LmlData;
 import com.github.czyzby.lml.parser.LmlParser;
+import com.github.czyzby.lml.parser.LmlParserListener;
 import com.github.czyzby.lml.parser.LmlSyntax;
 import com.github.czyzby.lml.parser.LmlTemplateReader;
 import com.github.czyzby.lml.parser.LmlView;
@@ -57,6 +59,10 @@ public abstract class AbstractLmlParser implements LmlParser {
     protected boolean nestedComments;
     private int debugLines = 3;
 
+    // Listeners:
+    private final PooledList<LmlParserListener> preListeners = PooledList.newList();
+    private final PooledList<LmlParserListener> postListeners = PooledList.newList();
+
     // Cached parsing results:
     protected final ObjectMap<String, Actor> actorsByIds = createActorsByIdsMap();
 
@@ -75,7 +81,7 @@ public abstract class AbstractLmlParser implements LmlParser {
 
     /** @return a new instance of map that will hold actors mapped by their IDs. Returns an ignoring case map by
      *         default. Warning: invoked during construction. */
-    protected IgnoreCaseStringMap<Actor> createActorsByIdsMap() {
+    protected ObjectMap<String, Actor> createActorsByIdsMap() {
         return new IgnoreCaseStringMap<Actor>();
     }
 
@@ -122,6 +128,40 @@ public abstract class AbstractLmlParser implements LmlParser {
     @Override
     public LmlSyntax getSyntax() {
         return syntax;
+    }
+
+    @Override
+    public void doBeforeParsing(final LmlParserListener listener) {
+        preListeners.add(listener);
+    }
+
+    @Override
+    public void doAfterParsing(final LmlParserListener listener) {
+        postListeners.add(listener);
+    }
+
+    /** This method must be invoked before template parsing.
+     *
+     * @param result empty result array that will be returned by parsing method. */
+    protected void invokePreListeners(final Array<Actor> result) {
+        invokeListeners(preListeners, result);
+    }
+
+    /** This method must be invoked after template parsing.
+     *
+     * @param result contains the parsed root actors. */
+    protected void invokePortListeners(final Array<Actor> result) {
+        invokeListeners(postListeners, result);
+    }
+
+    /** @param listeners will be invoked. Listeners returning false on {@link LmlParserListener#onEvent(LmlParser)} will
+     *            be removed. */
+    protected void invokeListeners(final PooledList<LmlParserListener> listeners, final Array<Actor> result) {
+        for (final LmlParserListener listener : listeners) {
+            if (!listener.onEvent(this, result)) {
+                listeners.remove();
+            }
+        }
     }
 
     /** Actual implementation of LML template parsing. Template is already passed to the template reader and is ready to
