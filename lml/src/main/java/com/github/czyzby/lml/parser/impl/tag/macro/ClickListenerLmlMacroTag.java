@@ -35,8 +35,8 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * </pre>
  *
  * </blockquote>In the example above, the actors will be displayed only if the result of myMethod is 13. Also, actors
- * will be cached after first parsing ("cache" attribute). The listener will be attached only to button with ID of 1
- * ("button" attribute).
+ * will be cached after first parsing ("cache" attribute). The listener will be triggered only by the mouse button with
+ * ID of 1 ("button" attribute).
  *
  * @author MJ */
 public class ClickListenerLmlMacroTag extends AbstractListenerLmlMacroTag {

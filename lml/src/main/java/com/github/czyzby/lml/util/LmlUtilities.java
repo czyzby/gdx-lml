@@ -211,6 +211,12 @@ public class LmlUtilities {
     /** @param stage should contain the actors.
      * @param actors will be added to the stage, honoring their {@link StageAttacher} settings. */
     public static void appendActorsToStage(final Stage stage, final Iterable<Actor> actors) {
+        if (actors == null) {
+            return;
+        } else if (stage == null) {
+            throw new LmlParsingException(
+                    "Cannot append actors: the stage is null. Are you sure the correct stage has been passed? If this method was invoked by a listener, are you sure that the actor is properly added to a stage?");
+        }
         for (final Actor actor : actors) {
             stage.addActor(actor);
             final StageAttacher attacher = getStageAttacher(actor);
