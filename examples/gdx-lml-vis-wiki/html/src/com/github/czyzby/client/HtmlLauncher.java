@@ -14,7 +14,9 @@ public class HtmlLauncher extends GwtApplication {
 
     @Override
     public ApplicationListener createApplicationListener() {
+        // GWT applications don't like to be closed, so we're turning off the logging:
         setLogLevel(Application.LOG_NONE);
+        // Normally you just wouldn't include an exit button on this platform.
         return new Core();
     }
 }

@@ -49,6 +49,7 @@ public class Core extends LmlApplicationListener {
         super.dispose();
         Disposables.disposeOf(batch);
         VisUI.dispose(); // Disposing of default VisUI skin.
+        setCurrentView(null);
     }
 
     @Override
