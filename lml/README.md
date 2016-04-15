@@ -47,7 +47,7 @@ If you want to use LML with GWT, you have to add this module to your `GdxDefinit
 - Added `onClick`, `onChange`, `onInput` tags and `:onClick`, `:onChange`, `:onInput` macros that allow to attach specialized listeners to actors. When the event occurs, children actor of the listener tags are added to the stage. Useful for displaying dialogs. See Javadocs or updated `gdx-lml-tests` and `gdx-lml-vis-tests` for more informations and usage examples.
 - Added `LmlApplicationListener` - an abstract `ApplicationListener` implementation that manages a set of `AbstractLmlViews`. What LibGDX `Game` is to `Screen`, this is the same thing to `AbstractLmlView`. Includes support for smooth view transitions and registers some default actions available in all templates. Highly customizable. See updated `gdx-lml-vis-websocket` example project that uses this utility class.
 - Expanded `AbstractLmlView` API with optional methods: `getTemplateFile(), pause(), resume(), hide(), show(), clear()`. By default, they do nothing (well, one of them returns `null`).
-- To keep less meta-data and make DTD smaller, multiple aliases were removed. Thanks to this change, LML creates and keeps less objects and the DTD schemas are now acceptable. Note that this is likely to break your LML templates, but you can prevent that by using `lmlParser.getSyntax().addTagProvider(new SomeActorLmlTagProvider(), "yourFavoriteAlias");` or `lmlParser.getSyntax().addMacroTagProvider(new SomeMacroLmlMacroTagProvider(), "yourFavoriteMacroAlias");`. While I understand that some aliases were useful and less verbose than class names, LML aims to keep as little data at runtime as possible and now it is even more important with DTD around. See `DefaultLmlSyntax` for the leftover aliases. A few unmentioned attribute obscure aliases were removed. Now each actor is mapped to tag name that represents it's class name:
+- To keep less meta-data and make DTD smaller, multiple aliases were removed. Thanks to this change, LML creates and keeps less objects and the DTD schemas are now acceptable. Note that this is likely to break your LML templates, but you can prevent that by using `lmlParser.getSyntax().addTagProvider(new SomeActorLmlTagProvider(), "yourFavoriteAlias");` or `lmlParser.getSyntax().addMacroTagProvider(new SomeMacroLmlMacroTagProvider(), "yourFavoriteMacroAlias");`. While I understand that some aliases were useful and less verbose than class names, LML aims to keep as little data at runtime as possible and now it is even more important with DTD around. See `DefaultLmlSyntax` for the leftover aliases. A few unmentioned attribute obscure aliases were removed. Now each actor is mapped to tag name that represents it's class name. Removed the following aliases:
   - Actor:  `"empty", "mock", "blank", "placeholder"`. Both `"actor"` and `"group`` are still available. 
   - CheckBox: `"check"`.
   - Container: `"single"`.
@@ -75,7 +75,7 @@ If you want to use LML with GWT, you have to add this module to your `GdxDefinit
   - Calculation macro: `"equation", "calc"`.
   - Conditional (if) macro: `"try", "verify", "inspect", "validate", "onCondition", "condition", "conditional"`.
   - Evaluation macro: `"invokeAndAssign", "evaluateAndAssign"`.
-  - Exception macro: `"throwException", "throwError", "system.exit"`.
+  - Exception macro: `"throwException", "throwError", "system.exit"`. (It still hurts.)
   - For each macro: `"iterate", "iterateOver"`.
   - Absolute import macro: `"absoluteInclude", "absoluteRequire", "absoluteTemplate"`.
   - Classpath import macro: `"classpathInclude", "classpathRequire", "classpathTemplate"`.
@@ -91,6 +91,7 @@ If you want to use LML with GWT, you have to add this module to your `GdxDefinit
   - Table row macro: `"addRow", "newRow", "nextLine", "nextRow", "tr", "rowDefaults"`.
   - Conditional loop (while) macro: `"whileTrue", "repeatWhile", "untilTrue"`.
 - Added `LmlParserListener` interface that allows you to hook up into `LmlParser` events. You can register this simple functional interface to listen to pre- or post-parsing events (or both).
+- Added missing `LmlTemplateReader#append(CharSequence, String)` method. Every other significant appending method had its named equivalent - now `CharSequence` variant has it as well. Limited avoidable `String` creations in macros by using `CharSequences` (where possible). Some utility methods in internal abstract macros were refactored to return/consume `CharSequences` instead of `Strings` - this is unlikely to affect your application's code, though.
 
 ### Archive
 Older change logs are available in `CHANGES.md` file.
