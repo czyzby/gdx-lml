@@ -57,7 +57,7 @@ public abstract class AbstractImportLmlMacroTag extends AbstractMacroLmlTag {
             return;
         }
         final FileHandle template = getFileHandle(getTemplateFileName());
-        final String textToAppend;
+        final CharSequence textToAppend;
         if (isReplacingArguments()) {
             if (content == null) {
                 getParser().throwErrorIfStrict(

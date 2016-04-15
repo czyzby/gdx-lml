@@ -47,6 +47,11 @@ public class DefaultLmlTemplateReader implements LmlTemplateReader {
         appendSequence(template, null);
     }
 
+    @Override
+    public void append(final CharSequence template, final String templateName) {
+        appendSequence(template, templateName);
+    }
+
     /** Actual appending method, referenced by all others.
      *
      * @param sequence should be appended to the reader and set as currently parsed sequence.

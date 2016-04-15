@@ -60,7 +60,7 @@ public class EvaluateLmlMacroTag extends AbstractMacroLmlTag {
     @Override
     public void handleDataBetweenTags(final String rawMacroContent) {
         if (Strings.isNotEmpty(rawMacroContent)) {
-            methodArgument = replaceArguments(rawMacroContent, getParser().getData().getArguments());
+            methodArgument = replaceArguments(rawMacroContent, getParser().getData().getArguments()).toString();
         }
     }
 

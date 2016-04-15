@@ -29,6 +29,15 @@ public interface LmlTemplateReader {
      * parsed AFTER the newer text. This allows, for example, to include separate files from within the templates by
      * using macros.
      *
+     * @param template will become currently parsed part of the template.
+     * @param templateName can be used to identify the template */
+    void append(CharSequence template, String templateName);
+
+    /** Registers template (or a part of it) to the reader. TemplateReader should work as a FIFO queue - if another
+     * template is being currently parsed and one of append() methods is used, the previous template will be queued and
+     * parsed AFTER the newer text. This allows, for example, to include separate files from within the templates by
+     * using macros.
+     *
      * @param template will become currently parsed part of the template. */
     void append(String template);
 

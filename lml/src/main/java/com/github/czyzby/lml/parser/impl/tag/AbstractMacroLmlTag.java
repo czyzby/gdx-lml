@@ -41,7 +41,10 @@ public abstract class AbstractMacroLmlTag extends AbstractLmlTag {
      *            data container, as regular LML arguments should not be parsed directly by the macro - marco replaces
      *            only its own arguments.
      * @return content with replaced arguments. */
-    protected String replaceArguments(final String content, final ObjectMap<String, String> macroArguments) {
+    protected CharSequence replaceArguments(final String content, final ObjectMap<String, String> macroArguments) {
+        if (Strings.isEmpty(content)) {
+            return Strings.EMPTY_STRING;
+        }
         final StringBuilder contentBuilder = new StringBuilder(content.length());
         final StringBuilder argumentNameBuilder = new StringBuilder();
         final LmlSyntax syntax = getParser().getSyntax();
@@ -69,7 +72,7 @@ public abstract class AbstractMacroLmlTag extends AbstractLmlTag {
             }
             contentBuilder.append(character);
         }
-        return contentBuilder.toString();
+        return contentBuilder;
     }
 
     /** @param content will be split into two non-null strings according to the passed separator. If the separator does
@@ -94,7 +97,7 @@ public abstract class AbstractMacroLmlTag extends AbstractLmlTag {
     }
 
     /** @param macroResult will be appended to the template reader. */
-    protected void appendTextToParse(final String macroResult) {
+    protected void appendTextToParse(final CharSequence macroResult) {
         getParser().getTemplateReader().append(macroResult, "'" + getTagName() + "' macro result");
     }
 

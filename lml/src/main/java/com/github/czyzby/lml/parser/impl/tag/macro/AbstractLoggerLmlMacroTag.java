@@ -22,7 +22,7 @@ public abstract class AbstractLoggerLmlMacroTag extends AbstractMacroLmlTag {
 
     @Override
     public void handleDataBetweenTags(final String rawData) {
-        content = replaceArguments(rawData, getParser().getData().getArguments());
+        content = replaceArguments(rawData, getParser().getData().getArguments()).toString();
     }
 
     @Override

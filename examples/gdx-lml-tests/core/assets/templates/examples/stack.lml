@@ -13,6 +13,7 @@
 
 <stack>
     <image style="red" />
-    <image style="tip" color=green />
-    <label>Complex</label>
+    <image style="frame" />
+    <label color="black">'Complex</label>
+    Complex
 </stack>

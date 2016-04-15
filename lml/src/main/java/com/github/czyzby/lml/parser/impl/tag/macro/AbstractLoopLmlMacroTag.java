@@ -34,7 +34,7 @@ public abstract class AbstractLoopLmlMacroTag extends AbstractMacroLmlTag {
             contentBuilder.append(replaceArguments(rawMacroContent, arguments));
         }
         if (Strings.isNotEmpty(contentBuilder)) {
-            appendTextToParse(contentBuilder.toString());
+            appendTextToParse(contentBuilder);
         }
     }
 

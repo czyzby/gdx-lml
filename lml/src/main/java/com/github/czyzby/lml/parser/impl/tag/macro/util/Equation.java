@@ -63,7 +63,7 @@ public class Equation {
 
     /** @param equation will be evaluated.
      * @return result of the equation as string. */
-    public String getResult(final String equation) {
+    public String getResult(final CharSequence equation) {
         try {
             return Nullables.toString(parseEquation(equation));
         } catch (final RuntimeException exception) {
@@ -72,7 +72,7 @@ public class Equation {
         return null;
     }
 
-    private Object parseEquation(final String equation) {
+    private Object parseEquation(final CharSequence equation) {
         Element firstNode = new OperatorElement(DefaultOperator.NO_OP, null, null);
         // Separating equation into values (boolean, int, float, String) and operators:
         findEquationElements(equation, firstNode);
@@ -83,7 +83,7 @@ public class Equation {
         return convertToResult(firstNode);
     }
 
-    protected void findEquationElements(final String equation, final Element firstNode) {
+    protected void findEquationElements(final CharSequence equation, final Element firstNode) {
         final StringBuilder valueBuilder = new StringBuilder();
         Element lastNode = firstNode;
         for (int index = 0, length = equation.length(); index < length; index++) {
@@ -314,11 +314,11 @@ public class Equation {
         return OPERATORS.containsKey(character);
     }
 
-    /** Utility method that calls {@link #getResult(String)} and converts returned value to a boolean.
+    /** Utility method that calls {@link #getResult(CharSequence)} and converts returned value to a boolean.
      *
      * @param equation will be evaluated.
      * @return true if: returned value is boolean true, a positive number or non-null string. */
-    public boolean getBooleanResult(final String equation) {
+    public boolean getBooleanResult(final CharSequence equation) {
         final Element result = new ValueElement(getResult(equation), null, null);
         if (result.isBoolean()) {
             return result.getBoolean();
