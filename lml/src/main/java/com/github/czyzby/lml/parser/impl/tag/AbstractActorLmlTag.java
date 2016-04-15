@@ -146,20 +146,28 @@ public abstract class AbstractActorLmlTag extends AbstractLmlTag {
 
     @Override
     public final void handleDataBetweenTags(final CharSequence rawData) {
-        if (Strings.isBlank(rawData)) {
+        if (Strings.isWhitespace(rawData)) {
             return;
         }
         final String[] lines = Strings.split(rawData, '\n');
+        final Tree.Node node = LmlUtilities.getTreeNode(actor);
+        if (node != null) {
+            appendTreeNodes(lines, node);
+            return;
+        }
         for (String line : lines) {
-            line = line.trim();
-            if (Strings.isNotBlank(line)) {
-                final Tree.Node node = LmlUtilities.getTreeNode(actor);
-                if (node != null) {
-                    // If the actor is a tree node, adding plain text as label tree node leaf.
-                    node.add(new Tree.Node(toLabel(line)));
-                } else {
-                    handlePlainTextLine(line);
-                }
+            if (Strings.isNotWhitespace(line)) {
+                line = line.trim();
+                handlePlainTextLine(line);
+            }
+        }
+    }
+
+    private void appendTreeNodes(final String[] lines, final Tree.Node node) {
+        for (String line : lines) {
+            if (Strings.isNotWhitespace(line)) {
+                line = line.trim();
+                node.add(new Tree.Node(toLabel(line)));
             }
         }
     }

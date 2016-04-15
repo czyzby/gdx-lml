@@ -108,7 +108,7 @@ public class DefaultLmlParser extends AbstractLmlParser {
                 }
                 // This is not a comment, since we're there. Parsing a new tag.
                 if (currentParentTag != null) {
-                    currentParentTag.handleDataBetweenTags(builder.toString());
+                    currentParentTag.handleDataBetweenTags(builder);
                 }
                 Strings.clearBuilder(builder);
                 processTag(builder);
