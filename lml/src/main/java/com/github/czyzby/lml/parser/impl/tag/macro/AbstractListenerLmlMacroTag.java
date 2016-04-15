@@ -41,8 +41,8 @@ public abstract class AbstractListenerLmlMacroTag extends AbstractMacroLmlTag im
     }
 
     @Override
-    public void handleDataBetweenTags(final String rawData) {
-        setContent(rawData);
+    public void handleDataBetweenTags(final CharSequence rawData) {
+        setContent(rawData.toString());
     }
 
     @Override

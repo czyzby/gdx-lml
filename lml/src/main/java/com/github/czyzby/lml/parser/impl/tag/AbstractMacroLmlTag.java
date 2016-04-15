@@ -41,7 +41,8 @@ public abstract class AbstractMacroLmlTag extends AbstractLmlTag {
      *            data container, as regular LML arguments should not be parsed directly by the macro - marco replaces
      *            only its own arguments.
      * @return content with replaced arguments. */
-    protected CharSequence replaceArguments(final String content, final ObjectMap<String, String> macroArguments) {
+    protected CharSequence replaceArguments(final CharSequence content,
+            final ObjectMap<String, ? extends CharSequence> macroArguments) {
         if (Strings.isEmpty(content)) {
             return Strings.EMPTY_STRING;
         }
@@ -81,19 +82,19 @@ public abstract class AbstractMacroLmlTag extends AbstractLmlTag {
      * @param separator first occurrence of this separator will be stripped and will separate the content into 2 parts.
      *            Cannot be null.
      * @return content separated into 2 parts. */
-    protected Pair<String, String> splitInTwo(final String content, final String separator) {
+    protected Pair<CharSequence, CharSequence> splitInTwo(final CharSequence content, final String separator) {
         int correctIndexes = 0;
         for (int index = 0, length = content.length(); index < length; index++) {
             if (Strings.compareIgnoreCase(content.charAt(index), separator.charAt(correctIndexes))) {
                 if (++correctIndexes == separator.length()) {
-                    return Pair.of(content.substring(0, index + 1 - separator.length()),
-                            content.substring(index + 1, length));
+                    return Pair.of(content.subSequence(0, index + 1 - separator.length()),
+                            content.subSequence(index + 1, length));
                 }
             } else {
                 correctIndexes = 0;
             }
         }
-        return Pair.of(content, Strings.EMPTY_STRING);
+        return new Pair<CharSequence, CharSequence>(content.toString(), Strings.EMPTY_CHAR_SEQUENCE);
     }
 
     /** @param macroResult will be appended to the template reader. */

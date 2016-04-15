@@ -45,8 +45,8 @@ public class ExceptionLmlMacroTag extends AbstractMacroLmlTag {
     }
 
     @Override
-    public void handleDataBetweenTags(final String rawData) {
-        content = rawData;
+    public void handleDataBetweenTags(final CharSequence rawData) {
+        content = rawData.toString();
     }
 
     @Override

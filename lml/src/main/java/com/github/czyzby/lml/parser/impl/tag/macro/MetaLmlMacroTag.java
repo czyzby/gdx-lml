@@ -137,16 +137,16 @@ public class MetaLmlMacroTag extends AbstractMacroLmlTag {
     }
 
     @Override
-    public void handleDataBetweenTags(final String rawMacroContent) {
+    public void handleDataBetweenTags(final CharSequence rawMacroContent) {
         if (GdxArrays.isEmpty(getAttributes())) {
             getParser().throwErrorIfStrict("Custom macro tag needs at least one attribute: tag names array.");
             return;
         }
         final Pair<Array<String>, Array<String>> attributeNamesAndDefaultValues = getAttributeNamesAndDefaultValues();
-        getParser().getSyntax()
-                .addMacroTagProvider(new CustomLmlMacroTagProvider(getContentAttributeName(),
-                        attributeNamesAndDefaultValues.getFirst(), attributeNamesAndDefaultValues.getSecond(),
-                        rawMacroContent), getSupportedTagNames());
+        getParser().getSyntax().addMacroTagProvider(
+                new CustomLmlMacroTagProvider(getContentAttributeName(), attributeNamesAndDefaultValues.getFirst(),
+                        attributeNamesAndDefaultValues.getSecond(), rawMacroContent.toString()),
+                getSupportedTagNames());
     }
 
     /** @return second macro attribute. */
@@ -232,7 +232,7 @@ public class MetaLmlMacroTag extends AbstractMacroLmlTag {
         private final Array<String> attributeNames;
         private final Array<String> defaultAttributeValues;
         private final String macroContent;
-        private String contentBetweenTags;
+        private CharSequence contentBetweenTags;
 
         public CustomLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData,
                 final String contentAttributeName, final Array<String> attributeNames,
@@ -250,7 +250,7 @@ public class MetaLmlMacroTag extends AbstractMacroLmlTag {
         }
 
         @Override
-        public void handleDataBetweenTags(final String rawMacroContent) {
+        public void handleDataBetweenTags(final CharSequence rawMacroContent) {
             contentBetweenTags = rawMacroContent;
         }
 
@@ -259,8 +259,8 @@ public class MetaLmlMacroTag extends AbstractMacroLmlTag {
             appendTextToParse(replaceArguments(macroContent, getMacroArguments()));
         }
 
-        private ObjectMap<String, String> getMacroArguments() {
-            final ObjectMap<String, String> arguments = new IgnoreCaseStringMap<String>();
+        private ObjectMap<String, CharSequence> getMacroArguments() {
+            final ObjectMap<String, CharSequence> arguments = new IgnoreCaseStringMap<CharSequence>();
             if (contentAttributeName != null) {
                 arguments.put(contentAttributeName,
                         contentBetweenTags == null ? Strings.EMPTY_STRING : contentBetweenTags);
@@ -294,13 +294,13 @@ public class MetaLmlMacroTag extends AbstractMacroLmlTag {
             return allNamed;
         }
 
-        private void putDefaultAttributes(final ObjectMap<String, String> arguments) {
+        private void putDefaultAttributes(final ObjectMap<String, CharSequence> arguments) {
             for (int index = 0, length = attributeNames.size; index < length; index++) {
                 arguments.put(attributeNames.get(index), defaultAttributeValues.get(index));
             }
         }
 
-        private void putNamedAttributes(final ObjectMap<String, String> arguments) {
+        private void putNamedAttributes(final ObjectMap<String, CharSequence> arguments) {
             final ObjectMap<String, String> namedAttributes = getNamedAttributes();
             for (int index = 0, length = attributeNames.size; index < length; index++) {
                 final String attributeName = attributeNames.get(index);
@@ -312,7 +312,7 @@ public class MetaLmlMacroTag extends AbstractMacroLmlTag {
             }
         }
 
-        private void putUnnamedAttributes(final ObjectMap<String, String> arguments) {
+        private void putUnnamedAttributes(final ObjectMap<String, CharSequence> arguments) {
             final Array<String> attributes = getAttributes();
             for (int index = 0, length = attributeNames.size; index < length; index++) {
                 arguments.put(attributeNames.get(index),

@@ -44,7 +44,7 @@ public class MockLmlTag implements LmlTag {
     }
 
     @Override
-    public void handleDataBetweenTags(final String rawData) {
+    public void handleDataBetweenTags(final CharSequence rawData) {
         throw new IllegalStateException("This is programatically created mock-up LML tag that cannot have children.");
     }
 

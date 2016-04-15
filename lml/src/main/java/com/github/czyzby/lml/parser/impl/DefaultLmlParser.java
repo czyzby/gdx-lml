@@ -306,8 +306,8 @@ public class DefaultLmlParser extends AbstractLmlParser {
     }
 
     /** @param macroName name of the macro tag to be parsed.
-     * @param rawTagData raw data of the macro tag. Will be used to append data between macro tags. Cleared
-     *            afterwards. */
+     * @param rawTagData raw data of the macro tag. Will be used to append data between macro tags. It will be modified,
+     *            but should be cleared manually after calling this method. */
     private void processMacro(final String macroName, final StringBuilder rawTagData) {
         final LmlTagProvider tagProvider = syntax.getMacroTagProvider(macroName);
         if (tagProvider == null) {
@@ -347,9 +347,8 @@ public class DefaultLmlParser extends AbstractLmlParser {
         if (sameNameNestedMacrosAmount > 0) {
             throwError("Macro tag not closed: " + macroTag.getTagName());
         }
-        final String content = rawTagData.toString();
-        if (Strings.isNotEmpty(content)) {
-            macroTag.handleDataBetweenTags(content);
+        if (Strings.isNotEmpty(rawTagData)) {
+            macroTag.handleDataBetweenTags(rawTagData);
         }
         macroTag.closeTag();
     }
@@ -440,7 +439,7 @@ public class DefaultLmlParser extends AbstractLmlParser {
     }
 
     /** @param tagName name of the tag to be parsed.
-     * @param rawTagData raw data of a regular widget tag. Will be cleared. */
+     * @param rawTagData raw data of a regular widget tag. */
     private void processRegularTag(final String tagName, final StringBuilder rawTagData) {
         final LmlTagProvider tagProvider = syntax.getTagProvider(tagName);
         if (tagProvider == null) {

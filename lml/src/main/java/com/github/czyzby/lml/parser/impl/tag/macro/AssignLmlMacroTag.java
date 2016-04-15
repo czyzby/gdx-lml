@@ -34,14 +34,14 @@ public class AssignLmlMacroTag extends AbstractMacroLmlTag {
     public static final String KEY_ATTRIBUTE = "key";
     /** Optional name of the second attribute: value to assign. */
     public static final String VALUE_ATTRIBUTE = "value";
-    private String argument;
+    private CharSequence argument;
 
     public AssignLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 
     @Override
-    public void handleDataBetweenTags(final String rawMacroContent) {
+    public void handleDataBetweenTags(final CharSequence rawMacroContent) {
         if (Strings.isNotEmpty(rawMacroContent)) {
             argument = rawMacroContent;
         }
@@ -59,13 +59,13 @@ public class AssignLmlMacroTag extends AbstractMacroLmlTag {
 
     /** @param argumentValue should be evaluated according to macro specification.
      * @return evaluated value. */
-    protected String processArgumentValue(final String argumentValue) {
+    protected String processArgumentValue(final CharSequence argumentValue) {
         // Assignment macro does parse the value, it just assigns it.
-        return argumentValue;
+        return argumentValue.toString();
     }
 
     /** @return argument value that should be assigned. */
-    protected String getArgumentValue() {
+    protected CharSequence getArgumentValue() {
         if (argument != null) {
             if (hasArgumentValue()) {
                 getParser().throwErrorIfStrict(

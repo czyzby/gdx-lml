@@ -97,7 +97,7 @@ public class CalculationLmlMacroTag extends AssignLmlMacroTag {
     }
 
     @Override
-    protected String processArgumentValue(final String argumentValue) {
+    protected String processArgumentValue(final CharSequence argumentValue) {
         return new Equation(getParser(), getActor())
                 .getResult(replaceArguments(argumentValue, getParser().getData().getArguments()));
     }

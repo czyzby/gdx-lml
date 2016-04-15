@@ -65,14 +65,14 @@ import com.github.czyzby.lml.util.LmlUserObject.TableTarget;
  *
  * @author MJ */
 public class TableRowLmlMacroTag extends AbstractMacroLmlTag {
-    private String content;
+    private CharSequence content;
 
     public TableRowLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 
     @Override
-    public void handleDataBetweenTags(final String rawData) {
+    public void handleDataBetweenTags(final CharSequence rawData) {
         content = rawData;
     }
 
@@ -85,7 +85,7 @@ public class TableRowLmlMacroTag extends AbstractMacroLmlTag {
     public void closeTag() {
         appendRow();
         if (Strings.isNotEmpty(content)) {
-            appendTextToParse(content);
+            appendTextToParse(content.toString());
         }
     }
 

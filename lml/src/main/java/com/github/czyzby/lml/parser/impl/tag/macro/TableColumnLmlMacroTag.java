@@ -46,7 +46,7 @@ public class TableColumnLmlMacroTag extends TableRowLmlMacroTag {
     }
 
     @Override
-    public void handleDataBetweenTags(final String rawData) {
+    public void handleDataBetweenTags(final CharSequence rawData) {
         if (Strings.isNotBlank(rawData)) {
             getParser().throwErrorIfStrict("Column defaults macro cannot parse text between tags.");
         }

@@ -25,7 +25,7 @@ public abstract class AbstractLoopLmlMacroTag extends AbstractMacroLmlTag {
     }
 
     @Override
-    public void handleDataBetweenTags(final String rawMacroContent) {
+    public void handleDataBetweenTags(final CharSequence rawMacroContent) {
         final StringBuilder contentBuilder = new StringBuilder(rawMacroContent.length());
         final ObjectMap<String, String> arguments = new IgnoreCaseStringMap<String>();
         while (hasNext()) {

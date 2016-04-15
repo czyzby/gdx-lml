@@ -38,8 +38,9 @@ public interface LmlTag {
     void attachTo(LmlTag tag);
 
     /** @param rawData unparsed LML data between tags. Contains new line characters and whitespaces that need to be
-     *            trimmed. */
-    void handleDataBetweenTags(String rawData);
+     *            trimmed. This object MIGHT (and probably will) be modified - if you want to append this data to
+     *            current template reader, make sure to call {@link CharSequence#toString()} first. */
+    void handleDataBetweenTags(CharSequence rawData);
 
     /** @return actor created by this tag. Might be null or might return its parent tag actor in cases where text and
      *         children should be handled by its parent. */

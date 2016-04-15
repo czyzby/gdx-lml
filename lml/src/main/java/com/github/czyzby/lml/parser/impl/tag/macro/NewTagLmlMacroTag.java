@@ -122,7 +122,10 @@ public class NewTagLmlMacroTag extends AbstractMacroLmlTag {
     }
 
     @Override
-    public void handleDataBetweenTags(final String rawData) {
+    public void handleDataBetweenTags(final CharSequence rawData) {
+        if (Strings.isNotWhitespace(rawData)) {
+            getParser().throwErrorIfStrict("New tag macro cannot parse content between tags.");
+        }
     }
 
     @Override

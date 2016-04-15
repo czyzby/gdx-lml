@@ -7,6 +7,10 @@ package com.github.czyzby.kiwi.util.common;
 public class Strings extends UtilitiesClass {
     /** A string with length of 0, not null. */
     public static final String EMPTY_STRING = "";
+    /** A {@link CharSequence} with length of 0, not null.
+     *
+     * @see Strings#EMPTY_STRING */
+    public static final CharSequence EMPTY_CHAR_SEQUENCE = EMPTY_STRING;
     /** Common regex. Allows to determine if string contains no characters or only whitespaces. */
     public static final String WHITESPACE_REGEX = "\\s*";
     /** Common regex. Allows to split a sentence into trimmed words. */

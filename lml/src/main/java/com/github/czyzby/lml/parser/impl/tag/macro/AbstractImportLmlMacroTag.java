@@ -39,14 +39,14 @@ public abstract class AbstractImportLmlMacroTag extends AbstractMacroLmlTag {
     /** Optional name of the second attribute. Name of the argument to replace. */
     public static final String REPLACE_ATTRIBUTE = "replace";
 
-    private String content;
+    private CharSequence content;
 
     public AbstractImportLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 
     @Override
-    public void handleDataBetweenTags(final String rawMacroContent) {
+    public void handleDataBetweenTags(final CharSequence rawMacroContent) {
         content = rawMacroContent;
     }
 
@@ -71,8 +71,8 @@ public abstract class AbstractImportLmlMacroTag extends AbstractMacroLmlTag {
     }
 
     /** @return arguments to replace in the imported template. */
-    protected ObjectMap<String, String> getArguments() {
-        final ObjectMap<String, String> arguments = new IgnoreCaseStringMap<String>();
+    protected ObjectMap<String, CharSequence> getArguments() {
+        final ObjectMap<String, CharSequence> arguments = new IgnoreCaseStringMap<CharSequence>();
         arguments.put(getArgumentName(), content);
         return arguments;
     }

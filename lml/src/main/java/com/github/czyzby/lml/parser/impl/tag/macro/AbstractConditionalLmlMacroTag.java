@@ -56,8 +56,8 @@ public abstract class AbstractConditionalLmlMacroTag extends AbstractMacroLmlTag
     }
 
     @Override
-    public void handleDataBetweenTags(final String rawMacroContent) {
-        final Pair<String, String> content = splitInTwo(rawMacroContent, getSeparator());
+    public void handleDataBetweenTags(final CharSequence rawMacroContent) {
+        final Pair<CharSequence, CharSequence> content = splitInTwo(rawMacroContent, getSeparator());
         if (checkCondition()) {
             appendTextToParse(content.getFirst());
         } else {

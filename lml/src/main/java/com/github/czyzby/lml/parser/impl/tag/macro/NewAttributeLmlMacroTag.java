@@ -2,6 +2,7 @@ package com.github.czyzby.lml.parser.impl.tag.macro;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
+import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.lml.parser.LmlParser;
@@ -82,7 +83,10 @@ public class NewAttributeLmlMacroTag extends AbstractMacroLmlTag {
     }
 
     @Override
-    public void handleDataBetweenTags(final String rawData) {
+    public void handleDataBetweenTags(final CharSequence rawData) {
+        if (Strings.isNotWhitespace(rawData)) {
+            getParser().throwErrorIfStrict("New attribute macro cannot parse content between tags.");
+        }
     }
 
     @Override

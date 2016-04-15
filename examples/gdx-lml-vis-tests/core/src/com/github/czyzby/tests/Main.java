@@ -194,11 +194,11 @@ public class Main extends AbstractApplicationListener {
             final StringBuilder rawTagData) {
         return new AbstractMacroLmlTag(parser, parentTag, rawTagData) {
             @Override
-            public void handleDataBetweenTags(final String rawData) {
-                // appendTextToParse(String) method forces the template reader to parse passed text. This is the default
-                // method to add macro result. In this case, we want to change text that the macro received between tags
-                // to upper case.
-                appendTextToParse(rawData.toUpperCase());
+            public void handleDataBetweenTags(final CharSequence rawData) {
+                // appendTextToParse(CharSequence) method forces the template reader to parse passed text. This is the
+                // default method to add macro result. In this case, we want to change text that the macro received
+                // between tags to upper case.
+                appendTextToParse(rawData.toString().toUpperCase());
             }
         };
     }

@@ -55,11 +55,11 @@ public class ArgumentReplacementLmlMacroTag extends AbstractMacroLmlTag {
     }
 
     @Override
-    public void handleDataBetweenTags(final String rawData) {
+    public void handleDataBetweenTags(final CharSequence rawData) {
         if (GdxMaps.isNotEmpty(getNamedAttributes())) {
             appendTextToParse(replaceArguments(rawData, getNamedAttributes()));
         } else {
-            appendTextToParse(rawData);
+            appendTextToParse(rawData.toString());
         }
     }
 

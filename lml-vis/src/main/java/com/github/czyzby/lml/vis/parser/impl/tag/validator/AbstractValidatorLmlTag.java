@@ -26,7 +26,7 @@ public abstract class AbstractValidatorLmlTag extends AbstractLmlTag {
     }
 
     @Override
-    public void handleDataBetweenTags(final String rawData) {
+    public void handleDataBetweenTags(final CharSequence rawData) {
         if (Strings.isNotBlank(rawData)) {
             getParser().throwErrorIfStrict("Validators cannot parse plain text between tags.");
         }

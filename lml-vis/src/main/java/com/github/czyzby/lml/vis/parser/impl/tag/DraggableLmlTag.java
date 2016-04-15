@@ -24,7 +24,7 @@ public class DraggableLmlTag extends AbstractLmlTag {
     }
 
     @Override
-    public void handleDataBetweenTags(final String rawData) {
+    public void handleDataBetweenTags(final CharSequence rawData) {
         if (Strings.isNotBlank(rawData)) {
             getParser().throwErrorIfStrict("Draggable cannot handle plain text. Found: " + rawData);
         }

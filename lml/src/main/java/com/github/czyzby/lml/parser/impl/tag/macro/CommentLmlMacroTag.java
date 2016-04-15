@@ -14,7 +14,7 @@ public class CommentLmlMacroTag extends AbstractMacroLmlTag {
     }
 
     @Override
-    public void handleDataBetweenTags(final String rawMacroContent) {
+    public void handleDataBetweenTags(final CharSequence rawMacroContent) {
         // Macro content is ignored, effectively turning data between its tags into a comment.
     }
 }

@@ -37,7 +37,7 @@ public class ArgumentLmlMacroTag extends AssignLmlMacroTag {
     }
 
     @Override
-    protected String processArgumentValue(final String argumentValue) {
-        return getParser().parseString(argumentValue, getActor());
+    protected String processArgumentValue(final CharSequence argumentValue) {
+        return getParser().parseString(argumentValue.toString(), getActor());
     }
 }

@@ -145,7 +145,7 @@ public abstract class AbstractActorLmlTag extends AbstractLmlTag {
     }
 
     @Override
-    public final void handleDataBetweenTags(final String rawData) {
+    public final void handleDataBetweenTags(final CharSequence rawData) {
         if (Strings.isBlank(rawData)) {
             return;
         }
