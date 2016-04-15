@@ -9,7 +9,8 @@
     if you remove only showing action, hiding action will set table's
     alpha to 0, leaving the tab pane useless. Try to remove both (or
     just the hiding action) to check out different behaviors. -->
-    <tabbedPane selected=1 tabShowAction=showTab tabHideAction=hideTab>
+    <tabbedPane selected=1 tabShowAction=showTab
+            tabHideAction=hideTab>
         <tab title=Empty closeable=false>
             Cannot be closed.
         </tab>

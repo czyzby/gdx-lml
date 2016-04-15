@@ -22,17 +22,18 @@
                 <menuItem text=OK? onChange=chooseItem/>
             </subMenu>
         </menuItem>
-<!-- "menuSeparator" provides Separator actors with a menu-specific style. -->
+<!-- "menuSeparator" provides Separator actors with
+    a menu-specific style. -->
         <menuSeparator/>
         <menuItem shortCut=a onChange=chooseItem>
             Some item.
         </menuItem>
-        <item onChange=chooseItem>Click me.</item>
+        <menuItem onChange=chooseItem>Click me.</menuItem>
     </menu>
     <menu value="Second">
         First menu is...
-        <item icon=icon-trash
-            onChange=chooseItem>More interesting.</item>
+        <menuItem icon=icon-trash
+            onChange=chooseItem>More interesting.</menuItem>
     </menu>
     <menu value=Third/>
 </menuBar>

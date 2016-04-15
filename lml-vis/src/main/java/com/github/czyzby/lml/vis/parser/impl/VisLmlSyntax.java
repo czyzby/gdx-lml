@@ -252,30 +252,30 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new ExtendedColorPickerLmlTagProvider(), "extendedColorPicker", "extendedPicker");
         addTagProvider(new FormValidatorLmlTagProvider(), "form", "formValidator", "formTable");
         addTagProvider(new GridGroupLmlTagProvider(), "gridGroup", "grid");
-        addTagProvider(new HorizontalFlowGroupLmlTagProvider(), "horizontalFlow", "hFlow", "horizontalFlowGroup");
+        addTagProvider(new HorizontalFlowGroupLmlTagProvider(), "horizontalFlow", "horizontalFlowGroup");
         addTagProvider(new LinkLabelLmlTagProvider(), "linkLabel", "link");
         addTagProvider(new ListViewLmlTagProvider(), "listView");
-        addTagProvider(new MenuBarLmlTagProvider(), "menuBar", "bar");
-        addTagProvider(new MenuItemLmlTagProvider(), "menuItem", "item");
+        addTagProvider(new MenuBarLmlTagProvider(), "menuBar");
+        addTagProvider(new MenuItemLmlTagProvider(), "menuItem");
         addTagProvider(new MenuLmlTagProvider(), "menu");
         addTagProvider(new MenuPopupLmlTagProvider(), "popupMenu", "subMenu");
         addTagProvider(new MenuSeparatorLmlTagProvider(), "menuSeparator");
         addTagProvider(new NumberSelectorLmlTagProvider(), "numberSelector", "selector");
         addTagProvider(new SeparatorLmlTagProvider(), "separator");
-        addTagProvider(new TabbedPaneLmlTagProvider(), "tabbedPane", "tabs");
+        addTagProvider(new TabbedPaneLmlTagProvider(), "tabbedPane");
         addTagProvider(new TabLmlTagProvider(), "tab");
-        addTagProvider(new VerticalFlowGroupLmlTagProvider(), "verticalFlow", "vFlow", "verticalFlowGroup");
+        addTagProvider(new VerticalFlowGroupLmlTagProvider(), "verticalFlow", "verticalFlowGroup");
         addTagProvider(new VisTooltipLmlTagProvider(), "visTooltip");
         addTagProvider(new VisValidatableTextFieldLmlTagProvider(), "validatable", "validatableTextField",
                 "visValidatableTextField");
 
         // Vis validators:
-        addTagProvider(new CustomValidatorLmlTagProvider(), "validator", "validate", "customValidator");
+        addTagProvider(new CustomValidatorLmlTagProvider(), "validator", "customValidator");
         addTagProvider(new FloatValidatorLmlTagProvider(), "floatValidator", "isFloat");
         addTagProvider(new GreaterThanValidatorLmlTagProvider(), "greaterThan", "greaterThanValidator");
-        addTagProvider(new IntegerValidatorLmlTagProvider(), "integerValidator", "intValidator", "isInt", "isInteger");
+        addTagProvider(new IntegerValidatorLmlTagProvider(), "integerValidator", "isInt", "isInteger");
         addTagProvider(new LesserThanValidatorLmlTagProvider(), "lesserThan", "lesserThanValidator");
-        addTagProvider(new NotEmptyValidatorLmlTagProvider(), "notEmpty", "notEmptyValidator", "isNotEmpty");
+        addTagProvider(new NotEmptyValidatorLmlTagProvider(), "notEmptyValidator", "isNotEmpty");
     }
 
     @Override

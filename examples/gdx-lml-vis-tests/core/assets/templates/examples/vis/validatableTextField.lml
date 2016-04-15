@@ -9,7 +9,7 @@
     Int:
     <validatable>
         15
-        <intValidator/>
+        <integerValidator/>
     </validatable>
     Float:
     <validatable>
