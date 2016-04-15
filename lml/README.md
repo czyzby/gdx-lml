@@ -96,5 +96,7 @@ If you want to use LML with GWT, you have to add this module to your `GdxDefinit
 
 This version brought a lot of optimizations and made LML syntax fully XML-friendly. Be aware that updating to `1.6` might break your existing custom Java macros/tags due to method refactoring: a lot of functions now consume and return `CharSequence` instances instead of `Strings` to limit unnecessary `String` creations. It's worth noting that `String` and `StringBuilder` implement `CharSequence`, so now you should expect that your `CharSequence` parameter might be a builder - be careful when assigning its instance, as it might (and probably *will*) be modified. `@` instead of `:` as default macro marker will obviously break most of old LML templates, but this is a pretty easy fix.
 
+If you're worried about frequent syntax changes or major interface refactoring - don't. I'm fully satisfied with the current state of LML, as it can finally be used to create valid XML files and tries to create as little new objects as possible during parsing of your templates. Currently I plan on fixing any bugs that somehow passed my testing and - if anything sensible is requested - adding new features. No major syntax changes or refactorings are planned in the near future: you're safe to update your templates and enjoy polished DTD support.
+
 ### Archive
 Older change logs are available in `CHANGES.md` file.
