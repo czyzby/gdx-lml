@@ -3,10 +3,7 @@
     runtime) and a number of operators. Calculation macro
     is used to evaluate an equation and assign its result to
     an argument. First macro attribute is the name of result
-    argument - the rest is merged into an equation. '>' sign
-    has to be escaped with '&gt' in tags, so if you prefer,
-    you can pass the equation as data between macro tags
-    rather than macro attributes. -->
+    argument - the rest is merged into an equation. -->
 <:calculate maths (2.5*2)^2-17.5/>
 <label>{maths}</label>
 
@@ -16,6 +13,9 @@
 <:calculate key="myLabelContent" value="(LabOUTe + lOUT.) - OUT"/>
 <label>{myLabelContent}</label>
 
+<!-- '>' sign has to be escaped with '&gt' in tags, so if you
+    prefer, you can pass the equation as data between macro 
+    tags rather than as macro attributes: -->
 <:calculate shouldIMakeRow>12 > (4%3) * 5</:calculate>
 <table>
     <label color=green row={shouldIMakeRow}>Well...</label>
