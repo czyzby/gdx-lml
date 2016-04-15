@@ -213,6 +213,8 @@ import com.github.czyzby.lml.parser.impl.attribute.table.cell.TableCellDefaultsL
 import com.github.czyzby.lml.parser.impl.attribute.table.dialog.OnResultLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.tooltip.AlwaysLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.tooltip.InstantLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.table.tooltip.KeepTooltipLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.table.tooltip.TooltipIdsLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.window.KeepWithinStageLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.window.ModalLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.window.MovableLmlAttribute;
@@ -759,6 +761,8 @@ public class DefaultLmlSyntax implements LmlSyntax {
     protected void registerTooltipAttributes() {
         addAttributeProcessor(new AlwaysLmlAttribute(), "always");
         addAttributeProcessor(new InstantLmlAttribute(), "instant");
+        addAttributeProcessor(new KeepTooltipLmlAttribute(), "keep");
+        addAttributeProcessor(new TooltipIdsLmlAttribute(), "ids");
     }
 
     /** Touchpad widget attributes. */

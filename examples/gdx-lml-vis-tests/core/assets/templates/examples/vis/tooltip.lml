@@ -22,3 +22,8 @@
         </visTooltip>
     </image>
 </container>
+
+<!-- On contrary to standard tooltips, VisUI tooltips
+    can be attached only to a single actor due to
+    their implementation. If you want to reuse your
+    tooltips, use regular Scene2D ones. -->
