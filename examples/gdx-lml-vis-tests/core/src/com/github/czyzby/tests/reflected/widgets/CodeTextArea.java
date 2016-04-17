@@ -39,8 +39,17 @@ public class CodeTextArea extends VisTextArea {
         return prefSizeLayout.width + super.getPrefHeight();
     }
 
+    @Override
+    public void setText (String str) {
+        // TextArea seems to have problem when '\r\n' (Windows style) is used as line ending which
+        // adds additional new line. Although example templates are using '\n' Git when cloning repository
+        // may replace them with '\r\n' on Windows.
+        super.setText(str.replace("\r", ""));
+    }
+
     private void updatePrefSizeLayoutIfNeeded() {
         final String text = getText();
+        // not using equals here because we only care if text has changed and strings are immutable
         if (lastText != text) {
             prefSizeLayout.setText(getStyle().font, text);
             lastText = text;
