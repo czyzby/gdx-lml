@@ -142,7 +142,9 @@ public class LmlUtilities {
         }
     }
 
-    /** @param actor clears attached {@link LmlUserObject} with LML meta-data if it has one. */
+    /** @param actor clears attached {@link LmlUserObject} with LML meta-data if it has one. If the actor is a
+     *            {@link Group}, it will be searched - all its children will have the {@link LmlUserObject}s cleared
+     *            recursively. */
     public static void clearLmlUserObject(final Actor actor) {
         if (actor.getUserObject() instanceof LmlUserObject) {
             actor.setUserObject(null);

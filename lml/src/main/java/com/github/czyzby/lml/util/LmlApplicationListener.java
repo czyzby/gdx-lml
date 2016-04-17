@@ -47,6 +47,8 @@ public abstract class LmlApplicationListener implements ApplicationListener {
     private final ViewChangeRunnable viewChangeRunnable = new ViewChangeRunnable();
     private AbstractLmlView currentView;
     private LmlParser lmlParser;
+    private boolean clearActorsMap;
+    private boolean clearMetaData;
 
     /** @return {@link LmlParser} instance created with {@link #createParser()} method.
      * @see LmlParser */
@@ -112,6 +114,27 @@ public abstract class LmlApplicationListener implements ApplicationListener {
         }
     }
 
+    /** @param clearActorsMap if true, {@link LmlParser#getActorsMappedByIds() IDs to actors map} will be cleared after
+     *            each view parsing. This prevents from injecting or modifying actors from previous views if ID
+     *            collisions occur. When this value is set to true, you cannot access actors with their IDs using
+     *            {@link LmlParser#getActorsMappedByIds()}. When set to false, you're advised to avoid IDs collisions in
+     *            all views. Defaults to false.
+     * @see LmlParser#getActorsMappedByIds()
+     * @see com.github.czyzby.lml.annotation.LmlActor */
+    protected void setClearActorsMap(final boolean clearActorsMap) {
+        this.clearActorsMap = clearActorsMap;
+    }
+
+    /** @param clearMetaData if true, {@link LmlUtilities#clearLmlUserObjects(Iterable)} will be called with parsed
+     *            every actor after view is created. While this limits the amount of objects assigned to each actor and
+     *            kept at runtime, this option should be used with care, as some features rely on this mechanism. Use
+     *            when absolutely sure that it doesn't break anything. Defaults to false.
+     * @see LmlUtilities#clearLmlUserObject(Actor)
+     * @see LmlUtilities#clearLmlUserObjects(Iterable) */
+    protected void setClearMetaData(final boolean clearMetaData) {
+        this.clearMetaData = clearMetaData;
+    }
+
     /** This is a utility method that allows you to hook up into DTD generation process or even modify it completely.
      * This method is called by {@link #saveDtdSchema(FileHandle)} after the parser was already set to non-strict. By
      * default, this method calls standard DTD utility method: {@link Dtd#saveSchema(LmlParser, Appendable)}. By
@@ -166,7 +189,7 @@ public abstract class LmlApplicationListener implements ApplicationListener {
             @Override
             public Void consume(final Actor actor) {
                 final String viewClassName = LmlUtilities.getActorId(actor);
-                final Class<? extends AbstractLmlView> viewClass = LmlApplicationListener.this.getClass(viewClassName);
+                final Class<? extends AbstractLmlView> viewClass = LmlApplicationListener.this.getViewClass(viewClassName);
                 setView(viewClass);
                 return null;
             }
@@ -178,7 +201,7 @@ public abstract class LmlApplicationListener implements ApplicationListener {
      * @return the corresponding view class object.
      * @throws GdxRuntimeException if unable to determine view class. */
     @SuppressWarnings("unchecked")
-    protected Class<? extends AbstractLmlView> getClass(final String viewClassName) {
+    protected Class<? extends AbstractLmlView> getViewClass(final String viewClassName) {
         if (aliases.containsKey(viewClassName)) {
             return aliases.get(viewClassName);
         }
@@ -333,7 +356,9 @@ public abstract class LmlApplicationListener implements ApplicationListener {
      *            method. Its {@link AbstractLmlView#getViewId()} will be used to create a class alias with
      *            {@link #addClassAlias(String, Class)}. Its template file accessed by
      *            {@link AbstractLmlView#getTemplateFile()} will be parsed by the {@link LmlParser} and used to fill the
-     *            view. */
+     *            view.
+     * @see #setClearActorsMap(boolean)
+     * @see #setClearMetaData(boolean) */
     protected void initiateView(final AbstractLmlView view) {
         views.put(view.getClass(), view);
         final String viewId = view.getViewId();
@@ -341,6 +366,12 @@ public abstract class LmlApplicationListener implements ApplicationListener {
             addClassAlias(viewId, view.getClass());
         }
         lmlParser.createView(view, view.getTemplateFile());
+        if (clearActorsMap) {
+            lmlParser.getActorsMappedByIds().clear();
+        }
+        if (clearMetaData) {
+            LmlUtilities.clearLmlUserObjects(view.getStage().getActors());
+        }
     }
 
     /** @param viewClass {@link AbstractLmlView} extension that represents a single view. Its instance is requested.
