@@ -41,6 +41,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.pane.AcceptFore
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.pane.DragPaneListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.pane.GroupIdLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.pane.MaxChildrenLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.floating.UseChildrenPreferredSizeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.flow.HorizontalSpacingLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.flow.VerticalSpacingLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.grid.GridSpacingLmlAttribute;
@@ -295,6 +296,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         registerColorPickerAttributes();
         registerDraggableAttributes();
         registerDragPaneAttributes();
+        registerFloatingGroupAttributes();
         registerFlowGroupsAttributes();
         registerGridGroupAttributes();
         registerMenuAttributes();
@@ -441,6 +443,11 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addAttributeProcessor(new DragPaneListenerLmlAttribute(), "listener");
         addAttributeProcessor(new GroupIdLmlAttribute(), "groupId");
         addAttributeProcessor(new MaxChildrenLmlAttribute(), "maxChildren");
+    }
+
+    /** Floating group attributes. */
+    protected void registerFloatingGroupAttributes() {
+        addAttributeProcessor(new UseChildrenPreferredSizeLmlAttribute(), "useChildrenPreferredSize", "usePref");
     }
 
     /** Flow groups attributes. */
