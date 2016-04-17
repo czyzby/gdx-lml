@@ -14,9 +14,7 @@ import com.github.czyzby.lml.parser.impl.attribute.ColorLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.ColorRedLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.DebugLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.DisabledLmlAttribute;
-import com.github.czyzby.lml.parser.impl.attribute.FillParentLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.IdLmlAttribute;
-import com.github.czyzby.lml.parser.impl.attribute.LayoutEnabledLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.MultilineLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.OnChangeLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.OnClickLmlAttribute;
@@ -115,6 +113,9 @@ import com.github.czyzby.lml.parser.impl.attribute.label.LabelAlignmentLmlAttrib
 import com.github.czyzby.lml.parser.impl.attribute.label.LineAlignmentLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.label.TextAlignmentLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.label.WrapLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.layout.FillParentLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.layout.LayoutEnabledLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.layout.PackLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.list.MultipleLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.list.RangeSelectLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.list.RequiredLmlAttribute;
@@ -517,6 +518,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
         // Layout-implementing widget.
         addAttributeProcessor(new FillParentLmlAttribute(), "fillParent"); // Layout
         addAttributeProcessor(new LayoutEnabledLmlAttribute(), "layout", "layoutEnabled");
+        addAttributeProcessor(new PackLmlAttribute(), "pack");
 
         // Same goes for Disableable. Fails if the widget does not implement the interface.
         addAttributeProcessor(new DisabledLmlAttribute(), "disabled", "disable"); // Disableable
