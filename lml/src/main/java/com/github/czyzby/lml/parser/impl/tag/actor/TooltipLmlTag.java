@@ -73,7 +73,6 @@ public class TooltipLmlTag extends TableLmlTag implements LmlParserListener {
     @Override
     protected void doOnTagClose() {
         super.doOnTagClose();
-        tooltip.getContainer().pack();
         final String[] ids = tooltip.getActor().getIds();
         if (ids != null && ids.length > 0) {
             getParser().doAfterParsing(this);

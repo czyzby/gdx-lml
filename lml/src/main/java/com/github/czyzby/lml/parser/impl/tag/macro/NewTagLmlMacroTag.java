@@ -280,12 +280,5 @@ public class NewTagLmlMacroTag extends AbstractMacroLmlTag {
                 addChild(childTag.getActor());
             }
         }
-
-        @Override
-        protected void doOnTagClose() {
-            if (getActor() instanceof Layout) {
-                ((Layout) getActor()).pack();
-            }
-        }
     }
 }
