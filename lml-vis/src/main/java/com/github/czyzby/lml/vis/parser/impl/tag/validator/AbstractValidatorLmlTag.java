@@ -96,8 +96,14 @@ public abstract class AbstractValidatorLmlTag extends AbstractLmlTag {
 
     /** @return true if the validator is attached to a widget in a form. */
     protected boolean isInForm() {
-        // Has a form grandparent:
-        return getParent() != null && getParent().getParent() instanceof FormValidatorLmlTag;
+        LmlTag parent = getParent();
+        while (parent != null) {
+            if (parent instanceof FormValidatorLmlTag) {
+                return true;
+            }
+            parent = parent.getParent();
+        }
+        return false;
     }
 
     // Utility named attribute processing methods:
