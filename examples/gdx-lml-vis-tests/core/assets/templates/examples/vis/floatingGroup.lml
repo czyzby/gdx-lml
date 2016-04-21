@@ -2,7 +2,7 @@
     customize widget sizes and positions. Most other
     groups will override these settings. -->
  
-<floatingGroup width="200" height="200">
+<floatingGroup prefWidth="200" prefHeight="200">
     <label x="10" y="120">
         Position settings are honored.
     </label>
@@ -16,7 +16,7 @@
     area where a window or dialog can be dragged: -->
 
 <container background="border">
-    <floatingGroup width="200" height="200">
+    <floatingGroup prefSize="200">
          <window text="Drag me!" pack="true" keepWithinParent="true">
               I cannot leave...
          </window>

@@ -100,6 +100,9 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.tab.TabDirtyLmlAtt
 import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.tab.TabDisableLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.tab.TabSavableLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.tabbed.tab.TabTitleLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.table.PrefHeightLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.table.PrefSizeLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.table.PrefWidthLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.table.UseCellDefaultsLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.tooltip.DelayLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.tooltip.TooltipFadeTimeLmlAttribute;
@@ -379,6 +382,15 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         super.registerTableAttributes();
         // Table:
         addAttributeProcessor(new UseCellDefaultsLmlAttribute(), "useCellDefaults", "useVisDefaults");
+    }
+
+    @Override
+    protected void registerCellAttributes() {
+        super.registerCellAttributes();
+        // Updated pref size attributes:
+        addAttributeProcessor(new PrefHeightLmlAttribute(), "prefHeight");
+        addAttributeProcessor(new PrefSizeLmlAttribute(), "prefSize");
+        addAttributeProcessor(new PrefWidthLmlAttribute(), "prefWidth");
     }
 
     @Override

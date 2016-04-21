@@ -7,8 +7,8 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.kotcrab.vis.ui.layout.FloatingGroup;
 
 /** Handles {@link FloatingGroup} widgets. Appends plain text as label children. Does not force any specific widget
- * order - honors widgets' position and size settings. Setting "height" and "width" is advised. Mapped to
- * "floatingGroup".
+ * order - honors widgets' position and size settings. Setting "prefHeight" and "prefWidth" (or "prefSize") is advised.
+ * Mapped to "floatingGroup".
  *
  * @author MJ */
 public class FloatingGroupLmlTag extends AbstractGroupLmlTag {
