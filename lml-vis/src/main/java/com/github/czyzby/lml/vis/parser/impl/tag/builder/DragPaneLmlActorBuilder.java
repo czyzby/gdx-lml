@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.vis.ui.FixedSizeGridGroup;
+import com.kotcrab.vis.ui.layout.FloatingGroup;
 import com.kotcrab.vis.ui.layout.GridGroup;
 import com.kotcrab.vis.ui.layout.HorizontalFlowGroup;
 import com.kotcrab.vis.ui.layout.VerticalFlowGroup;
@@ -77,6 +78,13 @@ public class DragPaneLmlActorBuilder extends LmlActorBuilder {
             @Override
             public WidgetGroup getGroup() {
                 return new VerticalFlowGroup();
+            }
+        },
+        /** Constructs {@link FloatingGroup}. */
+        FLOATING {
+            @Override
+            public WidgetGroup getGroup() {
+                return new FloatingGroup();
             }
         };
 

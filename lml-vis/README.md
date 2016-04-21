@@ -76,6 +76,7 @@ Make sure to check `gdx-lml` changes as well!
 - This version brought a lot of syntax additions to make LML more XML-friendly. Thanks to the new named macro attributes, LML templates can now be valid XML without sacrificing the utility that macros bring. Make sure to go through `gdx-lml` changes for more info.
 - `progressBar` and `slider` tags, previously completely non-parental, can parse text between their tags - provided that it's a valid float. The parsed number will be set their initial value. Note that it's *not* a simple `value` attribute alias: `value` attribute is parsed *before* the actor is created, so it cannot trigger any registered change listeners. On the other hand, data between tags is parsed *after* actor is created (and has processed its attributes), so it *can* trigger the listeners.
 - Note that many tag aliases were removed in `gdx-lml` in this version. `VisLmlSyntax` was updated to reflect the changes. Go through its sources to check current tag, macro and attribute aliases. Thanks to the aliases removal, DTD file went down to about 30000 lines (with comments generated).
+- `FloatingGroup` support through `floatingGroup` tag. This group allows you to set absolute sizes and positions to your actors. Drag pane tag supports this group through `type="floating"`.
 - Now validatable text fields do not have to be direct children of forms - form validators will recursively search through its children and automatically add all validatables to form.
 
 1.4 -> 1.5
