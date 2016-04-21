@@ -38,6 +38,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.DraggedFadingTi
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.DraggedMovingInterpolationLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.DraggedMovingTimeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.InvisibleWhenDraggedLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.KeepDraggedWithinParentLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.pane.AcceptForeignLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.pane.DragPaneListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.pane.GroupIdLmlAttribute;
@@ -449,6 +450,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addAttributeProcessor(new DraggedMovingTimeLmlAttribute(), "movingTime");
         addAttributeProcessor(new DragListenerLmlAttribute(), "listener");
         addAttributeProcessor(new InvisibleWhenDraggedLmlAttribute(), "invisible", "invisibleWhenDragged");
+        addAttributeProcessor(new KeepDraggedWithinParentLmlAttribute(), "keepWithinParent");
     }
 
     /** DragPane attributes. */
