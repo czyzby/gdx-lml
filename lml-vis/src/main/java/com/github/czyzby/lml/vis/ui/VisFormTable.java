@@ -1,10 +1,12 @@
 package com.github.czyzby.lml.vis.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
+import com.github.czyzby.kiwi.util.gdx.collection.pooled.PooledList;
 import com.kotcrab.vis.ui.util.form.SimpleFormValidator;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisValidatableTextField;
@@ -31,8 +33,26 @@ public class VisFormTable extends VisTable {
     public <T extends Actor> Cell<T> add(final T actor) {
         if (actor instanceof VisValidatableTextField) {
             formValidator.add((VisValidatableTextField) actor);
+        } else if (actor instanceof Group) {
+            findValidatables((Group) actor);
         }
         return super.add(actor);
+    }
+
+    /** @param actor will be searched recursively. All {@link VisValidatableTextField}s will be added to form. */
+    public void findValidatables(final Group actor) {
+        final PooledList<Group> groupsToCheck = PooledList.newList();
+        groupsToCheck.add(actor);
+        while (groupsToCheck.isNotEmpty()) {
+            final Group group = groupsToCheck.removeFirst();
+            for (final Actor child : group.getChildren()) {
+                if (child instanceof VisValidatableTextField) {
+                    formValidator.add((VisValidatableTextField) child);
+                } else if (child instanceof Group) {
+                    groupsToCheck.add((Group) child);
+                }
+            }
+        }
     }
 
     /** See {@link SimpleFormValidator#setMessageLabel(Label)}.

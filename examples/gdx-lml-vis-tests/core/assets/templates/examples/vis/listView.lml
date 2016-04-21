@@ -4,10 +4,6 @@
     List widget, but accepting all kinds of actors.
     ListView has a built-in ScrollPane (it can parse its
     attributes) and footer/header support. -->
-    
-<!-- Note that due to reflection use, ListView does NOT
-    work on GWT in VisUI 1.0.1/gdx-lml-vis 1.5.1.9.2. It
-    will be fixed in future versions. -->
 
 <table oneColumn=true>
 

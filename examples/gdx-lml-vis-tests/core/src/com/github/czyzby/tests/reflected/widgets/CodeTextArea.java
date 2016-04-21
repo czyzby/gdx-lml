@@ -1,6 +1,7 @@
 package com.github.czyzby.tests.reflected.widgets;
 
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.tag.builder.TextLmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
@@ -40,11 +41,11 @@ public class CodeTextArea extends VisTextArea {
     }
 
     @Override
-    public void setText (String str) {
-        // TextArea seems to have problem when '\r\n' (Windows style) is used as line ending which
-        // adds additional new line. Although example templates are using '\n' Git when cloning repository
-        // may replace them with '\r\n' on Windows.
-        super.setText(str.replace("\r", ""));
+    public void setText(final String str) {
+        // TextArea seems to have problem when '\r\n' (Windows style) is used as line ending, as it treats it as two
+        // lines. Although example templates files are using '\n', Git (when cloning the repository) may replace them
+        // with '\r\n' on Windows.
+        super.setText(Strings.stripCharacter(str, '\r'));
     }
 
     private void updatePrefSizeLayoutIfNeeded() {

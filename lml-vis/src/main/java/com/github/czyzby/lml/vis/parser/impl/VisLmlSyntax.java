@@ -41,6 +41,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.pane.AcceptFore
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.pane.DragPaneListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.pane.GroupIdLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.pane.MaxChildrenLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.floating.UseChildrenPreferredSizeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.flow.HorizontalSpacingLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.flow.VerticalSpacingLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.grid.GridSpacingLmlAttribute;
@@ -115,6 +116,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.validator.form.RequireChe
 import com.github.czyzby.lml.vis.parser.impl.attribute.validator.form.RequireUncheckedLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.AddCloseButtonLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.CloseOnEscapeLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.window.KeepWithinParentLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.OnResultLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.BasicColorPickerLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.CollapsibleWidgetLmlTagProvider;
@@ -122,6 +124,7 @@ import com.github.czyzby.lml.vis.parser.impl.tag.provider.ColorPickerLmlTagProvi
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.DragPaneLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.DraggableLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.ExtendedColorPickerLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.FloatingGroupLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.FormValidatorLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.GridGroupLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.HorizontalFlowGroupLmlTagProvider;
@@ -250,6 +253,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new DraggableLmlTagProvider(), "drag", "draggable");
         addTagProvider(new DragPaneLmlTagProvider(), "dragPane");
         addTagProvider(new ExtendedColorPickerLmlTagProvider(), "extendedColorPicker", "extendedPicker");
+        addTagProvider(new FloatingGroupLmlTagProvider(), "floatingGroup");
         addTagProvider(new FormValidatorLmlTagProvider(), "form", "formValidator", "formTable");
         addTagProvider(new GridGroupLmlTagProvider(), "gridGroup", "grid");
         addTagProvider(new HorizontalFlowGroupLmlTagProvider(), "horizontalFlow", "horizontalFlowGroup");
@@ -276,6 +280,8 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new IntegerValidatorLmlTagProvider(), "integerValidator", "isInt", "isInteger");
         addTagProvider(new LesserThanValidatorLmlTagProvider(), "lesserThan", "lesserThanValidator");
         addTagProvider(new NotEmptyValidatorLmlTagProvider(), "notEmptyValidator", "isNotEmpty");
+
+        // Note: other, GWT incompatible VisUI utilities can be registered with ExtendedVisLml.
     }
 
     @Override
@@ -290,6 +296,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         registerColorPickerAttributes();
         registerDraggableAttributes();
         registerDragPaneAttributes();
+        registerFloatingGroupAttributes();
         registerFlowGroupsAttributes();
         registerGridGroupAttributes();
         registerMenuAttributes();
@@ -396,6 +403,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         // VisWindow:
         addAttributeProcessor(new AddCloseButtonLmlAttribute(), "closeButton", "addCloseButton");
         addAttributeProcessor(new CloseOnEscapeLmlAttribute(), "closeOnEscape");
+        addAttributeProcessor(new KeepWithinParentLmlAttribute(), "keepWithinParent");
     }
 
     // Unique Vis actors attributes:
@@ -435,6 +443,11 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addAttributeProcessor(new DragPaneListenerLmlAttribute(), "listener");
         addAttributeProcessor(new GroupIdLmlAttribute(), "groupId");
         addAttributeProcessor(new MaxChildrenLmlAttribute(), "maxChildren");
+    }
+
+    /** Floating group attributes. */
+    protected void registerFloatingGroupAttributes() {
+        addAttributeProcessor(new UseChildrenPreferredSizeLmlAttribute(), "useChildrenPreferredSize", "usePref");
     }
 
     /** Flow groups attributes. */

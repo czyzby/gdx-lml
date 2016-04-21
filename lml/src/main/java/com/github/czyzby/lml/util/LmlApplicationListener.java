@@ -148,7 +148,9 @@ public abstract class LmlApplicationListener implements ApplicationListener {
      *
      * @param parser its schema will be generated.
      * @param appendable a reference to target file.
-     * @see #saveDtdSchema(FileHandle) */
+     * @see #saveDtdSchema(FileHandle)
+     * @throws Exception if your saving method throws any exception, it will wrapped with {@link GdxRuntimeException}
+     *             and rethrown. */
     protected void createDtdSchema(final LmlParser parser, final Appendable appendable) throws Exception {
         Dtd.saveSchema(parser, appendable);
     }

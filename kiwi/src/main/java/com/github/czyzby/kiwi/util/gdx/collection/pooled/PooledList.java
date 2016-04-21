@@ -368,6 +368,20 @@ public class PooledList<T> implements Iterable<T> {
         iterator.currentNode = head;
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append("[");
+        for (final T element : this) {
+            builder.append(element);
+            if (iterator.hasNext()) {
+                builder.append(", ");
+            }
+        }
+        builder.append("]");
+        return builder.toString();
+    }
+
     /** Represents a single node in the {@link PooledList}. Stores an element and references to its node neighbors.
      *
      * @author MJ

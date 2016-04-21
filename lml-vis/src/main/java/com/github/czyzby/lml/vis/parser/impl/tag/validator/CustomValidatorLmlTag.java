@@ -8,7 +8,7 @@ import com.kotcrab.vis.ui.util.InputValidator;
 import com.kotcrab.vis.ui.util.form.FormInputValidator;
 
 /** Allows to create custom {@link InputValidator}s. Expects one attribute: name of a method that consumes a string and
- * returns a boolean. Mapped to "validator", "validate", "customValidator".
+ * returns a boolean. Mapped to "validator", "customValidator".
  *
  * @author MJ
  * @see com.github.czyzby.lml.vis.parser.impl.attribute.validator.CustomValidatorLmlAttribute */

@@ -237,6 +237,13 @@ public abstract class AbstractLmlParser implements LmlParser {
             if (view instanceof ActorConsumer<?, ?>) {
                 data.addActorConsumer(containerId, (ActorConsumer<?, ?>) view);
             }
+        } else {
+            if (view instanceof ActionContainer) {
+                data.addActionContainer(view.getClass().getSimpleName(), (ActionContainer) view);
+            }
+            if (view instanceof ActorConsumer<?, ?>) {
+                data.addActorConsumer(view.getClass().getSimpleName(), (ActorConsumer<?, ?>) view);
+            }
         }
         invokeAnnotatedViewMethods(view, LmlBefore.class);
     }
@@ -263,6 +270,13 @@ public abstract class AbstractLmlParser implements LmlParser {
             }
             if (view instanceof ActorConsumer<?, ?>) {
                 data.removeActorConsumer(containerId);
+            }
+        } else {
+            if (view instanceof ActionContainer) {
+                data.removeActionContainer(view.getClass().getSimpleName());
+            }
+            if (view instanceof ActorConsumer<?, ?>) {
+                data.removeActorConsumer(view.getClass().getSimpleName());
             }
         }
         invokeAnnotatedViewMethods(view, LmlAfter.class);

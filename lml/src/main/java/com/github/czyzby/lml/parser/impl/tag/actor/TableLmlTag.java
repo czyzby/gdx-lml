@@ -46,9 +46,4 @@ public class TableLmlTag extends AbstractActorLmlTag {
     protected Table getTable() {
         return (Table) getActor();
     }
-
-    @Override
-    protected void doOnTagClose() {
-        getTable().pack();
-    }
 }
