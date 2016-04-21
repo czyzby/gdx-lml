@@ -1,3 +1,4 @@
+
 package com.github.czyzby.lml.vis.parser.impl;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
@@ -114,6 +115,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.validator.form.ErrorMessa
 import com.github.czyzby.lml.vis.parser.impl.attribute.validator.form.FormSuccessMessageLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.validator.form.RequireCheckedLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.validator.form.RequireUncheckedLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.validator.form.TreatDisabledFieldsAsValidLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.AddCloseButtonLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.CloseOnEscapeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.KeepWithinParentLmlAttribute;
@@ -542,6 +544,8 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addAttributeProcessor(new LesserThanLmlAttribute(), "value", "max", "lesserThan");
         // FormValidator (VisFormTable):
         addAttributeProcessor(new FormSuccessMessageLmlAttribute(), "success", "successMsg", "successMessage");
+        addAttributeProcessor(new TreatDisabledFieldsAsValidLmlAttribute(), "treatDisabledFieldsAsValid",
+                "disabledValid");
         // FormValidator children:
         addAttributeProcessor(new DisableOnFormErrorLmlAttribute(), "disableOnError", "disableOnFormError",
                 "formDisable");
