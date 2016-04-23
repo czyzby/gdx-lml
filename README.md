@@ -49,6 +49,13 @@ Also, this repository might include example projects using the latest snapshot v
 ### Examples
 See [examples section](examples) to check out some simple applications using presented libraries.
 
+### Other projects
+Other LibGDX-related projects include:
+- [Noise4J](https://github.com/czyzby/noise4j): a couple of simple map generators. Written with LibGDX in mind, but the code itself has no dependencies - this is pure Java 6, compatible with GWT. Can be used in pretty much any Java project.
+- [gdx-dragome](https://github.com/dragome/gdx-dragome): alternative to LibGDX GWT backend that supports other JVM languages. Work in progress.
+- [gdx-skins](https://github.com/czyzby/gdx-skins): aims to help beginners with setting up their GUI in LibGDX using *Scene2D*.
+- [vis-ui-contrib](https://github.com/kotcrab/vis-ui-contrib): contains some **VisUI** utilities and skins that I've created and made public. Note that the project itself in maintained by [@kotcrab](https://github.com/kotcrab), the creator of **VisUI**.
+
 ## Dependencies
 All libraries follow the same schema:
 ```
