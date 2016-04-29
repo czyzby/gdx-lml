@@ -51,9 +51,9 @@ See [examples section](examples) to check out some simple applications using pre
 
 ### Other projects
 Other LibGDX-related projects include:
-- [Noise4J](https://github.com/czyzby/noise4j): a couple of simple map generators. Written with LibGDX in mind, but the code itself has no dependencies - this is pure Java 6, compatible with GWT. Can be used in pretty much any Java project.
+- [Noise4J](https://github.com/czyzby/noise4j): a couple of simple map generators. Written with LibGDX in mind, but the code itself has no dependencies - this is a pure Java 6 library, compatible with GWT. Lightweight. Can be used in pretty much any Java project.
 - [gdx-dragome](https://github.com/dragome/gdx-dragome): alternative to LibGDX GWT backend that supports other JVM languages. Work in progress.
-- [gdx-skins](https://github.com/czyzby/gdx-skins): aims to help beginners with setting up their GUI in LibGDX using *Scene2D*.
+- [gdx-skins](https://github.com/czyzby/gdx-skins): aims to help beginners with setting up their GUI in LibGDX using *Scene2D*. Contains a few free GUI themes.
 - [vis-ui-contrib](https://github.com/kotcrab/vis-ui-contrib): contains some **VisUI** utilities and skins that I've created and made public. Note that the project itself in maintained by [@kotcrab](https://github.com/kotcrab), the creator of **VisUI**.
 
 ## Dependencies
@@ -66,7 +66,7 @@ All libraries follow the same schema:
 ## Working with the sources
 Clone this repository. The whole setup is Gradle-based, with very similar structure to default LibGDX projects generated with `gdx-setup`. Note that Gradle wrapper is not included in the root project, so you should have Gradle installed locally.
 
-To deploy the libs, the project requires some additional "secret" properties, used for archives signing and logging to Maven Central. While you most likely will not need these functionalities, Gradle still forces you to provide these properties. A default unfilled `gradle.properties` file is available in the root folder, so Gradle will not complain about missing properties. Eventually you might want to fill these in your Gradle home folder:
+To deploy the libs, the project requires some additional "secret" properties, used for archives signing and logging to Maven Central. While most likely you will not need these functionalities, Gradle still forces you to provide these properties. A default unfilled `gradle.properties` file is available in the root folder, so Gradle will not complain about missing properties. However, eventually you might want to fill these in your Gradle home folder:
 ```
         signing.keyId= 
         signing.password= 
@@ -75,7 +75,7 @@ To deploy the libs, the project requires some additional "secret" properties, us
         ossrhUsername= 
         ossrhPassword= 
 ```
-Note that deploying to Maven Local does *not* require the signing task, so if you just keep signing properties commented out - you should be fine. Try running `gradle installAll` to check if deploying to Maven Local works.
+Note that deploying to Maven Local does *not* require the signing task, so if you just keep the signing properties commented out - you should be fine. Try running `gradle installAll` to check if deploying to Maven Local works.
 
 Before pulling any requests, make sure your code is formatted with `eclipse-formatter.xml` (or its equivalent for other IDE). Note that this is *not* the official LibGDX code formatter, as I'm not really a huge fan of its setup.
 
@@ -83,7 +83,7 @@ Assuming you want to use Eclipse IDE (which is IMHO much better for managing mul
 
 - Make sure `gradle` is installed globally. This repository has no Gradle wrappers in any project, so you cannot just use `./gradlew`.
 - Run `gradle eclipse` to generate Eclipse projects for core libraries.
-- *Optional*: `cd examples` and run `gradle eclipseAll` to generate Eclipse projects for all examples. Some examples have an Android project and require you to add `local.properties` file with `sdk.dir` property.
+- *Optional*: `cd examples` and run `gradle eclipseAll` to generate Eclipse projects for all examples. Note that some tasks will fail to run; this is expected, as some examples have an Android project and require you to add `local.properties` file with `sdk.dir` property.
 - Open Eclipse IDE. Import existing projects. Make sure to turn on searching for nested ones.
 - Add `eclipse-formatter.xml` as Java code formatter. Make this the default formatter for the imported projects.
 
