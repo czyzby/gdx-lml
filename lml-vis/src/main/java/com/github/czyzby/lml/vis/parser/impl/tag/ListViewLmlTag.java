@@ -59,6 +59,12 @@ public class ListViewLmlTag extends TableLmlTag {
         return listView.getMainTable();
     }
 
+    /** @return managed {@link ListView}. */
+    @Override
+    public Object getManagedObject() {
+        return ((ListViewTable<?>) getActor()).getListView();
+    }
+
     /** @param listAdapter converts data to views.
      * @return a new instance of ListView.
      * @param <Type> type of items stored by the list. */

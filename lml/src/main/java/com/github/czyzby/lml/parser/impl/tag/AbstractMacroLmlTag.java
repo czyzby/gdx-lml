@@ -22,6 +22,11 @@ public abstract class AbstractMacroLmlTag extends AbstractLmlTag {
     }
 
     @Override
+    public Object getManagedObject() {
+        return null;
+    }
+
+    @Override
     protected boolean supportsNamedAttributes() {
         return false;
     }

@@ -42,7 +42,11 @@ public abstract class AbstractActorLmlTag extends AbstractLmlTag {
             return null;
         }
         builder.finishBuilding(actor);
-        processTagAttributes(processedAttributes, actor);
+        if (actor != null) {
+            processTagAttributes(processedAttributes, actor);
+        } else {
+            processNonActorTagAttributes(processedAttributes, getManagedObject());
+        }
         invokeOnCreateActions(actor);
         return actor;
     }
@@ -64,6 +68,22 @@ public abstract class AbstractActorLmlTag extends AbstractLmlTag {
                 processedAttributes.add(attribute.key);
             }
         }
+    }
+
+    private void processNonActorTagAttributes(final ObjectSet<String> processedAttributes, final Object managedObject) {
+        if (hasComponentActors() && !Lml.DISABLE_COMPONENT_ACTORS_ATTRIBUTE_PARSING) {
+            // Processing own attributes first, ignoring unknowns:
+            LmlUtilities.processAttributes(managedObject, this, getParser(), processedAttributes, false);
+            // Processing leftover attributes for component children:
+            processComponentAttributes(processedAttributes, null);
+            // Processing leftover attributes, after the widget is fully constructed; not throwing errors for unknown
+            // attributes. After we're done with components, we parse original attributes again for meaningful
+            // exceptions - "attribute for Window not found" is a lot better than "attribute for Label not found", just
+            // because we were parsing Label component of Window last. Continuing even for non-strict parser to ensure
+            // the same parsing behavior.
+        }
+        // Processing own attributes. Throwing errors for unknown:
+        LmlUtilities.processAttributes(managedObject, this, getParser(), processedAttributes, true);
     }
 
     private void processTagAttributes(final ObjectSet<String> processedAttributes, final Actor actor) {
@@ -136,6 +156,11 @@ public abstract class AbstractActorLmlTag extends AbstractLmlTag {
 
     @Override
     public Actor getActor() {
+        return actor;
+    }
+
+    @Override
+    public Object getManagedObject() {
         return actor;
     }
 

@@ -35,6 +35,12 @@ public class DraggableLmlTag extends AbstractLmlTag {
         return null;
     }
 
+    /** @return managed {@link Draggable}. */
+    @Override
+    public Object getManagedObject() {
+        return draggable;
+    }
+
     @Override
     public void closeTag() {
     }

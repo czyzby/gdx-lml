@@ -38,6 +38,12 @@ public class TooltipLmlTag extends TableLmlTag implements LmlParserListener {
         return table;
     }
 
+    /** @return {@link Tooltip} instance wrapped with the {@link TooltipTable}. */
+    @Override
+    public Object getManagedObject() {
+        return tooltip;
+    }
+
     /** @param builder contains tooltip building data.
      * @return an instance of tooltip manager with the ID selected by the builder or default tooltip manager.
      * @throws LmlParsingException if parser is strict and the ID is invalid. */

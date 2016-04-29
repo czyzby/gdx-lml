@@ -28,6 +28,12 @@ public class MenuBarLmlTag extends TableLmlTag {
         return menuBar.getTable();
     }
 
+    /** @return managed {@link MenuBar} object. */
+    @Override
+    public Object getManagedObject() {
+        return menuBar;
+    }
+
     @Override
     protected void addChild(final Actor actor) {
         if (actor instanceof Menu) {

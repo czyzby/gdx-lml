@@ -28,4 +28,10 @@ public class TabLmlTag extends VisTableLmlTag {
     protected Actor getNewInstanceOfActor(final LmlActorBuilder builder) {
         return new VisTabTable(((TextLmlActorBuilder) builder).getText());
     }
+
+    /** @return {@link com.kotcrab.vis.ui.widget.tabbedpane.Tab} instance managed by the {@link VisTabTable}. */
+    @Override
+    public Object getManagedObject() {
+        return ((VisTabTable) getActor()).getTab();
+    }
 }

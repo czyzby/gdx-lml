@@ -22,4 +22,10 @@ public class ButtonGroupLmlTag extends TableLmlTag {
     protected Actor getNewInstanceOfActor(final LmlActorBuilder builder) {
         return new ButtonTable(getSkin(builder));
     }
+
+    /** @return {@link com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup} wrapped by the {@link ButtonTable}. */
+    @Override
+    public Object getManagedObject() {
+        return ((ButtonTable) getActor()).getButtonGroup();
+    }
 }

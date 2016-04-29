@@ -46,6 +46,10 @@ public interface LmlTag {
      *         children should be handled by its parent. */
     Actor getActor();
 
+    /** @return the actual object represented by this tag. In case of most actors, this method is practically an
+     *         equivalent to {@link #getActor()}. Most macro tags return null. */
+    Object getManagedObject();
+
     /** @return if this tag is nested in another parental tag, this will return the reference to the parent. Might be
      *         null. */
     LmlTag getParent();

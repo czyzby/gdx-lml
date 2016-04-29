@@ -59,6 +59,12 @@ public class TabbedPaneLmlTag extends AbstractActorLmlTag {
         return mainTable;
     }
 
+    /** @return managed {@link TabbedPane} instance. */
+    @Override
+    public Object getManagedObject() {
+        return tabbedPane;
+    }
+
     /** @param table main table of the {@link TabbedPane}. If LML meta-data was not cleared, it will contain a reference
      *            of its {@link TabbedPane} parent.
      * @return {@link TabbedPane} which uses passed table as its main table. {@code null} if table is not used by a

@@ -3,6 +3,7 @@ package com.github.czyzby.lml.parser.impl.action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 import com.github.czyzby.lml.parser.action.StageAttacher;
 
 /** Default implementation of {@link StageAttacher}. Allows to specify initial position according to stage's size.
@@ -41,6 +42,9 @@ public class DefaultStageAttacher implements StageAttacher {
     public void attachToStage(final Actor actor, final Stage stage) {
         if (actor instanceof Dialog) {
             ((Dialog) actor).show(stage);
+        }
+        if (actor instanceof Layout) {
+            ((Layout) actor).pack();
         }
         actor.setPosition(xConverter.convertX(x, stage, actor), yConverter.convertY(y, stage, actor));
     }

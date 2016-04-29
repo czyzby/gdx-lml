@@ -34,6 +34,10 @@ public class Core extends LmlApplicationListener {
 
         super.create(); // Initiates parser, adds default actions.
 
+        System.out.println("Generating...");
+        saveDtdSchema(Gdx.files.absolute("/home/mj/lml_vis.dtd"));
+        System.out.println("Generating...");
+
         // Processing global LML macros, available in all views:
         getParser().parseTemplate(Gdx.files.internal("views/macros/Global.lml"));
 

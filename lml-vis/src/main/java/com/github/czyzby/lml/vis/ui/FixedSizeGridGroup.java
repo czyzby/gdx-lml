@@ -228,15 +228,15 @@ public class FixedSizeGridGroup extends GridGroup {
         }
 
         @Override
-        public boolean onStart(final Actor actor, final float stageX, final float stageY) {
+        public boolean onStart(final Draggable draggable, final Actor actor, final float stageX, final float stageY) {
             if (group.isMockUp(actor)) {
                 return CANCEL;
             }
-            return super.onStart(actor, stageX, stageY);
+            return super.onStart(draggable, actor, stageX, stageY);
         }
 
         @Override
-        protected boolean addDirectlyToPane(final Actor actor, final DragPane dragPane) {
+        protected boolean addDirectlyToPane(final Draggable draggable, final Actor actor, final DragPane dragPane) {
             return CANCEL; // Prohibited. Can only swap children.
         }
 
@@ -254,6 +254,11 @@ public class FixedSizeGridGroup extends GridGroup {
 
         @Override
         protected boolean addToVerticalGroup(final Actor actor, final DragPane dragPane, final Actor directPaneChild) {
+            return CANCEL;
+        }
+
+        @Override
+        protected boolean addToFloatingGroup(final Draggable draggable, final Actor actor, final DragPane dragPane) {
             return CANCEL;
         }
 

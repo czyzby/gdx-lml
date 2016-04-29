@@ -158,6 +158,12 @@ public abstract class AbstractListenerLmlMacroTag extends AbstractMacroLmlTag im
     /** @return managed {@link EventListener} instance. */
     protected abstract EventListener getEventListener();
 
+    /** @return instance of the managed {@link EventListener}. */
+    @Override
+    public Object getManagedObject() {
+        return getEventListener();
+    }
+
     @Override
     public String[] getExpectedAttributes() {
         return new String[] { IF_ATTRIBUTE, CACHE_ATTRIBUTE, KEEP_ATTRIBUTE, IDS_ATTRIBUTE };

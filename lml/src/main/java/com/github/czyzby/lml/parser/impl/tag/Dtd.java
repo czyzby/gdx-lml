@@ -182,25 +182,10 @@ public class Dtd {
             final ObjectMap<String, Object> attributes = GdxMaps.newObjectMap();
             try {
                 final LmlTag tag = actorTag.value.create(parser, null, new StringBuilder(actorTag.key));
-                LmlActorBuilder actorBuilder;
-                final boolean usesAbstractBase = tag instanceof AbstractActorLmlTag;
-                if (usesAbstractBase) {
-                    actorBuilder = ((AbstractActorLmlTag) tag).getNewInstanceOfBuilder();
+                if (tag.getActor() == null) {
+                    appendNonActorTagAttributes(tag, attributes, parser, builder);
                 } else {
-                    actorBuilder = new LmlActorBuilder();
-                }
-                // Appending building attributes:
-                attributes.putAll(
-                        (ObjectMap<String, Object>) (Object) parser.getSyntax().getAttributesForBuilder(actorBuilder));
-                // Appending regular attributes:
-                attributes.putAll(
-                        (ObjectMap<String, Object>) (Object) parser.getSyntax().getAttributesForActor(tag.getActor()));
-                // Appending attributes of component actors:
-                if (usesAbstractBase && ((AbstractActorLmlTag) tag).hasComponentActors()) {
-                    for (final Actor component : ((AbstractActorLmlTag) tag).getComponentActors(tag.getActor())) {
-                        attributes.putAll((ObjectMap<String, Object>) (Object) parser.getSyntax()
-                                .getAttributesForActor(component));
-                    }
+                    appendActorTagAttributes(parser, attributes, tag);
                 }
             } catch (final Exception exception) {
                 Exceptions.ignore(exception);
@@ -214,6 +199,42 @@ public class Dtd {
             }
             appendDtdAttributes(builder, actorTag.key, attributes);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    protected void appendNonActorTagAttributes(final LmlTag tag, final ObjectMap<String, Object> attributes,
+            final LmlParser parser, final Appendable builder) {
+        final Object managedObject = tag.getManagedObject();
+        if (managedObject != null) {
+            attributes.putAll(
+                    (ObjectMap<String, Object>) (Object) parser.getSyntax().getAttributesForActor(managedObject));
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    protected void appendActorTagAttributes(final LmlParser parser, final ObjectMap<String, Object> attributes,
+            final LmlTag tag) {
+        LmlActorBuilder actorBuilder;
+        final boolean usesAbstractBase = tag instanceof AbstractActorLmlTag;
+        if (usesAbstractBase) {
+            actorBuilder = ((AbstractActorLmlTag) tag).getNewInstanceOfBuilder();
+        } else {
+            actorBuilder = new LmlActorBuilder();
+        }
+        // Appending attributes of component actors:
+        if (!Lml.DISABLE_COMPONENT_ACTORS_ATTRIBUTE_PARSING && usesAbstractBase
+                && ((AbstractActorLmlTag) tag).hasComponentActors()) {
+            for (final Actor component : ((AbstractActorLmlTag) tag).getComponentActors(tag.getActor())) {
+                attributes.putAll(
+                        (ObjectMap<String, Object>) (Object) parser.getSyntax().getAttributesForActor(component));
+            }
+        }
+        // Appending building attributes:
+        attributes
+                .putAll((ObjectMap<String, Object>) (Object) parser.getSyntax().getAttributesForBuilder(actorBuilder));
+        // Appending regular attributes:
+        attributes
+                .putAll((ObjectMap<String, Object>) (Object) parser.getSyntax().getAttributesForActor(tag.getActor()));
     }
 
     protected void appendMacroTags(final Appendable builder, final LmlParser parser) throws IOException {

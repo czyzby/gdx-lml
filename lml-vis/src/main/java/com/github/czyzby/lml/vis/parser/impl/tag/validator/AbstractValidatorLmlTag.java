@@ -20,9 +20,6 @@ import com.kotcrab.vis.ui.widget.VisValidatableTextField;
 public abstract class AbstractValidatorLmlTag extends AbstractLmlTag {
     public AbstractValidatorLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
-        if (parentTag == null) {
-            parser.throwError("Validators need to be attached to a tag. No parent found for tag: " + getTagName());
-        }
     }
 
     @Override
@@ -37,8 +34,17 @@ public abstract class AbstractValidatorLmlTag extends AbstractLmlTag {
         return null;
     }
 
+    /** @return managed {@link InputValidator}. */
+    @Override
+    public Object getManagedObject() {
+        return getInputValidator();
+    }
+
     @Override
     public void closeTag() {
+        if (getParent() == null) {
+            getParser().throwError("Validators need to be attached to a tag. No parent found for tag: " + getTagName());
+        }
     }
 
     @Override

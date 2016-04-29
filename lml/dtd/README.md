@@ -64,6 +64,8 @@ Some attributes are marked as allowed for certain tags, but available only under
 
 Also, there is no way to allow an element to have *any* attributes in *DTD*. There are some macros where you can enter any attribute names and would work as expected - they *could* be valid if only attribute name validation could be turned off for them. *XSD* schema generator might be provided some day, but for now - you can either accept that most of your macro tags will be marked red, or modify *DTD* files to add your attributes manually.
 
+Input validators from `gdx-lml-vis` might not have all their attributes properly listed, as some are wrapped with form validators at runtime, getting a whole bunch of additional attributes. It's safe to assume that most attributes from `customValidator` tag are also available in tags like `isInt`, `isFloat`, and so on.
+
 So, why would you even want to use *DTD*? Two words: content assist. And comments in *XML* (kinda, sorta). Who knows, if you don't use advanced macros much, your templates might even be valid *XML*.
 
 ### Pre 1.6

@@ -54,6 +54,11 @@ public class MockLmlTag implements LmlTag {
     }
 
     @Override
+    public Object getManagedObject() {
+        return actor;
+    }
+
+    @Override
     public LmlTag getParent() {
         return parent;
     }
