@@ -94,6 +94,7 @@ Assuming you want to use Eclipse IDE (which is IMHO much better for managing mul
 - `gradle installAll` - same as the previous one, but the tasks are always invoked in the correct order. Use when changing libraries' versions to avoid missing artifacts errors.
 - `gradle uploadArchives` - pushes the archives to Maven Central. Requires proper `gradle.properties` with signing and logging data.
 - `gradle clean` - removes built archives.
+- `gradle distZip` - prepares a zip archive with all jars in `build/distributions` folder. Useful for releases.
 
 Additionally, in `examples` directory you can find a utility Gradle project. This is *not* the root project of example applications: they are all autonomous and can be copied outside the repository (and should still work!). Still, it contains some utility tasks that modify or test example projects en masse:
 

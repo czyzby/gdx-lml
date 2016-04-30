@@ -1,6 +1,15 @@
+apply plugin: 'distribution'
+
 allprojects {
   apply plugin: 'eclipse'
   apply plugin: 'idea'
+  
+  ext {
+    projectVersion = '1.6'
+    gdxVersion = '1.9.2'
+    isSnapshot = '-SNAPSHOT'
+    libVersion = "$projectVersion.$gdxVersion$isSnapshot"
+  }
 }
 
 subprojects {
@@ -9,10 +18,6 @@ subprojects {
   apply plugin: 'signing'
 
   ext {
-    projectVersion = '1.6'
-    gdxVersion = '1.9.2'
-    isSnapshot = '-SNAPSHOT'
-    libVersion = "$projectVersion.$gdxVersion$isSnapshot"
     wagonVersion = '2.10'
     junitVersion = '4.12'
     isReleaseVersion = !libVersion.endsWith("SNAPSHOT")
@@ -125,6 +130,25 @@ task installAll(dependsOn: ['installBase', 'lml-vis:build', 'lml-vis:install',
 task installBase(dependsOn: ['installKiwi', 'lml:build', 'lml:install',
   'autumn:build', 'autumn:install', 'websocket:build', 'websocket:install'])
 task installKiwi(dependsOn: ['kiwi:build', 'kiwi:install'])
+
+distributions {
+  main {
+    baseName = libVersion
+    contents {
+      project.subprojects.each { sub ->
+        into('lib') {
+          from sub.jar
+        }
+        into('src') {
+          from sub.sourcesJar
+        }
+        into('doc') {
+          from sub.javadocJar
+        }
+      }
+    }
+  }
+}
 
 tasks.eclipse.doLast {
   delete ".project"
