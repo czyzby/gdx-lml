@@ -24,7 +24,7 @@ public class ArraySpinnerLmlTag extends AbstractSpinnerLmlTag {
 
     @Override
     protected void handlePlainTextLine(final String plainTextLine) {
-        model.getItems().add(getParser().parseString(plainTextLine));
+        model.getItems().add(getParser().parseString(plainTextLine, getActor()));
     }
 
     @Override
