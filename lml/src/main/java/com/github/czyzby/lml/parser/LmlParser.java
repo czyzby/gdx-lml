@@ -98,33 +98,38 @@ public interface LmlParser {
      * @param <View> class of the view to be initiated. */
     <View> View createView(Class<View> viewClass, FileHandle lmlTemplateFile);
 
-    /** @param rawLmlData unparsed part of LML template that should be parsed to actual string value. Mostly for
-     *            internal use, although can be very useful for checking how each text part is parsed in your current
-     *            parser setup.
+    /** Mostly for internal use, although can be very useful for checking how each text part is parsed in your current
+     * parser setup or in custom attributes.
+     *
+     * @param rawLmlData unparsed part of LML template that should be parsed to actual string value.
      * @return parsed string value. */
     String parseString(String rawLmlData);
 
-    /** @param rawLmlData unparsed part of LML template that should be parsed to actual string value. Mostly for
-     *            internal use, although can be very useful for checking how each text part is parsed in your current
-     *            parser setup.
+    /** Mostly for internal use, although can be very useful for checking how each text part is parsed in your current
+     * parser setup or in custom attributes.
+     *
+     * @param rawLmlData unparsed part of LML template that should be parsed to actual float value.
      * @return parsed float value. */
     float parseFloat(String rawLmlData);
 
-    /** @param rawLmlData unparsed part of LML template that should be parsed to actual string value. Mostly for
-     *            internal use, although can be very useful for checking how each text part is parsed in your current
-     *            parser setup.
+    /** Mostly for internal use, although can be very useful for checking how each text part is parsed in your current
+     * parser setup or in custom attributes.
+     *
+     * @param rawLmlData unparsed part of LML template that should be parsed to actual int value.
      * @return parsed int value. */
     int parseInt(String rawLmlData);
 
-    /** @param rawLmlData unparsed part of LML template that should be parsed to actual string value. Mostly for
-     *            internal use, although can be very useful for checking how each text part is parsed in your current
-     *            parser setup.
+    /** Mostly for internal use, although can be very useful for checking how each text part is parsed in your current
+     * parser setup or in custom attributes.
+     *
+     * @param rawLmlData unparsed part of LML template that should be parsed to actual boolean value.
      * @return parsed boolean value. */
     boolean parseBoolean(String rawLmlData);
 
-    /** @param rawLmlData unparsed part of LML template that should be parsed to actual string value. Mostly for
-     *            internal use, although can be very useful for checking how each text part is parsed in your current
-     *            parser setup.
+    /** Mostly for internal use, although can be very useful for checking how each text part is parsed in your current
+     * parser setup or in custom attributes.
+     *
+     * @param rawLmlData unparsed part of LML template that should be parsed to actual array value.
      * @return string value separated and parsed as an array of values according to syntax rules. Note that arrays do
      *         NOT fully parse its elements: for example, an array of bundle texts will be split from a raw string to an
      *         actual Java array of strings, but will not be immediately converted to formatted bundle lines. This is
@@ -132,51 +137,65 @@ public interface LmlParser {
      *         ranges and actions are parsed. */
     String[] parseArray(String rawLmlData);
 
-    /** @param rawLmlData unparsed part of LML template that should be parsed to actual string value. Mostly for
-     *            internal use, although can be very useful for checking how each text part is parsed in your current
-     *            parser setup.
+    /** Mostly for internal use, although can be very useful for checking how each text part is parsed in your current
+     * parser setup or in custom attributes.
+     *
+     * @param rawLmlData unparsed part of LML template that should be parsed to actual string value.
+     * @return string value separated and parsed as an array of values according to syntax rules. On contrary to
+     *         {@link #parseArray(String)}, this method fully evaluates each array element. */
+    String[] fullyParseArray(String rawLmlData);
+
+    /** Mostly for internal use, although can be very useful for checking how each text part is parsed in your current
+     * parser setup or in custom attributes.
+     *
+     * @param rawLmlData unparsed part of LML template that should be parsed to actual action object.
      * @return action referenced with the raw data. Might be null. */
     ActorConsumer<?, Object> parseAction(String rawLmlData);
 
-    /** @param rawLmlData unparsed part of LML template that should be parsed to actual string value. Mostly for
-     *            internal use, although can be very useful for checking how each text part is parsed in your current
-     *            parser setup.
+    /** Mostly for internal use, although can be very useful for checking how each text part is parsed in your current
+     * parser setup or in custom attributes.
+     *
+     * @param rawLmlData unparsed part of LML template that should be parsed to actual string value.
      * @param forActor some types of data (for example: method invocations) require a parameter to be properly
      *            retrieved. Although for most types this object is optional, others might produce invalid results
      *            without it or even will not work at all.
      * @return parsed string value. */
     String parseString(String rawLmlData, Object forActor);
 
-    /** @param rawLmlData unparsed part of LML template that should be parsed to actual string value. Mostly for
-     *            internal use, although can be very useful for checking how each text part is parsed in your current
-     *            parser setup.
+    /** Mostly for internal use, although can be very useful for checking how each text part is parsed in your current
+     * parser setup or in custom attributes.
+     *
+     * @param rawLmlData unparsed part of LML template that should be parsed to actual float value.
      * @param forActor some types of data (for example: method invocations) require a parameter to be properly
      *            retrieved. Although for most types this object is optional, others might produce invalid results
      *            without it or even will not work at all.
      * @return parsed float value. */
     float parseFloat(String rawLmlData, Object forActor);
 
-    /** @param rawLmlData unparsed part of LML template that should be parsed to actual string value. Mostly for
-     *            internal use, although can be very useful for checking how each text part is parsed in your current
-     *            parser setup.
+    /** Mostly for internal use, although can be very useful for checking how each text part is parsed in your current
+     * parser setup or in custom attributes.
+     *
+     * @param rawLmlData unparsed part of LML template that should be parsed to actual int value.
      * @param forActor some types of data (for example: method invocations) require a parameter to be properly
      *            retrieved. Although for most types this object is optional, others might produce invalid results
      *            without it or even will not work at all.
      * @return parsed int value. */
     int parseInt(String rawLmlData, Object forActor);
 
-    /** @param rawLmlData unparsed part of LML template that should be parsed to actual string value. Mostly for
-     *            internal use, although can be very useful for checking how each text part is parsed in your current
-     *            parser setup.
+    /** Mostly for internal use, although can be very useful for checking how each text part is parsed in your current
+     * parser setup or in custom attributes.
+     *
+     * @param rawLmlData unparsed part of LML template that should be parsed to actual boolean value.
      * @param forActor some types of data (for example: method invocations) require a parameter to be properly
      *            retrieved. Although for most types this object is optional, others might produce invalid results
      *            without it or even will not work at all.
      * @return parsed boolean value. */
     boolean parseBoolean(String rawLmlData, Object forActor);
 
-    /** @param rawLmlData unparsed part of LML template that should be parsed to actual string value. Mostly for
-     *            internal use, although can be very useful for checking how each text part is parsed in your current
-     *            parser setup.
+    /** Mostly for internal use, although can be very useful for checking how each text part is parsed in your current
+     * parser setup or in custom attributes.
+     *
+     * @param rawLmlData unparsed part of LML template that should be parsed to actual array value.
      * @param forActor some types of data (for example: method invocations) require a parameter to be properly
      *            retrieved. Although for most types this object is optional, others might produce invalid results
      *            without it or even will not work at all.
@@ -187,9 +206,21 @@ public interface LmlParser {
      *         ranges and actions are parsed. */
     String[] parseArray(String rawLmlData, Object forActor);
 
-    /** @param rawLmlData unparsed part of LML template that should be parsed to actual string value. Mostly for
-     *            internal use, although can be very useful for checking how each text part is parsed in your current
-     *            parser setup.
+    /** Mostly for internal use, although can be very useful for checking how each text part is parsed in your current
+     * parser setup or in custom attributes.
+     *
+     * @param rawLmlData unparsed part of LML template that should be parsed to actual string value.
+     * @param forActor some types of data (for example: method invocations) require a parameter to be properly
+     *            retrieved. Although for most types this object is optional, others might produce invalid results
+     *            without it or even will not work at all.
+     * @return string value separated and parsed as an array of values according to syntax rules. On contrary to
+     *         {@link #parseArray(String, Object)}, this method fully evaluates each array element. */
+    String[] fullyParseArray(String rawLmlData, Object forActor);
+
+    /** Mostly for internal use, although can be very useful for checking how each text part is parsed in your current
+     * parser setup or in custom attributes.
+     *
+     * @param rawLmlData unparsed part of LML template that should be parsed to actual action object.
      * @param forActor some types of data (for example: method invocations) require a parameter to be properly
      *            retrieved. Although for most types this object is optional, others might produce invalid results
      *            without it or even will not work at all.

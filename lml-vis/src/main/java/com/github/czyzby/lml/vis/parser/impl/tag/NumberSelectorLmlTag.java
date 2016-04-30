@@ -10,6 +10,7 @@ import com.kotcrab.vis.ui.widget.NumberSelector;
 /** Handles {@link NumberSelector} actor. Mapped to "numberSelector", "selector".
  *
  * @author Kotcrab */
+@SuppressWarnings("deprecation")
 public class NumberSelectorLmlTag extends VisTableLmlTag {
     public NumberSelectorLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);

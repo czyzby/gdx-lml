@@ -8,6 +8,7 @@ import com.kotcrab.vis.ui.widget.NumberSelector;
 /** See {@link NumberSelector#setMaxLength(int)}. Mapped to "maxLength".
  *
  * @author MJ */
+@SuppressWarnings("deprecation")
 public class SelectorMaxLengthLmlAttribute implements LmlAttribute<NumberSelector> {
     @Override
     public Class<NumberSelector> getHandledType() {

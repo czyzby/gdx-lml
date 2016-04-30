@@ -7,8 +7,9 @@ import com.github.czyzby.lml.vis.parser.impl.tag.builder.NumberSelectorLmlActorB
 import com.kotcrab.vis.ui.widget.NumberSelector;
 
 /** See {@link NumberSelector#NumberSelector(String, float, float, float)}}. Mapped to "name".
- * 
+ *
  * @author Kotcrab */
+@SuppressWarnings("deprecation")
 public class NumberSelectorNameLmlAttribute implements LmlBuildingAttribute<NumberSelectorLmlActorBuilder> {
     @Override
     public Class<NumberSelectorLmlActorBuilder> getBuilderType() {

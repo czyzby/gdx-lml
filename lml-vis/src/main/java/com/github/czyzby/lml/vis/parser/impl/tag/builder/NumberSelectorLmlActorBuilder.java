@@ -2,10 +2,9 @@ package com.github.czyzby.lml.vis.parser.impl.tag.builder;
 
 import com.github.czyzby.kiwi.util.gdx.scene2d.Actors;
 import com.github.czyzby.lml.parser.impl.tag.builder.FloatRangeLmlActorBuilder;
-import com.kotcrab.vis.ui.widget.NumberSelector;
 
-/** Used to construct {@link NumberSelector} widget
- * 
+/** Used to construct {@link com.kotcrab.vis.ui.widget.NumberSelector} widget.
+ *
  * @author Kotcrab */
 public class NumberSelectorLmlActorBuilder extends FloatRangeLmlActorBuilder {
     private String name;
@@ -33,7 +32,7 @@ public class NumberSelectorLmlActorBuilder extends FloatRangeLmlActorBuilder {
     }
 
     /** @param precision selector precision defines how many digits after decimal point will be shown, see
-     *            {@link NumberSelector#setPrecision(int)} */
+     *            {@link com.kotcrab.vis.ui.widget.NumberSelector#setPrecision(int)} */
     public void setPrecision(final int precision) {
         this.precision = precision;
     }

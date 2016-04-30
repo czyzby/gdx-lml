@@ -20,11 +20,19 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.ColorPickerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.FocusBorderEnabledLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.ResponsiveColorPickerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.GroupTypeLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.building.IntMaxLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.building.IntMinLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.building.IntStepLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.building.IntValueLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.ListAdapterLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.MenuItemImageLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.NumberSelectorNameLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.NumberSelectorPrecisionLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.ShowWindowBorderLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.building.StringMaxLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.building.StringMinLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.building.StringStepLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.building.StringValueLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.button.ButtonImageLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.button.ImageButtonGenerateDisabledLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.button.TextButtonImageLmlAttribute;
@@ -80,6 +88,12 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.picker.ColorPickerRespons
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.basic.AllowAlphaEditLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.basic.BasicColorPickerListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.basic.ShowHexFieldLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.spinner.SpinnerArrayLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.spinner.SpinnerDisabledLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.spinner.SpinnerNameLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.spinner.SpinnerPrecisionLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.spinner.SpinnerProgrammaticChangeEventsLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.spinner.SpinnerSelectedLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MaxSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MinSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.SplitAmountLmlAttribute;
@@ -167,6 +181,10 @@ import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTooltipLmlTagProvid
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTreeLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisValidatableTextFieldLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisWindowLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.spinner.ArraySpinnerLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.spinner.FloatSpinnerLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.spinner.IntSpinnerLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.spinner.SimpleFloatSpinnerLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.validator.CustomValidatorLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.validator.FloatValidatorLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.validator.GreaterThanValidatorLmlTagProvider;
@@ -279,6 +297,12 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new VisValidatableTextFieldLmlTagProvider(), "validatable", "validatableTextField",
                 "visValidatableTextField");
 
+        // Vis spinners:
+        addTagProvider(new ArraySpinnerLmlTagProvider(), "arraySpinner");
+        addTagProvider(new FloatSpinnerLmlTagProvider(), "floatSpinner", "spinner");
+        addTagProvider(new IntSpinnerLmlTagProvider(), "intSpinner");
+        addTagProvider(new SimpleFloatSpinnerLmlTagProvider(), "simpleFloatSpinner");
+
         // Vis validators:
         addTagProvider(new CustomValidatorLmlTagProvider(), "validator", "customValidator");
         addTagProvider(new FloatValidatorLmlTagProvider(), "floatValidator", "isFloat");
@@ -309,6 +333,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         registerNumberSelectorAttributes();
         registerLinkLabelAttributes();
         registerListViewAttributes();
+        registerSpinnerAttributes();
         registerTabbedPaneAttributes();
         registerValidatableTextFieldAttributes();
         registerValidatorAttributes();
@@ -330,6 +355,16 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addBuildingAttributeProcessor(new MenuItemImageLmlAttribute(), "icon", "image", "drawable");
         // ListViewLmlActorBuilder:
         addBuildingAttributeProcessor(new ListAdapterLmlAttribute(), "adapter", "listAdapter");
+        // IntRangeLmlActorBuilder:
+        addBuildingAttributeProcessor(new IntMaxLmlAttribute(), "max");
+        addBuildingAttributeProcessor(new IntMinLmlAttribute(), "min");
+        addBuildingAttributeProcessor(new IntStepLmlAttribute(), "step");
+        addBuildingAttributeProcessor(new IntValueLmlAttribute(), "value");
+        // StringRangeLmlActorBuilder:
+        addBuildingAttributeProcessor(new StringMaxLmlAttribute(), "max");
+        addBuildingAttributeProcessor(new StringMinLmlAttribute(), "min");
+        addBuildingAttributeProcessor(new StringStepLmlAttribute(), "step");
+        addBuildingAttributeProcessor(new StringValueLmlAttribute(), "value");
     }
 
     @Override
@@ -510,6 +545,16 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addAttributeProcessor(new HeaderLmlAttribute(), "header");
         // ListView attributes:
         addAttributeProcessor(new ItemClickListenerLmlAttribute(), "itemListener", "itemClickListener");
+    }
+
+    /** Spinner attributes. */
+    protected void registerSpinnerAttributes() {
+        addAttributeProcessor(new SpinnerArrayLmlAttribute(), "items");
+        addAttributeProcessor(new SpinnerDisabledLmlAttribute(), "inputDisabled");
+        addAttributeProcessor(new SpinnerNameLmlAttribute(), "selectorName", "text");
+        addAttributeProcessor(new SpinnerPrecisionLmlAttribute(), "precision", "scale");
+        addAttributeProcessor(new SpinnerProgrammaticChangeEventsLmlAttribute(), "programmaticChangeEvents");
+        addAttributeProcessor(new SpinnerSelectedLmlAttribute(), "selected");
     }
 
     /** TabbedPane (and its tab children) attributes. */

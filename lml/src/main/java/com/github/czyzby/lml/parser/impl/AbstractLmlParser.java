@@ -392,8 +392,8 @@ public abstract class AbstractLmlParser implements LmlParser {
     protected Array<String> convertActorIds(final String[] actorIds) {
         final Array<String> ids = GdxArrays.newArray(actorIds.length);
         for (final String actorId : actorIds) {
-            // This will parse the proable array and append all its elements into "ids". If the ID is a plain string, it
-            // will be just added to the "ids" array, no harm done:
+            // This will parse the probable array and append all its elements into "ids". If the ID is a plain string,
+            // it will be just added to the "ids" array, no harm done:
             parseArrayElements(ids, Strings.split(actorId, syntax.getArrayElementSeparator()), null);
         }
         return ids;
@@ -687,6 +687,11 @@ public abstract class AbstractLmlParser implements LmlParser {
     }
 
     @Override
+    public String[] fullyParseArray(final String rawLmlData) {
+        return fullyParseArray(rawLmlData, null);
+    }
+
+    @Override
     public String[] parseArray(final String rawLmlData, final Object forActor) {
         if (Strings.isEmpty(rawLmlData)) {
             return Strings.EMPTY_ARRAY;
@@ -695,6 +700,15 @@ public abstract class AbstractLmlParser implements LmlParser {
         final String[] arrayElements = Strings.split(rawLmlData, syntax.getArrayElementSeparator());
         parseArrayElements(array, arrayElements, forActor);
         return array.toArray();
+    }
+
+    @Override
+    public String[] fullyParseArray(final String rawLmlData, final Object forActor) {
+        final String[] values = parseArray(rawLmlData, forActor);
+        for (int index = 0, length = values.length; index < length; index++) {
+            values[index] = parseString(values[index], forActor);
+        }
+        return values;
     }
 
     /** @param resultArray will contain parsed elements.

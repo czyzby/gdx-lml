@@ -6,8 +6,9 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.kotcrab.vis.ui.widget.NumberSelector;
 
 /** See {@link NumberSelector#setProgrammaticChangeEvents(boolean)}. By default mapped to "programmaticChangeEvents"
- * 
+ *
  * @author Kotcrab */
+@SuppressWarnings("deprecation")
 public class ProgrammaticChangeEventsLmlAttribute implements LmlAttribute<NumberSelector> {
     @Override
     public Class<NumberSelector> getHandledType() {

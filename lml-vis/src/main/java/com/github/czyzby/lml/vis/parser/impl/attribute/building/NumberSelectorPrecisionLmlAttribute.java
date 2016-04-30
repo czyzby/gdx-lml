@@ -7,8 +7,9 @@ import com.github.czyzby.lml.vis.parser.impl.tag.builder.NumberSelectorLmlActorB
 import com.kotcrab.vis.ui.widget.NumberSelector;
 
 /** See {@link NumberSelector#setPrecision(int)}. By default mapped to "precision".
- * 
+ *
  * @author Kotcrab */
+@SuppressWarnings("deprecation")
 public class NumberSelectorPrecisionLmlAttribute implements LmlBuildingAttribute<NumberSelectorLmlActorBuilder> {
     @Override
     public Class<NumberSelectorLmlActorBuilder> getBuilderType() {

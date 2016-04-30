@@ -8,3 +8,6 @@
     Precision defines how many digits after decimal point
     will be shown. -->
 <numberSelector name=Floats value=1.5 max=5 step=0.1 precision=1 />
+
+<!-- Note that selector is deprecated and spinners should be
+    used instead. -->

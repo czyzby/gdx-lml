@@ -125,7 +125,7 @@ public class MainView extends AbstractLmlView {
     private void onParsingError(final Exception exception) {
         // Printing the message without stack trace - we don't want to completely flood the console and its usually not
         // relevant anyway. Change to '(...), "Unable to parse LML template:", exception);' for stacks.
-        Gdx.app.error(Lml.LOGGER_TAG, "Unable to parse LML template: " + exception);
+        Gdx.app.error(Lml.LOGGER_TAG, "Unable to parse LML template: ", exception);
         resultTable.clear();
         resultTable.add("Error occurred. Sorry.");
         parser.fillStage(getStage(), Gdx.files.internal("templates/dialogs/error.lml"));
