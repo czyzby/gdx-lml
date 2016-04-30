@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 import com.github.czyzby.kiwi.util.common.UtilitiesClass;
 
 /** Contains common methods for Scene2D actors.
@@ -24,6 +25,13 @@ public class Actors extends UtilitiesClass {
     public static final String DEFAULT_HORIZONTAL_STYLE = "default-horizontal";
 
     private Actors() {
+    }
+
+    /** @param actor if the actor implements {@link Layout}, {@link Layout#pack()} will be called. Null-safe. */
+    public static void pack(final Object actor) {
+        if (actor instanceof Layout) {
+            ((Layout) actor).pack();
+        }
     }
 
     /** Null-safe utility for adding multiple actors to the stage.
