@@ -44,7 +44,7 @@ public class SpinnerSelectedLmlAttribute implements LmlAttribute<Spinner> {
                 } else if (model instanceof SimpleFloatSpinnerModel) {
                     ((SimpleFloatSpinnerModel) model).setValue(parser.parseFloat(rawAttributeData, actor), false);
                 } else if (model instanceof ArraySpinnerModel<?>) {
-                    ((ArraySpinnerModel<?>) model).setCurrent(parser.parseInt(rawAttributeData, actor)); // TODO false
+                    ((ArraySpinnerModel<?>) model).setCurrent(parser.parseInt(rawAttributeData, actor), false);
                 } else {
                     parser.throwErrorIfStrict("Unknown model: " + model + ". Unable to select value.");
                 }

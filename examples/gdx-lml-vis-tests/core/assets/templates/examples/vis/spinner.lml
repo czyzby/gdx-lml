@@ -21,7 +21,7 @@
 <!-- Spinners can also be used to display arrays
     of values. The usual LML array rules apply, so
     you can reference actions, ranges, etc. -->
-<arraySpinner items="A;B;C"/>
+<arraySpinner items="A;B;C" wrap="true"/>
 
 <!-- Array spinners parse value between tags as
     array elements. Note that you can disable
