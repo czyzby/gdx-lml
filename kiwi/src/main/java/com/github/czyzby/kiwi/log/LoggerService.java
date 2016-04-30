@@ -147,6 +147,7 @@ public class LoggerService implements Disposable {
         loggers.clear();
     }
 
+    /** Disposes of {@link AsyncExecutor}. Should be called only if using asynchronous loggers. */
     @Override
     public void dispose() {
         Disposables.disposeOf(executor);

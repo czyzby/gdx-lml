@@ -8,7 +8,8 @@ import com.github.czyzby.kiwi.log.LoggerService;
 /** Default {@link com.github.czyzby.kiwi.log.Logger} implementation. Delegates logger calls directly to current
  * {@link com.badlogic.gdx.Application} instance.
  *
- * @author MJ */
+ * @author MJ
+ * @see DebugLogger */
 public class DefaultLogger extends AbstractLogger {
     public DefaultLogger(final LoggerService service, final Class<?> forClass) {
         super(service, forClass);

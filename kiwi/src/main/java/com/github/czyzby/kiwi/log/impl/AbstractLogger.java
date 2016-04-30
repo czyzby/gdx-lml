@@ -25,6 +25,18 @@ public abstract class AbstractLogger implements Logger {
     }
 
     @Override
+    public void ignore(final Throwable exception) {
+    }
+
+    @Override
+    public void ignore(final Throwable exception, final String message) {
+    }
+
+    @Override
+    public void ignore(final Throwable exception, final String message, final Object... arguments) {
+    }
+
+    @Override
     public boolean isDebugOn() {
         return service.isDebugOn();
     }
