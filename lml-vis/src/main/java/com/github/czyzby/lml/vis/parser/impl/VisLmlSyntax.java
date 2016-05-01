@@ -62,6 +62,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.grid.fixed.ItemsAmountLml
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.BlinkTimeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.CursorLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.DigitsOnlyLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.input.IgnoreEqualsTextChangeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.InputAlignLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.MaxLengthLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.MessageLmlAttribute;
@@ -435,6 +436,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addAttributeProcessor(new BlinkTimeLmlAttribute(), "blink", "blinkTime");
         addAttributeProcessor(new CursorLmlAttribute(), "cursor", "cursorPos", "cursorPosition");
         addAttributeProcessor(new DigitsOnlyLmlAttribute(), "digitsOnly", "numeric");
+        addAttributeProcessor(new IgnoreEqualsTextChangeLmlAttribute(), "ignoreEqualsTextChange");
         addAttributeProcessor(new InputAlignLmlAttribute(), "textAlign", "inputAlign", "textAlignment");
         addAttributeProcessor(new MaxLengthLmlAttribute(), "max", "maxLength");
         addAttributeProcessor(new MessageLmlAttribute(), "message", "messageText");
