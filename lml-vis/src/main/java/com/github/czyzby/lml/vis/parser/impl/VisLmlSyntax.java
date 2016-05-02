@@ -80,8 +80,6 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.listview.HeaderLmlAttribu
 import com.github.czyzby.lml.vis.parser.impl.attribute.listview.ItemClickListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.menu.MenuItemGenerateDisabledImageLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.menu.MenuItemShortcutLmlAttribute;
-import com.github.czyzby.lml.vis.parser.impl.attribute.numberselector.ProgrammaticChangeEventsLmlAttribute;
-import com.github.czyzby.lml.vis.parser.impl.attribute.numberselector.SelectorMaxLengthLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.CloseAfterPickingLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.ColorPickerListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.ColorPickerResponsiveListenerLmlAttribute;
@@ -156,7 +154,6 @@ import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuItemLmlTagProvider
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuPopupLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuSeparatorLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.NumberSelectorLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.SeparatorLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.TabLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.TabbedPaneLmlTagProvider;
@@ -289,7 +286,6 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new MenuLmlTagProvider(), "menu");
         addTagProvider(new MenuPopupLmlTagProvider(), "popupMenu", "subMenu");
         addTagProvider(new MenuSeparatorLmlTagProvider(), "menuSeparator");
-        addTagProvider(new NumberSelectorLmlTagProvider(), "numberSelector", "selector");
         addTagProvider(new SeparatorLmlTagProvider(), "separator");
         addTagProvider(new TabbedPaneLmlTagProvider(), "tabbedPane");
         addTagProvider(new TabLmlTagProvider(), "tab");
@@ -331,7 +327,6 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         registerFlowGroupsAttributes();
         registerGridGroupAttributes();
         registerMenuAttributes();
-        registerNumberSelectorAttributes();
         registerLinkLabelAttributes();
         registerListViewAttributes();
         registerSpinnerAttributes();
@@ -527,12 +522,6 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         // MenuItem:
         addAttributeProcessor(new MenuItemGenerateDisabledImageLmlAttribute(), "generateDisabled");
         addAttributeProcessor(new MenuItemShortcutLmlAttribute(), "shortcut");
-    }
-
-    /** NumberSelector attributes. */
-    protected void registerNumberSelectorAttributes() {
-        addAttributeProcessor(new ProgrammaticChangeEventsLmlAttribute(), "programmaticChangeEvents");
-        addAttributeProcessor(new SelectorMaxLengthLmlAttribute(), "maxLength");
     }
 
     /** LinkLabel attributes. */

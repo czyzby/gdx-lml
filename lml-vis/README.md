@@ -69,6 +69,10 @@ Note that by making the method static, instance of the class containing the meth
 
 Make sure to check `gdx-lml` changes as well!
 
+1.6 -> 1.7
+
+- Removed `NumberSelector` support, as it is deprecated. Use `Spinner` instead.
+
 1.5 -> 1.6
 
 - Macro marker was changed from `@` to `:`. While it required to switch a single character in the actual source code, this is actually a major update. This change breaks all LML templates that used any macro tags. `@` was a poor choice in the first place: it can be confused with the i18n bundle marker (also `@`) and is not a valid XML character. Since `DTD` supported was added, invalid macro sign was no longer an option. Quick conversion tip: replace `<@` and `</@` with `<:` and `</:` in all `*.lml` files.
