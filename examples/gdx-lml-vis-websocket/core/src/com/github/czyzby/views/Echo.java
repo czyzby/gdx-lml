@@ -104,7 +104,7 @@ public class Echo extends AbstractLmlView {
         }
     }
 
-    @LmlAction("close")
+    @LmlAction("disconnect")
     void disconnect() {
         if (webSocket.isOpen()) {
             WebSockets.closeGracefully(webSocket); // Null-safe closing method that catches and logs any exceptions.

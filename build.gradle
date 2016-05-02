@@ -1,4 +1,16 @@
+buildscript {
+  repositories {
+    mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url "https://plugins.gradle.org/m2/" }
+  }
+  dependencies {
+    classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3"
+  }
+}
+
 apply plugin: 'distribution'
+apply plugin: 'io.codearte.nexus-staging'
 
 allprojects {
   apply plugin: 'eclipse'
@@ -7,7 +19,7 @@ allprojects {
   ext {
     projectVersion = '1.6'
     gdxVersion = '1.9.2'
-    isSnapshot = '-SNAPSHOT'
+    isSnapshot = ''
     libVersion = "$projectVersion.$gdxVersion$isSnapshot"
   }
 }
@@ -130,6 +142,12 @@ task installAll(dependsOn: ['installBase', 'lml-vis:build', 'lml-vis:install',
 task installBase(dependsOn: ['installKiwi', 'lml:build', 'lml:install',
   'autumn:build', 'autumn:install', 'websocket:build', 'websocket:install'])
 task installKiwi(dependsOn: ['kiwi:build', 'kiwi:install'])
+
+nexusStaging {
+  packageGroup = 'com.github.czyzby'
+  username = ossrhUsername
+  password = ossrhPassword
+}
 
 distributions {
   main {
