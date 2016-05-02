@@ -17,9 +17,9 @@ allprojects {
   apply plugin: 'idea'
   
   ext {
-    projectVersion = '1.6'
+    projectVersion = '1.7'
     gdxVersion = '1.9.2'
-    isSnapshot = ''
+    isSnapshot = '-SNAPSHOT'
     libVersion = "$projectVersion.$gdxVersion$isSnapshot"
   }
 }
