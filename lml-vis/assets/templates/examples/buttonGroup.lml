@@ -6,6 +6,7 @@
 
 <buttonGroup min=2 max=3 defaultPad=2 oneColumn=true
         background=window>
+    Text converted to labels.
     Can have any children:
     <slider/>
     Buttons begin there:

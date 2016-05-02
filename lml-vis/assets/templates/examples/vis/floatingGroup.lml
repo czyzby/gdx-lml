@@ -1,0 +1,24 @@
+<!-- Floating groups can be used if you want to fully
+    customize widget sizes and positions. Most other
+    groups will override these settings. -->
+ 
+<floatingGroup prefWidth="200" prefHeight="200">
+    <label x="10" y="120">
+        Position settings are honored.
+    </label>
+    <textButton x="30" y="10" width="100" height="100">
+        So are sizes.
+    </textButton>
+</floatingGroup>
+
+<!-- While usually maintaining absolute positions is
+    problematic, this widget can be used to limit the
+    area where a window or dialog can be dragged: -->
+
+<container background="border">
+    <floatingGroup prefSize="200">
+         <window text="Drag me!" pack="true" keepWithinParent="true">
+              I cannot leave...
+         </window>
+    </floatingGroup>
+</container>

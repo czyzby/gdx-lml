@@ -9,7 +9,7 @@
     Int:
     <validatable>
         15
-        <intValidator/>
+        <integerValidator/>
     </validatable>
     Float:
     <validatable>
@@ -46,8 +46,8 @@
 
 <!-- This would fail, as regular text fields cannot have
     validators. You can try uncommenting code below. -->
-<@comment>
+<:comment>
 <textField>
     <isInt/>
 </textField>
-</@comment>
+</:comment>

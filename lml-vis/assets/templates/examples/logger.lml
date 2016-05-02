@@ -8,20 +8,26 @@
 
 <!-- Both content between tags and attributes
     are logged. -->
-<@log>Info.</@log>
-<@log Will be logged. />
+<:log>Info.</:log>
+<:log Will be logged. />
 
 <!-- There are three logging levels, matching
     Application interface methods: debug,
     info (standard "log" method) and error.
-    Since @error macro throws an exception,
+    Since :error macro throws an exception,
     "logError" alias must be used for logging
     errors. -->
-<@debug>Debug log: {someArgument}</@debug>
-<@info>Info log: {someArgument}</@info>
-<@logError>Error log: {someArgument}</@logError>
+<:debug>Debug log: {someArgument}</:debug>
+<:info>Info log: {someArgument}</:info>
+<:logError>Error log: {someArgument}</:logError>
 
 <!-- Logs of all levels can be disabled with
     Lml class. This class also allows to modify
     the logger tag, logged with all messages
     (defaults to "LML"). -->
+
+<!-- You can optionally use named attribute: "log".
+     It will allow you to create valid XML data,
+     while keeping logger tags closed. -->
+
+<:info log="Logged using named attribute." />

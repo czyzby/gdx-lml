@@ -1,0 +1,62 @@
+<!-- There are times when you want to display certain
+    actors after a delay - for example, when a button
+    is clicked. You don't have to attach standard
+    listeners with "onClick" attribute and create the
+    actors manually: you can do that within LML
+    templates using ":clickListener" macro tag. -->
+
+<button>Click me!
+	<:clickListener>
+	    <dialog style="dialog" title="$random">Thanks for clicking!
+	        <textButton onResult="close">Now close me.</textButton>
+	    </dialog>
+	</:clickListener>
+</button>
+
+<!-- As you might notice, a new number is displayed each
+    time you click the button. This is because click listener
+    macro (as opposed to click listener tag) parses the data
+    between its tags _after_ the event occurs. It basically
+    stores part of the template and parses it when needed. You
+    can call it "lazy" actor creation. This might generate
+    some unnecessary garbage, so you can choose to cache parsed
+    actors and display the same instances on each event thanks
+    to "cache" attribute. -->
+    
+<!-- If you need to, you can also add an condition which has
+    to be met in order to show the dialog: -->
+
+<button>50% chance for a surprise!
+	<:onClick if="$random < 0.5" cache="true">
+	    <dialog style="dialog" title="$random">
+	        You're lucky! Thanks for clicking!
+	        <textButton onResult="close">Now close me.</textButton>
+	    </dialog>
+	</:onClick>
+</button>
+
+<!-- Before this dialog is shown, method mapped to "random"
+    is invoked. It returns a random number in range of [0, 1).
+    If the number is lower than 0.5, dialog is shown.
+    Needless to say, the dialog should be displayed roughly
+    half of the times you click the button. -->
+
+<!-- Sometimes you might want to attach the same listener to
+    multiple actors. You may even want to create some complex
+    actors and share them across views. Thanks to "ids" and
+    "keep" arguments, you can. The listener will be attached
+    to all actors with the selected IDs. If "keep" is set to
+    true, the listener will not be removed after template
+    parsing and will be available in all views. Try adding
+    'keep="true"' attribute, parse the template, then remove
+    the whole listener and parse it again - you'll see that
+    listener will still get attached:  -->
+ 
+ <:onClick ids="clickA;clickB" cache="true">
+    <dialog style="dialog" title="$random">
+         Attached to multiple actors.
+         <textButton onResult="close">Great.</textButton>
+    </dialog>
+ </:onClick>
+ <textButton id="clickA">Same listener as next button.</textButton>
+ <textButton id="clickB">Same listener as previous button.</textButton>

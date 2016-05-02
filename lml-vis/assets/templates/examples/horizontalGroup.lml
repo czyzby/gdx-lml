@@ -1,6 +1,6 @@
 <!-- Appends children horizontally. -->
 
-<horizontalGroup>
+<horizontalGroup space=5>
     Converts
     text
     to
@@ -10,8 +10,8 @@
 
 <!-- Groups can be reversed: -->
 
-<horizontal reverse=true>
+<horizontalGroup reverse=true>
     <label>Last</label>
     <button/>
     <checkBox>First</checkBox>
-</horizontal>
+</horizontalGroup>

@@ -1,16 +1,16 @@
 <!-- AnimatedImage is a new LML actor. Based on
     regular Image, this widget allows to display
     multiple animated frames in a specified order.
-    Instead of regular style, it expects an array
-    of drawable IDs in the skin. See arrays example
-    for more info about the syntax. -->
+    It expects an array of drawable IDs in its
+    style attribute. See arrays example for more
+    info about the syntax. -->
 
 <animatedImage style="icon-trash;icon-drive;icon-folder"/>
 
 <!-- "frames" attribute also works, but its not
-    a mere alias of style. Style attribute is
-    parsed before the widget is created - frames
-    attribute is parsed after, so it can properly
+    a mere alias of "style". Style attribute is
+    parsed _before_ the widget is created - frames
+    attribute is parsed _after_, so it can properly
     invoke actions. It appends new frames, rather
     than replacing the old ones. -->
 

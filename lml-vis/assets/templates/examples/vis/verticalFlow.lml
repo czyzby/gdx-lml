@@ -5,9 +5,9 @@
 <container height=300>
     <verticalFlow spacing=1>
         <!-- Spawning 20 buttons: -->
-        <@loop 20>
+        <:loop 20>
             <textButton>Example{loop:index}</textButton>
-        </@loop>
+        </:loop>
     </verticalFlow>
 </container>
 

@@ -3,9 +3,8 @@
 
 <list selected=2>
     Some line.
-    <label text="Also\ valid." />
+    <label text="Also valid." />
     2 - should be selected.
-    <li>Label alias.</li>
     <label color=vis-red>Attributes are ignored.</label>
     <textButton>This is because list</textButton>
     extracts text from children

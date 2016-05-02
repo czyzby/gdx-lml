@@ -1,0 +1,58 @@
+<!-- There are times when you want to display certain
+    actors after a delay - for example, when a key is
+    pressed. To listen to basic keyboard events, you can
+    use the :inputListener macro. -->
+
+<textField message="Try pressing space.">
+    <:inputListener keys="Space">
+        <dialog style="dialog" title="$random">Space typed!
+	        <textButton onResult="close">Now close me.</textButton>
+	    </dialog>
+    </:inputListener>
+</textField>
+
+<!-- "keys" attribute should be an array of string names
+    matching values returned by Keys#toString(int) or the
+    exact int values of key codes. If no keys are passed,
+    event is triggered after any key. -->
+
+<!-- As you might notice, a new number is displayed each
+    time you press space. This is because input listener
+    macro (as opposed to input listener tag) parses the data
+    between its tags _after_ the event occurs. It basically
+    stores part of the template and parses it when needed. You
+    can call it "lazy" actor creation. This might generate
+    some unnecessary garbage, so you can choose to cache parsed
+    actors and display the same instances on each event thanks
+    to "cache" attribute. -->
+
+<textField message="Space, tab or enter.">
+    <:inputListener keys="Space;Tab;Enter" cache=true>
+        <dialog style="dialog" title="$random">Whitespace typed!
+	        <textButton onResult="close">Now close me.</textButton>
+	    </dialog>
+    </:inputListener>
+</textField>
+
+<!-- Input macro supports similar listener attributes as change
+    and click listener macros, so make sure to check out their
+    examples. -->
+
+<!-- You can use 'combined="true"' attribute to trigger the
+    event only when all keys are pressed: -->
+
+<:onInput keys="A;B;C" combined="true" ids="mySpecialField">
+    <dialog style="dialog" title="Thanks">Combination pressed!
+         <textButton onResult="close">Now close me.</textButton>
+    </dialog>
+</:onInput>
+<textField id="mySpecialField" message="Press A + B + C." />
+
+<!-- Note that more complex listeners - which InputListener
+    certainly is - should generally be attached in Java to
+    properly handle all event parameters. This macro should
+    be used to display some actors after a specific key (or
+    keys combination) is pressed. You can use `onCreate`
+    attribute with your method, which will be invoked with
+    the actor as parameter - then you can easily attach
+    your custom InputListener. -->

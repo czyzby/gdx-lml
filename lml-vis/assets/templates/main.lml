@@ -1,14 +1,14 @@
-<window title="@mainTitle" titleAlign="center" fillParent=true defaultUniformX=true onShow=fadeIn visDefaults=true>
+<window title="@mainTitle" titleAlign="center" fillParent=true defaultUniformX=true onShow=fadeIn useVisDefaults=true>
 
     <!-- Title addition: -->
     <label toTitleTable=true align="right" padRight=5 padTop=-2>@mainSubtitle</label>
     
     <!-- Template input: -->
-    <table grow=true>
+    <table grow=true padRight=-3>
         <scrollPane style=list disabledX=true fadeBars=false overscroll=false flickScroll=false grow=true row=true>
             <codeTextArea id="templateInput" style="source-code" message="@textAreaPrompt" focusBorder=false />
         </scrollPane>
-        <textButton onChange="parseTemplate" growX=true padTop=4>@parsingButton|LML</textButton>
+        <textButton onChange="parseTemplate" growX=true padTop=3>@parsingButton|LML</textButton>
     </table>
 
     <!-- Buttons and parsing result: -->
@@ -18,10 +18,10 @@
         <table width=200 growY=true>
             <!-- This scroll pane contains buttons used to switch LML templates. -->
             <scrollPane style=list grow=true fadeBars=false overscroll=false>
-                <table defaultWidth=175 tableAlign=left defaultExpandX=true defaultAlign=left>
-                    <@for example={examples}>
+                <table defaultWidth=180 tableAlign=left defaultExpandX=true defaultAlign=left>
+                    <:for example={examples}>
                         <textButton id={example} style="toggle" onChange="switch" row=true focusBorder=false>@{example}</textButton>
-                    </@for>
+                    </:for>
                 </table>
             </scrollPane>
         </table>

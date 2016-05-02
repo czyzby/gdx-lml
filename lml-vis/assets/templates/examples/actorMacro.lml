@@ -3,10 +3,11 @@
     will be set as actor's ID and is optional. Actor is
     properly handled by the current parental tag. -->
 
-<@actor getSomeActor customId/>
+<:actor getSomeActor customId/>
 <table>
     In a table:
-    <@actor getSomeActor />
+    <!-- You can also use named parameters: -->
+    <:actor method="getSomeActor" id="otherId" />
 </table>
 
 <!-- This macro allows you to add your customized actors

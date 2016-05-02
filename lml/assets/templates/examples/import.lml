@@ -20,11 +20,11 @@
 <!-- This is how to import it and replace {content}: -->
 <:import path="templates/examples/importExample.lml"
         replace="content">
-	<!-- This will replace {content} in imported macro. -->
+	<!-- This will replace {content} in imported macro: -->
     <image style=red />
 </:import>
-
 <!-- Attributes naming is optional, but keep in mind that
-    if you used unnamed parameters, first attribute always
+    if you use unnamed parameters, first attribute always
     has to be template path and the (optional) second -
-    name of argument to replace in the imported file. -->
+    name of argument to replace in the imported file.
+    Named attributes can be given in any order. -->

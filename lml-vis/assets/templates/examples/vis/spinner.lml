@@ -1,0 +1,37 @@
+<table oneColumn="true" defaultGrowX="true" defaultPad="4">
+
+<!-- Each spinner contains value that you can easily
+    increment and decrement. Its model decides how the
+    values are incremented and what are its bounds.
+    Default spinner uses FloatSpinnerModel, which
+    manages a numeric (BigDecimal) value. -->
+<spinner/>
+
+<!-- intSpinner (int) and simpleFloatSpinner (float)
+    are also supported. You can modify the range with
+    their attributes: -->
+<intSpinner min="-50" value="30" max="50" step="10" />
+
+<!-- Numeric spinners parse value between tags and
+    set it as its initial value: -->
+<simpleFloatSpinner text="Uses actual floats:">
+    0.2
+</simpleFloatSpinner>
+
+<!-- Spinners can also be used to display arrays
+    of values. The usual LML array rules apply, so
+    you can reference actions, ranges, etc. -->
+<arraySpinner items="A;B;C" wrap="true"/>
+
+<!-- Array spinners parse value between tags as
+    array elements. Note that you can disable
+    user input, so the spinner works in increment/
+    decrement-only mode. -->
+<arraySpinner inputDisabled="true" selected="2">
+    Zero
+    First
+    Second
+    Third
+</arraySpinner>
+
+</table>

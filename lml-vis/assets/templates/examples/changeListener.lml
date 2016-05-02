@@ -1,0 +1,55 @@
+<!-- There are times when you want to display certain
+    actors after a delay - for example, when a button
+    is clicked. You don't have to attach standard
+    listeners with "onChange" attribute and create the
+    actors manually: you can do that within LML
+    templates using "changeListener" tag. -->
+
+<button>Click me!
+	<changeListener>
+	    <dialog style="dialog">Thanks for clicking!
+	        <textButton onResult="close">Now close me.</textButton>
+	    </dialog>
+	</changeListener>
+</button>
+
+<!-- The dialog within changeListener tag will be created
+    once (during template parsing) and displayed each time
+    you click the button. If you need to, you can also add
+    an condition which has to be met in order to show the
+    dialog: -->
+
+<button>50% chance for a surprise!
+	<onChange if="$random < 0.5">
+	    <dialog style="dialog" title="You're lucky!">Thanks for clicking!
+	        <textButton onResult="close">Now close me.</textButton>
+	    </dialog>
+	</onChange>
+</button>
+
+<!-- Before this dialog is shown, method mapped to "random"
+    is invoked. It returns a random number in range of [0, 1).
+    If the number is lower than 0.5, dialog is shown.
+    Needless to say, the dialog should be displayed roughly
+    half of the times you click the button. -->
+
+<!-- Sometimes you might want to attach the same listener to
+    multiple actors. You may even want to create some complex
+    actors and share them across views. Thanks to "ids" and
+    "keep" arguments, you can. The listener will be attached
+    to all actors with the selected IDs. If "keep" is set to
+    true, the listener will not be removed after template
+    parsing and will be available in all views. Try adding
+    'keep="true"' attribute, parse the template, then remove
+    the whole listener and parse it again - you'll see that
+    listener will still get attached to button with "other" ID:  -->
+
+<textButton>I have the same listener!
+    <onChange ids="other">
+        <dialog title="$random">
+             Attached to multiple actors.
+	        <textButton onResult="close">Great.</textButton>
+        </dialog>
+    </onChange>
+</textButton>
+<textButton id="other">Me too!</textButton>

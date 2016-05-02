@@ -16,8 +16,12 @@
     which are properly typed with generics. That's why
     this macro should be used only in specific cases. -->
 
-<@attribute myAttribute;myAtt upperCaseAttribute />
+<:attribute myAttribute;myAtt upperCaseAttribute />
 <label myAtt="text." />
 <label myAttribute=@bundleLine/>
+
+<!-- This macro can optionally use named attributes: -->
+<:attribute alias="newAtt" method="upperCaseAttribute" />
+<label newAtt="text." />
 
 <!-- The attribute above converts text to upper case. -->

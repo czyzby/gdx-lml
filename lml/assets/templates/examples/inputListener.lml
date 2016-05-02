@@ -1,0 +1,54 @@
+<!-- There are times when you want to display certain
+    actors after a delay - for example, when a key is
+    pressed. To listen to basic keyboard events, you can
+    use the inputListener tag. -->
+
+<textField message="Try pressing space.">
+    <inputListener keys="Space">
+        <dialog style="dialog" title="Thanks!">Space typed!
+	        <textButton onResult="close">Now close me.</textButton>
+	    </dialog>
+    </inputListener>
+</textField>
+
+<!-- The dialog within inputListener tag will be created
+    once (during template parsing) and displayed each time
+    you press the key. -->
+
+<!-- "keys" attribute should be an array of string names
+    matching values returned by Keys#toString(int) or the
+    exact int values of key codes. If no keys are passed,
+    event is triggered after any key. -->
+
+<textField message="Space, tab or enter.">
+    <inputListener keys="Space;Tab;Enter">
+        <dialog style="dialog" title="Thanks!">Whitespace typed!
+	        <textButton onResult="close">Now close me.</textButton>
+	    </dialog>
+    </inputListener>
+</textField>
+
+<!-- Input listener supports similar attributes as change
+    and click listeners, so make sure to check out their
+    examples. -->
+
+<!-- You can use 'combined="true"' attribute to trigger the
+    event only when all keys are pressed: -->
+
+<textField message="Press A + B + C.">
+    <onInput keys="A;B;C" combined="true" ids="mySpecialField">
+        <dialog style="dialog" title="Thanks">Combination pressed!
+             <textButton onResult="close">Now close me.</textButton>
+        </dialog>
+    </onInput>
+</textField>
+<textField id="mySpecialField" message="Press A + B + C." />
+
+<!-- Note that more complex listeners - which InputListener
+    certainly is - should generally be attached in Java to
+    properly handle all event parameters. This macro should
+    be used to display some actors after a specific key (or
+    keys combination) is pressed. You can use `onCreate`
+    attribute with your method, which will be invoked with
+    the actor as parameter - then you can easily attach
+    your custom InputListener. -->

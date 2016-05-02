@@ -6,11 +6,10 @@
     attribute that supports Actor.class, so it is available
     for all tags. -->
 
-<a href="https://github.com/czyzby/gdx-lml-vis">
+<textButton href="https://github.com/czyzby/gdx-lml">
     Show repository.
-</a>
+</textButton>
 
-<!-- "a" is an alias of TextButton. "href" is one of the names
-    of our custom attribute. -->
+<!-- "href" is one of the names of our custom attribute. -->
 
 <!-- See Main#getCustomAttribute -->

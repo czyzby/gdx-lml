@@ -13,7 +13,7 @@
 
 <container size=128>
     <image style="black">
-        <tooltip background="red" instant=true>
+        <tooltip background="red" instant="true" ids="otherImage">
             Converts text to labels.
             <textButton row=true>
                 Can have any children.
@@ -28,3 +28,17 @@
     and custom tooltip manager (with tooltipManager attribute)
     can be specified. Tooltip tag manages an internal table,
     so any tooltip children can have cell attributes. -->
+
+<!-- As you might have noticed, <tooltip> has 'ids' attribute
+    which points to "otherImage". By using this attribute, you
+    can attach the same tooltip to multiple actors. If you
+    also use 'keep="true"' attribute, tooltip will be attached
+    to all actors with the selected IDs even in the following
+    templates. You can try added 'keep' attribute and then
+    removing the <tooltip> code from previous example to see
+    that the tooltip will still be attached to the following
+    image: -->
+
+<container size=128>
+    <image style="gray" id="otherImage"/>
+</container>

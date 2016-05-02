@@ -1,6 +1,6 @@
 <!-- Custom tags can be registered directly in Java.
-    Normally, to register a new tag (actor or macro),
-    you can to implement LmlTag interface - but it is
+    A new tag (both actor and macro), has to implement
+    LmlTag interface - but doing as at its whole is
     pretty complex. Fortunately, you can use abstract
     class: AbstractActorLmlTag. While it forces you to
     override more methods than macro abstract - actor

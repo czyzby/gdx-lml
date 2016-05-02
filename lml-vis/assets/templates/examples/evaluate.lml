@@ -7,19 +7,21 @@
 
 <!-- This will look for method mapped to labelConsumer
     and invoke it with the label: -->
-<label><@evaluate labelConsumer /></label>
+<label><:evaluate labelConsumer /></label>
 
 <!-- Evaluate macro can be used to assign method
     results to arguments. If you pass second
     attribute to the macro, it will become the
-    name of result argument. -->
-<@evaluate someMethod methodResult />
+    name of result argument. This macro supports
+    named parameters: "method" (action reference)
+    and "id" (name of the argument to assign).  -->
+<:evaluate method="someMethod" id="methodResult" />
 <label>{methodResult}</label>
 
 <!-- You can also invoke a method with argument other
     than actor. Data between macro tags will be
     converted to string and passed to the method. -->
-<@evaluate stringConsumingMethod methodResult>
+<:evaluate stringConsumingMethod methodResult>
     This will become method argument.
-</@evaluate>
+</:evaluate>
 <label>{methodResult}</label>
