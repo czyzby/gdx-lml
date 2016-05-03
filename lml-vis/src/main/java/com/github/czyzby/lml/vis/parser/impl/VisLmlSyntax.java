@@ -25,8 +25,6 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.building.IntStepLmlAttrib
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.IntValueLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.ListAdapterLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.MenuItemImageLmlAttribute;
-import com.github.czyzby.lml.vis.parser.impl.attribute.building.NumberSelectorNameLmlAttribute;
-import com.github.czyzby.lml.vis.parser.impl.attribute.building.NumberSelectorPrecisionLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.ShowWindowBorderLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.StringMaxLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.StringMinLmlAttribute;
@@ -344,9 +342,6 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addBuildingAttributeProcessor(new GroupTypeLmlAttribute(), "type");
         // VisWindowLmlActorBuilder:
         addBuildingAttributeProcessor(new ShowWindowBorderLmlAttribute(), "showBorder", "showWindowBorder");
-        // NumberSelectorLmlActorBuilder:
-        addBuildingAttributeProcessor(new NumberSelectorNameLmlAttribute(), "name");
-        addBuildingAttributeProcessor(new NumberSelectorPrecisionLmlAttribute(), "precision");
         // MenuItemLmlActorBuilder:
         addBuildingAttributeProcessor(new MenuItemImageLmlAttribute(), "icon", "image", "drawable");
         // ListViewLmlActorBuilder:
