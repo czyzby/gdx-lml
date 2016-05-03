@@ -11,6 +11,11 @@
     </textButton>
 </floatingGroup>
 
+<!-- Widgets like buttons might need explicit packing
+    with pack="true" attribute or size settings to
+    properly expand their background images over the
+    whole area. -->
+
 <!-- While usually maintaining absolute positions is
     problematic, this widget can be used to limit the
     area where a window or dialog can be dragged: -->
