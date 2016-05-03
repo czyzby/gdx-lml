@@ -4,17 +4,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
-import com.github.czyzby.lml.util.LmlUserObject;
-import com.github.czyzby.lml.util.LmlUtilities;
 import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane;
+import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane.TabbedPaneTable;
 
-/** Abstract base for {@link TabbedPane} attributes. Since tabbed pane is not an actor, its internal {@link Table} is
- * used to handle attributes; if the table belonds to a tabbed pane, it should have a reference to its instance in
- * {@link LmlUserObject}.
+/** Abstract base for {@link TabbedPane} attributes.
  *
  * @author MJ */
-public abstract class AbstractTabbedPaneLmlAttribute implements LmlAttribute<Table> {
+public abstract class AbstractTabbedPaneLmlAttribute implements LmlAttribute<TabbedPaneTable> {
     /** Mock-up {@link Tab} instance. Can be used to retrieve actions that consume a tab. Do not use in actual
      * scenes. */
     public static final Tab MOCK_UP_TAB = new Tab() {
@@ -30,21 +27,14 @@ public abstract class AbstractTabbedPaneLmlAttribute implements LmlAttribute<Tab
     };
 
     @Override
-    public Class<Table> getHandledType() {
-        return Table.class;
+    public Class<TabbedPaneTable> getHandledType() {
+        return TabbedPaneTable.class;
     }
 
     @Override
-    public final void process(final LmlParser parser, final LmlTag tag, final Table actor,
+    public final void process(final LmlParser parser, final LmlTag tag, final TabbedPaneTable actor,
             final String rawAttributeData) {
-        // Checking if the table is a main table of a TabbedPane:
-        final LmlUserObject userObject = LmlUtilities.getOptionalLmlUserObject(actor);
-        if (userObject != null && userObject.getData() instanceof TabbedPane) {
-            process(parser, tag, (TabbedPane) userObject.getData(), rawAttributeData);
-        } else {
-            parser.throwErrorIfStrict("Only tabbed panes can parser this attribute. Found a reference to this parser: "
-                    + this + " in an invalid table tag: " + tag.getTagName());
-        }
+        process(parser, tag, actor.getTabbedPane(), rawAttributeData);
     }
 
     /** @param parser handles LML template parsing.

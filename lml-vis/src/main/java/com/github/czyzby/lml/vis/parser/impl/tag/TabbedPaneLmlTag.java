@@ -8,32 +8,32 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.action.ActorConsumer;
 import com.github.czyzby.lml.parser.impl.attribute.table.OneColumnLmlAttribute;
 import com.github.czyzby.lml.parser.impl.tag.AbstractActorLmlTag;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
-import com.github.czyzby.lml.util.LmlUserObject;
 import com.github.czyzby.lml.util.LmlUtilities;
 import com.github.czyzby.lml.vis.ui.VisTabTable;
 import com.github.czyzby.lml.vis.ui.reflected.action.TabShowingAction;
-import com.kotcrab.vis.ui.layout.HorizontalFlowGroup;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane;
+import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane.TabbedPaneTable;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPaneAdapter;
 
 /** Handles {@link TabbedPane}. Allows to use table attributes: settings will be applied to tabbed pane's main table.
- * Its children, though, should not have any cell attributes; in fact, it is prepared only to handle tab children - see
- * {@link TabLmlTag}. Cannot parse plain text between tags. Note that tabbed pane tag cannot handle
- * {@link OneColumnLmlAttribute} properly. Tabbed pane is not actually an actor - if you want to inject the pane by its
- * ID, use {@link Table} instead and extract {@link TabbedPane} instance with {@link #getTabbedPane(Table)}. Mapped to
- * "tabbedPane", "tabs".
+ * Its children, though, should not have any cell attributes; in fact, this widget is prepared only to handle tab
+ * children - see {@link TabLmlTag}. Cannot parse plain text between tags. Note that tabbed pane tag cannot handle
+ * {@link OneColumnLmlAttribute} properly. {@link TabbedPane} is not actually an actor - if you want to inject the pane
+ * by its ID, use {@link TabbedPaneTable} instead and extract {@link TabbedPane} instance with
+ * {@link TabbedPaneTable#getTabbedPane()}. Mapped to "tabbedPane".
  *
- * @author MJ */
+ * @author MJ
+ * @see #getContentTable(TabbedPane) */
 public class TabbedPaneLmlTag extends AbstractActorLmlTag {
-    private TabbedPane tabbedPane;
     private boolean attachDefaultListener = true;
     private ActorConsumer<Action, Tab> showActionProvider;
     private ActorConsumer<Action, Tab> hideActionProvider;
@@ -44,12 +44,11 @@ public class TabbedPaneLmlTag extends AbstractActorLmlTag {
 
     @Override
     protected Actor getNewInstanceOfActor(final LmlActorBuilder builder) {
-        tabbedPane = new TabbedPane(builder.getStyleName());
-        final Table mainTable = tabbedPane.getTable();
+        final TabbedPane tabbedPane = new TabbedPane(builder.getStyleName());
+        final TabbedPaneTable mainTable = tabbedPane.getTable();
         // TabbedPane will be accessible through LmlUserObject#getData(). This disables oneColumn attribute, though.
         LmlUtilities.getLmlUserObject(mainTable).setData(tabbedPane);
-        if (tabbedPane.getTabsPane().isHorizontal()
-                || tabbedPane.getTabsPane().getActor() instanceof HorizontalFlowGroup) {
+        if (tabbedPane.getTabsPane().isHorizontal() || tabbedPane.getTabsPane().isHorizontalFlow()) {
             mainTable.row();
         }
         // This will be the content table:
@@ -59,27 +58,27 @@ public class TabbedPaneLmlTag extends AbstractActorLmlTag {
         return mainTable;
     }
 
+    /** @return {@link TabbedPane} main table, casted for convenience. */
+    protected TabbedPaneTable getTable() {
+        return (TabbedPaneTable) getActor();
+    }
+
+    /** @return managed {@link TabbedPane} extracted from its main table. */
+    protected TabbedPane getTabbedPane() {
+        return getTable().getTabbedPane();
+    }
+
     /** @return managed {@link TabbedPane} instance. */
     @Override
     public Object getManagedObject() {
-        return tabbedPane;
-    }
-
-    /** @param table main table of the {@link TabbedPane}. If LML meta-data was not cleared, it will contain a reference
-     *            of its {@link TabbedPane} parent.
-     * @return {@link TabbedPane} which uses passed table as its main table. {@code null} if table is not used by a
-     *         tabbed pane, LML meta-data was cleared or reference was lost due to prohibited settings (like using of
-     *         {@link OneColumnLmlAttribute}). */
-    public static TabbedPane getTabbedPane(final Table table) {
-        final LmlUserObject userObject = LmlUtilities.getOptionalLmlUserObject(table);
-        if (userObject != null && userObject.getData() instanceof TabbedPane) {
-            return (TabbedPane) userObject.getData();
-        }
-        return null;
+        return getTable().getTabbedPane();
     }
 
     /** @param mainTable main table of {@link TabbedPane}. */
     protected void normalizeSecondCell(final Table mainTable) {
+        if (GdxArrays.sizeOf(mainTable.getCells()) < 2) {
+            return;
+        }
         final Cell<?> secondCell = mainTable.getCells().get(1);
         if (secondCell.getActor() instanceof Image) {
             secondCell.expand(true, false);
@@ -98,9 +97,9 @@ public class TabbedPaneLmlTag extends AbstractActorLmlTag {
     protected void handleValidChild(final LmlTag childTag) {
         if (childTag.getActor() instanceof VisTabTable) {
             final VisTabTable child = (VisTabTable) childTag.getActor();
-            tabbedPane.add(child.getTab());
+            getTabbedPane().add(child.getTab());
             if (child.isDisabled()) {
-                tabbedPane.disableTab(child.getTab(), true);
+                getTabbedPane().disableTab(child.getTab(), true);
             }
         } else {
             getParser().throwErrorIfStrict(
@@ -112,7 +111,7 @@ public class TabbedPaneLmlTag extends AbstractActorLmlTag {
     @Override
     protected void doOnTagClose() {
         if (attachDefaultListener) {
-            LmlUtilities.getLmlUserObject(tabbedPane.getTable()).addOnCloseAction(getListenerAttachmentAction());
+            LmlUtilities.getLmlUserObject(getTable()).addOnCloseAction(getListenerAttachmentAction());
         }
     }
 
@@ -122,6 +121,7 @@ public class TabbedPaneLmlTag extends AbstractActorLmlTag {
         return new ActorConsumer<Object, Object>() {
             @Override
             public Object consume(final Object actor) {
+                final TabbedPane tabbedPane = getTabbedPane();
                 // Invoked in a separate action to insure that the widget is truly fully built:
                 getContentTable(tabbedPane).add(tabbedPane.getActiveTab().getContentTable()).grow();
                 tabbedPane.addListener(new LmlTabbedPaneListener(tabbedPane, showActionProvider, hideActionProvider,
@@ -149,7 +149,8 @@ public class TabbedPaneLmlTag extends AbstractActorLmlTag {
         this.hideActionProvider = hideActionProvider;
     }
 
-    /** @param tabbedPane will have its content table extracted. Must have been created with a LML tag.
+    /** @param tabbedPane will have its content table extracted. Must have been created with a LML tag. This is were
+     *            tabs are appended.
      * @return content table of the tabbed pane. Might have to be cleared. */
     public static Table getContentTable(final TabbedPane tabbedPane) {
         final Array<Actor> children = tabbedPane.getTable().getChildren();

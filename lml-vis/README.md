@@ -72,6 +72,7 @@ Make sure to check `gdx-lml` changes as well!
 1.6 -> 1.7
 
 - Removed `NumberSelector` support, as it is deprecated. Use `Spinner` instead.
+- Since main tables of `TabbedPane` instances now share a common class - `TabbedPaneTable` - pane's attributes support was improved. `TabbedPane`-specific attributes should no longer be proposed by DTD for all `Table`-extending widgets.
 
 1.5 -> 1.6
 
