@@ -73,6 +73,8 @@ Make sure to check `gdx-lml` changes as well!
 
 - Removed `NumberSelector` support, as it is deprecated. Use `Spinner` instead.
 - Since main tables of `TabbedPane` instances now share a common class - `TabbedPaneTable` - pane's attributes support was improved. `TabbedPane`-specific attributes should no longer be proposed by DTD for all `Table`-extending widgets.
+- Tooltips created with `visTooltip` tag are now properly packed.
+- `visTooltip` attribute added. Expects a string. Attaches a simple `Tooltip` with default style and a single label (parsed attribute value) to the chosen actor. This is a VisUI-based equivalent of `tooltip` attribute.
 
 1.5 -> 1.6
 
