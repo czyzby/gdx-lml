@@ -28,6 +28,8 @@ public class VisTooltipLmlTag extends VisTableLmlTag {
 
     @Override
     public void attachTo(final LmlTag tag) {
-        ((Tooltip) getActor()).setTarget(tag.getActor());
+        final Tooltip tooltip = (Tooltip) getActor();
+        tooltip.pack();
+        tooltip.setTarget(tag.getActor());
     }
 }

@@ -18,6 +18,7 @@ import com.github.czyzby.lml.util.LmlUserObject.TableExtractor;
 import com.github.czyzby.lml.vis.parser.impl.attribute.ColorPickerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.FocusBorderEnabledLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.ResponsiveColorPickerLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.VisTooltipLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.GroupTypeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.IntMaxLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.building.IntMinLmlAttribute;
@@ -361,6 +362,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     @Override
     protected void registerCommonAttributes() {
         super.registerCommonAttributes();
+        addAttributeProcessor(new VisTooltipLmlAttribute(), "visTooltip");
         // BorderOwner:
         addAttributeProcessor(new FocusBorderEnabledLmlAttribute(), "focusBorder", "focusBorderEnabled");
         // Actor (ColorPicker attachment):
