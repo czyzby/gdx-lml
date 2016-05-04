@@ -63,7 +63,7 @@ b:templates/examples/preferences.lml:767:application/unknown
 b:templates/examples/import.lml:1135:application/unknown
 b:templates/examples/inputListenerMacro.lml:2441:application/unknown
 d:templates/examples/vis:0:application/unknown
-b:templates/examples/vis/tooltip.lml:959:application/unknown
+b:templates/examples/vis/tooltip.lml:979:application/unknown
 b:templates/examples/vis/linkLabel.lml:499:application/unknown
 b:templates/examples/vis/tabbedPane.lml:1508:application/unknown
 b:templates/examples/vis/collapsibleWidget.lml:654:application/unknown
@@ -82,7 +82,7 @@ b:templates/examples/vis/colorPicker.lml:1386:application/unknown
 b:templates/examples/vis/spinner.lml:1164:application/unknown
 b:templates/examples/vis/basicColorPicker.lml:895:application/unknown
 b:templates/examples/vis/separator.lml:547:application/unknown
-b:templates/examples/vis/floatingGroup.lml:779:application/unknown
+b:templates/examples/vis/floatingGroup.lml:958:application/unknown
 b:templates/examples/vis/formValidator.lml:1523:application/unknown
 b:templates/examples/scrollPane.lml:401:application/unknown
 b:templates/examples/actions.lml:1251:application/unknown
