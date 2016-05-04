@@ -1,13 +1,11 @@
 <!-- Pre-LibGDX 1.6.5, there were no official tooltips.
     VisUI introduced its own tooltip implementation,
     based on the Table widget. You can access it through
-    visTooltip tag. Note that default "tooltip" tag still
-    maps to LibGDX tooltips. -->
+    visTooltip tag and attribute. Note that default "tooltip"
+    tag and attribute still maps to LibGDX tooltips. -->
 
 <container size=128>
-    <image style="button">
-        <visTooltip>Content.</visTooltip>
-    </image>
+    <image visTooltip="Content." style="button"/>
 </container>
 
 <container size=128>
