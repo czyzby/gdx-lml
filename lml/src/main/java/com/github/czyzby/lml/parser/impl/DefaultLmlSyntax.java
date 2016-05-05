@@ -229,6 +229,7 @@ import com.github.czyzby.lml.parser.impl.attribute.tree.IconSpacingLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.tree.TreePaddingLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.tree.YSpacingLmlAttribute;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.ActorLmlTagProvider;
+import com.github.czyzby.lml.parser.impl.tag.actor.provider.ActorStorageLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.AnimatedImageLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.ButtonGroupLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.actor.provider.ButtonLmlTagProvider;
@@ -352,6 +353,7 @@ public class DefaultLmlSyntax implements LmlSyntax {
      * @see #registerTags() */
     protected void registerActorTags() {
         addTagProvider(new ActorLmlTagProvider(), "actor", "group");
+        addTagProvider(new ActorStorageLmlTagProvider(), "actorStorage", "isolate");
         addTagProvider(new AnimatedImageLmlTagProvider(), "animatedImage");
         addTagProvider(new ButtonGroupLmlTagProvider(), "buttonGroup", "buttonTable");
         addTagProvider(new ButtonLmlTagProvider(), "button");

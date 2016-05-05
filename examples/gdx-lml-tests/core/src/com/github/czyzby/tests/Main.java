@@ -36,9 +36,9 @@ public class Main extends AbstractApplicationListener {
     private static final Array<String> EXAMPLES = ImmutableArray.of(
             // Tags:
             "actor", "animatedImage", "button", "buttonGroup", "checkBox", "container", "dialog", "horizontalGroup",
-            "imageButton", "image", "imageTextButton", "label", "list", "progressBar", "scrollPane", "selectBox",
-            "slider", "splitPane", "stack", "table", "textArea", "textButton", "textField", "tooltip", "touchpad",
-            "tree", "verticalGroup", "window",
+            "imageButton", "image", "imageTextButton", "isolate", "label", "list", "progressBar", "scrollPane",
+            "selectBox", "slider", "splitPane", "stack", "table", "textArea", "textButton", "textField", "tooltip",
+            "touchpad", "tree", "verticalGroup", "window",
             // Listeners:
             "changeListener", "clickListener", "inputListener",
             // Syntax:

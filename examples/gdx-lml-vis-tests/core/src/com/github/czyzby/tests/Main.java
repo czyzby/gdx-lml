@@ -42,9 +42,9 @@ public class Main extends AbstractApplicationListener {
     private static final Array<String> EXAMPLES = ImmutableArray.of(
             // Tags:
             "actor", "animatedImage", "button", "buttonGroup", "checkBox", "container", "dialog", "horizontalGroup",
-            "imageButton", "image", "imageTextButton", "label", "list", "progressBar", "scrollPane", "selectBox",
-            "slider", "splitPane", "stack", "table", "textArea", "textButton", "textField", "tooltip", "touchpad",
-            "tree", "verticalGroup", "window",
+            "imageButton", "image", "imageTextButton", "isolate", "label", "list", "progressBar", "scrollPane",
+            "selectBox", "slider", "splitPane", "stack", "table", "textArea", "textButton", "textField", "tooltip",
+            "touchpad", "tree", "verticalGroup", "window",
             // Listeners:
             "changeListener", "clickListener", "inputListener",
             // Syntax:
@@ -59,8 +59,8 @@ public class Main extends AbstractApplicationListener {
             // Vis unique tags:
             "vis/basicColorPicker", "vis/collapsibleWidget", "vis/colorPicker", "vis/draggable", "vis/dragPane",
             "vis/fixedSizeGridGroup", "vis/floatingGroup", "vis/formValidator", "vis/gridGroup", "vis/horizontalFlow",
-            "vis/linkLabel", "vis/listView", "vis/menu", "vis/numberSelector", "vis/tabbedPane", "vis/radioButton",
-            "vis/separator", "vis/spinner", "vis/tooltip", "vis/validatableTextField", "vis/verticalFlow");
+            "vis/linkLabel", "vis/listView", "vis/menu", "vis/radioButton", "vis/separator", "vis/spinner",
+            "vis/tabbedPane", "vis/toast", "vis/tooltip", "vis/validatableTextField", "vis/verticalFlow");
     private static final String MAIN_VIEW_TEMPLATE = "templates/main.lml";
 
     private MainView view;

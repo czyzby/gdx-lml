@@ -1,0 +1,28 @@
+<!-- There are times where you want to create
+    actors using LML, but do not immediately add
+    them to stage or any other actors. A good
+    example might be a dialog - they are generally
+    shown as informations or warnings after a user
+    performs a specific action. This is possible to
+    do with the "isolate" tag. It internally uses
+    an ActorStorage widget, which maintains an array
+    of actors, but does not draw them. It immediately
+    removes itself from stage when you add it by
+    mistake. Also, it never adds itself to its parent,
+    so you basically can put this tag anywhere. -->
+
+<isolate>
+    A label will be created, but not added to stage.
+    <button>This won't be on stage as well.</button>
+</isolate>
+
+<label>Outside of isolation.</label>
+
+<!-- You can access the isolated actors by their ID
+    or getters in the ActorStorage widget. -->
+
+<actorStorage>
+    <dialog id="someDialog">
+        Accessible through "someDialog" ID.
+    </dialog>
+</actorStorage>

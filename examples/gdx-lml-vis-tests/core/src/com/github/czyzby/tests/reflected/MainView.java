@@ -36,6 +36,7 @@ import com.github.czyzby.lml.util.Lml;
 import com.github.czyzby.lml.util.LmlUtilities;
 import com.github.czyzby.lml.vis.ui.VisTabTable;
 import com.github.czyzby.tests.reflected.widgets.BlinkingLabel;
+import com.kotcrab.vis.ui.util.ToastManager;
 import com.kotcrab.vis.ui.util.adapter.ListAdapter;
 import com.kotcrab.vis.ui.util.adapter.SimpleListAdapter;
 import com.kotcrab.vis.ui.widget.CollapsibleWidget;
@@ -44,6 +45,7 @@ import com.kotcrab.vis.ui.widget.VisDialog;
 import com.kotcrab.vis.ui.widget.VisTextArea;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
+import com.kotcrab.vis.ui.widget.toast.ToastTable;
 
 /** Main view of the application. Since it extends {@link AbstractLmlView}, it is both {@link LmlView} (allowing its
  * {@link Stage} to be filled) and {@link ActionContainer} (allowing it methods to be reflected and available in LML
@@ -363,7 +365,24 @@ public class MainView extends AbstractLmlView {
         label.setText(label.getText() + "!");
     }
 
-    /* templates/examples/vis/vallidatableTextField.lml */
+    /* templates/examples/vis/toast.lml */
+
+    private ToastManager toastManager;
+
+    private ToastManager getToastManager() {
+        if (toastManager == null) {
+            toastManager = new ToastManager(getStage());
+        }
+        return toastManager;
+    }
+
+    /** @param toast will be displayed on the stage using toast manager. */
+    @LmlAction("addToast")
+    public void addToast(final ToastTable toast) {
+        getToastManager().show(toast);
+    }
+
+    /* templates/examples/vis/validatableTextField.lml */
 
     @LmlAction("isNotBlank")
     public boolean isStringNotBlank(final String value) {

@@ -1,0 +1,29 @@
+<!-- Toasts are customizable messages displayed over
+    the stage. They are usually used as informations
+    or warnings for the user. Toasts not are usually
+    immediately displayed and usually require some
+    previous action from the user. Toast must be shown
+    using ToastManager API to ensure proper behavior.
+    That's why - rather than using them as root tags -
+    toasts should be parsed along with other widgets,
+    but put in isolation tag and added later, in Java. -->
+
+<isolate>
+    <toast onClose="addToast">Some important message.</toast>
+</isolate>
+
+<!-- See MainView#addToast() method to see how toasts
+    are appended to the stage. -->
+
+<label>Only this label will be added immediately.</label>
+<isolate>
+    <toast id="myToast" onClose="addToast" oneColumn="true"
+            background="window-bg">
+        <textButton>Can have any children.</textButton>
+        <label pad="8">And any table tags.</label>
+    </toast>
+</isolate>
+
+<!-- Note that if you click on this window, toasts will
+    go underneath - this is expected, as windows always
+    put themselves on the front when interacted with. -->
