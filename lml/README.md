@@ -32,6 +32,10 @@ If you want to use LML with GWT, you have to add this module to your `GdxDefinit
 
 ## What's new
 
+1.6 -> 1.7
+
+- A new mechanism - isolation - was introduced through `<isolate>` tag. Isolated actors are parsed along with the rest of the templates, but are not immediately added to stage or they tag parents. This basically allows to create actors with LML without adding them to the stage - something that previously wasn't achievable with `fillStage` or `createView` methods. `ActorStorage` is an `Actor` extension that keeps track of a list of actors, but does not draw them in any way: this actor is used internally by isolation tags and can be injected if you want to access the list of its parsed children actors.
+
 1.5 -> 1.6
 
 - Macro marker was changed from `@` to `:`. While it required to switch a single character in the actual source code, this is actually a major update. This change breaks all LML templates that used any macro tags. `@` was a poor choice in the first place: it can be confused with the i18n bundle marker (also `@`) and is not a valid XML character. Since `DTD` supported was added, invalid macro sign was no longer an option. Quick conversion tip: replace `<@` and `</@` with `<:` and `</:` in all `*.lml` files.
