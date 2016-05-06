@@ -127,7 +127,7 @@ public class MainView extends AbstractLmlView {
     private void onParsingError(final Exception exception) {
         // Printing the message without stack trace - we don't want to completely flood the console and its usually not
         // relevant anyway. Change to '(...), "Unable to parse LML template:", exception);' for stacks.
-        Gdx.app.error(Lml.LOGGER_TAG, "Unable to parse LML template: ", exception);
+        Gdx.app.error(Lml.LOGGER_TAG, "Unable to parse LML template: " + exception);
         resultTable.clear();
         resultTable.add("Error occurred. Sorry.");
         parser.fillStage(getStage(), Gdx.files.internal("templates/dialogs/error.lml"));
@@ -369,6 +369,14 @@ public class MainView extends AbstractLmlView {
 
     private ToastManager toastManager;
 
+    @Override
+    public void resize(final int width, final int height, final boolean centerCamera) {
+        super.resize(width, height, centerCamera);
+        if (toastManager != null) {
+            toastManager.resize();
+        }
+    }
+
     private ToastManager getToastManager() {
         if (toastManager == null) {
             toastManager = new ToastManager(getStage());
@@ -379,7 +387,9 @@ public class MainView extends AbstractLmlView {
     /** @param toast will be displayed on the stage using toast manager. */
     @LmlAction("addToast")
     public void addToast(final ToastTable toast) {
-        getToastManager().show(toast);
+        final ToastManager manager = getToastManager();
+        manager.show(toast);
+        manager.toFront();
     }
 
     /* templates/examples/vis/validatableTextField.lml */
