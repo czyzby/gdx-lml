@@ -69,6 +69,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.input.MessageLmlAttribute
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.PasswordCharacterLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.PasswordModeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.PrefRowsLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.input.ReadOnlyLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.RestoreLastValidLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.SelectAllLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.TextFieldFilterLmlAttribute;
@@ -438,6 +439,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addAttributeProcessor(new MessageLmlAttribute(), "message", "messageText");
         addAttributeProcessor(new PasswordCharacterLmlAttribute(), "passwordCharacter", "passCharacter");
         addAttributeProcessor(new PasswordModeLmlAttribute(), "passwordMode", "password");
+        addAttributeProcessor(new ReadOnlyLmlAttribute(), "readOnly");
         addAttributeProcessor(new SelectAllLmlAttribute(), "selectAll");
         addAttributeProcessor(new TextFieldFilterLmlAttribute(), "filter", "textFilter", "textFieldFilter");
         addAttributeProcessor(new TextFieldListenerLmlAttribute(), "listener", "textListener", "textFieldListener");
