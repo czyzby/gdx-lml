@@ -76,6 +76,7 @@ Make sure to check `gdx-lml` changes as well!
 - Tooltips created with `visTooltip` tag are now properly packed.
 - `visTooltip` attribute added. Expects a string. Attaches a simple `Tooltip` with default style and a single label (parsed attribute value) to the chosen actor. This is a VisUI-based equivalent of `tooltip` attribute.
 - `<toast>` tag added to support the new `Toast` widget, which allows to display simple messages on the screen. Since toasts shouldn't be added directly to stage, they must be put in a `<isolate>` tag and manually added to the stage using a `ToastManager` instance. See `gdx-lml-vis-tests` for a usage example.
+- `readOnly` attribute added to text field and area tags.
 
 1.5 -> 1.6
 
