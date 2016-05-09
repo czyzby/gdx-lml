@@ -95,8 +95,14 @@ public class LocaleService extends AbstractAnnotationProcessor<I18nLocale> {
         }
     }
 
-    /** @param doOnLocaleChange if not null, will be executed each time locale is changed. Defaults to reloading the
-     *            screens with {@link com.github.czyzby.autumn.mvc.component.ui.InterfaceService#reload()} method. */
+    /** This method is executed when a locale change is requested. It is NOT executed each time the bundles are loaded
+     * (so it will not be invoked when the application is being initiated. If you want to hook up a method to each
+     * bundle reload, use
+     * {@link com.github.czyzby.autumn.mvc.component.ui.InterfaceService#setActionOnBundlesReload(Runnable)}.
+     *
+     * @param doOnLocaleChange if not null, will be executed each time locale is changed. Defaults to reloading the
+     *            screens with {@link com.github.czyzby.autumn.mvc.component.ui.InterfaceService#reload()} method.
+     * @see com.github.czyzby.autumn.mvc.component.ui.InterfaceService#setActionOnBundlesReload(Runnable) */
     public void setActionOnLocaleChange(final Runnable doOnLocaleChange) {
         this.doOnLocaleChange = doOnLocaleChange;
     }
