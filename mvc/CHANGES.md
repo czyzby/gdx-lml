@@ -2,6 +2,12 @@ Newest change logs are in the `README.md` file.
 
 # Autumn MVC 1.X
 
+1.3 -> 1.4:
+
+- Views are now additionally resized before showing, which fixes bugs with some viewports where not every screen was resized properly.
+- `@Property` was added along with `PreferencesService`. Now you can add your custom, fully managed preferences. See docs for more info.
+- Added additional controller removal methods to `InterfaceService`: `remove`, `removeDialog`, `destroyDialog`.
+
 1.2 -> 1.3:
 
 - `SkinService` now has an `addSkin(String, Skin)` method, allowing you to manually load and register a skin. You could load your skin manually before, but you had to add it to `LmlParser` in `InterfaceService` and dispose it on your own. Now `SkinService` does that for you.

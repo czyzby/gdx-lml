@@ -129,11 +129,5 @@ Make sure to check `gdx-autumn` and `gdx-lml` changes as well - both of these pr
 - Added `getPreference` methods to `PreferencesService`. Now you can also access preferences "manually" instead of injecting them.
 - Added `setCreateMissingDependencies` to `AutumnApplication`. Now you can easily turn off injection of not annotated classes without providers.
 
-1.3 -> 1.4:
-
-- Views are now additionally resized before showing, which fixes bugs with some viewports where not every screen was resized properly.
-- `@Property` was added along with `PreferencesService`. Now you can add your custom, fully managed preferences. See docs for more info.
-- Added additional controller removal methods to `InterfaceService`: `remove`, `removeDialog`, `destroyDialog`.
-
 ### Archive
 Older change logs are available in `CHANGES.md` file.
