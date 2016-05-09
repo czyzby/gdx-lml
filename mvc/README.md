@@ -118,6 +118,7 @@ Make sure to check `gdx-autumn` and `gdx-lml` changes as well - both of these pr
 
 - `StandardViewResizer` now correctly detects how the passed viewport should be updated. `StandardCameraCenteringViewResizer` is now deprecated.
 - It is now possible to access `Skin` instances internally stored by a `SkinService`.
+- Now global macro files defined with `@LmlMacro` annotation will never be parsed before the LML syntax is replaced with `@LmlParserSyntax`.
 
 1.5 -> 1.6:
 
