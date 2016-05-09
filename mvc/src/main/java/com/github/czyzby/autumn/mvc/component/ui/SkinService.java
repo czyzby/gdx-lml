@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.loaders.BitmapFontLoader.BitmapFontParameter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.github.czyzby.autumn.annotation.Destroy;
@@ -17,6 +18,7 @@ import com.github.czyzby.autumn.mvc.component.ui.processor.SkinAssetAnnotationPr
 import com.github.czyzby.autumn.mvc.config.AutumnActionPriority;
 import com.github.czyzby.autumn.mvc.config.AutumnMessage;
 import com.github.czyzby.autumn.processor.event.MessageDispatcher;
+import com.github.czyzby.kiwi.util.gdx.asset.Disposables;
 import com.github.czyzby.kiwi.util.gdx.collection.disposable.DisposableArray;
 import com.github.czyzby.kiwi.util.gdx.file.CommonFileExtension;
 
@@ -95,8 +97,18 @@ public class SkinService {
         interfaceService.getParser().getData().addSkin(id, skin);
     }
 
+    /** @return internally stored array of all current skins. */
+    public DisposableArray<Skin> getSkins() {
+        return skins;
+    }
+
+    /** Removes all internally stored skins. Does not affect LML parser. */
+    public void clear() {
+        skins.clear();
+    }
+
     @Destroy(priority = AutumnActionPriority.VERY_LOW_PRIORITY)
     private void dispose() {
-        skins.dispose();
+        Disposables.gracefullyDisposeOf((Disposable) skins);
     }
 }
