@@ -39,8 +39,8 @@ import com.github.czyzby.autumn.mvc.component.ui.controller.ViewRenderer;
 import com.github.czyzby.autumn.mvc.component.ui.controller.ViewResizer;
 import com.github.czyzby.autumn.mvc.component.ui.controller.ViewShower;
 import com.github.czyzby.autumn.mvc.component.ui.controller.impl.AnnotatedViewDialogController;
-import com.github.czyzby.autumn.mvc.component.ui.controller.impl.StandardCameraCenteringViewResizer;
 import com.github.czyzby.autumn.mvc.component.ui.controller.impl.StandardViewRenderer;
+import com.github.czyzby.autumn.mvc.component.ui.controller.impl.StandardViewResizer;
 import com.github.czyzby.autumn.mvc.component.ui.controller.impl.StandardViewShower;
 import com.github.czyzby.autumn.mvc.component.ui.dto.provider.ViewActionProvider;
 import com.github.czyzby.autumn.mvc.component.ui.processor.ViewActionContainerAnnotationProcessor;
@@ -63,7 +63,7 @@ import com.github.czyzby.lml.util.Lml;
 public class InterfaceService {
     /** Defines default resizing behavior. Can be modified statically before context initiation to set default behavior
      * for controllers that do not implement this interface. */
-    public static ViewResizer DEFAULT_VIEW_RESIZER = new StandardCameraCenteringViewResizer();
+    public static ViewResizer DEFAULT_VIEW_RESIZER = new StandardViewResizer();
     /** Defines default showing and hiding behavior. Can be modified statically before context initiation to set default
      * behavior for controllers that do not implement this interface. */
     public static ViewShower DEFAULT_VIEW_SHOWER = new StandardViewShower();
