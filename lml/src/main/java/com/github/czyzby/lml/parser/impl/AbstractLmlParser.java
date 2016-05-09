@@ -643,14 +643,14 @@ public abstract class AbstractLmlParser implements LmlParser {
     protected ActorConsumer<?, ?> extractActionFromContainer(final ActionContainerWrapper actionContainer,
             final String actionId, final Object forActor) {
         Method method = actionContainer.getNamedMethod(actionId);
-        if (method == null) {
+        if (method == null && Lml.EXTRACT_UNANNOTATED_METHODS) {
             method = findUnnamedMethod(actionContainer, actionId, forActor);
         }
         if (method != null) {
             return new MethodActorConsumer(method, actionContainer.getActionContainer());
         } else if (Lml.EXTRACT_FIELDS_AS_METHODS) {
             Field field = actionContainer.getNamedField(actionId);
-            if (field == null) {
+            if (field == null && Lml.EXTRACT_UNANNOTATED_METHODS) {
                 field = actionContainer.getField(actionId);
             }
             if (field != null) {

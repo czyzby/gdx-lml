@@ -12,15 +12,22 @@ import com.github.czyzby.lml.parser.LmlParser;
 public class Lml {
     /** When action is referenced in LML template, its parser looks for registered ActorConsumers with the selected key
      * (as they do not rely on reflection and are cheaper to invoke). If no
-     * {@link com.github.czyzby.lml.parser.action.ActorConsumer} is found, then the parser looks for
-     * {@link com.github.czyzby.lml.parser.action.ActionContainer}'s containing the referenced action. When none of
-     * action container's methods match the key, normally container's field with the given name is returned, provided it
-     * exists. The action - instead of invoking a method - will extract and return current field's value. However,
-     * extracting fields causes problems on GWT (probably due to LibGDX reflection implementation), so this
-     * functionality can be globally turned off by setting this variable to false (default state). The rule of thumb is:
-     * if you use multiple action containers and plan on releasing GWT client, keep this variable as false. If you need
-     * field extraction, set it to true. */
+     * {@link com.github.czyzby.lml.parser.action.ActorConsumer ActorConsumer} is found, then the parser looks for
+     * {@link com.github.czyzby.lml.parser.action.ActionContainer ActionContainer}'s containing the referenced action.
+     * When none of action container's methods match the key, normally container's field with the given name is
+     * returned, provided it exists. The action - instead of invoking a method - will extract and return current field's
+     * value. However, extracting fields causes problems on GWT (probably due to LibGDX reflection implementation), so
+     * this functionality can be globally turned off by setting this variable to false (default state). The rule of
+     * thumb is: if you use multiple action containers and plan on releasing GWT client, keep this variable as false. If
+     * you need field extraction, set it to true. */
     public static boolean EXTRACT_FIELDS_AS_METHODS = false;
+
+    /** Defaults to true. If this value is set to true, {@link com.github.czyzby.lml.parser.action.ActionContainer
+     * ActionContainers} methods that are not annotated with {@link com.github.czyzby.lml.annotation.LmlAction
+     * LmlAction} can be still referenced in LML templates by their name. If false, only annotated methods and fields
+     * will be extracted. By setting this value to false and consequently annotating your methods with LmlAction, you
+     * can significantly speed up the method look-up time, especially when using multiple action containers. */
+    public static boolean EXTRACT_UNANNOTATED_METHODS = true;
 
     /** If this is set to true, multi-widget actors will parse only its own attributes. For example, Scene2D Window
      * contains a Scene2D Label (used as its title). When component actors attribute parsing is turned on, window can
