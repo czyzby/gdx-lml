@@ -28,7 +28,7 @@ public class DefaultLmlParser extends AbstractLmlParser {
      *
      * @param data contains skin, actions, i18n bundles and other data needed to parse LML templates. */
     public DefaultLmlParser(final LmlData data) {
-        super(data, DefaultLmlSyntax.INSTANCE, new DefaultLmlTemplateReader(), true);
+        super(data, new DefaultLmlSyntax(), new DefaultLmlTemplateReader(), true);
     }
 
     /** Creates a new strict parser with custom syntax and default reader.

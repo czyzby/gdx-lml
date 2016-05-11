@@ -21,7 +21,6 @@ import com.github.czyzby.lml.parser.LmlSyntax;
 import com.github.czyzby.lml.parser.action.ActionContainer;
 import com.github.czyzby.lml.parser.action.ActorConsumer;
 import com.github.czyzby.lml.parser.action.StageAttacher;
-import com.github.czyzby.lml.parser.impl.DefaultLmlSyntax;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.util.collection.IgnoreCaseStringMap;
@@ -459,70 +458,83 @@ public class LmlUtilities {
 
     // Syntax helpers:
 
-    /** @param array will be converted to an LML array argument using default syntax.
+    /** Warning: uses default LML syntax. Will not work if you modified any LML markers.
+     *
+     * @param array will be converted to an LML array argument using default syntax.
      * @return unparsed LML array. */
     public static String toArrayArgument(final Object... array) {
-        return Strings.join(String.valueOf(DefaultLmlSyntax.INSTANCE.getArrayElementSeparator()), array);
+        return Strings.join(";", array);
     }
 
-    /** @param iterable will be converted to an LML array argument using default syntax.
+    /** Warning: uses default LML syntax. Will not work if you modified any LML markers.
+     *
+     * @param iterable will be converted to an LML array argument using default syntax.
      * @return unparsed LML array. */
     public static String toArrayArgument(final Iterable<?> iterable) {
-        return Strings.join(String.valueOf(DefaultLmlSyntax.INSTANCE.getArrayElementSeparator()), iterable);
+        return Strings.join(";", iterable);
     }
 
-    /** @param base base of the range. Can be null - range will not have a base and will iterate solely over numbers.
+    /** Warning: uses default LML syntax. Will not work if you modified any LML markers.
+     *
+     * @param base base of the range. Can be null - range will not have a base and will iterate solely over numbers.
      * @param rangeStart start of range. Can be negative. Does not have to be lower than end - if start is bigger, range
      *            is iterating from bigger to lower values.
      * @param rangeEnd end of range. Can be negative.
      * @return range is format: base + rangeOpening + start + separator + end + rangeClosing. For example,
      *         "base[4,2]". */
     public static String toRangeArrayArgument(final Object base, final int rangeStart, final int rangeEnd) {
-        final LmlSyntax syntax = DefaultLmlSyntax.INSTANCE;
-        return Nullables.toString(base, Strings.EMPTY_STRING) + syntax.getRangeArrayOpening() + rangeStart
-                + syntax.getRangeArraySeparator() + rangeEnd + syntax.getRangeArrayClosing();
+        return Nullables.toString(base, Strings.EMPTY_STRING) + '[' + rangeStart + ',' + rangeEnd + ']';
     }
 
-    /** @param bundleLineId name of a bundle line in default i18n bundle.
+    /** Warning: uses default LML syntax. Will not work if you modified any LML markers.
+     *
+     * @param bundleLineId name of a bundle line in default i18n bundle.
      * @return converted LML bundle line argument using default syntax. */
     public static String toBundleLine(final String bundleLineId) {
-        return DefaultLmlSyntax.INSTANCE.getBundleLineMarker() + bundleLineId;
+        return '@' + bundleLineId;
     }
 
-    /** @param bundleId name of the bundle, as registered to LML data container.
+    /** Warning: uses default LML syntax. Will not work if you modified any LML markers.
+     *
+     * @param bundleId name of the bundle, as registered to LML data container.
      * @param bundleLineId name of a bundle line in the specified i18n bundle.
      * @return converted LML bundle line argument using default syntax. */
     public static String toBundleLine(final String bundleId, final String bundleLineId) {
-        final LmlSyntax syntax = DefaultLmlSyntax.INSTANCE;
-        return syntax.getBundleLineMarker() + bundleId + syntax.getIdSeparatorMarker() + bundleLineId;
+        return '@' + bundleId + '.' + bundleLineId;
     }
 
-    /** @param preferenceId name of a preference in default preferences object.
+    /** Warning: uses default LML syntax. Will not work if you modified any LML markers.
+     *
+     * @param preferenceId name of a preference in default preferences object.
      * @return converted LML preference argument using default syntax. */
     public static String toPreference(final String preferenceId) {
-        return DefaultLmlSyntax.INSTANCE.getPreferenceMarker() + preferenceId;
+        return '#' + preferenceId;
     }
 
-    /** @param preferencesId name of the preferences object, as registered to LML data container.
+    /** Warning: uses default LML syntax. Will not work if you modified any LML markers.
+     *
+     * @param preferencesId name of the preferences object, as registered to LML data container.
      * @param preferenceId name of a preference in the specified i18n bundle.
      * @return converted LML preference argument using default syntax. */
     public static String toPreference(final String preferencesId, final String preferenceId) {
-        final LmlSyntax syntax = DefaultLmlSyntax.INSTANCE;
-        return syntax.getPreferenceMarker() + preferencesId + syntax.getIdSeparatorMarker() + preferenceId;
+        return '#' + preferencesId + '.' + preferenceId;
     }
 
-    /** @param methodId name of a registered {@link ActorConsumer} or method name of a registered
-     *            {@link ActionContainer}.
+    /** Warning: uses default LML syntax. Will not work if you modified any LML markers.
+     *
+     * @param methodId name of a registered {@link ActorConsumer} or method name of a registered {@link ActionContainer}
+     *            .
      * @return converted LML action argument using default syntax. */
     public static String toAction(final String methodId) {
-        return DefaultLmlSyntax.INSTANCE.getMethodInvocationMarker() + methodId;
+        return '$' + methodId;
     }
 
-    /** @param actionContainerId name of an ActionContainer, as registered to LML data container.
+    /** Warning: uses default LML syntax. Will not work if you modified any LML markers.
+     *
+     * @param actionContainerId name of an ActionContainer, as registered to LML data container.
      * @param methodId name of a method of an {@link ActionContainer} with the specified ID.
      * @return converted LML action argument using default syntax. */
     public static String toAction(final String actionContainerId, final String methodId) {
-        final LmlSyntax syntax = DefaultLmlSyntax.INSTANCE;
-        return syntax.getMethodInvocationMarker() + actionContainerId + syntax.getIdSeparatorMarker() + methodId;
+        return '$' + actionContainerId + '.' + methodId;
     }
 }

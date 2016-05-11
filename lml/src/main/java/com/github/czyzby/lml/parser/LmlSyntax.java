@@ -286,6 +286,24 @@ public interface LmlSyntax {
      *         macro docs} for more informations about equations. */
     char getEquationMarker();
 
+    /** @return character that marks that selected block should be evaluated as condition (similar to ternary operator)
+     *         rather than regular argument. Defaults to '?'. Changes the way argument is parsed. For example:
+     *         <blockquote>
+     *
+     *         <pre>
+     * {?4&gt;6 ? onTrue : onFalse}
+     *         </pre>
+     *
+     *         </blockquote>Rather than looking for argument named "?(4&gt;6) onTrue : onFalse", this argument would
+     *         evaluate condition (4 is lower than 6 - false), and print "onFalse". See
+     *         {@link com.github.czyzby.lml.parser.impl.tag.macro.CalculationLmlMacroTag calculation macro docs} for
+     *         more informations about equations. */
+    char getConditionMarker();
+
+    /** @return character that separates true and false values in conditions. Defaults to ':'.
+     * @see #getConditionMarker() */
+    char getTernaryMarker();
+
     /** @param tagName name of the tag as it appears in LML template.
      * @return provider of tags associated with the selected name. Might be null, if tag was not registered.
      * @see #getMacroTagProvider(String) */

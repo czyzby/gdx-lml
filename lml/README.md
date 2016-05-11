@@ -36,6 +36,8 @@ If you want to use LML with GWT, you have to add this module to your `GdxDefinit
 
 - A new mechanism - isolation - was introduced through `<isolate>` tag. Isolated actors are parsed along with the rest of the templates, but are not immediately added to stage or they tag parents. This basically allows to create actors with LML without adding them to the stage - something that previously wasn't achievable with `fillStage` or `createView` methods. `ActorStorage` is an `Actor` extension that keeps track of a list of actors, but does not draw them in any way: this actor is used internally by isolation tags and can be injected if you want to access the list of its parsed children actors.
 - `Lml#EXTRACT_UNANNOTATED_METHODS` setting added. When this is set to `false`, `ActionContainer` methods and fields that are **not** annotated with `@LmlAction` will not be available in LML templates. Defaults to `true`, but if you consequently annotate methods and fields that are accessed by LML actors, you should consider setting this value to `false`, as it will considerable speed up method look-up time.
+- `DefaultLmlSyntax.INSTANCE` was removed. It was entirely unnecessary when using a different syntax, like `VisLmlSyntax`.
+- `DefaultLmlSyntax` now extends `EmptyLmlSyntax`. `EmptyLmlSyntax` implements all `LmlSyntax` interface methods and manages all tag, attribute and macro mechanisms internally, but registers no tags or attributes on its own. This can be a very useful utility class if you want to manually choose which tags, macros and attributes should be supported.
 
 1.5 -> 1.6
 
