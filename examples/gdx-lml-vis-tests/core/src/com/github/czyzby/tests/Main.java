@@ -48,7 +48,7 @@ public class Main extends AbstractApplicationListener {
             // Listeners:
             "changeListener", "clickListener", "inputListener",
             // Syntax:
-            "i18n", "preferences", "arguments", "actions", "arrays", "equations",
+            "i18n", "preferences", "arguments", "actions", "arrays", "equations", "conditions",
             // Macros:
             "actorMacro", "anyNotNull", "argument", "argumentReplace", "assign", "calculate", "changeListenerMacro",
             "clickListenerMacro", "comment", "conditional", "evaluate", "exception", "forEach", "import",

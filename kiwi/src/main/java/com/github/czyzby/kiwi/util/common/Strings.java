@@ -382,9 +382,25 @@ public class Strings extends UtilitiesClass {
         stringBuilder.setLength(0);
     }
 
+    /** @param stringBuilder will have its length set as 0. Cannot be null.
+     * @return value previously stored in the builder. */
+    public static String getAndClear(final com.badlogic.gdx.utils.StringBuilder stringBuilder) {
+        final String value = stringBuilder.toString();
+        clearBuilder(stringBuilder);
+        return value;
+    }
+
     /** @param stringBuilder will have its length set as 0. Cannot be null. */
     public static void clearBuilder(final StringBuilder stringBuilder) {
         stringBuilder.setLength(0);
+    }
+
+    /** @param stringBuilder will have its length set as 0. Cannot be null.
+     * @return value previously stored in the builder. */
+    public static String getAndClear(final StringBuilder stringBuilder) {
+        final String value = stringBuilder.toString();
+        clearBuilder(stringBuilder);
+        return value;
     }
 
     /** As opposed to string's split, this method allows to split a char sequence without a regex, provided that the

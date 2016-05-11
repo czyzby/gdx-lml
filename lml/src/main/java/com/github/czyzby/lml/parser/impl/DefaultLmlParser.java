@@ -125,23 +125,75 @@ public class DefaultLmlParser extends AbstractLmlParser {
 
     /** Found an argument opening sign. Have to find argument's name and replace it in the template. */
     private void processArgument() {
-        final StringBuilder argumentNameBuilder = new StringBuilder();
+        final StringBuilder argumentBuilder = new StringBuilder();
         while (templateReader.hasNextCharacter()) {
             final char argumentCharacter = templateReader.nextCharacter();
             if (argumentCharacter == syntax.getArgumentClosing()) {
-                final String argument = argumentNameBuilder.toString().trim(); // Getting actual argument name.
+                final String argument = argumentBuilder.toString().trim(); // Getting actual argument name.
                 if (Strings.startsWith(argument, syntax.getEquationMarker())) {
                     // Starts with an equation sign. Evaluating.
                     final String equation = LmlUtilities.stripMarker(argument);
-                    templateReader
-                            .append(new Equation(this, currentParentTag == null ? null : currentParentTag.getActor())
-                                    .getResult(equation), equation + " equation");
+                    templateReader.append(newEquation().getResult(equation), equation + " equation");
+                } else if (Strings.startsWith(argument, syntax.getConditionMarker())) {
+                    // Condition/ternary operator. Evaluating.
+                    processConditionArgument(argument, argumentBuilder);
                 } else { // Regular argument. Looking for value mapped to the selected key.
                     templateReader.append(Nullables.toString(data.getArgument(argument)), argument + " argument");
                 }
                 return;
             }
-            argumentNameBuilder.append(argumentCharacter);
+            argumentBuilder.append(argumentCharacter);
+        }
+    }
+
+    /** Utility factory method.
+     *
+     * @return a new {@link Equation} instance. */
+    protected Equation newEquation() {
+        return new Equation(this, getCurrentActor());
+    }
+
+    /** @return actor from the currently open parent tag or null. */
+    protected Actor getCurrentActor() {
+        return currentParentTag == null ? null : currentParentTag.getActor();
+    }
+
+    /** @param argument raw condition argument data. Starts with condition marker (?).
+     * @param conditionBuilder utility builder. Will be modified, possibly cleared. */
+    private void processConditionArgument(final String argument, final StringBuilder conditionBuilder) {
+        if (argument.lastIndexOf(syntax.getConditionMarker()) <= 0) {
+            throwError("No separator in condition: " + argument);
+        }
+        Strings.clearBuilder(conditionBuilder);
+        boolean parsedCondition = false;
+        boolean parsedOnTrue = false;
+        String condition = null;
+        String onTrue = null;
+        String onFalse = Strings.EMPTY_STRING;
+        for (int index = 1, length = argument.length(); index < length; index++) {
+            final char character = argument.charAt(index);
+            if (!parsedCondition) {
+                if (character == syntax.getConditionMarker()) {
+                    parsedCondition = true;
+                    condition = Strings.getAndClear(conditionBuilder).trim();
+                    continue;
+                }
+            } else if (!parsedOnTrue && character == syntax.getTernaryMarker()) {
+                parsedOnTrue = true;
+                onTrue = Strings.getAndClear(conditionBuilder).trim();
+                continue;
+            }
+            conditionBuilder.append(character);
+        }
+        if (parsedOnTrue) {
+            onFalse = conditionBuilder.toString().trim();
+        } else {
+            onTrue = conditionBuilder.toString().trim();
+        }
+        final boolean result = newEquation().getBooleanResult(condition);
+        final String append = result ? onTrue : onFalse;
+        if (Strings.isNotEmpty(append)) {
+            templateReader.append(newEquation().getResult(append), argument + " condition");
         }
     }
 
