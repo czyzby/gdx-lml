@@ -120,6 +120,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.table.PrefSizeLmlAttribut
 import com.github.czyzby.lml.vis.parser.impl.attribute.table.PrefWidthLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.table.UseCellDefaultsLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.tooltip.DelayLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.tooltip.MouseMoveFadeOutLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.tooltip.TooltipFadeTimeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.validator.CustomValidatorLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.validator.ErrorMessageLmlAttribute;
@@ -380,6 +381,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         super.registerTooltipAttributes();
         // Tooltip (VisUI pre-LibGDX 1.6.5 implementation):
         addAttributeProcessor(new DelayLmlAttribute(), "delay", "appearDelay");
+        addAttributeProcessor(new MouseMoveFadeOutLmlAttribute(), "mouseMoveFadeOut");
         addAttributeProcessor(new TooltipFadeTimeLmlAttribute(), "fadeTime", "fadingTime");
     }
 
