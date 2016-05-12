@@ -13,7 +13,7 @@ import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.attribute.table.cell.AbstractCellLmlAttribute;
 import com.github.czyzby.lml.parser.impl.tag.macro.AbstractConditionalLmlMacroTag;
-import com.github.czyzby.lml.parser.impl.tag.macro.TableRowLmlMacroTag;
+import com.github.czyzby.lml.parser.impl.tag.macro.TableCellLmlMacroTag;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
@@ -273,7 +273,7 @@ public class Dtd {
         for (final Entry<String, LmlTagProvider> macroTag : macroTags) {
             try {
                 final LmlTag tag = macroTag.value.create(parser, null, new StringBuilder(macroTag.key));
-                if (tag instanceof TableRowLmlMacroTag) {
+                if (tag instanceof TableCellLmlMacroTag) {
                     // Special case: listing all cell attributes:
                     appendTableDefaultsMacro(parser, builder, macroMarker, macroTag, tag);
                 } else if (tag instanceof AbstractMacroLmlTag) {

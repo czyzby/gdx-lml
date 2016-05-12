@@ -2,13 +2,7 @@ package com.github.czyzby.lml.parser.impl.tag.macro;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.ObjectSet;
-import com.github.czyzby.kiwi.util.common.Strings;
-import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
-import com.github.czyzby.kiwi.util.gdx.collection.GdxSets;
 import com.github.czyzby.lml.parser.LmlParser;
-import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
 /** Tables utility. Allows to set column defaults for a selected column. For example:
@@ -38,18 +32,11 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * </blockquote>
  *
  * @author MJ */
-public class TableColumnLmlMacroTag extends TableRowLmlMacroTag {
+public class TableColumnLmlMacroTag extends TableCellLmlMacroTag {
     private static final String COLUMN_ATTRIBUTE = "column";
 
     public TableColumnLmlMacroTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
-    }
-
-    @Override
-    public void handleDataBetweenTags(final CharSequence rawData) {
-        if (Strings.isNotBlank(rawData)) {
-            getParser().throwErrorIfStrict("Column defaults macro cannot parse text between tags.");
-        }
     }
 
     @Override
@@ -63,24 +50,18 @@ public class TableColumnLmlMacroTag extends TableRowLmlMacroTag {
     }
 
     @Override
-    public void closeTag() {
-        if (GdxArrays.isEmpty(getAttributes())) {
-            getParser().throwErrorIfStrict("Column macro needs at least one attribute: column number.");
-            return;
-        }
-        final ObjectMap<String, String> attributes = getNamedAttributes();
-        if (attributes == null) {
-            getParser().throwErrorIfStrict("Column macro needs cell attributes to set as defaults.");
-            return;
-        }
-        final Table table = getTable();
-        final int columnId = getParser().parseInt(getColumnAttribute(), table);
-        final ObjectSet<String> processedAttributes = GdxSets.newSet();
-        final LmlActorBuilder builder = new LmlActorBuilder(); // Used to determine table.
-        processBuildingAttributeToDetermineTable(attributes, processedAttributes, builder);
-        final Table targetTable = getTarget(builder).extract(table);
-        final Cell<?> columnCell = targetTable.columnDefaults(columnId);
-        processCellDefaultsAttribute(attributes, processedAttributes, targetTable, columnCell);
+    protected void processCellWithNoAttributes(final Table table) {
+        getParser().throwErrorIfStrict("Column macro needs at least one attribute: column number.");
+    }
+
+    @Override
+    protected Cell<?> extractCell(final Table table) {
+        return table.columnDefaults(getColumnId());
+    }
+
+    /** @return parsed value of the attribute that represents column ID. */
+    protected int getColumnId() {
+        return getParser().parseInt(getColumnAttribute(), getTable());
     }
 
     /** @return unparsed value of attribute that represents column ID. */

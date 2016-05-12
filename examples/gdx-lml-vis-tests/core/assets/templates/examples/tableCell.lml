@@ -1,0 +1,22 @@
+<!-- :cell is a table utility macro that can
+    appear only inside table (or its subclasses
+    tags). It adds a new empty cell and allows to
+    modify it with any usual cell attributes. -->
+
+<table>
+    <label>Cell1</label>
+    <label row="true">Cell2</label>
+    <:cell/>
+    <label>Cell4</label>
+</table>
+
+<!-- This is useful if you need a placeholder
+    cell with no actor to preserve a certain
+    table layout without creating unnecessary
+    mock-up actors. -->
+
+<window title="Table extension example">
+    <textButton>Button</textButton>
+    <:cell pad="20"/>
+    <label>Text.</label>
+</window>

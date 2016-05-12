@@ -39,6 +39,7 @@ If you want to use LML with GWT, you have to add this module to your `GdxDefinit
 - `DefaultLmlSyntax.INSTANCE` was removed. It was entirely unnecessary when using a different syntax, like `VisLmlSyntax`.
 - `DefaultLmlSyntax` now extends `EmptyLmlSyntax`. `EmptyLmlSyntax` implements all `LmlSyntax` interface methods and manages all tag, attribute and macro mechanisms internally, but registers no tags or attributes on its own. This can be a very useful utility class if you want to manually choose which tags, macros and attributes should be supported.
 - Added conditions evaluating in arguments, similarly to how you can evaluate equations `{=likeThis}`. Using this syntax: `{? condition ? onTrue : onFalse}`, you can process simple conditions anywhere in the code. See new condition syntax examples in `gdx-lml-tests` and `gdx-lml-vis-tests` projects.
+- Added `:cell` macro. Adds an empty cell to the chosen table and allows to parse any cell attributes. Useful if you need to preserve a certain table layout, but do not want to create unnecessary mock-up actors with the sole purpose to fill a cell.
 
 1.5 -> 1.6
 

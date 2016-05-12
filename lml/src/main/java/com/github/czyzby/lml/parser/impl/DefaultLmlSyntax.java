@@ -282,6 +282,7 @@ import com.github.czyzby.lml.parser.impl.tag.macro.provider.NestedForEachLmlMacr
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.NewAttributeLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.NewTagLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.NullCheckLmlMacroTagProvider;
+import com.github.czyzby.lml.parser.impl.tag.macro.provider.TableCellLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.TableColumnLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.TableRowLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.WhileLmlMacroTagProvider;
@@ -386,6 +387,7 @@ public class DefaultLmlSyntax extends EmptyLmlSyntax {
         addMacroTagProvider(new NewAttributeLmlMacroTagProvider(), "newAttribute", "attribute");
         addMacroTagProvider(new NewTagLmlMacroTagProvider(), "newTag", "tag");
         addMacroTagProvider(new NullCheckLmlMacroTagProvider(), "notNull", "ifNotNull", "exists");
+        addMacroTagProvider(new TableCellLmlMacroTagProvider(), "cell", "tableCell");
         addMacroTagProvider(new TableColumnLmlMacroTagProvider(), "column", "tableColumn");
         addMacroTagProvider(new TableRowLmlMacroTagProvider(), "row", "tableRow");
         addMacroTagProvider(new WhileLmlMacroTagProvider(), "while", "until");
