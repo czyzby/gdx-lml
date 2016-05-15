@@ -5,6 +5,7 @@ import com.github.czyzby.lml.parser.LmlSyntax;
 import com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file.AnyFileChooserLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file.DirectoryChooserLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file.DirectoryLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file.FavoriteFolderButtonVisibleLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file.FileChooserListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file.FileChooserLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file.FileDeleterLmlAttribute;
@@ -52,6 +53,7 @@ public class ExtendedVisLml {
         syntax.addTagProvider(new FileChooserLmlTagProvider(), "fileChooser");
         // FileChooser attributes:
         syntax.addAttributeProcessor(new DirectoryLmlAttribute(), "directory");
+        syntax.addAttributeProcessor(new FavoriteFolderButtonVisibleLmlAttribute(), "favoriteFolderButtonVisible");
         syntax.addAttributeProcessor(new FileChooserListenerLmlAttribute(), "listener", "fileChooserListener");
         syntax.addAttributeProcessor(new FileDeleterLmlAttribute(), "fileDeleter");
         syntax.addAttributeProcessor(new FileFilterLmlAttribute(), "fileFilter");

@@ -78,6 +78,7 @@ Make sure to check `gdx-lml` changes as well!
 - `<toast>` tag added to support the new `Toast` widget, which allows to display simple messages on the screen. Since toasts shouldn't be added directly to stage, they must be put in a `<isolate>` tag and manually added to the stage using a `ToastManager` instance. See `gdx-lml-vis-tests` for a usage example.
 - `readOnly` attribute added to text field and area tags.
 - `mouseMoveFadeOut` attribute added to VisUI tooltip tags.
+- `favoriteFolderButtonVisible` attribute added to `<fileChooser>` tag.
 
 1.5 -> 1.6
 
