@@ -14,6 +14,7 @@ import com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file.GroupMultiSel
 import com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file.IconProviderLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file.ModeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file.MultiSelectKeyLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file.PreferencesNameLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file.SelectionModeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file.WatchFilesLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.validator.ErrorIfRelativeEmptyLmlAttribute;
@@ -61,6 +62,7 @@ public class ExtendedVisLml {
         syntax.addAttributeProcessor(new IconProviderLmlAttribute(), "iconProvider");
         syntax.addAttributeProcessor(new ModeLmlAttribute(), "mode");
         syntax.addAttributeProcessor(new MultiSelectKeyLmlAttribute(), "multiSelectKey");
+        syntax.addAttributeProcessor(new PreferencesNameLmlAttribute(), "prefsName");
         syntax.addAttributeProcessor(new SelectionModeLmlAttribute(), "selectionMode", "select");
         syntax.addAttributeProcessor(new WatchFilesLmlAttribute(), "watchingFilesEnabled", "watchFiles", "watch");
         // Note: FileChooser#addFavorite(FileHandle) is not supported through LML attributes; this is a design choice,
