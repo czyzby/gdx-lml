@@ -1,12 +1,10 @@
 package com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file;
 
-import com.github.czyzby.kiwi.util.common.Exceptions;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.action.ActorConsumer;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.kotcrab.vis.ui.widget.file.FileChooser;
-import com.kotcrab.vis.ui.widget.file.FileChooser.DefaultFileDeleter;
 
 /** See {@link FileChooser#setFileDeleter(com.kotcrab.vis.ui.widget.file.FileChooser.FileDeleter)}. Expects an ID of an
  * action that returns a FileDeleter instance. Mapped to "fileDeleter".
@@ -28,26 +26,12 @@ public class FileDeleterLmlAttribute implements LmlAttribute<FileChooser> {
                             + rawAttributeData);
         }
         final Object result = action.consume(actor);
-        if (result instanceof DefaultFileDeleter) {
-            actor.setFileDeleter((DefaultFileDeleter) result);
-            return;
+        if (result instanceof FileChooser.FileDeleter) {
+            actor.setFileDeleter((FileChooser.FileDeleter) result);
+        } else {
+            parser.throwErrorIfStrict(
+                    "Unable to set file deleter. A method returning FileDeleter instance is required; got result: "
+                            + result);
         }
-        try {
-            // We cannot reference the JNA classes directly. FileDeleter interface is not public, so we cannot access it
-            // either. Using reflection to check if FileUtils class is available and to invoke setter method, avoiding
-            // casting to unavailable FileDeleter or potentially exception-throwing JNAFileDeleter.
-            if (Class.forName("com.kotcrab.vis.ui.widget.file.JNAFileDeleter").isInstance(result)) {
-                FileChooser.class
-                        .getMethod("setFileDeleter",
-                                Class.forName("com.kotcrab.vis.ui.widget.file.FileChooser$FileDeleter"))
-                        .invoke(actor, new Object[] { result });
-                return;
-            }
-        } catch (final Exception exception) {
-            Exceptions.ignore(exception); // Expected. JNA not available.
-        }
-        parser.throwErrorIfStrict(
-                "Unable to set file deleter. A method returning FileDeleter instance is required; got result: "
-                        + result);
     }
 }

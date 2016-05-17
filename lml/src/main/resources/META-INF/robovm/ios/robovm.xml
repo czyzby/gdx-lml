@@ -4,4 +4,3 @@
     <pattern>com.github.czyzby.lml.parser.impl.AbstractLmlView</pattern>
   </forceLinkClasses>
 </config>
-
