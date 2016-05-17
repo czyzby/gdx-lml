@@ -10,6 +10,7 @@ import com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file.FileChooserLi
 import com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file.FileChooserLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file.FileDeleterLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file.FileFilterLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file.FileTypeFilterLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file.GroupMultiSelectKeyLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file.IconProviderLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file.ModeLmlAttribute;
@@ -58,6 +59,7 @@ public class ExtendedVisLml {
         syntax.addAttributeProcessor(new FileChooserListenerLmlAttribute(), "listener", "fileChooserListener");
         syntax.addAttributeProcessor(new FileDeleterLmlAttribute(), "fileDeleter");
         syntax.addAttributeProcessor(new FileFilterLmlAttribute(), "fileFilter");
+        syntax.addAttributeProcessor(new FileTypeFilterLmlAttribute(), "fileTypeFilter");
         syntax.addAttributeProcessor(new GroupMultiSelectKeyLmlAttribute(), "groupMultiSelectKey");
         syntax.addAttributeProcessor(new IconProviderLmlAttribute(), "iconProvider");
         syntax.addAttributeProcessor(new ModeLmlAttribute(), "mode");
