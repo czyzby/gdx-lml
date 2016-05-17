@@ -1,0 +1,16 @@
+<config>
+  <forceLinkClasses>
+    <pattern>com.github.czyzby.autumn.mvc.component.i18n.processor.**</pattern>
+    <pattern>com.github.czyzby.autumn.mvc.component.sfx.processor.**</pattern>
+    <pattern>com.github.czyzby.autumn.mvc.component.ui.processor.**</pattern>
+    <pattern>com.github.czyzby.autumn.mvc.component.ui.controller.impl.**</pattern>
+    <pattern>com.github.czyzby.autumn.mvc.component.asset.AssetService</pattern>
+    <pattern>com.github.czyzby.autumn.mvc.component.i18n.LocaleService</pattern>
+    <pattern>com.github.czyzby.autumn.mvc.component.preferences.PreferencesService</pattern>
+    <pattern>com.github.czyzby.autumn.mvc.component.sfx.MusicService</pattern>
+    <pattern>com.github.czyzby.autumn.mvc.component.ui.InterfaceService</pattern>
+    <pattern>com.github.czyzby.autumn.mvc.component.ui.SkinService</pattern>
+    <pattern>com.github.czyzby.autumn.mvc.component.ui.action.MusicFadingAction</pattern>
+  </forceLinkClasses>
+</config>
+	

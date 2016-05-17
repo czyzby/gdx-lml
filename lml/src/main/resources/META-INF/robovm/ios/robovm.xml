@@ -1,0 +1,7 @@
+<config>
+  <forceLinkClasses>
+    <pattern>com.github.czyzby.lml.scene2d.ui.reflected.**</pattern>
+    <pattern>com.github.czyzby.lml.parser.impl.AbstractLmlView</pattern>
+  </forceLinkClasses>
+</config>
+

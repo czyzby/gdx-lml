@@ -1,0 +1,9 @@
+<config>
+  <forceLinkClasses>
+    <pattern>com.github.czyzby.autumn.processor.impl.**</pattern>
+    <pattern>com.github.czyzby.autumn.processor.AbstractAnnotationProcessor</pattern>
+    <pattern>com.github.czyzby.autumn.processor.event.MessageDispatcher</pattern>
+    <pattern>com.github.czyzby.autumn.processor.event.EventDispatcher</pattern>
+  </forceLinkClasses>
+</config>
+
