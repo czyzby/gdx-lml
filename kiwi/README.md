@@ -105,6 +105,10 @@ When you cannot or don't want to use actions or tweening utilities.
 - **ColorRange**: utility for simple color transitions.
 - **FloatRange**: utility for simple float number transitions. Might be useful for color's alpha.
 
+### Viewport
+- **LetterboxingViewport**: combination of `ScreenViewport` and `FitViewport`, which changes its world size on screen resize and attempts to keep chosen aspect ratio by applying letterboxing. Honors screen density (pixel per inch ratio) and should look acceptable on both desktop and mobile devices. Very convenient for GUIs, as it will not unnecessarily scale the assets when resized.
+- **Viewports**: static utilities for working with LibGDX viewports.
+
 ## Log
 LibGDX does provide logging utilities with `Application` methods and simple `com.badlogic.gdx.utils.Logger` class, but they both lack arguments support and features we might know from standard loggers, like including class name and current time. Kiwi loggers are slightly more complex, while trying to add as little overhead as possible. Typical usage examples:
 
