@@ -79,6 +79,8 @@ Make sure to check `gdx-lml` changes as well!
 - `readOnly`, `enterKeyFocusTraversal` attributes added to text field and area tags.
 - `mouseMoveFadeOut` attribute added to VisUI tooltip tags.
 - `favoriteFolderButtonVisible`, `prefsName`, `fileTypeFilter` attributes added to `<fileChooser>` tag.
+- `iconProvider` attribute of `FileChooser` tag now requires an action ID of method that returns `FileIconProvider` instance due to file chooser refactor.
+- Items sizes in grid groups now use floats instead of ints.
 
 1.5 -> 1.6
 
