@@ -1,5 +1,5 @@
 ext {
-  visVersion = '1.1.0'
+  visVersion = '1.1.1'
 }
 
 dependencies {
