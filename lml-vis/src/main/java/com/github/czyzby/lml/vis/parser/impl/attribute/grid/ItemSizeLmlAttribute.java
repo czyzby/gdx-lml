@@ -5,7 +5,7 @@ import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.kotcrab.vis.ui.layout.GridGroup;
 
-/** See {@link GridGroup#setItemSize(int)}. Mapped to "itemSize".
+/** See {@link GridGroup#setItemSize(float)}. Mapped to "itemSize".
  *
  * @author MJ */
 public class ItemSizeLmlAttribute implements LmlAttribute<GridGroup> {
@@ -17,6 +17,6 @@ public class ItemSizeLmlAttribute implements LmlAttribute<GridGroup> {
     @Override
     public void process(final LmlParser parser, final LmlTag tag, final GridGroup actor,
             final String rawAttributeData) {
-        actor.setItemSize(parser.parseInt(rawAttributeData, actor));
+        actor.setItemSize(parser.parseFloat(rawAttributeData, actor));
     }
 }

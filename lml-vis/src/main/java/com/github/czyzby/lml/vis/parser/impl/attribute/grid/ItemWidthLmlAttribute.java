@@ -5,7 +5,7 @@ import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.kotcrab.vis.ui.layout.GridGroup;
 
-/** See {@link GridGroup#setItemWidth(int)}. Mapped to "itemWidth".
+/** See {@link GridGroup#setItemWidth(float)}. Mapped to "itemWidth".
  *
  * @author MJ */
 public class ItemWidthLmlAttribute implements LmlAttribute<GridGroup> {
@@ -17,6 +17,6 @@ public class ItemWidthLmlAttribute implements LmlAttribute<GridGroup> {
     @Override
     public void process(final LmlParser parser, final LmlTag tag, final GridGroup actor,
             final String rawAttributeData) {
-        actor.setItemWidth(parser.parseInt(rawAttributeData, actor));
+        actor.setItemWidth(parser.parseFloat(rawAttributeData, actor));
     }
 }

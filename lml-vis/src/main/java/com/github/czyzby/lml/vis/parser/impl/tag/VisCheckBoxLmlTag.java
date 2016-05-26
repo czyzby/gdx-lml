@@ -30,6 +30,6 @@ public class VisCheckBoxLmlTag extends VisTextButtonLmlTag {
     @Override
     protected Actor[] getComponentActors(final Actor actor) {
         final VisCheckBox checkBox = (VisCheckBox) actor;
-        return new Actor[] { checkBox.getLabel(), checkBox.getImage() };
+        return new Actor[] { checkBox.getLabel(), checkBox.getBackgroundImage(), checkBox.getTickImage() };
     }
 }
