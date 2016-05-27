@@ -27,6 +27,7 @@ As you might guess, they are used to scan for annotated classes. Each platform r
 - **DesktopClassScanner** - uses `fast-classpath-scanner` library for non-reflection-based, efficient component scanning. Does not load tested classes. Works only on desktop. Available in `gdx-autumn-fcs` [library](natives/fcs).
 - **GwtClassScanner** - scans through all classes registered for GWT LibGDX reflection pool. Available in `gdx-autumn-gwt` [library](natives/gwt).
 - **AndroidClassScanner** - uses Android Java API to scan through all available classes. Available in `gdx-autumn-android` [library](natives/android).
+- **JTranscClassScanner** - uses `JTranscReflection` to access names of all generated classes. Available in `gdx-autumn-jtransc` [library](natives/jtransc).
 
 Unfortunately, class scanner iOS is not implemented yet. For now, you might try to make your own implementation (based on Android scanner?) or use *FixedClassScanner*. Sorry.
 
@@ -55,10 +56,15 @@ Gradle dependency:
 `$libVersion` is the current version of the library, usually following `MAJOR.MINOR` schema. `$gdxVersion` is the LibGDX version used to build (and required by) the library. You can check the current library version [here](http://search.maven.org/#search|ga|1|g%3A%22com.github.czyzby%22) - or you can use the [snapshots](https://oss.sonatype.org/content/repositories/snapshots/com/github/czyzby/).
 
 To include Autumn in GWT, see [Autumn GWT](natives/gwt).
-To include Autumn on Android, see [Autumn Android](natives/android).
+To include Autumn in Android applications, see [Autumn Android](natives/android).
+To include Autumn in JTransc application, see [Autumn JTransc](natives/jtransc).
 For efficient class scanning on desktop, see [Autumn FCS](natives/fcs).
 
 ##What's new
+
+1.6 -> 1.7
+
+- Experimental [JTransc](https://github.com/jtransc/gdx-backend-jtransc) support through [a new library](natives/jtransc).
 
 1.5 -> 1.6
 
