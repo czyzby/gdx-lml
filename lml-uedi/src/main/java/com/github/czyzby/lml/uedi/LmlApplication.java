@@ -93,10 +93,10 @@ public class LmlApplication extends LmlApplicationListener {
         context.scan(root);
         doAfterScan();
         super.create();
-        setStageViewport();
         final LmlParser parser = getParser();
         parser.getData().setDefaultPreferences(ApplicationPreferences.getPreferences());
         i18nBundleProvider.fill(parser);
+        setStageViewport();
         setFirstView();
     }
 
