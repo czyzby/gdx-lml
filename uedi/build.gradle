@@ -1,0 +1,8 @@
+ext {
+  uediVersion = '0.2-SNAPSHOT'
+}
+
+dependencies {
+  compile "com.github.czyzby:gdx-kiwi:$libVersion"
+  compile "com.github.czyzby:uedi-api:$uediVersion"
+}
