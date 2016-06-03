@@ -1,5 +1,5 @@
 ext {
-  gwtVersion = '2.6.0'
+  gwtVersion = '2.6.1'
 }
 
 javadoc {
@@ -8,7 +8,5 @@ javadoc {
 
 dependencies {
   compile "com.github.czyzby:gdx-websocket:$libVersion"
-  compile "com.github.czyzby:gdx-websocket:$libVersion:sources"
-  compile "com.google.gwt:gwt-user:$gwtVersion"
-  compile "com.google.gwt:gwt-user:$gwtVersion:sources"
+  provided "com.google.gwt:gwt-user:$gwtVersion"
 }
