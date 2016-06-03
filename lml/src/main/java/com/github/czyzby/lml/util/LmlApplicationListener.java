@@ -191,7 +191,8 @@ public abstract class LmlApplicationListener implements ApplicationListener {
             @Override
             public Void consume(final Actor actor) {
                 final String viewClassName = LmlUtilities.getActorId(actor);
-                final Class<? extends AbstractLmlView> viewClass = LmlApplicationListener.this.getViewClass(viewClassName);
+                final Class<? extends AbstractLmlView> viewClass = LmlApplicationListener.this
+                        .getViewClass(viewClassName);
                 setView(viewClass);
                 return null;
             }
@@ -387,7 +388,7 @@ public abstract class LmlApplicationListener implements ApplicationListener {
      *            become the current view after view transition.
      * @see #setView(AbstractLmlView) */
     public void setView(final Class<? extends AbstractLmlView> viewClass) {
-        setView(getView(viewClass));
+        setView(getView(viewClass), null);
     }
 
     /** @param view will be set as the current view after view transition. Current screen (if any exists) will receive a
@@ -397,12 +398,25 @@ public abstract class LmlApplicationListener implements ApplicationListener {
      * @see #getViewShowingAction(AbstractLmlView)
      * @see #getViewHidingAction(AbstractLmlView) */
     public void setView(final AbstractLmlView view) {
-        // Note that this method uses static imports of actions.
+        setView(view, null);
+    }
+
+    /** @param view will be set as the current view after view transition. Current screen (if any exists) will receive a
+     *            {@link AbstractLmlView#hide()} call. The new screen will be resized using
+     *            {@link AbstractLmlView#resize(int, int, boolean)} and then will receive a
+     *            {@link AbstractLmlView#show()} call.
+     * @param doAfterHide will be executed after the current view is fully hidden. Is never executed if there was no
+     *            current view.
+     * @see #getViewShowingAction(AbstractLmlView)
+     * @see #getViewHidingAction(AbstractLmlView) */
+    public void setView(final AbstractLmlView view, final Action doAfterHide) {
         if (currentView != null) {
             viewChangeRunnable.setView(view);
             currentView.hide();
-            currentView.getStage()
-                    .addAction(Actions.sequence(getViewHidingAction(currentView), Actions.run(viewChangeRunnable)));
+            final Action hideAction = doAfterHide == null
+                    ? Actions.sequence(getViewHidingAction(currentView), Actions.run(viewChangeRunnable))
+                    : Actions.sequence(getViewHidingAction(currentView), doAfterHide, Actions.run(viewChangeRunnable));
+            currentView.getStage().addAction(hideAction);
         } else {
             currentView = view;
             currentView.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), isCenteringCameraOnResize());
@@ -448,7 +462,7 @@ public abstract class LmlApplicationListener implements ApplicationListener {
         @Override
         public void run() {
             currentView = null;
-            LmlApplicationListener.this.setView(view);
+            LmlApplicationListener.this.setView(view, null);
         }
     }
 }
