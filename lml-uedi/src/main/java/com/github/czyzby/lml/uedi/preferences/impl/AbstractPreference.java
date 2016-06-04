@@ -1,4 +1,4 @@
-package com.github.czyzby.lml.uedi.preferences;
+package com.github.czyzby.lml.uedi.preferences.impl;
 
 import com.badlogic.gdx.Preferences;
 import com.github.czyzby.kiwi.util.gdx.preference.ApplicationPreferences;

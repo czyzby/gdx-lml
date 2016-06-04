@@ -3,6 +3,7 @@ package com.github.czyzby.lml.uedi.preferences;
 import java.lang.reflect.Member;
 
 import com.badlogic.gdx.Preferences;
+import com.github.czyzby.lml.uedi.preferences.impl.AbstractPreference;
 import com.github.czyzby.uedi.stereotype.Property;
 import com.github.czyzby.uedi.stereotype.impl.PropertyProvider;
 

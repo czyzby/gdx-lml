@@ -51,6 +51,11 @@ public abstract class AbstractAssetProvider<Asset> implements Provider<Asset> {
         return asset;
     }
 
+    /** @return internal map used to store file paths mapped to their asset IDs. */
+    protected ObjectMap<String, String> getIdsToPaths() {
+        return idsToPaths;
+    }
+
     /** @throws GdxRuntimeException on each call. */
     protected void throwUnknownPathException() {
         throw new GdxRuntimeException("Unable to determine asset path.");

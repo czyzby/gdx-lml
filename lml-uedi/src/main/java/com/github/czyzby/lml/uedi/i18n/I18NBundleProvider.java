@@ -25,12 +25,15 @@ import com.github.czyzby.uedi.reflection.impl.FieldMember;
  *
  * @author MJ */
 public class I18NBundleProvider extends AbstractAssetProvider<I18NBundle> {
+    /** This is the initial default bundle name, which will be set as the main bundle in {@link LmlParser}. */
+    public static final String DEFAULT_BUNDLE = "nls";
     public static final String[] EXTENSIONS = new String[] { "" };
     private final ObjectMap<String, I18NBundle> bundles = GdxMaps.newObjectMap();
     private final ObjectMap<String, Array<BundleInjection>> bundlesData = LazyObjectMap.newMapOfArrays();
     private LocalePreference localePreference;
     private LmlParser parser;
     private String encoding = "UTF-8";
+    private String defaultBundle = DEFAULT_BUNDLE;
 
     /** @param assetManager will be used to load the textures. */
     public I18NBundleProvider(final InjectingAssetManager assetManager) {
@@ -45,6 +48,16 @@ public class I18NBundleProvider extends AbstractAssetProvider<I18NBundle> {
     /** @return preference used to determine current {@link Locale}. */
     public LocalePreference getLocalePreference() {
         return localePreference;
+    }
+
+    /** @return default bundle name, which will be set as the main bundle in {@link LmlParser}. */
+    public String getDefaultBundle() {
+        return defaultBundle;
+    }
+
+    /** @param defaultBundle default bundle name, which will be set as the main bundle in {@link LmlParser}. */
+    public void setDefaultBundle(final String defaultBundle) {
+        this.defaultBundle = defaultBundle;
     }
 
     @Override
@@ -114,6 +127,9 @@ public class I18NBundleProvider extends AbstractAssetProvider<I18NBundle> {
         this.parser = parser;
         for (final Entry<String, I18NBundle> bundle : bundles) {
             parser.getData().addI18nBundle(bundle.key, bundle.value);
+            if (defaultBundle.equals(bundle.key)) {
+                parser.getData().setDefaultI18nBundle(bundle.value);
+            }
         }
     }
 
@@ -141,6 +157,9 @@ public class I18NBundleProvider extends AbstractAssetProvider<I18NBundle> {
                 injection.inject(bundle);
             }
             parser.getData().addI18nBundle(id, bundle);
+            if (defaultBundle.equals(id)) {
+                parser.getData().setDefaultI18nBundle(bundle);
+            }
         }
     }
 

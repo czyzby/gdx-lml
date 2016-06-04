@@ -135,7 +135,7 @@ public class LmlApplication extends LmlApplicationListener {
         }
         setCurrentView(null);
         initiateView(firstView);
-        setView(firstView);
+        setView(firstView, null);
     }
 
     @Override
@@ -307,7 +307,7 @@ public class LmlApplication extends LmlApplicationListener {
         }
         view.setStage(null);
         view.clearActors();
-        getParser().createView(view, view.getTemplateFile());
+        view.addActors(getParser().createView(view, view.getTemplateFile()));
         view.setStage(stage);
         if (isCurrent) {
             view.show();
@@ -325,8 +325,9 @@ public class LmlApplication extends LmlApplicationListener {
         if (context != null) {
             try {
                 context.destroy();
+                ApplicationPreferences.saveAllPreferences();
             } catch (final Exception exception) {
-                Gdx.app.log(Lml.LOGGER_TAG, "Unable to destroy the context.", exception);
+                Gdx.app.error(Lml.LOGGER_TAG, "Unable to destroy the context.", exception);
             }
         }
     }

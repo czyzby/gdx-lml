@@ -5,7 +5,7 @@ import java.util.Locale;
 
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.preference.ApplicationPreferences;
-import com.github.czyzby.lml.uedi.preferences.AbstractPreference;
+import com.github.czyzby.lml.uedi.preferences.impl.AbstractPreference;
 import com.github.czyzby.uedi.stereotype.Provider;
 
 /** Manages application's locale preference. Reloads i18n bundles on preference change.
