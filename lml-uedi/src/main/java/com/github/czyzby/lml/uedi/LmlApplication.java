@@ -238,7 +238,12 @@ public class LmlApplication extends LmlApplicationListener {
         context.add(this);
     }
 
-    /** @return true by default. Override and return false to omit {@link MusicService} in the context. */
+    /** {@link MusicService}, contrary to most utilities provided by default (like {@link Stage} or
+     * {@link com.badlogic.gdx.assets.AssetManager AssetManager}), is not a part of standard LibGDX API. It was added to
+     * ease the management of sound and music setting, as well as make it trivial to implement looping themes. This
+     * method allows to choose whether to include it in the context (along with its music settings) or not.
+     *
+     * @return true by default. Override and return false to omit {@link MusicService} in the context. */
     protected boolean includeMusicService() {
         return true;
     }

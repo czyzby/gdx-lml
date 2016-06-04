@@ -5,6 +5,7 @@
 	<inherits name="com.github.czyzby.uedi.GdxUedi" />
 
 	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.lml.uedi.music.VolumeAction" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.lml.uedi.music.MusicStopAction" />
 	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.lml.uedi.music.MusicService" />
 	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.lml.uedi.views.View" />
 	<!-- Injectable assets: -->

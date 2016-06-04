@@ -1,10 +1,15 @@
 package com.github.czyzby.lml.uedi.music;
 
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Music.OnCompletionListener;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.badlogic.gdx.utils.Array;
+import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.lml.parser.LmlData;
 import com.github.czyzby.lml.parser.action.ActorConsumer;
 import com.github.czyzby.uedi.stereotype.Singleton;
@@ -18,6 +23,19 @@ public class MusicService implements Singleton {
     private final SoundOnPreference soundOn;
     private final MusicVolumePreference musicVolume;
     private final SoundVolumePreference soundVolume;
+    // Music utilities:
+    private Music currentTheme;
+    private final float duration = 0.6f;
+    private final Array<Music> themes = GdxArrays.newArray();
+    private final OnCompletionListener listener = new OnCompletionListener() {
+        @Override
+        public void onCompletion(final Music music) {
+            music.setOnCompletionListener(null);
+            if (music == currentTheme) {
+                changeTheme();
+            }
+        }
+    };
 
     /** @param stage will be used to add music transition actions.
      * @param musicOn decides whether music is on.
@@ -40,7 +58,7 @@ public class MusicService implements Singleton {
         data.addActorConsumer("setMusicOn", new ActorConsumer<Void, Button>() {
             @Override
             public Void consume(final Button actor) {
-                musicOn.setOn(actor.isChecked());
+                setMusicOn(actor.isChecked());
                 return null;
             }
         });
@@ -48,7 +66,7 @@ public class MusicService implements Singleton {
         data.addActorConsumer("setSoundOn", new ActorConsumer<Void, Button>() {
             @Override
             public Void consume(final Button actor) {
-                soundOn.setOn(actor.isChecked());
+                setSoundOn(actor.isChecked());
                 return null;
             }
         });
@@ -56,7 +74,7 @@ public class MusicService implements Singleton {
         data.addActorConsumer("setMusicVolume", new ActorConsumer<Void, ProgressBar>() {
             @Override
             public Void consume(final ProgressBar actor) {
-                musicVolume.setPercent(actor.getValue());
+                setMusicVolume(actor.getValue());
                 return null;
             }
         });
@@ -64,7 +82,7 @@ public class MusicService implements Singleton {
         data.addActorConsumer("setSoundVolume", new ActorConsumer<Void, ProgressBar>() {
             @Override
             public Void consume(final ProgressBar actor) {
-                soundVolume.setPercent(actor.getValue());
+                setSoundVolume(actor.getValue());
                 return null;
             }
         });
@@ -129,5 +147,171 @@ public class MusicService implements Singleton {
             return sound.play(soundVolume.getPercent() * volume, pitch, pan);
         }
         return -1L;
+    }
+
+    /** @return true if music are currently on. */
+    public boolean isMusicOn() {
+        return musicOn.isOn();
+    }
+
+    /** @param on true to turn on, false to turn off. */
+    public void setMusicOn(final boolean on) {
+        musicOn.setOn(on);
+        if (on) {
+            currentTheme = getNextTheme(null);
+            fadeInCurrentTheme();
+        } else {
+            fadeOutCurrentTheme();
+        }
+    }
+
+    /** @return current music volume in range of [0, 1]. */
+    public float getMusicVolume() {
+        return musicVolume.getPercent();
+    }
+
+    /** @param volume should be in range of [0, 1]. */
+    public void setMusicVolume(final float volume) {
+        musicVolume.setPercent(volume);
+        if (currentTheme != null) {
+            currentTheme.setVolume(volume);
+        }
+    }
+
+    /** @param music is music is turned on, will be smoothly started and played. Replaces current music theme, if any.
+     *            Will be played once with the current volume setting. */
+    public void play(final Music music) {
+        if (musicOn.isOn()) {
+            fadeOutCurrentTheme();
+            currentTheme = music;
+            fadeInCurrentTheme();
+        }
+    }
+
+    /** Smoothly fades out current theme. */
+    protected void fadeOutCurrentTheme() {
+        if (currentTheme != null && currentTheme.isPlaying()) {
+            currentTheme.setOnCompletionListener(null);
+            stage.addAction(Actions.sequence(
+                    VolumeAction.setVolume(currentTheme, currentTheme.getVolume(), 0f, duration, Interpolation.fade),
+                    MusicStopAction.stop(currentTheme)));
+        }
+        currentTheme = null;
+    }
+
+    /** Smoothly fades in current theme. */
+    protected void fadeInCurrentTheme() {
+        if (currentTheme != null) {
+            currentTheme.setLooping(false);
+            currentTheme.setVolume(0f);
+            currentTheme.setOnCompletionListener(listener);
+            stage.addAction(
+                    VolumeAction.setVolume(currentTheme, 0f, musicVolume.getPercent(), duration, Interpolation.fade));
+            currentTheme.play();
+        }
+    }
+
+    /** Forces a change of current theme. Assumes a theme was already played - there are no smooth fade ins of any
+     * kind. */
+    protected void changeTheme() {
+        currentTheme = getNextTheme(currentTheme);
+        if (currentTheme != null) {
+            currentTheme.setLooping(false);
+            currentTheme.setOnCompletionListener(listener);
+            currentTheme.setVolume(musicVolume.getPercent());
+            currentTheme.play();
+        }
+    }
+
+    /** @param previous was played previously.
+     * @return the new music theme. */
+    protected Music getNextTheme(final Music previous) {
+        return themes.size == 1 ? themes.first() : themes.random();
+    }
+
+    /** @param theme will be added to the current themes collection, which are constantly played on a loop. By default,
+     *            themes order is random. If no theme is currently played, this music instance will start playing
+     *            smoothly. */
+    public void addTheme(final Music theme) {
+        if (!themes.contains(theme, true)) {
+            themes.add(theme);
+        }
+        if (currentTheme == null && musicOn.isOn()) {
+            currentTheme = theme;
+            fadeInCurrentTheme();
+        }
+    }
+
+    /** @param themes will be added to the current themes collection, which are constantly played on a loop. By default,
+     *            themes order is random. If no theme is currently played, one of the passed music instances will start
+     *            playing smoothly. */
+    public void addThemes(final Music... themes) {
+        for (final Music theme : themes) {
+            if (!this.themes.contains(theme, true)) {
+                this.themes.add(theme);
+            }
+        }
+        if (currentTheme == null && musicOn.isOn()) {
+            currentTheme = getNextTheme(null);
+            fadeInCurrentTheme();
+        }
+    }
+
+    /** @param themes will be added to the current themes collection, which are constantly played on a loop. By default,
+     *            themes order is random. If no theme is currently played, one of the passed music instances will start
+     *            playing smoothly. */
+    public void addThemes(final Iterable<Music> themes) {
+        for (final Music theme : themes) {
+            if (!this.themes.contains(theme, true)) {
+                this.themes.add(theme);
+            }
+        }
+        if (currentTheme == null && musicOn.isOn()) {
+            currentTheme = getNextTheme(null);
+            fadeInCurrentTheme();
+        }
+    }
+
+    /** @param theme will be removed from the current themes collection. If is currently played, will be smoothly
+     *            stopped and replaced with another theme (if any are left). */
+    public void removeTheme(final Music theme) {
+        themes.removeValue(theme, true);
+        if (currentTheme == theme) {
+            fadeOutCurrentTheme();
+            currentTheme = getNextTheme(theme);
+            fadeInCurrentTheme();
+        }
+    }
+
+    /** @param themes will be removed from the current themes collection. If one of them is currently played, it will be
+     *            smoothly stopped and replaced with another theme (if any are left). */
+    public void removeThemes(final Music... themes) {
+        boolean removeCurrent = false;
+        for (final Music theme : themes) {
+            this.themes.removeValue(theme, true);
+            removeCurrent |= currentTheme == theme;
+        }
+        if (removeCurrent) {
+            final Music nextTheme = getNextTheme(currentTheme);
+            fadeOutCurrentTheme();
+            currentTheme = nextTheme;
+            fadeInCurrentTheme();
+        }
+    }
+
+    /** @param themes will be removed from the current themes collection. If one of them is currently played, it will be
+     *            smoothly stopped and replaced with another theme (if any are left). */
+    public void removeThemes(final Iterable<Music> themes) {
+        boolean removeCurrent = false;
+        for (final Music theme : themes) {
+            this.themes.removeValue(theme, true);
+            removeCurrent |= currentTheme == theme;
+        }
+        if (removeCurrent) {
+            final Music nextTheme = getNextTheme(currentTheme);
+            fadeOutCurrentTheme();
+            currentTheme = nextTheme;
+            fadeInCurrentTheme();
+        }
     }
 }
