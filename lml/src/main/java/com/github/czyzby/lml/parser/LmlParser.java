@@ -35,6 +35,12 @@ public interface LmlParser {
      *         alone if template parsing is currently in progress. */
     LmlSyntax getSyntax();
 
+    /** @param styleSheet will be used to provide default values for tags' attributes. */
+    void setStyleSheet(LmlStyleSheet styleSheet);
+
+    /** @return style sheet currently used to provide default values for tags' attributes. Can safely modified. */
+    LmlStyleSheet getStyleSheet();
+
     /** @return true if parser is strict and throws errors for unknown tags, attributes, etc. */
     boolean isStrict();
 

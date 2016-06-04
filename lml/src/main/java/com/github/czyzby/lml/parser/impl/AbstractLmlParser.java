@@ -30,6 +30,7 @@ import com.github.czyzby.lml.annotation.processor.OnChangeProcessor;
 import com.github.czyzby.lml.parser.LmlData;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.LmlParserListener;
+import com.github.czyzby.lml.parser.LmlStyleSheet;
 import com.github.czyzby.lml.parser.LmlSyntax;
 import com.github.czyzby.lml.parser.LmlTemplateReader;
 import com.github.czyzby.lml.parser.LmlView;
@@ -53,6 +54,7 @@ public abstract class AbstractLmlParser implements LmlParser {
     protected LmlData data;
     protected LmlSyntax syntax;
     protected LmlTemplateReader templateReader;
+    protected LmlStyleSheet styleSheet;
 
     // Settings:
     protected boolean strict;
@@ -128,6 +130,16 @@ public abstract class AbstractLmlParser implements LmlParser {
     @Override
     public LmlSyntax getSyntax() {
         return syntax;
+    }
+
+    @Override
+    public void setStyleSheet(final LmlStyleSheet styleSheet) {
+        this.styleSheet = styleSheet;
+    }
+
+    @Override
+    public LmlStyleSheet getStyleSheet() {
+        return styleSheet;
     }
 
     @Override

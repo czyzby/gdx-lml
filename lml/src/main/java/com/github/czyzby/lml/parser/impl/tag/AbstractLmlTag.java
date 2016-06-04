@@ -44,7 +44,7 @@ public abstract class AbstractLmlTag implements LmlTag {
         } else {
             parent = true;
         }
-        if (hasAttributes(entities)) {
+        if (hasAttributes(entities) || hasDefaultAttributes(tagName)) {
             entities.removeIndex(0); // Removing tag name from attributes.
             attributes = entities;
             if (supportsNamedAttributes() || supportsOptionalNamedAttributes()) {
@@ -57,6 +57,12 @@ public abstract class AbstractLmlTag implements LmlTag {
             attributes = null;
             namedAttributes = null;
         }
+    }
+
+    /** @param tagName name of the tag.
+     * @return true if the tag has default attributes assigned. */
+    protected boolean hasDefaultAttributes(final String tagName) {
+        return false;
     }
 
     /** @return true if this tag type supports named attributes and they should be mapped. */

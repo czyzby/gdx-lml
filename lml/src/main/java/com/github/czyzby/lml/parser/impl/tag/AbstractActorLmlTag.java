@@ -3,9 +3,11 @@ package com.github.czyzby.lml.parser.impl.tag;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Tree;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectMap.Entry;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.github.czyzby.kiwi.util.common.Strings;
+import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxSets;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.LmlSyntax;
@@ -33,6 +35,7 @@ public abstract class AbstractActorLmlTag extends AbstractLmlTag {
     protected Actor prepareActor() {
         final LmlActorBuilder builder = getNewInstanceOfBuilder();
         final ObjectSet<String> processedAttributes = GdxSets.newSet();
+        addDefaultAttributes();
         processBuildingAttributes(builder, processedAttributes);
         final Actor actor;
         try {
@@ -49,6 +52,18 @@ public abstract class AbstractActorLmlTag extends AbstractLmlTag {
         }
         invokeOnCreateActions(actor);
         return actor;
+    }
+
+    @Override
+    protected boolean hasDefaultAttributes(final String tagName) {
+        return GdxMaps.isNotEmpty(getParser().getStyleSheet().getStyles(tagName));
+    }
+
+    private void addDefaultAttributes() {
+        final ObjectMap<String, String> defaultAttributes = getParser().getStyleSheet().getStyles(getTagName());
+        if (defaultAttributes != null) {
+            getNamedAttributes().putAll(defaultAttributes);
+        }
     }
 
     private void processBuildingAttributes(final LmlActorBuilder builder, final ObjectSet<String> processedAttributes) {
