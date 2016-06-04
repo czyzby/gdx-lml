@@ -36,6 +36,11 @@ import com.github.czyzby.lml.uedi.i18n.I18NBundleProvider;
 import com.github.czyzby.lml.uedi.i18n.LocalePreference;
 import com.github.czyzby.lml.uedi.impl.LmlContext;
 import com.github.czyzby.lml.uedi.logger.LoggerProvider;
+import com.github.czyzby.lml.uedi.music.MusicOnPreference;
+import com.github.czyzby.lml.uedi.music.MusicService;
+import com.github.czyzby.lml.uedi.music.MusicVolumePreference;
+import com.github.czyzby.lml.uedi.music.SoundOnPreference;
+import com.github.czyzby.lml.uedi.music.SoundVolumePreference;
 import com.github.czyzby.lml.uedi.preferences.PreferencesProvider;
 import com.github.czyzby.lml.uedi.ui.BatchProvider;
 import com.github.czyzby.lml.uedi.ui.SkinProvider;
@@ -205,8 +210,6 @@ public class LmlApplication extends LmlApplicationListener {
         context.addProvider(localePreference);
         // Logging:
         context.addProvider(new LoggerProvider());
-        // Music:
-        // TODO music service
         // Preferences:
         context.addProvider(new PreferencesProvider());
         // UI:
@@ -218,10 +221,26 @@ public class LmlApplication extends LmlApplicationListener {
         final StageProvider stageProvider = new StageProvider(spriteBatchProvider.getBatch());
         stage = stageProvider.getStage();
         context.addProvider(stageProvider);
+        if (includeMusicService()) { // Music:
+            final MusicOnPreference musicOn = new MusicOnPreference();
+            final SoundOnPreference soundOn = new SoundOnPreference();
+            final MusicVolumePreference musicVolume = new MusicVolumePreference();
+            final SoundVolumePreference soundVolume = new SoundVolumePreference();
+            context.addProperty(musicOn);
+            context.addProperty(soundOn);
+            context.addProperty(musicVolume);
+            context.addProperty(soundVolume);
+            context.add(new MusicService(stage, musicOn, soundOn, musicVolume, soundVolume));
+        }
 
         context.setMapSuperTypes(mapSuper);
         // Application listener:
         context.add(this);
+    }
+
+    /** @return true by default. Override and return false to omit {@link MusicService} in the context. */
+    protected boolean includeMusicService() {
+        return true;
     }
 
     @Override
@@ -251,6 +270,9 @@ public class LmlApplication extends LmlApplicationListener {
                 return null;
             }
         });
+        if (includeMusicService()) {
+            context.get(MusicService.class).addDefaultActions(data);
+        }
     }
 
     /** @param view will be immediately set as the current view. Note that this should not be generally used to change
