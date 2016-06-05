@@ -1,14 +1,13 @@
 package com.github.czyzby.lml.parser.impl;
 
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.LmlStyleSheet;
-import com.github.czyzby.lml.parser.LmlSyntax;
+import com.github.czyzby.lml.parser.LmlTemplateReader;
 
 /** Allows to process LML style sheet code (with CSS-like syntax), extracting default attribute values of selected tags.
  *
@@ -18,19 +17,18 @@ import com.github.czyzby.lml.parser.LmlSyntax;
  *
  * @author MJ */
 public class LssParser {
+    private final LmlParser parser;
     private final LmlStyleSheet styleSheet;
+    private final LmlTemplateReader reader;
     private final char inheritanceMarker = '.';
     private final char blockOpening = '{';
     private final char blockClosing = '}';
     private final char separator = ':';
     private final char lineEnd = ';';
+    private final char tagSeparator = ','; // TODO comments: '/* */'
 
     // Control variables:
-    private String lss;
     private final StringBuilder builder = new StringBuilder();
-    private int index;
-    private int length;
-    private int line;
     private final Array<String> tags = GdxArrays.newArray();
     private final Array<String> inherits = GdxArrays.newArray();
     private String attribute;
@@ -38,48 +36,47 @@ public class LssParser {
 
     /** @param parser will be used to extract style sheet and syntax data. */
     public LssParser(final LmlParser parser) {
-        this(parser.getStyleSheet(), parser.getSyntax());
-    }
-
-    /** @param styleSheet will be used to set the parsed style data.
-     * @param syntax provides style sheet special characters. */
-    public LssParser(final LmlStyleSheet styleSheet, final LmlSyntax syntax) {
-        this.styleSheet = styleSheet;
+        this.parser = parser;
+        styleSheet = parser.getStyleSheet();
+        reader = parser.getTemplateReader();
         // TODO extract values from syntax
     }
 
     /** @param lss LML style sheet data. Will be parsed and processed. */
     public void parse(final String lss) {
-        this.lss = lss;
-        length = lss.length();
-        index = 0;
-        line = 1;
-        while (index < length) {
-            parseNames();
-            parseAttributes();
-            processAttributes();
-            tags.clear();
-            inherits.clear();
-            attributes.clear();
+        reader.append(lss, "LML style sheet");
+        try {
+            while (reader.hasNextCharacter()) {
+                burnWhitespaces();
+                if (!reader.hasNextCharacter()) {
+                    break;
+                }
+                parseNames();
+                parseAttributes();
+                processAttributes();
+                tags.clear();
+                inherits.clear();
+                attributes.clear();
+            }
+        } finally {
+            reader.clear();
         }
     }
 
-    /** @param string will become the exception message proceeded by the current line number. */
+    /** @param string will become the exception message. */
     protected void throwException(final String string) {
-        throw new GdxRuntimeException(line + ": " + string);
+        parser.throwError(string);
     }
 
     /** Parses names proceeding styles block. */
     protected void parseNames() {
-        burnWhitespaces();
-        for (; index < length; index++) {
-            final char character = get();
+        while (reader.hasNextCharacter()) {
+            final char character = reader.nextCharacter();
             if (Strings.isWhitespace(character)) {
                 addName();
                 continue;
             } else if (character == blockOpening) {
                 addName();
-                index++;
                 break;
             } else {
                 builder.append(character);
@@ -93,10 +90,14 @@ public class LssParser {
     /** Appends tag or inheritance name from the current builder data. */
     protected void addName() {
         if (Strings.isNotEmpty(builder)) {
-            if (Strings.startsWith(builder, inheritanceMarker)) {
-                inherits.add(builder.substring(1));
+            int endOffset = 0;
+            if (Strings.endsWith(builder, tagSeparator)) { // Ends with ','.
+                endOffset = 1;
+            }
+            if (Strings.startsWith(builder, inheritanceMarker)) { // Starts with '.'.
+                inherits.add(builder.substring(1, builder.length() - endOffset));
             } else {
-                tags.add(builder.toString());
+                tags.add(builder.substring(0, builder.length() - endOffset));
             }
             Strings.clearBuilder(builder);
         }
@@ -106,17 +107,17 @@ public class LssParser {
     protected void parseAttributes() {
         burnWhitespaces();
         attribute = null;
-        for (; index < length; index++) {
-            final char character = get();
+        while (reader.hasNextCharacter()) {
+            final char character = reader.peekCharacter();
+            if (Strings.isNewLine(character) && (attribute != null || Strings.isNotEmpty(builder))) {
+                throwException("Expecting line end marker: '" + lineEnd + "'.");
+            }
+            reader.nextCharacter();
             if (character == blockClosing) {
                 if (attribute != null || Strings.isNotEmpty(builder)) {
                     throwException("Unexpected tag close.");
                 }
-                index++;
                 return;
-            } else if (Strings.isNewLine(character) && (attribute != null || Strings.isNotEmpty(builder))) {
-                line--;
-                throwException("Expecting line end marker: '" + lineEnd + "'.");
             } else if (Strings.isWhitespace(character) && attribute == null) {
                 continue;
             } else if (character == separator && attribute == null) {
@@ -124,7 +125,8 @@ public class LssParser {
                 continue;
             } else if (character == lineEnd) {
                 if (attribute == null) {
-                    throwException("Found unexpected line end marker: '" + lineEnd + "'.");
+                    throwException("Found unexpected line end marker: '" + lineEnd + "'. Is separator (" + separator
+                            + ") missing?");
                 }
                 addAttribute();
             } else {
@@ -158,30 +160,19 @@ public class LssParser {
         }
     }
 
-    /** @return character at current index value. */
-    protected char get() {
-        final char character = lss.charAt(index);
-        if (Strings.isNewLine(character)) {
-            line++;
-        }
-        return character;
-    }
-
     /** Analyzes characters, raising the index. Stops after encountering first non-whitespace character. */
     protected void burnWhitespaces() {
-        for (; index < length; index++) {
-            if (Strings.isNotWhitespace(get())) {
+        while (reader.hasNextCharacter()) {
+            if (Strings.isNotWhitespace(reader.peekCharacter())) {
                 return;
             }
+            reader.nextCharacter();
         }
     }
 
     /** Clears control variables. */
     public void reset() {
-        lss = null;
         attribute = null;
-        index = 0;
-        line = 1;
         tags.clear();
         inherits.clear();
         attributes.clear();
