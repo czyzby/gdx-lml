@@ -283,6 +283,7 @@ import com.github.czyzby.lml.parser.impl.tag.macro.provider.NewAttributeLmlMacro
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.NewTagLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.NullCheckLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.RandomLmlMacroTagProvider;
+import com.github.czyzby.lml.parser.impl.tag.macro.provider.StyleLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.TableCellLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.TableColumnLmlMacroTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.macro.provider.TableRowLmlMacroTagProvider;
@@ -389,6 +390,7 @@ public class DefaultLmlSyntax extends EmptyLmlSyntax {
         addMacroTagProvider(new NewTagLmlMacroTagProvider(), "newTag", "tag");
         addMacroTagProvider(new NullCheckLmlMacroTagProvider(), "notNull", "ifNotNull", "exists");
         addMacroTagProvider(new RandomLmlMacroTagProvider(), "random");
+        addMacroTagProvider(new StyleLmlMacroTagProvider(), "style");
         addMacroTagProvider(new TableCellLmlMacroTagProvider(), "cell", "tableCell");
         addMacroTagProvider(new TableColumnLmlMacroTagProvider(), "column", "tableColumn");
         addMacroTagProvider(new TableRowLmlMacroTagProvider(), "row", "tableRow");

@@ -35,6 +35,7 @@ If you want to use LML with GWT, you have to add this module to your `GdxDefinit
 1.7 -> 1.8
 
 - Added `<:random>` macro, which allows to choose a random value from the passed array.
+- Added `<:style>` macro, which allows to set default values of tag attributes at runtime, similarly to LML style sheets.
 
 1.6 -> 1.7
 
