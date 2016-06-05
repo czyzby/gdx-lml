@@ -7,6 +7,7 @@ import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.lml.parser.LmlData;
 import com.github.czyzby.lml.parser.LmlParser;
+import com.github.czyzby.lml.parser.LmlStyleSheet;
 import com.github.czyzby.lml.parser.LmlSyntax;
 import com.github.czyzby.lml.parser.LmlTemplateReader;
 import com.github.czyzby.lml.parser.impl.tag.macro.util.Equation;
@@ -28,7 +29,7 @@ public class DefaultLmlParser extends AbstractLmlParser {
      *
      * @param data contains skin, actions, i18n bundles and other data needed to parse LML templates. */
     public DefaultLmlParser(final LmlData data) {
-        super(data, new DefaultLmlSyntax(), new DefaultLmlTemplateReader(), true);
+        super(data, new DefaultLmlSyntax(), new DefaultLmlTemplateReader(), new DefaultLmlStyleSheet(), true);
     }
 
     /** Creates a new strict parser with custom syntax and default reader.
@@ -36,7 +37,7 @@ public class DefaultLmlParser extends AbstractLmlParser {
      * @param data contains skin, actions, i18n bundles and other data needed to parse LML templates.
      * @param syntax determines syntax of LML templates. */
     public DefaultLmlParser(final LmlData data, final LmlSyntax syntax) {
-        super(data, syntax, new DefaultLmlTemplateReader(), true);
+        super(data, syntax, new DefaultLmlTemplateReader(), new DefaultLmlStyleSheet(), true);
     }
 
     /** Creates a new strict parser with custom syntax and reader.
@@ -45,7 +46,18 @@ public class DefaultLmlParser extends AbstractLmlParser {
      * @param syntax determines syntax of LML templates.
      * @param templateReader reads and buffers templates and their files. */
     public DefaultLmlParser(final LmlData data, final LmlSyntax syntax, final LmlTemplateReader templateReader) {
-        super(data, syntax, templateReader, true);
+        super(data, syntax, templateReader, new DefaultLmlStyleSheet(), true);
+    }
+
+    /** Creates a new strict parser with custom syntax, reader and style sheet.
+     *
+     * @param data contains skin, actions, i18n bundles and other data needed to parse LML templates.
+     * @param syntax determines syntax of LML templates.
+     * @param templateReader reads and buffers templates and their files.
+     * @param styleSheet contains default values of attributes. */
+    public DefaultLmlParser(final LmlData data, final LmlSyntax syntax, final LmlTemplateReader templateReader,
+            final LmlStyleSheet styleSheet) {
+        super(data, syntax, templateReader, styleSheet, true);
     }
 
     /** Creates a new parser with custom syntax, reader and strict setting.
@@ -57,7 +69,20 @@ public class DefaultLmlParser extends AbstractLmlParser {
      *            names etc. Set to true for more HTML-like feel or quick prototyping. */
     public DefaultLmlParser(final LmlData data, final LmlSyntax syntax, final LmlTemplateReader templateReader,
             final boolean strict) {
-        super(data, syntax, templateReader, strict);
+        super(data, syntax, templateReader, new DefaultLmlStyleSheet(), strict);
+    }
+
+    /** Creates a new strict parser with custom syntax, reader, style sheet and strict setting.
+     *
+     * @param data contains skin, actions, i18n bundles and other data needed to parse LML templates.
+     * @param syntax determines syntax of LML templates.
+     * @param templateReader reads and buffers templates and their files.
+     * @param styleSheet contains default values of attributes.
+     * @param strict if false, will ignore some unexpected errors, like unknown attributes, invalid referenced method
+     *            names etc. Set to true for more HTML-like feel or quick prototyping. */
+    public DefaultLmlParser(final LmlData data, final LmlSyntax syntax, final LmlTemplateReader templateReader,
+            final LmlStyleSheet styleSheet, final boolean strict) {
+        super(data, syntax, templateReader, styleSheet, strict);
     }
 
     @Override

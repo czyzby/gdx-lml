@@ -39,7 +39,7 @@ public class DefaultLmlTemplateReader implements LmlTemplateReader {
 
     @Override
     public void append(final FileHandle templateFile) {
-        appendSequence(templateFile.readString(), templateFile.name());
+        appendSequence(templateFile.readString("UTF-8"), templateFile.name());
     }
 
     @Override

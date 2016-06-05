@@ -63,6 +63,14 @@ public interface LmlParser {
      * @return parsed root actors, in the order that they appear in the template. */
     Array<Actor> parseTemplate(FileHandle lmlTemplateFile);
 
+    /** @param styleSheet LML style sheet code. Will be processed.
+     * @see #getStyleSheet() */
+    void parseStyleSheet(String styleSheet);
+
+    /** @param styleSheetFile path to a file storing LML style sheet code. Will be processed.
+     * @see #getStyleSheet() */
+    void parseStyleSheet(FileHandle styleSheetFile);
+
     /** @param stage will have the parsed actors appended.
      * @param lmlTemplate will be parsed. Actors parsed from the template will be added directly into the stage. */
     void fillStage(Stage stage, String lmlTemplate);

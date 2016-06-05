@@ -34,8 +34,10 @@ public abstract class View extends AbstractLmlView implements Named {
         return Gdx.files.internal(getPath());
     }
 
-    /** @return path to the LML template file. */
-    protected abstract String getPath();
+    /** @return path to the LML template file. By default, will return "view/" + view ID + ".lml". */
+    protected String getPath() {
+        return "view/" + getViewId() + ".lml";
+    }
 
     @Override
     public String getName() {

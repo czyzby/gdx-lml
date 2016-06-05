@@ -61,8 +61,13 @@ public abstract class AbstractActorLmlTag extends AbstractLmlTag {
 
     private void addDefaultAttributes() {
         final ObjectMap<String, String> defaultAttributes = getParser().getStyleSheet().getStyles(getTagName());
+        final ObjectMap<String, String> namedAttributes = getNamedAttributes();
         if (defaultAttributes != null) {
-            getNamedAttributes().putAll(defaultAttributes);
+            for (Entry<String, String> attribute : defaultAttributes) {
+                if (!namedAttributes.containsKey(attribute.key)) {
+                    namedAttributes.put(attribute.key, attribute.value);
+                }
+            }
         }
     }
 

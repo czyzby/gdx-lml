@@ -16,7 +16,8 @@ import com.github.czyzby.lml.util.collection.IgnoreCaseStringMap;
 /** Common base for all tag handlers.
  *
  * @author MJ
- * @see AbstractMacroLmlTag */
+ * @see AbstractMacroLmlTag
+ * @see AbstractActorLmlTag */
 public abstract class AbstractLmlTag implements LmlTag {
     private final LmlParser parser;
     private final Array<String> attributes;
