@@ -304,6 +304,9 @@ public interface LmlSyntax {
      * @see #getConditionMarker() */
     char getTernaryMarker();
 
+    /** @return current LML style sheet files syntax. */
+    LssSyntax getLssSyntax();
+
     /** @param tagName name of the tag as it appears in LML template.
      * @return provider of tags associated with the selected name. Might be null, if tag was not registered.
      * @see #getMacroTagProvider(String) */

@@ -6,6 +6,7 @@ import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.kiwi.util.gdx.collection.immutable.ImmutableObjectMap;
 import com.github.czyzby.kiwi.util.gdx.collection.lazy.LazyObjectMap;
 import com.github.czyzby.lml.parser.LmlSyntax;
+import com.github.czyzby.lml.parser.LssSyntax;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlBuildingAttribute;
@@ -30,6 +31,8 @@ public class EmptyLmlSyntax implements LmlSyntax {
      * ignoring case, value: processor). */
     private final ObjectMap<Class<?>, ObjectMap<String, LmlBuildingAttribute<?>>> buildingAttributeProcessors = getLazyMapOfIgnoreCaseMaps();
 
+    private final LssSyntax lssSyntax = createLssSyntax();
+
     /** @return a new instance of object map storing maps with keys as values, ignoring their case. Utility provider.
      * @param <Key> type of map keys.
      * @param <Value> type of stored maps values. */
@@ -43,6 +46,16 @@ public class EmptyLmlSyntax implements LmlSyntax {
                 return new IgnoreCaseStringMap<Value>();
             }
         });
+    }
+
+    /** @return {@link LssSyntax} implementation. */
+    protected LssSyntax createLssSyntax() {
+        return new DefaultLssSyntax();
+    }
+
+    @Override
+    public LssSyntax getLssSyntax() {
+        return lssSyntax;
     }
 
     // Warning: before any syntax changes, make sure that LmlUtilities are also updated.
