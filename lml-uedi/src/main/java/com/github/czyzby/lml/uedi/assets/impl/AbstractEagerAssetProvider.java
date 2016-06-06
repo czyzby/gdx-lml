@@ -32,7 +32,7 @@ public abstract class AbstractEagerAssetProvider<Asset> extends AbstractAssetPro
         }
         final Asset asset = getOrLoad(id);
         if (member instanceof FieldMember && target instanceof Loaded) {
-            ((Loaded) target).onLoad(determinePath(id), getType(), idsToAssets.get(id));
+            ((Loaded) target).onLoad(determinePath(id), getType(), asset);
         }
         return asset;
     }

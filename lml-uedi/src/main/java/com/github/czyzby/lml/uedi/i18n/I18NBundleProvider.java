@@ -100,6 +100,21 @@ public class I18NBundleProvider extends AbstractAssetProvider<I18NBundle> {
         return bundle;
     }
 
+    @Override
+    protected String determinePath(final String id) {
+        final ObjectMap<String, String> idsToPaths = getIdsToPaths();
+        String path = idsToPaths.get(id);
+        if (path != null) {
+            return path;
+        }
+        final StringBuilder builder = new StringBuilder(getFolder().length() + 1 + id.length());
+        builder.append(getFolder()).append('/').append(id);
+        Strings.replace(builder, '_', '/');
+        path = builder.toString();
+        idsToPaths.put(id, path);
+        return path;
+    }
+
     /** @return encoding used to read {@link I18NBundle} files. Defaults to UTF-8. */
     public String getEncoding() {
         return encoding;

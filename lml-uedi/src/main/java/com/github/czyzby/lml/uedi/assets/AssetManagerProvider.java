@@ -18,7 +18,7 @@ public class AssetManagerProvider implements Destructible, Provider<AssetManager
 
     @Override
     public Class<? extends AssetManager> getType() {
-        return InjectingAssetManager.class;
+        return AssetManager.class;
     }
 
     @Override

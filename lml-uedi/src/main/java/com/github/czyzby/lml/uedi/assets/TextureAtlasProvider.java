@@ -36,7 +36,8 @@ public class TextureAtlasProvider extends AbstractAssetProvider<TextureAtlas> {
      * @return path of the atlas with the default extension in the default atlas folder. */
     public static String getTextureAtlasPath(final String id) {
         final String extension = EXTENSIONS[0];
-        final StringBuilder builder = new StringBuilder(ATLAS_FOLDER.length() + 1 + id + 1 + extension);
+        final StringBuilder builder = new StringBuilder(
+                ATLAS_FOLDER.length() + 1 + id.length() + 1 + extension.length());
         builder.append(ATLAS_FOLDER).append('/').append(id);
         Strings.replace(builder, '_', '/');
         builder.append('.').append(extension);

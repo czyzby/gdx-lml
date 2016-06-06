@@ -44,6 +44,16 @@ public abstract class View extends AbstractLmlView implements Named {
         return getViewId();
     }
 
+    @Override
+    public final void render() {
+        render(Gdx.graphics.getDeltaTime());
+    }
+
+    @Override
+    public final void resize(final int width, final int height) {
+        resize(width, height, false);
+    }
+
     /** Override this method and return {@code true} if this view should be displayed first. Usually the first view
      * would inject the {@link com.badlogic.gdx.assets.AssetManager AssetManager} and update it until all assets are
      * loaded.
