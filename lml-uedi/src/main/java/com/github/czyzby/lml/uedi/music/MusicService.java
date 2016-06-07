@@ -54,6 +54,31 @@ public class MusicService implements Singleton {
     /** @param data will include a few useful {@link ActorConsumer} instances that allow to set up current music and
      *            sound preferences. */
     public void addDefaultActions(final LmlData data) {
+        // Allows to query current music settings in LML templates.
+        data.addActorConsumer("isMusicOn", new ActorConsumer<Boolean, Object>() {
+            @Override
+            public Boolean consume(final Object actor) {
+                return isMusicOn();
+            }
+        });
+        data.addActorConsumer("isSoundOn", new ActorConsumer<Boolean, Object>() {
+            @Override
+            public Boolean consume(final Object actor) {
+                return isSoundOn();
+            }
+        });
+        data.addActorConsumer("getMusicVolume", new ActorConsumer<Float, Object>() {
+            @Override
+            public Float consume(final Object actor) {
+                return getMusicVolume();
+            }
+        });
+        data.addActorConsumer("getSoundVolume", new ActorConsumer<Float, Object>() {
+            @Override
+            public Float consume(final Object actor) {
+                return getSoundVolume();
+            }
+        });
         // Allows to turn the music on and off.
         data.addActorConsumer("setMusicOn", new ActorConsumer<Void, Button>() {
             @Override
