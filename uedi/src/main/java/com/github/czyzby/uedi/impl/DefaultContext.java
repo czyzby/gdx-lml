@@ -3,6 +3,7 @@ package com.github.czyzby.uedi.impl;
 import java.lang.reflect.Member;
 import java.util.Comparator;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IdentityMap;
 import com.badlogic.gdx.utils.ObjectSet;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.utils.reflect.ClassReflection;
 import com.badlogic.gdx.utils.reflect.Constructor;
 import com.badlogic.gdx.utils.reflect.Field;
 import com.badlogic.gdx.utils.reflect.Method;
+import com.github.czyzby.kiwi.util.common.Exceptions;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxSets;
@@ -377,8 +379,14 @@ public class DefaultContext extends AbstractContext {
      *         primitive and - if strings are ignored - not a string.
      * @throws Exception due to reflection issues. */
     protected boolean isInjectable(final Field field, final Object component) throws Exception {
-        if (field.isSynthetic() || field.getType().isPrimitive()
-                || isIgnoreStrings() && field.getType() == String.class) {
+        try {
+            if (field.isSynthetic() || field.getType().isPrimitive()
+                    || isIgnoreStrings() && field.getType() == String.class) {
+                return false;
+            }
+        } catch (final Exception exception) {
+            Exceptions.ignore(exception); // GWT compatibility.
+            Gdx.app.debug("UEDI", "Unable to access field of component: " + component, exception);
             return false;
         }
         final int modifier = Modifier.getModifiers(field);

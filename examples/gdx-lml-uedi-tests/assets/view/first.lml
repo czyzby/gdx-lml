@@ -1,0 +1,5 @@
+<!-- Note: you can get content assist thanks to DTD schema files. See the official LML page. -->
+<window title="Example" oneColumn="true">
+    This is a simple LU view constructed with LML.
+    <textButton onClick="setClicked">Click me!</textButton>
+</window>
