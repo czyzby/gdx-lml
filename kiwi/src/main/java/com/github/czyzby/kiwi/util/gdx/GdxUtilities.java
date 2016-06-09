@@ -125,6 +125,8 @@ public class GdxUtilities extends UtilitiesClass {
             // GWT Application#exit() implementation is empty. Disposing manually.
             if (application.getApplicationListener() != null) {
                 application.getApplicationListener().dispose();
+                // Application is now destroyed - silencing the (expected) rendering exceptions:
+                application.setLogLevel(Application.LOG_NONE);
             }
         } else {
             application.exit();

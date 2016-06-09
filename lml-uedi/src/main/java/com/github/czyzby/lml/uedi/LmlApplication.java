@@ -288,7 +288,8 @@ public class LmlApplication extends LmlApplicationListener {
         setCurrentView(view);
     }
 
-    /** @return path to application's preferences. Will be set as default preferences in {@link LmlParser}. */
+    /** @return path to application's preferences. Will be set as default preferences in {@link LmlParser}.
+     * @see ApplicationPreferences#getPreferences() */
     protected String getPreferences() {
         return preferences;
     }
@@ -349,10 +350,10 @@ public class LmlApplication extends LmlApplicationListener {
     @Override
     public void dispose() {
         super.dispose();
+        ApplicationPreferences.saveAllPreferences();
         if (context != null) {
             try {
                 context.destroy();
-                ApplicationPreferences.saveAllPreferences();
             } catch (final Exception exception) {
                 Gdx.app.error(Lml.LOGGER_TAG, "Unable to destroy the context.", exception);
             }

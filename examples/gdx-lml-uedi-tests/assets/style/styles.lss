@@ -1,0 +1,21 @@
+window {
+  onecolumn: true;
+  titlealign: center;
+  defaultpad: 1;
+}
+
+dialog, .window {
+  style: dialog;
+}
+
+label {
+  textalign: center;
+}
+
+slider {
+  growx: true;
+}
+
+progressbar, .slider {
+  animateduration: 0.3;
+}

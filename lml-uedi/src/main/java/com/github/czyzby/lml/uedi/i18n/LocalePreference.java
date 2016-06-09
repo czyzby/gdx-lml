@@ -59,6 +59,7 @@ public class LocalePreference extends AbstractPreference implements Provider<Loc
     public void setLocale(final Locale locale) {
         if (!equals(this.locale, locale)) {
             this.locale = locale;
+            super.setValue(toString(locale));
             i18nBundleProvider.reloadBundles(locale);
         }
     }

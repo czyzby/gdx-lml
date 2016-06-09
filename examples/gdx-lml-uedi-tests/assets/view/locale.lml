@@ -1,0 +1,12 @@
+<window title="@locale">
+	<:for locale="en;pl">
+		<!-- "getLocale" is one of the default LML UEDI actions. It returns the current value
+		    of locale preference. -->
+		<:if test="{locale} != $getLocale">
+			<!-- "setLocale" is one of the default actions. It changes the current locale to
+			    the one matching actor ID. -->
+			<textbutton onchange="setLocale" id="{locale}" growx="true">@{locale}</textbutton>
+		</:if>
+	</:for>
+	<textbutton expandx="true" align="right" onchange="setView" id="menu">@back</textbutton>
+</window>

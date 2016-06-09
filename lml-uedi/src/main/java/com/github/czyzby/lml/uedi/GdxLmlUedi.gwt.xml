@@ -9,12 +9,15 @@
 	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.lml.uedi.music.MusicService" />
 	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.lml.uedi.views.View" />
 	<!-- Injectable assets: -->
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.assets.AssetManager" />
 	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.audio.Music" />
 	<extend-configuration-property name="gdx.reflect.exclude" value="com.badlogic.gdx.audio.Music.OnCompletionListener" />
 	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.audio.Sound" />
 	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.scenes.scene2d.ui.Skin" />
 	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.graphics.Pixmap" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.graphics.g2d.Batch" />
 	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.graphics.g2d.ParticleEffect" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.graphics.g2d.SpriteBatch" />
 	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.graphics.g2d.TextureAtlas" />
 	<extend-configuration-property name="gdx.reflect.exclude" value="com.badlogic.gdx.graphics.g2d.TextureAtlas.TextureAtlasData" />
 	<extend-configuration-property name="gdx.reflect.exclude" value="com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion" />
@@ -23,6 +26,7 @@
 	<extend-configuration-property name="gdx.reflect.exclude" value="com.badlogic.gdx.graphics.g3d.ModelBatch" />
 	<extend-configuration-property name="gdx.reflect.exclude" value="com.badlogic.gdx.graphics.g3d.ModelCache" />
 	<extend-configuration-property name="gdx.reflect.exclude" value="com.badlogic.gdx.graphics.g3d.ModelInstance" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.utils.I18NBundle" />
 	
 	<!-- Already included injectable assets:
 	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.graphics.g2d.BitmapFont" />

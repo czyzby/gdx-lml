@@ -412,6 +412,7 @@ public abstract class LmlApplicationListener implements ApplicationListener {
     public void setView(final AbstractLmlView view, final Action doAfterHide) {
         if (currentView != null) {
             viewChangeRunnable.setView(view);
+            Gdx.input.setInputProcessor(null);
             currentView.hide();
             final Action hideAction = doAfterHide == null
                     ? Actions.sequence(getViewHidingAction(currentView), Actions.run(viewChangeRunnable))

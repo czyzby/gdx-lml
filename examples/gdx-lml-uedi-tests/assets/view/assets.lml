@@ -1,0 +1,3 @@
+<table fillparent="true" tablealign="bottomRight">
+	<textbutton onchange="setView" id="menu">@back</textbutton>
+</table>

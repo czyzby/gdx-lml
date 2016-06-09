@@ -1,5 +1,6 @@
 package com.github.czyzby.uedi.impl;
 
+import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.uedi.Context;
 import com.github.czyzby.uedi.reflection.impl.MockMember;
 import com.github.czyzby.uedi.reflection.impl.Modifier;
@@ -26,6 +27,9 @@ public abstract class AbstractContext implements Context {
     private boolean processSuperFields = true;
     private boolean mapSuperTypes = true;
     private boolean ignoreStrings;
+
+    // Limits unnecessary objects creation:
+    private final MockMember helperMember = new MockMember(Strings.EMPTY_STRING);
 
     /** @param classScanner can be null, but {@link #scan(Class)} method will not work correctly. */
     public AbstractContext(final ClassScanner classScanner) {
@@ -90,7 +94,8 @@ public abstract class AbstractContext implements Context {
 
     @Override
     public <Component> Component get(final String id, final Class<Component> type) {
-        return get(type, null, new MockMember(id));
+        helperMember.setName(id);
+        return get(type, null, helperMember);
     }
 
     @Override

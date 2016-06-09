@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.utils.Array;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
+import com.github.czyzby.kiwi.util.gdx.preference.ApplicationPreferences;
 import com.github.czyzby.lml.parser.LmlData;
 import com.github.czyzby.lml.parser.action.ActorConsumer;
 import com.github.czyzby.uedi.stereotype.Singleton;
@@ -25,7 +26,7 @@ public class MusicService implements Singleton {
     private final SoundVolumePreference soundVolume;
     // Music utilities:
     private Music currentTheme;
-    private final float duration = 0.6f;
+    private final float duration = 0.5f;
     private final Array<Music> themes = GdxArrays.newArray();
     private final OnCompletionListener listener = new OnCompletionListener() {
         @Override
@@ -338,5 +339,16 @@ public class MusicService implements Singleton {
             currentTheme = nextTheme;
             fadeInCurrentTheme();
         }
+    }
+
+    /** Removes all themes. Stops currently played music instance. */
+    public void clearThemes() {
+        themes.clear();
+        fadeOutCurrentTheme();
+    }
+
+    /** Saves music preferences. Will flush the global preferences: any other settings will be permanently saved. */
+    public void savePreferences() {
+        ApplicationPreferences.getPreferences().flush();
     }
 }
