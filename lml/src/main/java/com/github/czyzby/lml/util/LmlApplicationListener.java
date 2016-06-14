@@ -391,6 +391,15 @@ public abstract class LmlApplicationListener implements ApplicationListener {
         setView(getView(viewClass), null);
     }
 
+    /** @param viewClass {@link AbstractLmlView} extension that represents a single view. An instance of this class will
+     *            become the current view after view transition.
+     * @param doAfterHide will be executed after the current view is fully hidden. Is never executed if there was no
+     *            current view.
+     * @see #setView(AbstractLmlView, Action) */
+    public void setView(final Class<? extends AbstractLmlView> viewClass, final Action doAfterHide) {
+        setView(getView(viewClass), doAfterHide);
+    }
+
     /** @param view will be set as the current view after view transition. Current screen (if any exists) will receive a
      *            {@link AbstractLmlView#hide()} call. The new screen will be resized using
      *            {@link AbstractLmlView#resize(int, int, boolean)} and then will receive a
