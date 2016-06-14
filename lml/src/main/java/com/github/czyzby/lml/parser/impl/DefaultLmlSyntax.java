@@ -164,6 +164,7 @@ import com.github.czyzby.lml.parser.impl.attribute.table.TablePadRightLmlAttribu
 import com.github.czyzby.lml.parser.impl.attribute.table.TablePadTopLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.TableRoundLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.button.ButtonImageLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.table.button.ButtonProgrammaticChangeEventsLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.button.CheckedLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.button.TextButtonImageLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.cell.AbstractCellLmlAttribute;
@@ -505,8 +506,11 @@ public class DefaultLmlSyntax extends EmptyLmlSyntax {
 
     /** Button widget attributes. */
     protected void registerButtonAttributes() {
+        // Button:
+        addAttributeProcessor(new ButtonProgrammaticChangeEventsLmlAttribute(), "programmaticChangeEvents");
+        addAttributeProcessor(new CheckedLmlAttribute(), "checked");
+        // Extensions:
         addAttributeProcessor(new ButtonImageLmlAttribute(), "image", "icon"); // ImageButton
-        addAttributeProcessor(new CheckedLmlAttribute(), "checked"); // Button
         addAttributeProcessor(new TextButtonImageLmlAttribute(), "image", "icon"); // ImageTextButton
     }
 
