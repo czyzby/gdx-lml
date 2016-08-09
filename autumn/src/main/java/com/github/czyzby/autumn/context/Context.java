@@ -50,6 +50,12 @@ public class Context {
         return createMissingDependencies;
     }
 
+    /** @param type superclass or interface of the component.
+     * @param component will be injectable through the selected class. */
+    public void add(final Class<?> type, final Object component) {
+        components.get(type).add(component);
+    }
+
     /** @param component will be mapped to its class tree. Note that mapping by interfaces is NOT supported, as
      *            interfaces are not available on GWT. */
     public void map(final Object component) {

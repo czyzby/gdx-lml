@@ -62,6 +62,10 @@ For efficient class scanning on desktop, see [Autumn FCS](natives/fcs).
 
 ##What's new
 
+1.7 -> 1.8
+
+- `@Component` annotation now allows to pass an array of interfaces, making injection by interface possible - even though the LibGDX mechanism does not normally allow to inspect interfaces at runtime.
+
 1.6 -> 1.7
 
 - Experimental [JTransc](https://github.com/jtransc/gdx-backend-jtransc) support through [a new library](natives/jtransc).

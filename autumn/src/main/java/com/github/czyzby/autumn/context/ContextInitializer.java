@@ -23,6 +23,7 @@ import com.github.czyzby.autumn.context.impl.method.MethodInvocation;
 import com.github.czyzby.autumn.processor.AnnotationProcessor;
 import com.github.czyzby.autumn.processor.event.EventDispatcher;
 import com.github.czyzby.autumn.processor.event.MessageDispatcher;
+import com.github.czyzby.autumn.processor.impl.ComponentAnnotationProcessor;
 import com.github.czyzby.autumn.processor.impl.DestroyAnnotationProcessor;
 import com.github.czyzby.autumn.processor.impl.DisposeAnnotationProcessor;
 import com.github.czyzby.autumn.processor.impl.InitiateAnnotationProcessor;
@@ -89,6 +90,7 @@ public class ContextInitializer {
         scannedAnnotations.add(OnEvent.class);
         scannedAnnotations.add(OnMessage.class);
         // Default processors:
+        addProcessor(new ComponentAnnotationProcessor()); // Maps components by interfaces.
         addProcessor(new MetaAnnotationProcessor()); // Registers annotation processors.
         addProcessor(new ProviderAnnotationProcessor()); // Registers dependency providers.
         addProcessor(new InjectAnnotationProcessor()); // Injects field dependencies.

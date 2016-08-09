@@ -13,4 +13,7 @@ import java.lang.annotation.Target;
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Component {
+    /** @return if not empty, this component will be injectable through these interfaces. This is a utility that allows
+     *         to overcome the fact that LibGDX reflection does not allow to read class interfaces at runtime. */
+    Class<?>[] value() default {};
 }
