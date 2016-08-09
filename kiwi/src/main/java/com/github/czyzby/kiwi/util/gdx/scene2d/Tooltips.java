@@ -1,6 +1,5 @@
 package com.github.czyzby.kiwi.util.gdx.scene2d;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.TooltipManager;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.reflect.ClassReflection;
@@ -22,8 +21,7 @@ public class Tooltips extends UtilitiesClass {
      * @throws GdxRuntimeException if unable to change manager. */
     public static void setDefaultTooltipManager(final TooltipManager tooltipManager) {
         try {
-            // We have to set the app field, as it is validated by the static getter.
-            Reflection.setFieldValue(ClassReflection.getDeclaredField(TooltipManager.class, "app"), null, Gdx.app);
+            TooltipManager.getInstance();
             Reflection.setFieldValue(ClassReflection.getDeclaredField(TooltipManager.class, "instance"), null,
                     tooltipManager);
         } catch (final ReflectionException exception) {
