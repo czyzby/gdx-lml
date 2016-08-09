@@ -1,0 +1,3 @@
+# Discontinued
+
+This project's aim was to replace [Autumn MVC](../mvc) complexity with a straightforward framework that limits boilerplate to minimum. It's mostly implemented and commented, but I never had the time to finish documentation and prepare example projects. While usable, I doubt I'll ever find the time and patience to finish and improve it, so include it in your project at your own risk.

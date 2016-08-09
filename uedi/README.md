@@ -24,6 +24,6 @@ If you want to use UEDI with GWT, you have to add this module to your `GdxDefini
         <inherits name='com.github.czyzby.uedi.GdxUedi' />
 ```
 
-[Standard UEDI scanners](https://github.com/czyzby/uedi) are fully compatible with `gdx-uedi`, so choose the ones appropriate for each platform. Note that the fastest way to set up UEDI application is using the unofficial [gdx-setup](https://github.com/czyzby/gdx-setup).
+[Standard UEDI scanners](https://github.com/czyzby/uedi) are fully compatible with `gdx-uedi`, so choose the ones appropriate for each platform.
 
 See [LML UEDI](../lml-uedi) for a LibGDX framework built around UEDI and [LML](../lml) (*LibGDX Markup Language*).

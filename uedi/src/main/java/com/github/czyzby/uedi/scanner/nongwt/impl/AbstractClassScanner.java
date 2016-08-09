@@ -1,7 +1,7 @@
-package com.github.czyzby.uedi.scanner.impl;
+package com.github.czyzby.uedi.scanner.nongwt.impl;
 
-import java.lang.reflect.Modifier;
-
+import com.badlogic.gdx.utils.reflect.ClassReflection;
+import com.github.czyzby.uedi.reflection.impl.Modifier;
 import com.github.czyzby.uedi.scanner.ClassScanner;
 
 /** Provides utilities for {@link ClassScanner} implementations.
@@ -19,8 +19,7 @@ public abstract class AbstractClassScanner implements ClassScanner {
     /** @param testedClass will be validated
      * @return true if the class is not abstract or anonymous and not an interface. */
     protected boolean isNotAbstract(final Class<?> testedClass) {
-        return !Modifier.isAbstract(testedClass.getModifiers()) && !testedClass.isAnonymousClass()
-                && !testedClass.isInterface();
+        return (Modifier.ABSTRACT & testedClass.getModifiers()) == 0 && !testedClass.isInterface();
     }
 
     /** @param testedClass will be validated.
@@ -28,7 +27,7 @@ public abstract class AbstractClassScanner implements ClassScanner {
      * @return true if the class implements any of the passed interfaces. */
     protected boolean isInstanceOfAny(final Class<?> testedClass, final Class<?>[] interfaces) {
         for (final Class<?> possibleMatch : interfaces) {
-            if (possibleMatch.isAssignableFrom(testedClass)) {
+            if (ClassReflection.isAssignableFrom(possibleMatch, testedClass)) {
                 return true;
             }
         }

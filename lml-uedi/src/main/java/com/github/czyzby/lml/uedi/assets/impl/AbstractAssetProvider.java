@@ -97,7 +97,7 @@ public abstract class AbstractAssetProvider<Asset> implements Provider<Asset> {
             }
         }
         throw new GdxRuntimeException("Unable to find file in folder: '" + getFolder() + "' matching name: '" + id
-                + "' with any of the supported extensions.");
+                + "' with any of the supported extensions: " + Strings.join(", ", (Object[]) getExtensions()));
     }
 
     /** @param folder can contain the asset.

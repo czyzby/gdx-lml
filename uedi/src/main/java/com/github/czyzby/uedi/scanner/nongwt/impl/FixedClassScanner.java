@@ -1,4 +1,4 @@
-package com.github.czyzby.uedi.scanner.impl;
+package com.github.czyzby.uedi.scanner.nongwt.impl;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectSet;

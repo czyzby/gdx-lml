@@ -24,7 +24,7 @@ import com.github.czyzby.uedi.error.circular.CircularErrorA;
 import com.github.czyzby.uedi.error.circular.CircularErrorB;
 import com.github.czyzby.uedi.impl.DefaultContext;
 import com.github.czyzby.uedi.scanner.ClassScanner;
-import com.github.czyzby.uedi.scanner.impl.FixedClassScanner;
+import com.github.czyzby.uedi.scanner.nongwt.impl.FixedClassScanner;
 import com.github.czyzby.uedi.stereotype.Provider;
 import com.github.czyzby.uedi.test.Root;
 import com.github.czyzby.uedi.test.TestComponent;
