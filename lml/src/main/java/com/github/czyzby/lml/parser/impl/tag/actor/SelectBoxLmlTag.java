@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.tag.AbstractActorLmlTag;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
@@ -54,8 +55,8 @@ public class SelectBoxLmlTag extends AbstractActorLmlTag {
 
     @Override
     protected void doOnTagClose() {
-        // Forcing items update.
-        getSelectBox().setItems((String[]) getSelectBox().getItems().toArray(String.class));
+        // Forcing items update:
+        getSelectBox().setItems(GdxArrays.newArray(getSelectBox().getItems()));
     }
 
     @Override
