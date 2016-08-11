@@ -38,6 +38,7 @@ If you want to use LML with GWT, you have to add this module to your `GdxDefinit
 - Added LML style sheets support. See wiki for more info.
 - Added `<:style>` macro, which allows to set default values of tag attributes at runtime, similarly to LML style sheets.
 - Added missing `programmaticChangeEvents` attribute to all button tags.
+- Added support for `<container>` pad-related attributes, even when outside of `<table>` tag.
 - `SelectBox` instances now can store any type of objects.
 
 1.6 -> 1.7

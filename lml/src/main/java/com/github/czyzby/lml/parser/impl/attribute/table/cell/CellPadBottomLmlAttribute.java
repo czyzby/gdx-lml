@@ -2,6 +2,7 @@ package com.github.czyzby.lml.parser.impl.attribute.table.cell;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
@@ -35,6 +36,9 @@ public class CellPadBottomLmlAttribute extends AbstractCellLmlAttribute {
             ((VerticalGroup) actor).padBottom(parser.parseFloat(rawAttributeData, actor));
         } else if (actor instanceof HorizontalGroup) {
             ((HorizontalGroup) actor).padBottom(parser.parseFloat(rawAttributeData, actor));
+        } else if (actor instanceof Container<?>) {
+            ((Container<?>) actor)
+                    .padBottom(LmlUtilities.parseVerticalValue(parser, tag.getParent(), actor, rawAttributeData));
         } else {
             // Exception:
             super.processForActor(parser, tag, actor, rawAttributeData);
