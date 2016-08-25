@@ -1,5 +1,5 @@
 ext {
-  fcsVersion = '1.9.18'
+  fcsVersion = '2.0.1'
 }
 
 dependencies {
