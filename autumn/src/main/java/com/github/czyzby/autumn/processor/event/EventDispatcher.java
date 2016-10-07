@@ -57,22 +57,59 @@ public class EventDispatcher extends AbstractAnnotationProcessor<OnEvent> {
         }
     }
 
-    /** @param listener will be registered.
-     * @param annotation contains listener's data. */
+    /**
+     * @param listener   will be registered.
+     * @param annotation contains listener's data.
+     */
     public void addListener(final EventListener<?> listener, final OnEvent annotation) {
         addListener(listener, annotation.value(), annotation.forceMainThread());
     }
 
-    /** @param listener will be registered.
+    /**
+     * @param listener will be registered. Will be invoked as soon as the event is posted.
+     * @param eventType type of handled events.
+     */
+    public void addListener(final EventListener<?> listener, final Class<?> eventType) {
+        addListener(listener, eventType, false);
+    }
+
+    /**
+     * @param listener will be registered.
      * @param eventType type of handled events.
      * @param forceMainThread if true, listener will be invoked only on main LibGDX thread with
-     *            Gdx.app.postRunnable(Runnable). */
+     * Gdx.app.postRunnable(Runnable). Otherwise the listener is invoked as soon as the event is posted.
+     */
     public void addListener(final EventListener<?> listener, final Class<?> eventType, final boolean forceMainThread) {
         if (forceMainThread) {
             mainThreadListeners.get(eventType).add(listener);
         } else {
             listeners.get(eventType).add(listener);
         }
+    }
+
+    /**
+     * @param listener will be removed (if registered).
+     * @param eventType type of the event that the listener is registered to handle.
+     */
+    public void removeListener(final EventListener<?> listener, final Class<?> eventType) {
+        listeners.get(eventType).remove(listener);
+        mainThreadListeners.get(eventType).remove(listener);
+    }
+
+    /**
+     * @param eventType all listeners registered to handle this type will be removed.
+     */
+    public void removeListenersForType(final Class<?> eventType) {
+        listeners.remove(eventType);
+        mainThreadListeners.remove(eventType);
+    }
+
+    /**
+     * Removes all registered listeners. Use with care.
+     */
+    public void clearListeners() {
+        listeners.clear();
+        mainThreadListeners.clear();
     }
 
     /** @param event will be posted and invoke all listeners registered to its exact class. Nulls are ignored. */

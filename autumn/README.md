@@ -65,6 +65,7 @@ For efficient class scanning on desktop, see [Autumn FCS](natives/fcs).
 1.7 -> 1.8
 
 - `@Component` annotation now allows to pass an array of interfaces, making injection by interface possible - even though the LibGDX mechanism does not normally allow to inspect interfaces at runtime.
+- Added more listener-related methods to `EventDispatcher` and `MessageDispatcher`. Now it is possible to remove listeners manually at runtime.
 
 1.6 -> 1.7
 

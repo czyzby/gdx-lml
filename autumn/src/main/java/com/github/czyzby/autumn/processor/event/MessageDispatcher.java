@@ -62,11 +62,20 @@ public class MessageDispatcher extends AbstractAnnotationProcessor<OnMessage> {
     public void addListener(final MessageListener listener, final OnMessage annotation) {
         addListener(listener, annotation.value(), annotation.forceMainThread());
     }
+    /**
+     * @param listener will be registered. Invoked as soon as the message is posted.
+     * @param messageContent content of handled message. If the message is posted, listener will be invoked.
+     */
+    public void addListener(final MessageListener listener, final String messageContent) {
+        addListener(listener, messageContent, false);
+    }
 
-    /** @param listener will be registered.
+    /**
+     * @param listener will be registered.
      * @param messageContent content of handled message. If the message is posted, listener will be invoked.
      * @param forceMainThread if true, listener will be invoked only on main LibGDX thread with
-     *            Gdx.app.postRunnable(Runnable). */
+     * Gdx.app.postRunnable(Runnable). Otherwise the listener is invoked as soon as the message is posted.
+     */
     public void addListener(final MessageListener listener, final String messageContent,
             final boolean forceMainThread) {
         if (forceMainThread) {
@@ -74,6 +83,31 @@ public class MessageDispatcher extends AbstractAnnotationProcessor<OnMessage> {
         } else {
             listeners.get(messageContent).add(listener);
         }
+    }
+
+    /**
+     * @param listener will be removed (if registered).
+     * @param messageContent content of message that the listener is registered to handle.
+     */
+    public void removeListener(final MessageListener listener, final String messageContent) {
+        listeners.get(messageContent).remove(listener);
+        mainThreadListeners.get(messageContent).remove(listener);
+    }
+
+    /**
+     * @param messageContent all listeners registered to handle this message will be removed.
+     */
+    public void removeListenersForMessage(final String messageContent) {
+        listeners.remove(messageContent);
+        mainThreadListeners.remove(messageContent);
+    }
+
+    /**
+     * Removes all registered listeners. Use with care.
+     */
+    public void clearListeners() {
+        listeners.clear();
+        mainThreadListeners.clear();
     }
 
     /** @param message will be posted and invoke all listeners registered to its exact content. Nulls are ignored. */
