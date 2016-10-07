@@ -1,5 +1,5 @@
 ext {
-  uediVersion = '0.2-SNAPSHOT'
+  uediVersion = '0.2'
 }
 
 dependencies {
