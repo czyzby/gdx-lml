@@ -29,7 +29,7 @@ public class SelectionModeLmlAttribute implements LmlAttribute<FileChooser> {
      *         value if parser not strict. */
     protected SelectionMode determineMode(final LmlParser parser, final FileChooser actor,
             final String rawAttributeData) {
-        final String modeName = parser.parseString(rawAttributeData, actor).toUpperCase();
+        final String modeName = parser.parseString(rawAttributeData, actor).trim().toUpperCase();
         try {
             return SelectionMode.valueOf(modeName);
         } catch (final Exception exception) {
