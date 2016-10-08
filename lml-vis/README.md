@@ -73,6 +73,7 @@ Make sure to check `gdx-lml` changes as well!
 
 - Added support for new VisUI actors: `BusyBar` and `MultiSplitPane`. Usage examples are present in `gdx-lml-vis-tests`.
 - Added `sorting`, `sortingOrderAscending`, `saveLastDirectory` and `focusFileScrollPaneOnShow` attributes to `FileChooser` tag accessible through `ExtendedVisLml`.
+- Added `menuListener` attribute to `menuBar`, `popupMenu` and `menu` tags.
 
 1.6 -> 1.7
 

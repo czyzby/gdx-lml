@@ -80,8 +80,10 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.linklabel.UrlLmlAttribute
 import com.github.czyzby.lml.vis.parser.impl.attribute.listview.FooterLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.listview.HeaderLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.listview.ItemClickListenerLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.menu.MenuBarListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.menu.MenuItemGenerateDisabledImageLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.menu.MenuItemShortcutLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.menu.PopupMenuListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.CloseAfterPickingLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.ColorPickerListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.ColorPickerResponsiveListenerLmlAttribute;
@@ -486,6 +488,10 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
 
     /** Menu-related attributes. */
     protected void registerMenuAttributes() {
+        // PopupMenu:
+        addAttributeProcessor(new PopupMenuListenerLmlAttribute(), "menuListener");
+        // MenuBar:
+        addAttributeProcessor(new MenuBarListenerLmlAttribute(), "menuListener");
         // MenuItem:
         addAttributeProcessor(new MenuItemGenerateDisabledImageLmlAttribute(), "generateDisabled");
         addAttributeProcessor(new MenuItemShortcutLmlAttribute(), "shortcut");

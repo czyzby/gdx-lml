@@ -47,8 +47,10 @@ public abstract class AbstractActorLmlTag extends AbstractLmlTag {
         builder.finishBuilding(actor);
         if (actor != null) {
             processTagAttributes(processedAttributes, actor);
-        } else {
-            processNonActorTagAttributes(processedAttributes, getManagedObject());
+        }
+        Object managedObject = getManagedObject();
+        if (managedObject != null && actor != managedObject) {
+            processNonActorTagAttributes(processedAttributes, managedObject);
         }
         invokeOnCreateActions(actor);
         return actor;
@@ -119,7 +121,8 @@ public abstract class AbstractActorLmlTag extends AbstractLmlTag {
             // the same parsing behavior.
         }
         // Processing own attributes. Throwing errors for unknown:
-        LmlUtilities.processAttributes(actor, this, getParser(), processedAttributes, true);
+        boolean throwErrors = getManagedObject() == null || actor == getManagedObject();
+        LmlUtilities.processAttributes(actor, this, getParser(), processedAttributes, throwErrors);
     }
 
     private void processComponentAttributes(final ObjectSet<String> processedAttributes, final Actor actor) {
