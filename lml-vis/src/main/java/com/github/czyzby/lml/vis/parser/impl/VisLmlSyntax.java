@@ -253,6 +253,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new MenuPopupLmlTagProvider(), "popupMenu", "subMenu");
         addTagProvider(new MenuSeparatorLmlTagProvider(), "menuSeparator");
         addTagProvider(new MultiSplitPaneLmlTagProvider(), "multiSplitPane");
+        addTagProvider(new ScrollableTextAreaLmlTagProvider(), "scrollableTextArea");
         addTagProvider(new SeparatorLmlTagProvider(), "separator");
         addTagProvider(new TabbedPaneLmlTagProvider(), "tabbedPane");
         addTagProvider(new TabLmlTagProvider(), "tab");

@@ -1,0 +1,19 @@
+<!-- ScrollableTextArea is a VisTextArea extension compatible
+    with ScrollPane widgets. It can be used to display
+   significant amounts of text. -->
+
+<table>
+    <scrollPane size="100" overscroll="false" flick="false"
+            barsOnTop="true" fadeBars="false" disabledX="true">
+        <scrollableTextArea>
+            Converts text
+            between tags
+            into content.
+            A
+            B
+            C
+            D
+            E
+        </scrollableTextArea>
+    </scrollPane>
+</table>
