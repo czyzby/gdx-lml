@@ -69,6 +69,10 @@ Note that by making the method static, instance of the class containing the meth
 
 Make sure to check `gdx-lml` changes as well!
 
+1.7 -> 1.8
+
+- Added support for new VisUI actors: `BusyBar` and `MultiSplitPane`. Usage examples are present in `gdx-lml-vis-tests`.
+
 1.6 -> 1.7
 
 - Removed `NumberSelector` support, as it is deprecated. Use `Spinner` instead.
@@ -92,13 +96,6 @@ Make sure to check `gdx-lml` changes as well!
 - `FloatingGroup` support through `floatingGroup` tag. This group allows you to set absolute sizes and positions to your actors. Drag pane tag supports this group through `type="floating"`.
 - Now validatable text fields do not have to be direct children of forms - form validators will recursively search through its children and automatically add all validatables to form.
 - Since tables now are **not** automatically packed, `visTooltip` needs `pack="true"` attribute to properly expand its background over the whole area. This is considered a minor bug and will be fixed in the next version.
-
-1.4 -> 1.5
-
-- As `vertical` style was removed from default skin, `Separator` tag no longer supports `vertical`/`horizontal` attributes.
-- `VerticalFlowGroup` and `HorizontalFlowGroup` support. To use these groups in a `dragPane` tag, set `type` attribute to `vFlow` or `hFlow` (as always, case ignored).
-- `ListView` support. Now you can display a collection of values in a customized way. Note that currently `ListView` does **NOT** work on GWT due to reflection use in VisUI 1.0.1. It will be fixed in future versions.
-- Added `deadzoneRadius` attribute to `draggable` tag.
 
 ### Archive
 Older change logs are available in `CHANGES.md` file.

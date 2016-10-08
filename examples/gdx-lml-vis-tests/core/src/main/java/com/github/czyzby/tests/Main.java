@@ -57,10 +57,11 @@ public class Main extends AbstractApplicationListener {
             // Custom elements:
             "customAttribute", "customMacro", "customTag",
             // Vis unique tags:
-            "vis/basicColorPicker", "vis/collapsibleWidget", "vis/colorPicker", "vis/draggable", "vis/dragPane",
-            "vis/fixedSizeGridGroup", "vis/floatingGroup", "vis/formValidator", "vis/gridGroup", "vis/horizontalFlow",
-            "vis/linkLabel", "vis/listView", "vis/menu", "vis/radioButton", "vis/separator", "vis/spinner",
-            "vis/tabbedPane", "vis/toast", "vis/tooltip", "vis/validatableTextField", "vis/verticalFlow");
+            "vis/basicColorPicker", "vis/busyBar", "vis/collapsibleWidget", "vis/colorPicker", "vis/draggable",
+            "vis/dragPane", "vis/fixedSizeGridGroup", "vis/floatingGroup", "vis/formValidator", "vis/gridGroup",
+            "vis/horizontalFlow", "vis/linkLabel", "vis/listView", "vis/menu", "vis/multiSplitPane", "vis/radioButton",
+            "vis/separator", "vis/spinner", "vis/tabbedPane", "vis/toast", "vis/tooltip", "vis/validatableTextField",
+            "vis/verticalFlow");
     private static final String MAIN_VIEW_TEMPLATE = "templates/main.lml";
 
     private MainView view;
