@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -36,9 +37,11 @@ import com.github.czyzby.lml.util.Lml;
 import com.github.czyzby.lml.util.LmlUtilities;
 import com.github.czyzby.lml.vis.ui.VisTabTable;
 import com.github.czyzby.tests.reflected.widgets.BlinkingLabel;
+import com.github.czyzby.tests.reflected.widgets.LmlSourceHighlighter;
 import com.kotcrab.vis.ui.util.ToastManager;
 import com.kotcrab.vis.ui.util.adapter.ListAdapter;
 import com.kotcrab.vis.ui.util.adapter.SimpleListAdapter;
+import com.kotcrab.vis.ui.util.highlight.BaseHighlighter;
 import com.kotcrab.vis.ui.widget.CollapsibleWidget;
 import com.kotcrab.vis.ui.widget.MenuItem;
 import com.kotcrab.vis.ui.widget.VisDialog;
@@ -47,13 +50,14 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
 import com.kotcrab.vis.ui.widget.toast.ToastTable;
 
-/** Main view of the application. Since it extends {@link AbstractLmlView}, it is both {@link LmlView} (allowing its
+/**
+ * Main view of the application. Since it extends {@link AbstractLmlView}, it is both {@link LmlView} (allowing its
  * {@link Stage} to be filled) and {@link ActionContainer} (allowing it methods to be reflected and available in LML
  * templates. Thanks to {@link LmlParser#createView(Class, com.badlogic.gdx.files.FileHandle)} method, parsed root
  * actors go directly into this view's {@link #getStage()}, and an instance of this class is registered as an action
  * container with "main" ID (returned by {@link #getViewId()}).
- *
- * @author MJ */
+ * @author MJ
+ */
 public class MainView extends AbstractLmlView {
     // Contains template to parse:
     @LmlActor("templateInput") private VisTextArea templateInput;
@@ -127,20 +131,22 @@ public class MainView extends AbstractLmlView {
     private void onParsingError(final Exception exception) {
         // Printing the message without stack trace - we don't want to completely flood the console and its usually not
         // relevant anyway. Change to '(...), "Unable to parse LML template:", exception);' for stacks.
-        Gdx.app.error(Lml.LOGGER_TAG, "Unable to parse LML template: " + exception);
+        Gdx.app.error(Lml.LOGGER_TAG, "Unable to parse LML template: ", exception);
         resultTable.clear();
         resultTable.add("Error occurred. Sorry.");
         parser.fillStage(getStage(), Gdx.files.internal("templates/dialogs/error.lml"));
     }
 
-    /** Switches the current content of template input to the content of a chosen file.
-     *
-     * @param actor invokes the action. Expected to have an ID that points to a template. */
+    /**
+     * Switches the current content of template input to the content of a chosen file.
+     * @param actor invokes the action. Expected to have an ID that points to a template.
+     */
     @LmlAction("switch")
     public void switchTemplate(final Button actor) {
         buttonManager.switchCheckedButton(actor);
         // In LML template, we set each button's ID to a template name. Now we extract these:
         final String templateName = LmlUtilities.getActorId(actor);
+        templateInput.setProgrammaticChangeEvents(true);
         templateInput.setText(Gdx.files.internal(toExamplePath(templateName)).readString());
         // Forcing view to recalculate preferred size (required to update scroll pane):
         templateInput.invalidateHierarchy();
@@ -150,6 +156,12 @@ public class MainView extends AbstractLmlView {
     // Converts template name to a example template path.
     private static String toExamplePath(final String templateName) {
         return "templates/examples/" + templateName + ".lml";
+    }
+
+    /** @return {@link BaseHighlighter} implementation that highlights LML source code. */
+    @LmlAction("lmlHighlighter")
+    public BaseHighlighter getLmlSourceHighlighter() {
+        return new LmlSourceHighlighter();
     }
 
     /* templates/dialogs/error.lml */
@@ -202,8 +214,10 @@ public class MainView extends AbstractLmlView {
         return "@LmlAction-annotated method result.";
     }
 
-    /** @param container has to be sized.
-     * @return semi-random size depending on length of container's toString() result. */
+    /**
+     * @param container has to be sized.
+     * @return semi-random size depending on length of container's toString() result.
+     */
     @LmlAction({ "size", "getRandomSize" })
     public float getSize(final Container<?> container) {
         return container.toString().length() * 30f * MathUtils.random();
@@ -354,8 +368,10 @@ public class MainView extends AbstractLmlView {
         return Actions.fadeOut(0.1f);
     }
 
-    /** @param tabTable will contain an extra label each time this method is invoked. Expects that the table contains a
-     *            label in first cell. */
+    /**
+     * @param tabTable will contain an extra label each time this method is invoked. Expects that the table contains a
+     * label in first cell.
+     */
     @LmlAction("showSomeTab")
     public void doOnCustomTabShow(final VisTabTable tabTable) {
         // Note that this method might be called a few times before the tag is even shown due to TabbedPane

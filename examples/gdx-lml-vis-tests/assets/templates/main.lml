@@ -5,8 +5,9 @@
     
     <!-- Template input: -->
     <table grow=true padRight=-3>
-        <scrollPane style=list disabledX=true fadeBars=false overscroll=false flickScroll=false grow=true row=true>
-            <codeTextArea id="templateInput" style="source-code" message="@textAreaPrompt" focusBorder=false />
+        <scrollPane style=list disabledX=true fadeBars=false overscroll=false barsOnTop=true flick=false grow=true row=true>
+            <codeTextArea id="templateInput" style="source-code" message="@textAreaPrompt" focusBorder=false
+                highlighter="lmlHighlighter"/>
         </scrollPane>
         <textButton onChange="parseTemplate" growX=true padTop=3>@parsingButton|LML</textButton>
     </table>

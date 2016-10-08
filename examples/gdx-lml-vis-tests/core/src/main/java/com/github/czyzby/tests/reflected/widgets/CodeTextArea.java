@@ -7,6 +7,7 @@ import com.github.czyzby.lml.parser.impl.tag.builder.TextLmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.parser.tag.LmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.VisTextAreaLmlTag;
+import com.kotcrab.vis.ui.widget.HighlightTextArea;
 import com.kotcrab.vis.ui.widget.VisTextArea;
 import com.kotcrab.vis.ui.widget.VisTextField;
 
@@ -14,7 +15,7 @@ import com.kotcrab.vis.ui.widget.VisTextField;
  * required space needed for current text.
  *
  * @author Kotcrab */
-public class CodeTextArea extends VisTextArea {
+public class CodeTextArea extends HighlightTextArea {
     private GlyphLayout prefSizeLayout;
     private String lastText;
 
@@ -37,7 +38,7 @@ public class CodeTextArea extends VisTextArea {
     @Override
     public float getPrefWidth() {
         updatePrefSizeLayoutIfNeeded();
-        return prefSizeLayout.width + super.getPrefHeight();
+        return prefSizeLayout.width + super.getPrefWidth();
     }
 
     @Override

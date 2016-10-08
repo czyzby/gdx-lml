@@ -59,6 +59,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.grid.ItemSizeLmlAttribute
 import com.github.czyzby.lml.vis.parser.impl.attribute.grid.ItemWidthLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.grid.fixed.BlockIndexesLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.grid.fixed.ItemsAmountLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.input.HighlighterLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.BlinkTimeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.CursorLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.DigitsOnlyLmlAttribute;
@@ -244,6 +245,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new FloatingGroupLmlTagProvider(), "floatingGroup");
         addTagProvider(new FormValidatorLmlTagProvider(), "form", "formValidator", "formTable");
         addTagProvider(new GridGroupLmlTagProvider(), "gridGroup", "grid");
+        addTagProvider(new HighlightTextAreaLmlTagProvider(), "highlightTextArea");
         addTagProvider(new HorizontalFlowGroupLmlTagProvider(), "horizontalFlow", "horizontalFlowGroup");
         addTagProvider(new LinkLabelLmlTagProvider(), "linkLabel", "link");
         addTagProvider(new ListViewLmlTagProvider(), "listView");
@@ -412,6 +414,8 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addAttributeProcessor(new TextFieldListenerLmlAttribute(), "listener", "textListener", "textFieldListener");
         // VisTextArea:
         addAttributeProcessor(new PrefRowsLmlAttribute(), "prefRows", "prefRowsAmount");
+        // HighlightTextArea:
+        addAttributeProcessor(new HighlighterLmlAttribute(), "highlighter");
     }
 
     @Override

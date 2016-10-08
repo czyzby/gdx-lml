@@ -40,13 +40,13 @@ To add non-GWT features (like the `FileChooser` support or various file validato
 
 In one of your components (possibly in a configuration component, if you have one), include an annotated field with syntax instance:
 
-```
+```Java
         @LmlParserSyntax VisLmlSyntax syntax = new VisLmlSyntax();
 ```
 
 Make sure that you call `VisUI.load()` and register Vis skin in LML parser. This can be easily done with an initiation method:
 
-```
+```Java
         @Initiate(priority = AutumnActionPriority.TOP_PRIORITY) // ...or custom, higher.
         private void initiate(final SkinService skinService) {
             VisUI.load(); // VisUI.load(Gdx.files.internal("path/to/your/skin.json"));
@@ -56,7 +56,7 @@ Make sure that you call `VisUI.load()` and register Vis skin in LML parser. This
 
 By using `SkinService#addSkin` method, the disposing of VisUI skin and registering it in LML parser is already handled for you. Still, you might also want to manually dispose of the `ColorPicker` instance (as it is reused for performance reasons) if you ever used one:
 
-```
+```Java
         @Destroy
         public static void destroyColorPicker() {
             ColorPickerContainer.dispose();
@@ -71,7 +71,7 @@ Make sure to check `gdx-lml` changes as well!
 
 1.7 -> 1.8
 
-- Added support for new VisUI actors: `BusyBar`, `MultiSplitPane` and `ScrollableTextArea`. Usage examples are present in `gdx-lml-vis-tests`.
+- Added support for new VisUI actors: `BusyBar`, `MultiSplitPane`, `ScrollableTextArea` and `HighlightTextArea`. Usage examples are present in `gdx-lml-vis-tests`.
 - Added `sorting`, `sortingOrderAscending`, `saveLastDirectory` and `focusFileScrollPaneOnShow` attributes to `FileChooser` tag accessible through `ExtendedVisLml`.
 - Added `menuListener` attribute to `menuBar`, `popupMenu` and `menu` tags.
 
