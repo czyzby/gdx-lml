@@ -1,6 +1,7 @@
 package com.github.czyzby.lml.parser.impl.tag.actor;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
@@ -14,18 +15,21 @@ import com.github.czyzby.lml.scene2d.ui.reflected.ButtonTable;
  *
  * @author MJ */
 public class ButtonGroupLmlTag extends TableLmlTag {
+    private ButtonGroup<?> buttonGroup;
     public ButtonGroupLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 
     @Override
     protected Actor getNewInstanceOfActor(final LmlActorBuilder builder) {
-        return new ButtonTable(getSkin(builder));
+        ButtonTable buttonTable = new ButtonTable(getSkin(builder));
+        buttonGroup = buttonTable.getButtonGroup();
+        return buttonTable;
     }
 
     /** @return {@link com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup} wrapped by the {@link ButtonTable}. */
     @Override
     public Object getManagedObject() {
-        return ((ButtonTable) getActor()).getButtonGroup();
+        return buttonGroup;
     }
 }
