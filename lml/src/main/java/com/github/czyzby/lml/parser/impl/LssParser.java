@@ -41,7 +41,7 @@ public class LssParser {
     public LssParser(final LmlParser parser) {
         this.parser = parser;
         styleSheet = parser.getStyleSheet();
-        reader = parser.getTemplateReader();
+        reader = new DefaultLmlTemplateReader();
         final LssSyntax syntax = parser.getSyntax().getLssSyntax();
         inheritanceMarker = syntax.getInheritanceMarker();
         blockOpening = syntax.getBlockOpening();

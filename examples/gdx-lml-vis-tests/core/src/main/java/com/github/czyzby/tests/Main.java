@@ -52,8 +52,8 @@ public class Main extends AbstractApplicationListener {
             // Macros:
             "actorMacro", "anyNotNull", "argument", "argumentReplace", "assign", "calculate", "changeListenerMacro",
             "clickListenerMacro", "comment", "conditional", "evaluate", "exception", "forEach", "import",
-            "inputListenerMacro", "loop", "logger", "meta", "nestedForEach", "newAttribute", "newTag", "nullCheck",
-            "random", "style", "tableCell", "tableColumn", "tableRow", "while",
+            "importStyleSheet", "inputListenerMacro", "loop", "logger", "meta", "nestedForEach", "newAttribute",
+            "newTag", "nullCheck", "random", "style", "tableCell", "tableColumn", "tableRow", "while",
             // Custom elements:
             "customAttribute", "customMacro", "customTag",
             // Vis unique tags:

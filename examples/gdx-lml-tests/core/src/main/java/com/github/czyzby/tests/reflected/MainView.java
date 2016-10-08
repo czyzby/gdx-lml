@@ -258,4 +258,11 @@ public class MainView extends AbstractLmlView {
         // Printing all example buttons and current playground content:
         return resultTable + buttonManager.printButtons();
     }
+
+    /* templates/examples/importStyleSheet.lml */
+
+    @LmlAction("clearLss")
+    public void clearStyleSheets() {
+        parser.getStyleSheet().clearStyles();
+    }
 }
