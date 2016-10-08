@@ -15,15 +15,16 @@ import regexodus.Pattern;
  */
 public class LmlSourceHighlighter extends BaseHighlighter {
     public LmlSourceHighlighter() {
+        // Comments:
         addPattern(new Color(0.75f, 0.75f, 0.75f, 1f), "<[!][\\s\\S]*?[-!]>");
-        addPattern(new Color(0.6f, 1f, 1f, 1f), "</?:\\w*[>]?");
-        addPattern(new Color(0.6f, 0.7f, 1f, 1f), "</?[^!:]\\w*[>]?");
-        addPattern(new Color(0.8f, 0.6f, 1f, 1f), "\\{.*\\}");
-        addPattern(new Color(0.8f, 0.6f, 1f, 1f), "[#@$]");
-        word(new Color(0.8f, 0.4f, 1f, 1f), "'");
-        word(new Color(0.8f, 0.4f, 1f, 1f), "\"");
-        word(new Color(0.6f, 0.7f, 1f, 1f), ">");
-        word(new Color(0.6f, 0.7f, 1f, 1f), "/>");
+        // Macros:
+        addPattern(new Color(0.6f, 1f, 1f, 1f), "</?:[^>]*>");
+        // Actors:
+        addPattern(new Color(0.6f, 0.7f, 1f, 1f), "</?[^!:][^>]*>");
+        // Simple arguments:
+        addPattern(new Color(0.8f, 0.6f, 1f, 1f), "\\{[\\w:]+}");
+        // Preferences, i18n, methods:
+        addPattern(new Color(0.8f, 0.6f, 1f, 1f), "[#@$][\\w.]+");
     }
 
     /**
@@ -37,10 +38,10 @@ public class LmlSourceHighlighter extends BaseHighlighter {
     /**
      * GWT-compatible regular expression highlight rule based on vis-ui-contrib.
      * @author Kotcrab
-     */
+     */ // TODO Replace with vis-ui-contrib 1.2.4.
     public static class RegexRule implements HighlightRule {
-        private Color color;
-        private Pattern pattern;
+        private final Color color;
+        private final Pattern pattern;
 
         public RegexRule(Color color, String regex) {
             this.color = color;
@@ -49,7 +50,7 @@ public class LmlSourceHighlighter extends BaseHighlighter {
 
         @Override
         public void process(HighlightTextArea textArea, Array<Highlight> highlights) {
-            Matcher matcher = pattern.matcher(textArea.getText());
+            final Matcher matcher = pattern.matcher(textArea.getText());
             while (matcher.find()) {
                 highlights.add(new Highlight(color, matcher.start(), matcher.end()));
             }

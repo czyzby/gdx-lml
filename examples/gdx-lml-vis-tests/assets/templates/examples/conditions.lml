@@ -9,8 +9,8 @@
     values. -->
 
 <label>{? 4>1 ? "I will be printed."}</label>
-<label>{? 4<1 ? "Nothing will be printed."}</label>
-<label>{? 4<1 ? "Not me." : "I should be printed."}</label>
+<label>{? 4=1 ? "Nothing will be printed."}</label>
+<label>{? 4=1 ? "Not me." : "I should be printed."}</label>
 
 <!-- You can use '$' to reference methods in conditions: -->
 
@@ -27,4 +27,4 @@
     Multi
     Line
 </label>
-<label>{? 4<1 ? #somePreference : @ok + "EE" + @no - "O"}</label>
+<label>{? 4=1 ? #somePreference : @ok + "EE" + @no - "O"}</label>
