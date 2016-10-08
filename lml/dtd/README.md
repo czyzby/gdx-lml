@@ -10,7 +10,7 @@ To make up for the lack of official schema, `Dtd` class is provided: it can gene
 
 To generate a *DTD* file, fully create your parser (including the loaded skin!) and pass it to *Dtd* class:
 
-```
+```Java
         LmlParser parser = Lml.parser(getMySkin()).build();
         parser.setStrict(false); // This will prevent some possible exceptions -
                                  // DTD schema will contain more tags and attributes.
@@ -32,7 +32,7 @@ If you don't want to generate the *DTD* file yourself, try using schemas from th
 
 Most modern IDEs will recognize referenced *DTD* files and provide content assist:
 
-```
+```XML
         <?xml version="1.0"?>
         <!DOCTYPE table SYSTEM "lml.dtd">
 
@@ -48,7 +48,7 @@ Eclipse is a bit rusty when it comes to *DTD* content assist, but I'm sure you a
 ## Known issues
 
 *XML* files need a single root tag. You can either use a single container actor (like `table` or `window`) or a no-op macro:
-```
+```XML
         <?xml version="1.0"?>
         <!DOCTYPE :noop SYSTEM "lml.dtd">
 
@@ -73,7 +73,7 @@ So, why would you even want to use *DTD*? Two words: content assist. And comment
 
 There is a number of restricted characters in XML, including `@` - which is used was the macro special character. If you use `1.5` LML version, you have to replace it manually:
 
-```
+```Java
         LmlParser parser = Lml.parser(getDefaultSkin()).syntax(new DefaultLmlSyntax() {
             @Override
             public char getMacroMarker() {
@@ -84,7 +84,7 @@ There is a number of restricted characters in XML, including `@` - which is used
 Note that pre-generated *DTD* files in this folder use `:`, but you might prefer any other valid XML special character, like '.', '-' or '_'.
 
 If you use `gdx-lml-vis`, you have to create a custom `VisLmlSyntax` instead:
-```
+```Java
         new VisLmlSyntax() {
             @Override
             public char getMacroMarker() {
@@ -100,19 +100,19 @@ However, it's pretty easy to migrate to `1.6+`. Provided that you haven't used w
 DTD schema is pretty straightforward. You can easily append your custom tags and attributes - and I'm not talking only about editing files by hand; I assume you're familiar with string concatenation and `Appendable` interface - you can easily add your custom, hard written lines to the DTD generation script. The generator *might* fail to find some tag, macro or attribute due to various reasons, like internal validation in their classes that prevents from creating mock-up instances needed to generate DTD data. If that's the case, you can always hook up to the generator and append the missing schema data yourself.
 
 Adding a new tag that can have any children:
-```
+```DTD
         <!ELEMENT tagName ANY>
 ```
 
 Adding a list of attributes:
-```
+```DTD
         <!ATTLIST tagName
 	        attributeName CDATA #IMPLIED
 	        secondName CDATA #IMPLIED>
 ```
 
 Adding a single attribute:
-```
+```DTD
         <!ATTLIST tagName attributeName CDATA #IMPLIED>
 ```
 
