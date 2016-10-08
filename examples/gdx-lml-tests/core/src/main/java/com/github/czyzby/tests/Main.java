@@ -28,6 +28,7 @@ import com.github.czyzby.lml.util.Lml;
 import com.github.czyzby.tests.reflected.CustomActionContainer;
 import com.github.czyzby.tests.reflected.MainView;
 import com.github.czyzby.tests.reflected.widgets.BlinkingLabel;
+import com.github.czyzby.tests.reflected.widgets.CodeTextArea;
 
 /** Main application's listener. Manages {@link MainView} instance.
  *
@@ -73,6 +74,9 @@ public class Main extends AbstractApplicationListener {
         return Lml.parser().skin(getDefaultSkin()).i18nBundle(getDefaultI18nBundle())
                 .preferences(getDefaultPreferences()).i18nBundle("custom", getCustomI18nBundle())
                 .preferences("custom", getCustomPreferences())
+                // Adding custom actor - text area that handles basic LML syntax highlighting:
+                .tag(new CodeTextArea.CodeTextAreaLmlTagProvider(), "codeTextArea")
+                .attribute(new CodeTextArea.AreaMessageLmlAttribute(), "message")
                 // {examples} argument will allow to iterate over Main#EXAMPLES array in LML templates:
                 .argument("examples", EXAMPLES)
                 // templates/examples/arguments.lml:

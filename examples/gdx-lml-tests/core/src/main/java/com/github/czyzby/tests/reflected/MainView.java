@@ -36,6 +36,7 @@ import com.github.czyzby.lml.scene2d.ui.reflected.ReflectedLmlDialog;
 import com.github.czyzby.lml.util.Lml;
 import com.github.czyzby.lml.util.LmlUtilities;
 import com.github.czyzby.tests.reflected.widgets.BlinkingLabel;
+import com.github.czyzby.tests.reflected.widgets.CodeTextArea;
 
 /** Main view of the application. Since it extends {@link AbstractLmlView}, it is both {@link LmlView} (allowing its
  * {@link Stage} to be filled) and {@link ActionContainer} (allowing it methods to be reflected and available in LML
@@ -46,7 +47,7 @@ import com.github.czyzby.tests.reflected.widgets.BlinkingLabel;
  * @author MJ */
 public class MainView extends AbstractLmlView {
     // Contains template to parse:
-    @LmlActor("templateInput") private TextArea templateInput;
+    @LmlActor("templateInput") private CodeTextArea templateInput;
     // Is filled with parsed actors after template processing:
     @LmlActor("resultTable") private Table resultTable;
     // Manages buttons. Will be created and filled by the parser.

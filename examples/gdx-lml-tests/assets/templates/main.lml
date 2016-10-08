@@ -5,7 +5,9 @@
     
     <!-- Template input: -->
     <table grow=true>
-        <textArea id="templateInput" class="code" message="@textAreaPrompt" grow=true row=true />
+        <scrollPane disabledX=true fadeBars=false overscroll=false barsOnTop=true flick=false grow=true row=true>
+            <codeTextArea id="templateInput" style="code" message="@textAreaPrompt"/>
+        </scrollPane>
         <textButton onChange="parseTemplate" growX=true spaceTop=2>@parsingButton|LML</textButton> 
     </table>
 

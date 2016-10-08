@@ -6,6 +6,7 @@
   com.badlogic.gdx.graphics.Color: {
     white: { a: 1, b: 1, g: 1, r: 1 },
     black: { a: 1, b: 0, g: 0, r: 0 },
+    dark-gray: { a: 1, b: 0.05, g: 0.05, r: 0.05 },
     gray: { a: 1, b: 0.175, g: 0.175, r: 0.175 },
     red: { a: 1, b: 0, g: 0, r: 0.3 },
     green: { a: 1, b: 0, g: 0.5, r: 0 }
@@ -15,6 +16,7 @@
     red: { name: white, color: red },
     white: { name: white, color: white },
     gray: { name: white, color: gray },
+    dark-gray: { name: white, color: dark-gray },
     alpha: { name: white, color: { a: 0.5, b: 0, g: 0, r: 0 } },
     red-alpha: { name: white, color: { a: 0.5, b: 0, g: 0, r: 0.4 } },
     red-frame: { name: frame, color: red }
@@ -64,8 +66,10 @@
     toggle: { up: black, over: gray, down: red, checked: red, font: default, fontColor: white, pressedOffsetY: -1, pressedOffsetX: 1, disabled: gray }
   },
   com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
-    default: { selection: red-alpha, focusedBackground: gray, background: black, font: default, fontColor: white, cursor: cursor },
-    code: { selection: red-alpha, focusedBackground: gray, background: black, font: code, fontColor: white, cursor: cursor }
+    default: { selection: red-alpha, focusedBackground: gray, background: black, font: default, fontColor: white, cursor: cursor }
+  },
+  com.kotcrab.vis.ui.widget.VisTextField$VisTextFieldStyle: {
+     code: { selection: red-alpha, focusedBackground: dark-gray, background: black, font: code, fontColor: white, cursor: cursor }
   },
   com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
     default: { label: default, background: gray }

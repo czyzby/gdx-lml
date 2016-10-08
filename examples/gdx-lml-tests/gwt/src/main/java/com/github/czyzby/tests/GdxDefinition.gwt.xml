@@ -3,6 +3,8 @@
 <module rename-to="html">
 	<inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
     <inherits name='com.github.czyzby.lml.GdxLml' />
+	<inherits name="com.kotcrab.vis.vis-ui" />
+	<inherits name="regexodus" />
 
 	<inherits name='com.github.czyzby.tests.Main' />
 	<entry-point class='com.github.czyzby.tests.client.HtmlLauncher' />
