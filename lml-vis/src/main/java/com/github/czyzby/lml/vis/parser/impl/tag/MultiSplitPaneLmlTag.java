@@ -55,6 +55,6 @@ public class MultiSplitPaneLmlTag extends AbstractActorLmlTag {
 
     @Override
     protected void doOnTagClose() {
-        getMultiSplitPane().setWidgets(children.toArray());
+        getMultiSplitPane().setWidgets(children);
     }
 }

@@ -3,6 +3,7 @@ package com.github.czyzby.tests.reflected.widgets;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.github.czyzby.kiwi.util.gdx.GdxUtilities;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.tag.AbstractNonParentalActorLmlTag;
 import com.github.czyzby.lml.parser.impl.tag.actor.TextAreaLmlTag;
@@ -20,7 +21,7 @@ import com.kotcrab.vis.ui.widget.HighlightTextArea;
 public class CodeTextArea extends HighlightTextArea {
     public CodeTextArea(String text, Skin skin, String styleName) {
         super(text, skin.get(styleName, VisTextFieldStyle.class));
-        setHighlighter(new LmlSourceHighlighter());
+        setHighlighter(GdxUtilities.isRunningOnGwt() ? new MockHighlighter() : new LmlSourceHighlighter());
         setFocusBorderEnabled(false);
     }
 

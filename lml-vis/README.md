@@ -74,6 +74,8 @@ Make sure to check `gdx-lml` changes as well!
 - Added support for new VisUI actors: `BusyBar`, `MultiSplitPane`, `ScrollableTextArea` and `HighlightTextArea`. Usage examples are present in `gdx-lml-vis-tests`.
 - Added `sorting`, `sortingOrderAscending`, `saveLastDirectory` and `focusFileScrollPaneOnShow` attributes to `FileChooser` tag accessible through `ExtendedVisLml`.
 - Added `menuListener` attribute to `menuBar`, `popupMenu` and `menu` tags.
+- `ListView` now supports `style` attribute, which consumes name of a `ListViewStyle` stored in the `Skin`.
+- `Spinner` tag now supports `textFieldEventPolicy` attribute.
 
 1.6 -> 1.7
 

@@ -55,7 +55,7 @@ public class ListViewLmlTag extends TableLmlTag {
     @Override
     protected Table getNewInstanceOfActor(final LmlActorBuilder builder) {
         final ListAdapter<?> listAdapter = extractListAdapter((ListViewLmlActorBuilder) builder);
-        listView = createListView(listAdapter);
+        listView = createListView(listAdapter, builder.getStyleName());
         LmlUtilities.getLmlUserObject(listView.getMainTable()).setData(listView);
         listView.setUpdatePolicy(UpdatePolicy.MANUAL); // Prevents the table from being rebuilt during creation.
         return listView.getMainTable();
@@ -68,10 +68,11 @@ public class ListViewLmlTag extends TableLmlTag {
     }
 
     /** @param listAdapter converts data to views.
+     * @param styleName name of list view style applied to the view.
      * @return a new instance of ListView.
      * @param <Type> type of items stored by the list. */
-    protected <Type> ListView<Type> createListView(final ListAdapter<Type> listAdapter) {
-        return new ListView<Type>(listAdapter);
+    protected <Type> ListView<Type> createListView(final ListAdapter<Type> listAdapter, String styleName) {
+        return new ListView<Type>(listAdapter, styleName);
     }
 
     /** @param builder may contain a custom adapter.

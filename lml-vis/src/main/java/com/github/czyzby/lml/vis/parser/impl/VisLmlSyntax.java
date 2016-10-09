@@ -91,13 +91,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.picker.ColorPickerRespons
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.basic.AllowAlphaEditLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.basic.BasicColorPickerListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.basic.ShowHexFieldLmlAttribute;
-import com.github.czyzby.lml.vis.parser.impl.attribute.spinner.SpinnerArrayLmlAttribute;
-import com.github.czyzby.lml.vis.parser.impl.attribute.spinner.SpinnerDisabledLmlAttribute;
-import com.github.czyzby.lml.vis.parser.impl.attribute.spinner.SpinnerNameLmlAttribute;
-import com.github.czyzby.lml.vis.parser.impl.attribute.spinner.SpinnerPrecisionLmlAttribute;
-import com.github.czyzby.lml.vis.parser.impl.attribute.spinner.SpinnerProgrammaticChangeEventsLmlAttribute;
-import com.github.czyzby.lml.vis.parser.impl.attribute.spinner.SpinnerSelectedLmlAttribute;
-import com.github.czyzby.lml.vis.parser.impl.attribute.spinner.SpinnerWrapLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.spinner.*;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MaxSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MinSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.SplitAmountLmlAttribute;
@@ -524,6 +518,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addAttributeProcessor(new SpinnerPrecisionLmlAttribute(), "precision", "scale");
         addAttributeProcessor(new SpinnerProgrammaticChangeEventsLmlAttribute(), "programmaticChangeEvents");
         addAttributeProcessor(new SpinnerSelectedLmlAttribute(), "selected");
+        addAttributeProcessor(new SpinnerTextFieldEventPolicyLmlAttribute(), "textFieldEventPolicy");
         addAttributeProcessor(new SpinnerWrapLmlAttribute(), "wrap");
     }
 
