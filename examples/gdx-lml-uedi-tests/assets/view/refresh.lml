@@ -1,0 +1,9 @@
+<window title="@refresh">
+	<:random key="size" value="[300,400]" />
+	<label style="small" wrap="true" width="{size}">@refreshPrompt</label>
+	<container background="button" width="{size}">
+		<label color="vis-blue">@size|{size}</label>
+	</container>
+	<imagebutton image="icon-refresh" onchange="reloadView"/>
+	<textbutton expandx="true" align="right" onchange="setView" id="menu">@back</textbutton>
+</window>

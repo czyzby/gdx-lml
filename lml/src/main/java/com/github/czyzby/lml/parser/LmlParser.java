@@ -35,6 +35,12 @@ public interface LmlParser {
      *         alone if template parsing is currently in progress. */
     LmlSyntax getSyntax();
 
+    /** @param styleSheet will be used to provide default values for tags' attributes. */
+    void setStyleSheet(LmlStyleSheet styleSheet);
+
+    /** @return style sheet currently used to provide default values for tags' attributes. Can safely modified. */
+    LmlStyleSheet getStyleSheet();
+
     /** @return true if parser is strict and throws errors for unknown tags, attributes, etc. */
     boolean isStrict();
 
@@ -56,6 +62,14 @@ public interface LmlParser {
     /** @param lmlTemplateFile will be read and parsed.
      * @return parsed root actors, in the order that they appear in the template. */
     Array<Actor> parseTemplate(FileHandle lmlTemplateFile);
+
+    /** @param styleSheet LML style sheet code. Will be processed.
+     * @see #getStyleSheet() */
+    void parseStyleSheet(String styleSheet);
+
+    /** @param styleSheetFile path to a file storing LML style sheet code. Will be processed.
+     * @see #getStyleSheet() */
+    void parseStyleSheet(FileHandle styleSheetFile);
 
     /** @param stage will have the parsed actors appended.
      * @param lmlTemplate will be parsed. Actors parsed from the template will be added directly into the stage. */

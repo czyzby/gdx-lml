@@ -1,72 +1,45 @@
 buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        jcenter()
-    }
-    dependencies {
-        classpath "de.richsource.gradle.plugins:gwt-gradle-plugin:0.6"
-        classpath "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
-    }
+  repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+  }
+  dependencies {
+    classpath "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+    classpath "de.richsource.gradle.plugins:gwt-gradle-plugin:$gwtPluginVersion"
+  }
 }
 
 allprojects {
-    apply plugin: "eclipse"
-    apply plugin: "idea"
-
-    version = libVersion
-    ext.appName = 'gdx-lml-tests'
-
-    repositories {
-        mavenLocal()
-        mavenCentral()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        maven { url "https://oss.sonatype.org/content/repositories/releases/" }
-    }
+  apply plugin: 'eclipse'
+  apply plugin: 'idea'
 }
 
-project(":desktop") {
-    apply plugin: "java"
-
-    dependencies {
-        compile project(":core")
-        compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-    }
+configure(subprojects) {
+  apply plugin: 'java'
+  sourceCompatibility = 1.6
 }
 
-project(":html") {
-    apply plugin: "gwt"
-    apply plugin: "war"
-
-    dependencies {
-        compile project(":core")
-        compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
-        compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
-        compile "com.github.czyzby:gdx-lml:$libVersion:sources"
-        compile "com.github.czyzby:gdx-kiwi:$libVersion:sources"
-    }
+subprojects {
+  version = libVersion
+  ext.appName = 'gdx-lml-tests'
+  repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+  }
 }
 
-project(":core") {
-    apply plugin: "java"
-
-    dependencies {
-        compile "com.github.czyzby:gdx-lml:$libVersion"
-        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-    }
-}
-
-task pack << {
-  // Packing raw assets into an atlas:
-  com.badlogic.gdx.tools.texturepacker.TexturePacker.process(project(":core")
-     .file("raw").absolutePath, project(":core").file("assets").absolutePath, "skin")
-}
-
+// Clearing Eclipse project data in root folder:
 tasks.eclipse.doLast {
-    delete ".project"
-    delete ".classpath"
-    delete ".settings/"
+  delete '.project'
+  delete '.classpath'
+  delete '.settings/'
+}
+
+import com.badlogic.gdx.tools.texturepacker.TexturePacker
+task pack << {
+  TexturePacker.process('raw', 'assets', 'skin')
 }

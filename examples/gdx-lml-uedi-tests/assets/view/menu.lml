@@ -1,0 +1,10 @@
+<window title="@menu">
+	<label style="small" color="vis-blue">@menuPrompt</label>
+	<table growx="true" defaultgrowx="true" defaultuniformx="true" defaultpad="1">
+		<:for view="assets;locale;music;refresh">
+			<textbutton onchange="setView" id="{view}" row="{= {for:index}%2 = 1}">@{view}</textbutton>
+		</:for>
+	</table>
+	<!-- "exit" is one of the default LML UEDI actions. It closes the current application. -->
+	<textbutton onchange="exit" expandX="true" align="right">@exit</textbutton>
+</window>

@@ -19,10 +19,12 @@ import com.github.czyzby.autumn.annotation.OnMessage;
 import com.github.czyzby.autumn.annotation.Processor;
 import com.github.czyzby.autumn.annotation.Provider;
 import com.github.czyzby.autumn.context.error.ContextInitiationException;
+import com.github.czyzby.autumn.context.impl.method.ContextConsumer;
 import com.github.czyzby.autumn.context.impl.method.MethodInvocation;
 import com.github.czyzby.autumn.processor.AnnotationProcessor;
 import com.github.czyzby.autumn.processor.event.EventDispatcher;
 import com.github.czyzby.autumn.processor.event.MessageDispatcher;
+import com.github.czyzby.autumn.processor.impl.ComponentAnnotationProcessor;
 import com.github.czyzby.autumn.processor.impl.DestroyAnnotationProcessor;
 import com.github.czyzby.autumn.processor.impl.DisposeAnnotationProcessor;
 import com.github.czyzby.autumn.processor.impl.InitiateAnnotationProcessor;
@@ -78,6 +80,13 @@ public class ContextInitializer {
     private boolean createMissingDependencies = true;
     /** If true, scanners and processors are cleared after initiation. */
     private boolean clearProcessors = true;
+    /** If true, components are removed from the context after initiation. They still hold references to each other
+     * (through dependency injection), but the {@link Context} object will be empty. */
+    private boolean clearContextAfterInitiation = true;
+    /** Consumes constructed {@link Context} instance. */
+    private ContextConsumer doBeforeInitiation;
+    /** Consume fully initiated {@link Context} instance. */
+    private ContextConsumer doAfterInitiation;
 
     /** Creates a new context initializer with default annotation processors. */
     public ContextInitializer() {
@@ -89,6 +98,7 @@ public class ContextInitializer {
         scannedAnnotations.add(OnEvent.class);
         scannedAnnotations.add(OnMessage.class);
         // Default processors:
+        addProcessor(new ComponentAnnotationProcessor()); // Maps components by interfaces.
         addProcessor(new MetaAnnotationProcessor()); // Registers annotation processors.
         addProcessor(new ProviderAnnotationProcessor()); // Registers dependency providers.
         addProcessor(new InjectAnnotationProcessor()); // Injects field dependencies.
@@ -193,6 +203,39 @@ public class ContextInitializer {
         return this;
     }
 
+    /**
+     * @param clearContextAfterInitiation if true, all components from the {@link Context} instance will be removed
+     * after the context is fully initiated.
+     * @return this for chaining.
+     * @see Context#setClear(boolean)
+     */
+    public ContextInitializer clearContextAfterInitiation(final boolean clearContextAfterInitiation) {
+        this.clearContextAfterInitiation = clearContextAfterInitiation;
+        return this;
+    }
+
+    /**
+     * @param doBeforeInitiation will be invoked right after the {@link Context} is created. The consumed context
+     * instance should be empty, but will never be null.
+     * @return this for chaining.
+     * @see ContextConsumer
+     */
+    public ContextInitializer doBeforeInitiation(final ContextConsumer doBeforeInitiation) {
+        this.doBeforeInitiation = doBeforeInitiation;
+        return this;
+    }
+
+    /**
+     * @param doAfterInitiation will be invoked right after the {@link Context} is fully initiated, but before the
+     * processors and components meta-data is cleared. The consumed context instance will never be null.
+     * @return this for chaining.
+     * @see ContextConsumer
+     */
+    public ContextInitializer doAfterInitiation(final ContextConsumer doAfterInitiation) {
+        this.doAfterInitiation = doAfterInitiation;
+        return this;
+    }
+
     /** @param root scanning root. Will look for classes sharing the same root package.
      * @param scanner will process the actual class scanning.
      * @return this for chaining. */
@@ -241,8 +284,7 @@ public class ContextInitializer {
      * @see #scan(Class, ClassScanner) */
     public ContextDestroyer initiate() {
         validateScanners(); // Making sure scanners are properly defined.
-        final Context context = new Context();
-        context.setCreateMissingDependencies(createMissingDependencies);
+        final Context context = createContext(); // Creating new instance, applying user's settings.
         final ContextDestroyer contextDestroyer = new ContextDestroyer();
         mapInContext(context, processors); // Now context contains default processors. They are injectable.
         mapInContext(context, manuallyAddedComponents); // Now manually added components are in the context.
@@ -250,11 +292,30 @@ public class ContextInitializer {
         invokeProcessorActionsBeforeInitiation(); // Processors are ready to process!
         initiateRegularComponents(context, contextDestroyer);// Now context contains all regular components.
         invokeProcessorActionsAfterInitiation(context, contextDestroyer); // Processors finish up their work.
-        context.clear(); // Removing all components from context.
+        finishContext(context); // Clearing processors and components.
+        return contextDestroyer;
+    }
+
+    private Context createContext() {
+        final Context context = new Context();
+        context.setClear(clearContextAfterInitiation);
+        context.setCreateMissingDependencies(createMissingDependencies);
+        if (doBeforeInitiation != null) {
+            doBeforeInitiation.handleContext(context);
+            doBeforeInitiation = null;
+        }
+        return context;
+    }
+
+    private void finishContext(Context context) {
+        if (doAfterInitiation != null) {
+            doAfterInitiation.handleContext(context);
+            doAfterInitiation = null;
+        }
+        context.clear(); // Removing all components from context (if not disabled)
         if (clearProcessors) {
             destroyInitializer(); // Clearing meta-data. Processors are no longer available.
         }
-        return contextDestroyer;
     }
 
     /** Throws exception if user did not specify any scanners. */
@@ -281,9 +342,8 @@ public class ContextInitializer {
         }
     }
 
-    /** Calls {@link AnnotationProcessor#doAfterScanning(ContextInitializer, Context)} with "this" argument on each
-     * processor.
-     *
+    /** Calls {@link AnnotationProcessor#doAfterScanning(ContextInitializer, Context, ContextDestroyer)} with "this"
+     * argument on each processor.
      * @param context might be required by some processors to finish up.
      * @param destroyer used to register destruction callbacks. */
     private void invokeProcessorActionsAfterInitiation(final Context context, final ContextDestroyer destroyer) {

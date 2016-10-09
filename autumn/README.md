@@ -62,6 +62,13 @@ For efficient class scanning on desktop, see [Autumn FCS](natives/fcs).
 
 ##What's new
 
+1.7 -> 1.8
+
+- `@Component` annotation now allows to pass an array of interfaces, making injection by interface possible - even though the LibGDX mechanism does not normally allow to inspect interfaces at runtime.
+- Added more listener-related methods to `EventDispatcher` and `MessageDispatcher`. Now it is possible to remove listeners manually at runtime.
+- Added `ContextConsumer` functional interface, `ContextInitializer#doBeforeInitiation` and `#doAfterInitiation`. Now `Context` instance can be accessed right after its creation and after full initiation.
+- Added `ContextInitializer#clearContextAfterInitiation`. You can choose not to clear components meta-data stored in `Context` to use dependency injection at runtime.
+
 1.6 -> 1.7
 
 - Experimental [JTransc](https://github.com/jtransc/gdx-backend-jtransc) support through [a new library](natives/jtransc).

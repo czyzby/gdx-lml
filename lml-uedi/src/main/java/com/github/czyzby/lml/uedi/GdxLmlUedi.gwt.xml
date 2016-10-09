@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit trunk//EN" "http://google-web-toolkit.googlecode.com/svn/trunk/distro-source/core/src/gwt-module.dtd">
+<module>
+    <source path="" />
+	<inherits name="com.github.czyzby.uedi.GdxUedi" />
+
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.lml.uedi.music.VolumeAction" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.lml.uedi.music.MusicStopAction" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.lml.uedi.music.MusicService" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.lml.uedi.views.View" />
+	<!-- Injectable assets: -->
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.assets.AssetManager" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.audio.Music" />
+	<extend-configuration-property name="gdx.reflect.exclude" value="com.badlogic.gdx.audio.Music.OnCompletionListener" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.audio.Sound" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.scenes.scene2d.ui.Skin" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.graphics.Pixmap" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.graphics.g2d.Batch" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.graphics.g2d.ParticleEffect" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.graphics.g2d.SpriteBatch" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.graphics.g2d.TextureAtlas" />
+	<extend-configuration-property name="gdx.reflect.exclude" value="com.badlogic.gdx.graphics.g2d.TextureAtlas.TextureAtlasData" />
+	<extend-configuration-property name="gdx.reflect.exclude" value="com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion" />
+	<extend-configuration-property name="gdx.reflect.exclude" value="com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasSprite" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.graphics.g3d.Model" />
+	<extend-configuration-property name="gdx.reflect.exclude" value="com.badlogic.gdx.graphics.g3d.ModelBatch" />
+	<extend-configuration-property name="gdx.reflect.exclude" value="com.badlogic.gdx.graphics.g3d.ModelCache" />
+	<extend-configuration-property name="gdx.reflect.exclude" value="com.badlogic.gdx.graphics.g3d.ModelInstance" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.utils.I18NBundle" />
+	
+	<!-- Already included injectable assets:
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.graphics.g2d.BitmapFont" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.graphics.Texture" />
+	<extend-configuration-property name="gdx.reflect.include" value="com.badlogic.gdx.graphics.g3d.particles.ParticleEffect" />
+	-->
+</module>

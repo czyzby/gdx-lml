@@ -1,0 +1,12 @@
+<!-- HighlightTextArea extends ScrollableTextArea with the
+    possibility of adding syntax highlighting. Using `highlighter`
+    attribute, you can pass a method that returns BaseHighlighter
+    implementation which will be used to handle syntax coloring. -->
+
+<container size="200">
+    <highlightTextArea highlighter="lmlHighlighter"
+                       message="Supports LML syntax!" />
+</container>
+
+<!-- See LmlSourceHighlighter for an example of BaseHighlighter
+    implementation (with GWT-compatible regular expressions). -->

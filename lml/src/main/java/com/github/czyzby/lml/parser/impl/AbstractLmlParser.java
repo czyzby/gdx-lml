@@ -30,6 +30,7 @@ import com.github.czyzby.lml.annotation.processor.OnChangeProcessor;
 import com.github.czyzby.lml.parser.LmlData;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.LmlParserListener;
+import com.github.czyzby.lml.parser.LmlStyleSheet;
 import com.github.czyzby.lml.parser.LmlSyntax;
 import com.github.czyzby.lml.parser.LmlTemplateReader;
 import com.github.czyzby.lml.parser.LmlView;
@@ -53,6 +54,7 @@ public abstract class AbstractLmlParser implements LmlParser {
     protected LmlData data;
     protected LmlSyntax syntax;
     protected LmlTemplateReader templateReader;
+    protected LmlStyleSheet styleSheet;
 
     // Settings:
     protected boolean strict;
@@ -69,13 +71,15 @@ public abstract class AbstractLmlParser implements LmlParser {
     /** @param data contains skin, actions, i18n bundles and other data needed to parse LML templates.
      * @param syntax determines syntax of LML templates.
      * @param templateReader reads and buffers templates and their files.
+     * @param styleSheet contains default values of attributes.
      * @param strict if false, will ignore some unexpected errors, like unknown attributes, invalid referenced method
      *            names etc. Set to true for more HTML-like feel or quick prototyping. */
     public AbstractLmlParser(final LmlData data, final LmlSyntax syntax, final LmlTemplateReader templateReader,
-            final boolean strict) {
+            final LmlStyleSheet styleSheet, final boolean strict) {
         this.data = data;
         this.syntax = syntax;
         this.templateReader = templateReader;
+        this.styleSheet = styleSheet;
         this.strict = strict;
     }
 
@@ -131,6 +135,16 @@ public abstract class AbstractLmlParser implements LmlParser {
     }
 
     @Override
+    public void setStyleSheet(final LmlStyleSheet styleSheet) {
+        this.styleSheet = styleSheet;
+    }
+
+    @Override
+    public LmlStyleSheet getStyleSheet() {
+        return styleSheet;
+    }
+
+    @Override
     public void doBeforeParsing(final LmlParserListener listener) {
         preListeners.add(listener);
     }
@@ -181,6 +195,16 @@ public abstract class AbstractLmlParser implements LmlParser {
     public Array<Actor> parseTemplate(final FileHandle lmlTemplateFile) {
         templateReader.append(lmlTemplateFile);
         return parseTemplate();
+    }
+
+    @Override
+    public void parseStyleSheet(final FileHandle styleSheetFile) {
+        parseStyleSheet(styleSheetFile.readString("UTF-8"));
+    }
+
+    @Override
+    public void parseStyleSheet(final String styleSheet) {
+        new LssParser(this).parse(styleSheet);
     }
 
     @Override
@@ -254,7 +278,10 @@ public abstract class AbstractLmlParser implements LmlParser {
      * @param <View> class of the filled view. */
     protected <View> void fillView(final View view, final Array<Actor> actors) {
         if (view instanceof LmlView) {
-            LmlUtilities.appendActorsToStage(((LmlView) view).getStage(), actors);
+            final Stage stage = ((LmlView) view).getStage();
+            if (stage != null) {
+                LmlUtilities.appendActorsToStage(stage, actors);
+            }
         }
         processViewFieldAnnotations(view);
     }

@@ -6,12 +6,16 @@ import com.github.czyzby.lml.parser.impl.tag.builder.TextLmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.vis.ui.VisTabTable;
+import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 
-/** Manages an instance of {@link com.kotcrab.vis.ui.widget.tabbedpane.Tab} through specialized table extension:
+/**
+ * Manages an instance of {@link com.kotcrab.vis.ui.widget.tabbedpane.Tab} through specialized table extension:
  * {@link VisTabTable}. Handles children like a regular table tag. Mapped to "tab".
- *
- * @author MJ */
+ * @author MJ
+ */
 public class TabLmlTag extends VisTableLmlTag {
+    private Tab tab;
+
     public TabLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
         if (!(parentTag instanceof TabbedPaneLmlTag)) {
@@ -26,12 +30,14 @@ public class TabLmlTag extends VisTableLmlTag {
 
     @Override
     protected Actor getNewInstanceOfActor(final LmlActorBuilder builder) {
-        return new VisTabTable(((TextLmlActorBuilder) builder).getText());
+        VisTabTable tabTable = new VisTabTable(((TextLmlActorBuilder) builder).getText());
+        tab = tabTable.getTab();
+        return tabTable;
     }
 
     /** @return {@link com.kotcrab.vis.ui.widget.tabbedpane.Tab} instance managed by the {@link VisTabTable}. */
     @Override
     public Object getManagedObject() {
-        return ((VisTabTable) getActor()).getTab();
+        return tab;
     }
 }

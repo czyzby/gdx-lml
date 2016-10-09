@@ -1,0 +1,13 @@
+<window title="@music">
+	<!-- "getMusicVolume" and "setMusicVolume" allow to check and modify current music volume preference. -->
+	<slider value="$getMusicVolume" onchange="setMusicVolume"/>
+	<!-- "isMusicOn" allows to check if music is currently turned on. "setMusicOn" allows to turn it on and off. -->
+	<checkbox checked="$isMusicOn" onchange="setMusicOn">@musicOn</checkbox>
+	<!-- "getSoundVolume" and "setSoundVolume" allow to check and modify current sounds volume preference. -->
+	<slider value="$getSoundVolume" onchange="setSoundVolume"/>
+	<!-- "isSoundOn" allows to check if sounds are currently turned on. "setSoundOn" allows to turn them on and off. -->
+	<checkbox checked="$isSoundOn" onchange="setSoundOn">@soundOn</checkbox>
+	
+	<imagebutton image="icon-file-audio" onchange="play"/>
+	<textbutton expandx="true" align="right" onchange="setView" id="menu">@back</textbutton>
+</window>

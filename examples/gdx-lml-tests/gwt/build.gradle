@@ -1,0 +1,75 @@
+apply plugin: 'gwt'
+apply plugin: 'war'
+apply plugin: 'jetty'
+
+gwt {
+  gwtVersion = gwtFrameworkVersion // Should match the version used for building the GWT backend. See gradle.properties.
+  maxHeapSize = '1G' // Default 256m is not enough for the GWT compiler. GWT is HUNGRY.
+  minHeapSize = '1G'
+
+  src = files(file('src/main/java')) // Needs to be in front of "modules" below.
+  modules 'com.github.czyzby.tests.GdxDefinition'
+  devModules 'com.github.czyzby.tests.GdxDefinitionSuperdev'
+  project.webAppDirName = 'webapp'
+
+  compiler {
+    strict = true
+    enableClosureCompiler = true
+    disableCastChecking = true
+  }
+}
+
+dependencies {
+  compile project(':core')
+  compile "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
+  compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
+  compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
+  compile "com.github.czyzby:gdx-lml:$libVersion:sources"
+  compile "com.github.czyzby:gdx-kiwi:$libVersion:sources"
+  compile "com.kotcrab.vis:vis-ui:$visVersion:sources"
+  compile "com.github.tommyettinger:regexodus:$regexodusVersion:sources"
+}
+
+task draftRun(type: JettyRunWar) {
+  dependsOn draftWar
+  dependsOn.remove('war')
+  webApp = draftWar.archivePath
+  daemon = true
+}
+
+task superDev(type: de.richsource.gradle.plugins.gwt.GwtSuperDev) {
+  dependsOn draftRun
+  doFirst {
+  	gwt.modules = gwt.devModules
+  }
+}
+
+task dist(dependsOn: [clean, compileGwt]) {
+  doLast {
+    file("build/dist").mkdirs()
+    copy {
+      from "build/gwt/out"
+      into "build/dist"
+    }
+    copy {
+      from "webapp"
+      into "build/dist"
+      }
+    copy {
+      from "war"
+      into "build/dist"
+    }
+  }
+}
+
+draftWar {
+  from "war"
+}
+
+task addSource << {
+  sourceSets.main.compileClasspath += files(project(':core').sourceSets.main.allJava.srcDirs)
+}
+
+tasks.compileGwt.dependsOn(addSource)
+tasks.draftCompileGwt.dependsOn(addSource)
+eclipse.project.name = appName + '-gwt'

@@ -1,0 +1,37 @@
+<window title="@mainTitle" titleAlign="center" fillParent="true" defaultUniformX="true" onShow="fadeIn" useVisDefaults="true">
+
+    <!-- Title addition: -->
+    <label toTitleTable="true" align="right" padRight="5" padTop="-2">@mainSubtitle</label>
+    
+    <!-- Template input: -->
+    <table grow="true" padRight="-3" oneColumn="true">
+        <scrollPane style="list" disabledX="true" fadeBars="false" overscroll="false"
+                    barsOnTop="true" flick="false" grow="true">
+            <highlightTextArea id="templateInput" style="source-code" message="@textAreaPrompt" focusBorder="false"
+                               highlighter="codeHighlighter"/>
+        </scrollPane>
+        <checkbox checked="$isNotGwt" onChange="toggleSyntaxHighlight" expandX="true" align="left">@toggleHighlight</checkbox>
+        <textButton onChange="parseTemplate" growX="true" padTop="3">@parsingButton|LML</textButton>
+    </table>
+
+    <!-- Buttons and parsing result: -->
+    <table grow="true">
+    
+        <!-- Buttons column: -->
+        <table width="200" growY="true">
+            <!-- This scroll pane contains buttons used to switch LML templates. -->
+            <scrollPane style="list" grow="true" fadeBars="false" overscroll="false">
+                <table defaultWidth="180" tableAlign="left" defaultExpandX="true" defaultAlign="left">
+                    <:for example="{examples}">
+                        <textButton id="{example}" style="toggle" onChange="switch" row="true"
+                                    focusBorder="false">@{example}</textButton>
+                    </:for>
+                </table>
+            </scrollPane>
+        </table>
+        
+        <!-- This table contains parsed template's actors after processing. -->
+        <table id="resultTable" expand="true"/>
+
+    </table>
+</window>

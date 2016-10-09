@@ -1,0 +1,29 @@
+<!-- LML supports parsing of simple CSS-like style
+    sheet files, which basically allow to choose
+    default values of tag attributes. The default
+    values are applied _only_ if the selected tag
+    does not already define the attribute by its
+    own. LML style sheets are out of scope of this
+    tests project, but you should know that you can
+    define and modify styles at runtime thanks to
+    :style macro. It consumes 3 arguments: tag names,
+    attribute names and default value. -->
+
+<:style button tablePadTop 20/>
+<button>High</button>
+
+<!-- Attribute can be optionally passed by data
+    between macro tags: -->
+<:style button tablePadLeft>20</:style>
+<button>High and wide</button>
+
+<!-- Arguments can be optionally named: -->
+<:style tag="button" attribute="tablePadBottom" value="20"/>
+<:style tag="button" attribute="tablePadRight">20</:style>
+<button>Huge</button>
+
+<!-- Multiple tags or attributes can be modified
+    at once using LML array syntax: -->
+<:style tag="button" value="3"
+    attribute="tablePadTop;tablePadLeft;tablePadRight;tablePadBottom"/>
+<button>Back to normal</button>

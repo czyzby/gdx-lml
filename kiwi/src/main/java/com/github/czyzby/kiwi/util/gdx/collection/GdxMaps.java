@@ -62,7 +62,7 @@ public class GdxMaps extends UtilitiesClass {
      * @param <Key> type of map keys.
      * @param <Value> type of map values. */
     public static <Key, Value> OrderedMap<Key, Value> newOrderedMap(
-            final ObjectMap<? extends Key, ? extends Value> map) {
+            final OrderedMap<? extends Key, ? extends Value> map) {
         return new OrderedMap<Key, Value>(map);
     }
 
@@ -209,7 +209,11 @@ public class GdxMaps extends UtilitiesClass {
      * @param <Key> type of map keys.
      * @param <Value> type of map values. */
     public static <Key, Value> OrderedMap<Key, Value> toOrdered(final ObjectMap<? extends Key, ? extends Value> map) {
-        return new OrderedMap<Key, Value>(map);
+        final OrderedMap<Key, Value> orderedMap = new OrderedMap<Key, Value>();
+        for (final ObjectMap.Entry<? extends Key, ? extends Value> entry : map) {
+            orderedMap.put(entry.key, entry.value);
+        }
+        return orderedMap;
     }
 
     /** @param map will be copied.

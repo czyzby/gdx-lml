@@ -40,13 +40,13 @@ To add non-GWT features (like the `FileChooser` support or various file validato
 
 In one of your components (possibly in a configuration component, if you have one), include an annotated field with syntax instance:
 
-```
+```Java
         @LmlParserSyntax VisLmlSyntax syntax = new VisLmlSyntax();
 ```
 
 Make sure that you call `VisUI.load()` and register Vis skin in LML parser. This can be easily done with an initiation method:
 
-```
+```Java
         @Initiate(priority = AutumnActionPriority.TOP_PRIORITY) // ...or custom, higher.
         private void initiate(final SkinService skinService) {
             VisUI.load(); // VisUI.load(Gdx.files.internal("path/to/your/skin.json"));
@@ -56,7 +56,7 @@ Make sure that you call `VisUI.load()` and register Vis skin in LML parser. This
 
 By using `SkinService#addSkin` method, the disposing of VisUI skin and registering it in LML parser is already handled for you. Still, you might also want to manually dispose of the `ColorPicker` instance (as it is reused for performance reasons) if you ever used one:
 
-```
+```Java
         @Destroy
         public static void destroyColorPicker() {
             ColorPickerContainer.dispose();
@@ -68,6 +68,14 @@ Note that by making the method static, instance of the class containing the meth
 ## What's new
 
 Make sure to check `gdx-lml` changes as well!
+
+1.7 -> 1.8
+
+- Added support for new VisUI actors: `BusyBar`, `MultiSplitPane`, `ScrollableTextArea` and `HighlightTextArea`. Usage examples are present in `gdx-lml-vis-tests`.
+- Added `sorting`, `sortingOrderAscending`, `saveLastDirectory` and `focusFileScrollPaneOnShow` attributes to `FileChooser` tag accessible through `ExtendedVisLml`.
+- Added `menuListener` attribute to `menuBar`, `popupMenu` and `menu` tags.
+- `ListView` now supports `style` attribute, which consumes name of a `ListViewStyle` stored in the `Skin`.
+- `Spinner` tag now supports `textFieldEventPolicy` attribute.
 
 1.6 -> 1.7
 
@@ -92,13 +100,6 @@ Make sure to check `gdx-lml` changes as well!
 - `FloatingGroup` support through `floatingGroup` tag. This group allows you to set absolute sizes and positions to your actors. Drag pane tag supports this group through `type="floating"`.
 - Now validatable text fields do not have to be direct children of forms - form validators will recursively search through its children and automatically add all validatables to form.
 - Since tables now are **not** automatically packed, `visTooltip` needs `pack="true"` attribute to properly expand its background over the whole area. This is considered a minor bug and will be fixed in the next version.
-
-1.4 -> 1.5
-
-- As `vertical` style was removed from default skin, `Separator` tag no longer supports `vertical`/`horizontal` attributes.
-- `VerticalFlowGroup` and `HorizontalFlowGroup` support. To use these groups in a `dragPane` tag, set `type` attribute to `vFlow` or `hFlow` (as always, case ignored).
-- `ListView` support. Now you can display a collection of values in a customized way. Note that currently `ListView` does **NOT** work on GWT due to reflection use in VisUI 1.0.1. It will be fixed in future versions.
-- Added `deadzoneRadius` attribute to `draggable` tag.
 
 ### Archive
 Older change logs are available in `CHANGES.md` file.

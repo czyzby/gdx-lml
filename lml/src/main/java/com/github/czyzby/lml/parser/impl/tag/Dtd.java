@@ -183,9 +183,9 @@ public class Dtd {
             try {
                 final LmlTag tag = actorTag.value.create(parser, null, new StringBuilder(actorTag.key));
                 if (tag.getActor() == null) {
-                    appendNonActorTagAttributes(tag, attributes, parser, builder);
+                    appendNonActorTagAttributes(tag, attributes, parser);
                 } else {
-                    appendActorTagAttributes(parser, attributes, tag);
+                    appendActorTagAttributes(tag, attributes, parser);
                 }
             } catch (final Exception exception) {
                 Exceptions.ignore(exception);
@@ -203,7 +203,7 @@ public class Dtd {
 
     @SuppressWarnings("unchecked")
     protected void appendNonActorTagAttributes(final LmlTag tag, final ObjectMap<String, Object> attributes,
-            final LmlParser parser, final Appendable builder) {
+            final LmlParser parser) {
         final Object managedObject = tag.getManagedObject();
         if (managedObject != null) {
             attributes.putAll(
@@ -212,8 +212,8 @@ public class Dtd {
     }
 
     @SuppressWarnings("unchecked")
-    protected void appendActorTagAttributes(final LmlParser parser, final ObjectMap<String, Object> attributes,
-            final LmlTag tag) {
+    protected void appendActorTagAttributes(final LmlTag tag, final ObjectMap<String, Object> attributes,
+            final LmlParser parser) {
         LmlActorBuilder actorBuilder;
         final boolean usesAbstractBase = tag instanceof AbstractActorLmlTag;
         if (usesAbstractBase) {
@@ -228,6 +228,10 @@ public class Dtd {
                 attributes.putAll(
                         (ObjectMap<String, Object>) (Object) parser.getSyntax().getAttributesForActor(component));
             }
+        }
+        // Appending managed objects attributes:
+        if (tag.getManagedObject() != tag.getActor()) {
+            appendNonActorTagAttributes(tag, attributes, parser);
         }
         // Appending building attributes:
         attributes

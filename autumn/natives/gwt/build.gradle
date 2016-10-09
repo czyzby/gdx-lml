@@ -1,5 +1,5 @@
 ext {
-  gwtVersion = '2.6.0'
+  gwtVersion = '2.6.1'
 }
 
 javadoc {
@@ -7,13 +7,8 @@ javadoc {
 }
 
 dependencies {
-  compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
-  compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
-  compile "com.google.gwt:gwt-user:$gwtVersion"
-  compile "com.google.gwt:gwt-user:$gwtVersion:sources"
-  compile "com.google.gwt:gwt-dev:$gwtVersion"
-  compile "com.google.gwt:gwt-dev:$gwtVersion:sources"
+  provided "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
+  provided "com.google.gwt:gwt-user:$gwtVersion"
+  provided "com.google.gwt:gwt-dev:$gwtVersion"
   compile "com.github.czyzby:gdx-autumn:$libVersion"
-  compile "com.github.czyzby:gdx-autumn:$libVersion:sources"
-  compile "com.github.czyzby:gdx-kiwi:$libVersion:sources"
 }

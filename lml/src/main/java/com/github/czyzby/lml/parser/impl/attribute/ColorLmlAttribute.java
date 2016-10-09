@@ -37,6 +37,10 @@ public class ColorLmlAttribute implements LmlAttribute<Actor> {
         } else {
             colorName = parser.parseString(rawAttributeData, actor);
         }
-        actor.setColor(parser.getData().getDefaultSkin().getColor(colorName));
+        try {
+            actor.setColor(parser.getData().getDefaultSkin().getColor(colorName));
+        } catch (final Exception exception) {
+            parser.throwErrorIfStrict("Unable to obtain color with name: " + colorName, exception);
+        }
     }
 }

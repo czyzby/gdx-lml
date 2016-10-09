@@ -2,6 +2,13 @@ Newest change logs are in the `README.md` file.
 
 # LML-Vis 1.X
 
+1.4 -> 1.5
+
+- As `vertical` style was removed from default skin, `Separator` tag no longer supports `vertical`/`horizontal` attributes.
+- `VerticalFlowGroup` and `HorizontalFlowGroup` support. To use these groups in a `dragPane` tag, set `type` attribute to `vFlow` or `hFlow` (as always, case ignored).
+- `ListView` support. Now you can display a collection of values in a customized way. Note that currently `ListView` does **NOT** work on GWT due to reflection use in VisUI 1.0.1. It will be fixed in future versions.
+- Added `deadzoneRadius` attribute to `draggable` tag.
+
 1.3 -> 1.4
 
 - Added `SwapListener` to `FixedSizeGridGroup`. Now you can manage (and cancel) swap events without having to modify internal `Draggable` listener.

@@ -1,0 +1,25 @@
+<!-- You can import existing LML style sheet files directly
+    in LML templates using :importStyleSheet macro. -->
+
+<:importStyleSheet>templates/examples/styleSheet.lss</:importStyleSheet>
+
+<!-- styleSheet.lss:
+label {
+  color: vis-blue;
+}
+-->
+
+<label>Will automatically become blue.</label>
+
+<!-- Note that you can specify both style sheet path and
+    file type with tag attributes: -->
+
+<:importStyleSheet path="templates/examples/styleSheet.lss"
+    fileType="Internal"/>
+
+<!-- ...And now we want to clear the default label style,
+    so other examples using labels are not screwed up: -->
+
+<:evaluate method="clearLss"/>
+
+<!-- Read the LML wiki for more info on style sheets. -->

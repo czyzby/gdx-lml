@@ -1,6 +1,8 @@
 package com.github.czyzby.lml.util;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TooltipManager;
@@ -59,6 +61,29 @@ public class LmlParserBuilder {
      * @return this for chaining. */
     public LmlParserBuilder skin(final String id, final Skin skin) {
         parser.getData().addSkin(id, skin);
+        return this;
+    }
+
+    /** @param tag all tags with this name (case ignored) will have the attribute applied.
+     * @param attribute name of the attribute.
+     * @param defaultValue default value of the attribute, used if attribute is not already set in the tag.
+     * @return this for chaining. */
+    public LmlParserBuilder style(final String tag, final String attribute, final String defaultValue) {
+        parser.getStyleSheet().addStyle(tag, attribute, defaultValue);
+        return this;
+    }
+
+    /** @param styleSheetPath LML style sheet data file.
+     * @return this for chaining. */
+    public LmlParserBuilder styles(final FileHandle styleSheetPath) {
+        parser.parseStyleSheet(styleSheetPath);
+        return this;
+    }
+
+    /** @param styleSheetPath path to internal file storing LML style sheet data.
+     * @return this for chaining. */
+    public LmlParserBuilder stylesPath(final String styleSheetPath) {
+        parser.parseStyleSheet(Gdx.files.internal(styleSheetPath));
         return this;
     }
 

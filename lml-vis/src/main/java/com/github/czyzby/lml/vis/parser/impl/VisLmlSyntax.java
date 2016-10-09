@@ -59,6 +59,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.grid.ItemSizeLmlAttribute
 import com.github.czyzby.lml.vis.parser.impl.attribute.grid.ItemWidthLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.grid.fixed.BlockIndexesLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.grid.fixed.ItemsAmountLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.input.HighlighterLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.BlinkTimeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.CursorLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.input.DigitsOnlyLmlAttribute;
@@ -80,21 +81,17 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.linklabel.UrlLmlAttribute
 import com.github.czyzby.lml.vis.parser.impl.attribute.listview.FooterLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.listview.HeaderLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.listview.ItemClickListenerLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.menu.MenuBarListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.menu.MenuItemGenerateDisabledImageLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.menu.MenuItemShortcutLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.menu.PopupMenuListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.CloseAfterPickingLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.ColorPickerListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.ColorPickerResponsiveListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.basic.AllowAlphaEditLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.basic.BasicColorPickerListenerLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.picker.basic.ShowHexFieldLmlAttribute;
-import com.github.czyzby.lml.vis.parser.impl.attribute.spinner.SpinnerArrayLmlAttribute;
-import com.github.czyzby.lml.vis.parser.impl.attribute.spinner.SpinnerDisabledLmlAttribute;
-import com.github.czyzby.lml.vis.parser.impl.attribute.spinner.SpinnerNameLmlAttribute;
-import com.github.czyzby.lml.vis.parser.impl.attribute.spinner.SpinnerPrecisionLmlAttribute;
-import com.github.czyzby.lml.vis.parser.impl.attribute.spinner.SpinnerProgrammaticChangeEventsLmlAttribute;
-import com.github.czyzby.lml.vis.parser.impl.attribute.spinner.SpinnerSelectedLmlAttribute;
-import com.github.czyzby.lml.vis.parser.impl.attribute.spinner.SpinnerWrapLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.spinner.*;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MaxSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.MinSplitLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.split.SplitAmountLmlAttribute;
@@ -140,49 +137,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.window.AddCloseButtonLmlA
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.CloseOnEscapeLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.KeepWithinParentLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.window.OnResultLmlAttribute;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.BasicColorPickerLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.CollapsibleWidgetLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.ColorPickerLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.DragPaneLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.DraggableLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.ExtendedColorPickerLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.FloatingGroupLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.FormValidatorLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.GridGroupLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.HorizontalFlowGroupLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.LinkLabelLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.ListViewLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuBarLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuItemLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuPopupLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.MenuSeparatorLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.SeparatorLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.TabLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.TabbedPaneLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.ToastLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.VerticalFlowGroupLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisCheckBoxLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisDialogLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisImageButtonLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisImageLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisImageTextButtonLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisLabelLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisListLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisProgressBarLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisRadioButtonLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisScrollPaneLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisSelectBoxLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisSliderLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisSplitPaneLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTableLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTextAreaLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTextButtonLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTextFieldLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTooltipLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisTreeLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisValidatableTextFieldLmlTagProvider;
-import com.github.czyzby.lml.vis.parser.impl.tag.provider.VisWindowLmlTagProvider;
+import com.github.czyzby.lml.vis.parser.impl.tag.provider.*;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.spinner.ArraySpinnerLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.spinner.FloatSpinnerLmlTagProvider;
 import com.github.czyzby.lml.vis.parser.impl.tag.provider.spinner.IntSpinnerLmlTagProvider;
@@ -275,6 +230,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
 
         // Vis unique actors:
         addTagProvider(new BasicColorPickerLmlTagProvider(), "basicColorPicker", "basicPicker");
+        addTagProvider(new BusyBarLmlTagProvider(), "busyBar");
         addTagProvider(new CollapsibleWidgetLmlTagProvider(), "collapsible", "collapsibleWidget");
         addTagProvider(new ColorPickerLmlTagProvider(), "colorPicker");
         addTagProvider(new DraggableLmlTagProvider(), "drag", "draggable");
@@ -283,6 +239,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new FloatingGroupLmlTagProvider(), "floatingGroup");
         addTagProvider(new FormValidatorLmlTagProvider(), "form", "formValidator", "formTable");
         addTagProvider(new GridGroupLmlTagProvider(), "gridGroup", "grid");
+        addTagProvider(new HighlightTextAreaLmlTagProvider(), "highlightTextArea");
         addTagProvider(new HorizontalFlowGroupLmlTagProvider(), "horizontalFlow", "horizontalFlowGroup");
         addTagProvider(new LinkLabelLmlTagProvider(), "linkLabel", "link");
         addTagProvider(new ListViewLmlTagProvider(), "listView");
@@ -291,6 +248,8 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new MenuLmlTagProvider(), "menu");
         addTagProvider(new MenuPopupLmlTagProvider(), "popupMenu", "subMenu");
         addTagProvider(new MenuSeparatorLmlTagProvider(), "menuSeparator");
+        addTagProvider(new MultiSplitPaneLmlTagProvider(), "multiSplitPane");
+        addTagProvider(new ScrollableTextAreaLmlTagProvider(), "scrollableTextArea");
         addTagProvider(new SeparatorLmlTagProvider(), "separator");
         addTagProvider(new TabbedPaneLmlTagProvider(), "tabbedPane");
         addTagProvider(new TabLmlTagProvider(), "tab");
@@ -449,6 +408,8 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addAttributeProcessor(new TextFieldListenerLmlAttribute(), "listener", "textListener", "textFieldListener");
         // VisTextArea:
         addAttributeProcessor(new PrefRowsLmlAttribute(), "prefRows", "prefRowsAmount");
+        // HighlightTextArea:
+        addAttributeProcessor(new HighlighterLmlAttribute(), "highlighter");
     }
 
     @Override
@@ -526,6 +487,10 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
 
     /** Menu-related attributes. */
     protected void registerMenuAttributes() {
+        // PopupMenu:
+        addAttributeProcessor(new PopupMenuListenerLmlAttribute(), "menuListener");
+        // MenuBar:
+        addAttributeProcessor(new MenuBarListenerLmlAttribute(), "menuListener");
         // MenuItem:
         addAttributeProcessor(new MenuItemGenerateDisabledImageLmlAttribute(), "generateDisabled");
         addAttributeProcessor(new MenuItemShortcutLmlAttribute(), "shortcut");
@@ -553,6 +518,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addAttributeProcessor(new SpinnerPrecisionLmlAttribute(), "precision", "scale");
         addAttributeProcessor(new SpinnerProgrammaticChangeEventsLmlAttribute(), "programmaticChangeEvents");
         addAttributeProcessor(new SpinnerSelectedLmlAttribute(), "selected");
+        addAttributeProcessor(new SpinnerTextFieldEventPolicyLmlAttribute(), "textFieldEventPolicy");
         addAttributeProcessor(new SpinnerWrapLmlAttribute(), "wrap");
     }
 

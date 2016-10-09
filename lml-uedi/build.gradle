@@ -1,0 +1,4 @@
+dependencies {
+  compile "com.github.czyzby:gdx-lml:$libVersion"
+  compile "com.github.czyzby:gdx-uedi:$libVersion"
+}

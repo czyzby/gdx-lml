@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.6.1//EN" "https://gwt.googlesource.com/gwt/+/2.6.1/distro-source/core/src/gwt-module.dtd">
+<module>
+    <source path="" />
+    <extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.tests.service" />
+    <extend-configuration-property name="gdx.reflect.include" value="com.github.czyzby.tests.view" />
+</module>

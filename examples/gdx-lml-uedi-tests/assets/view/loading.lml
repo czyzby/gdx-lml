@@ -1,0 +1,7 @@
+<window title="@loading">
+	<label style="small">@loadingPrompt</label>
+	<!-- "setView" is one of default LML UEDI actions. It allows to change the current view from
+        within LML templates. For example, progress bar's ID is "menu", so the view will be switched
+        to MenuController/menu.lml once the bar is full. -->
+	<progressbar oncomplete="setView" id="menu" />
+</window>

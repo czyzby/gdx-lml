@@ -1,11 +1,10 @@
-apply plugin: "java"
-
-sourceCompatibility = 1.6
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+eclipse.project.name = appName + '-core'
 
-sourceSets.main.java.srcDirs = [ "src/" ]
-
-
-eclipse.project {
-    name = appName + "-core"
+dependencies {
+  compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+  compile "com.github.czyzby:gdx-lml:$libVersion"
+  compile "com.kotcrab.vis:vis-ui:$visVersion"
+  compile "com.github.tommyettinger:regexodus:$regexodusVersion"
 }
+        

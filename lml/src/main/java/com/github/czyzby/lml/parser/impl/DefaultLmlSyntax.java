@@ -164,6 +164,7 @@ import com.github.czyzby.lml.parser.impl.attribute.table.TablePadRightLmlAttribu
 import com.github.czyzby.lml.parser.impl.attribute.table.TablePadTopLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.TableRoundLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.button.ButtonImageLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.table.button.ButtonProgrammaticChangeEventsLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.button.CheckedLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.button.TextButtonImageLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.table.cell.AbstractCellLmlAttribute;
@@ -254,38 +255,7 @@ import com.github.czyzby.lml.parser.impl.tag.actor.provider.WindowLmlTagProvider
 import com.github.czyzby.lml.parser.impl.tag.listener.provider.ChangeListenerLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.listener.provider.ClickListenerLmlTagProvider;
 import com.github.czyzby.lml.parser.impl.tag.listener.provider.InputListenerLmlTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.ActorLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.AnyNotNullLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.ArgumentLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.ArgumentReplacementLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.AssignLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.CalculationLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.ChangeListenerLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.ClickListenerLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.CommentLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.ConditionalLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.EvaluateLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.ExceptionLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.ForEachLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.ImportAbsoluteLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.ImportClasspathLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.ImportExternallLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.ImportInternalLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.ImportLocalLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.InputListenerLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.LoggerDebugLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.LoggerErrorLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.LoggerInfoLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.LoopLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.MetaLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.NestedForEachLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.NewAttributeLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.NewTagLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.NullCheckLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.TableCellLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.TableColumnLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.TableRowLmlMacroTagProvider;
-import com.github.czyzby.lml.parser.impl.tag.macro.provider.WhileLmlMacroTagProvider;
+import com.github.czyzby.lml.parser.impl.tag.macro.provider.*;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 
 /** Represents default LML syntax. This class can be overridden to change some parts of LML syntax; note that core LML
@@ -387,6 +357,9 @@ public class DefaultLmlSyntax extends EmptyLmlSyntax {
         addMacroTagProvider(new NewAttributeLmlMacroTagProvider(), "newAttribute", "attribute");
         addMacroTagProvider(new NewTagLmlMacroTagProvider(), "newTag", "tag");
         addMacroTagProvider(new NullCheckLmlMacroTagProvider(), "notNull", "ifNotNull", "exists");
+        addMacroTagProvider(new RandomLmlMacroTagProvider(), "random");
+        addMacroTagProvider(new StyleLmlMacroTagProvider(), "style");
+        addMacroTagProvider(new StyleSheetImportLmlMacroTagProvider(), "importStyleSheet");
         addMacroTagProvider(new TableCellLmlMacroTagProvider(), "cell", "tableCell");
         addMacroTagProvider(new TableColumnLmlMacroTagProvider(), "column", "tableColumn");
         addMacroTagProvider(new TableRowLmlMacroTagProvider(), "row", "tableRow");
@@ -501,8 +474,11 @@ public class DefaultLmlSyntax extends EmptyLmlSyntax {
 
     /** Button widget attributes. */
     protected void registerButtonAttributes() {
+        // Button:
+        addAttributeProcessor(new ButtonProgrammaticChangeEventsLmlAttribute(), "programmaticChangeEvents");
+        addAttributeProcessor(new CheckedLmlAttribute(), "checked");
+        // Extensions:
         addAttributeProcessor(new ButtonImageLmlAttribute(), "image", "icon"); // ImageButton
-        addAttributeProcessor(new CheckedLmlAttribute(), "checked"); // Button
         addAttributeProcessor(new TextButtonImageLmlAttribute(), "image", "icon"); // ImageTextButton
     }
 

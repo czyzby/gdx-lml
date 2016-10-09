@@ -1,0 +1,10 @@
+<!-- BusyBar allows to indicate progress of task, however -
+    unlike ProgressBar - it does not keep track of the actual
+    progress percent. -->
+
+<window title="Please wait...">
+    <busyBar width="200"/>
+</window>
+
+<!-- Other than its style, it does not feature any additional
+    properties. -->

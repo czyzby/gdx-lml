@@ -34,6 +34,7 @@ import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPaneAdapter;
  * @author MJ
  * @see #getContentTable(TabbedPane) */
 public class TabbedPaneLmlTag extends AbstractActorLmlTag {
+    private TabbedPane tabbedPane;
     private boolean attachDefaultListener = true;
     private ActorConsumer<Action, Tab> showActionProvider;
     private ActorConsumer<Action, Tab> hideActionProvider;
@@ -44,7 +45,7 @@ public class TabbedPaneLmlTag extends AbstractActorLmlTag {
 
     @Override
     protected Actor getNewInstanceOfActor(final LmlActorBuilder builder) {
-        final TabbedPane tabbedPane = new TabbedPane(builder.getStyleName());
+        tabbedPane = new TabbedPane(builder.getStyleName());
         final TabbedPaneTable mainTable = tabbedPane.getTable();
         // TabbedPane will be accessible through LmlUserObject#getData(). This disables oneColumn attribute, though.
         LmlUtilities.getLmlUserObject(mainTable).setData(tabbedPane);
@@ -71,7 +72,7 @@ public class TabbedPaneLmlTag extends AbstractActorLmlTag {
     /** @return managed {@link TabbedPane} instance. */
     @Override
     public Object getManagedObject() {
-        return getTable().getTabbedPane();
+        return tabbedPane;
     }
 
     /** @param mainTable main table of {@link TabbedPane}. */

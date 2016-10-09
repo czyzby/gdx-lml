@@ -1,0 +1,33 @@
+<!-- MultiSplitPane is similar to VisSplitPane, but instead of
+    managing just two actors, it handle any amount of children.
+    Note that its separators are draggable. -->
+
+<table oneColumn="true" defaultPad="5">
+
+<multiSplitPane width="150">
+    <textButton>One</textButton>
+    <textButton>Two</textButton>
+    <textButton>Three</textButton>
+</multiSplitPane>
+
+<!-- It converts text between tags to labels. -->
+<multiSplitPane height="50" vertical="true">
+    Has
+    three
+    children.
+</multiSplitPane>
+
+<!-- It can handle management of a single child. -->
+<multiSplitPane>
+    <label color="vis-blue">Single child.</label>
+</multiSplitPane>
+
+<!-- By setting its touchable status to childrenOnly,
+    split widths become fixed and separators are no
+    longer draggable: -->
+<multiSplitPane width="100" touchable="childrenOnly">
+    <textButton>50%</textButton>
+    <textButton>50%</textButton>
+</multiSplitPane>
+
+</table>

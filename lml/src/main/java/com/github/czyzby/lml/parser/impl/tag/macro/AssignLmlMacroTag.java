@@ -28,6 +28,17 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
  * Of course, data between assignment macro tags can contain any other tags (including nested assign macros) and can be
  * used to effectively assign template parts to convenient-to-use arguments.
  *
+ * <p>
+ * Assignment macro supports optional named attributes:<blockquote>
+ *
+ * <pre>
+ * &lt;:assign key="arg0" value="Value"/&gt;
+ * &lt;:assign key="arg1" value="Complex value with many parts."/&gt;
+ * &lt;:assign key="arg2"&gt;Data between macro tags.&lt;/:assign&gt;
+ * </pre>
+ *
+ * </blockquote>
+ *
  * @author MJ */
 public class AssignLmlMacroTag extends AbstractMacroLmlTag {
     /** Optional name of the first attribute: name of the argument to set. */
@@ -106,13 +117,19 @@ public class AssignLmlMacroTag extends AbstractMacroLmlTag {
             return attributes.get(1);
         }
         final StringBuilder builder = new StringBuilder();
+        final char separator = getAttributeSeparator();
         for (int index = 1, length = GdxArrays.sizeOf(attributes); index < length; index++) {
             if (builder.length() > 0) {
-                builder.append(' ');
+                builder.append(separator);
             }
             builder.append(attributes.get(index));
         }
         return builder.toString();
+    }
+
+    /** @return character will be used to separate multiple macro attributes. */
+    protected char getAttributeSeparator() {
+        return ' ';
     }
 
     @Override
