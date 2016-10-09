@@ -4,6 +4,6 @@ eclipse.project.name = appName + '-core'
 dependencies {
   compile "com.badlogicgames.gdx:gdx:$gdxVersion"
   compile "com.github.czyzby:gdx-lml-vis:$libVersion"
-  compile "com.github.tommyettinger:regexodus:0.1.7"
+  compile "com.github.tommyettinger:regexodus:$regexodusVersion"
 }
         
