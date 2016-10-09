@@ -1,3 +1,5 @@
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.czyzby/gdx-lml.svg)](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.czyzby%22%20)
+
 # LibGDX utilities
 This repository contains most of my libraries aimed at improving LibGDX framework. While they used to be kept in multiple separate repositories, this setup is much easier to maintain for the contributor(s) and, well, makes it harder to overlook some of my less popular libraries.
 
