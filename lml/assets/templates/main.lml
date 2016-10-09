@@ -1,31 +1,37 @@
-<window title="@mainTitle" titleAlign="center" fillParent=true defaultSpace=2 defaultUniformX=true onShow=fadeIn>
+<window title="@mainTitle" titleAlign="center" fillParent="true" defaultSpace="2"
+        defaultUniformX="true" onShow="fadeIn">
 
     <!-- Title addition: -->
-    <label toTitleTable=true align="right" padRight=10>@mainSubtitle</label>
+    <label toTitleTable="true" align="right" padRight="10">@mainSubtitle</label>
     
     <!-- Template input: -->
-    <table grow=true>
-        <textArea id="templateInput" class="code" message="@textAreaPrompt" grow=true row=true />
-        <textButton onChange="parseTemplate" growX=true spaceTop=2>@parsingButton|LML</textButton> 
+    <table grow="true" oneColumn="true">
+        <scrollPane disabledX="true" fadeBars="false" overscroll="false" barsOnTop="true"
+                    flick="false" grow="true">
+            <codeTextArea id="templateInput" style="code" message="@textAreaPrompt"/>
+        </scrollPane>
+        <textButton style="toggle" checked="$isNotGwt" onChange="toggleSyntaxHighlight"
+                    growX="true" spaceTop="2">@toggleHighlight</textButton>
+        <textButton onChange="parseTemplate" growX="true" spaceTop="2">@parsingButton|LML</textButton>
     </table>
 
     <!-- Buttons and parsing result: -->
-    <table grow=true>
+    <table grow="true">
     
         <!-- Buttons column: -->
-        <table width=200 growY=true>
+        <table width="200" growY="true">
             <!-- This scroll pane contains buttons used to switch LML templates. -->
-            <scrollPane grow=true fadeBars=false overscroll=false>
-                <table defaultWidth=178 tableAlign=left defaultExpandX=true defaultAlign=left>
-                    <:for example={examples}>
-                        <textButton id={example} style="toggle" onChange="switch" row=true>@{example}</textButton>
+            <scrollPane grow="true" fadeBars="false" overscroll="false">
+                <table defaultWidth="178" tableAlign="left" defaultExpandX="true" defaultAlign="left">
+                    <:for example="{examples}">
+                        <textButton id="{example}" style="toggle" onChange="switch" row="true">@{example}</textButton>
                     </:for>
                 </table>
             </scrollPane>
         </table>
         
         <!-- This table contains parsed template's actors after processing. -->
-        <table id="resultTable" grow=true />
+        <table id="resultTable" grow="true" />
 
     </table>
 </window>

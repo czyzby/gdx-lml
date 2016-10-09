@@ -1,0 +1,30 @@
+<!-- LML has a pretty powerful equation parser that handles
+    int, float, boolean and String types (determined at
+    runtime) and a number of operators. The same equation
+    mechanism can be used to evaluate conditions in pretty
+    much any part of the LML code - it uses similar syntax
+    to arguments, except it has to start with '?' and must
+    separate condition from the rest with another '?'. You
+    can use ternary-style ':' separator for the true/false
+    values. -->
+
+<label>{? 4>1 ? "I will be printed."}</label>
+<label>{? 4=1 ? "Nothing will be printed."}</label>
+<label>{? 4=1 ? "Not me." : "I should be printed."}</label>
+
+<!-- You can use '$' to reference methods in conditions: -->
+
+<label>
+    {? $someMethod ? "Some method returned not empty string."}
+</label>
+
+<!-- Note that values in conditions are also considered
+    equations and will be properly evaluated. Bundle lines
+    and preferences can be normally referenced and modified. -->
+
+<label>{? 4>1 ? 4*7 : 10/5}</label>
+<label color="vis-blue" multiline="{? 5%2 != 0 ? true : false}">
+    Multi
+    Line
+</label>
+<label>{? 4=1 ? #somePreference : @ok + "EE" + @no - "O"}</label>

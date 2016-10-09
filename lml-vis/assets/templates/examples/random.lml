@@ -1,0 +1,26 @@
+<!-- You can roll simple values from arrays without
+    ever invoking a custom action (Java method) thanks
+    to :random macro. It takes an argument name as
+    first attribute and rolls a random value from the
+    rest. Then it assigns the value to chosen argument. -->
+
+<:random key Some Random Value/>
+<label>{key}</label>
+
+<!-- It supports the LML array syntax. -->
+<:random key Some;Random;Value/>
+<label>{key}</label>
+<:random key>Some;Random;Value</:random>
+<label>{key}</label>
+
+<!-- Attributes can be optionally named. -->
+<:random key="key" value="Some;Random;Value"/>
+<label>{key}</label>
+<:random key="key">Some;Random;Value</:random>
+<label>{key}</label>
+
+<!-- You can use ranges to roll integer numbers. -->
+<:random key="key" value="[100, 200]"/>
+<container width="{key}"><image style="button"/></container>
+<:random key="key">0.[0,999]</:random>
+<label>{key}</label>
