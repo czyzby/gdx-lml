@@ -30,7 +30,6 @@ import com.github.czyzby.lml.vis.util.VisLml;
 import com.github.czyzby.tests.reflected.CustomActionContainer;
 import com.github.czyzby.tests.reflected.MainView;
 import com.github.czyzby.tests.reflected.widgets.BlinkingLabel;
-import com.github.czyzby.tests.reflected.widgets.CodeTextArea.CodeTextAreaLmlTagProvider;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.VisTextField.VisTextFieldStyle;
 
@@ -86,8 +85,6 @@ public class Main extends AbstractApplicationListener {
         createCodeTextAreaStyle();
         return VisLml.parser().i18nBundle(getDefaultI18nBundle()).preferences(getDefaultPreferences())
                 .i18nBundle("custom", getCustomI18nBundle()).preferences("custom", getCustomPreferences())
-                // Custom text area used to display LML code of current example:
-                .tag(new CodeTextAreaLmlTagProvider(), "codeTextArea")
                 // {examples} argument will allow to iterate over Main#EXAMPLES array in LML templates:
                 .argument("examples", EXAMPLES)
                 // templates/examples/arguments.lml:
@@ -107,11 +104,11 @@ public class Main extends AbstractApplicationListener {
     private static void createCodeTextAreaStyle() {
         final Skin skin = VisUI.getSkin();
 
-        // VisUI doesn't have font that would be good showing for source code so we load and add it to skin manually
+        // VisUI doesn't have a monospaced font for source code display, so we load one and add it to the skin manually:
         final BitmapFont hackFont = new BitmapFont(Gdx.files.internal("fonts/hackFont.fnt"));
         skin.add("hack-font", hackFont, BitmapFont.class);
 
-        // Clone default VisTextField style and change its font to our just loaded hack font then add it to skin
+        // Cloning default VisTextField style and changing its font:
         final VisTextFieldStyle codeStyle = new VisTextFieldStyle(VisUI.getSkin().get(VisTextFieldStyle.class));
         codeStyle.font = hackFont;
         skin.add("source-code", codeStyle, VisTextFieldStyle.class);
