@@ -203,7 +203,7 @@ public class LmlUtilities {
     /** @param actor might have a LmlUserObject attached.
      * @return LmlUserObject instance attached to the actor or null. */
     public static LmlUserObject getOptionalLmlUserObject(final Actor actor) {
-        if (actor.getUserObject() instanceof LmlUserObject) {
+        if (actor != null && actor.getUserObject() instanceof LmlUserObject) {
             return (LmlUserObject) actor.getUserObject();
         }
         return null;
