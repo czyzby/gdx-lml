@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.czyzby.kiwi.util.common.Strings;
+import com.github.czyzby.kiwi.util.gdx.GdxUtilities;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.scene2d.Actors;
 import com.github.czyzby.lml.annotation.LmlAction;
@@ -37,6 +38,9 @@ import com.github.czyzby.lml.util.Lml;
 import com.github.czyzby.lml.util.LmlUtilities;
 import com.github.czyzby.tests.reflected.widgets.BlinkingLabel;
 import com.github.czyzby.tests.reflected.widgets.CodeTextArea;
+import com.github.czyzby.tests.reflected.widgets.LmlSourceHighlighter;
+import com.github.czyzby.tests.reflected.widgets.MockHighlighter;
+import com.kotcrab.vis.ui.util.highlight.BaseHighlighter;
 
 /** Main view of the application. Since it extends {@link AbstractLmlView}, it is both {@link LmlView} (allowing its
  * {@link Stage} to be filled) and {@link ActionContainer} (allowing it methods to be reflected and available in LML
@@ -136,6 +140,19 @@ public class MainView extends AbstractLmlView {
     // Converts template name to a example template path.
     private static String toExamplePath(final String templateName) {
         return "templates/examples/" + templateName + ".lml";
+    }
+
+    /** @return true if current platform is not GWT. */
+    @LmlAction("isNotGwt")
+    public boolean isNotRunningOnGwt() {
+        return !GdxUtilities.isRunningOnGwt();
+    }
+
+    /** @param button if checked, will highlight LML source code. */
+    @LmlAction("toggleSyntaxHighlight")
+    public void toggleSyntaxHighlight(Button button) {
+        templateInput.setHighlighter(button.isChecked() ? new LmlSourceHighlighter() : new MockHighlighter());
+        templateInput.processHighlighter();
     }
 
     /* templates/dialogs/error.lml */

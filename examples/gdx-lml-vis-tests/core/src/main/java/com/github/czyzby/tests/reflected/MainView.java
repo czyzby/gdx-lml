@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.czyzby.kiwi.util.common.Strings;
+import com.github.czyzby.kiwi.util.gdx.GdxUtilities;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.collection.disposable.DisposableArray;
 import com.github.czyzby.kiwi.util.gdx.scene2d.Actors;
@@ -38,16 +39,12 @@ import com.github.czyzby.lml.util.LmlUtilities;
 import com.github.czyzby.lml.vis.ui.VisTabTable;
 import com.github.czyzby.tests.reflected.widgets.BlinkingLabel;
 import com.github.czyzby.tests.reflected.widgets.LmlSourceHighlighter;
+import com.github.czyzby.tests.reflected.widgets.MockHighlighter;
 import com.kotcrab.vis.ui.util.ToastManager;
 import com.kotcrab.vis.ui.util.adapter.ListAdapter;
 import com.kotcrab.vis.ui.util.adapter.SimpleListAdapter;
 import com.kotcrab.vis.ui.util.highlight.BaseHighlighter;
-import com.kotcrab.vis.ui.widget.CollapsibleWidget;
-import com.kotcrab.vis.ui.widget.MenuItem;
-import com.kotcrab.vis.ui.widget.VisDialog;
-import com.kotcrab.vis.ui.widget.VisTextArea;
-import com.kotcrab.vis.ui.widget.VisTextButton;
-import com.kotcrab.vis.ui.widget.VisWindow;
+import com.kotcrab.vis.ui.widget.*;
 import com.kotcrab.vis.ui.widget.toast.ToastTable;
 
 /**
@@ -60,7 +57,7 @@ import com.kotcrab.vis.ui.widget.toast.ToastTable;
  */
 public class MainView extends AbstractLmlView {
     // Contains template to parse:
-    @LmlActor("templateInput") private VisTextArea templateInput;
+    @LmlActor("templateInput") private HighlightTextArea templateInput;
     // Is filled with parsed actors after template processing:
     @LmlActor("resultTable") private Table resultTable;
     // Manages buttons. Will be created and filled by the parser.
@@ -156,6 +153,28 @@ public class MainView extends AbstractLmlView {
     // Converts template name to a example template path.
     private static String toExamplePath(final String templateName) {
         return "templates/examples/" + templateName + ".lml";
+    }
+
+    /** @return {@link BaseHighlighter} implementation that might highlight LML source code. */
+    @LmlAction("codeHighlighter")
+    public BaseHighlighter getCodeSourceHighlighter() {
+        if(GdxUtilities.isRunningOnGwt()) {
+            return new BaseHighlighter();
+        }
+        return new LmlSourceHighlighter();
+    }
+
+    /** @return true if current platform is not GWT. */
+    @LmlAction("isNotGwt")
+    public boolean isNotRunningOnGwt() {
+        return !GdxUtilities.isRunningOnGwt();
+    }
+
+    /** @param button if checked, will highlight LML source code. */
+    @LmlAction("toggleSyntaxHighlight")
+    public void toggleSyntaxHighlight(Button button) {
+        templateInput.setHighlighter(button.isChecked() ? new LmlSourceHighlighter() : new MockHighlighter());
+        templateInput.processHighlighter();
     }
 
     /** @return {@link BaseHighlighter} implementation that highlights LML source code. */
