@@ -21,7 +21,7 @@ allprojects {
   ext {
     projectVersion = '1.8'
     gdxVersion = '1.9.4'
-    isSnapshot = ''
+    isSnapshot = '-SNAPSHOT'
     libVersion = "$projectVersion.$gdxVersion$isSnapshot"
   }
 }
@@ -56,7 +56,6 @@ subprojects {
   }
 
   jar {
-    from project.sourceSets.main.allSource
     from project.sourceSets.main.output
     baseName = archivesBaseName
   }
