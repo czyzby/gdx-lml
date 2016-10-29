@@ -19,7 +19,7 @@ allprojects {
   apply plugin: 'nebula.provided-base'
 
   ext {
-    projectVersion = '1.8'
+    projectVersion = '1.9'
     gdxVersion = '1.9.4'
     isSnapshot = '-SNAPSHOT'
     libVersion = "$projectVersion.$gdxVersion$isSnapshot"
@@ -57,6 +57,9 @@ subprojects {
 
   jar {
     from project.sourceSets.main.output
+    from(project.sourceSets.main.allSource) {
+      include '**/*.xml'
+    }
     baseName = archivesBaseName
   }
 
