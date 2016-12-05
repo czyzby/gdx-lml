@@ -12,20 +12,6 @@ import com.github.czyzby.lml.util.LmlUtilities;
  *
  * @author MJ */
 public class DebugRecursivelyLmlAttribute implements LmlAttribute<Group> {
-    private static class DebugAction implements ActorConsumer<Object, Object> {
-        private boolean value;
-
-        private DebugAction(boolean value) {
-            this.value = value;
-        }
-
-        @Override
-        public Object consume(Object actor) {
-            ((Group) actor).setDebug(value, true);
-            return null;
-        }
-    }
-
     @Override
     public Class<Group> getHandledType() {
         return Group.class;
@@ -33,6 +19,13 @@ public class DebugRecursivelyLmlAttribute implements LmlAttribute<Group> {
 
     @Override
     public void process(final LmlParser parser, final LmlTag tag, final Group actor, final String rawAttributeData) {
-        LmlUtilities.getLmlUserObject(actor).addOnCloseAction(new DebugAction(parser.parseBoolean(rawAttributeData)));
+        final boolean debugRecursively = parser.parseBoolean(rawAttributeData, actor);
+        LmlUtilities.getLmlUserObject(actor).addOnCloseAction(new ActorConsumer<Void, Object>() {
+            @Override
+            public Void consume(Object widget) {
+                actor.setDebug(debugRecursively, true);
+                return null;
+            }
+        });
     }
 }
