@@ -7,22 +7,22 @@ import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.tag.AbstractActorLmlTag;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
-import com.kotcrab.vis.ui.widget.CollapsibleWidget;
+import com.kotcrab.vis.ui.widget.HorizontalCollapsibleWidget;
 import com.kotcrab.vis.ui.widget.VisTable;
 
-/** Handles {@link CollapsibleWidget} actor. Can be used to manage one child. Converts text to a {@link Table} with a
- * label child. If the child is not a table, will create an empty table and put the child actor in it. Mapped to
- * "collapsible", "verticalCollapsible", "collapsibleWidget".
+/** Handles {@link HorizontalCollapsibleWidget} actor. Can be used to manage one child. Converts text to a {@link Table}
+ * with a label child. If the child is not a table, will create an empty table and put the child actor in it. Mapped to
+ * "horizontalCollapsible", "horizontalCollapsibleWidget".
  *
  * @author MJ */
-public class CollapsibleWidgetLmlTag extends AbstractActorLmlTag {
-    public CollapsibleWidgetLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
+public class HorizontalCollapsibleWidgetLmlTag extends AbstractActorLmlTag {
+    public HorizontalCollapsibleWidgetLmlTag(final LmlParser parser, final LmlTag parentTag, final StringBuilder rawTagData) {
         super(parser, parentTag, rawTagData);
     }
 
     @Override
     protected Actor getNewInstanceOfActor(final LmlActorBuilder builder) {
-        return new CollapsibleWidget();
+        return new HorizontalCollapsibleWidget();
     }
 
     @Override
@@ -49,15 +49,15 @@ public class CollapsibleWidgetLmlTag extends AbstractActorLmlTag {
 
     /** @param child will be set as collapsible's child. */
     protected void addChild(final Table child) {
-        final CollapsibleWidget container = getCollapsibleWidget();
+        final HorizontalCollapsibleWidget container = getHorizontalCollapsibleWidget();
         if (GdxArrays.isNotEmpty(container.getChildren())) {
-            getParser().throwErrorIfStrict("Collapsible widget can manage only one child.");
+            getParser().throwErrorIfStrict("Horizontal collapsible widget can manage only one child.");
         }
         container.setTable(child);
     }
 
     /** @return casted actor. */
-    protected CollapsibleWidget getCollapsibleWidget() {
-        return (CollapsibleWidget) getActor();
+    protected HorizontalCollapsibleWidget getHorizontalCollapsibleWidget() {
+        return (HorizontalCollapsibleWidget) getActor();
     }
 }

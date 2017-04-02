@@ -36,6 +36,7 @@ import com.github.czyzby.lml.vis.parser.impl.attribute.button.ButtonImageLmlAttr
 import com.github.czyzby.lml.vis.parser.impl.attribute.button.ImageButtonGenerateDisabledLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.button.TextButtonImageLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.collapsible.CollapsedLmlAttribute;
+import com.github.czyzby.lml.vis.parser.impl.attribute.collapsible.HorizontalCollapsedLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.BlockInputLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.DeadzoneRadiusLmlAttribute;
 import com.github.czyzby.lml.vis.parser.impl.attribute.draggable.DragListenerLmlAttribute;
@@ -231,7 +232,8 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         // Vis unique actors:
         addTagProvider(new BasicColorPickerLmlTagProvider(), "basicColorPicker", "basicPicker");
         addTagProvider(new BusyBarLmlTagProvider(), "busyBar");
-        addTagProvider(new CollapsibleWidgetLmlTagProvider(), "collapsible", "collapsibleWidget");
+        addTagProvider(new CollapsibleWidgetLmlTagProvider(), "collapsible", "verticalCollapsible",
+                "collapsibleWidget");
         addTagProvider(new ColorPickerLmlTagProvider(), "colorPicker");
         addTagProvider(new DraggableLmlTagProvider(), "drag", "draggable");
         addTagProvider(new DragPaneLmlTagProvider(), "dragPane");
@@ -240,6 +242,8 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
         addTagProvider(new FormValidatorLmlTagProvider(), "form", "formValidator", "formTable");
         addTagProvider(new GridGroupLmlTagProvider(), "gridGroup", "grid");
         addTagProvider(new HighlightTextAreaLmlTagProvider(), "highlightTextArea");
+        addTagProvider(new HorizontalCollapsibleWidgetLmlTagProvider(), "horizontalCollapsible",
+                "horizontalCollapsibleWidget");
         addTagProvider(new HorizontalFlowGroupLmlTagProvider(), "horizontalFlow", "horizontalFlowGroup");
         addTagProvider(new LinkLabelLmlTagProvider(), "linkLabel", "link");
         addTagProvider(new ListViewLmlTagProvider(), "listView");
@@ -426,6 +430,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     /** CollapsibleWidget attributes. */
     protected void registerCollapsibleWidgetAttributes() {
         addAttributeProcessor(new CollapsedLmlAttribute(), "collapse", "collapsed");
+        addAttributeProcessor(new HorizontalCollapsedLmlAttribute(), "collapse", "collapsed");
     }
 
     /** ColorPicker attributes. */

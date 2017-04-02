@@ -313,8 +313,17 @@ public class MainView extends AbstractLmlView {
         for (final Actor actor : resultTable.getChildren()) {
             if (actor instanceof CollapsibleWidget) {
                 ((CollapsibleWidget) actor).setCollapsed(false);
+            } else if (actor instanceof HorizontalCollapsibleWidget) {
+                ((HorizontalCollapsibleWidget) actor).setCollapsed(false);
             }
         }
+    }
+
+    /* templates/examples/vis/horizontalCollapsibleWidget.lml */
+
+    @LmlAction("collapseHorizontal")
+    public void toggleCollapsedStatus(final HorizontalCollapsibleWidget collapsibleWidget) {
+        collapsibleWidget.setCollapsed(!collapsibleWidget.isCollapsed());
     }
 
     /* templates/examples/vis/colorPicker.lml */

@@ -73,6 +73,8 @@ Make sure to check `gdx-lml` changes as well!
 
 - `showSelectionCheckboxes` attribute added to `FileChooser` tag.
 - `disabled` attribute added to `Spinner` tag.
+- `verticalCollapsible` alias added for `CollapsibleWidget` tag.
+- `HorizontalCollapsibleWidget` tag support. Aliases: `horizontalCollapsible`, `horizontalCollapsibleWidget`, attributes: `collapse`, `collapsed` (boolean).
 
 1.7 -> 1.8
 
