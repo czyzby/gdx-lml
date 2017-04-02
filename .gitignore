@@ -30,6 +30,7 @@ android/gen/
 *.so
 out/
 com_crashlytics_export_strings.xml
+classes/
 
 ## Eclipse
 .classpath
