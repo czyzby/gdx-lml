@@ -296,10 +296,8 @@ public class LmlUtilities {
             return parseAlignmentFromInt(parser, Integer.parseInt(parsedData));
         }
         try {
-            final Alignment alignment = Alignment.valueOf(parsedData.toUpperCase());
-            if (alignment != null) {
-                return alignment.getAlignment();
-            }
+            final Alignment alignment = Alignment.valueOf(Strings.toUpperCase(parsedData));
+            return alignment.getAlignment();
         } catch (final Exception exception) {
             Exceptions.ignore(exception); // Somewhat expected if invalid name is passed.
         }

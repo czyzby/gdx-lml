@@ -1,6 +1,6 @@
 package com.github.czyzby.lml.vis.parser.impl.attribute.spinner;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
@@ -32,7 +32,7 @@ public class SpinnerTextFieldEventPolicyLmlAttribute implements LmlAttribute<Spi
      */
     protected Spinner.TextFieldEventPolicy determinePolicy(final LmlParser parser, final Spinner actor,
             final String rawAttributeData) {
-        final String modeName = parser.parseString(rawAttributeData, actor).trim().toUpperCase();
+        final String modeName = Strings.toUpperCase(parser.parseString(rawAttributeData, actor).trim());
         try {
             return Spinner.TextFieldEventPolicy.valueOf(modeName);
         } catch (final Exception exception) {

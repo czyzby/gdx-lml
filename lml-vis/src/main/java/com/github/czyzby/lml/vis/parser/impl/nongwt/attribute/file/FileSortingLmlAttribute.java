@@ -1,5 +1,6 @@
 package com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file;
 
+import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
@@ -30,7 +31,7 @@ public class FileSortingLmlAttribute implements LmlAttribute<FileChooser> {
      */
     protected FileChooser.FileSorting determineSorting(final LmlParser parser, final FileChooser actor,
             final String rawAttributeData) {
-        final String modeName = parser.parseString(rawAttributeData, actor).trim().toUpperCase();
+        final String modeName = Strings.toUpperCase(parser.parseString(rawAttributeData, actor).trim());
         try {
             return FileChooser.FileSorting.valueOf(modeName);
         } catch (final Exception exception) {

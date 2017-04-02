@@ -1,5 +1,6 @@
 package com.github.czyzby.lml.vis.parser.impl.attribute.building;
 
+import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlBuildingAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
@@ -20,13 +21,8 @@ public class GroupTypeLmlAttribute implements LmlBuildingAttribute<DragPaneLmlAc
     public boolean process(final LmlParser parser, final LmlTag tag, final DragPaneLmlActorBuilder builder,
             final String rawAttributeData) {
         try {
-            final GroupType type = GroupType.valueOf(parser.parseString(rawAttributeData).toUpperCase());
-            if (type != null) {
-                builder.setGroupType(type);
-            } else {
-                parser.throwErrorIfStrict(
-                        "Invalid group type. Expected name of GroupType enum constant, got: " + rawAttributeData);
-            }
+            final GroupType type = GroupType.valueOf(Strings.toUpperCase(parser.parseString(rawAttributeData)));
+            builder.setGroupType(type);
         } catch (final Exception exception) {
             parser.throwErrorIfStrict(
                     "Invalid group type. Expected name of GroupType enum constant, got: " + rawAttributeData,

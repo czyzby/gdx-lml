@@ -1,5 +1,7 @@
 package com.github.czyzby.kiwi.util.common;
 
+import java.util.Locale;
+
 /** Utility class for {@link String} and {@link CharSequence} instances. The latter are sometimes expected or returned
  * by Scene2D API.
  *
@@ -834,5 +836,17 @@ public class Strings extends UtilitiesClass {
             }
         }
         return true;
+    }
+
+    /** @param string cannot be null.
+     * @return passed string converted to lower case with the root locale. */
+    public static String toLowerCase(String string) {
+        return string.toLowerCase(Locale.ROOT);
+    }
+
+    /** @param string cannot be null.
+     * @return passed string converted to upper case with the root locale. */
+    public static String toUpperCase(String string) {
+        return string.toUpperCase(Locale.ROOT);
     }
 }

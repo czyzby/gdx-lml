@@ -11,7 +11,7 @@ import com.github.czyzby.lml.parser.impl.tag.AbstractMacroLmlTag;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
-/** You can register attributes using LML templates. To be completely honest, there is hardly any advantage over
+/** You can register attributes using LML templates. Strictly speaking, there is hardly any advantage over
  * implementing custom {@link LmlAttribute} and adding it to the LML syntax object, except doing it in LML does require
  * less code and set-up. Macro requires exactly two attributes: an array of attribute aliases and a method that consumes
  * {@link AttributeParsingData}. AttributeParsingData basically contains the everything that

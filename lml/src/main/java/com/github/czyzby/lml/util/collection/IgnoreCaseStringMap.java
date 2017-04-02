@@ -1,6 +1,7 @@
 package com.github.czyzby.lml.util.collection;
 
 import com.badlogic.gdx.utils.ObjectMap;
+import com.github.czyzby.kiwi.util.common.Strings;
 
 /** {@link ObjectMap} which uses Strings as keys. Keys are compared ignoring their case - for example, value mapped to
  * "String" will be returned also for "STRING", "string" or "sTrInG" (etc).
@@ -23,6 +24,6 @@ public class IgnoreCaseStringMap<Value> extends KeyNormalizingObjectMap<String, 
      * @throws NullPointerException if key is null. */
     @Override
     protected String normalizeKey(final String key) {
-        return key.toLowerCase();
+        return Strings.toLowerCase(key);
     }
 }

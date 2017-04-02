@@ -1,5 +1,6 @@
 package com.github.czyzby.lml.vis.parser.impl.nongwt.attribute.file;
 
+import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
@@ -28,7 +29,7 @@ public class ModeLmlAttribute implements LmlAttribute<FileChooser> {
      * @return chosen {@link Mode}. Throws exception if ID not valid and parser is strict; returns default value if
      *         parser not strict. */
     protected Mode determineMode(final LmlParser parser, final FileChooser actor, final String rawAttributeData) {
-        final String modeName = parser.parseString(rawAttributeData, actor).toUpperCase();
+        final String modeName = Strings.toUpperCase(parser.parseString(rawAttributeData, actor));
         try {
             return Mode.valueOf(modeName);
         } catch (final Exception exception) {
