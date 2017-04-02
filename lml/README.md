@@ -35,6 +35,8 @@ If you want to use LML with GWT, you have to add this module to your `GdxDefinit
 1.8 -> 1.9
 
 - Fixed string to upper/lower case conversions that caused issues with some default locales.
+- `else` conditional tags did not accept whitespaces. Now a single space can be optionally used in `else` tags. For
+example, `<if:else />` is a valid conditional tag.
 
 1.7 -> 1.8
 

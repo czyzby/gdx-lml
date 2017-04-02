@@ -171,6 +171,29 @@ public class Strings extends UtilitiesClass {
         return true;
     }
 
+    /** @param parent can contain child. Can be null or empty.
+     * @param child can be a part of the parent. Can be null or empty.
+     * @return true if the parent char sequence contains the child (ignoring case). */
+    public static boolean containsIgnoreCase(CharSequence parent, CharSequence child) {
+        int parentLength;
+        int childLength;
+        if (Strings.isEmpty(parent) || Strings.isEmpty(child) ||
+                (parentLength = parent.length()) < (childLength = child.length())) {
+            return false;
+        }
+        int correctIndexes = 0;
+        for (int index = 0; index < parentLength; index++) {
+            if (compareIgnoreCase(parent.charAt(index), child.charAt(correctIndexes))) {
+                if (++correctIndexes == childLength) {
+                    return true;
+                }
+            } else {
+                correctIndexes = 0;
+            }
+        }
+        return false;
+    }
+
     /** @param charSequence will be checked.
      * @return false if the passed sequence is null or contains only whitespace characters.
      * @see Strings#isNotWhitespace(CharSequence) */

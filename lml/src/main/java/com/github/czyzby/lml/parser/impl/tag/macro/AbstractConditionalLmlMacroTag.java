@@ -57,7 +57,7 @@ public abstract class AbstractConditionalLmlMacroTag extends AbstractMacroLmlTag
 
     @Override
     public void handleDataBetweenTags(final CharSequence rawMacroContent) {
-        final Pair<CharSequence, CharSequence> content = splitInTwo(rawMacroContent, getSeparator());
+        final Pair<CharSequence, CharSequence> content = splitInTwo(rawMacroContent, getSeparator(rawMacroContent));
         if (checkCondition()) {
             appendTextToParse(content.getFirst());
         } else {
@@ -65,14 +65,24 @@ public abstract class AbstractConditionalLmlMacroTag extends AbstractMacroLmlTag
         }
     }
 
-    /** @return separator, used to split raw texts into two parts - value added on "true" and on "false". */
-    protected String getSeparator() {
+    /** @param content will be split by the separator.
+     * @return separator, used to split raw texts into two parts - value added on "true" and on "false". */
+    protected String getSeparator(CharSequence content) {
+        // Since splitting method does not use a regex, we accept 2 separators as a workaround.
         final LmlSyntax syntax = getParser().getSyntax();
+        String separator = buildSeparator(syntax, true);
+        return Strings.containsIgnoreCase(content, separator) ? separator : buildSeparator(syntax, false);
+    }
+
+    private String buildSeparator(LmlSyntax syntax, boolean includeWhitespace) {
         final StringBuilder builder = new StringBuilder();
         builder.append(syntax.getTagOpening());
         builder.append(syntax.getMacroMarker());
         builder.append(getTagName());
         builder.append(ELSE_SUFFIX);
+        if (includeWhitespace) {
+            builder.append(' ');
+        }
         builder.append(syntax.getClosedTagMarker());
         builder.append(syntax.getTagClosing());
         return builder.toString();
