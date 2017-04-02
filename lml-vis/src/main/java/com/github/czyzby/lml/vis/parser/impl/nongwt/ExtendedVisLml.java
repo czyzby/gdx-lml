@@ -55,6 +55,7 @@ public class ExtendedVisLml {
         syntax.addAttributeProcessor(new PreferencesNameLmlAttribute(), "prefsName");
         syntax.addAttributeProcessor(new SaveLastDirectoryLmlAttribute(), "saveLastDirectory");
         syntax.addAttributeProcessor(new SelectionModeLmlAttribute(), "selectionMode", "select");
+        syntax.addAttributeProcessor(new ShowSelectionCheckboxesLmlAttribute(), "showSelectionCheckboxes");
         syntax.addAttributeProcessor(new WatchFilesLmlAttribute(), "watchingFilesEnabled", "watchFiles", "watch");
         // Note: FileChooser#addFavorite(FileHandle) is not supported through LML attributes; this is a design choice,
         // as it would be extremely awkward to use when registering multiple files. It would require a lot of attributes

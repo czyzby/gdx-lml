@@ -69,6 +69,10 @@ Note that by making the method static, instance of the class containing the meth
 
 Make sure to check `gdx-lml` changes as well!
 
+1.8 -> 1.9
+
+- `showSelectionCheckboxes` attribute added to `FileChooser` tag.
+
 1.7 -> 1.8
 
 - Added support for new VisUI actors: `BusyBar`, `MultiSplitPane`, `ScrollableTextArea` and `HighlightTextArea`. Usage examples are present in `gdx-lml-vis-tests`.
