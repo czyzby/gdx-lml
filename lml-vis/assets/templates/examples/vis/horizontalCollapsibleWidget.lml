@@ -1,0 +1,24 @@
+<!-- You can wrap any actor in horizontal collapsible
+    widget. -->
+
+<textButton onChange="uncollapseAll">Show all.</textButton>
+
+<horizontalCollapsible onClick="collapseHorizontal">
+    <textButton tablePad="24">Collapse me.</textButton>
+</horizontalCollapsible>
+
+<horizontalCollapsible onClick="collapseHorizontal" collapsed="true">
+    <container size="128">
+        <image style="icon-trash" />
+    </container>
+</horizontalCollapsible>
+
+<horizontalCollapsibleWidget onClick="collapseHorizontal">
+    Converted to label.
+</horizontalCollapsibleWidget>
+
+<!-- Collapsed status needs to be managed manually, but
+    since you can get a reference to collapsible widget
+    by its ID, you can easily modify it in Java. -->
+
+<!-- Collapsible widgets can have only 1 child. -->
