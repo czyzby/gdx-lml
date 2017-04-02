@@ -11,3 +11,7 @@ Running `gradle eclipseAll` will generate Eclipse meta-data for all example proj
 Examples might be using latest snapshot version and contain new features. To check which library version is currently used, inspect `gradle.properties` file.
 
 Note that many examples do not include mobile platform projects. This **not** because they are unsupported - they're usually excluded for simplicity.
+
+Projects with Android modules need a `local.properties` file with `sdk.dir` property to compile.
+
+Some test project _might_ fail on some platforms (Android, GWT) due to outdated dependencies. Try copying the sources to your project and running them locally if that's the case. If you notice that any test project fails to run, don't hesitate to create an issue.

@@ -10,4 +10,5 @@
 	<entry-point class='com.github.czyzby.tests.client.HtmlLauncher' />
 	
 	<set-configuration-property name="gdx.assetpath" value="../assets" />
+	<set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE'/>	
 </module>
