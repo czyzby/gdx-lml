@@ -72,6 +72,7 @@ Make sure to check `gdx-lml` changes as well!
 1.8 -> 1.9
 
 - `showSelectionCheckboxes` attribute added to `FileChooser` tag.
+- `disabled` attribute added to `Spinner` tag.
 
 1.7 -> 1.8
 

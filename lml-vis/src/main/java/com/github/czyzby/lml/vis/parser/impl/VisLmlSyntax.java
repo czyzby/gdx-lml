@@ -513,7 +513,7 @@ public class VisLmlSyntax extends DefaultLmlSyntax {
     /** Spinner attributes. */
     protected void registerSpinnerAttributes() {
         addAttributeProcessor(new SpinnerArrayLmlAttribute(), "items");
-        addAttributeProcessor(new SpinnerDisabledLmlAttribute(), "inputDisabled");
+        addAttributeProcessor(new SpinnerDisabledLmlAttribute(), "disabled", "inputDisabled");
         addAttributeProcessor(new SpinnerNameLmlAttribute(), "selectorName", "text");
         addAttributeProcessor(new SpinnerPrecisionLmlAttribute(), "precision", "scale");
         addAttributeProcessor(new SpinnerProgrammaticChangeEventsLmlAttribute(), "programmaticChangeEvents");
