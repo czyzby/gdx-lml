@@ -221,7 +221,10 @@ public class LocaleService extends AbstractAnnotationProcessor<I18nLocale> {
                     && Strings.isNotEmpty(localeService.localePreferencesPath)) {
                 localeService.saveLocaleInPreferences();
             }
-            localeService.interfaceService.reload();
+            InterfaceService interfaceService = localeService.interfaceService;
+            if (interfaceService.getCurrentController() != null) {
+                interfaceService.reload();
+            }
         }
     }
 }
