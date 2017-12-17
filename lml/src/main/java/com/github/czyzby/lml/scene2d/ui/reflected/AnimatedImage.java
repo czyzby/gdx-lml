@@ -1,5 +1,6 @@
 package com.github.czyzby.lml.scene2d.ui.reflected;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -111,6 +112,7 @@ public class AnimatedImage extends Image {
             }
         }
         setDrawable(frames.get(currentFrame));
+        Gdx.graphics.requestRendering();
     }
 
     /** @param backwards if true, frames will be iterated over from the end. Note that if the animation is bouncing,
