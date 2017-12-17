@@ -43,8 +43,13 @@ public class ActionContainerWrapper {
         for (final Method method : ClassReflection.getDeclaredMethods(containerClass)) {
             final LmlAction actionData = Reflection.getAnnotation(method, LmlAction.class);
             if (actionData != null) {
-                for (final String actionId : actionData.value()) {
-                    annotatedMethods.put(actionId, method);
+                final String[] ids = actionData.value();
+                if (ids.length > 0) {
+                    for (final String actionId : ids) {
+                        annotatedMethods.put(actionId, method);
+                    }
+                } else {
+                    annotatedMethods.put(method.getName(), method);
                 }
             }
         }
@@ -57,8 +62,13 @@ public class ActionContainerWrapper {
         for (final Field field : ClassReflection.getDeclaredFields(containerClass)) {
             final LmlAction actionData = Reflection.getAnnotation(field, LmlAction.class);
             if (actionData != null) {
-                for (final String actionId : actionData.value()) {
-                    annotatedFields.put(actionId, field);
+                final String[] ids = actionData.value();
+                if (ids.length > 0) {
+                    for (final String actionId : ids) {
+                        annotatedFields.put(actionId, field);
+                    }
+                } else {
+                    annotatedFields.put(field.getName(), field);
                 }
             }
         }

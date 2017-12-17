@@ -20,6 +20,6 @@ public @interface LmlAction {
     /** @return IDs of the method. Each and every of them can be used to reference this method in a LML template.
      *         Default parser implementation will ignore case of the IDs, so even if a method is mapped to "action" key
      *         in the annotation, it can still be referenced as "Action", "ACTION", "acTIon" (and so on) in the
-     *         templates. */
-    String[]value();
+     *         templates. If no IDs are given, method name will be used as ID instead. */
+    String[] value() default {};
 }

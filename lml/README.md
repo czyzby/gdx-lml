@@ -38,6 +38,10 @@ If you want to use LML with GWT, you have to add this module to your `GdxDefinit
 - `else` conditional tags did not accept whitespaces. Now a single space can be optionally used in `else` tags. For
 example, `<if:else />` is a valid conditional tag.
 - `LmlApplicationListener` no longer tries to pause a view on application resume.
+- `@LmlActor` now supports field injection by field name. If no actor ID is passed to the annotation, field name will be
+used instead to select the actor. Note that this approach is prone to refactoring and obfuscation of the code.
+- `@LmlAction` now supports field access and method invocation by name. If no action IDs are passed, field/method name
+will be used as action ID instead. Note that this approach is prone to refactoring and obfuscation of the code.
 
 1.7 -> 1.8
 

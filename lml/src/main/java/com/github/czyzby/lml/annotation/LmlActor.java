@@ -60,6 +60,7 @@ import java.lang.annotation.Target;
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LmlActor {
-    /** @return ID(s) of the actor(s) in the LML template, referenced by the "id" tag attribute. */
-    String[]value();
+    /** @return ID(s) of the actor(s) in the LML template, referenced by the "id" tag attribute. If no value is chosen,
+     *         field name will be used instead. */
+    String[] value() default {};
 }

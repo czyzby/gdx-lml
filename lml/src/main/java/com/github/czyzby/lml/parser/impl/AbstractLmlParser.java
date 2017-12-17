@@ -357,11 +357,9 @@ public abstract class AbstractLmlParser implements LmlParser {
     protected <View> void processLmlActorAnnotation(final View view, final Field field) {
         if (Reflection.isAnnotationPresent(field, LmlActor.class)) {
             final LmlActor actorData = Reflection.getAnnotation(field, LmlActor.class);
-            final String[] actorIds = actorData.value();
+            String[] actorIds = actorData.value();
             if (actorIds.length == 0) {
-                throwErrorIfStrict("Actor IDs array in @LmlActor annotation cannot be empty. Found no IDs in field: "
-                        + field + " of view: " + view);
-                return;
+                actorIds = new String[] { field.getName() };
             }
             if (Reflection.isExtending(field.getType(), Array.class)) {
                 injectArrayOfActors(view, field, actorIds);
