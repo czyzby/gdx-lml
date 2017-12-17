@@ -275,7 +275,7 @@ public abstract class LmlApplicationListener implements ApplicationListener {
     @Override
     public void resume() {
         if (currentView != null) {
-            currentView.pause();
+            currentView.resume();
         }
     }
 
