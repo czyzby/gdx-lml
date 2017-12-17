@@ -60,7 +60,11 @@ To include Autumn in Android applications, see [Autumn Android](natives/android)
 To include Autumn in JTransc application, see [Autumn JTransc](natives/jtransc).
 For efficient class scanning on desktop, see [Autumn FCS](natives/fcs).
 
-##What's new
+## What's new
+
+1.8 -> 1.9
+
+- Fixed issue with multiple component initiations.
 
 1.7 -> 1.8
 

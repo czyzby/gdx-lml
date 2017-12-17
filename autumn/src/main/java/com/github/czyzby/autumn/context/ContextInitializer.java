@@ -1,5 +1,7 @@
 package com.github.czyzby.autumn.context;
 
+import java.lang.annotation.Annotation;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IdentityMap;
@@ -35,8 +37,6 @@ import com.github.czyzby.kiwi.util.common.Strings;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxArrays;
 import com.github.czyzby.kiwi.util.gdx.collection.GdxMaps;
 import com.github.czyzby.kiwi.util.gdx.collection.lazy.LazyObjectMap;
-
-import java.lang.annotation.Annotation;
 
 /** A single-use context initializer object. Scans the selected packages for annotated classes and initiates them, using
  * registered {@link AnnotationProcessor}s. After {@link #initiate()} call, clears the context meta-data (to allow
@@ -405,13 +405,17 @@ public class ContextInitializer {
                 throw new ContextInitiationException(
                         type + " has no available public constructors. Unable to create component.");
             }
-            Constructor constructor = constructors.length == 1 ?
-                // Single constructor - trying to invoke it:
-                constructors[0] :
-                // Multiple constructors - trying to find a suitable one:
-                findSuitableConstructor(constructors);
-
-            addIfNotNull(components, processConstructor(constructor, context), constructor);
+            final Constructor constructor  = constructors.length == 1 ?
+                    // Single constructor - trying to invoke it:
+                    constructors[0] :
+                    // Multiple constructors - trying to find a suitable one:
+                    findSuitableConstructor(constructors);
+            final Object component = processConstructor(constructor, context);
+            if (component != null) {
+                components.add(component);
+            } else {
+                delayedConstructions.add(constructor);
+            }
         }
         int initiationIterations = 0;
         while (GdxArrays.isNotEmpty(delayedConstructions)) {
@@ -445,20 +449,6 @@ public class ContextInitializer {
         Gdx.app.error("WARN", constructor.getDeclaringClass()
                 + " has multiple public constructors, but no public no-arg constructor. Using first found constructor to initiate component.");
         return constructor;
-    }
-
-    /** Simple array utility.
-     *
-     * @param array will contain the object if it's not null.
-     * @param object if not null, will be added to the array.
-     * @param constructor if {@code object} is null, {@code constructor} will be added to {@link ContextInitializer#delayedConstructions}
-     * @param <Type> type of values stored in the array. */
-    protected <Type> void addIfNotNull(final Array<Type> array, final Type object, final Constructor constructor) {
-        if (object != null) {
-            array.add(object);
-        } else {
-            delayedConstructions.add(constructor);
-        }
     }
 
     /** @param constructor if all its parameter types are available in context, will be invoked and the instance will be
