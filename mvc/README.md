@@ -114,6 +114,10 @@ Check out [gdx-autumn](../autumn) for platform-specific class scanners. [Sample 
 ## What's new
 Make sure to check `gdx-autumn` and `gdx-lml` changes as well - both of these projects are heavily used by the `gdx-autumn-mvc`.
 
+1.7 -> 1.9:
+
+- `StandardViewResizer` now centers camera when updating `ExtendViewport`.
+
 1.6 -> 1.7:
 
 - `StandardViewResizer` now correctly detects how the passed viewport should be updated. `StandardCameraCenteringViewResizer` is now deprecated.
