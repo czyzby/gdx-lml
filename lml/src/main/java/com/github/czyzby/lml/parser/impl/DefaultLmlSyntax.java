@@ -106,6 +106,7 @@ import com.github.czyzby.lml.parser.impl.attribute.input.TextFieldFilterLmlAttri
 import com.github.czyzby.lml.parser.impl.attribute.input.TextFieldListenerLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.label.EllipsisLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.label.LabelAlignmentLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.label.LabelFontScaleLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.label.LineAlignmentLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.label.TextAlignmentLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.label.WrapLmlAttribute;
@@ -557,6 +558,7 @@ public class DefaultLmlSyntax extends EmptyLmlSyntax {
     protected void registerLabelAttributes() {
         addAttributeProcessor(new EllipsisLmlAttribute(), "ellipsis");
         addAttributeProcessor(new LabelAlignmentLmlAttribute(), "labelAlign", "labelAlignment");
+        addAttributeProcessor(new LabelFontScaleLmlAttribute(), "fontScale");
         addAttributeProcessor(new LineAlignmentLmlAttribute(), "lineAlign", "lineAlignment");
         addAttributeProcessor(new TextAlignmentLmlAttribute(), "textAlign", "textAlignment");
         addAttributeProcessor(new WrapLmlAttribute(), "wrap");
