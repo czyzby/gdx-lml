@@ -8,6 +8,7 @@ import com.github.czyzby.lml.parser.impl.attribute.ColorLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.ColorRedLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.DebugLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.DisabledLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.HexColorLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.IdLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.MultilineLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.OnChangeLmlAttribute;
@@ -431,6 +432,7 @@ public class DefaultLmlSyntax extends EmptyLmlSyntax {
         addAttributeProcessor(new ColorLmlAttribute(), "color");
         addAttributeProcessor(new ColorRedLmlAttribute(), "red", "r");
         addAttributeProcessor(new DebugLmlAttribute(), "debug");
+        addAttributeProcessor(new HexColorLmlAttribute(), "hexColor");
         addAttributeProcessor(new IdLmlAttribute(), "id");
         addAttributeProcessor(new MultilineLmlAttribute(), "multiline");
         addAttributeProcessor(new OnChangeLmlAttribute(), "onChange", "change");
