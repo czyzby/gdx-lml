@@ -15,15 +15,4 @@ public class CellExpandYLmlAttribute extends AbstractCellLmlAttribute {
             final String rawAttributeData) {
         cell.expand(determineExpandX(cell), parser.parseBoolean(rawAttributeData, actor));
     }
-
-    protected boolean determineExpandX(final Cell<?> cell) {
-        try {
-            return cell.getExpandX() > 0;
-        } catch (final Exception exception) {
-            // LibGDX Scene2D method returns int, while the field is an Integer that might not have been initiated. This
-            // causes a NPE - so when an exception is thrown, we assume that the expand was not set.
-            Exceptions.ignore(exception);
-            return false;
-        }
-    }
 }

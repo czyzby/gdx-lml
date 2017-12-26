@@ -14,6 +14,9 @@ public class CellGrowYLmlAttribute extends AbstractCellLmlAttribute {
             final String rawAttributeData) {
         if (parser.parseBoolean(rawAttributeData, actor)) {
             cell.growY();
+        } else {
+            cell.expand(determineExpandX(cell), false);
+            cell.fill(determineFillX(cell), false);
         }
     }
 }

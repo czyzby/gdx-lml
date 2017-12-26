@@ -2,6 +2,7 @@ package com.github.czyzby.lml.parser.impl.attribute.table.cell;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.github.czyzby.kiwi.util.common.Exceptions;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
@@ -56,5 +57,45 @@ public abstract class AbstractCellLmlAttribute implements LmlAttribute<Actor> {
         parser.throwErrorIfStrict("\"" + tag.getTagName()
                 + "\" tag has a table cell attribute, but is not directly in a table. Cannot set table cell attribute value with raw data: "
                 + rawAttributeData + " with attribute processor: " + this);
+    }
+
+    protected boolean determineFillY(final Cell<?> cell) {
+        try {
+            return cell.getFillY() > 0f;
+        } catch (final Exception exception) {
+            // LibGDX Scene2D method returns float, while the field is a Float that might not have been initiated. This
+            // causes a NPE - so when an exception is thrown, we assume that the fill was not set.
+            Exceptions.ignore(exception);
+            return false;
+        }
+    }
+
+    protected boolean determineFillX(final Cell<?> cell) {
+        try {
+            return cell.getFillX() > 0f;
+        } catch (final Exception exception) {
+            Exceptions.ignore(exception);
+            return false;
+        }
+    }
+
+    protected boolean determineExpandX(final Cell<?> cell) {
+        try {
+            return cell.getExpandX() > 0f;
+        } catch (final Exception exception) {
+            // LibGDX Scene2D method returns int, while the field is a Int that might not have been initiated. This
+            // causes a NPE - so when an exception is thrown, we assume that the expand was not set.
+            Exceptions.ignore(exception);
+            return false;
+        }
+    }
+
+    protected boolean determineExpandY(final Cell<?> cell) {
+        try {
+            return cell.getExpandY() > 0f;
+        } catch (final Exception exception) {
+            Exceptions.ignore(exception);
+            return false;
+        }
     }
 }

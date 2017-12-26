@@ -15,15 +15,4 @@ public class CellFillYLmlAttribute extends AbstractCellLmlAttribute {
             final String rawAttributeData) {
         cell.fill(determineFillX(cell), parser.parseBoolean(rawAttributeData, actor));
     }
-
-    protected boolean determineFillX(final Cell<?> cell) {
-        try {
-            return cell.getFillX() > 0f;
-        } catch (final Exception exception) {
-            // LibGDX Scene2D method returns float, while the field is a Float that might not have been initiated. This
-            // causes a NPE - so when an exception is thrown, we assume that the fill was not set.
-            Exceptions.ignore(exception);
-            return false;
-        }
-    }
 }
