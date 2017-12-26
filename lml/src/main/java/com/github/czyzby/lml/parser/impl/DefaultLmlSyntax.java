@@ -83,6 +83,7 @@ import com.github.czyzby.lml.parser.impl.attribute.group.button.MaxCheckCountLml
 import com.github.czyzby.lml.parser.impl.attribute.group.button.MinCheckCountLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.group.button.UncheckLastLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.image.ImageAlignmentLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.image.ImageTiledDrawableLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.image.ScalingLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.image.animated.AnimationDelayLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.image.animated.AnimationMaxDelayLmlAttribute;
@@ -549,6 +550,7 @@ public class DefaultLmlSyntax extends EmptyLmlSyntax {
     protected void registerImageAttributes() {
         addAttributeProcessor(new ImageAlignmentLmlAttribute(), "imageAlign");
         addAttributeProcessor(new ScalingLmlAttribute(), "scaling", "imageScaling");
+        addAttributeProcessor(new ImageTiledDrawableLmlAttribute(), "tiled", "tiledDrawable");
     }
 
     /** Label widget attributes. */
