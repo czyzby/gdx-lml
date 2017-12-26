@@ -7,6 +7,7 @@ import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
 /** Changes font scale for the {@link Label}.
+ * Mapped to "fontScale".
  *
  * @see Label#setFontScale(float)
  * @author Metaphore */

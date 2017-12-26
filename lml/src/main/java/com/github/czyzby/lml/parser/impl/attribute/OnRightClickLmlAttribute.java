@@ -10,7 +10,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
 
 /** Attaches a ClickListener to the the actor, invoking a chosen action upon right button clicking on actor. Expects an action ID.
  * Assigned action method might have {@link Params} as parameter to retrieve some event related data.
- * By default, mapped to "onRightClick" and "rightClick" attribute names.
+ * Mapped to "onRightClick" and "rightClick" attribute names.
  *
  * @author Metaphore */
 public class OnRightClickLmlAttribute implements LmlAttribute<Actor> {

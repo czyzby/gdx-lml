@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
-/** See {@link Cell#growY()}. Has no effect when "false" is returned. Mapped to "growY".
+/** See {@link Cell#growY()}. Mapped to "growY".
  *
  * @author MJ */
 public class CellGrowYLmlAttribute extends AbstractCellLmlAttribute {

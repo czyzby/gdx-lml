@@ -11,7 +11,7 @@ import com.github.czyzby.lml.parser.tag.LmlTag;
 
 /** Attaches a ClickListener to the the actor, invoking a chosen action upon left button double clicking on actor. Expects an action ID.
  * Assigned action method might have {@link OnDoubleClickLmlAttribute.Params} as parameter to retrieve some event related data.
- * By default, mapped to "onDoubleClick" and "doubleClick" attribute names.
+ * Mapped to "onDoubleClick" and "doubleClick" attribute names.
  *
  * @author Metaphore */
 public class OnDoubleClickLmlAttribute implements LmlAttribute<Actor> {

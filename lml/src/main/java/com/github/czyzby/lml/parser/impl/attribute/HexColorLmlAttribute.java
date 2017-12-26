@@ -8,6 +8,7 @@ import com.github.czyzby.lml.parser.tag.LmlAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 
 /** Allows to set actor's color from a hex value string.
+ * Mapped to "hexColor".
  *
  * @see Color#valueOf(String)
  * @author Metaphore */
