@@ -15,6 +15,8 @@ import com.github.czyzby.lml.parser.impl.attribute.OnChangeLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.OnClickLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.OnCloseLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.OnCreateLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.OnDoubleClickLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.OnRightClickLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.RotationLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.ScaleLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.ScaleXLmlAttribute;
@@ -441,6 +443,8 @@ public class DefaultLmlSyntax extends EmptyLmlSyntax {
         addAttributeProcessor(new OnClickLmlAttribute(), "onClick", "click");
         addAttributeProcessor(new OnCloseLmlAttribute(), "onClose", "close", "onTagClose", "tagClose");
         addAttributeProcessor(new OnCreateLmlAttribute(), "onCreate", "create", "onInit", "init");
+        addAttributeProcessor(new OnDoubleClickLmlAttribute(), "onDoubleClick", "doubleClick");
+        addAttributeProcessor(new OnRightClickLmlAttribute(), "onRightClick", "rightClick");
         addAttributeProcessor(new RotationLmlAttribute(), "rotation", "angle");
         addAttributeProcessor(new ScaleLmlAttribute(), "scale");
         addAttributeProcessor(new ScaleXLmlAttribute(), "scaleX");
