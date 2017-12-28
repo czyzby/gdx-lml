@@ -56,6 +56,11 @@ import com.github.czyzby.lml.parser.impl.attribute.container.ContainerMinHeightL
 import com.github.czyzby.lml.parser.impl.attribute.container.ContainerMinSizeLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.container.ContainerMinWidthLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.container.ContainerPrefHeightLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.container.ContainerPadBottomLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.container.ContainerPadLeftLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.container.ContainerPadLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.container.ContainerPadRightLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.container.ContainerPadTopLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.container.ContainerPrefSizeLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.container.ContainerPrefWidthLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.container.ContainerRoundLmlAttribute;
@@ -524,6 +529,11 @@ public class DefaultLmlSyntax extends EmptyLmlSyntax {
         addAttributeProcessor(new ContainerMinHeightLmlAttribute(), "minHeight");
         addAttributeProcessor(new ContainerMinSizeLmlAttribute(), "minSize");
         addAttributeProcessor(new ContainerMinWidthLmlAttribute(), "minWidth");
+        addAttributeProcessor(new ContainerPadBottomLmlAttribute(), "containerPadBottom");
+        addAttributeProcessor(new ContainerPadLeftLmlAttribute(), "containerPadLeft");
+        addAttributeProcessor(new ContainerPadLmlAttribute(), "containerPad");
+        addAttributeProcessor(new ContainerPadRightLmlAttribute(), "containerPadRight");
+        addAttributeProcessor(new ContainerPadTopLmlAttribute(), "containerPadTop");
         addAttributeProcessor(new ContainerPrefHeightLmlAttribute(), "prefHeight");
         addAttributeProcessor(new ContainerPrefSizeLmlAttribute(), "prefSize");
         addAttributeProcessor(new ContainerPrefWidthLmlAttribute(), "prefWidth");
