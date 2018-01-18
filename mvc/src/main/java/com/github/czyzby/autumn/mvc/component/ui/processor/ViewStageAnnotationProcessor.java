@@ -35,7 +35,7 @@ public class ViewStageAnnotationProcessor extends AbstractAnnotationProcessor<Vi
             throw new GdxRuntimeException("Only Scene2D stages can be annotated with @ViewStage. Found type:"
                     + field.getType() + " in field: " + field + " of component: " + component + ".");
         }
-        final Class<?> controllerClass = field.getDeclaringClass();
+        final Class<?> controllerClass = component.getClass();
         if (!registerField(field, interfaceService.getController(controllerClass))) {
             // If view controller not found, trying out dialog controllers:
             if (!registerField(field, interfaceService.getDialogController(controllerClass))) {
