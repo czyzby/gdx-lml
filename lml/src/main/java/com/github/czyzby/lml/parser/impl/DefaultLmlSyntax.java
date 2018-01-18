@@ -68,7 +68,9 @@ import com.github.czyzby.lml.parser.impl.attribute.container.ContainerSizeLmlAtt
 import com.github.czyzby.lml.parser.impl.attribute.container.ContainerWidthLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.group.DebugRecursivelyLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.group.HorizontalGroupAlignmentLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.group.HorizontalGroupExpandLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.group.HorizontalGroupFillLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.group.HorizontalGroupGrowLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.group.HorizontalGroupPaddingBottomLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.group.HorizontalGroupPaddingLeftLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.group.HorizontalGroupPaddingLmlAttribute;
@@ -76,9 +78,12 @@ import com.github.czyzby.lml.parser.impl.attribute.group.HorizontalGroupPaddingR
 import com.github.czyzby.lml.parser.impl.attribute.group.HorizontalGroupPaddingTopLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.group.HorizontalGroupReverseLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.group.HorizontalGroupSpacingLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.group.HorizontalGroupWrapLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.group.TransformLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.group.VerticalGroupAlignmentLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.group.VerticalGroupExpandLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.group.VerticalGroupFillLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.group.VerticalGroupGrowLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.group.VerticalGroupPaddingBottomLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.group.VerticalGroupPaddingLeftLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.group.VerticalGroupPaddingLmlAttribute;
@@ -86,6 +91,7 @@ import com.github.czyzby.lml.parser.impl.attribute.group.VerticalGroupPaddingRig
 import com.github.czyzby.lml.parser.impl.attribute.group.VerticalGroupPaddingTopLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.group.VerticalGroupReverseLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.group.VerticalGroupSpacingLmlAttribute;
+import com.github.czyzby.lml.parser.impl.attribute.group.VerticalGroupWrapLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.group.button.MaxCheckCountLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.group.button.MinCheckCountLmlAttribute;
 import com.github.czyzby.lml.parser.impl.attribute.group.button.UncheckLastLmlAttribute;
@@ -551,7 +557,9 @@ public class DefaultLmlSyntax extends EmptyLmlSyntax {
     /** HorizontalGroup widget attributes. */
     protected void registerHorizontalGroupAttributes() {
         addAttributeProcessor(new HorizontalGroupAlignmentLmlAttribute(), "groupAlign");
+        addAttributeProcessor(new HorizontalGroupExpandLmlAttribute(), "groupExpand");
         addAttributeProcessor(new HorizontalGroupFillLmlAttribute(), "groupFill");
+        addAttributeProcessor(new HorizontalGroupGrowLmlAttribute(), "groupGrow");
         addAttributeProcessor(new HorizontalGroupPaddingBottomLmlAttribute(), "groupPadBottom");
         addAttributeProcessor(new HorizontalGroupPaddingLeftLmlAttribute(), "groupPadLeft");
         addAttributeProcessor(new HorizontalGroupPaddingLmlAttribute(), "groupPad", "padding");
@@ -559,6 +567,7 @@ public class DefaultLmlSyntax extends EmptyLmlSyntax {
         addAttributeProcessor(new HorizontalGroupPaddingTopLmlAttribute(), "groupPadTop");
         addAttributeProcessor(new HorizontalGroupReverseLmlAttribute(), "reverse");
         addAttributeProcessor(new HorizontalGroupSpacingLmlAttribute(), "groupSpace", "spacing");
+        addAttributeProcessor(new HorizontalGroupWrapLmlAttribute(), "groupSpace", "spacing");
     }
 
     /** Image widget attributes. */
@@ -744,7 +753,9 @@ public class DefaultLmlSyntax extends EmptyLmlSyntax {
     /** VerticalGroup widget attributes. */
     protected void registerVerticalGroupAttributes() {
         addAttributeProcessor(new VerticalGroupAlignmentLmlAttribute(), "groupAlign");
+        addAttributeProcessor(new VerticalGroupExpandLmlAttribute(), "groupExpand");
         addAttributeProcessor(new VerticalGroupFillLmlAttribute(), "groupFill");
+        addAttributeProcessor(new VerticalGroupGrowLmlAttribute(), "groupGrow");
         addAttributeProcessor(new VerticalGroupPaddingBottomLmlAttribute(), "groupPadBottom");
         addAttributeProcessor(new VerticalGroupPaddingLeftLmlAttribute(), "groupPadLeft");
         addAttributeProcessor(new VerticalGroupPaddingLmlAttribute(), "groupPad", "padding");
@@ -752,6 +763,7 @@ public class DefaultLmlSyntax extends EmptyLmlSyntax {
         addAttributeProcessor(new VerticalGroupPaddingTopLmlAttribute(), "groupPadTop");
         addAttributeProcessor(new VerticalGroupReverseLmlAttribute(), "reverse");
         addAttributeProcessor(new VerticalGroupSpacingLmlAttribute(), "groupSpace", "spacing");
+        addAttributeProcessor(new VerticalGroupWrapLmlAttribute(), "groupSpace", "spacing");
     }
 
     /** Window widget attributes. */
