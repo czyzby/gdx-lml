@@ -62,10 +62,13 @@ project(":html") {
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
         compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
+        compile "com.github.czyzby:gdx-autumn:$libVersion:sources"
         compile "com.github.czyzby:gdx-autumn-gwt:$libVersion"
         compile "com.github.czyzby:gdx-autumn-gwt:$libVersion:sources"
         compile "com.github.czyzby:gdx-autumn-mvc:$libVersion:sources"
+        compile "com.github.czyzby:gdx-kiwi:$libVersion:sources"
         compile "com.github.czyzby:gdx-lml-vis:$libVersion:sources"
+        compile "com.github.czyzby:gdx-lml:$libVersion:sources"
         compile "com.kotcrab.vis:vis-ui:$visVersion:sources"
     }
 }
