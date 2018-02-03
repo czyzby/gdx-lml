@@ -1,10 +1,9 @@
 package com.github.czyzby.autumn.processor.event;
 
-import java.util.Iterator;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
+import com.badlogic.gdx.utils.SnapshotArray;
 import com.badlogic.gdx.utils.reflect.Method;
 import com.github.czyzby.autumn.annotation.OnEvent;
 import com.github.czyzby.autumn.context.Context;
@@ -13,7 +12,9 @@ import com.github.czyzby.autumn.context.ContextInitializer;
 import com.github.czyzby.autumn.context.error.ContextInitiationException;
 import com.github.czyzby.autumn.processor.AbstractAnnotationProcessor;
 import com.github.czyzby.autumn.processor.event.impl.ReflectionEventListener;
+import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ObjectProvider;
 import com.github.czyzby.kiwi.util.gdx.collection.lazy.LazyObjectMap;
+import java.util.Iterator;
 
 /** Processes events. Can be injected and used to invoke registered listeners with {@link #postEvent(Object)}. If this
  * processor is not injected into any component, it will mostly likely get garbage-collected after context initiation,
@@ -21,8 +22,22 @@ import com.github.czyzby.kiwi.util.gdx.collection.lazy.LazyObjectMap;
  *
  * @author MJ */
 public class EventDispatcher extends AbstractAnnotationProcessor<OnEvent> {
-    private final ObjectMap<Class<?>, ObjectSet<EventListener<?>>> listeners = LazyObjectMap.newMapOfSets();
-    private final ObjectMap<Class<?>, ObjectSet<EventListener<?>>> mainThreadListeners = LazyObjectMap.newMapOfSets();
+    private final ObjectMap<Class<?>, SnapshotArray<EventListener<?>>> listeners;
+    private final ObjectMap<Class<?>, SnapshotArray<EventListener<?>>> mainThreadListeners;
+    private final ObjectSet<Class<?>> asyncEvents;
+
+    public EventDispatcher() {
+        ObjectProvider<SnapshotArray<EventListener<?>>> provider =
+                new ObjectProvider<SnapshotArray<EventListener<?>>>() {
+                    @Override
+                    public SnapshotArray<EventListener<?>> provide() {
+                        return new SnapshotArray<EventListener<?>>();
+                    }
+                };
+        listeners = LazyObjectMap.newMap(provider);
+        mainThreadListeners = LazyObjectMap.newMap(provider);
+        asyncEvents = new ObjectSet<Class<?>>();
+    }
 
     @Override
     public Class<OnEvent> getSupportedAnnotationType() {
@@ -88,12 +103,38 @@ public class EventDispatcher extends AbstractAnnotationProcessor<OnEvent> {
     }
 
     /**
-     * @param listener will be removed (if registered).
+     * If {@code executeAsync} is false events of eventClass class will be processed consistently.<br>
+     * For example, there are two threads call {@link EventDispatcher#postEvent(Object)} on events of identical types,
+     * then each listener will process event from first thread and then will process event from second:<br>
+     * {@code listener[0].processEvent(event1)}<br>
+     * {@code listener[1].processEvent(event1)}<br>
+     * {@code listener[0].processEvent(event2)}<br>
+     * {@code listener[1].processEvent(event2)}<br>
+     * <br>
+     * If {@code executeAsync} is true events of identical types from different threads will be processed independent:<br>
+     * {@code listener[0].processEvent(event1)}<br>
+     * {@code listener[0].processEvent(event2)}<br>
+     * {@code listener[1].processEvent(event1)}<br>
+     * {@code listener[1].processEvent(event2)}<br>
+     * <br>
+     * By default events from different threads processing consistently
+     * @param eventClass configurable event type
+     * @param executeAsync if true, events of same type will be processed asynchronously.
+     */
+    public void setHandlePolicy(Class<?> eventClass, boolean executeAsync) {
+        if (executeAsync) {
+            asyncEvents.add(eventClass);
+        } else
+            asyncEvents.remove(eventClass);
+    }
+
+    /**
+     * @param listener will be removed (if registered). Only identical (==) values will be removed
      * @param eventType type of the event that the listener is registered to handle.
      */
     public void removeListener(final EventListener<?> listener, final Class<?> eventType) {
-        listeners.get(eventType).remove(listener);
-        mainThreadListeners.get(eventType).remove(listener);
+        listeners.get(eventType).removeValue(listener, true);
+        mainThreadListeners.get(eventType).removeValue(listener, true);
     }
 
     /**
@@ -117,24 +158,51 @@ public class EventDispatcher extends AbstractAnnotationProcessor<OnEvent> {
         if (event == null) {
             return;
         }
+
+        boolean async = asyncEvents.contains(event.getClass());
         if (listeners.containsKey(event.getClass())) {
-            invokeEventListeners(event, listeners.get(event.getClass()));
+            if (async) {
+                asyncInvokeListeners(event, listeners.get(event.getClass()));
+            } else {
+                invokeListeners(event, listeners.get(event.getClass()));
+            }
         }
         if (mainThreadListeners.containsKey(event.getClass())) {
-            Gdx.app.postRunnable(new EventRunnable(event, mainThreadListeners.get(event.getClass())));
+            Gdx.app.postRunnable(new EventRunnable(event, mainThreadListeners.get(event.getClass()), async));
         }
     }
 
     /** @param event was just posted.
-     * @param listeners will be invoked. */
-    @SuppressWarnings({ "rawtypes", "unchecked" }) // Types are always correct.
-    protected static void invokeEventListeners(final Object event, final ObjectSet<EventListener<?>> listeners) {
-        for (final Iterator<EventListener<?>> iterator = listeners.iterator(); iterator.hasNext();) {
-            final EventListener listener = iterator.next();
-            if (!listener.processEvent(event)) {
-                iterator.remove();
+     * @param listeners will be invoked.
+     * @see EventDispatcher#asyncInvokeListeners(Object, SnapshotArray)
+     * @see EventDispatcher#setHandlePolicy(Class, boolean) */
+    @SuppressWarnings({"rawtypes", "unchecked"}) // Types are always correct.
+    protected static void invokeListeners(final Object event, final SnapshotArray<EventListener<?>> listeners) {
+        synchronized (listeners) {
+            for (final Iterator<EventListener<?>> iterator = listeners.iterator(); iterator.hasNext(); ) {
+                final EventListener listener = iterator.next();
+                if (!listener.processEvent(event)) {
+                    iterator.remove();
+                }
             }
         }
+    }
+
+    /** @param event was just posted.
+     * @param listeners will be invoked.
+     */
+    @SuppressWarnings({"rawtypes", "unchecked"}) // Types are always correct.
+    protected static void asyncInvokeListeners(final Object event, final SnapshotArray<EventListener<?>> listeners) {
+        // unsafe array issue: https://github.com/libgdx/libgdx/issues/5076
+        Object[] snapshot = listeners.begin();
+        for (Object l : snapshot) {
+            if (l == null) continue;
+            EventListener listener = (EventListener) l;
+            if (!listener.processEvent(event)) {
+                listeners.removeValue(listener, true);
+            }
+        }
+        listeners.end();
     }
 
     /** Invokes listeners.
@@ -142,16 +210,22 @@ public class EventDispatcher extends AbstractAnnotationProcessor<OnEvent> {
      * @author MJ */
     public static class EventRunnable implements Runnable {
         private final Object event;
-        private final ObjectSet<EventListener<?>> listeners;
+        private final SnapshotArray<EventListener<?>> listeners;
+        private final boolean async;
 
-        public EventRunnable(final Object event, final ObjectSet<EventListener<?>> listeners) {
+        public EventRunnable(final Object event, final SnapshotArray<EventListener<?>> listeners, final boolean async) {
             this.event = event;
             this.listeners = listeners;
+            this.async = async;
         }
 
         @Override
         public void run() {
-            invokeEventListeners(event, listeners);
+            if (async) {
+                asyncInvokeListeners(event, listeners);
+            } else {
+                invokeListeners(event, listeners);
+            }
         }
     }
 }
