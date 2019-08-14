@@ -20,7 +20,7 @@ allprojects {
 
   ext {
     projectVersion = '1.9'
-    gdxVersion = '1.9.8'
+    gdxVersion = '1.9.10'
     isSnapshot = '-SNAPSHOT'
     libVersion = "$projectVersion.$gdxVersion$isSnapshot"
   }
@@ -143,8 +143,7 @@ task installAll(dependsOn: ['installBase', 'lml-vis:build', 'lml-vis:install',
   'autumn:natives:gwt:install', 'websocket:natives:common:build',
   'websocket:natives:common:install', 'websocket:natives:gwt:build',
   'websocket:natives:gwt:install', 'websocket:natives:serialization:build',
-  'websocket:natives:serialization:install', 'lml-uedi:build',
-  'lml-uedi:install']) 
+  'websocket:natives:serialization:install'])
 task installBase(dependsOn: ['installKiwi', 'lml:build', 'lml:install',
   'autumn:build', 'autumn:install', 'websocket:build', 'websocket:install',
   'uedi:build', 'uedi:install'])

@@ -6,6 +6,7 @@ import com.github.czyzby.lml.parser.LmlParser;
 import com.github.czyzby.lml.parser.impl.tag.AbstractActorLmlTag;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
+import com.github.czyzby.lml.scene2d.ui.reflected.GenericTreeNode;
 import com.github.czyzby.lml.util.LmlUtilities;
 
 /** Handles {@link Tree} actor. Allows the use of "node" attribute in children tags. Adds plain text between tags as new
@@ -33,7 +34,7 @@ public class TreeLmlTag extends AbstractActorLmlTag {
         if (node != null) {
             getTree().add(node);
         } else {
-            getTree().add(new Tree.Node(child));
+            getTree().add(new GenericTreeNode(child));
         }
     }
 

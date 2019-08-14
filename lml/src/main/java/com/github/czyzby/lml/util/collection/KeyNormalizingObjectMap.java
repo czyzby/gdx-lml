@@ -63,11 +63,11 @@ public abstract class KeyNormalizingObjectMap<Key, Value> extends ObjectMap<Key,
     }
 
     @Override
-    public void putAll(final ObjectMap<Key, Value> map) {
+    public void putAll(ObjectMap<? extends Key, ? extends Value> map) {
         // This matches super behavior, but in case the ObjectMap gets refactored, we still want to delegate putting to
         // put(Key, Value) method to ensure that keys are normalized. Hence the override.
         ensureCapacity(map.size);
-        for (final Entry<Key, Value> entry : map) {
+        for (Entry<? extends Key, ? extends Value> entry : map) {
             put(entry.key, entry.value);
         }
     }

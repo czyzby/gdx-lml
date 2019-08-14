@@ -64,7 +64,7 @@ public class ImmutableObjectMap<Key, Value> extends ObjectMap<Key, Value> {
 
     @Override
     @Deprecated
-    public void putAll(final ObjectMap<Key, Value> map) {
+    public void putAll(ObjectMap<? extends Key, ? extends Value> map) {
         throw new UnsupportedOperationException("Cannot modify ImmutableObjectMap.");
     }
 
