@@ -44,8 +44,8 @@ subprojects {
     maven { url "https://oss.sonatype.org/content/repositories/releases/" }
   }
 
-  sourceCompatibility = 1.6
-  targetCompatibility = 1.6
+  sourceCompatibility = 1.7
+  targetCompatibility = 1.7
   group = 'com.github.czyzby'
   version = libVersion
   archivesBaseName = projectName
@@ -137,13 +137,13 @@ subprojects {
 // Invokes 'build' and 'install' tasks on all projects in the correct order.
 // Prefer this over 'gradle build install' when changing the version of library.
 task installAll(dependsOn: ['installBase', 'lml-vis:build', 'lml-vis:install',
-  'mvc:build', 'mvc:install', 'autumn/natives/android:build',
-  'autumn/natives/android:install', 'autumn/natives/fcs:build',
-  'autumn/natives/fcs:install', 'autumn/natives/gwt:build',
-  'autumn/natives/gwt:install', 'websocket/natives/common:build',
-  'websocket/natives/common:install', 'websocket/natives/gwt:build',
-  'websocket/natives/gwt:install', 'websocket/natives/serialization:build',
-  'websocket/natives/serialization:install', 'lml-uedi:build',
+  'mvc:build', 'mvc:install', 'autumn:natives:android:build',
+  'autumn:natives:android:install', 'autumn:natives:fcs:build',
+  'autumn:natives:fcs:install', 'autumn:natives:gwt:build',
+  'autumn:natives:gwt:install', 'websocket:natives:common:build',
+  'websocket:natives:common:install', 'websocket:natives:gwt:build',
+  'websocket:natives:gwt:install', 'websocket:natives:serialization:build',
+  'websocket:natives:serialization:install', 'lml-uedi:build',
   'lml-uedi:install']) 
 task installBase(dependsOn: ['installKiwi', 'lml:build', 'lml:install',
   'autumn:build', 'autumn:install', 'websocket:build', 'websocket:install',
