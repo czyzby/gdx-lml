@@ -14,6 +14,7 @@ import com.github.czyzby.lml.parser.LmlSyntax;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlBuildingAttribute;
 import com.github.czyzby.lml.parser.tag.LmlTag;
+import com.github.czyzby.lml.scene2d.ui.reflected.GenericTreeNode;
 import com.github.czyzby.lml.util.Lml;
 import com.github.czyzby.lml.util.LmlUserObject;
 import com.github.czyzby.lml.util.LmlUtilities;
@@ -212,7 +213,7 @@ public abstract class AbstractActorLmlTag extends AbstractLmlTag {
         for (String line : lines) {
             if (Strings.isNotWhitespace(line)) {
                 line = line.trim();
-                node.add(new Tree.Node(toLabel(line)));
+                node.add(new GenericTreeNode(toLabel(line)));
             }
         }
     }
@@ -244,7 +245,7 @@ public abstract class AbstractActorLmlTag extends AbstractLmlTag {
                 // This actor is a tree node. Adding its child as a leaf.
                 Tree.Node childNode = LmlUtilities.getTreeNode(childTag.getActor());
                 if (childNode == null) {
-                    childNode = new Tree.Node(childTag.getActor());
+                    childNode = new GenericTreeNode(childTag.getActor());
                 }
                 node.add(childNode);
             } else {

@@ -1,5 +1,5 @@
 ext {
-  gwtVersion = '2.8.0'
+  gwtVersion = '2.8.2'
 }
 
 javadoc {

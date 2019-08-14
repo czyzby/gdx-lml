@@ -17,6 +17,7 @@ import com.github.czyzby.lml.parser.impl.tag.AbstractMacroLmlTag;
 import com.github.czyzby.lml.parser.tag.LmlActorBuilder;
 import com.github.czyzby.lml.parser.tag.LmlTag;
 import com.github.czyzby.lml.parser.tag.LmlTagProvider;
+import com.github.czyzby.lml.scene2d.ui.reflected.GenericTreeNode;
 import com.github.czyzby.lml.util.LmlUtilities;
 
 /** Allows to register new tags from within LML templates. Normally, you have to implement {@code LmlTag} interface
@@ -265,7 +266,7 @@ public class NewTagLmlMacroTag extends AbstractMacroLmlTag {
                 if (node != null) {
                     ((Tree) actor).add(node);
                 } else {
-                    ((Tree) actor).add(new Tree.Node(child));
+                    ((Tree) actor).add(new GenericTreeNode(child));
                 }
             } else if (actor instanceof Table) {
                 LmlUtilities.getCell(child, (Table) actor);

@@ -15,6 +15,7 @@ import com.github.czyzby.lml.parser.action.StageAttacher;
 import com.github.czyzby.lml.parser.impl.action.DefaultStageAttacher;
 import com.github.czyzby.lml.parser.impl.action.DefaultStageAttacher.StandardPositionConverter;
 import com.github.czyzby.lml.parser.tag.LmlTag;
+import com.github.czyzby.lml.scene2d.ui.reflected.GenericTreeNode;
 
 /** Custom user object set to LML actors when additional data needs to be stored.
  *
@@ -122,7 +123,7 @@ public class LmlUserObject {
             parser.throwErrorIfStrict("Actor cannot be a tree node if it has no tree parent in the structure.");
             return;
         }
-        node = new Tree.Node(actor);
+        node = new GenericTreeNode(actor);
     }
 
     /** @return non-null tree node containing the actor or null if the actor is not a tree node. */
