@@ -1,5 +1,10 @@
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.czyzby/gdx-lml.svg)](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.czyzby%22%20)
 
+# Disclaimer
+These libraries are **no longer actively maintained**. They should work fine when used with older LibGDX versions, but expect issues with the recent ones. Using snapshot releases might help, as they contain the latest changes contributed by the `gdx-lml` community.
+
+As a side note, if you are using Kotlin in your project, you might find [KTX](https://github.com/libktx/ktx) libraries useful. It is a much more mature (and tested) set of LibGDX utilities made specifically for Kotlin applications.
+
 # LibGDX utilities
 This repository contains most of my libraries aimed at improving LibGDX framework. While they used to be kept in multiple separate repositories, this setup is much easier to maintain for the contributor(s) and, well, makes it harder to overlook some of my less popular libraries.
 
