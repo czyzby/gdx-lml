@@ -1,11 +1,9 @@
 package com.github.czyzby.kiwi.util.gdx.collection.immutable;
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.Collections;
+
+import java.util.Comparator;
 
 /** An ordered or unordered array of objects. Semi-immutable. Extends LibGDX Array class, deprecating and throwing
  * UnsupportedOperationExceptions on all operations that mutate the array. It is not truly immutable, because the
@@ -22,7 +20,7 @@ public class ImmutableArray<Type> extends Array<Type> {
     private final boolean ordered;
     @SuppressWarnings("unused") private final Type[] items;
 
-    private ImmutableArrayIterable<Type> arrayIterable;
+    private ArrayIterable<Type> iterable;
 
     /** Creates a new ordered, immutable array containing the elements in the specified array. The new array will have
      * the same type of backing array.
@@ -107,6 +105,21 @@ public class ImmutableArray<Type> extends Array<Type> {
     @Override
     @Deprecated
     public void add(final Type value) {
+        throw new UnsupportedOperationException("Cannot modify ImmutableArray.");
+    }
+
+    @Override
+    public void add(Type value1, Type value2) {
+        throw new UnsupportedOperationException("Cannot modify ImmutableArray.");
+    }
+
+    @Override
+    public void add(Type value1, Type value2, Type value3) {
+        throw new UnsupportedOperationException("Cannot modify ImmutableArray.");
+    }
+
+    @Override
+    public void add(Type value1, Type value2, Type value3, Type value4) {
         throw new UnsupportedOperationException("Cannot modify ImmutableArray.");
     }
 
@@ -255,82 +268,9 @@ public class ImmutableArray<Type> extends Array<Type> {
     }
 
     @Override
-    public Iterator<Type> iterator() {
-        if (arrayIterable == null) {
-            arrayIterable = new ImmutableArrayIterable<Type>(this);
-        }
-        return arrayIterable.iterator();
-    }
-
-    // Based on Array.ArrayIterator.
-    public static class ImmutableArrayIterator<Type> implements Iterator<Type>, Iterable<Type> {
-        private final Array<Type> array;
-        private int index;
-        private boolean valid = true;
-
-        public ImmutableArrayIterator(final Array<Type> array) {
-            this.array = array;
-        }
-
-        @Override
-        public boolean hasNext() {
-            if (!valid) {
-                throw new GdxRuntimeException("#iterator() cannot be used nested.");
-            }
-            return index < array.size;
-        }
-
-        @Override
-        public Type next() {
-            if (index >= array.size) {
-                throw new NoSuchElementException(String.valueOf(index));
-            }
-            if (!valid) {
-                throw new GdxRuntimeException("#iterator() cannot be used nested.");
-            }
-            return array.items[index++];
-        }
-
-        public void reset() {
-            index = 0;
-        }
-
-        @Override
-        public Iterator<Type> iterator() {
-            return this;
-        }
-
-        @Override
-        public void remove() {
-            throw new UnsupportedOperationException("Array is immutable.");
-        }
-    }
-
-    // Based on Array.ArrayIterable.
-    public static class ImmutableArrayIterable<Type> implements Iterable<Type> {
-        private final Array<Type> array;
-        private ImmutableArrayIterator<Type> iterator1, iterator2;
-
-        public ImmutableArrayIterable(final Array<Type> array) {
-            this.array = array;
-        }
-
-        @Override
-        public Iterator<Type> iterator() {
-            if (iterator1 == null) {
-                iterator1 = new ImmutableArrayIterator<Type>(array);
-                iterator2 = new ImmutableArrayIterator<Type>(array);
-            }
-            if (!iterator1.valid) {
-                iterator1.reset();
-                iterator1.valid = true;
-                iterator2.valid = false;
-                return iterator1;
-            }
-            iterator2.reset();
-            iterator2.valid = true;
-            iterator1.valid = false;
-            return iterator2;
-        }
+    public ArrayIterator<Type> iterator() {
+        if (Collections.allocateIterators) return new ArrayIterator<Type>(this, false);
+        if (iterable == null) iterable = new ArrayIterable<Type>(this, false);
+        return iterable.iterator();
     }
 }

@@ -75,7 +75,7 @@ public class ImmutableObjectSet<Type> extends ObjectSet<Type> {
 
     @Override
     @Deprecated
-    public void addAll(final Type... array) {
+    public boolean addAll(final Type... array) {
         throw new UnsupportedOperationException("Cannot modify ImmutableObjectSet.");
     }
 
@@ -87,7 +87,7 @@ public class ImmutableObjectSet<Type> extends ObjectSet<Type> {
 
     @Override
     @Deprecated
-    public void addAll(final Type[] array, final int offset, final int length) {
+    public boolean addAll(final Type[] array, final int offset, final int length) {
         throw new UnsupportedOperationException("Cannot modify ImmutableObjectSet.");
     }
 

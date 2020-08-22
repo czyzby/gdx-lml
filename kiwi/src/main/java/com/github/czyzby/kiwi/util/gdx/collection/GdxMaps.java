@@ -96,7 +96,9 @@ public class GdxMaps extends UtilitiesClass {
      * @param <Value> type of map values. */
     public static <Key, Value> IdentityMap<Key, Value> newIdentityMap(
             final IdentityMap<? extends Key, ? extends Value> map) {
-        return new IdentityMap<Key, Value>(map);
+        IdentityMap<Key, Value> result = new IdentityMap<Key, Value>(map.size);
+        result.putAll(map);
+        return result;
     }
 
     /** @param keyAndValues pairs of keys and values. Each value has to be proceeded by a key.
