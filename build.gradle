@@ -20,7 +20,7 @@ allprojects {
 
   ext {
     projectVersion = '1.9'
-    gdxVersion = '1.9.10'
+    gdxVersion = '1.9.11'
     isSnapshot = '-SNAPSHOT'
     libVersion = "$projectVersion.$gdxVersion$isSnapshot"
   }

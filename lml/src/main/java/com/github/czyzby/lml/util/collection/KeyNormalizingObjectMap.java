@@ -23,7 +23,7 @@ public abstract class KeyNormalizingObjectMap<Key, Value> extends ObjectMap<Key,
     }
 
     @Override
-    public Value get(Key key) {
+    public <T extends Key> Value get(T key) {
         if (key != null) {
             key = normalizeKey(key);
         }
@@ -72,8 +72,9 @@ public abstract class KeyNormalizingObjectMap<Key, Value> extends ObjectMap<Key,
         }
     }
 
-    /** @param key will be normalized, ensuring that all keys are equal according to the chosen standard.
+    /** @param <T> type of normalized key.
+     * @param key will be normalized, ensuring that all keys are equal according to the chosen standard.
      * @return normalized key.
      * @throws NullPointerException if key is null. */
-    protected abstract Key normalizeKey(final Key key);
+    protected abstract <T extends Key> T normalizeKey(final Key key);
 }

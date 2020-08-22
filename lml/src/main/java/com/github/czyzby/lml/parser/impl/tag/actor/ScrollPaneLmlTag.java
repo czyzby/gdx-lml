@@ -29,10 +29,10 @@ public class ScrollPaneLmlTag extends AbstractActorLmlTag {
     /** @param child will be set as the managed child. */
     protected void setChild(final Actor child) {
         final ScrollPane scrollPane = getScrollPane();
-        if (scrollPane.getWidget() != null) {
+        if (scrollPane.getActor() != null) {
             getParser().throwErrorIfStrict("Scroll pane can have only one child. Received another child: " + child);
         }
-        scrollPane.setWidget(child);
+        scrollPane.setActor(child);
     }
 
     /** @return casted actor. */

@@ -1,6 +1,7 @@
 package com.github.czyzby.kiwi.util.gdx.collection.lazy;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Null;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.ObjectSet;
 import com.github.czyzby.kiwi.util.gdx.asset.lazy.provider.ArrayObjectProvider;
@@ -148,7 +149,7 @@ public class LazyObjectMap<Key, Value> extends ObjectMap<Key, Value> {
     }
 
     @Override
-    public Value get(final Key key) {
+    public @Null <T extends Key> Value get(T key) {
         Value value = super.get(key);
         if (value == null) {
             value = provider.provide();
@@ -164,7 +165,7 @@ public class LazyObjectMap<Key, Value> extends ObjectMap<Key, Value> {
      * @param defaultValue returned if no value is set for the key. */
     @Override
     @Deprecated
-    public Value get(final Key key, final Value defaultValue) {
+    public Value get(Key key, @Null Value defaultValue) {
         return super.get(key, defaultValue);
     }
 
