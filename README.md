@@ -1,19 +1,51 @@
-[![Maven Central](https://img.shields.io/maven-central/v/com.github.czyzby/gdx-lml.svg)](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.czyzby%22%20)
+```
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+```
 
 # Disclaimer
-These libraries are **no longer actively maintained**. They should work fine when used with older LibGDX versions, but expect issues with the recent ones. Using snapshot releases might help, as they contain the latest changes contributed by the `gdx-lml` community.
 
-As a side note, if you are using Kotlin in your project, you might find [KTX](https://github.com/libktx/ktx) libraries useful. It is a much more mature (and tested) set of LibGDX utilities made specifically for Kotlin applications.
+The libraries from this repository are **no longer maintained**. They are not expected to be compatible with the latest
+LibGDX releases.
+
+### Alternatives and forks
+
+- [libktx/ktx](https://github.com/libktx/ktx): a set of [Kotlin](https://kotlinlang.org/) utilities covering similar
+features as some of the libraries including `gdx-kiwi`, `gdx-lml` or `gdx-autumn`. Recommended when using Kotlin.
+- [tommyettinger/gdx-liftoff](https://github.com/tommyettinger/gdx-liftoff/tree/master/src/main/java/com/github/czyzby):
+forks of `gdx-kiwi`, `gdx-lml`, `gdx-autumn` and `gdx-autumn-mvc` maintained to support the `gdx-liftoff` application -
+an alternative to the official `gdx-setup` tool.
+- [MrStahlfelge/gdx-websockets](https://github.com/MrStahlfelge/gdx-websockets): a fork of the `gdx-websockets` module.
+A multiplatform web sockets client for LibGDX.
+
+```
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+```
+
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.czyzby/gdx-lml.svg)](https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.czyzby%22%20)
 
 # LibGDX utilities
-This repository contains most of my libraries aimed at improving LibGDX framework. While they used to be kept in multiple separate repositories, this setup is much easier to maintain for the contributor(s) and, well, makes it harder to overlook some of my less popular libraries.
+This repository contains various LibGDX extensions covering various features such as dependency injection, GUI building, networking and general utilities.
 
 ### Note
-This used to be `gdx-lml` library repository before I finally forced myself to merge all my LibGDX extensions into one huge Gradle project. This repository was chosen over the others, as `gdx-lml` used to be my most popular library at the time. (Yeah, you got me: I wanted to keep the stars - sue me.) Switching to the previous setup is highly unlikely, so if you watched some of my other repositories, it's time to do the same with this one. Sorry.
+This repository originally used to host only the `gdx-lml` library repository. The other libraries were merged into a single Gradle setup to ease maintenance and releases.
 
 If you came here looking for `gdx-lml` documentation, [check this out](lml). `gdx-lml-tests` project, which shows usage of all LML tags, was moved [here](examples/gdx-lml-tests).
 
-Also, this repository might include example projects using the latest snapshot versions and their new features. Before including the libraries in your application, make sure that you're about to use the correct version.
+Also, this repository includes example projects using the latest snapshot versions and their new features. Before including the libraries in your application, make sure that you're about to use the correct version.
 
 ## Projects
 
