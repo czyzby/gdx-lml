@@ -16,6 +16,8 @@ LibGDX releases.
 
 ### Alternatives and forks
 
+- [crashinvaders/gdx-lml](https://github.com/crashinvaders/gdx-lml): an updated fork of this repository maintained
+by [**@metaphore**](https://github.com/metaphore).
 - [libktx/ktx](https://github.com/libktx/ktx): a set of [Kotlin](https://kotlinlang.org/) utilities covering similar
 features as some of the libraries including `gdx-kiwi`, `gdx-lml` or `gdx-autumn`. Recommended when using Kotlin.
 - [tommyettinger/gdx-liftoff](https://github.com/tommyettinger/gdx-liftoff/tree/master/src/main/java/com/github/czyzby):
